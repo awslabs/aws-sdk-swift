@@ -27,7 +27,7 @@ enum GreetingWithErrorsOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestXMLError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestXMLError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         if let error = try httpServiceError(baseError: baseError) { return error }
         switch baseError.code {
@@ -49,7 +49,7 @@ enum GreetingWithErrorsOutputError {
         val expectedContents = """
 extension ComplexXMLError {
 
-    static func makeError(baseError: AWSClientRuntime.RestXMLError) throws -> ComplexXMLError {
+    static func makeError(baseError: ClientRuntime.RestXMLError) throws -> ComplexXMLError {
         let reader = baseError.errorBodyReader
         let httpResponse = baseError.httpResponse
         var value = ComplexXMLError()
@@ -113,7 +113,7 @@ public struct ComplexXMLError: ClientRuntime.ModeledError, AWSClientRuntime.AWSS
         val expectedContents = """
 extension ComplexXMLErrorNoErrorWrapping {
 
-    static func makeError(baseError: AWSClientRuntime.RestXMLError) throws -> ComplexXMLErrorNoErrorWrapping {
+    static func makeError(baseError: ClientRuntime.RestXMLError) throws -> ComplexXMLErrorNoErrorWrapping {
         let reader = baseError.errorBodyReader
         let httpResponse = baseError.httpResponse
         var value = ComplexXMLErrorNoErrorWrapping()
@@ -138,7 +138,7 @@ extension ComplexXMLErrorNoErrorWrapping {
         val contents = getFileContents(context.manifest, "Sources/Example/models/RestXml+HTTPServiceError.swift")
         contents.shouldSyntacticSanityCheck()
         val expectedContents = """
-func httpServiceError(baseError: AWSClientRuntime.RestXMLError) throws -> Swift.Error? {
+func httpServiceError(baseError: ClientRuntime.RestXMLError) throws -> Swift.Error? {
     switch baseError.code {
         case "ExampleServiceError": return try ExampleServiceError.makeError(baseError: baseError)
         default: return nil

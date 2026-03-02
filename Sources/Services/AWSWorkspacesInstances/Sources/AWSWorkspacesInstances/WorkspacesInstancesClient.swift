@@ -48,7 +48,6 @@ import protocol SmithyIdentity.BearerTokenIdentityResolver
 @_spi(AWSEndpointResolverMiddleware) import struct AWSClientRuntime.AWSEndpointResolverMiddleware
 import struct AWSClientRuntime.AmzSdkInvocationIdMiddleware
 import struct AWSClientRuntime.UserAgentMiddleware
-import struct AWSClientRuntime.XAmzTargetMiddleware
 import struct AWSSDKHTTPAuth.SigV4AuthScheme
 import struct ClientRuntime.AuthSchemeMiddleware
 @_spi(SmithyReadWrite) import struct ClientRuntime.BodyMiddleware
@@ -57,6 +56,7 @@ import struct ClientRuntime.ContentTypeMiddleware
 @_spi(SmithyReadWrite) import struct ClientRuntime.DeserializeMiddleware
 import struct ClientRuntime.IdempotencyTokenMiddleware
 import struct ClientRuntime.LoggerMiddleware
+import struct ClientRuntime.MutateHeadersMiddleware
 import struct ClientRuntime.SendableHttpInterceptorProviderBox
 import struct ClientRuntime.SendableInterceptorProviderBox
 import struct ClientRuntime.SignerMiddleware
@@ -664,7 +664,7 @@ extension WorkspacesInstancesClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<AssociateVolumeOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<AssociateVolumeInput, AssociateVolumeOutput>(xAmzTarget: "EUCMIFrontendAPIService.AssociateVolume"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<AssociateVolumeInput, AssociateVolumeOutput>(overrides: ["X-Amz-Target": "EUCMIFrontendAPIService.AssociateVolume"]))
         builder.serialize(ClientRuntime.BodyMiddleware<AssociateVolumeInput, AssociateVolumeOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: AssociateVolumeInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<AssociateVolumeInput, AssociateVolumeOutput>(contentType: "application/x-amz-json-1.0"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<AssociateVolumeOutput>())
@@ -739,7 +739,7 @@ extension WorkspacesInstancesClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<CreateVolumeOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<CreateVolumeInput, CreateVolumeOutput>(xAmzTarget: "EUCMIFrontendAPIService.CreateVolume"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<CreateVolumeInput, CreateVolumeOutput>(overrides: ["X-Amz-Target": "EUCMIFrontendAPIService.CreateVolume"]))
         builder.serialize(ClientRuntime.BodyMiddleware<CreateVolumeInput, CreateVolumeOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: CreateVolumeInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<CreateVolumeInput, CreateVolumeOutput>(contentType: "application/x-amz-json-1.0"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<CreateVolumeOutput>())
@@ -814,7 +814,7 @@ extension WorkspacesInstancesClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<CreateWorkspaceInstanceOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<CreateWorkspaceInstanceInput, CreateWorkspaceInstanceOutput>(xAmzTarget: "EUCMIFrontendAPIService.CreateWorkspaceInstance"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<CreateWorkspaceInstanceInput, CreateWorkspaceInstanceOutput>(overrides: ["X-Amz-Target": "EUCMIFrontendAPIService.CreateWorkspaceInstance"]))
         builder.serialize(ClientRuntime.BodyMiddleware<CreateWorkspaceInstanceInput, CreateWorkspaceInstanceOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: CreateWorkspaceInstanceInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<CreateWorkspaceInstanceInput, CreateWorkspaceInstanceOutput>(contentType: "application/x-amz-json-1.0"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<CreateWorkspaceInstanceOutput>())
@@ -888,7 +888,7 @@ extension WorkspacesInstancesClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<DeleteVolumeOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<DeleteVolumeInput, DeleteVolumeOutput>(xAmzTarget: "EUCMIFrontendAPIService.DeleteVolume"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<DeleteVolumeInput, DeleteVolumeOutput>(overrides: ["X-Amz-Target": "EUCMIFrontendAPIService.DeleteVolume"]))
         builder.serialize(ClientRuntime.BodyMiddleware<DeleteVolumeInput, DeleteVolumeOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: DeleteVolumeInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DeleteVolumeInput, DeleteVolumeOutput>(contentType: "application/x-amz-json-1.0"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DeleteVolumeOutput>())
@@ -962,7 +962,7 @@ extension WorkspacesInstancesClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<DeleteWorkspaceInstanceOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<DeleteWorkspaceInstanceInput, DeleteWorkspaceInstanceOutput>(xAmzTarget: "EUCMIFrontendAPIService.DeleteWorkspaceInstance"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<DeleteWorkspaceInstanceInput, DeleteWorkspaceInstanceOutput>(overrides: ["X-Amz-Target": "EUCMIFrontendAPIService.DeleteWorkspaceInstance"]))
         builder.serialize(ClientRuntime.BodyMiddleware<DeleteWorkspaceInstanceInput, DeleteWorkspaceInstanceOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: DeleteWorkspaceInstanceInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DeleteWorkspaceInstanceInput, DeleteWorkspaceInstanceOutput>(contentType: "application/x-amz-json-1.0"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DeleteWorkspaceInstanceOutput>())
@@ -1036,7 +1036,7 @@ extension WorkspacesInstancesClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<DisassociateVolumeOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<DisassociateVolumeInput, DisassociateVolumeOutput>(xAmzTarget: "EUCMIFrontendAPIService.DisassociateVolume"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<DisassociateVolumeInput, DisassociateVolumeOutput>(overrides: ["X-Amz-Target": "EUCMIFrontendAPIService.DisassociateVolume"]))
         builder.serialize(ClientRuntime.BodyMiddleware<DisassociateVolumeInput, DisassociateVolumeOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: DisassociateVolumeInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DisassociateVolumeInput, DisassociateVolumeOutput>(contentType: "application/x-amz-json-1.0"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DisassociateVolumeOutput>())
@@ -1109,7 +1109,7 @@ extension WorkspacesInstancesClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<GetWorkspaceInstanceOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<GetWorkspaceInstanceInput, GetWorkspaceInstanceOutput>(xAmzTarget: "EUCMIFrontendAPIService.GetWorkspaceInstance"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<GetWorkspaceInstanceInput, GetWorkspaceInstanceOutput>(overrides: ["X-Amz-Target": "EUCMIFrontendAPIService.GetWorkspaceInstance"]))
         builder.serialize(ClientRuntime.BodyMiddleware<GetWorkspaceInstanceInput, GetWorkspaceInstanceOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: GetWorkspaceInstanceInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<GetWorkspaceInstanceInput, GetWorkspaceInstanceOutput>(contentType: "application/x-amz-json-1.0"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<GetWorkspaceInstanceOutput>())
@@ -1181,7 +1181,7 @@ extension WorkspacesInstancesClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<ListInstanceTypesOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<ListInstanceTypesInput, ListInstanceTypesOutput>(xAmzTarget: "EUCMIFrontendAPIService.ListInstanceTypes"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<ListInstanceTypesInput, ListInstanceTypesOutput>(overrides: ["X-Amz-Target": "EUCMIFrontendAPIService.ListInstanceTypes"]))
         builder.serialize(ClientRuntime.BodyMiddleware<ListInstanceTypesInput, ListInstanceTypesOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: ListInstanceTypesInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<ListInstanceTypesInput, ListInstanceTypesOutput>(contentType: "application/x-amz-json-1.0"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ListInstanceTypesOutput>())
@@ -1253,7 +1253,7 @@ extension WorkspacesInstancesClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<ListRegionsOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<ListRegionsInput, ListRegionsOutput>(xAmzTarget: "EUCMIFrontendAPIService.ListRegions"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<ListRegionsInput, ListRegionsOutput>(overrides: ["X-Amz-Target": "EUCMIFrontendAPIService.ListRegions"]))
         builder.serialize(ClientRuntime.BodyMiddleware<ListRegionsInput, ListRegionsOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: ListRegionsInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<ListRegionsInput, ListRegionsOutput>(contentType: "application/x-amz-json-1.0"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ListRegionsOutput>())
@@ -1326,7 +1326,7 @@ extension WorkspacesInstancesClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<ListTagsForResourceOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<ListTagsForResourceInput, ListTagsForResourceOutput>(xAmzTarget: "EUCMIFrontendAPIService.ListTagsForResource"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<ListTagsForResourceInput, ListTagsForResourceOutput>(overrides: ["X-Amz-Target": "EUCMIFrontendAPIService.ListTagsForResource"]))
         builder.serialize(ClientRuntime.BodyMiddleware<ListTagsForResourceInput, ListTagsForResourceOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: ListTagsForResourceInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<ListTagsForResourceInput, ListTagsForResourceOutput>(contentType: "application/x-amz-json-1.0"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ListTagsForResourceOutput>())
@@ -1398,7 +1398,7 @@ extension WorkspacesInstancesClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<ListWorkspaceInstancesOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<ListWorkspaceInstancesInput, ListWorkspaceInstancesOutput>(xAmzTarget: "EUCMIFrontendAPIService.ListWorkspaceInstances"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<ListWorkspaceInstancesInput, ListWorkspaceInstancesOutput>(overrides: ["X-Amz-Target": "EUCMIFrontendAPIService.ListWorkspaceInstances"]))
         builder.serialize(ClientRuntime.BodyMiddleware<ListWorkspaceInstancesInput, ListWorkspaceInstancesOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: ListWorkspaceInstancesInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<ListWorkspaceInstancesInput, ListWorkspaceInstancesOutput>(contentType: "application/x-amz-json-1.0"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ListWorkspaceInstancesOutput>())
@@ -1471,7 +1471,7 @@ extension WorkspacesInstancesClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<TagResourceOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<TagResourceInput, TagResourceOutput>(xAmzTarget: "EUCMIFrontendAPIService.TagResource"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<TagResourceInput, TagResourceOutput>(overrides: ["X-Amz-Target": "EUCMIFrontendAPIService.TagResource"]))
         builder.serialize(ClientRuntime.BodyMiddleware<TagResourceInput, TagResourceOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: TagResourceInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<TagResourceInput, TagResourceOutput>(contentType: "application/x-amz-json-1.0"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<TagResourceOutput>())
@@ -1544,7 +1544,7 @@ extension WorkspacesInstancesClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<UntagResourceOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<UntagResourceInput, UntagResourceOutput>(xAmzTarget: "EUCMIFrontendAPIService.UntagResource"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<UntagResourceInput, UntagResourceOutput>(overrides: ["X-Amz-Target": "EUCMIFrontendAPIService.UntagResource"]))
         builder.serialize(ClientRuntime.BodyMiddleware<UntagResourceInput, UntagResourceOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: UntagResourceInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<UntagResourceInput, UntagResourceOutput>(contentType: "application/x-amz-json-1.0"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<UntagResourceOutput>())

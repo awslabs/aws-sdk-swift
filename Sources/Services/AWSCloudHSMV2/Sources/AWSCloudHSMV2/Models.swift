@@ -23,8 +23,8 @@ import protocol ClientRuntime.HTTPError
 import protocol ClientRuntime.ModeledError
 @_spi(SmithyReadWrite) import protocol SmithyReadWrite.SmithyReader
 @_spi(SmithyReadWrite) import protocol SmithyReadWrite.SmithyWriter
-@_spi(SmithyReadWrite) import struct AWSClientRuntime.AWSJSONError
 @_spi(UnknownAWSHTTPServiceError) import struct AWSClientRuntime.UnknownAWSHTTPServiceError
+@_spi(SmithyReadWrite) import struct ClientRuntime.AWSJSONError
 
 extension CloudHSMV2ClientTypes {
 
@@ -1793,7 +1793,7 @@ enum CopyBackupToRegionOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "CloudHsmAccessDeniedException": return try CloudHsmAccessDeniedException.makeError(baseError: baseError)
@@ -1812,7 +1812,7 @@ enum CreateClusterOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "CloudHsmAccessDeniedException": return try CloudHsmAccessDeniedException.makeError(baseError: baseError)
@@ -1831,7 +1831,7 @@ enum CreateHsmOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "CloudHsmAccessDeniedException": return try CloudHsmAccessDeniedException.makeError(baseError: baseError)
@@ -1849,7 +1849,7 @@ enum DeleteBackupOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "CloudHsmAccessDeniedException": return try CloudHsmAccessDeniedException.makeError(baseError: baseError)
@@ -1867,7 +1867,7 @@ enum DeleteClusterOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "CloudHsmAccessDeniedException": return try CloudHsmAccessDeniedException.makeError(baseError: baseError)
@@ -1886,7 +1886,7 @@ enum DeleteHsmOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "CloudHsmAccessDeniedException": return try CloudHsmAccessDeniedException.makeError(baseError: baseError)
@@ -1904,7 +1904,7 @@ enum DeleteResourcePolicyOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "CloudHsmAccessDeniedException": return try CloudHsmAccessDeniedException.makeError(baseError: baseError)
@@ -1922,7 +1922,7 @@ enum DescribeBackupsOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "CloudHsmAccessDeniedException": return try CloudHsmAccessDeniedException.makeError(baseError: baseError)
@@ -1941,7 +1941,7 @@ enum DescribeClustersOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "CloudHsmAccessDeniedException": return try CloudHsmAccessDeniedException.makeError(baseError: baseError)
@@ -1959,7 +1959,7 @@ enum GetResourcePolicyOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "CloudHsmAccessDeniedException": return try CloudHsmAccessDeniedException.makeError(baseError: baseError)
@@ -1977,7 +1977,7 @@ enum InitializeClusterOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "CloudHsmAccessDeniedException": return try CloudHsmAccessDeniedException.makeError(baseError: baseError)
@@ -1995,7 +1995,7 @@ enum ListTagsOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "CloudHsmAccessDeniedException": return try CloudHsmAccessDeniedException.makeError(baseError: baseError)
@@ -2014,7 +2014,7 @@ enum ModifyBackupAttributesOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "CloudHsmAccessDeniedException": return try CloudHsmAccessDeniedException.makeError(baseError: baseError)
@@ -2032,7 +2032,7 @@ enum ModifyClusterOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "CloudHsmAccessDeniedException": return try CloudHsmAccessDeniedException.makeError(baseError: baseError)
@@ -2050,7 +2050,7 @@ enum PutResourcePolicyOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "CloudHsmAccessDeniedException": return try CloudHsmAccessDeniedException.makeError(baseError: baseError)
@@ -2068,7 +2068,7 @@ enum RestoreBackupOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "CloudHsmAccessDeniedException": return try CloudHsmAccessDeniedException.makeError(baseError: baseError)
@@ -2086,7 +2086,7 @@ enum TagResourceOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "CloudHsmAccessDeniedException": return try CloudHsmAccessDeniedException.makeError(baseError: baseError)
@@ -2106,7 +2106,7 @@ enum UntagResourceOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "CloudHsmAccessDeniedException": return try CloudHsmAccessDeniedException.makeError(baseError: baseError)
@@ -2122,7 +2122,7 @@ enum UntagResourceOutputError {
 
 extension CloudHsmAccessDeniedException {
 
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> CloudHsmAccessDeniedException {
+    static func makeError(baseError: ClientRuntime.AWSJSONError) throws -> CloudHsmAccessDeniedException {
         let reader = baseError.errorBodyReader
         var value = CloudHsmAccessDeniedException()
         value.properties.message = try reader["Message"].readIfPresent()
@@ -2135,7 +2135,7 @@ extension CloudHsmAccessDeniedException {
 
 extension CloudHsmInternalFailureException {
 
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> CloudHsmInternalFailureException {
+    static func makeError(baseError: ClientRuntime.AWSJSONError) throws -> CloudHsmInternalFailureException {
         let reader = baseError.errorBodyReader
         var value = CloudHsmInternalFailureException()
         value.properties.message = try reader["Message"].readIfPresent()
@@ -2148,7 +2148,7 @@ extension CloudHsmInternalFailureException {
 
 extension CloudHsmInvalidRequestException {
 
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> CloudHsmInvalidRequestException {
+    static func makeError(baseError: ClientRuntime.AWSJSONError) throws -> CloudHsmInvalidRequestException {
         let reader = baseError.errorBodyReader
         var value = CloudHsmInvalidRequestException()
         value.properties.message = try reader["Message"].readIfPresent()
@@ -2161,7 +2161,7 @@ extension CloudHsmInvalidRequestException {
 
 extension CloudHsmResourceNotFoundException {
 
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> CloudHsmResourceNotFoundException {
+    static func makeError(baseError: ClientRuntime.AWSJSONError) throws -> CloudHsmResourceNotFoundException {
         let reader = baseError.errorBodyReader
         var value = CloudHsmResourceNotFoundException()
         value.properties.message = try reader["Message"].readIfPresent()
@@ -2174,7 +2174,7 @@ extension CloudHsmResourceNotFoundException {
 
 extension CloudHsmServiceException {
 
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> CloudHsmServiceException {
+    static func makeError(baseError: ClientRuntime.AWSJSONError) throws -> CloudHsmServiceException {
         let reader = baseError.errorBodyReader
         var value = CloudHsmServiceException()
         value.properties.message = try reader["Message"].readIfPresent()
@@ -2187,7 +2187,7 @@ extension CloudHsmServiceException {
 
 extension CloudHsmTagException {
 
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> CloudHsmTagException {
+    static func makeError(baseError: ClientRuntime.AWSJSONError) throws -> CloudHsmTagException {
         let reader = baseError.errorBodyReader
         var value = CloudHsmTagException()
         value.properties.message = try reader["Message"].readIfPresent()
@@ -2200,7 +2200,7 @@ extension CloudHsmTagException {
 
 extension CloudHsmResourceLimitExceededException {
 
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> CloudHsmResourceLimitExceededException {
+    static func makeError(baseError: ClientRuntime.AWSJSONError) throws -> CloudHsmResourceLimitExceededException {
         let reader = baseError.errorBodyReader
         var value = CloudHsmResourceLimitExceededException()
         value.properties.message = try reader["Message"].readIfPresent()

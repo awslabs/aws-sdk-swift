@@ -49,7 +49,6 @@ import protocol SmithyIdentity.BearerTokenIdentityResolver
 @_spi(AWSEndpointResolverMiddleware) import struct AWSClientRuntime.AWSEndpointResolverMiddleware
 import struct AWSClientRuntime.AmzSdkInvocationIdMiddleware
 import struct AWSClientRuntime.UserAgentMiddleware
-import struct AWSClientRuntime.XAmzTargetMiddleware
 import struct AWSSDKHTTPAuth.SigV4AuthScheme
 import struct ClientRuntime.AuthSchemeMiddleware
 @_spi(SmithyReadWrite) import struct ClientRuntime.BodyMiddleware
@@ -58,6 +57,7 @@ import struct ClientRuntime.ContentTypeMiddleware
 @_spi(SmithyReadWrite) import struct ClientRuntime.DeserializeMiddleware
 import struct ClientRuntime.IdempotencyTokenMiddleware
 import struct ClientRuntime.LoggerMiddleware
+import struct ClientRuntime.MutateHeadersMiddleware
 import struct ClientRuntime.SendableHttpInterceptorProviderBox
 import struct ClientRuntime.SendableInterceptorProviderBox
 import struct ClientRuntime.SignerMiddleware
@@ -670,7 +670,7 @@ extension ComputeOptimizerAutomationClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<AssociateAccountsOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<AssociateAccountsInput, AssociateAccountsOutput>(xAmzTarget: "ComputeOptimizerAutomationService.AssociateAccounts"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<AssociateAccountsInput, AssociateAccountsOutput>(overrides: ["X-Amz-Target": "ComputeOptimizerAutomationService.AssociateAccounts"]))
         builder.serialize(ClientRuntime.BodyMiddleware<AssociateAccountsInput, AssociateAccountsOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: AssociateAccountsInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<AssociateAccountsInput, AssociateAccountsOutput>(contentType: "application/x-amz-json-1.0"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<AssociateAccountsOutput>())
@@ -750,7 +750,7 @@ extension ComputeOptimizerAutomationClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<CreateAutomationRuleOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<CreateAutomationRuleInput, CreateAutomationRuleOutput>(xAmzTarget: "ComputeOptimizerAutomationService.CreateAutomationRule"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<CreateAutomationRuleInput, CreateAutomationRuleOutput>(overrides: ["X-Amz-Target": "ComputeOptimizerAutomationService.CreateAutomationRule"]))
         builder.serialize(ClientRuntime.BodyMiddleware<CreateAutomationRuleInput, CreateAutomationRuleOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: CreateAutomationRuleInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<CreateAutomationRuleInput, CreateAutomationRuleOutput>(contentType: "application/x-amz-json-1.0"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<CreateAutomationRuleOutput>())
@@ -829,7 +829,7 @@ extension ComputeOptimizerAutomationClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<DeleteAutomationRuleOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<DeleteAutomationRuleInput, DeleteAutomationRuleOutput>(xAmzTarget: "ComputeOptimizerAutomationService.DeleteAutomationRule"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<DeleteAutomationRuleInput, DeleteAutomationRuleOutput>(overrides: ["X-Amz-Target": "ComputeOptimizerAutomationService.DeleteAutomationRule"]))
         builder.serialize(ClientRuntime.BodyMiddleware<DeleteAutomationRuleInput, DeleteAutomationRuleOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: DeleteAutomationRuleInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DeleteAutomationRuleInput, DeleteAutomationRuleOutput>(contentType: "application/x-amz-json-1.0"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DeleteAutomationRuleOutput>())
@@ -908,7 +908,7 @@ extension ComputeOptimizerAutomationClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<DisassociateAccountsOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<DisassociateAccountsInput, DisassociateAccountsOutput>(xAmzTarget: "ComputeOptimizerAutomationService.DisassociateAccounts"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<DisassociateAccountsInput, DisassociateAccountsOutput>(overrides: ["X-Amz-Target": "ComputeOptimizerAutomationService.DisassociateAccounts"]))
         builder.serialize(ClientRuntime.BodyMiddleware<DisassociateAccountsInput, DisassociateAccountsOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: DisassociateAccountsInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DisassociateAccountsInput, DisassociateAccountsOutput>(contentType: "application/x-amz-json-1.0"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DisassociateAccountsOutput>())
@@ -984,7 +984,7 @@ extension ComputeOptimizerAutomationClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<GetAutomationEventOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<GetAutomationEventInput, GetAutomationEventOutput>(xAmzTarget: "ComputeOptimizerAutomationService.GetAutomationEvent"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<GetAutomationEventInput, GetAutomationEventOutput>(overrides: ["X-Amz-Target": "ComputeOptimizerAutomationService.GetAutomationEvent"]))
         builder.serialize(ClientRuntime.BodyMiddleware<GetAutomationEventInput, GetAutomationEventOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: GetAutomationEventInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<GetAutomationEventInput, GetAutomationEventOutput>(contentType: "application/x-amz-json-1.0"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<GetAutomationEventOutput>())
@@ -1060,7 +1060,7 @@ extension ComputeOptimizerAutomationClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<GetAutomationRuleOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<GetAutomationRuleInput, GetAutomationRuleOutput>(xAmzTarget: "ComputeOptimizerAutomationService.GetAutomationRule"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<GetAutomationRuleInput, GetAutomationRuleOutput>(overrides: ["X-Amz-Target": "ComputeOptimizerAutomationService.GetAutomationRule"]))
         builder.serialize(ClientRuntime.BodyMiddleware<GetAutomationRuleInput, GetAutomationRuleOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: GetAutomationRuleInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<GetAutomationRuleInput, GetAutomationRuleOutput>(contentType: "application/x-amz-json-1.0"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<GetAutomationRuleOutput>())
@@ -1136,7 +1136,7 @@ extension ComputeOptimizerAutomationClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<GetEnrollmentConfigurationOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<GetEnrollmentConfigurationInput, GetEnrollmentConfigurationOutput>(xAmzTarget: "ComputeOptimizerAutomationService.GetEnrollmentConfiguration"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<GetEnrollmentConfigurationInput, GetEnrollmentConfigurationOutput>(overrides: ["X-Amz-Target": "ComputeOptimizerAutomationService.GetEnrollmentConfiguration"]))
         builder.serialize(ClientRuntime.BodyMiddleware<GetEnrollmentConfigurationInput, GetEnrollmentConfigurationOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: GetEnrollmentConfigurationInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<GetEnrollmentConfigurationInput, GetEnrollmentConfigurationOutput>(contentType: "application/x-amz-json-1.0"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<GetEnrollmentConfigurationOutput>())
@@ -1212,7 +1212,7 @@ extension ComputeOptimizerAutomationClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<ListAccountsOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<ListAccountsInput, ListAccountsOutput>(xAmzTarget: "ComputeOptimizerAutomationService.ListAccounts"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<ListAccountsInput, ListAccountsOutput>(overrides: ["X-Amz-Target": "ComputeOptimizerAutomationService.ListAccounts"]))
         builder.serialize(ClientRuntime.BodyMiddleware<ListAccountsInput, ListAccountsOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: ListAccountsInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<ListAccountsInput, ListAccountsOutput>(contentType: "application/x-amz-json-1.0"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ListAccountsOutput>())
@@ -1288,7 +1288,7 @@ extension ComputeOptimizerAutomationClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<ListAutomationEventStepsOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<ListAutomationEventStepsInput, ListAutomationEventStepsOutput>(xAmzTarget: "ComputeOptimizerAutomationService.ListAutomationEventSteps"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<ListAutomationEventStepsInput, ListAutomationEventStepsOutput>(overrides: ["X-Amz-Target": "ComputeOptimizerAutomationService.ListAutomationEventSteps"]))
         builder.serialize(ClientRuntime.BodyMiddleware<ListAutomationEventStepsInput, ListAutomationEventStepsOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: ListAutomationEventStepsInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<ListAutomationEventStepsInput, ListAutomationEventStepsOutput>(contentType: "application/x-amz-json-1.0"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ListAutomationEventStepsOutput>())
@@ -1363,7 +1363,7 @@ extension ComputeOptimizerAutomationClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<ListAutomationEventSummariesOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<ListAutomationEventSummariesInput, ListAutomationEventSummariesOutput>(xAmzTarget: "ComputeOptimizerAutomationService.ListAutomationEventSummaries"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<ListAutomationEventSummariesInput, ListAutomationEventSummariesOutput>(overrides: ["X-Amz-Target": "ComputeOptimizerAutomationService.ListAutomationEventSummaries"]))
         builder.serialize(ClientRuntime.BodyMiddleware<ListAutomationEventSummariesInput, ListAutomationEventSummariesOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: ListAutomationEventSummariesInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<ListAutomationEventSummariesInput, ListAutomationEventSummariesOutput>(contentType: "application/x-amz-json-1.0"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ListAutomationEventSummariesOutput>())
@@ -1438,7 +1438,7 @@ extension ComputeOptimizerAutomationClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<ListAutomationEventsOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<ListAutomationEventsInput, ListAutomationEventsOutput>(xAmzTarget: "ComputeOptimizerAutomationService.ListAutomationEvents"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<ListAutomationEventsInput, ListAutomationEventsOutput>(overrides: ["X-Amz-Target": "ComputeOptimizerAutomationService.ListAutomationEvents"]))
         builder.serialize(ClientRuntime.BodyMiddleware<ListAutomationEventsInput, ListAutomationEventsOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: ListAutomationEventsInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<ListAutomationEventsInput, ListAutomationEventsOutput>(contentType: "application/x-amz-json-1.0"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ListAutomationEventsOutput>())
@@ -1513,7 +1513,7 @@ extension ComputeOptimizerAutomationClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<ListAutomationRulePreviewOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<ListAutomationRulePreviewInput, ListAutomationRulePreviewOutput>(xAmzTarget: "ComputeOptimizerAutomationService.ListAutomationRulePreview"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<ListAutomationRulePreviewInput, ListAutomationRulePreviewOutput>(overrides: ["X-Amz-Target": "ComputeOptimizerAutomationService.ListAutomationRulePreview"]))
         builder.serialize(ClientRuntime.BodyMiddleware<ListAutomationRulePreviewInput, ListAutomationRulePreviewOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: ListAutomationRulePreviewInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<ListAutomationRulePreviewInput, ListAutomationRulePreviewOutput>(contentType: "application/x-amz-json-1.0"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ListAutomationRulePreviewOutput>())
@@ -1588,7 +1588,7 @@ extension ComputeOptimizerAutomationClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<ListAutomationRulePreviewSummariesOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<ListAutomationRulePreviewSummariesInput, ListAutomationRulePreviewSummariesOutput>(xAmzTarget: "ComputeOptimizerAutomationService.ListAutomationRulePreviewSummaries"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<ListAutomationRulePreviewSummariesInput, ListAutomationRulePreviewSummariesOutput>(overrides: ["X-Amz-Target": "ComputeOptimizerAutomationService.ListAutomationRulePreviewSummaries"]))
         builder.serialize(ClientRuntime.BodyMiddleware<ListAutomationRulePreviewSummariesInput, ListAutomationRulePreviewSummariesOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: ListAutomationRulePreviewSummariesInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<ListAutomationRulePreviewSummariesInput, ListAutomationRulePreviewSummariesOutput>(contentType: "application/x-amz-json-1.0"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ListAutomationRulePreviewSummariesOutput>())
@@ -1663,7 +1663,7 @@ extension ComputeOptimizerAutomationClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<ListAutomationRulesOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<ListAutomationRulesInput, ListAutomationRulesOutput>(xAmzTarget: "ComputeOptimizerAutomationService.ListAutomationRules"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<ListAutomationRulesInput, ListAutomationRulesOutput>(overrides: ["X-Amz-Target": "ComputeOptimizerAutomationService.ListAutomationRules"]))
         builder.serialize(ClientRuntime.BodyMiddleware<ListAutomationRulesInput, ListAutomationRulesOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: ListAutomationRulesInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<ListAutomationRulesInput, ListAutomationRulesOutput>(contentType: "application/x-amz-json-1.0"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ListAutomationRulesOutput>())
@@ -1738,7 +1738,7 @@ extension ComputeOptimizerAutomationClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<ListRecommendedActionSummariesOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<ListRecommendedActionSummariesInput, ListRecommendedActionSummariesOutput>(xAmzTarget: "ComputeOptimizerAutomationService.ListRecommendedActionSummaries"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<ListRecommendedActionSummariesInput, ListRecommendedActionSummariesOutput>(overrides: ["X-Amz-Target": "ComputeOptimizerAutomationService.ListRecommendedActionSummaries"]))
         builder.serialize(ClientRuntime.BodyMiddleware<ListRecommendedActionSummariesInput, ListRecommendedActionSummariesOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: ListRecommendedActionSummariesInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<ListRecommendedActionSummariesInput, ListRecommendedActionSummariesOutput>(contentType: "application/x-amz-json-1.0"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ListRecommendedActionSummariesOutput>())
@@ -1813,7 +1813,7 @@ extension ComputeOptimizerAutomationClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<ListRecommendedActionsOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<ListRecommendedActionsInput, ListRecommendedActionsOutput>(xAmzTarget: "ComputeOptimizerAutomationService.ListRecommendedActions"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<ListRecommendedActionsInput, ListRecommendedActionsOutput>(overrides: ["X-Amz-Target": "ComputeOptimizerAutomationService.ListRecommendedActions"]))
         builder.serialize(ClientRuntime.BodyMiddleware<ListRecommendedActionsInput, ListRecommendedActionsOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: ListRecommendedActionsInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<ListRecommendedActionsInput, ListRecommendedActionsOutput>(contentType: "application/x-amz-json-1.0"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ListRecommendedActionsOutput>())
@@ -1889,7 +1889,7 @@ extension ComputeOptimizerAutomationClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<ListTagsForResourceOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<ListTagsForResourceInput, ListTagsForResourceOutput>(xAmzTarget: "ComputeOptimizerAutomationService.ListTagsForResource"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<ListTagsForResourceInput, ListTagsForResourceOutput>(overrides: ["X-Amz-Target": "ComputeOptimizerAutomationService.ListTagsForResource"]))
         builder.serialize(ClientRuntime.BodyMiddleware<ListTagsForResourceInput, ListTagsForResourceOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: ListTagsForResourceInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<ListTagsForResourceInput, ListTagsForResourceOutput>(contentType: "application/x-amz-json-1.0"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ListTagsForResourceOutput>())
@@ -1968,7 +1968,7 @@ extension ComputeOptimizerAutomationClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<RollbackAutomationEventOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<RollbackAutomationEventInput, RollbackAutomationEventOutput>(xAmzTarget: "ComputeOptimizerAutomationService.RollbackAutomationEvent"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<RollbackAutomationEventInput, RollbackAutomationEventOutput>(overrides: ["X-Amz-Target": "ComputeOptimizerAutomationService.RollbackAutomationEvent"]))
         builder.serialize(ClientRuntime.BodyMiddleware<RollbackAutomationEventInput, RollbackAutomationEventOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: RollbackAutomationEventInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<RollbackAutomationEventInput, RollbackAutomationEventOutput>(contentType: "application/x-amz-json-1.0"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<RollbackAutomationEventOutput>())
@@ -2048,7 +2048,7 @@ extension ComputeOptimizerAutomationClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<StartAutomationEventOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<StartAutomationEventInput, StartAutomationEventOutput>(xAmzTarget: "ComputeOptimizerAutomationService.StartAutomationEvent"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<StartAutomationEventInput, StartAutomationEventOutput>(overrides: ["X-Amz-Target": "ComputeOptimizerAutomationService.StartAutomationEvent"]))
         builder.serialize(ClientRuntime.BodyMiddleware<StartAutomationEventInput, StartAutomationEventOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: StartAutomationEventInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<StartAutomationEventInput, StartAutomationEventOutput>(contentType: "application/x-amz-json-1.0"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<StartAutomationEventOutput>())
@@ -2127,7 +2127,7 @@ extension ComputeOptimizerAutomationClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<TagResourceOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<TagResourceInput, TagResourceOutput>(xAmzTarget: "ComputeOptimizerAutomationService.TagResource"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<TagResourceInput, TagResourceOutput>(overrides: ["X-Amz-Target": "ComputeOptimizerAutomationService.TagResource"]))
         builder.serialize(ClientRuntime.BodyMiddleware<TagResourceInput, TagResourceOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: TagResourceInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<TagResourceInput, TagResourceOutput>(contentType: "application/x-amz-json-1.0"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<TagResourceOutput>())
@@ -2206,7 +2206,7 @@ extension ComputeOptimizerAutomationClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<UntagResourceOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<UntagResourceInput, UntagResourceOutput>(xAmzTarget: "ComputeOptimizerAutomationService.UntagResource"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<UntagResourceInput, UntagResourceOutput>(overrides: ["X-Amz-Target": "ComputeOptimizerAutomationService.UntagResource"]))
         builder.serialize(ClientRuntime.BodyMiddleware<UntagResourceInput, UntagResourceOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: UntagResourceInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<UntagResourceInput, UntagResourceOutput>(contentType: "application/x-amz-json-1.0"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<UntagResourceOutput>())
@@ -2285,7 +2285,7 @@ extension ComputeOptimizerAutomationClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<UpdateAutomationRuleOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<UpdateAutomationRuleInput, UpdateAutomationRuleOutput>(xAmzTarget: "ComputeOptimizerAutomationService.UpdateAutomationRule"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<UpdateAutomationRuleInput, UpdateAutomationRuleOutput>(overrides: ["X-Amz-Target": "ComputeOptimizerAutomationService.UpdateAutomationRule"]))
         builder.serialize(ClientRuntime.BodyMiddleware<UpdateAutomationRuleInput, UpdateAutomationRuleOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: UpdateAutomationRuleInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<UpdateAutomationRuleInput, UpdateAutomationRuleOutput>(contentType: "application/x-amz-json-1.0"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<UpdateAutomationRuleOutput>())
@@ -2365,7 +2365,7 @@ extension ComputeOptimizerAutomationClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<UpdateEnrollmentConfigurationOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<UpdateEnrollmentConfigurationInput, UpdateEnrollmentConfigurationOutput>(xAmzTarget: "ComputeOptimizerAutomationService.UpdateEnrollmentConfiguration"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<UpdateEnrollmentConfigurationInput, UpdateEnrollmentConfigurationOutput>(overrides: ["X-Amz-Target": "ComputeOptimizerAutomationService.UpdateEnrollmentConfiguration"]))
         builder.serialize(ClientRuntime.BodyMiddleware<UpdateEnrollmentConfigurationInput, UpdateEnrollmentConfigurationOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: UpdateEnrollmentConfigurationInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<UpdateEnrollmentConfigurationInput, UpdateEnrollmentConfigurationOutput>(contentType: "application/x-amz-json-1.0"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<UpdateEnrollmentConfigurationOutput>())

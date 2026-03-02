@@ -49,7 +49,6 @@ import protocol SmithyIdentity.BearerTokenIdentityResolver
 @_spi(AWSEndpointResolverMiddleware) import struct AWSClientRuntime.AWSEndpointResolverMiddleware
 import struct AWSClientRuntime.AmzSdkInvocationIdMiddleware
 import struct AWSClientRuntime.UserAgentMiddleware
-import struct AWSClientRuntime.XAmzTargetMiddleware
 import struct AWSSDKHTTPAuth.SigV4AuthScheme
 import struct ClientRuntime.AuthSchemeMiddleware
 @_spi(SmithyReadWrite) import struct ClientRuntime.BodyMiddleware
@@ -57,6 +56,7 @@ import struct ClientRuntime.ContentLengthMiddleware
 import struct ClientRuntime.ContentTypeMiddleware
 @_spi(SmithyReadWrite) import struct ClientRuntime.DeserializeMiddleware
 import struct ClientRuntime.LoggerMiddleware
+import struct ClientRuntime.MutateHeadersMiddleware
 import struct ClientRuntime.QueryItemMiddleware
 import struct ClientRuntime.SendableHttpInterceptorProviderBox
 import struct ClientRuntime.SendableInterceptorProviderBox
@@ -667,7 +667,7 @@ extension LightsailClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<AllocateStaticIpOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<AllocateStaticIpInput, AllocateStaticIpOutput>(xAmzTarget: "Lightsail_20161128.AllocateStaticIp"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<AllocateStaticIpInput, AllocateStaticIpOutput>(overrides: ["X-Amz-Target": "Lightsail_20161128.AllocateStaticIp"]))
         builder.serialize(ClientRuntime.BodyMiddleware<AllocateStaticIpInput, AllocateStaticIpOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: AllocateStaticIpInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<AllocateStaticIpInput, AllocateStaticIpOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<AllocateStaticIpOutput>())
@@ -741,7 +741,7 @@ extension LightsailClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<AttachCertificateToDistributionOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<AttachCertificateToDistributionInput, AttachCertificateToDistributionOutput>(xAmzTarget: "Lightsail_20161128.AttachCertificateToDistribution"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<AttachCertificateToDistributionInput, AttachCertificateToDistributionOutput>(overrides: ["X-Amz-Target": "Lightsail_20161128.AttachCertificateToDistribution"]))
         builder.serialize(ClientRuntime.BodyMiddleware<AttachCertificateToDistributionInput, AttachCertificateToDistributionOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: AttachCertificateToDistributionInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<AttachCertificateToDistributionInput, AttachCertificateToDistributionOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<AttachCertificateToDistributionOutput>())
@@ -817,7 +817,7 @@ extension LightsailClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<AttachDiskOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<AttachDiskInput, AttachDiskOutput>(xAmzTarget: "Lightsail_20161128.AttachDisk"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<AttachDiskInput, AttachDiskOutput>(overrides: ["X-Amz-Target": "Lightsail_20161128.AttachDisk"]))
         builder.serialize(ClientRuntime.BodyMiddleware<AttachDiskInput, AttachDiskOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: AttachDiskInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<AttachDiskInput, AttachDiskOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<AttachDiskOutput>())
@@ -893,7 +893,7 @@ extension LightsailClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<AttachInstancesToLoadBalancerOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<AttachInstancesToLoadBalancerInput, AttachInstancesToLoadBalancerOutput>(xAmzTarget: "Lightsail_20161128.AttachInstancesToLoadBalancer"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<AttachInstancesToLoadBalancerInput, AttachInstancesToLoadBalancerOutput>(overrides: ["X-Amz-Target": "Lightsail_20161128.AttachInstancesToLoadBalancer"]))
         builder.serialize(ClientRuntime.BodyMiddleware<AttachInstancesToLoadBalancerInput, AttachInstancesToLoadBalancerOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: AttachInstancesToLoadBalancerInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<AttachInstancesToLoadBalancerInput, AttachInstancesToLoadBalancerOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<AttachInstancesToLoadBalancerOutput>())
@@ -969,7 +969,7 @@ extension LightsailClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<AttachLoadBalancerTlsCertificateOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<AttachLoadBalancerTlsCertificateInput, AttachLoadBalancerTlsCertificateOutput>(xAmzTarget: "Lightsail_20161128.AttachLoadBalancerTlsCertificate"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<AttachLoadBalancerTlsCertificateInput, AttachLoadBalancerTlsCertificateOutput>(overrides: ["X-Amz-Target": "Lightsail_20161128.AttachLoadBalancerTlsCertificate"]))
         builder.serialize(ClientRuntime.BodyMiddleware<AttachLoadBalancerTlsCertificateInput, AttachLoadBalancerTlsCertificateOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: AttachLoadBalancerTlsCertificateInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<AttachLoadBalancerTlsCertificateInput, AttachLoadBalancerTlsCertificateOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<AttachLoadBalancerTlsCertificateOutput>())
@@ -1045,7 +1045,7 @@ extension LightsailClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<AttachStaticIpOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<AttachStaticIpInput, AttachStaticIpOutput>(xAmzTarget: "Lightsail_20161128.AttachStaticIp"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<AttachStaticIpInput, AttachStaticIpOutput>(overrides: ["X-Amz-Target": "Lightsail_20161128.AttachStaticIp"]))
         builder.serialize(ClientRuntime.BodyMiddleware<AttachStaticIpInput, AttachStaticIpOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: AttachStaticIpInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<AttachStaticIpInput, AttachStaticIpOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<AttachStaticIpOutput>())
@@ -1121,7 +1121,7 @@ extension LightsailClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<CloseInstancePublicPortsOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<CloseInstancePublicPortsInput, CloseInstancePublicPortsOutput>(xAmzTarget: "Lightsail_20161128.CloseInstancePublicPorts"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<CloseInstancePublicPortsInput, CloseInstancePublicPortsOutput>(overrides: ["X-Amz-Target": "Lightsail_20161128.CloseInstancePublicPorts"]))
         builder.serialize(ClientRuntime.BodyMiddleware<CloseInstancePublicPortsInput, CloseInstancePublicPortsOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: CloseInstancePublicPortsInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<CloseInstancePublicPortsInput, CloseInstancePublicPortsOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<CloseInstancePublicPortsOutput>())
@@ -1197,7 +1197,7 @@ extension LightsailClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<CopySnapshotOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<CopySnapshotInput, CopySnapshotOutput>(xAmzTarget: "Lightsail_20161128.CopySnapshot"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<CopySnapshotInput, CopySnapshotOutput>(overrides: ["X-Amz-Target": "Lightsail_20161128.CopySnapshot"]))
         builder.serialize(ClientRuntime.BodyMiddleware<CopySnapshotInput, CopySnapshotOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: CopySnapshotInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<CopySnapshotInput, CopySnapshotOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<CopySnapshotOutput>())
@@ -1270,7 +1270,7 @@ extension LightsailClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<CreateBucketOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<CreateBucketInput, CreateBucketOutput>(xAmzTarget: "Lightsail_20161128.CreateBucket"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<CreateBucketInput, CreateBucketOutput>(overrides: ["X-Amz-Target": "Lightsail_20161128.CreateBucket"]))
         builder.serialize(ClientRuntime.BodyMiddleware<CreateBucketInput, CreateBucketOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: CreateBucketInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<CreateBucketInput, CreateBucketOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<CreateBucketOutput>())
@@ -1344,7 +1344,7 @@ extension LightsailClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<CreateBucketAccessKeyOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<CreateBucketAccessKeyInput, CreateBucketAccessKeyOutput>(xAmzTarget: "Lightsail_20161128.CreateBucketAccessKey"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<CreateBucketAccessKeyInput, CreateBucketAccessKeyOutput>(overrides: ["X-Amz-Target": "Lightsail_20161128.CreateBucketAccessKey"]))
         builder.serialize(ClientRuntime.BodyMiddleware<CreateBucketAccessKeyInput, CreateBucketAccessKeyOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: CreateBucketAccessKeyInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<CreateBucketAccessKeyInput, CreateBucketAccessKeyOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<CreateBucketAccessKeyOutput>())
@@ -1418,7 +1418,7 @@ extension LightsailClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<CreateCertificateOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<CreateCertificateInput, CreateCertificateOutput>(xAmzTarget: "Lightsail_20161128.CreateCertificate"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<CreateCertificateInput, CreateCertificateOutput>(overrides: ["X-Amz-Target": "Lightsail_20161128.CreateCertificate"]))
         builder.serialize(ClientRuntime.BodyMiddleware<CreateCertificateInput, CreateCertificateOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: CreateCertificateInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<CreateCertificateInput, CreateCertificateOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<CreateCertificateOutput>())
@@ -1494,7 +1494,7 @@ extension LightsailClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<CreateCloudFormationStackOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<CreateCloudFormationStackInput, CreateCloudFormationStackOutput>(xAmzTarget: "Lightsail_20161128.CreateCloudFormationStack"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<CreateCloudFormationStackInput, CreateCloudFormationStackOutput>(overrides: ["X-Amz-Target": "Lightsail_20161128.CreateCloudFormationStack"]))
         builder.serialize(ClientRuntime.BodyMiddleware<CreateCloudFormationStackInput, CreateCloudFormationStackOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: CreateCloudFormationStackInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<CreateCloudFormationStackInput, CreateCloudFormationStackOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<CreateCloudFormationStackOutput>())
@@ -1569,7 +1569,7 @@ extension LightsailClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<CreateContactMethodOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<CreateContactMethodInput, CreateContactMethodOutput>(xAmzTarget: "Lightsail_20161128.CreateContactMethod"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<CreateContactMethodInput, CreateContactMethodOutput>(overrides: ["X-Amz-Target": "Lightsail_20161128.CreateContactMethod"]))
         builder.serialize(ClientRuntime.BodyMiddleware<CreateContactMethodInput, CreateContactMethodOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: CreateContactMethodInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<CreateContactMethodInput, CreateContactMethodOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<CreateContactMethodOutput>())
@@ -1643,7 +1643,7 @@ extension LightsailClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<CreateContainerServiceOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<CreateContainerServiceInput, CreateContainerServiceOutput>(xAmzTarget: "Lightsail_20161128.CreateContainerService"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<CreateContainerServiceInput, CreateContainerServiceOutput>(overrides: ["X-Amz-Target": "Lightsail_20161128.CreateContainerService"]))
         builder.serialize(ClientRuntime.BodyMiddleware<CreateContainerServiceInput, CreateContainerServiceOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: CreateContainerServiceInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<CreateContainerServiceInput, CreateContainerServiceOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<CreateContainerServiceOutput>())
@@ -1717,7 +1717,7 @@ extension LightsailClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<CreateContainerServiceDeploymentOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<CreateContainerServiceDeploymentInput, CreateContainerServiceDeploymentOutput>(xAmzTarget: "Lightsail_20161128.CreateContainerServiceDeployment"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<CreateContainerServiceDeploymentInput, CreateContainerServiceDeploymentOutput>(overrides: ["X-Amz-Target": "Lightsail_20161128.CreateContainerServiceDeployment"]))
         builder.serialize(ClientRuntime.BodyMiddleware<CreateContainerServiceDeploymentInput, CreateContainerServiceDeploymentOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: CreateContainerServiceDeploymentInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<CreateContainerServiceDeploymentInput, CreateContainerServiceDeploymentOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<CreateContainerServiceDeploymentOutput>())
@@ -1791,7 +1791,7 @@ extension LightsailClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<CreateContainerServiceRegistryLoginOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<CreateContainerServiceRegistryLoginInput, CreateContainerServiceRegistryLoginOutput>(xAmzTarget: "Lightsail_20161128.CreateContainerServiceRegistryLogin"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<CreateContainerServiceRegistryLoginInput, CreateContainerServiceRegistryLoginOutput>(overrides: ["X-Amz-Target": "Lightsail_20161128.CreateContainerServiceRegistryLogin"]))
         builder.serialize(ClientRuntime.BodyMiddleware<CreateContainerServiceRegistryLoginInput, CreateContainerServiceRegistryLoginOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: CreateContainerServiceRegistryLoginInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<CreateContainerServiceRegistryLoginInput, CreateContainerServiceRegistryLoginOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<CreateContainerServiceRegistryLoginOutput>())
@@ -1867,7 +1867,7 @@ extension LightsailClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<CreateDiskOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<CreateDiskInput, CreateDiskOutput>(xAmzTarget: "Lightsail_20161128.CreateDisk"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<CreateDiskInput, CreateDiskOutput>(overrides: ["X-Amz-Target": "Lightsail_20161128.CreateDisk"]))
         builder.serialize(ClientRuntime.BodyMiddleware<CreateDiskInput, CreateDiskOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: CreateDiskInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<CreateDiskInput, CreateDiskOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<CreateDiskOutput>())
@@ -1943,7 +1943,7 @@ extension LightsailClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<CreateDiskFromSnapshotOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<CreateDiskFromSnapshotInput, CreateDiskFromSnapshotOutput>(xAmzTarget: "Lightsail_20161128.CreateDiskFromSnapshot"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<CreateDiskFromSnapshotInput, CreateDiskFromSnapshotOutput>(overrides: ["X-Amz-Target": "Lightsail_20161128.CreateDiskFromSnapshot"]))
         builder.serialize(ClientRuntime.BodyMiddleware<CreateDiskFromSnapshotInput, CreateDiskFromSnapshotOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: CreateDiskFromSnapshotInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<CreateDiskFromSnapshotInput, CreateDiskFromSnapshotOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<CreateDiskFromSnapshotOutput>())
@@ -2019,7 +2019,7 @@ extension LightsailClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<CreateDiskSnapshotOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<CreateDiskSnapshotInput, CreateDiskSnapshotOutput>(xAmzTarget: "Lightsail_20161128.CreateDiskSnapshot"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<CreateDiskSnapshotInput, CreateDiskSnapshotOutput>(overrides: ["X-Amz-Target": "Lightsail_20161128.CreateDiskSnapshot"]))
         builder.serialize(ClientRuntime.BodyMiddleware<CreateDiskSnapshotInput, CreateDiskSnapshotOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: CreateDiskSnapshotInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<CreateDiskSnapshotInput, CreateDiskSnapshotOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<CreateDiskSnapshotOutput>())
@@ -2093,7 +2093,7 @@ extension LightsailClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<CreateDistributionOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<CreateDistributionInput, CreateDistributionOutput>(xAmzTarget: "Lightsail_20161128.CreateDistribution"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<CreateDistributionInput, CreateDistributionOutput>(overrides: ["X-Amz-Target": "Lightsail_20161128.CreateDistribution"]))
         builder.serialize(ClientRuntime.BodyMiddleware<CreateDistributionInput, CreateDistributionOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: CreateDistributionInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<CreateDistributionInput, CreateDistributionOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<CreateDistributionOutput>())
@@ -2169,7 +2169,7 @@ extension LightsailClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<CreateDomainOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<CreateDomainInput, CreateDomainOutput>(xAmzTarget: "Lightsail_20161128.CreateDomain"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<CreateDomainInput, CreateDomainOutput>(overrides: ["X-Amz-Target": "Lightsail_20161128.CreateDomain"]))
         builder.serialize(ClientRuntime.BodyMiddleware<CreateDomainInput, CreateDomainOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: CreateDomainInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<CreateDomainInput, CreateDomainOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<CreateDomainOutput>())
@@ -2245,7 +2245,7 @@ extension LightsailClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<CreateDomainEntryOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<CreateDomainEntryInput, CreateDomainEntryOutput>(xAmzTarget: "Lightsail_20161128.CreateDomainEntry"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<CreateDomainEntryInput, CreateDomainEntryOutput>(overrides: ["X-Amz-Target": "Lightsail_20161128.CreateDomainEntry"]))
         builder.serialize(ClientRuntime.BodyMiddleware<CreateDomainEntryInput, CreateDomainEntryOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: CreateDomainEntryInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<CreateDomainEntryInput, CreateDomainEntryOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<CreateDomainEntryOutput>())
@@ -2319,7 +2319,7 @@ extension LightsailClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<CreateGUISessionAccessDetailsOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<CreateGUISessionAccessDetailsInput, CreateGUISessionAccessDetailsOutput>(xAmzTarget: "Lightsail_20161128.CreateGUISessionAccessDetails"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<CreateGUISessionAccessDetailsInput, CreateGUISessionAccessDetailsOutput>(overrides: ["X-Amz-Target": "Lightsail_20161128.CreateGUISessionAccessDetails"]))
         builder.serialize(ClientRuntime.BodyMiddleware<CreateGUISessionAccessDetailsInput, CreateGUISessionAccessDetailsOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: CreateGUISessionAccessDetailsInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<CreateGUISessionAccessDetailsInput, CreateGUISessionAccessDetailsOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<CreateGUISessionAccessDetailsOutput>())
@@ -2395,7 +2395,7 @@ extension LightsailClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<CreateInstanceSnapshotOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<CreateInstanceSnapshotInput, CreateInstanceSnapshotOutput>(xAmzTarget: "Lightsail_20161128.CreateInstanceSnapshot"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<CreateInstanceSnapshotInput, CreateInstanceSnapshotOutput>(overrides: ["X-Amz-Target": "Lightsail_20161128.CreateInstanceSnapshot"]))
         builder.serialize(ClientRuntime.BodyMiddleware<CreateInstanceSnapshotInput, CreateInstanceSnapshotOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: CreateInstanceSnapshotInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<CreateInstanceSnapshotInput, CreateInstanceSnapshotOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<CreateInstanceSnapshotOutput>())
@@ -2471,7 +2471,7 @@ extension LightsailClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<CreateInstancesOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<CreateInstancesInput, CreateInstancesOutput>(xAmzTarget: "Lightsail_20161128.CreateInstances"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<CreateInstancesInput, CreateInstancesOutput>(overrides: ["X-Amz-Target": "Lightsail_20161128.CreateInstances"]))
         builder.serialize(ClientRuntime.BodyMiddleware<CreateInstancesInput, CreateInstancesOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: CreateInstancesInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<CreateInstancesInput, CreateInstancesOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<CreateInstancesOutput>())
@@ -2547,7 +2547,7 @@ extension LightsailClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<CreateInstancesFromSnapshotOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<CreateInstancesFromSnapshotInput, CreateInstancesFromSnapshotOutput>(xAmzTarget: "Lightsail_20161128.CreateInstancesFromSnapshot"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<CreateInstancesFromSnapshotInput, CreateInstancesFromSnapshotOutput>(overrides: ["X-Amz-Target": "Lightsail_20161128.CreateInstancesFromSnapshot"]))
         builder.serialize(ClientRuntime.BodyMiddleware<CreateInstancesFromSnapshotInput, CreateInstancesFromSnapshotOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: CreateInstancesFromSnapshotInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<CreateInstancesFromSnapshotInput, CreateInstancesFromSnapshotOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<CreateInstancesFromSnapshotOutput>())
@@ -2623,7 +2623,7 @@ extension LightsailClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<CreateKeyPairOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<CreateKeyPairInput, CreateKeyPairOutput>(xAmzTarget: "Lightsail_20161128.CreateKeyPair"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<CreateKeyPairInput, CreateKeyPairOutput>(overrides: ["X-Amz-Target": "Lightsail_20161128.CreateKeyPair"]))
         builder.serialize(ClientRuntime.BodyMiddleware<CreateKeyPairInput, CreateKeyPairOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: CreateKeyPairInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<CreateKeyPairInput, CreateKeyPairOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<CreateKeyPairOutput>())
@@ -2699,7 +2699,7 @@ extension LightsailClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<CreateLoadBalancerOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<CreateLoadBalancerInput, CreateLoadBalancerOutput>(xAmzTarget: "Lightsail_20161128.CreateLoadBalancer"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<CreateLoadBalancerInput, CreateLoadBalancerOutput>(overrides: ["X-Amz-Target": "Lightsail_20161128.CreateLoadBalancer"]))
         builder.serialize(ClientRuntime.BodyMiddleware<CreateLoadBalancerInput, CreateLoadBalancerOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: CreateLoadBalancerInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<CreateLoadBalancerInput, CreateLoadBalancerOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<CreateLoadBalancerOutput>())
@@ -2775,7 +2775,7 @@ extension LightsailClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<CreateLoadBalancerTlsCertificateOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<CreateLoadBalancerTlsCertificateInput, CreateLoadBalancerTlsCertificateOutput>(xAmzTarget: "Lightsail_20161128.CreateLoadBalancerTlsCertificate"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<CreateLoadBalancerTlsCertificateInput, CreateLoadBalancerTlsCertificateOutput>(overrides: ["X-Amz-Target": "Lightsail_20161128.CreateLoadBalancerTlsCertificate"]))
         builder.serialize(ClientRuntime.BodyMiddleware<CreateLoadBalancerTlsCertificateInput, CreateLoadBalancerTlsCertificateOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: CreateLoadBalancerTlsCertificateInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<CreateLoadBalancerTlsCertificateInput, CreateLoadBalancerTlsCertificateOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<CreateLoadBalancerTlsCertificateOutput>())
@@ -2851,7 +2851,7 @@ extension LightsailClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<CreateRelationalDatabaseOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<CreateRelationalDatabaseInput, CreateRelationalDatabaseOutput>(xAmzTarget: "Lightsail_20161128.CreateRelationalDatabase"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<CreateRelationalDatabaseInput, CreateRelationalDatabaseOutput>(overrides: ["X-Amz-Target": "Lightsail_20161128.CreateRelationalDatabase"]))
         builder.serialize(ClientRuntime.BodyMiddleware<CreateRelationalDatabaseInput, CreateRelationalDatabaseOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: CreateRelationalDatabaseInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<CreateRelationalDatabaseInput, CreateRelationalDatabaseOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<CreateRelationalDatabaseOutput>())
@@ -2927,7 +2927,7 @@ extension LightsailClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<CreateRelationalDatabaseFromSnapshotOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<CreateRelationalDatabaseFromSnapshotInput, CreateRelationalDatabaseFromSnapshotOutput>(xAmzTarget: "Lightsail_20161128.CreateRelationalDatabaseFromSnapshot"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<CreateRelationalDatabaseFromSnapshotInput, CreateRelationalDatabaseFromSnapshotOutput>(overrides: ["X-Amz-Target": "Lightsail_20161128.CreateRelationalDatabaseFromSnapshot"]))
         builder.serialize(ClientRuntime.BodyMiddleware<CreateRelationalDatabaseFromSnapshotInput, CreateRelationalDatabaseFromSnapshotOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: CreateRelationalDatabaseFromSnapshotInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<CreateRelationalDatabaseFromSnapshotInput, CreateRelationalDatabaseFromSnapshotOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<CreateRelationalDatabaseFromSnapshotOutput>())
@@ -3003,7 +3003,7 @@ extension LightsailClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<CreateRelationalDatabaseSnapshotOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<CreateRelationalDatabaseSnapshotInput, CreateRelationalDatabaseSnapshotOutput>(xAmzTarget: "Lightsail_20161128.CreateRelationalDatabaseSnapshot"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<CreateRelationalDatabaseSnapshotInput, CreateRelationalDatabaseSnapshotOutput>(overrides: ["X-Amz-Target": "Lightsail_20161128.CreateRelationalDatabaseSnapshot"]))
         builder.serialize(ClientRuntime.BodyMiddleware<CreateRelationalDatabaseSnapshotInput, CreateRelationalDatabaseSnapshotOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: CreateRelationalDatabaseSnapshotInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<CreateRelationalDatabaseSnapshotInput, CreateRelationalDatabaseSnapshotOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<CreateRelationalDatabaseSnapshotOutput>())
@@ -3078,7 +3078,7 @@ extension LightsailClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<DeleteAlarmOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<DeleteAlarmInput, DeleteAlarmOutput>(xAmzTarget: "Lightsail_20161128.DeleteAlarm"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<DeleteAlarmInput, DeleteAlarmOutput>(overrides: ["X-Amz-Target": "Lightsail_20161128.DeleteAlarm"]))
         builder.serialize(ClientRuntime.BodyMiddleware<DeleteAlarmInput, DeleteAlarmOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: DeleteAlarmInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DeleteAlarmInput, DeleteAlarmOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DeleteAlarmOutput>())
@@ -3153,7 +3153,7 @@ extension LightsailClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<DeleteAutoSnapshotOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<DeleteAutoSnapshotInput, DeleteAutoSnapshotOutput>(xAmzTarget: "Lightsail_20161128.DeleteAutoSnapshot"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<DeleteAutoSnapshotInput, DeleteAutoSnapshotOutput>(overrides: ["X-Amz-Target": "Lightsail_20161128.DeleteAutoSnapshot"]))
         builder.serialize(ClientRuntime.BodyMiddleware<DeleteAutoSnapshotInput, DeleteAutoSnapshotOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: DeleteAutoSnapshotInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DeleteAutoSnapshotInput, DeleteAutoSnapshotOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DeleteAutoSnapshotOutput>())
@@ -3227,7 +3227,7 @@ extension LightsailClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<DeleteBucketOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<DeleteBucketInput, DeleteBucketOutput>(xAmzTarget: "Lightsail_20161128.DeleteBucket"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<DeleteBucketInput, DeleteBucketOutput>(overrides: ["X-Amz-Target": "Lightsail_20161128.DeleteBucket"]))
         builder.serialize(ClientRuntime.BodyMiddleware<DeleteBucketInput, DeleteBucketOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: DeleteBucketInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DeleteBucketInput, DeleteBucketOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DeleteBucketOutput>())
@@ -3301,7 +3301,7 @@ extension LightsailClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<DeleteBucketAccessKeyOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<DeleteBucketAccessKeyInput, DeleteBucketAccessKeyOutput>(xAmzTarget: "Lightsail_20161128.DeleteBucketAccessKey"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<DeleteBucketAccessKeyInput, DeleteBucketAccessKeyOutput>(overrides: ["X-Amz-Target": "Lightsail_20161128.DeleteBucketAccessKey"]))
         builder.serialize(ClientRuntime.BodyMiddleware<DeleteBucketAccessKeyInput, DeleteBucketAccessKeyOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: DeleteBucketAccessKeyInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DeleteBucketAccessKeyInput, DeleteBucketAccessKeyOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DeleteBucketAccessKeyOutput>())
@@ -3375,7 +3375,7 @@ extension LightsailClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<DeleteCertificateOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<DeleteCertificateInput, DeleteCertificateOutput>(xAmzTarget: "Lightsail_20161128.DeleteCertificate"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<DeleteCertificateInput, DeleteCertificateOutput>(overrides: ["X-Amz-Target": "Lightsail_20161128.DeleteCertificate"]))
         builder.serialize(ClientRuntime.BodyMiddleware<DeleteCertificateInput, DeleteCertificateOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: DeleteCertificateInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DeleteCertificateInput, DeleteCertificateOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DeleteCertificateOutput>())
@@ -3450,7 +3450,7 @@ extension LightsailClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<DeleteContactMethodOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<DeleteContactMethodInput, DeleteContactMethodOutput>(xAmzTarget: "Lightsail_20161128.DeleteContactMethod"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<DeleteContactMethodInput, DeleteContactMethodOutput>(overrides: ["X-Amz-Target": "Lightsail_20161128.DeleteContactMethod"]))
         builder.serialize(ClientRuntime.BodyMiddleware<DeleteContactMethodInput, DeleteContactMethodOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: DeleteContactMethodInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DeleteContactMethodInput, DeleteContactMethodOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DeleteContactMethodOutput>())
@@ -3524,7 +3524,7 @@ extension LightsailClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<DeleteContainerImageOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<DeleteContainerImageInput, DeleteContainerImageOutput>(xAmzTarget: "Lightsail_20161128.DeleteContainerImage"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<DeleteContainerImageInput, DeleteContainerImageOutput>(overrides: ["X-Amz-Target": "Lightsail_20161128.DeleteContainerImage"]))
         builder.serialize(ClientRuntime.BodyMiddleware<DeleteContainerImageInput, DeleteContainerImageOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: DeleteContainerImageInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DeleteContainerImageInput, DeleteContainerImageOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DeleteContainerImageOutput>())
@@ -3598,7 +3598,7 @@ extension LightsailClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<DeleteContainerServiceOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<DeleteContainerServiceInput, DeleteContainerServiceOutput>(xAmzTarget: "Lightsail_20161128.DeleteContainerService"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<DeleteContainerServiceInput, DeleteContainerServiceOutput>(overrides: ["X-Amz-Target": "Lightsail_20161128.DeleteContainerService"]))
         builder.serialize(ClientRuntime.BodyMiddleware<DeleteContainerServiceInput, DeleteContainerServiceOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: DeleteContainerServiceInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DeleteContainerServiceInput, DeleteContainerServiceOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DeleteContainerServiceOutput>())
@@ -3674,7 +3674,7 @@ extension LightsailClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<DeleteDiskOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<DeleteDiskInput, DeleteDiskOutput>(xAmzTarget: "Lightsail_20161128.DeleteDisk"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<DeleteDiskInput, DeleteDiskOutput>(overrides: ["X-Amz-Target": "Lightsail_20161128.DeleteDisk"]))
         builder.serialize(ClientRuntime.BodyMiddleware<DeleteDiskInput, DeleteDiskOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: DeleteDiskInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DeleteDiskInput, DeleteDiskOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DeleteDiskOutput>())
@@ -3750,7 +3750,7 @@ extension LightsailClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<DeleteDiskSnapshotOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<DeleteDiskSnapshotInput, DeleteDiskSnapshotOutput>(xAmzTarget: "Lightsail_20161128.DeleteDiskSnapshot"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<DeleteDiskSnapshotInput, DeleteDiskSnapshotOutput>(overrides: ["X-Amz-Target": "Lightsail_20161128.DeleteDiskSnapshot"]))
         builder.serialize(ClientRuntime.BodyMiddleware<DeleteDiskSnapshotInput, DeleteDiskSnapshotOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: DeleteDiskSnapshotInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DeleteDiskSnapshotInput, DeleteDiskSnapshotOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DeleteDiskSnapshotOutput>())
@@ -3824,7 +3824,7 @@ extension LightsailClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<DeleteDistributionOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<DeleteDistributionInput, DeleteDistributionOutput>(xAmzTarget: "Lightsail_20161128.DeleteDistribution"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<DeleteDistributionInput, DeleteDistributionOutput>(overrides: ["X-Amz-Target": "Lightsail_20161128.DeleteDistribution"]))
         builder.serialize(ClientRuntime.BodyMiddleware<DeleteDistributionInput, DeleteDistributionOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: DeleteDistributionInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DeleteDistributionInput, DeleteDistributionOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DeleteDistributionOutput>())
@@ -3900,7 +3900,7 @@ extension LightsailClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<DeleteDomainOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<DeleteDomainInput, DeleteDomainOutput>(xAmzTarget: "Lightsail_20161128.DeleteDomain"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<DeleteDomainInput, DeleteDomainOutput>(overrides: ["X-Amz-Target": "Lightsail_20161128.DeleteDomain"]))
         builder.serialize(ClientRuntime.BodyMiddleware<DeleteDomainInput, DeleteDomainOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: DeleteDomainInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DeleteDomainInput, DeleteDomainOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DeleteDomainOutput>())
@@ -3976,7 +3976,7 @@ extension LightsailClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<DeleteDomainEntryOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<DeleteDomainEntryInput, DeleteDomainEntryOutput>(xAmzTarget: "Lightsail_20161128.DeleteDomainEntry"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<DeleteDomainEntryInput, DeleteDomainEntryOutput>(overrides: ["X-Amz-Target": "Lightsail_20161128.DeleteDomainEntry"]))
         builder.serialize(ClientRuntime.BodyMiddleware<DeleteDomainEntryInput, DeleteDomainEntryOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: DeleteDomainEntryInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DeleteDomainEntryInput, DeleteDomainEntryOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DeleteDomainEntryOutput>())
@@ -4052,7 +4052,7 @@ extension LightsailClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<DeleteInstanceOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<DeleteInstanceInput, DeleteInstanceOutput>(xAmzTarget: "Lightsail_20161128.DeleteInstance"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<DeleteInstanceInput, DeleteInstanceOutput>(overrides: ["X-Amz-Target": "Lightsail_20161128.DeleteInstance"]))
         builder.serialize(ClientRuntime.BodyMiddleware<DeleteInstanceInput, DeleteInstanceOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: DeleteInstanceInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DeleteInstanceInput, DeleteInstanceOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DeleteInstanceOutput>())
@@ -4128,7 +4128,7 @@ extension LightsailClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<DeleteInstanceSnapshotOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<DeleteInstanceSnapshotInput, DeleteInstanceSnapshotOutput>(xAmzTarget: "Lightsail_20161128.DeleteInstanceSnapshot"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<DeleteInstanceSnapshotInput, DeleteInstanceSnapshotOutput>(overrides: ["X-Amz-Target": "Lightsail_20161128.DeleteInstanceSnapshot"]))
         builder.serialize(ClientRuntime.BodyMiddleware<DeleteInstanceSnapshotInput, DeleteInstanceSnapshotOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: DeleteInstanceSnapshotInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DeleteInstanceSnapshotInput, DeleteInstanceSnapshotOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DeleteInstanceSnapshotOutput>())
@@ -4204,7 +4204,7 @@ extension LightsailClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<DeleteKeyPairOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<DeleteKeyPairInput, DeleteKeyPairOutput>(xAmzTarget: "Lightsail_20161128.DeleteKeyPair"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<DeleteKeyPairInput, DeleteKeyPairOutput>(overrides: ["X-Amz-Target": "Lightsail_20161128.DeleteKeyPair"]))
         builder.serialize(ClientRuntime.BodyMiddleware<DeleteKeyPairInput, DeleteKeyPairOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: DeleteKeyPairInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DeleteKeyPairInput, DeleteKeyPairOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DeleteKeyPairOutput>())
@@ -4280,7 +4280,7 @@ extension LightsailClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<DeleteKnownHostKeysOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<DeleteKnownHostKeysInput, DeleteKnownHostKeysOutput>(xAmzTarget: "Lightsail_20161128.DeleteKnownHostKeys"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<DeleteKnownHostKeysInput, DeleteKnownHostKeysOutput>(overrides: ["X-Amz-Target": "Lightsail_20161128.DeleteKnownHostKeys"]))
         builder.serialize(ClientRuntime.BodyMiddleware<DeleteKnownHostKeysInput, DeleteKnownHostKeysOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: DeleteKnownHostKeysInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DeleteKnownHostKeysInput, DeleteKnownHostKeysOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DeleteKnownHostKeysOutput>())
@@ -4356,7 +4356,7 @@ extension LightsailClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<DeleteLoadBalancerOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<DeleteLoadBalancerInput, DeleteLoadBalancerOutput>(xAmzTarget: "Lightsail_20161128.DeleteLoadBalancer"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<DeleteLoadBalancerInput, DeleteLoadBalancerOutput>(overrides: ["X-Amz-Target": "Lightsail_20161128.DeleteLoadBalancer"]))
         builder.serialize(ClientRuntime.BodyMiddleware<DeleteLoadBalancerInput, DeleteLoadBalancerOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: DeleteLoadBalancerInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DeleteLoadBalancerInput, DeleteLoadBalancerOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DeleteLoadBalancerOutput>())
@@ -4432,7 +4432,7 @@ extension LightsailClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<DeleteLoadBalancerTlsCertificateOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<DeleteLoadBalancerTlsCertificateInput, DeleteLoadBalancerTlsCertificateOutput>(xAmzTarget: "Lightsail_20161128.DeleteLoadBalancerTlsCertificate"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<DeleteLoadBalancerTlsCertificateInput, DeleteLoadBalancerTlsCertificateOutput>(overrides: ["X-Amz-Target": "Lightsail_20161128.DeleteLoadBalancerTlsCertificate"]))
         builder.serialize(ClientRuntime.BodyMiddleware<DeleteLoadBalancerTlsCertificateInput, DeleteLoadBalancerTlsCertificateOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: DeleteLoadBalancerTlsCertificateInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DeleteLoadBalancerTlsCertificateInput, DeleteLoadBalancerTlsCertificateOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DeleteLoadBalancerTlsCertificateOutput>())
@@ -4508,7 +4508,7 @@ extension LightsailClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<DeleteRelationalDatabaseOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<DeleteRelationalDatabaseInput, DeleteRelationalDatabaseOutput>(xAmzTarget: "Lightsail_20161128.DeleteRelationalDatabase"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<DeleteRelationalDatabaseInput, DeleteRelationalDatabaseOutput>(overrides: ["X-Amz-Target": "Lightsail_20161128.DeleteRelationalDatabase"]))
         builder.serialize(ClientRuntime.BodyMiddleware<DeleteRelationalDatabaseInput, DeleteRelationalDatabaseOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: DeleteRelationalDatabaseInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DeleteRelationalDatabaseInput, DeleteRelationalDatabaseOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DeleteRelationalDatabaseOutput>())
@@ -4584,7 +4584,7 @@ extension LightsailClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<DeleteRelationalDatabaseSnapshotOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<DeleteRelationalDatabaseSnapshotInput, DeleteRelationalDatabaseSnapshotOutput>(xAmzTarget: "Lightsail_20161128.DeleteRelationalDatabaseSnapshot"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<DeleteRelationalDatabaseSnapshotInput, DeleteRelationalDatabaseSnapshotOutput>(overrides: ["X-Amz-Target": "Lightsail_20161128.DeleteRelationalDatabaseSnapshot"]))
         builder.serialize(ClientRuntime.BodyMiddleware<DeleteRelationalDatabaseSnapshotInput, DeleteRelationalDatabaseSnapshotOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: DeleteRelationalDatabaseSnapshotInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DeleteRelationalDatabaseSnapshotInput, DeleteRelationalDatabaseSnapshotOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DeleteRelationalDatabaseSnapshotOutput>())
@@ -4658,7 +4658,7 @@ extension LightsailClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<DetachCertificateFromDistributionOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<DetachCertificateFromDistributionInput, DetachCertificateFromDistributionOutput>(xAmzTarget: "Lightsail_20161128.DetachCertificateFromDistribution"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<DetachCertificateFromDistributionInput, DetachCertificateFromDistributionOutput>(overrides: ["X-Amz-Target": "Lightsail_20161128.DetachCertificateFromDistribution"]))
         builder.serialize(ClientRuntime.BodyMiddleware<DetachCertificateFromDistributionInput, DetachCertificateFromDistributionOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: DetachCertificateFromDistributionInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DetachCertificateFromDistributionInput, DetachCertificateFromDistributionOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DetachCertificateFromDistributionOutput>())
@@ -4734,7 +4734,7 @@ extension LightsailClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<DetachDiskOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<DetachDiskInput, DetachDiskOutput>(xAmzTarget: "Lightsail_20161128.DetachDisk"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<DetachDiskInput, DetachDiskOutput>(overrides: ["X-Amz-Target": "Lightsail_20161128.DetachDisk"]))
         builder.serialize(ClientRuntime.BodyMiddleware<DetachDiskInput, DetachDiskOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: DetachDiskInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DetachDiskInput, DetachDiskOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DetachDiskOutput>())
@@ -4810,7 +4810,7 @@ extension LightsailClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<DetachInstancesFromLoadBalancerOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<DetachInstancesFromLoadBalancerInput, DetachInstancesFromLoadBalancerOutput>(xAmzTarget: "Lightsail_20161128.DetachInstancesFromLoadBalancer"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<DetachInstancesFromLoadBalancerInput, DetachInstancesFromLoadBalancerOutput>(overrides: ["X-Amz-Target": "Lightsail_20161128.DetachInstancesFromLoadBalancer"]))
         builder.serialize(ClientRuntime.BodyMiddleware<DetachInstancesFromLoadBalancerInput, DetachInstancesFromLoadBalancerOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: DetachInstancesFromLoadBalancerInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DetachInstancesFromLoadBalancerInput, DetachInstancesFromLoadBalancerOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DetachInstancesFromLoadBalancerOutput>())
@@ -4886,7 +4886,7 @@ extension LightsailClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<DetachStaticIpOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<DetachStaticIpInput, DetachStaticIpOutput>(xAmzTarget: "Lightsail_20161128.DetachStaticIp"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<DetachStaticIpInput, DetachStaticIpOutput>(overrides: ["X-Amz-Target": "Lightsail_20161128.DetachStaticIp"]))
         builder.serialize(ClientRuntime.BodyMiddleware<DetachStaticIpInput, DetachStaticIpOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: DetachStaticIpInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DetachStaticIpInput, DetachStaticIpOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DetachStaticIpOutput>())
@@ -4961,7 +4961,7 @@ extension LightsailClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<DisableAddOnOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<DisableAddOnInput, DisableAddOnOutput>(xAmzTarget: "Lightsail_20161128.DisableAddOn"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<DisableAddOnInput, DisableAddOnOutput>(overrides: ["X-Amz-Target": "Lightsail_20161128.DisableAddOn"]))
         builder.serialize(ClientRuntime.BodyMiddleware<DisableAddOnInput, DisableAddOnOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: DisableAddOnInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DisableAddOnInput, DisableAddOnOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DisableAddOnOutput>())
@@ -5037,7 +5037,7 @@ extension LightsailClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<DownloadDefaultKeyPairOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<DownloadDefaultKeyPairInput, DownloadDefaultKeyPairOutput>(xAmzTarget: "Lightsail_20161128.DownloadDefaultKeyPair"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<DownloadDefaultKeyPairInput, DownloadDefaultKeyPairOutput>(overrides: ["X-Amz-Target": "Lightsail_20161128.DownloadDefaultKeyPair"]))
         builder.serialize(ClientRuntime.BodyMiddleware<DownloadDefaultKeyPairInput, DownloadDefaultKeyPairOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: DownloadDefaultKeyPairInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DownloadDefaultKeyPairInput, DownloadDefaultKeyPairOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DownloadDefaultKeyPairOutput>())
@@ -5112,7 +5112,7 @@ extension LightsailClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<EnableAddOnOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<EnableAddOnInput, EnableAddOnOutput>(xAmzTarget: "Lightsail_20161128.EnableAddOn"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<EnableAddOnInput, EnableAddOnOutput>(overrides: ["X-Amz-Target": "Lightsail_20161128.EnableAddOn"]))
         builder.serialize(ClientRuntime.BodyMiddleware<EnableAddOnInput, EnableAddOnOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: EnableAddOnInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<EnableAddOnInput, EnableAddOnOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<EnableAddOnOutput>())
@@ -5188,7 +5188,7 @@ extension LightsailClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<ExportSnapshotOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<ExportSnapshotInput, ExportSnapshotOutput>(xAmzTarget: "Lightsail_20161128.ExportSnapshot"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<ExportSnapshotInput, ExportSnapshotOutput>(overrides: ["X-Amz-Target": "Lightsail_20161128.ExportSnapshot"]))
         builder.serialize(ClientRuntime.BodyMiddleware<ExportSnapshotInput, ExportSnapshotOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: ExportSnapshotInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<ExportSnapshotInput, ExportSnapshotOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ExportSnapshotOutput>())
@@ -5264,7 +5264,7 @@ extension LightsailClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<GetActiveNamesOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<GetActiveNamesInput, GetActiveNamesOutput>(xAmzTarget: "Lightsail_20161128.GetActiveNames"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<GetActiveNamesInput, GetActiveNamesOutput>(overrides: ["X-Amz-Target": "Lightsail_20161128.GetActiveNames"]))
         builder.serialize(ClientRuntime.BodyMiddleware<GetActiveNamesInput, GetActiveNamesOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: GetActiveNamesInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<GetActiveNamesInput, GetActiveNamesOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<GetActiveNamesOutput>())
@@ -5340,7 +5340,7 @@ extension LightsailClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<GetAlarmsOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<GetAlarmsInput, GetAlarmsOutput>(xAmzTarget: "Lightsail_20161128.GetAlarms"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<GetAlarmsInput, GetAlarmsOutput>(overrides: ["X-Amz-Target": "Lightsail_20161128.GetAlarms"]))
         builder.serialize(ClientRuntime.BodyMiddleware<GetAlarmsInput, GetAlarmsOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: GetAlarmsInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<GetAlarmsInput, GetAlarmsOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<GetAlarmsOutput>())
@@ -5415,7 +5415,7 @@ extension LightsailClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<GetAutoSnapshotsOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<GetAutoSnapshotsInput, GetAutoSnapshotsOutput>(xAmzTarget: "Lightsail_20161128.GetAutoSnapshots"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<GetAutoSnapshotsInput, GetAutoSnapshotsOutput>(overrides: ["X-Amz-Target": "Lightsail_20161128.GetAutoSnapshots"]))
         builder.serialize(ClientRuntime.BodyMiddleware<GetAutoSnapshotsInput, GetAutoSnapshotsOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: GetAutoSnapshotsInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<GetAutoSnapshotsInput, GetAutoSnapshotsOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<GetAutoSnapshotsOutput>())
@@ -5491,7 +5491,7 @@ extension LightsailClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<GetBlueprintsOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<GetBlueprintsInput, GetBlueprintsOutput>(xAmzTarget: "Lightsail_20161128.GetBlueprints"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<GetBlueprintsInput, GetBlueprintsOutput>(overrides: ["X-Amz-Target": "Lightsail_20161128.GetBlueprints"]))
         builder.serialize(ClientRuntime.BodyMiddleware<GetBlueprintsInput, GetBlueprintsOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: GetBlueprintsInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<GetBlueprintsInput, GetBlueprintsOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<GetBlueprintsOutput>())
@@ -5565,7 +5565,7 @@ extension LightsailClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<GetBucketAccessKeysOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<GetBucketAccessKeysInput, GetBucketAccessKeysOutput>(xAmzTarget: "Lightsail_20161128.GetBucketAccessKeys"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<GetBucketAccessKeysInput, GetBucketAccessKeysOutput>(overrides: ["X-Amz-Target": "Lightsail_20161128.GetBucketAccessKeys"]))
         builder.serialize(ClientRuntime.BodyMiddleware<GetBucketAccessKeysInput, GetBucketAccessKeysOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: GetBucketAccessKeysInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<GetBucketAccessKeysInput, GetBucketAccessKeysOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<GetBucketAccessKeysOutput>())
@@ -5638,7 +5638,7 @@ extension LightsailClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<GetBucketBundlesOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<GetBucketBundlesInput, GetBucketBundlesOutput>(xAmzTarget: "Lightsail_20161128.GetBucketBundles"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<GetBucketBundlesInput, GetBucketBundlesOutput>(overrides: ["X-Amz-Target": "Lightsail_20161128.GetBucketBundles"]))
         builder.serialize(ClientRuntime.BodyMiddleware<GetBucketBundlesInput, GetBucketBundlesOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: GetBucketBundlesInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<GetBucketBundlesInput, GetBucketBundlesOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<GetBucketBundlesOutput>())
@@ -5712,7 +5712,7 @@ extension LightsailClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<GetBucketMetricDataOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<GetBucketMetricDataInput, GetBucketMetricDataOutput>(xAmzTarget: "Lightsail_20161128.GetBucketMetricData"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<GetBucketMetricDataInput, GetBucketMetricDataOutput>(overrides: ["X-Amz-Target": "Lightsail_20161128.GetBucketMetricData"]))
         builder.serialize(ClientRuntime.BodyMiddleware<GetBucketMetricDataInput, GetBucketMetricDataOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: GetBucketMetricDataInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<GetBucketMetricDataInput, GetBucketMetricDataOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<GetBucketMetricDataOutput>())
@@ -5786,7 +5786,7 @@ extension LightsailClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<GetBucketsOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<GetBucketsInput, GetBucketsOutput>(xAmzTarget: "Lightsail_20161128.GetBuckets"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<GetBucketsInput, GetBucketsOutput>(overrides: ["X-Amz-Target": "Lightsail_20161128.GetBuckets"]))
         builder.serialize(ClientRuntime.BodyMiddleware<GetBucketsInput, GetBucketsOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: GetBucketsInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<GetBucketsInput, GetBucketsOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<GetBucketsOutput>())
@@ -5862,7 +5862,7 @@ extension LightsailClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<GetBundlesOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<GetBundlesInput, GetBundlesOutput>(xAmzTarget: "Lightsail_20161128.GetBundles"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<GetBundlesInput, GetBundlesOutput>(overrides: ["X-Amz-Target": "Lightsail_20161128.GetBundles"]))
         builder.serialize(ClientRuntime.BodyMiddleware<GetBundlesInput, GetBundlesOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: GetBundlesInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<GetBundlesInput, GetBundlesOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<GetBundlesOutput>())
@@ -5936,7 +5936,7 @@ extension LightsailClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<GetCertificatesOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<GetCertificatesInput, GetCertificatesOutput>(xAmzTarget: "Lightsail_20161128.GetCertificates"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<GetCertificatesInput, GetCertificatesOutput>(overrides: ["X-Amz-Target": "Lightsail_20161128.GetCertificates"]))
         builder.serialize(ClientRuntime.BodyMiddleware<GetCertificatesInput, GetCertificatesOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: GetCertificatesInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<GetCertificatesInput, GetCertificatesOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<GetCertificatesOutput>())
@@ -6012,7 +6012,7 @@ extension LightsailClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<GetCloudFormationStackRecordsOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<GetCloudFormationStackRecordsInput, GetCloudFormationStackRecordsOutput>(xAmzTarget: "Lightsail_20161128.GetCloudFormationStackRecords"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<GetCloudFormationStackRecordsInput, GetCloudFormationStackRecordsOutput>(overrides: ["X-Amz-Target": "Lightsail_20161128.GetCloudFormationStackRecords"]))
         builder.serialize(ClientRuntime.BodyMiddleware<GetCloudFormationStackRecordsInput, GetCloudFormationStackRecordsOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: GetCloudFormationStackRecordsInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<GetCloudFormationStackRecordsInput, GetCloudFormationStackRecordsOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<GetCloudFormationStackRecordsOutput>())
@@ -6088,7 +6088,7 @@ extension LightsailClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<GetContactMethodsOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<GetContactMethodsInput, GetContactMethodsOutput>(xAmzTarget: "Lightsail_20161128.GetContactMethods"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<GetContactMethodsInput, GetContactMethodsOutput>(overrides: ["X-Amz-Target": "Lightsail_20161128.GetContactMethods"]))
         builder.serialize(ClientRuntime.BodyMiddleware<GetContactMethodsInput, GetContactMethodsOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: GetContactMethodsInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<GetContactMethodsInput, GetContactMethodsOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<GetContactMethodsOutput>())
@@ -6160,7 +6160,7 @@ extension LightsailClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<GetContainerAPIMetadataOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<GetContainerAPIMetadataInput, GetContainerAPIMetadataOutput>(xAmzTarget: "Lightsail_20161128.GetContainerAPIMetadata"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<GetContainerAPIMetadataInput, GetContainerAPIMetadataOutput>(overrides: ["X-Amz-Target": "Lightsail_20161128.GetContainerAPIMetadata"]))
         builder.serialize(ClientRuntime.BodyMiddleware<GetContainerAPIMetadataInput, GetContainerAPIMetadataOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: GetContainerAPIMetadataInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<GetContainerAPIMetadataInput, GetContainerAPIMetadataOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<GetContainerAPIMetadataOutput>())
@@ -6234,7 +6234,7 @@ extension LightsailClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<GetContainerImagesOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<GetContainerImagesInput, GetContainerImagesOutput>(xAmzTarget: "Lightsail_20161128.GetContainerImages"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<GetContainerImagesInput, GetContainerImagesOutput>(overrides: ["X-Amz-Target": "Lightsail_20161128.GetContainerImages"]))
         builder.serialize(ClientRuntime.BodyMiddleware<GetContainerImagesInput, GetContainerImagesOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: GetContainerImagesInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<GetContainerImagesInput, GetContainerImagesOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<GetContainerImagesOutput>())
@@ -6309,7 +6309,7 @@ extension LightsailClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<GetContainerLogOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<GetContainerLogInput, GetContainerLogOutput>(xAmzTarget: "Lightsail_20161128.GetContainerLog"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<GetContainerLogInput, GetContainerLogOutput>(overrides: ["X-Amz-Target": "Lightsail_20161128.GetContainerLog"]))
         builder.serialize(ClientRuntime.BodyMiddleware<GetContainerLogInput, GetContainerLogOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: GetContainerLogInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<GetContainerLogInput, GetContainerLogOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<GetContainerLogOutput>())
@@ -6383,7 +6383,7 @@ extension LightsailClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<GetContainerServiceDeploymentsOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<GetContainerServiceDeploymentsInput, GetContainerServiceDeploymentsOutput>(xAmzTarget: "Lightsail_20161128.GetContainerServiceDeployments"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<GetContainerServiceDeploymentsInput, GetContainerServiceDeploymentsOutput>(overrides: ["X-Amz-Target": "Lightsail_20161128.GetContainerServiceDeployments"]))
         builder.serialize(ClientRuntime.BodyMiddleware<GetContainerServiceDeploymentsInput, GetContainerServiceDeploymentsOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: GetContainerServiceDeploymentsInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<GetContainerServiceDeploymentsInput, GetContainerServiceDeploymentsOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<GetContainerServiceDeploymentsOutput>())
@@ -6458,7 +6458,7 @@ extension LightsailClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<GetContainerServiceMetricDataOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<GetContainerServiceMetricDataInput, GetContainerServiceMetricDataOutput>(xAmzTarget: "Lightsail_20161128.GetContainerServiceMetricData"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<GetContainerServiceMetricDataInput, GetContainerServiceMetricDataOutput>(overrides: ["X-Amz-Target": "Lightsail_20161128.GetContainerServiceMetricData"]))
         builder.serialize(ClientRuntime.BodyMiddleware<GetContainerServiceMetricDataInput, GetContainerServiceMetricDataOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: GetContainerServiceMetricDataInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<GetContainerServiceMetricDataInput, GetContainerServiceMetricDataOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<GetContainerServiceMetricDataOutput>())
@@ -6532,7 +6532,7 @@ extension LightsailClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<GetContainerServicePowersOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<GetContainerServicePowersInput, GetContainerServicePowersOutput>(xAmzTarget: "Lightsail_20161128.GetContainerServicePowers"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<GetContainerServicePowersInput, GetContainerServicePowersOutput>(overrides: ["X-Amz-Target": "Lightsail_20161128.GetContainerServicePowers"]))
         builder.serialize(ClientRuntime.BodyMiddleware<GetContainerServicePowersInput, GetContainerServicePowersOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: GetContainerServicePowersInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<GetContainerServicePowersInput, GetContainerServicePowersOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<GetContainerServicePowersOutput>())
@@ -6607,7 +6607,7 @@ extension LightsailClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<GetContainerServicesOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<GetContainerServicesInput, GetContainerServicesOutput>(xAmzTarget: "Lightsail_20161128.GetContainerServices"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<GetContainerServicesInput, GetContainerServicesOutput>(overrides: ["X-Amz-Target": "Lightsail_20161128.GetContainerServices"]))
         builder.serialize(ClientRuntime.BodyMiddleware<GetContainerServicesInput, GetContainerServicesOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: GetContainerServicesInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<GetContainerServicesInput, GetContainerServicesOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<GetContainerServicesOutput>())
@@ -6681,7 +6681,7 @@ extension LightsailClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<GetCostEstimateOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<GetCostEstimateInput, GetCostEstimateOutput>(xAmzTarget: "Lightsail_20161128.GetCostEstimate"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<GetCostEstimateInput, GetCostEstimateOutput>(overrides: ["X-Amz-Target": "Lightsail_20161128.GetCostEstimate"]))
         builder.serialize(ClientRuntime.BodyMiddleware<GetCostEstimateInput, GetCostEstimateOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: GetCostEstimateInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<GetCostEstimateInput, GetCostEstimateOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<GetCostEstimateOutput>())
@@ -6757,7 +6757,7 @@ extension LightsailClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<GetDiskOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<GetDiskInput, GetDiskOutput>(xAmzTarget: "Lightsail_20161128.GetDisk"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<GetDiskInput, GetDiskOutput>(overrides: ["X-Amz-Target": "Lightsail_20161128.GetDisk"]))
         builder.serialize(ClientRuntime.BodyMiddleware<GetDiskInput, GetDiskOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: GetDiskInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<GetDiskInput, GetDiskOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<GetDiskOutput>())
@@ -6833,7 +6833,7 @@ extension LightsailClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<GetDiskSnapshotOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<GetDiskSnapshotInput, GetDiskSnapshotOutput>(xAmzTarget: "Lightsail_20161128.GetDiskSnapshot"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<GetDiskSnapshotInput, GetDiskSnapshotOutput>(overrides: ["X-Amz-Target": "Lightsail_20161128.GetDiskSnapshot"]))
         builder.serialize(ClientRuntime.BodyMiddleware<GetDiskSnapshotInput, GetDiskSnapshotOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: GetDiskSnapshotInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<GetDiskSnapshotInput, GetDiskSnapshotOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<GetDiskSnapshotOutput>())
@@ -6909,7 +6909,7 @@ extension LightsailClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<GetDiskSnapshotsOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<GetDiskSnapshotsInput, GetDiskSnapshotsOutput>(xAmzTarget: "Lightsail_20161128.GetDiskSnapshots"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<GetDiskSnapshotsInput, GetDiskSnapshotsOutput>(overrides: ["X-Amz-Target": "Lightsail_20161128.GetDiskSnapshots"]))
         builder.serialize(ClientRuntime.BodyMiddleware<GetDiskSnapshotsInput, GetDiskSnapshotsOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: GetDiskSnapshotsInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<GetDiskSnapshotsInput, GetDiskSnapshotsOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<GetDiskSnapshotsOutput>())
@@ -6985,7 +6985,7 @@ extension LightsailClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<GetDisksOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<GetDisksInput, GetDisksOutput>(xAmzTarget: "Lightsail_20161128.GetDisks"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<GetDisksInput, GetDisksOutput>(overrides: ["X-Amz-Target": "Lightsail_20161128.GetDisks"]))
         builder.serialize(ClientRuntime.BodyMiddleware<GetDisksInput, GetDisksOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: GetDisksInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<GetDisksInput, GetDisksOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<GetDisksOutput>())
@@ -7059,7 +7059,7 @@ extension LightsailClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<GetDistributionBundlesOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<GetDistributionBundlesInput, GetDistributionBundlesOutput>(xAmzTarget: "Lightsail_20161128.GetDistributionBundles"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<GetDistributionBundlesInput, GetDistributionBundlesOutput>(overrides: ["X-Amz-Target": "Lightsail_20161128.GetDistributionBundles"]))
         builder.serialize(ClientRuntime.BodyMiddleware<GetDistributionBundlesInput, GetDistributionBundlesOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: GetDistributionBundlesInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<GetDistributionBundlesInput, GetDistributionBundlesOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<GetDistributionBundlesOutput>())
@@ -7133,7 +7133,7 @@ extension LightsailClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<GetDistributionLatestCacheResetOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<GetDistributionLatestCacheResetInput, GetDistributionLatestCacheResetOutput>(xAmzTarget: "Lightsail_20161128.GetDistributionLatestCacheReset"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<GetDistributionLatestCacheResetInput, GetDistributionLatestCacheResetOutput>(overrides: ["X-Amz-Target": "Lightsail_20161128.GetDistributionLatestCacheReset"]))
         builder.serialize(ClientRuntime.BodyMiddleware<GetDistributionLatestCacheResetInput, GetDistributionLatestCacheResetOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: GetDistributionLatestCacheResetInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<GetDistributionLatestCacheResetInput, GetDistributionLatestCacheResetOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<GetDistributionLatestCacheResetOutput>())
@@ -7207,7 +7207,7 @@ extension LightsailClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<GetDistributionMetricDataOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<GetDistributionMetricDataInput, GetDistributionMetricDataOutput>(xAmzTarget: "Lightsail_20161128.GetDistributionMetricData"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<GetDistributionMetricDataInput, GetDistributionMetricDataOutput>(overrides: ["X-Amz-Target": "Lightsail_20161128.GetDistributionMetricData"]))
         builder.serialize(ClientRuntime.BodyMiddleware<GetDistributionMetricDataInput, GetDistributionMetricDataOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: GetDistributionMetricDataInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<GetDistributionMetricDataInput, GetDistributionMetricDataOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<GetDistributionMetricDataOutput>())
@@ -7281,7 +7281,7 @@ extension LightsailClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<GetDistributionsOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<GetDistributionsInput, GetDistributionsOutput>(xAmzTarget: "Lightsail_20161128.GetDistributions"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<GetDistributionsInput, GetDistributionsOutput>(overrides: ["X-Amz-Target": "Lightsail_20161128.GetDistributions"]))
         builder.serialize(ClientRuntime.BodyMiddleware<GetDistributionsInput, GetDistributionsOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: GetDistributionsInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<GetDistributionsInput, GetDistributionsOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<GetDistributionsOutput>())
@@ -7357,7 +7357,7 @@ extension LightsailClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<GetDomainOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<GetDomainInput, GetDomainOutput>(xAmzTarget: "Lightsail_20161128.GetDomain"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<GetDomainInput, GetDomainOutput>(overrides: ["X-Amz-Target": "Lightsail_20161128.GetDomain"]))
         builder.serialize(ClientRuntime.BodyMiddleware<GetDomainInput, GetDomainOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: GetDomainInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<GetDomainInput, GetDomainOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<GetDomainOutput>())
@@ -7433,7 +7433,7 @@ extension LightsailClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<GetDomainsOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<GetDomainsInput, GetDomainsOutput>(xAmzTarget: "Lightsail_20161128.GetDomains"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<GetDomainsInput, GetDomainsOutput>(overrides: ["X-Amz-Target": "Lightsail_20161128.GetDomains"]))
         builder.serialize(ClientRuntime.BodyMiddleware<GetDomainsInput, GetDomainsOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: GetDomainsInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<GetDomainsInput, GetDomainsOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<GetDomainsOutput>())
@@ -7509,7 +7509,7 @@ extension LightsailClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<GetExportSnapshotRecordsOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<GetExportSnapshotRecordsInput, GetExportSnapshotRecordsOutput>(xAmzTarget: "Lightsail_20161128.GetExportSnapshotRecords"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<GetExportSnapshotRecordsInput, GetExportSnapshotRecordsOutput>(overrides: ["X-Amz-Target": "Lightsail_20161128.GetExportSnapshotRecords"]))
         builder.serialize(ClientRuntime.BodyMiddleware<GetExportSnapshotRecordsInput, GetExportSnapshotRecordsOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: GetExportSnapshotRecordsInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<GetExportSnapshotRecordsInput, GetExportSnapshotRecordsOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<GetExportSnapshotRecordsOutput>())
@@ -7585,7 +7585,7 @@ extension LightsailClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<GetInstanceOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<GetInstanceInput, GetInstanceOutput>(xAmzTarget: "Lightsail_20161128.GetInstance"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<GetInstanceInput, GetInstanceOutput>(overrides: ["X-Amz-Target": "Lightsail_20161128.GetInstance"]))
         builder.serialize(ClientRuntime.BodyMiddleware<GetInstanceInput, GetInstanceOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: GetInstanceInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<GetInstanceInput, GetInstanceOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<GetInstanceOutput>())
@@ -7661,7 +7661,7 @@ extension LightsailClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<GetInstanceAccessDetailsOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<GetInstanceAccessDetailsInput, GetInstanceAccessDetailsOutput>(xAmzTarget: "Lightsail_20161128.GetInstanceAccessDetails"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<GetInstanceAccessDetailsInput, GetInstanceAccessDetailsOutput>(overrides: ["X-Amz-Target": "Lightsail_20161128.GetInstanceAccessDetails"]))
         builder.serialize(ClientRuntime.BodyMiddleware<GetInstanceAccessDetailsInput, GetInstanceAccessDetailsOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: GetInstanceAccessDetailsInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<GetInstanceAccessDetailsInput, GetInstanceAccessDetailsOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<GetInstanceAccessDetailsOutput>())
@@ -7737,7 +7737,7 @@ extension LightsailClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<GetInstanceMetricDataOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<GetInstanceMetricDataInput, GetInstanceMetricDataOutput>(xAmzTarget: "Lightsail_20161128.GetInstanceMetricData"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<GetInstanceMetricDataInput, GetInstanceMetricDataOutput>(overrides: ["X-Amz-Target": "Lightsail_20161128.GetInstanceMetricData"]))
         builder.serialize(ClientRuntime.BodyMiddleware<GetInstanceMetricDataInput, GetInstanceMetricDataOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: GetInstanceMetricDataInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<GetInstanceMetricDataInput, GetInstanceMetricDataOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<GetInstanceMetricDataOutput>())
@@ -7813,7 +7813,7 @@ extension LightsailClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<GetInstancePortStatesOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<GetInstancePortStatesInput, GetInstancePortStatesOutput>(xAmzTarget: "Lightsail_20161128.GetInstancePortStates"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<GetInstancePortStatesInput, GetInstancePortStatesOutput>(overrides: ["X-Amz-Target": "Lightsail_20161128.GetInstancePortStates"]))
         builder.serialize(ClientRuntime.BodyMiddleware<GetInstancePortStatesInput, GetInstancePortStatesOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: GetInstancePortStatesInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<GetInstancePortStatesInput, GetInstancePortStatesOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<GetInstancePortStatesOutput>())
@@ -7889,7 +7889,7 @@ extension LightsailClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<GetInstanceSnapshotOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<GetInstanceSnapshotInput, GetInstanceSnapshotOutput>(xAmzTarget: "Lightsail_20161128.GetInstanceSnapshot"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<GetInstanceSnapshotInput, GetInstanceSnapshotOutput>(overrides: ["X-Amz-Target": "Lightsail_20161128.GetInstanceSnapshot"]))
         builder.serialize(ClientRuntime.BodyMiddleware<GetInstanceSnapshotInput, GetInstanceSnapshotOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: GetInstanceSnapshotInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<GetInstanceSnapshotInput, GetInstanceSnapshotOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<GetInstanceSnapshotOutput>())
@@ -7965,7 +7965,7 @@ extension LightsailClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<GetInstanceSnapshotsOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<GetInstanceSnapshotsInput, GetInstanceSnapshotsOutput>(xAmzTarget: "Lightsail_20161128.GetInstanceSnapshots"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<GetInstanceSnapshotsInput, GetInstanceSnapshotsOutput>(overrides: ["X-Amz-Target": "Lightsail_20161128.GetInstanceSnapshots"]))
         builder.serialize(ClientRuntime.BodyMiddleware<GetInstanceSnapshotsInput, GetInstanceSnapshotsOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: GetInstanceSnapshotsInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<GetInstanceSnapshotsInput, GetInstanceSnapshotsOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<GetInstanceSnapshotsOutput>())
@@ -8041,7 +8041,7 @@ extension LightsailClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<GetInstanceStateOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<GetInstanceStateInput, GetInstanceStateOutput>(xAmzTarget: "Lightsail_20161128.GetInstanceState"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<GetInstanceStateInput, GetInstanceStateOutput>(overrides: ["X-Amz-Target": "Lightsail_20161128.GetInstanceState"]))
         builder.serialize(ClientRuntime.BodyMiddleware<GetInstanceStateInput, GetInstanceStateOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: GetInstanceStateInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<GetInstanceStateInput, GetInstanceStateOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<GetInstanceStateOutput>())
@@ -8117,7 +8117,7 @@ extension LightsailClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<GetInstancesOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<GetInstancesInput, GetInstancesOutput>(xAmzTarget: "Lightsail_20161128.GetInstances"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<GetInstancesInput, GetInstancesOutput>(overrides: ["X-Amz-Target": "Lightsail_20161128.GetInstances"]))
         builder.serialize(ClientRuntime.BodyMiddleware<GetInstancesInput, GetInstancesOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: GetInstancesInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<GetInstancesInput, GetInstancesOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<GetInstancesOutput>())
@@ -8193,7 +8193,7 @@ extension LightsailClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<GetKeyPairOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<GetKeyPairInput, GetKeyPairOutput>(xAmzTarget: "Lightsail_20161128.GetKeyPair"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<GetKeyPairInput, GetKeyPairOutput>(overrides: ["X-Amz-Target": "Lightsail_20161128.GetKeyPair"]))
         builder.serialize(ClientRuntime.BodyMiddleware<GetKeyPairInput, GetKeyPairOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: GetKeyPairInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<GetKeyPairInput, GetKeyPairOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<GetKeyPairOutput>())
@@ -8269,7 +8269,7 @@ extension LightsailClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<GetKeyPairsOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<GetKeyPairsInput, GetKeyPairsOutput>(xAmzTarget: "Lightsail_20161128.GetKeyPairs"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<GetKeyPairsInput, GetKeyPairsOutput>(overrides: ["X-Amz-Target": "Lightsail_20161128.GetKeyPairs"]))
         builder.serialize(ClientRuntime.BodyMiddleware<GetKeyPairsInput, GetKeyPairsOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: GetKeyPairsInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<GetKeyPairsInput, GetKeyPairsOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<GetKeyPairsOutput>())
@@ -8345,7 +8345,7 @@ extension LightsailClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<GetLoadBalancerOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<GetLoadBalancerInput, GetLoadBalancerOutput>(xAmzTarget: "Lightsail_20161128.GetLoadBalancer"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<GetLoadBalancerInput, GetLoadBalancerOutput>(overrides: ["X-Amz-Target": "Lightsail_20161128.GetLoadBalancer"]))
         builder.serialize(ClientRuntime.BodyMiddleware<GetLoadBalancerInput, GetLoadBalancerOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: GetLoadBalancerInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<GetLoadBalancerInput, GetLoadBalancerOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<GetLoadBalancerOutput>())
@@ -8421,7 +8421,7 @@ extension LightsailClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<GetLoadBalancerMetricDataOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<GetLoadBalancerMetricDataInput, GetLoadBalancerMetricDataOutput>(xAmzTarget: "Lightsail_20161128.GetLoadBalancerMetricData"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<GetLoadBalancerMetricDataInput, GetLoadBalancerMetricDataOutput>(overrides: ["X-Amz-Target": "Lightsail_20161128.GetLoadBalancerMetricData"]))
         builder.serialize(ClientRuntime.BodyMiddleware<GetLoadBalancerMetricDataInput, GetLoadBalancerMetricDataOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: GetLoadBalancerMetricDataInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<GetLoadBalancerMetricDataInput, GetLoadBalancerMetricDataOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<GetLoadBalancerMetricDataOutput>())
@@ -8497,7 +8497,7 @@ extension LightsailClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<GetLoadBalancerTlsCertificatesOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<GetLoadBalancerTlsCertificatesInput, GetLoadBalancerTlsCertificatesOutput>(xAmzTarget: "Lightsail_20161128.GetLoadBalancerTlsCertificates"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<GetLoadBalancerTlsCertificatesInput, GetLoadBalancerTlsCertificatesOutput>(overrides: ["X-Amz-Target": "Lightsail_20161128.GetLoadBalancerTlsCertificates"]))
         builder.serialize(ClientRuntime.BodyMiddleware<GetLoadBalancerTlsCertificatesInput, GetLoadBalancerTlsCertificatesOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: GetLoadBalancerTlsCertificatesInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<GetLoadBalancerTlsCertificatesInput, GetLoadBalancerTlsCertificatesOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<GetLoadBalancerTlsCertificatesOutput>())
@@ -8571,7 +8571,7 @@ extension LightsailClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<GetLoadBalancerTlsPoliciesOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<GetLoadBalancerTlsPoliciesInput, GetLoadBalancerTlsPoliciesOutput>(xAmzTarget: "Lightsail_20161128.GetLoadBalancerTlsPolicies"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<GetLoadBalancerTlsPoliciesInput, GetLoadBalancerTlsPoliciesOutput>(overrides: ["X-Amz-Target": "Lightsail_20161128.GetLoadBalancerTlsPolicies"]))
         builder.serialize(ClientRuntime.BodyMiddleware<GetLoadBalancerTlsPoliciesInput, GetLoadBalancerTlsPoliciesOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: GetLoadBalancerTlsPoliciesInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<GetLoadBalancerTlsPoliciesInput, GetLoadBalancerTlsPoliciesOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<GetLoadBalancerTlsPoliciesOutput>())
@@ -8647,7 +8647,7 @@ extension LightsailClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<GetLoadBalancersOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<GetLoadBalancersInput, GetLoadBalancersOutput>(xAmzTarget: "Lightsail_20161128.GetLoadBalancers"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<GetLoadBalancersInput, GetLoadBalancersOutput>(overrides: ["X-Amz-Target": "Lightsail_20161128.GetLoadBalancers"]))
         builder.serialize(ClientRuntime.BodyMiddleware<GetLoadBalancersInput, GetLoadBalancersOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: GetLoadBalancersInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<GetLoadBalancersInput, GetLoadBalancersOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<GetLoadBalancersOutput>())
@@ -8723,7 +8723,7 @@ extension LightsailClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<GetOperationOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<GetOperationInput, GetOperationOutput>(xAmzTarget: "Lightsail_20161128.GetOperation"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<GetOperationInput, GetOperationOutput>(overrides: ["X-Amz-Target": "Lightsail_20161128.GetOperation"]))
         builder.serialize(ClientRuntime.BodyMiddleware<GetOperationInput, GetOperationOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: GetOperationInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<GetOperationInput, GetOperationOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<GetOperationOutput>())
@@ -8799,7 +8799,7 @@ extension LightsailClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<GetOperationsOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<GetOperationsInput, GetOperationsOutput>(xAmzTarget: "Lightsail_20161128.GetOperations"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<GetOperationsInput, GetOperationsOutput>(overrides: ["X-Amz-Target": "Lightsail_20161128.GetOperations"]))
         builder.serialize(ClientRuntime.BodyMiddleware<GetOperationsInput, GetOperationsOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: GetOperationsInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<GetOperationsInput, GetOperationsOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<GetOperationsOutput>())
@@ -8875,7 +8875,7 @@ extension LightsailClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<GetOperationsForResourceOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<GetOperationsForResourceInput, GetOperationsForResourceOutput>(xAmzTarget: "Lightsail_20161128.GetOperationsForResource"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<GetOperationsForResourceInput, GetOperationsForResourceOutput>(overrides: ["X-Amz-Target": "Lightsail_20161128.GetOperationsForResource"]))
         builder.serialize(ClientRuntime.BodyMiddleware<GetOperationsForResourceInput, GetOperationsForResourceOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: GetOperationsForResourceInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<GetOperationsForResourceInput, GetOperationsForResourceOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<GetOperationsForResourceOutput>())
@@ -8951,7 +8951,7 @@ extension LightsailClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<GetRegionsOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<GetRegionsInput, GetRegionsOutput>(xAmzTarget: "Lightsail_20161128.GetRegions"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<GetRegionsInput, GetRegionsOutput>(overrides: ["X-Amz-Target": "Lightsail_20161128.GetRegions"]))
         builder.serialize(ClientRuntime.BodyMiddleware<GetRegionsInput, GetRegionsOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: GetRegionsInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<GetRegionsInput, GetRegionsOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<GetRegionsOutput>())
@@ -9027,7 +9027,7 @@ extension LightsailClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<GetRelationalDatabaseOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<GetRelationalDatabaseInput, GetRelationalDatabaseOutput>(xAmzTarget: "Lightsail_20161128.GetRelationalDatabase"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<GetRelationalDatabaseInput, GetRelationalDatabaseOutput>(overrides: ["X-Amz-Target": "Lightsail_20161128.GetRelationalDatabase"]))
         builder.serialize(ClientRuntime.BodyMiddleware<GetRelationalDatabaseInput, GetRelationalDatabaseOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: GetRelationalDatabaseInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<GetRelationalDatabaseInput, GetRelationalDatabaseOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<GetRelationalDatabaseOutput>())
@@ -9103,7 +9103,7 @@ extension LightsailClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<GetRelationalDatabaseBlueprintsOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<GetRelationalDatabaseBlueprintsInput, GetRelationalDatabaseBlueprintsOutput>(xAmzTarget: "Lightsail_20161128.GetRelationalDatabaseBlueprints"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<GetRelationalDatabaseBlueprintsInput, GetRelationalDatabaseBlueprintsOutput>(overrides: ["X-Amz-Target": "Lightsail_20161128.GetRelationalDatabaseBlueprints"]))
         builder.serialize(ClientRuntime.BodyMiddleware<GetRelationalDatabaseBlueprintsInput, GetRelationalDatabaseBlueprintsOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: GetRelationalDatabaseBlueprintsInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<GetRelationalDatabaseBlueprintsInput, GetRelationalDatabaseBlueprintsOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<GetRelationalDatabaseBlueprintsOutput>())
@@ -9179,7 +9179,7 @@ extension LightsailClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<GetRelationalDatabaseBundlesOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<GetRelationalDatabaseBundlesInput, GetRelationalDatabaseBundlesOutput>(xAmzTarget: "Lightsail_20161128.GetRelationalDatabaseBundles"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<GetRelationalDatabaseBundlesInput, GetRelationalDatabaseBundlesOutput>(overrides: ["X-Amz-Target": "Lightsail_20161128.GetRelationalDatabaseBundles"]))
         builder.serialize(ClientRuntime.BodyMiddleware<GetRelationalDatabaseBundlesInput, GetRelationalDatabaseBundlesOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: GetRelationalDatabaseBundlesInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<GetRelationalDatabaseBundlesInput, GetRelationalDatabaseBundlesOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<GetRelationalDatabaseBundlesOutput>())
@@ -9255,7 +9255,7 @@ extension LightsailClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<GetRelationalDatabaseEventsOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<GetRelationalDatabaseEventsInput, GetRelationalDatabaseEventsOutput>(xAmzTarget: "Lightsail_20161128.GetRelationalDatabaseEvents"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<GetRelationalDatabaseEventsInput, GetRelationalDatabaseEventsOutput>(overrides: ["X-Amz-Target": "Lightsail_20161128.GetRelationalDatabaseEvents"]))
         builder.serialize(ClientRuntime.BodyMiddleware<GetRelationalDatabaseEventsInput, GetRelationalDatabaseEventsOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: GetRelationalDatabaseEventsInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<GetRelationalDatabaseEventsInput, GetRelationalDatabaseEventsOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<GetRelationalDatabaseEventsOutput>())
@@ -9331,7 +9331,7 @@ extension LightsailClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<GetRelationalDatabaseLogEventsOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<GetRelationalDatabaseLogEventsInput, GetRelationalDatabaseLogEventsOutput>(xAmzTarget: "Lightsail_20161128.GetRelationalDatabaseLogEvents"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<GetRelationalDatabaseLogEventsInput, GetRelationalDatabaseLogEventsOutput>(overrides: ["X-Amz-Target": "Lightsail_20161128.GetRelationalDatabaseLogEvents"]))
         builder.serialize(ClientRuntime.BodyMiddleware<GetRelationalDatabaseLogEventsInput, GetRelationalDatabaseLogEventsOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: GetRelationalDatabaseLogEventsInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<GetRelationalDatabaseLogEventsInput, GetRelationalDatabaseLogEventsOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<GetRelationalDatabaseLogEventsOutput>())
@@ -9407,7 +9407,7 @@ extension LightsailClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<GetRelationalDatabaseLogStreamsOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<GetRelationalDatabaseLogStreamsInput, GetRelationalDatabaseLogStreamsOutput>(xAmzTarget: "Lightsail_20161128.GetRelationalDatabaseLogStreams"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<GetRelationalDatabaseLogStreamsInput, GetRelationalDatabaseLogStreamsOutput>(overrides: ["X-Amz-Target": "Lightsail_20161128.GetRelationalDatabaseLogStreams"]))
         builder.serialize(ClientRuntime.BodyMiddleware<GetRelationalDatabaseLogStreamsInput, GetRelationalDatabaseLogStreamsOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: GetRelationalDatabaseLogStreamsInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<GetRelationalDatabaseLogStreamsInput, GetRelationalDatabaseLogStreamsOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<GetRelationalDatabaseLogStreamsOutput>())
@@ -9483,7 +9483,7 @@ extension LightsailClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<GetRelationalDatabaseMasterUserPasswordOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<GetRelationalDatabaseMasterUserPasswordInput, GetRelationalDatabaseMasterUserPasswordOutput>(xAmzTarget: "Lightsail_20161128.GetRelationalDatabaseMasterUserPassword"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<GetRelationalDatabaseMasterUserPasswordInput, GetRelationalDatabaseMasterUserPasswordOutput>(overrides: ["X-Amz-Target": "Lightsail_20161128.GetRelationalDatabaseMasterUserPassword"]))
         builder.serialize(ClientRuntime.BodyMiddleware<GetRelationalDatabaseMasterUserPasswordInput, GetRelationalDatabaseMasterUserPasswordOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: GetRelationalDatabaseMasterUserPasswordInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<GetRelationalDatabaseMasterUserPasswordInput, GetRelationalDatabaseMasterUserPasswordOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<GetRelationalDatabaseMasterUserPasswordOutput>())
@@ -9559,7 +9559,7 @@ extension LightsailClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<GetRelationalDatabaseMetricDataOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<GetRelationalDatabaseMetricDataInput, GetRelationalDatabaseMetricDataOutput>(xAmzTarget: "Lightsail_20161128.GetRelationalDatabaseMetricData"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<GetRelationalDatabaseMetricDataInput, GetRelationalDatabaseMetricDataOutput>(overrides: ["X-Amz-Target": "Lightsail_20161128.GetRelationalDatabaseMetricData"]))
         builder.serialize(ClientRuntime.BodyMiddleware<GetRelationalDatabaseMetricDataInput, GetRelationalDatabaseMetricDataOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: GetRelationalDatabaseMetricDataInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<GetRelationalDatabaseMetricDataInput, GetRelationalDatabaseMetricDataOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<GetRelationalDatabaseMetricDataOutput>())
@@ -9635,7 +9635,7 @@ extension LightsailClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<GetRelationalDatabaseParametersOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<GetRelationalDatabaseParametersInput, GetRelationalDatabaseParametersOutput>(xAmzTarget: "Lightsail_20161128.GetRelationalDatabaseParameters"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<GetRelationalDatabaseParametersInput, GetRelationalDatabaseParametersOutput>(overrides: ["X-Amz-Target": "Lightsail_20161128.GetRelationalDatabaseParameters"]))
         builder.serialize(ClientRuntime.BodyMiddleware<GetRelationalDatabaseParametersInput, GetRelationalDatabaseParametersOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: GetRelationalDatabaseParametersInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<GetRelationalDatabaseParametersInput, GetRelationalDatabaseParametersOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<GetRelationalDatabaseParametersOutput>())
@@ -9711,7 +9711,7 @@ extension LightsailClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<GetRelationalDatabaseSnapshotOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<GetRelationalDatabaseSnapshotInput, GetRelationalDatabaseSnapshotOutput>(xAmzTarget: "Lightsail_20161128.GetRelationalDatabaseSnapshot"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<GetRelationalDatabaseSnapshotInput, GetRelationalDatabaseSnapshotOutput>(overrides: ["X-Amz-Target": "Lightsail_20161128.GetRelationalDatabaseSnapshot"]))
         builder.serialize(ClientRuntime.BodyMiddleware<GetRelationalDatabaseSnapshotInput, GetRelationalDatabaseSnapshotOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: GetRelationalDatabaseSnapshotInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<GetRelationalDatabaseSnapshotInput, GetRelationalDatabaseSnapshotOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<GetRelationalDatabaseSnapshotOutput>())
@@ -9787,7 +9787,7 @@ extension LightsailClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<GetRelationalDatabaseSnapshotsOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<GetRelationalDatabaseSnapshotsInput, GetRelationalDatabaseSnapshotsOutput>(xAmzTarget: "Lightsail_20161128.GetRelationalDatabaseSnapshots"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<GetRelationalDatabaseSnapshotsInput, GetRelationalDatabaseSnapshotsOutput>(overrides: ["X-Amz-Target": "Lightsail_20161128.GetRelationalDatabaseSnapshots"]))
         builder.serialize(ClientRuntime.BodyMiddleware<GetRelationalDatabaseSnapshotsInput, GetRelationalDatabaseSnapshotsOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: GetRelationalDatabaseSnapshotsInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<GetRelationalDatabaseSnapshotsInput, GetRelationalDatabaseSnapshotsOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<GetRelationalDatabaseSnapshotsOutput>())
@@ -9863,7 +9863,7 @@ extension LightsailClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<GetRelationalDatabasesOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<GetRelationalDatabasesInput, GetRelationalDatabasesOutput>(xAmzTarget: "Lightsail_20161128.GetRelationalDatabases"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<GetRelationalDatabasesInput, GetRelationalDatabasesOutput>(overrides: ["X-Amz-Target": "Lightsail_20161128.GetRelationalDatabases"]))
         builder.serialize(ClientRuntime.BodyMiddleware<GetRelationalDatabasesInput, GetRelationalDatabasesOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: GetRelationalDatabasesInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<GetRelationalDatabasesInput, GetRelationalDatabasesOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<GetRelationalDatabasesOutput>())
@@ -9937,7 +9937,7 @@ extension LightsailClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<GetSetupHistoryOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<GetSetupHistoryInput, GetSetupHistoryOutput>(xAmzTarget: "Lightsail_20161128.GetSetupHistory"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<GetSetupHistoryInput, GetSetupHistoryOutput>(overrides: ["X-Amz-Target": "Lightsail_20161128.GetSetupHistory"]))
         builder.serialize(ClientRuntime.BodyMiddleware<GetSetupHistoryInput, GetSetupHistoryOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: GetSetupHistoryInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<GetSetupHistoryInput, GetSetupHistoryOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<GetSetupHistoryOutput>())
@@ -10013,7 +10013,7 @@ extension LightsailClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<GetStaticIpOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<GetStaticIpInput, GetStaticIpOutput>(xAmzTarget: "Lightsail_20161128.GetStaticIp"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<GetStaticIpInput, GetStaticIpOutput>(overrides: ["X-Amz-Target": "Lightsail_20161128.GetStaticIp"]))
         builder.serialize(ClientRuntime.BodyMiddleware<GetStaticIpInput, GetStaticIpOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: GetStaticIpInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<GetStaticIpInput, GetStaticIpOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<GetStaticIpOutput>())
@@ -10089,7 +10089,7 @@ extension LightsailClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<GetStaticIpsOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<GetStaticIpsInput, GetStaticIpsOutput>(xAmzTarget: "Lightsail_20161128.GetStaticIps"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<GetStaticIpsInput, GetStaticIpsOutput>(overrides: ["X-Amz-Target": "Lightsail_20161128.GetStaticIps"]))
         builder.serialize(ClientRuntime.BodyMiddleware<GetStaticIpsInput, GetStaticIpsOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: GetStaticIpsInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<GetStaticIpsInput, GetStaticIpsOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<GetStaticIpsOutput>())
@@ -10165,7 +10165,7 @@ extension LightsailClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<ImportKeyPairOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<ImportKeyPairInput, ImportKeyPairOutput>(xAmzTarget: "Lightsail_20161128.ImportKeyPair"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<ImportKeyPairInput, ImportKeyPairOutput>(overrides: ["X-Amz-Target": "Lightsail_20161128.ImportKeyPair"]))
         builder.serialize(ClientRuntime.BodyMiddleware<ImportKeyPairInput, ImportKeyPairOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: ImportKeyPairInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<ImportKeyPairInput, ImportKeyPairOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ImportKeyPairOutput>())
@@ -10241,7 +10241,7 @@ extension LightsailClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<IsVpcPeeredOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<IsVpcPeeredInput, IsVpcPeeredOutput>(xAmzTarget: "Lightsail_20161128.IsVpcPeered"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<IsVpcPeeredInput, IsVpcPeeredOutput>(overrides: ["X-Amz-Target": "Lightsail_20161128.IsVpcPeered"]))
         builder.serialize(ClientRuntime.BodyMiddleware<IsVpcPeeredInput, IsVpcPeeredOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: IsVpcPeeredInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<IsVpcPeeredInput, IsVpcPeeredOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<IsVpcPeeredOutput>())
@@ -10317,7 +10317,7 @@ extension LightsailClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<OpenInstancePublicPortsOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<OpenInstancePublicPortsInput, OpenInstancePublicPortsOutput>(xAmzTarget: "Lightsail_20161128.OpenInstancePublicPorts"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<OpenInstancePublicPortsInput, OpenInstancePublicPortsOutput>(overrides: ["X-Amz-Target": "Lightsail_20161128.OpenInstancePublicPorts"]))
         builder.serialize(ClientRuntime.BodyMiddleware<OpenInstancePublicPortsInput, OpenInstancePublicPortsOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: OpenInstancePublicPortsInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<OpenInstancePublicPortsInput, OpenInstancePublicPortsOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<OpenInstancePublicPortsOutput>())
@@ -10393,7 +10393,7 @@ extension LightsailClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<PeerVpcOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<PeerVpcInput, PeerVpcOutput>(xAmzTarget: "Lightsail_20161128.PeerVpc"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<PeerVpcInput, PeerVpcOutput>(overrides: ["X-Amz-Target": "Lightsail_20161128.PeerVpc"]))
         builder.serialize(ClientRuntime.BodyMiddleware<PeerVpcInput, PeerVpcOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: PeerVpcInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<PeerVpcInput, PeerVpcOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<PeerVpcOutput>())
@@ -10468,7 +10468,7 @@ extension LightsailClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<PutAlarmOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<PutAlarmInput, PutAlarmOutput>(xAmzTarget: "Lightsail_20161128.PutAlarm"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<PutAlarmInput, PutAlarmOutput>(overrides: ["X-Amz-Target": "Lightsail_20161128.PutAlarm"]))
         builder.serialize(ClientRuntime.BodyMiddleware<PutAlarmInput, PutAlarmOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: PutAlarmInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<PutAlarmInput, PutAlarmOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<PutAlarmOutput>())
@@ -10544,7 +10544,7 @@ extension LightsailClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<PutInstancePublicPortsOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<PutInstancePublicPortsInput, PutInstancePublicPortsOutput>(xAmzTarget: "Lightsail_20161128.PutInstancePublicPorts"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<PutInstancePublicPortsInput, PutInstancePublicPortsOutput>(overrides: ["X-Amz-Target": "Lightsail_20161128.PutInstancePublicPorts"]))
         builder.serialize(ClientRuntime.BodyMiddleware<PutInstancePublicPortsInput, PutInstancePublicPortsOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: PutInstancePublicPortsInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<PutInstancePublicPortsInput, PutInstancePublicPortsOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<PutInstancePublicPortsOutput>())
@@ -10620,7 +10620,7 @@ extension LightsailClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<RebootInstanceOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<RebootInstanceInput, RebootInstanceOutput>(xAmzTarget: "Lightsail_20161128.RebootInstance"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<RebootInstanceInput, RebootInstanceOutput>(overrides: ["X-Amz-Target": "Lightsail_20161128.RebootInstance"]))
         builder.serialize(ClientRuntime.BodyMiddleware<RebootInstanceInput, RebootInstanceOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: RebootInstanceInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<RebootInstanceInput, RebootInstanceOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<RebootInstanceOutput>())
@@ -10696,7 +10696,7 @@ extension LightsailClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<RebootRelationalDatabaseOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<RebootRelationalDatabaseInput, RebootRelationalDatabaseOutput>(xAmzTarget: "Lightsail_20161128.RebootRelationalDatabase"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<RebootRelationalDatabaseInput, RebootRelationalDatabaseOutput>(overrides: ["X-Amz-Target": "Lightsail_20161128.RebootRelationalDatabase"]))
         builder.serialize(ClientRuntime.BodyMiddleware<RebootRelationalDatabaseInput, RebootRelationalDatabaseOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: RebootRelationalDatabaseInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<RebootRelationalDatabaseInput, RebootRelationalDatabaseOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<RebootRelationalDatabaseOutput>())
@@ -10770,7 +10770,7 @@ extension LightsailClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<RegisterContainerImageOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<RegisterContainerImageInput, RegisterContainerImageOutput>(xAmzTarget: "Lightsail_20161128.RegisterContainerImage"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<RegisterContainerImageInput, RegisterContainerImageOutput>(overrides: ["X-Amz-Target": "Lightsail_20161128.RegisterContainerImage"]))
         builder.serialize(ClientRuntime.BodyMiddleware<RegisterContainerImageInput, RegisterContainerImageOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: RegisterContainerImageInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<RegisterContainerImageInput, RegisterContainerImageOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<RegisterContainerImageOutput>())
@@ -10846,7 +10846,7 @@ extension LightsailClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<ReleaseStaticIpOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<ReleaseStaticIpInput, ReleaseStaticIpOutput>(xAmzTarget: "Lightsail_20161128.ReleaseStaticIp"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<ReleaseStaticIpInput, ReleaseStaticIpOutput>(overrides: ["X-Amz-Target": "Lightsail_20161128.ReleaseStaticIp"]))
         builder.serialize(ClientRuntime.BodyMiddleware<ReleaseStaticIpInput, ReleaseStaticIpOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: ReleaseStaticIpInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<ReleaseStaticIpInput, ReleaseStaticIpOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ReleaseStaticIpOutput>())
@@ -10920,7 +10920,7 @@ extension LightsailClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<ResetDistributionCacheOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<ResetDistributionCacheInput, ResetDistributionCacheOutput>(xAmzTarget: "Lightsail_20161128.ResetDistributionCache"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<ResetDistributionCacheInput, ResetDistributionCacheOutput>(overrides: ["X-Amz-Target": "Lightsail_20161128.ResetDistributionCache"]))
         builder.serialize(ClientRuntime.BodyMiddleware<ResetDistributionCacheInput, ResetDistributionCacheOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: ResetDistributionCacheInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<ResetDistributionCacheInput, ResetDistributionCacheOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ResetDistributionCacheOutput>())
@@ -10995,7 +10995,7 @@ extension LightsailClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<SendContactMethodVerificationOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<SendContactMethodVerificationInput, SendContactMethodVerificationOutput>(xAmzTarget: "Lightsail_20161128.SendContactMethodVerification"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<SendContactMethodVerificationInput, SendContactMethodVerificationOutput>(overrides: ["X-Amz-Target": "Lightsail_20161128.SendContactMethodVerification"]))
         builder.serialize(ClientRuntime.BodyMiddleware<SendContactMethodVerificationInput, SendContactMethodVerificationOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: SendContactMethodVerificationInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<SendContactMethodVerificationInput, SendContactMethodVerificationOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<SendContactMethodVerificationOutput>())
@@ -11071,7 +11071,7 @@ extension LightsailClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<SetIpAddressTypeOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<SetIpAddressTypeInput, SetIpAddressTypeOutput>(xAmzTarget: "Lightsail_20161128.SetIpAddressType"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<SetIpAddressTypeInput, SetIpAddressTypeOutput>(overrides: ["X-Amz-Target": "Lightsail_20161128.SetIpAddressType"]))
         builder.serialize(ClientRuntime.BodyMiddleware<SetIpAddressTypeInput, SetIpAddressTypeOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: SetIpAddressTypeInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<SetIpAddressTypeInput, SetIpAddressTypeOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<SetIpAddressTypeOutput>())
@@ -11145,7 +11145,7 @@ extension LightsailClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<SetResourceAccessForBucketOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<SetResourceAccessForBucketInput, SetResourceAccessForBucketOutput>(xAmzTarget: "Lightsail_20161128.SetResourceAccessForBucket"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<SetResourceAccessForBucketInput, SetResourceAccessForBucketOutput>(overrides: ["X-Amz-Target": "Lightsail_20161128.SetResourceAccessForBucket"]))
         builder.serialize(ClientRuntime.BodyMiddleware<SetResourceAccessForBucketInput, SetResourceAccessForBucketOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: SetResourceAccessForBucketInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<SetResourceAccessForBucketInput, SetResourceAccessForBucketOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<SetResourceAccessForBucketOutput>())
@@ -11219,7 +11219,7 @@ extension LightsailClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<SetupInstanceHttpsOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<SetupInstanceHttpsInput, SetupInstanceHttpsOutput>(xAmzTarget: "Lightsail_20161128.SetupInstanceHttps"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<SetupInstanceHttpsInput, SetupInstanceHttpsOutput>(overrides: ["X-Amz-Target": "Lightsail_20161128.SetupInstanceHttps"]))
         builder.serialize(ClientRuntime.BodyMiddleware<SetupInstanceHttpsInput, SetupInstanceHttpsOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: SetupInstanceHttpsInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<SetupInstanceHttpsInput, SetupInstanceHttpsOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<SetupInstanceHttpsOutput>())
@@ -11293,7 +11293,7 @@ extension LightsailClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<StartGUISessionOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<StartGUISessionInput, StartGUISessionOutput>(xAmzTarget: "Lightsail_20161128.StartGUISession"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<StartGUISessionInput, StartGUISessionOutput>(overrides: ["X-Amz-Target": "Lightsail_20161128.StartGUISession"]))
         builder.serialize(ClientRuntime.BodyMiddleware<StartGUISessionInput, StartGUISessionOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: StartGUISessionInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<StartGUISessionInput, StartGUISessionOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<StartGUISessionOutput>())
@@ -11369,7 +11369,7 @@ extension LightsailClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<StartInstanceOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<StartInstanceInput, StartInstanceOutput>(xAmzTarget: "Lightsail_20161128.StartInstance"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<StartInstanceInput, StartInstanceOutput>(overrides: ["X-Amz-Target": "Lightsail_20161128.StartInstance"]))
         builder.serialize(ClientRuntime.BodyMiddleware<StartInstanceInput, StartInstanceOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: StartInstanceInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<StartInstanceInput, StartInstanceOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<StartInstanceOutput>())
@@ -11445,7 +11445,7 @@ extension LightsailClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<StartRelationalDatabaseOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<StartRelationalDatabaseInput, StartRelationalDatabaseOutput>(xAmzTarget: "Lightsail_20161128.StartRelationalDatabase"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<StartRelationalDatabaseInput, StartRelationalDatabaseOutput>(overrides: ["X-Amz-Target": "Lightsail_20161128.StartRelationalDatabase"]))
         builder.serialize(ClientRuntime.BodyMiddleware<StartRelationalDatabaseInput, StartRelationalDatabaseOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: StartRelationalDatabaseInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<StartRelationalDatabaseInput, StartRelationalDatabaseOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<StartRelationalDatabaseOutput>())
@@ -11519,7 +11519,7 @@ extension LightsailClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<StopGUISessionOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<StopGUISessionInput, StopGUISessionOutput>(xAmzTarget: "Lightsail_20161128.StopGUISession"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<StopGUISessionInput, StopGUISessionOutput>(overrides: ["X-Amz-Target": "Lightsail_20161128.StopGUISession"]))
         builder.serialize(ClientRuntime.BodyMiddleware<StopGUISessionInput, StopGUISessionOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: StopGUISessionInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<StopGUISessionInput, StopGUISessionOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<StopGUISessionOutput>())
@@ -11595,7 +11595,7 @@ extension LightsailClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<StopInstanceOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<StopInstanceInput, StopInstanceOutput>(xAmzTarget: "Lightsail_20161128.StopInstance"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<StopInstanceInput, StopInstanceOutput>(overrides: ["X-Amz-Target": "Lightsail_20161128.StopInstance"]))
         builder.serialize(ClientRuntime.BodyMiddleware<StopInstanceInput, StopInstanceOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: StopInstanceInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<StopInstanceInput, StopInstanceOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<StopInstanceOutput>())
@@ -11671,7 +11671,7 @@ extension LightsailClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<StopRelationalDatabaseOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<StopRelationalDatabaseInput, StopRelationalDatabaseOutput>(xAmzTarget: "Lightsail_20161128.StopRelationalDatabase"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<StopRelationalDatabaseInput, StopRelationalDatabaseOutput>(overrides: ["X-Amz-Target": "Lightsail_20161128.StopRelationalDatabase"]))
         builder.serialize(ClientRuntime.BodyMiddleware<StopRelationalDatabaseInput, StopRelationalDatabaseOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: StopRelationalDatabaseInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<StopRelationalDatabaseInput, StopRelationalDatabaseOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<StopRelationalDatabaseOutput>())
@@ -11747,7 +11747,7 @@ extension LightsailClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<TagResourceOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<TagResourceInput, TagResourceOutput>(xAmzTarget: "Lightsail_20161128.TagResource"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<TagResourceInput, TagResourceOutput>(overrides: ["X-Amz-Target": "Lightsail_20161128.TagResource"]))
         builder.serialize(ClientRuntime.BodyMiddleware<TagResourceInput, TagResourceOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: TagResourceInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<TagResourceInput, TagResourceOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<TagResourceOutput>())
@@ -11823,7 +11823,7 @@ extension LightsailClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<TestAlarmOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<TestAlarmInput, TestAlarmOutput>(xAmzTarget: "Lightsail_20161128.TestAlarm"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<TestAlarmInput, TestAlarmOutput>(overrides: ["X-Amz-Target": "Lightsail_20161128.TestAlarm"]))
         builder.serialize(ClientRuntime.BodyMiddleware<TestAlarmInput, TestAlarmOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: TestAlarmInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<TestAlarmInput, TestAlarmOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<TestAlarmOutput>())
@@ -11899,7 +11899,7 @@ extension LightsailClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<UnpeerVpcOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<UnpeerVpcInput, UnpeerVpcOutput>(xAmzTarget: "Lightsail_20161128.UnpeerVpc"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<UnpeerVpcInput, UnpeerVpcOutput>(overrides: ["X-Amz-Target": "Lightsail_20161128.UnpeerVpc"]))
         builder.serialize(ClientRuntime.BodyMiddleware<UnpeerVpcInput, UnpeerVpcOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: UnpeerVpcInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<UnpeerVpcInput, UnpeerVpcOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<UnpeerVpcOutput>())
@@ -11975,7 +11975,7 @@ extension LightsailClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<UntagResourceOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<UntagResourceInput, UntagResourceOutput>(xAmzTarget: "Lightsail_20161128.UntagResource"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<UntagResourceInput, UntagResourceOutput>(overrides: ["X-Amz-Target": "Lightsail_20161128.UntagResource"]))
         builder.serialize(ClientRuntime.BodyMiddleware<UntagResourceInput, UntagResourceOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: UntagResourceInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<UntagResourceInput, UntagResourceOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<UntagResourceOutput>())
@@ -12049,7 +12049,7 @@ extension LightsailClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<UpdateBucketOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<UpdateBucketInput, UpdateBucketOutput>(xAmzTarget: "Lightsail_20161128.UpdateBucket"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<UpdateBucketInput, UpdateBucketOutput>(overrides: ["X-Amz-Target": "Lightsail_20161128.UpdateBucket"]))
         builder.serialize(ClientRuntime.BodyMiddleware<UpdateBucketInput, UpdateBucketOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: UpdateBucketInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<UpdateBucketInput, UpdateBucketOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<UpdateBucketOutput>())
@@ -12123,7 +12123,7 @@ extension LightsailClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<UpdateBucketBundleOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<UpdateBucketBundleInput, UpdateBucketBundleOutput>(xAmzTarget: "Lightsail_20161128.UpdateBucketBundle"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<UpdateBucketBundleInput, UpdateBucketBundleOutput>(overrides: ["X-Amz-Target": "Lightsail_20161128.UpdateBucketBundle"]))
         builder.serialize(ClientRuntime.BodyMiddleware<UpdateBucketBundleInput, UpdateBucketBundleOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: UpdateBucketBundleInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<UpdateBucketBundleInput, UpdateBucketBundleOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<UpdateBucketBundleOutput>())
@@ -12197,7 +12197,7 @@ extension LightsailClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<UpdateContainerServiceOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<UpdateContainerServiceInput, UpdateContainerServiceOutput>(xAmzTarget: "Lightsail_20161128.UpdateContainerService"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<UpdateContainerServiceInput, UpdateContainerServiceOutput>(overrides: ["X-Amz-Target": "Lightsail_20161128.UpdateContainerService"]))
         builder.serialize(ClientRuntime.BodyMiddleware<UpdateContainerServiceInput, UpdateContainerServiceOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: UpdateContainerServiceInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<UpdateContainerServiceInput, UpdateContainerServiceOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<UpdateContainerServiceOutput>())
@@ -12271,7 +12271,7 @@ extension LightsailClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<UpdateDistributionOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<UpdateDistributionInput, UpdateDistributionOutput>(xAmzTarget: "Lightsail_20161128.UpdateDistribution"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<UpdateDistributionInput, UpdateDistributionOutput>(overrides: ["X-Amz-Target": "Lightsail_20161128.UpdateDistribution"]))
         builder.serialize(ClientRuntime.BodyMiddleware<UpdateDistributionInput, UpdateDistributionOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: UpdateDistributionInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<UpdateDistributionInput, UpdateDistributionOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<UpdateDistributionOutput>())
@@ -12345,7 +12345,7 @@ extension LightsailClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<UpdateDistributionBundleOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<UpdateDistributionBundleInput, UpdateDistributionBundleOutput>(xAmzTarget: "Lightsail_20161128.UpdateDistributionBundle"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<UpdateDistributionBundleInput, UpdateDistributionBundleOutput>(overrides: ["X-Amz-Target": "Lightsail_20161128.UpdateDistributionBundle"]))
         builder.serialize(ClientRuntime.BodyMiddleware<UpdateDistributionBundleInput, UpdateDistributionBundleOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: UpdateDistributionBundleInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<UpdateDistributionBundleInput, UpdateDistributionBundleOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<UpdateDistributionBundleOutput>())
@@ -12421,7 +12421,7 @@ extension LightsailClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<UpdateDomainEntryOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<UpdateDomainEntryInput, UpdateDomainEntryOutput>(xAmzTarget: "Lightsail_20161128.UpdateDomainEntry"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<UpdateDomainEntryInput, UpdateDomainEntryOutput>(overrides: ["X-Amz-Target": "Lightsail_20161128.UpdateDomainEntry"]))
         builder.serialize(ClientRuntime.BodyMiddleware<UpdateDomainEntryInput, UpdateDomainEntryOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: UpdateDomainEntryInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<UpdateDomainEntryInput, UpdateDomainEntryOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<UpdateDomainEntryOutput>())
@@ -12497,7 +12497,7 @@ extension LightsailClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<UpdateInstanceMetadataOptionsOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<UpdateInstanceMetadataOptionsInput, UpdateInstanceMetadataOptionsOutput>(xAmzTarget: "Lightsail_20161128.UpdateInstanceMetadataOptions"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<UpdateInstanceMetadataOptionsInput, UpdateInstanceMetadataOptionsOutput>(overrides: ["X-Amz-Target": "Lightsail_20161128.UpdateInstanceMetadataOptions"]))
         builder.serialize(ClientRuntime.BodyMiddleware<UpdateInstanceMetadataOptionsInput, UpdateInstanceMetadataOptionsOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: UpdateInstanceMetadataOptionsInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<UpdateInstanceMetadataOptionsInput, UpdateInstanceMetadataOptionsOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<UpdateInstanceMetadataOptionsOutput>())
@@ -12573,7 +12573,7 @@ extension LightsailClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<UpdateLoadBalancerAttributeOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<UpdateLoadBalancerAttributeInput, UpdateLoadBalancerAttributeOutput>(xAmzTarget: "Lightsail_20161128.UpdateLoadBalancerAttribute"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<UpdateLoadBalancerAttributeInput, UpdateLoadBalancerAttributeOutput>(overrides: ["X-Amz-Target": "Lightsail_20161128.UpdateLoadBalancerAttribute"]))
         builder.serialize(ClientRuntime.BodyMiddleware<UpdateLoadBalancerAttributeInput, UpdateLoadBalancerAttributeOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: UpdateLoadBalancerAttributeInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<UpdateLoadBalancerAttributeInput, UpdateLoadBalancerAttributeOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<UpdateLoadBalancerAttributeOutput>())
@@ -12649,7 +12649,7 @@ extension LightsailClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<UpdateRelationalDatabaseOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<UpdateRelationalDatabaseInput, UpdateRelationalDatabaseOutput>(xAmzTarget: "Lightsail_20161128.UpdateRelationalDatabase"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<UpdateRelationalDatabaseInput, UpdateRelationalDatabaseOutput>(overrides: ["X-Amz-Target": "Lightsail_20161128.UpdateRelationalDatabase"]))
         builder.serialize(ClientRuntime.BodyMiddleware<UpdateRelationalDatabaseInput, UpdateRelationalDatabaseOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: UpdateRelationalDatabaseInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<UpdateRelationalDatabaseInput, UpdateRelationalDatabaseOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<UpdateRelationalDatabaseOutput>())
@@ -12725,7 +12725,7 @@ extension LightsailClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<UpdateRelationalDatabaseParametersOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<UpdateRelationalDatabaseParametersInput, UpdateRelationalDatabaseParametersOutput>(xAmzTarget: "Lightsail_20161128.UpdateRelationalDatabaseParameters"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<UpdateRelationalDatabaseParametersInput, UpdateRelationalDatabaseParametersOutput>(overrides: ["X-Amz-Target": "Lightsail_20161128.UpdateRelationalDatabaseParameters"]))
         builder.serialize(ClientRuntime.BodyMiddleware<UpdateRelationalDatabaseParametersInput, UpdateRelationalDatabaseParametersOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: UpdateRelationalDatabaseParametersInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<UpdateRelationalDatabaseParametersInput, UpdateRelationalDatabaseParametersOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<UpdateRelationalDatabaseParametersOutput>())

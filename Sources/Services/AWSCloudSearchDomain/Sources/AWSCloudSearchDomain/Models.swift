@@ -22,8 +22,8 @@ import protocol ClientRuntime.HTTPError
 import protocol ClientRuntime.ModeledError
 @_spi(SmithyReadWrite) import protocol SmithyReadWrite.SmithyReader
 @_spi(SmithyReadWrite) import protocol SmithyReadWrite.SmithyWriter
-@_spi(SmithyReadWrite) import struct AWSClientRuntime.RestJSONError
 @_spi(UnknownAWSHTTPServiceError) import struct AWSClientRuntime.UnknownAWSHTTPServiceError
+@_spi(SmithyReadWrite) import struct ClientRuntime.RestJSONError
 import struct Smithy.URIQueryItem
 import struct SmithyHTTPAPI.Header
 import struct SmithyHTTPAPI.Headers
@@ -780,7 +780,7 @@ enum SearchOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "SearchException": return try SearchException.makeError(baseError: baseError)
@@ -794,7 +794,7 @@ enum SuggestOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "SearchException": return try SearchException.makeError(baseError: baseError)
@@ -808,7 +808,7 @@ enum UploadDocumentsOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "DocumentServiceException": return try DocumentServiceException.makeError(baseError: baseError)
@@ -819,7 +819,7 @@ enum UploadDocumentsOutputError {
 
 extension SearchException {
 
-    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> SearchException {
+    static func makeError(baseError: ClientRuntime.RestJSONError) throws -> SearchException {
         let reader = baseError.errorBodyReader
         var value = SearchException()
         value.properties.message = try reader["message"].readIfPresent()
@@ -832,7 +832,7 @@ extension SearchException {
 
 extension DocumentServiceException {
 
-    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> DocumentServiceException {
+    static func makeError(baseError: ClientRuntime.RestJSONError) throws -> DocumentServiceException {
         let reader = baseError.errorBodyReader
         var value = DocumentServiceException()
         value.properties.message = try reader["message"].readIfPresent()

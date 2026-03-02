@@ -48,7 +48,6 @@ import protocol SmithyIdentity.BearerTokenIdentityResolver
 @_spi(AWSEndpointResolverMiddleware) import struct AWSClientRuntime.AWSEndpointResolverMiddleware
 import struct AWSClientRuntime.AmzSdkInvocationIdMiddleware
 import struct AWSClientRuntime.UserAgentMiddleware
-import struct AWSClientRuntime.XAmzTargetMiddleware
 import struct AWSSDKHTTPAuth.SigV4AAuthScheme
 import struct AWSSDKHTTPAuth.SigV4AuthScheme
 import struct ClientRuntime.AuthSchemeMiddleware
@@ -58,6 +57,7 @@ import struct ClientRuntime.ContentTypeMiddleware
 @_spi(SmithyReadWrite) import struct ClientRuntime.DeserializeMiddleware
 import struct ClientRuntime.IdempotencyTokenMiddleware
 import struct ClientRuntime.LoggerMiddleware
+import struct ClientRuntime.MutateHeadersMiddleware
 import struct ClientRuntime.SendableHttpInterceptorProviderBox
 import struct ClientRuntime.SendableInterceptorProviderBox
 import struct ClientRuntime.SignerMiddleware
@@ -664,7 +664,7 @@ extension PartnerCentralChannelClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<AcceptChannelHandshakeOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<AcceptChannelHandshakeInput, AcceptChannelHandshakeOutput>(xAmzTarget: "PartnerCentralChannel.AcceptChannelHandshake"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<AcceptChannelHandshakeInput, AcceptChannelHandshakeOutput>(overrides: ["X-Amz-Target": "PartnerCentralChannel.AcceptChannelHandshake"]))
         builder.serialize(ClientRuntime.BodyMiddleware<AcceptChannelHandshakeInput, AcceptChannelHandshakeOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: AcceptChannelHandshakeInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<AcceptChannelHandshakeInput, AcceptChannelHandshakeOutput>(contentType: "application/x-amz-json-1.0"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<AcceptChannelHandshakeOutput>())
@@ -737,7 +737,7 @@ extension PartnerCentralChannelClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<CancelChannelHandshakeOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<CancelChannelHandshakeInput, CancelChannelHandshakeOutput>(xAmzTarget: "PartnerCentralChannel.CancelChannelHandshake"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<CancelChannelHandshakeInput, CancelChannelHandshakeOutput>(overrides: ["X-Amz-Target": "PartnerCentralChannel.CancelChannelHandshake"]))
         builder.serialize(ClientRuntime.BodyMiddleware<CancelChannelHandshakeInput, CancelChannelHandshakeOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: CancelChannelHandshakeInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<CancelChannelHandshakeInput, CancelChannelHandshakeOutput>(contentType: "application/x-amz-json-1.0"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<CancelChannelHandshakeOutput>())
@@ -813,7 +813,7 @@ extension PartnerCentralChannelClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<CreateChannelHandshakeOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<CreateChannelHandshakeInput, CreateChannelHandshakeOutput>(xAmzTarget: "PartnerCentralChannel.CreateChannelHandshake"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<CreateChannelHandshakeInput, CreateChannelHandshakeOutput>(overrides: ["X-Amz-Target": "PartnerCentralChannel.CreateChannelHandshake"]))
         builder.serialize(ClientRuntime.BodyMiddleware<CreateChannelHandshakeInput, CreateChannelHandshakeOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: CreateChannelHandshakeInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<CreateChannelHandshakeInput, CreateChannelHandshakeOutput>(contentType: "application/x-amz-json-1.0"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<CreateChannelHandshakeOutput>())
@@ -889,7 +889,7 @@ extension PartnerCentralChannelClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<CreateProgramManagementAccountOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<CreateProgramManagementAccountInput, CreateProgramManagementAccountOutput>(xAmzTarget: "PartnerCentralChannel.CreateProgramManagementAccount"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<CreateProgramManagementAccountInput, CreateProgramManagementAccountOutput>(overrides: ["X-Amz-Target": "PartnerCentralChannel.CreateProgramManagementAccount"]))
         builder.serialize(ClientRuntime.BodyMiddleware<CreateProgramManagementAccountInput, CreateProgramManagementAccountOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: CreateProgramManagementAccountInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<CreateProgramManagementAccountInput, CreateProgramManagementAccountOutput>(contentType: "application/x-amz-json-1.0"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<CreateProgramManagementAccountOutput>())
@@ -965,7 +965,7 @@ extension PartnerCentralChannelClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<CreateRelationshipOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<CreateRelationshipInput, CreateRelationshipOutput>(xAmzTarget: "PartnerCentralChannel.CreateRelationship"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<CreateRelationshipInput, CreateRelationshipOutput>(overrides: ["X-Amz-Target": "PartnerCentralChannel.CreateRelationship"]))
         builder.serialize(ClientRuntime.BodyMiddleware<CreateRelationshipInput, CreateRelationshipOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: CreateRelationshipInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<CreateRelationshipInput, CreateRelationshipOutput>(contentType: "application/x-amz-json-1.0"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<CreateRelationshipOutput>())
@@ -1040,7 +1040,7 @@ extension PartnerCentralChannelClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<DeleteProgramManagementAccountOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<DeleteProgramManagementAccountInput, DeleteProgramManagementAccountOutput>(xAmzTarget: "PartnerCentralChannel.DeleteProgramManagementAccount"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<DeleteProgramManagementAccountInput, DeleteProgramManagementAccountOutput>(overrides: ["X-Amz-Target": "PartnerCentralChannel.DeleteProgramManagementAccount"]))
         builder.serialize(ClientRuntime.BodyMiddleware<DeleteProgramManagementAccountInput, DeleteProgramManagementAccountOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: DeleteProgramManagementAccountInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DeleteProgramManagementAccountInput, DeleteProgramManagementAccountOutput>(contentType: "application/x-amz-json-1.0"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DeleteProgramManagementAccountOutput>())
@@ -1115,7 +1115,7 @@ extension PartnerCentralChannelClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<DeleteRelationshipOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<DeleteRelationshipInput, DeleteRelationshipOutput>(xAmzTarget: "PartnerCentralChannel.DeleteRelationship"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<DeleteRelationshipInput, DeleteRelationshipOutput>(overrides: ["X-Amz-Target": "PartnerCentralChannel.DeleteRelationship"]))
         builder.serialize(ClientRuntime.BodyMiddleware<DeleteRelationshipInput, DeleteRelationshipOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: DeleteRelationshipInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DeleteRelationshipInput, DeleteRelationshipOutput>(contentType: "application/x-amz-json-1.0"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DeleteRelationshipOutput>())
@@ -1188,7 +1188,7 @@ extension PartnerCentralChannelClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<GetRelationshipOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<GetRelationshipInput, GetRelationshipOutput>(xAmzTarget: "PartnerCentralChannel.GetRelationship"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<GetRelationshipInput, GetRelationshipOutput>(overrides: ["X-Amz-Target": "PartnerCentralChannel.GetRelationship"]))
         builder.serialize(ClientRuntime.BodyMiddleware<GetRelationshipInput, GetRelationshipOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: GetRelationshipInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<GetRelationshipInput, GetRelationshipOutput>(contentType: "application/x-amz-json-1.0"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<GetRelationshipOutput>())
@@ -1261,7 +1261,7 @@ extension PartnerCentralChannelClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<ListChannelHandshakesOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<ListChannelHandshakesInput, ListChannelHandshakesOutput>(xAmzTarget: "PartnerCentralChannel.ListChannelHandshakes"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<ListChannelHandshakesInput, ListChannelHandshakesOutput>(overrides: ["X-Amz-Target": "PartnerCentralChannel.ListChannelHandshakes"]))
         builder.serialize(ClientRuntime.BodyMiddleware<ListChannelHandshakesInput, ListChannelHandshakesOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: ListChannelHandshakesInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<ListChannelHandshakesInput, ListChannelHandshakesOutput>(contentType: "application/x-amz-json-1.0"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ListChannelHandshakesOutput>())
@@ -1334,7 +1334,7 @@ extension PartnerCentralChannelClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<ListProgramManagementAccountsOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<ListProgramManagementAccountsInput, ListProgramManagementAccountsOutput>(xAmzTarget: "PartnerCentralChannel.ListProgramManagementAccounts"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<ListProgramManagementAccountsInput, ListProgramManagementAccountsOutput>(overrides: ["X-Amz-Target": "PartnerCentralChannel.ListProgramManagementAccounts"]))
         builder.serialize(ClientRuntime.BodyMiddleware<ListProgramManagementAccountsInput, ListProgramManagementAccountsOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: ListProgramManagementAccountsInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<ListProgramManagementAccountsInput, ListProgramManagementAccountsOutput>(contentType: "application/x-amz-json-1.0"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ListProgramManagementAccountsOutput>())
@@ -1407,7 +1407,7 @@ extension PartnerCentralChannelClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<ListRelationshipsOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<ListRelationshipsInput, ListRelationshipsOutput>(xAmzTarget: "PartnerCentralChannel.ListRelationships"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<ListRelationshipsInput, ListRelationshipsOutput>(overrides: ["X-Amz-Target": "PartnerCentralChannel.ListRelationships"]))
         builder.serialize(ClientRuntime.BodyMiddleware<ListRelationshipsInput, ListRelationshipsOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: ListRelationshipsInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<ListRelationshipsInput, ListRelationshipsOutput>(contentType: "application/x-amz-json-1.0"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ListRelationshipsOutput>())
@@ -1480,7 +1480,7 @@ extension PartnerCentralChannelClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<ListTagsForResourceOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<ListTagsForResourceInput, ListTagsForResourceOutput>(xAmzTarget: "PartnerCentralChannel.ListTagsForResource"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<ListTagsForResourceInput, ListTagsForResourceOutput>(overrides: ["X-Amz-Target": "PartnerCentralChannel.ListTagsForResource"]))
         builder.serialize(ClientRuntime.BodyMiddleware<ListTagsForResourceInput, ListTagsForResourceOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: ListTagsForResourceInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<ListTagsForResourceInput, ListTagsForResourceOutput>(contentType: "application/x-amz-json-1.0"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ListTagsForResourceOutput>())
@@ -1553,7 +1553,7 @@ extension PartnerCentralChannelClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<RejectChannelHandshakeOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<RejectChannelHandshakeInput, RejectChannelHandshakeOutput>(xAmzTarget: "PartnerCentralChannel.RejectChannelHandshake"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<RejectChannelHandshakeInput, RejectChannelHandshakeOutput>(overrides: ["X-Amz-Target": "PartnerCentralChannel.RejectChannelHandshake"]))
         builder.serialize(ClientRuntime.BodyMiddleware<RejectChannelHandshakeInput, RejectChannelHandshakeOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: RejectChannelHandshakeInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<RejectChannelHandshakeInput, RejectChannelHandshakeOutput>(contentType: "application/x-amz-json-1.0"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<RejectChannelHandshakeOutput>())
@@ -1627,7 +1627,7 @@ extension PartnerCentralChannelClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<TagResourceOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<TagResourceInput, TagResourceOutput>(xAmzTarget: "PartnerCentralChannel.TagResource"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<TagResourceInput, TagResourceOutput>(overrides: ["X-Amz-Target": "PartnerCentralChannel.TagResource"]))
         builder.serialize(ClientRuntime.BodyMiddleware<TagResourceInput, TagResourceOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: TagResourceInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<TagResourceInput, TagResourceOutput>(contentType: "application/x-amz-json-1.0"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<TagResourceOutput>())
@@ -1701,7 +1701,7 @@ extension PartnerCentralChannelClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<UntagResourceOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<UntagResourceInput, UntagResourceOutput>(xAmzTarget: "PartnerCentralChannel.UntagResource"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<UntagResourceInput, UntagResourceOutput>(overrides: ["X-Amz-Target": "PartnerCentralChannel.UntagResource"]))
         builder.serialize(ClientRuntime.BodyMiddleware<UntagResourceInput, UntagResourceOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: UntagResourceInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<UntagResourceInput, UntagResourceOutput>(contentType: "application/x-amz-json-1.0"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<UntagResourceOutput>())
@@ -1775,7 +1775,7 @@ extension PartnerCentralChannelClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<UpdateProgramManagementAccountOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<UpdateProgramManagementAccountInput, UpdateProgramManagementAccountOutput>(xAmzTarget: "PartnerCentralChannel.UpdateProgramManagementAccount"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<UpdateProgramManagementAccountInput, UpdateProgramManagementAccountOutput>(overrides: ["X-Amz-Target": "PartnerCentralChannel.UpdateProgramManagementAccount"]))
         builder.serialize(ClientRuntime.BodyMiddleware<UpdateProgramManagementAccountInput, UpdateProgramManagementAccountOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: UpdateProgramManagementAccountInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<UpdateProgramManagementAccountInput, UpdateProgramManagementAccountOutput>(contentType: "application/x-amz-json-1.0"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<UpdateProgramManagementAccountOutput>())
@@ -1849,7 +1849,7 @@ extension PartnerCentralChannelClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<UpdateRelationshipOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<UpdateRelationshipInput, UpdateRelationshipOutput>(xAmzTarget: "PartnerCentralChannel.UpdateRelationship"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<UpdateRelationshipInput, UpdateRelationshipOutput>(overrides: ["X-Amz-Target": "PartnerCentralChannel.UpdateRelationship"]))
         builder.serialize(ClientRuntime.BodyMiddleware<UpdateRelationshipInput, UpdateRelationshipOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: UpdateRelationshipInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<UpdateRelationshipInput, UpdateRelationshipOutput>(contentType: "application/x-amz-json-1.0"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<UpdateRelationshipOutput>())

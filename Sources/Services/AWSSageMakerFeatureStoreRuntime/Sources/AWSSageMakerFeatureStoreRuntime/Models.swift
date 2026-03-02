@@ -21,8 +21,8 @@ import protocol ClientRuntime.HTTPError
 import protocol ClientRuntime.ModeledError
 @_spi(SmithyReadWrite) import protocol SmithyReadWrite.SmithyReader
 @_spi(SmithyReadWrite) import protocol SmithyReadWrite.SmithyWriter
-@_spi(SmithyReadWrite) import struct AWSClientRuntime.RestJSONError
 @_spi(UnknownAWSHTTPServiceError) import struct AWSClientRuntime.UnknownAWSHTTPServiceError
+@_spi(SmithyReadWrite) import struct ClientRuntime.RestJSONError
 import struct Smithy.URIQueryItem
 @_spi(SmithyReadWrite) import struct SmithyReadWrite.WritingClosureBox
 
@@ -703,7 +703,7 @@ enum BatchGetRecordOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AccessForbidden": return try AccessForbidden.makeError(baseError: baseError)
@@ -720,7 +720,7 @@ enum DeleteRecordOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AccessForbidden": return try AccessForbidden.makeError(baseError: baseError)
@@ -737,7 +737,7 @@ enum GetRecordOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AccessForbidden": return try AccessForbidden.makeError(baseError: baseError)
@@ -755,7 +755,7 @@ enum PutRecordOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AccessForbidden": return try AccessForbidden.makeError(baseError: baseError)
@@ -769,7 +769,7 @@ enum PutRecordOutputError {
 
 extension AccessForbidden {
 
-    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> AccessForbidden {
+    static func makeError(baseError: ClientRuntime.RestJSONError) throws -> AccessForbidden {
         let reader = baseError.errorBodyReader
         var value = AccessForbidden()
         value.properties.message = try reader["Message"].readIfPresent()
@@ -782,7 +782,7 @@ extension AccessForbidden {
 
 extension InternalFailure {
 
-    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> InternalFailure {
+    static func makeError(baseError: ClientRuntime.RestJSONError) throws -> InternalFailure {
         let reader = baseError.errorBodyReader
         var value = InternalFailure()
         value.properties.message = try reader["Message"].readIfPresent()
@@ -795,7 +795,7 @@ extension InternalFailure {
 
 extension ServiceUnavailable {
 
-    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> ServiceUnavailable {
+    static func makeError(baseError: ClientRuntime.RestJSONError) throws -> ServiceUnavailable {
         let reader = baseError.errorBodyReader
         var value = ServiceUnavailable()
         value.properties.message = try reader["Message"].readIfPresent()
@@ -808,7 +808,7 @@ extension ServiceUnavailable {
 
 extension ValidationError {
 
-    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> ValidationError {
+    static func makeError(baseError: ClientRuntime.RestJSONError) throws -> ValidationError {
         let reader = baseError.errorBodyReader
         var value = ValidationError()
         value.properties.message = try reader["Message"].readIfPresent()
@@ -821,7 +821,7 @@ extension ValidationError {
 
 extension ResourceNotFound {
 
-    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> ResourceNotFound {
+    static func makeError(baseError: ClientRuntime.RestJSONError) throws -> ResourceNotFound {
         let reader = baseError.errorBodyReader
         var value = ResourceNotFound()
         value.properties.message = try reader["Message"].readIfPresent()

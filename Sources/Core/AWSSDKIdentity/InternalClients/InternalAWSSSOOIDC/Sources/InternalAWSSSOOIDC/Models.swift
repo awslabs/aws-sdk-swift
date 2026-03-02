@@ -18,8 +18,8 @@ import protocol ClientRuntime.HTTPError
 import protocol ClientRuntime.ModeledError
 @_spi(SmithyReadWrite) import protocol SmithyReadWrite.SmithyReader
 @_spi(SmithyReadWrite) import protocol SmithyReadWrite.SmithyWriter
-@_spi(SmithyReadWrite) import struct AWSClientRuntime.RestJSONError
 @_spi(UnknownAWSHTTPServiceError) import struct AWSClientRuntime.UnknownAWSHTTPServiceError
+@_spi(SmithyReadWrite) import struct ClientRuntime.RestJSONError
 
 extension SSOOIDCClientTypes {
 
@@ -525,7 +525,7 @@ enum CreateTokenOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
@@ -546,7 +546,7 @@ enum CreateTokenOutputError {
 
 extension AccessDeniedException {
 
-    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> AccessDeniedException {
+    static func makeError(baseError: ClientRuntime.RestJSONError) throws -> AccessDeniedException {
         let reader = baseError.errorBodyReader
         var value = AccessDeniedException()
         value.properties.error = try reader["error"].readIfPresent()
@@ -561,7 +561,7 @@ extension AccessDeniedException {
 
 extension AuthorizationPendingException {
 
-    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> AuthorizationPendingException {
+    static func makeError(baseError: ClientRuntime.RestJSONError) throws -> AuthorizationPendingException {
         let reader = baseError.errorBodyReader
         var value = AuthorizationPendingException()
         value.properties.error = try reader["error"].readIfPresent()
@@ -575,7 +575,7 @@ extension AuthorizationPendingException {
 
 extension ExpiredTokenException {
 
-    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> ExpiredTokenException {
+    static func makeError(baseError: ClientRuntime.RestJSONError) throws -> ExpiredTokenException {
         let reader = baseError.errorBodyReader
         var value = ExpiredTokenException()
         value.properties.error = try reader["error"].readIfPresent()
@@ -589,7 +589,7 @@ extension ExpiredTokenException {
 
 extension InternalServerException {
 
-    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> InternalServerException {
+    static func makeError(baseError: ClientRuntime.RestJSONError) throws -> InternalServerException {
         let reader = baseError.errorBodyReader
         var value = InternalServerException()
         value.properties.error = try reader["error"].readIfPresent()
@@ -603,7 +603,7 @@ extension InternalServerException {
 
 extension InvalidClientException {
 
-    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> InvalidClientException {
+    static func makeError(baseError: ClientRuntime.RestJSONError) throws -> InvalidClientException {
         let reader = baseError.errorBodyReader
         var value = InvalidClientException()
         value.properties.error = try reader["error"].readIfPresent()
@@ -617,7 +617,7 @@ extension InvalidClientException {
 
 extension InvalidGrantException {
 
-    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> InvalidGrantException {
+    static func makeError(baseError: ClientRuntime.RestJSONError) throws -> InvalidGrantException {
         let reader = baseError.errorBodyReader
         var value = InvalidGrantException()
         value.properties.error = try reader["error"].readIfPresent()
@@ -631,7 +631,7 @@ extension InvalidGrantException {
 
 extension InvalidRequestException {
 
-    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> InvalidRequestException {
+    static func makeError(baseError: ClientRuntime.RestJSONError) throws -> InvalidRequestException {
         let reader = baseError.errorBodyReader
         var value = InvalidRequestException()
         value.properties.error = try reader["error"].readIfPresent()
@@ -646,7 +646,7 @@ extension InvalidRequestException {
 
 extension InvalidScopeException {
 
-    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> InvalidScopeException {
+    static func makeError(baseError: ClientRuntime.RestJSONError) throws -> InvalidScopeException {
         let reader = baseError.errorBodyReader
         var value = InvalidScopeException()
         value.properties.error = try reader["error"].readIfPresent()
@@ -660,7 +660,7 @@ extension InvalidScopeException {
 
 extension SlowDownException {
 
-    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> SlowDownException {
+    static func makeError(baseError: ClientRuntime.RestJSONError) throws -> SlowDownException {
         let reader = baseError.errorBodyReader
         var value = SlowDownException()
         value.properties.error = try reader["error"].readIfPresent()
@@ -674,7 +674,7 @@ extension SlowDownException {
 
 extension UnauthorizedClientException {
 
-    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> UnauthorizedClientException {
+    static func makeError(baseError: ClientRuntime.RestJSONError) throws -> UnauthorizedClientException {
         let reader = baseError.errorBodyReader
         var value = UnauthorizedClientException()
         value.properties.error = try reader["error"].readIfPresent()
@@ -688,7 +688,7 @@ extension UnauthorizedClientException {
 
 extension UnsupportedGrantTypeException {
 
-    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> UnsupportedGrantTypeException {
+    static func makeError(baseError: ClientRuntime.RestJSONError) throws -> UnsupportedGrantTypeException {
         let reader = baseError.errorBodyReader
         var value = UnsupportedGrantTypeException()
         value.properties.error = try reader["error"].readIfPresent()

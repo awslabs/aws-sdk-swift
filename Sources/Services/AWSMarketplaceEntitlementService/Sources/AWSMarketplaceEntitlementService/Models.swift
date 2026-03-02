@@ -22,8 +22,8 @@ import protocol ClientRuntime.HTTPError
 import protocol ClientRuntime.ModeledError
 @_spi(SmithyReadWrite) import protocol SmithyReadWrite.SmithyReader
 @_spi(SmithyReadWrite) import protocol SmithyReadWrite.SmithyWriter
-@_spi(SmithyReadWrite) import struct AWSClientRuntime.AWSJSONError
 @_spi(UnknownAWSHTTPServiceError) import struct AWSClientRuntime.UnknownAWSHTTPServiceError
+@_spi(SmithyReadWrite) import struct ClientRuntime.AWSJSONError
 
 /// An internal error has occurred. Retry your request. If the problem persists, post a message with details on the AWS forums.
 public struct InternalServiceErrorException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
@@ -100,13 +100,15 @@ extension MarketplaceEntitlementClientTypes {
         case customerAwsAccountId
         case customerIdentifier
         case dimension
+        case licenseArn
         case sdkUnknown(Swift.String)
 
         public static var allCases: [GetEntitlementFilterName] {
             return [
                 .customerAwsAccountId,
                 .customerIdentifier,
-                .dimension
+                .dimension,
+                .licenseArn
             ]
         }
 
@@ -120,6 +122,7 @@ extension MarketplaceEntitlementClientTypes {
             case .customerAwsAccountId: return "CUSTOMER_AWS_ACCOUNT_ID"
             case .customerIdentifier: return "CUSTOMER_IDENTIFIER"
             case .dimension: return "DIMENSION"
+            case .licenseArn: return "LICENSE_ARN"
             case let .sdkUnknown(s): return s
             }
         }
@@ -128,7 +131,7 @@ extension MarketplaceEntitlementClientTypes {
 
 /// The GetEntitlementsRequest contains parameters for the GetEntitlements operation.
 public struct GetEntitlementsInput: Swift.Sendable {
-    /// Filter is used to return entitlements for a specific customer or for a specific dimension. Filters are described as keys mapped to a lists of values. Filtered requests are unioned for each value in the value list, and then intersected for each filter key. CustomerIdentifier and CustomerAWSAccountID are mutually exclusive. You can't specify both in the same request.
+    /// Filter is used to return entitlements for a specific customer or for a specific dimension. Filters are described as keys mapped to a lists of values. Filtered requests are unioned for each value in the value list, and then intersected for each filter key. CustomerIdentifier and CustomerAWSAccountId are mutually exclusive parameters. You must use one or the other, but not both in the same request. If you're migrating an existing integration, use [Account Feeds](https://docs.aws.amazon.com/marketplace/latest/userguide/data-feed-account.html) to map CustomerIdentifier to CustomerAWSAccountId, and [Agreements Feeds](https://docs.aws.amazon.com/marketplace/latest/userguide/data-feed-agreements.html) to map CustomerAWSAccountId and LicenseArn.
     public var filter: [Swift.String: [Swift.String]]?
     /// The maximum number of items to retrieve from the GetEntitlements operation. For pagination, use the NextToken field in subsequent calls to GetEntitlements.
     public var maxResults: Swift.Int?
@@ -182,7 +185,7 @@ extension MarketplaceEntitlementClientTypes {
 
     /// An entitlement represents capacity in a product owned by the customer. For example, a customer might own some number of users or seats in an SaaS application or some amount of data capacity in a multi-tenant database.
     public struct Entitlement: Swift.Sendable {
-        /// The CustomerAWSAccountID parameter specifies the AWS account ID of the buyer.
+        /// The CustomerAWSAccountId parameter specifies the AWS account ID of the buyer.
         public var customerAWSAccountId: Swift.String?
         /// The customer identifier is a handle to each unique customer in an application. Customer identifiers are obtained through the ResolveCustomer operation in AWS Marketplace Metering Service.
         public var customerIdentifier: Swift.String?
@@ -190,6 +193,8 @@ extension MarketplaceEntitlementClientTypes {
         public var dimension: Swift.String?
         /// The expiration date represents the minimum date through which this entitlement is expected to remain valid. For contractual products listed on AWS Marketplace, the expiration date is the date at which the customer will renew or cancel their contract. Customers who are opting to renew their contract will still have entitlements with an expiration date.
         public var expirationDate: Foundation.Date?
+        /// The LicenseArn is a unique identifier for a specific granted license. These are used for software purchased through AWS Marketplace.
+        public var licenseArn: Swift.String?
         /// The product code for which the given entitlement applies. Product codes are provided by AWS Marketplace when the product listing is created.
         public var productCode: Swift.String?
         /// The EntitlementValue represents the amount of capacity that the customer is entitled to for the product.
@@ -200,6 +205,7 @@ extension MarketplaceEntitlementClientTypes {
             customerIdentifier: Swift.String? = nil,
             dimension: Swift.String? = nil,
             expirationDate: Foundation.Date? = nil,
+            licenseArn: Swift.String? = nil,
             productCode: Swift.String? = nil,
             value: MarketplaceEntitlementClientTypes.EntitlementValue? = nil
         ) {
@@ -207,6 +213,7 @@ extension MarketplaceEntitlementClientTypes {
             self.customerIdentifier = customerIdentifier
             self.dimension = dimension
             self.expirationDate = expirationDate
+            self.licenseArn = licenseArn
             self.productCode = productCode
             self.value = value
         }
@@ -265,7 +272,7 @@ enum GetEntitlementsOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "InternalServiceErrorException": return try InternalServiceErrorException.makeError(baseError: baseError)
@@ -278,7 +285,7 @@ enum GetEntitlementsOutputError {
 
 extension InternalServiceErrorException {
 
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> InternalServiceErrorException {
+    static func makeError(baseError: ClientRuntime.AWSJSONError) throws -> InternalServiceErrorException {
         let reader = baseError.errorBodyReader
         var value = InternalServiceErrorException()
         value.properties.message = try reader["message"].readIfPresent()
@@ -291,7 +298,7 @@ extension InternalServiceErrorException {
 
 extension InvalidParameterException {
 
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> InvalidParameterException {
+    static func makeError(baseError: ClientRuntime.AWSJSONError) throws -> InvalidParameterException {
         let reader = baseError.errorBodyReader
         var value = InvalidParameterException()
         value.properties.message = try reader["message"].readIfPresent()
@@ -304,7 +311,7 @@ extension InvalidParameterException {
 
 extension ThrottlingException {
 
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> ThrottlingException {
+    static func makeError(baseError: ClientRuntime.AWSJSONError) throws -> ThrottlingException {
         let reader = baseError.errorBodyReader
         var value = ThrottlingException()
         value.properties.message = try reader["message"].readIfPresent()
@@ -326,6 +333,7 @@ extension MarketplaceEntitlementClientTypes.Entitlement {
         value.customerAWSAccountId = try reader["CustomerAWSAccountId"].readIfPresent()
         value.value = try reader["Value"].readIfPresent(with: MarketplaceEntitlementClientTypes.EntitlementValue.read(from:))
         value.expirationDate = try reader["ExpirationDate"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.licenseArn = try reader["LicenseArn"].readIfPresent()
         return value
     }
 }

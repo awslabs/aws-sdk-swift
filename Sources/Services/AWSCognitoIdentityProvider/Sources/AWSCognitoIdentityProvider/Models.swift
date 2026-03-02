@@ -23,8 +23,8 @@ import protocol ClientRuntime.HTTPError
 import protocol ClientRuntime.ModeledError
 @_spi(SmithyReadWrite) import protocol SmithyReadWrite.SmithyReader
 @_spi(SmithyReadWrite) import protocol SmithyReadWrite.SmithyWriter
-@_spi(SmithyReadWrite) import struct AWSClientRuntime.AWSJSONError
 @_spi(UnknownAWSHTTPServiceError) import struct AWSClientRuntime.UnknownAWSHTTPServiceError
+@_spi(SmithyReadWrite) import struct ClientRuntime.AWSJSONError
 import struct Smithy.Document
 @_spi(SmithyReadWrite) import struct SmithyReadWrite.ReadingClosureBox
 @_spi(SmithyReadWrite) import struct SmithyReadWrite.WritingClosureBox
@@ -94,6 +94,29 @@ public struct DeleteUserPoolOutput: Swift.Sendable {
 public struct ForgetDeviceOutput: Swift.Sendable {
 
     public init() { }
+}
+
+/// This exception is thrown when you don't have sufficient permissions to perform the requested operation.
+public struct AccessDeniedException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
+
+    public struct Properties: Swift.Sendable {
+        public internal(set) var message: Swift.String? = nil
+    }
+
+    public internal(set) var properties = Properties()
+    public static var typeName: Swift.String { "AccessDeniedException" }
+    public static var fault: ClientRuntime.ErrorFault { .client }
+    public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
+    public internal(set) var httpResponse = SmithyHTTPAPI.HTTPResponse()
+    public internal(set) var message: Swift.String?
+    public internal(set) var requestID: Swift.String?
+
+    public init(
+        message: Swift.String? = nil
+    ) {
+        self.properties.message = message
+    }
 }
 
 extension CognitoIdentityProviderClientTypes {
@@ -287,7 +310,7 @@ extension CognitoIdentityProviderClientTypes {
         public var mfaEmail: CognitoIdentityProviderClientTypes.NotifyEmailType?
         /// The template for the email message that your user pool sends when no action is taken in response to a detected risk.
         public var noActionEmail: CognitoIdentityProviderClientTypes.NotifyEmailType?
-        /// The reply-to email address of an email template.
+        /// The reply-to email address of an email template. Can be an email address in the format admin@example.com or Administrator .
         public var replyTo: Swift.String?
         /// The Amazon Resource Name (ARN) of the identity that is associated with the sending authorization policy. This identity permits Amazon Cognito to send for the email address specified in the From parameter.
         /// This member is required.
@@ -615,6 +638,120 @@ public struct AddCustomAttributesOutput: Swift.Sendable {
     public init() { }
 }
 
+/// This exception is thrown when Amazon Cognito encounters an internal server error.
+public struct InternalServerException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
+
+    public struct Properties: Swift.Sendable {
+        public internal(set) var message: Swift.String? = nil
+    }
+
+    public internal(set) var properties = Properties()
+    public static var typeName: Swift.String { "InternalServerException" }
+    public static var fault: ClientRuntime.ErrorFault { .server }
+    public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
+    public internal(set) var httpResponse = SmithyHTTPAPI.HTTPResponse()
+    public internal(set) var message: Swift.String?
+    public internal(set) var requestID: Swift.String?
+
+    public init(
+        message: Swift.String? = nil
+    ) {
+        self.properties.message = message
+    }
+}
+
+/// This exception is thrown when a user exceeds the limit for a requested Amazon Web Services resource.
+public struct LimitExceededException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
+
+    public struct Properties: Swift.Sendable {
+        /// The message returned when Amazon Cognito throws a limit exceeded exception.
+        public internal(set) var message: Swift.String? = nil
+    }
+
+    public internal(set) var properties = Properties()
+    public static var typeName: Swift.String { "LimitExceededException" }
+    public static var fault: ClientRuntime.ErrorFault { .client }
+    public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
+    public internal(set) var httpResponse = SmithyHTTPAPI.HTTPResponse()
+    public internal(set) var message: Swift.String?
+    public internal(set) var requestID: Swift.String?
+
+    public init(
+        message: Swift.String? = nil
+    ) {
+        self.properties.message = message
+    }
+}
+
+/// The request to create a new client secret for a user pool app client.
+public struct AddUserPoolClientSecretInput: Swift.Sendable {
+    /// The ID of the app client for which you want to create a new secret.
+    /// This member is required.
+    public var clientId: Swift.String?
+    /// The client secret value you want to use. If you don't provide this parameter, Amazon Cognito generates a secure secret for you.
+    public var clientSecret: Swift.String?
+    /// The ID of the user pool that contains the app client.
+    /// This member is required.
+    public var userPoolId: Swift.String?
+
+    public init(
+        clientId: Swift.String? = nil,
+        clientSecret: Swift.String? = nil,
+        userPoolId: Swift.String? = nil
+    ) {
+        self.clientId = clientId
+        self.clientSecret = clientSecret
+        self.userPoolId = userPoolId
+    }
+}
+
+extension AddUserPoolClientSecretInput: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "AddUserPoolClientSecretInput(userPoolId: \(Swift.String(describing: userPoolId)), clientId: \"CONTENT_REDACTED\", clientSecret: \"CONTENT_REDACTED\")"}
+}
+
+extension CognitoIdentityProviderClientTypes {
+
+    /// Contains information about a client secret, including its unique identifier, value, and creation timestamp.
+    public struct ClientSecretDescriptorType: Swift.Sendable {
+        /// The date and time when the client secret was created.
+        public var clientSecretCreateDate: Foundation.Date?
+        /// The unique identifier for the client secret. This identifier follows the format --.
+        public var clientSecretId: Swift.String?
+        /// The actual secret value. This is only returned when creating a new secret and only if Amazon Cognito generated the secret. For custom secrets that you provide, this field is not included in the response.
+        public var clientSecretValue: Swift.String?
+
+        public init(
+            clientSecretCreateDate: Foundation.Date? = nil,
+            clientSecretId: Swift.String? = nil,
+            clientSecretValue: Swift.String? = nil
+        ) {
+            self.clientSecretCreateDate = clientSecretCreateDate
+            self.clientSecretId = clientSecretId
+            self.clientSecretValue = clientSecretValue
+        }
+    }
+}
+
+extension CognitoIdentityProviderClientTypes.ClientSecretDescriptorType: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "ClientSecretDescriptorType(clientSecretCreateDate: \(Swift.String(describing: clientSecretCreateDate)), clientSecretId: \(Swift.String(describing: clientSecretId)), clientSecretValue: \"CONTENT_REDACTED\")"}
+}
+
+/// The response from creating a new client secret.
+public struct AddUserPoolClientSecretOutput: Swift.Sendable {
+    /// The details of the newly created client secret, including its unique identifier and creation timestamp. The ClientSecretValue is only returned when Amazon Cognito generates the secret. For custom secrets that you provide, the ClientSecretValue is not included in the response.
+    public var clientSecretDescriptor: CognitoIdentityProviderClientTypes.ClientSecretDescriptorType?
+
+    public init(
+        clientSecretDescriptor: CognitoIdentityProviderClientTypes.ClientSecretDescriptorType? = nil
+    ) {
+        self.clientSecretDescriptor = clientSecretDescriptor
+    }
+}
+
 /// This exception is thrown when a user isn't found.
 public struct UserNotFoundException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
@@ -676,30 +813,6 @@ public struct InvalidLambdaResponseException: ClientRuntime.ModeledError, AWSCli
 
     public internal(set) var properties = Properties()
     public static var typeName: Swift.String { "InvalidLambdaResponseException" }
-    public static var fault: ClientRuntime.ErrorFault { .client }
-    public static var isRetryable: Swift.Bool { false }
-    public static var isThrottling: Swift.Bool { false }
-    public internal(set) var httpResponse = SmithyHTTPAPI.HTTPResponse()
-    public internal(set) var message: Swift.String?
-    public internal(set) var requestID: Swift.String?
-
-    public init(
-        message: Swift.String? = nil
-    ) {
-        self.properties.message = message
-    }
-}
-
-/// This exception is thrown when a user exceeds the limit for a requested Amazon Web Services resource.
-public struct LimitExceededException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
-
-    public struct Properties: Swift.Sendable {
-        /// The message returned when Amazon Cognito throws a limit exceeded exception.
-        public internal(set) var message: Swift.String? = nil
-    }
-
-    public internal(set) var properties = Properties()
-    public static var typeName: Swift.String { "LimitExceededException" }
     public static var fault: ClientRuntime.ErrorFault { .client }
     public static var isRetryable: Swift.Bool { false }
     public static var isThrottling: Swift.Bool { false }
@@ -788,7 +901,7 @@ public struct UserLambdaValidationException: ClientRuntime.ModeledError, AWSClie
 
 /// Confirm a user's registration as a user pool administrator.
 public struct AdminConfirmSignUpInput: Swift.Sendable {
-    /// A map of custom key-value pairs that you can provide as input for any custom workflows that this action triggers. If your user pool configuration includes triggers, the AdminConfirmSignUp API action invokes the Lambda function that is specified for the post confirmation trigger. When Amazon Cognito invokes this function, it passes a JSON payload, which the function receives as input. In this payload, the clientMetadata attribute provides the data that you assigned to the ClientMetadata parameter in your AdminConfirmSignUp request. In your function code in Lambda, you can process the ClientMetadata value to enhance your workflow for your specific needs. For more information, see [ Using Lambda triggers](https://docs.aws.amazon.com/cognito/latest/developerguide/cognito-user-identity-pools-working-with-aws-lambda-triggers.html) in the Amazon Cognito Developer Guide. When you use the ClientMetadata parameter, note that Amazon Cognito won't do the following:
+    /// A map of custom key-value pairs that you can provide as input for any custom workflows that this action triggers. You create custom workflows by assigning Lambda functions to user pool triggers. When Amazon Cognito invokes any of these functions, it passes a JSON payload, which the function receives as input. This payload contains a clientMetadata attribute that provides the data that you assigned to the ClientMetadata parameter in your request. In your function code, you can process the clientMetadata value to enhance your workflow for your specific needs. To review the Lambda trigger types that Amazon Cognito invokes at runtime with API requests, see [ Connecting API actions to Lambda triggers](https://docs.aws.amazon.com/cognito/latest/developerguide/cognito-user-pools-working-with-lambda-triggers.html#lambda-triggers-by-event) in the Amazon Cognito Developer Guide. When you use the ClientMetadata parameter, note that Amazon Cognito won't do the following:
     ///
     /// * Store the ClientMetadata value. This data is available only to Lambda triggers that are assigned to a user pool to support custom workflows. If your user pool configuration doesn't include triggers, the ClientMetadata parameter serves no purpose.
     ///
@@ -1055,7 +1168,7 @@ extension CognitoIdentityProviderClientTypes {
 
     /// The name and value of a user attribute.
     public struct AttributeType: Swift.Sendable {
-        /// The name of the attribute.
+        /// The name of the attribute, for example email or custom:department. In some older user pools, the regex pattern for acceptable values of this parameter is [\p{L}\p{M}\p{S}\p{N}\p{P}]+. Older pools will eventually be updated to use the new pattern. Affected user pools are those created before May 2024 in US East (N. Virginia), US East (Ohio), US West (N. California), US West (Oregon), Asia Pacific (Mumbai), Asia Pacific (Tokyo), Asia Pacific (Seoul), Asia Pacific (Singapore), Asia Pacific (Sydney), Canada (Central), Europe (Frankfurt), Europe (Ireland), Europe (London), Europe (Paris), Europe (Stockholm), Middle East (Bahrain), and South America (São Paulo).
         /// This member is required.
         public var name: Swift.String?
         /// The value of the attribute.
@@ -1078,7 +1191,7 @@ extension CognitoIdentityProviderClientTypes.AttributeType: Swift.CustomDebugStr
 
 /// Creates a new user in the specified user pool.
 public struct AdminCreateUserInput: Swift.Sendable {
-    /// A map of custom key-value pairs that you can provide as input for any custom workflows that this action triggers. You create custom workflows by assigning Lambda functions to user pool triggers. When you use the AdminCreateUser API action, Amazon Cognito invokes the function that is assigned to the pre sign-up trigger. When Amazon Cognito invokes this function, it passes a JSON payload, which the function receives as input. This payload contains a ClientMetadata attribute, which provides the data that you assigned to the ClientMetadata parameter in your AdminCreateUser request. In your function code in Lambda, you can process the clientMetadata value to enhance your workflow for your specific needs. For more information, see [ Using Lambda triggers](https://docs.aws.amazon.com/cognito/latest/developerguide/cognito-user-identity-pools-working-with-aws-lambda-triggers.html) in the Amazon Cognito Developer Guide. When you use the ClientMetadata parameter, note that Amazon Cognito won't do the following:
+    /// A map of custom key-value pairs that you can provide as input for any custom workflows that this action triggers. You create custom workflows by assigning Lambda functions to user pool triggers. When Amazon Cognito invokes any of these functions, it passes a JSON payload, which the function receives as input. This payload contains a clientMetadata attribute that provides the data that you assigned to the ClientMetadata parameter in your request. In your function code, you can process the clientMetadata value to enhance your workflow for your specific needs. To review the Lambda trigger types that Amazon Cognito invokes at runtime with API requests, see [ Connecting API actions to Lambda triggers](https://docs.aws.amazon.com/cognito/latest/developerguide/cognito-user-pools-working-with-lambda-triggers.html#lambda-triggers-by-event) in the Amazon Cognito Developer Guide. When you use the ClientMetadata parameter, note that Amazon Cognito won't do the following:
     ///
     /// * Store the ClientMetadata value. This data is available only to Lambda triggers that are assigned to a user pool to support custom workflows. If your user pool configuration doesn't include triggers, the ClientMetadata parameter serves no purpose.
     ///
@@ -1995,7 +2108,7 @@ public struct AdminInitiateAuthInput: Swift.Sendable {
     /// The ID of the app client where the user wants to sign in.
     /// This member is required.
     public var clientId: Swift.String?
-    /// A map of custom key-value pairs that you can provide as input for certain custom workflows that this action triggers. You create custom workflows by assigning Lambda functions to user pool triggers. When you use the AdminInitiateAuth API action, Amazon Cognito invokes the Lambda functions that are specified for various triggers. The ClientMetadata value is passed as input to the functions for only the following triggers:
+    /// A map of custom key-value pairs that you can provide as input for any custom workflows that this action triggers. You create custom workflows by assigning Lambda functions to user pool triggers. When Amazon Cognito invokes any of these functions, it passes a JSON payload, which the function receives as input. This payload contains a clientMetadata attribute that provides the data that you assigned to the ClientMetadata parameter in your request. In your function code, you can process the clientMetadata value to enhance your workflow for your specific needs. To review the Lambda trigger types that Amazon Cognito invokes at runtime with API requests, see [ Connecting API actions to Lambda triggers](https://docs.aws.amazon.com/cognito/latest/developerguide/cognito-user-pools-working-with-lambda-triggers.html#lambda-triggers-by-event) in the Amazon Cognito Developer Guide. The ClientMetadata value is passed as input to the functions for only the following triggers:
     ///
     /// * Pre signup
     ///
@@ -2004,7 +2117,7 @@ public struct AdminInitiateAuthInput: Swift.Sendable {
     /// * User migration
     ///
     ///
-    /// When Amazon Cognito invokes the functions for these triggers, it passes a JSON payload, which the function receives as input. This payload contains a validationData attribute, which provides the data that you assigned to the ClientMetadata parameter in your AdminInitiateAuth request. In your function code in Lambda, you can process the validationData value to enhance your workflow for your specific needs. When you use the AdminInitiateAuth API action, Amazon Cognito also invokes the functions for the following triggers, but it doesn't provide the ClientMetadata value as input:
+    /// This request also invokes the functions for the following triggers, but doesn't pass ClientMetadata:
     ///
     /// * Post authentication
     ///
@@ -2021,7 +2134,7 @@ public struct AdminInitiateAuthInput: Swift.Sendable {
     /// * Custom SMS sender
     ///
     ///
-    /// For more information, see [ Using Lambda triggers](https://docs.aws.amazon.com/cognito/latest/developerguide/cognito-user-identity-pools-working-with-aws-lambda-triggers.html) in the Amazon Cognito Developer Guide. When you use the ClientMetadata parameter, note that Amazon Cognito won't do the following:
+    /// When you use the ClientMetadata parameter, note that Amazon Cognito won't do the following:
     ///
     /// * Store the ClientMetadata value. This data is available only to Lambda triggers that are assigned to a user pool to support custom workflows. If your user pool configuration doesn't include triggers, the ClientMetadata parameter serves no purpose.
     ///
@@ -2891,7 +3004,7 @@ extension AdminRemoveUserFromGroupInput: Swift.CustomDebugStringConvertible {
 
 /// Represents the request to reset a user's password as an administrator.
 public struct AdminResetUserPasswordInput: Swift.Sendable {
-    /// A map of custom key-value pairs that you can provide as input for any custom workflows that this action triggers. You create custom workflows by assigning Lambda functions to user pool triggers. The AdminResetUserPassword API operation invokes the function that is assigned to the custom message trigger. When Amazon Cognito invokes this function, it passes a JSON payload, which the function receives as input. This payload contains a clientMetadata attribute, which provides the data that you assigned to the ClientMetadata parameter in your AdminResetUserPassword request. In your function code in Lambda, you can process the clientMetadata value to enhance your workflow for your specific needs. For more information, see [ Using Lambda triggers](https://docs.aws.amazon.com/cognito/latest/developerguide/cognito-user-identity-pools-working-with-aws-lambda-triggers.html) in the Amazon Cognito Developer Guide. When you use the ClientMetadata parameter, note that Amazon Cognito won't do the following:
+    /// A map of custom key-value pairs that you can provide as input for any custom workflows that this action triggers. You create custom workflows by assigning Lambda functions to user pool triggers. When Amazon Cognito invokes any of these functions, it passes a JSON payload, which the function receives as input. This payload contains a clientMetadata attribute that provides the data that you assigned to the ClientMetadata parameter in your request. In your function code, you can process the clientMetadata value to enhance your workflow for your specific needs. To review the Lambda trigger types that Amazon Cognito invokes at runtime with API requests, see [ Connecting API actions to Lambda triggers](https://docs.aws.amazon.com/cognito/latest/developerguide/cognito-user-pools-working-with-lambda-triggers.html#lambda-triggers-by-event) in the Amazon Cognito Developer Guide. When you use the ClientMetadata parameter, note that Amazon Cognito won't do the following:
     ///
     /// * Store the ClientMetadata value. This data is available only to Lambda triggers that are assigned to a user pool to support custom workflows. If your user pool configuration doesn't include triggers, the ClientMetadata parameter serves no purpose.
     ///
@@ -3078,26 +3191,7 @@ public struct AdminRespondToAuthChallengeInput: Swift.Sendable {
     /// The ID of the app client where you initiated sign-in.
     /// This member is required.
     public var clientId: Swift.String?
-    /// A map of custom key-value pairs that you can provide as input for any custom workflows that this action triggers. You create custom workflows by assigning Lambda functions to user pool triggers. When you use the AdminRespondToAuthChallenge API action, Amazon Cognito invokes any functions that you have assigned to the following triggers:
-    ///
-    /// * Pre sign-up
-    ///
-    /// * custom message
-    ///
-    /// * Post authentication
-    ///
-    /// * User migration
-    ///
-    /// * Pre token generation
-    ///
-    /// * Define auth challenge
-    ///
-    /// * Create auth challenge
-    ///
-    /// * Verify auth challenge response
-    ///
-    ///
-    /// When Amazon Cognito invokes any of these functions, it passes a JSON payload, which the function receives as input. This payload contains a clientMetadata attribute that provides the data that you assigned to the ClientMetadata parameter in your AdminRespondToAuthChallenge request. In your function code in Lambda, you can process the clientMetadata value to enhance your workflow for your specific needs. For more information, see [ Using Lambda triggers](https://docs.aws.amazon.com/cognito/latest/developerguide/cognito-user-identity-pools-working-with-aws-lambda-triggers.html) in the Amazon Cognito Developer Guide. When you use the ClientMetadata parameter, note that Amazon Cognito won't do the following:
+    /// A map of custom key-value pairs that you can provide as input for any custom workflows that this action triggers. You create custom workflows by assigning Lambda functions to user pool triggers. When Amazon Cognito invokes any of these functions, it passes a JSON payload, which the function receives as input. This payload contains a clientMetadata attribute that provides the data that you assigned to the ClientMetadata parameter in your request. In your function code, you can process the clientMetadata value to enhance your workflow for your specific needs. To review the Lambda trigger types that Amazon Cognito invokes at runtime with API requests, see [ Connecting API actions to Lambda triggers](https://docs.aws.amazon.com/cognito/latest/developerguide/cognito-user-pools-working-with-lambda-triggers.html#lambda-triggers-by-event) in the Amazon Cognito Developer Guide. When you use the ClientMetadata parameter, note that Amazon Cognito won't do the following:
     ///
     /// * Store the ClientMetadata value. This data is available only to Lambda triggers that are assigned to a user pool to support custom workflows. If your user pool configuration doesn't include triggers, the ClientMetadata parameter serves no purpose.
     ///
@@ -3258,7 +3352,7 @@ public struct AdminSetUserMFAPreferenceInput: Swift.Sendable {
     public var emailMfaSettings: CognitoIdentityProviderClientTypes.EmailMfaSettingsType?
     /// User preferences for SMS message MFA. Activates or deactivates SMS MFA and sets it as the preferred MFA method when multiple methods are available.
     public var smsMfaSettings: CognitoIdentityProviderClientTypes.SMSMfaSettingsType?
-    /// User preferences for time-based one-time password (TOTP) MFA. Activates or deactivates TOTP MFA and sets it as the preferred MFA method when multiple methods are available. This operation can set TOTP as a user's preferred MFA method before they register a TOTP authenticator.
+    /// User preferences for time-based one-time password (TOTP) MFA. Activates or deactivates TOTP MFA and sets it as the preferred MFA method when multiple methods are available.
     public var softwareTokenMfaSettings: CognitoIdentityProviderClientTypes.SoftwareTokenMfaSettingsType?
     /// The ID of the user pool where you want to set a user's MFA preferences.
     /// This member is required.
@@ -3468,7 +3562,7 @@ public struct AdminUpdateDeviceStatusOutput: Swift.Sendable {
 
 /// Represents the request to update the user's attributes as an administrator.
 public struct AdminUpdateUserAttributesInput: Swift.Sendable {
-    /// A map of custom key-value pairs that you can provide as input for any custom workflows that this action triggers. You create custom workflows by assigning Lambda functions to user pool triggers. When you use the AdminUpdateUserAttributes API action, Amazon Cognito invokes the function that is assigned to the custom message trigger. When Amazon Cognito invokes this function, it passes a JSON payload, which the function receives as input. This payload contains a clientMetadata attribute, which provides the data that you assigned to the ClientMetadata parameter in your AdminUpdateUserAttributes request. In your function code in Lambda, you can process the clientMetadata value to enhance your workflow for your specific needs. For more information, see [ Using Lambda triggers](https://docs.aws.amazon.com/cognito/latest/developerguide/cognito-user-identity-pools-working-with-aws-lambda-triggers.html) in the Amazon Cognito Developer Guide. When you use the ClientMetadata parameter, note that Amazon Cognito won't do the following:
+    /// A map of custom key-value pairs that you can provide as input for any custom workflows that this action triggers. You create custom workflows by assigning Lambda functions to user pool triggers. When Amazon Cognito invokes any of these functions, it passes a JSON payload, which the function receives as input. This payload contains a clientMetadata attribute that provides the data that you assigned to the ClientMetadata parameter in your request. In your function code, you can process the clientMetadata value to enhance your workflow for your specific needs. To review the Lambda trigger types that Amazon Cognito invokes at runtime with API requests, see [ Connecting API actions to Lambda triggers](https://docs.aws.amazon.com/cognito/latest/developerguide/cognito-user-pools-working-with-lambda-triggers.html#lambda-triggers-by-event) in the Amazon Cognito Developer Guide. When you use the ClientMetadata parameter, note that Amazon Cognito won't do the following:
     ///
     /// * Store the ClientMetadata value. This data is available only to Lambda triggers that are assigned to a user pool to support custom workflows. If your user pool configuration doesn't include triggers, the ClientMetadata parameter serves no purpose.
     ///
@@ -4317,7 +4411,7 @@ public struct ConfirmForgotPasswordInput: Swift.Sendable {
     /// The ID of the app client where the user wants to reset their password. This parameter is an identifier of the client application that users are resetting their password from, but this operation resets users' irrespective of the app clients they sign in to.
     /// This member is required.
     public var clientId: Swift.String?
-    /// A map of custom key-value pairs that you can provide as input for any custom workflows that this action triggers. You create custom workflows by assigning Lambda functions to user pool triggers. When you use the ConfirmForgotPassword API action, Amazon Cognito invokes the function that is assigned to the post confirmation trigger. When Amazon Cognito invokes this function, it passes a JSON payload, which the function receives as input. This payload contains a clientMetadata attribute, which provides the data that you assigned to the ClientMetadata parameter in your ConfirmForgotPassword request. In your function code in Lambda, you can process the clientMetadata value to enhance your workflow for your specific needs. For more information, see [ Using Lambda triggers](https://docs.aws.amazon.com/cognito/latest/developerguide/cognito-user-identity-pools-working-with-aws-lambda-triggers.html) in the Amazon Cognito Developer Guide. When you use the ClientMetadata parameter, note that Amazon Cognito won't do the following:
+    /// A map of custom key-value pairs that you can provide as input for any custom workflows that this action triggers. You create custom workflows by assigning Lambda functions to user pool triggers. When Amazon Cognito invokes any of these functions, it passes a JSON payload, which the function receives as input. This payload contains a clientMetadata attribute that provides the data that you assigned to the ClientMetadata parameter in your request. In your function code, you can process the clientMetadata value to enhance your workflow for your specific needs. To review the Lambda trigger types that Amazon Cognito invokes at runtime with API requests, see [ Connecting API actions to Lambda triggers](https://docs.aws.amazon.com/cognito/latest/developerguide/cognito-user-pools-working-with-lambda-triggers.html#lambda-triggers-by-event) in the Amazon Cognito Developer Guide. When you use the ClientMetadata parameter, note that Amazon Cognito won't do the following:
     ///
     /// * Store the ClientMetadata value. This data is available only to Lambda triggers that are assigned to a user pool to support custom workflows. If your user pool configuration doesn't include triggers, the ClientMetadata parameter serves no purpose.
     ///
@@ -4378,7 +4472,7 @@ public struct ConfirmSignUpInput: Swift.Sendable {
     /// The ID of the app client associated with the user pool.
     /// This member is required.
     public var clientId: Swift.String?
-    /// A map of custom key-value pairs that you can provide as input for any custom workflows that this action triggers. You create custom workflows by assigning Lambda functions to user pool triggers. When you use the ConfirmSignUp API action, Amazon Cognito invokes the function that is assigned to the post confirmation trigger. When Amazon Cognito invokes this function, it passes a JSON payload, which the function receives as input. This payload contains a clientMetadata attribute, which provides the data that you assigned to the ClientMetadata parameter in your ConfirmSignUp request. In your function code in Lambda, you can process the clientMetadata value to enhance your workflow for your specific needs. For more information, see [ Using Lambda triggers](https://docs.aws.amazon.com/cognito/latest/developerguide/cognito-user-identity-pools-working-with-aws-lambda-triggers.html) in the Amazon Cognito Developer Guide. When you use the ClientMetadata parameter, note that Amazon Cognito won't do the following:
+    /// A map of custom key-value pairs that you can provide as input for any custom workflows that this action triggers. You create custom workflows by assigning Lambda functions to user pool triggers. When Amazon Cognito invokes any of these functions, it passes a JSON payload, which the function receives as input. This payload contains a clientMetadata attribute that provides the data that you assigned to the ClientMetadata parameter in your request. In your function code, you can process the clientMetadata value to enhance your workflow for your specific needs. To review the Lambda trigger types that Amazon Cognito invokes at runtime with API requests, see [ Connecting API actions to Lambda triggers](https://docs.aws.amazon.com/cognito/latest/developerguide/cognito-user-pools-working-with-lambda-triggers.html#lambda-triggers-by-event) in the Amazon Cognito Developer Guide. When you use the ClientMetadata parameter, note that Amazon Cognito won't do the following:
     ///
     /// * Store the ClientMetadata value. This data is available only to Lambda triggers that are assigned to a user pool to support custom workflows. If your user pool configuration doesn't include triggers, the ClientMetadata parameter serves no purpose.
     ///
@@ -6573,11 +6667,13 @@ public struct CreateUserPoolClientInput: Swift.Sendable {
     /// * Not include a fragment component.
     ///
     ///
-    /// See [OAuth 2.0 - Redirection Endpoint](https://tools.ietf.org/html/rfc6749#section-3.1.2). Amazon Cognito requires HTTPS over HTTP except for http://localhost for testing purposes only. App callback URLs such as myapp://example are also supported.
+    /// See [OAuth 2.0 - Redirection Endpoint](https://tools.ietf.org/html/rfc6749#section-3.1.2). Amazon Cognito requires HTTPS over HTTP except for callback URLs to http://localhost, http://127.0.0.1 and http://[::1]. These callback URLs are for testing purposes only. You can specify custom TCP ports for your callback URLs. App callback URLs such as myapp://example are also supported.
     public var callbackURLs: [Swift.String]?
     /// A friendly name for the app client that you want to create.
     /// This member is required.
     public var clientName: Swift.String?
+    /// A custom client secret that you want to use for the app client. You cannot specify both GenerateSecret as true and provide a ClientSecret value.
+    public var clientSecret: Swift.String?
     /// The default redirect URI. In app clients with one assigned IdP, replaces redirect_uri in authentication requests. Must be in the CallbackURLs list.
     public var defaultRedirectURI: Swift.String?
     /// When true, your application can include additional UserContextData in authentication requests. This data includes the IP address, and contributes to analysis by threat protection features. For more information about propagation of user context data, see [Adding session data to API requests](https://docs.aws.amazon.com/cognito/latest/developerguide/cognito-user-pool-settings-adaptive-authentication.html#user-pool-settings-adaptive-authentication-device-fingerprint). If you don’t include this parameter, you can't send the source IP address to Amazon Cognito threat protection features. You can only activate EnablePropagateAdditionalUserContextData in an app client that has a client secret.
@@ -6634,6 +6730,7 @@ public struct CreateUserPoolClientInput: Swift.Sendable {
         authSessionValidity: Swift.Int? = nil,
         callbackURLs: [Swift.String]? = nil,
         clientName: Swift.String? = nil,
+        clientSecret: Swift.String? = nil,
         defaultRedirectURI: Swift.String? = nil,
         enablePropagateAdditionalUserContextData: Swift.Bool? = nil,
         enableTokenRevocation: Swift.Bool? = nil,
@@ -6658,6 +6755,7 @@ public struct CreateUserPoolClientInput: Swift.Sendable {
         self.authSessionValidity = authSessionValidity
         self.callbackURLs = callbackURLs
         self.clientName = clientName
+        self.clientSecret = clientSecret
         self.defaultRedirectURI = defaultRedirectURI
         self.enablePropagateAdditionalUserContextData = enablePropagateAdditionalUserContextData
         self.enableTokenRevocation = enableTokenRevocation
@@ -6674,6 +6772,11 @@ public struct CreateUserPoolClientInput: Swift.Sendable {
         self.userPoolId = userPoolId
         self.writeAttributes = writeAttributes
     }
+}
+
+extension CreateUserPoolClientInput: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "CreateUserPoolClientInput(accessTokenValidity: \(Swift.String(describing: accessTokenValidity)), allowedOAuthFlows: \(Swift.String(describing: allowedOAuthFlows)), allowedOAuthFlowsUserPoolClient: \(Swift.String(describing: allowedOAuthFlowsUserPoolClient)), allowedOAuthScopes: \(Swift.String(describing: allowedOAuthScopes)), analyticsConfiguration: \(Swift.String(describing: analyticsConfiguration)), authSessionValidity: \(Swift.String(describing: authSessionValidity)), callbackURLs: \(Swift.String(describing: callbackURLs)), clientName: \(Swift.String(describing: clientName)), defaultRedirectURI: \(Swift.String(describing: defaultRedirectURI)), enablePropagateAdditionalUserContextData: \(Swift.String(describing: enablePropagateAdditionalUserContextData)), enableTokenRevocation: \(Swift.String(describing: enableTokenRevocation)), explicitAuthFlows: \(Swift.String(describing: explicitAuthFlows)), generateSecret: \(Swift.String(describing: generateSecret)), idTokenValidity: \(Swift.String(describing: idTokenValidity)), logoutURLs: \(Swift.String(describing: logoutURLs)), preventUserExistenceErrors: \(Swift.String(describing: preventUserExistenceErrors)), readAttributes: \(Swift.String(describing: readAttributes)), refreshTokenRotation: \(Swift.String(describing: refreshTokenRotation)), refreshTokenValidity: \(Swift.String(describing: refreshTokenValidity)), supportedIdentityProviders: \(Swift.String(describing: supportedIdentityProviders)), tokenValidityUnits: \(Swift.String(describing: tokenValidityUnits)), userPoolId: \(Swift.String(describing: userPoolId)), writeAttributes: \(Swift.String(describing: writeAttributes)), clientSecret: \"CONTENT_REDACTED\")"}
 }
 
 extension CognitoIdentityProviderClientTypes {
@@ -6712,7 +6815,7 @@ extension CognitoIdentityProviderClientTypes {
         /// * Not include a fragment component.
         ///
         ///
-        /// See [OAuth 2.0 - Redirection Endpoint](https://tools.ietf.org/html/rfc6749#section-3.1.2). Amazon Cognito requires HTTPS over HTTP except for http://localhost for testing purposes only. App callback URLs such as myapp://example are also supported.
+        /// See [OAuth 2.0 - Redirection Endpoint](https://tools.ietf.org/html/rfc6749#section-3.1.2). Amazon Cognito requires HTTPS over HTTP for callback URLs to http://localhost, http://127.0.0.1 and http://[::1]. These callback URLs are for testing purposes only. You can specify custom TCP ports for your callback URLs. App callback URLs such as myapp://example are also supported.
         public var callbackURLs: [Swift.String]?
         /// The ID of the app client.
         public var clientId: Swift.String?
@@ -6731,7 +6834,7 @@ extension CognitoIdentityProviderClientTypes {
         /// * Not include a fragment component.
         ///
         ///
-        /// See [OAuth 2.0 - Redirection Endpoint](https://tools.ietf.org/html/rfc6749#section-3.1.2). Amazon Cognito requires HTTPS over HTTP except for http://localhost for testing purposes only. App callback URLs such as myapp://example are also supported.
+        /// See [OAuth 2.0 - Redirection Endpoint](https://tools.ietf.org/html/rfc6749#section-3.1.2). Amazon Cognito requires HTTPS over HTTP for callback URLs to http://localhost, http://127.0.0.1 and http://[::1]. These callback URLs are for testing purposes only. You can specify custom TCP ports for your callback URLs. App callback URLs such as myapp://example are also supported.
         public var defaultRedirectURI: Swift.String?
         /// When EnablePropagateAdditionalUserContextData is true, Amazon Cognito accepts an IpAddress value that you send in the UserContextData parameter. The UserContextData parameter sends information to Amazon Cognito threat protection for risk analysis. You can send UserContextData when you sign in Amazon Cognito native users with the InitiateAuth and RespondToAuthChallenge API operations. When EnablePropagateAdditionalUserContextData is false, you can't send your user's source IP address to Amazon Cognito threat protection with unauthenticated API operations. EnablePropagateAdditionalUserContextData doesn't affect whether you can send a source IP address in a ContextData parameter with the authenticated API operations AdminInitiateAuth and AdminRespondToAuthChallenge. You can only activate EnablePropagateAdditionalUserContextData in an app client that has a client secret. For more information about propagation of user context data, see [Adding user device and session data to API requests](https://docs.aws.amazon.com/cognito/latest/developerguide/cognito-user-pool-settings-adaptive-authentication.html#user-pool-settings-adaptive-authentication-device-fingerprint).
         public var enablePropagateAdditionalUserContextData: Swift.Bool?
@@ -7097,6 +7200,40 @@ public struct DeleteUserPoolClientInput: Swift.Sendable {
 extension DeleteUserPoolClientInput: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
         "DeleteUserPoolClientInput(userPoolId: \(Swift.String(describing: userPoolId)), clientId: \"CONTENT_REDACTED\")"}
+}
+
+/// The request to delete a specific client secret from a user pool app client.
+public struct DeleteUserPoolClientSecretInput: Swift.Sendable {
+    /// The ID of the app client from which you want to delete the secret.
+    /// This member is required.
+    public var clientId: Swift.String?
+    /// The unique identifier of the client secret you want to delete.
+    /// This member is required.
+    public var clientSecretId: Swift.String?
+    /// The ID of the user pool that contains the app client.
+    /// This member is required.
+    public var userPoolId: Swift.String?
+
+    public init(
+        clientId: Swift.String? = nil,
+        clientSecretId: Swift.String? = nil,
+        userPoolId: Swift.String? = nil
+    ) {
+        self.clientId = clientId
+        self.clientSecretId = clientSecretId
+        self.userPoolId = userPoolId
+    }
+}
+
+extension DeleteUserPoolClientSecretInput: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "DeleteUserPoolClientSecretInput(clientSecretId: \(Swift.String(describing: clientSecretId)), userPoolId: \(Swift.String(describing: userPoolId)), clientId: \"CONTENT_REDACTED\")"}
+}
+
+/// The response from deleting a client secret.
+public struct DeleteUserPoolClientSecretOutput: Swift.Sendable {
+
+    public init() { }
 }
 
 public struct DeleteUserPoolDomainInput: Swift.Sendable {
@@ -7719,7 +7856,7 @@ public struct ForgotPasswordInput: Swift.Sendable {
     /// The ID of the user pool app client associated with the current signed-in user.
     /// This member is required.
     public var clientId: Swift.String?
-    /// A map of custom key-value pairs that you can provide as input for any custom workflows that this action triggers. You create custom workflows by assigning Lambda functions to user pool triggers. When you use the ForgotPassword API action, Amazon Cognito invokes any functions that are assigned to the following triggers: pre sign-up, custom message, and user migration. When Amazon Cognito invokes any of these functions, it passes a JSON payload, which the function receives as input. This payload contains a clientMetadata attribute, which provides the data that you assigned to the ClientMetadata parameter in your ForgotPassword request. In your function code in Lambda, you can process the clientMetadata value to enhance your workflow for your specific needs. For more information, see [ Using Lambda triggers](https://docs.aws.amazon.com/cognito/latest/developerguide/cognito-user-identity-pools-working-with-aws-lambda-triggers.html) in the Amazon Cognito Developer Guide. When you use the ClientMetadata parameter, note that Amazon Cognito won't do the following:
+    /// A map of custom key-value pairs that you can provide as input for any custom workflows that this action triggers. You create custom workflows by assigning Lambda functions to user pool triggers. When Amazon Cognito invokes any of these functions, it passes a JSON payload, which the function receives as input. This payload contains a clientMetadata attribute that provides the data that you assigned to the ClientMetadata parameter in your request. In your function code, you can process the clientMetadata value to enhance your workflow for your specific needs. To review the Lambda trigger types that Amazon Cognito invokes at runtime with API requests, see [ Connecting API actions to Lambda triggers](https://docs.aws.amazon.com/cognito/latest/developerguide/cognito-user-pools-working-with-lambda-triggers.html#lambda-triggers-by-event) in the Amazon Cognito Developer Guide. When you use the ClientMetadata parameter, note that Amazon Cognito won't do the following:
     ///
     /// * Store the ClientMetadata value. This data is available only to Lambda triggers that are assigned to a user pool to support custom workflows. If your user pool configuration doesn't include triggers, the ClientMetadata parameter serves no purpose.
     ///
@@ -8145,7 +8282,7 @@ public struct GetTokensFromRefreshTokenInput: Swift.Sendable {
     /// The app client that issued the refresh token to the user who wants to request new tokens.
     /// This member is required.
     public var clientId: Swift.String?
-    /// A map of custom key-value pairs that you can provide as input for certain custom workflows that this action triggers. You create custom workflows by assigning Lambda functions to user pool triggers. When you use the GetTokensFromRefreshToken API action, Amazon Cognito invokes the Lambda function the pre token generation trigger. For more information, see [ Using Lambda triggers](https://docs.aws.amazon.com/cognito/latest/developerguide/cognito-user-identity-pools-working-with-aws-lambda-triggers.html) in the Amazon Cognito Developer Guide. When you use the ClientMetadata parameter, note that Amazon Cognito won't do the following:
+    /// A map of custom key-value pairs that you can provide as input for any custom workflows that this action triggers. You create custom workflows by assigning Lambda functions to user pool triggers. When Amazon Cognito invokes any of these functions, it passes a JSON payload, which the function receives as input. This payload contains a clientMetadata attribute that provides the data that you assigned to the ClientMetadata parameter in your request. In your function code, you can process the clientMetadata value to enhance your workflow for your specific needs. To review the Lambda trigger types that Amazon Cognito invokes at runtime with API requests, see [ Connecting API actions to Lambda triggers](https://docs.aws.amazon.com/cognito/latest/developerguide/cognito-user-pools-working-with-lambda-triggers.html#lambda-triggers-by-event) in the Amazon Cognito Developer Guide. When you use the ClientMetadata parameter, note that Amazon Cognito won't do the following:
     ///
     /// * Store the ClientMetadata value. This data is available only to Lambda triggers that are assigned to a user pool to support custom workflows. If your user pool configuration doesn't include triggers, the ClientMetadata parameter serves no purpose.
     ///
@@ -8330,7 +8467,7 @@ public struct GetUserAttributeVerificationCodeInput: Swift.Sendable {
     /// The name of the attribute that the user wants to verify, for example email.
     /// This member is required.
     public var attributeName: Swift.String?
-    /// A map of custom key-value pairs that you can provide as input for any custom workflows that this action triggers. You create custom workflows by assigning Lambda functions to user pool triggers. When you use the GetUserAttributeVerificationCode API action, Amazon Cognito invokes the function that is assigned to the custom message trigger. When Amazon Cognito invokes this function, it passes a JSON payload, which the function receives as input. This payload contains a clientMetadata attribute, which provides the data that you assigned to the ClientMetadata parameter in your GetUserAttributeVerificationCode request. In your function code in Lambda, you can process the clientMetadata value to enhance your workflow for your specific needs. For more information, see [ Using Lambda triggers](https://docs.aws.amazon.com/cognito/latest/developerguide/cognito-user-identity-pools-working-with-aws-lambda-triggers.html) in the Amazon Cognito Developer Guide. When you use the ClientMetadata parameter, note that Amazon Cognito won't do the following:
+    /// A map of custom key-value pairs that you can provide as input for any custom workflows that this action triggers. You create custom workflows by assigning Lambda functions to user pool triggers. When Amazon Cognito invokes any of these functions, it passes a JSON payload, which the function receives as input. This payload contains a clientMetadata attribute that provides the data that you assigned to the ClientMetadata parameter in your request. In your function code, you can process the clientMetadata value to enhance your workflow for your specific needs. To review the Lambda trigger types that Amazon Cognito invokes at runtime with API requests, see [ Connecting API actions to Lambda triggers](https://docs.aws.amazon.com/cognito/latest/developerguide/cognito-user-pools-working-with-lambda-triggers.html#lambda-triggers-by-event) in the Amazon Cognito Developer Guide. When you use the ClientMetadata parameter, note that Amazon Cognito won't do the following:
     ///
     /// * Store the ClientMetadata value. This data is available only to Lambda triggers that are assigned to a user pool to support custom workflows. If your user pool configuration doesn't include triggers, the ClientMetadata parameter serves no purpose.
     ///
@@ -8636,16 +8773,16 @@ public struct InitiateAuthInput: Swift.Sendable {
     /// The ID of the app client that your user wants to sign in to.
     /// This member is required.
     public var clientId: Swift.String?
-    /// A map of custom key-value pairs that you can provide as input for certain custom workflows that this action triggers. You create custom workflows by assigning Lambda functions to user pool triggers. When you send an InitiateAuth request, Amazon Cognito invokes the Lambda functions that are specified for various triggers. The ClientMetadata value is passed as input to the functions for only the following triggers.
+    /// A map of custom key-value pairs that you can provide as input for any custom workflows that this action triggers. You create custom workflows by assigning Lambda functions to user pool triggers. When Amazon Cognito invokes any of these functions, it passes a JSON payload, which the function receives as input. This payload contains a clientMetadata attribute that provides the data that you assigned to the ClientMetadata parameter in your request. In your function code, you can process the clientMetadata value to enhance your workflow for your specific needs. To review the Lambda trigger types that Amazon Cognito invokes at runtime with API requests, see [ Connecting API actions to Lambda triggers](https://docs.aws.amazon.com/cognito/latest/developerguide/cognito-user-pools-working-with-lambda-triggers.html#lambda-triggers-by-event) in the Amazon Cognito Developer Guide. The ClientMetadata value is passed as input to the functions for only the following triggers:
     ///
-    /// * Pre sign-up
+    /// * Pre signup
     ///
     /// * Pre authentication
     ///
     /// * User migration
     ///
     ///
-    /// When Amazon Cognito invokes the functions for these triggers, it passes a JSON payload as input to the function. This payload contains a validationData attribute with the data that you assigned to the ClientMetadata parameter in your InitiateAuth request. In your function, validationData can contribute to operations that require data that isn't in the default payload. InitiateAuth requests invokes the following triggers without ClientMetadata as input.
+    /// This request also invokes the functions for the following triggers, but doesn't pass ClientMetadata:
     ///
     /// * Post authentication
     ///
@@ -8662,7 +8799,7 @@ public struct InitiateAuthInput: Swift.Sendable {
     /// * Custom SMS sender
     ///
     ///
-    /// For more information, see [ Using Lambda triggers](https://docs.aws.amazon.com/cognito/latest/developerguide/cognito-user-identity-pools-working-with-aws-lambda-triggers.html) in the Amazon Cognito Developer Guide. When you use the ClientMetadata parameter, note that Amazon Cognito won't do the following:
+    /// When you use the ClientMetadata parameter, note that Amazon Cognito won't do the following:
     ///
     /// * Store the ClientMetadata value. This data is available only to Lambda triggers that are assigned to a user pool to support custom workflows. If your user pool configuration doesn't include triggers, the ClientMetadata parameter serves no purpose.
     ///
@@ -9134,6 +9271,49 @@ public struct ListUserPoolClientsOutput: Swift.Sendable {
     }
 }
 
+/// The request to list client secrets for a user pool app client.
+public struct ListUserPoolClientSecretsInput: Swift.Sendable {
+    /// The ID of the app client whose secrets you want to list.
+    /// This member is required.
+    public var clientId: Swift.String?
+    /// This API operation returns a limited number of results. The pagination token is an identifier that you can present in an additional API request with the same parameters. When you include the pagination token, Amazon Cognito returns the next set of items after the current list. Subsequent requests return a new pagination token. By use of this token, you can paginate through the full list of items.
+    public var nextToken: Swift.String?
+    /// The ID of the user pool that contains the app client.
+    /// This member is required.
+    public var userPoolId: Swift.String?
+
+    public init(
+        clientId: Swift.String? = nil,
+        nextToken: Swift.String? = nil,
+        userPoolId: Swift.String? = nil
+    ) {
+        self.clientId = clientId
+        self.nextToken = nextToken
+        self.userPoolId = userPoolId
+    }
+}
+
+extension ListUserPoolClientSecretsInput: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "ListUserPoolClientSecretsInput(nextToken: \(Swift.String(describing: nextToken)), userPoolId: \(Swift.String(describing: userPoolId)), clientId: \"CONTENT_REDACTED\")"}
+}
+
+/// The response containing the list of client secret metadata. This response does not include a NextToken field as all secrets are returned in a single response.
+public struct ListUserPoolClientSecretsOutput: Swift.Sendable {
+    /// A list of client secret descriptors containing the identifier and creation date for each secret. For security reasons, the response never reveals the actual secret value in ClientSecretValue.
+    public var clientSecrets: [CognitoIdentityProviderClientTypes.ClientSecretDescriptorType]?
+    /// The identifier that Amazon Cognito returned with the previous request to this operation. When you include a pagination token in your request, Amazon Cognito returns the next set of items in the list. By use of this token, you can paginate through the full list of items.
+    public var nextToken: Swift.String?
+
+    public init(
+        clientSecrets: [CognitoIdentityProviderClientTypes.ClientSecretDescriptorType]? = nil,
+        nextToken: Swift.String? = nil
+    ) {
+        self.clientSecrets = clientSecrets
+        self.nextToken = nextToken
+    }
+}
+
 /// Represents the request to list user pools.
 public struct ListUserPoolsInput: Swift.Sendable {
     /// The maximum number of user pools that you want Amazon Cognito to return in the response.
@@ -9241,7 +9421,7 @@ public struct ListUsersInput: Swift.Sendable {
     ///
     /// Custom attributes aren't searchable. You can also list users with a client-side filter. The server-side filter matches no more than one attribute. For an advanced search, use a client-side filter with the --query parameter of the list-users action in the CLI. When you use a client-side filter, ListUsers returns a paginated list of zero or more users. You can receive multiple pages in a row with zero results. Repeat the query with each pagination token that is returned until you receive a null pagination token value, and then review the combined result. For more information about server-side and client-side filtering, see [FilteringCLI output](https://docs.aws.amazon.com/cli/latest/userguide/cli-usage-filter.html) in the [Command Line Interface User Guide](https://docs.aws.amazon.com/cli/latest/userguide/cli-usage-filter.html). For more information, see [Searching for Users Using the ListUsers API](https://docs.aws.amazon.com/cognito/latest/developerguide/how-to-manage-user-accounts.html#cognito-user-pools-searching-for-users-using-listusers-api) and [Examples of Using the ListUsers API](https://docs.aws.amazon.com/cognito/latest/developerguide/how-to-manage-user-accounts.html#cognito-user-pools-searching-for-users-listusers-api-examples) in the Amazon Cognito Developer Guide.
     public var filter: Swift.String?
-    /// The maximum number of users that you want Amazon Cognito to return in the response.
+    /// The maximum number of users that you want Amazon Cognito to return in the response. In some SDK contexts, this operation might return fewer items than you specify in the Limit parameter without having reached the end of the full list. If the response contains a PaginationToken, then there are more results.
     public var limit: Swift.Int?
     /// This API operation returns a limited number of results. The pagination token is an identifier that you can present in an additional API request with the same parameters. When you include the pagination token, Amazon Cognito returns the next set of items after the current list. Subsequent requests return a new pagination token. By use of this token, you can paginate through the full list of items.
     public var paginationToken: Swift.String?
@@ -9268,7 +9448,7 @@ public struct ListUsersInput: Swift.Sendable {
 public struct ListUsersOutput: Swift.Sendable {
     /// The identifier that Amazon Cognito returned with the previous request to this operation. When you include a pagination token in your request, Amazon Cognito returns the next set of items in the list. By use of this token, you can paginate through the full list of items.
     public var paginationToken: Swift.String?
-    /// An array of user pool users who match your query, and their attributes.
+    /// An array of user pool users who match your query, and their attributes. Between different requests, you might observe variations in the sequence that users in this response object are sorted into. The sort order of users isn't guaranteed to follow a single pattern, but the paginated list from a single chain of requests won't return duplicates.
     public var users: [CognitoIdentityProviderClientTypes.UserType]?
 
     public init(
@@ -9284,7 +9464,7 @@ public struct ListUsersInGroupInput: Swift.Sendable {
     /// The name of the group that you want to query for user membership.
     /// This member is required.
     public var groupName: Swift.String?
-    /// The maximum number of groups that you want Amazon Cognito to return in the response.
+    /// The maximum number of groups that you want Amazon Cognito to return in the response. In some SDK contexts, this operation might return fewer items than you specify in the Limit parameter without having reached the end of the full list. If the response contains a PaginationToken, then there are more results.
     public var limit: Swift.Int?
     /// This API operation returns a limited number of results. The pagination token is an identifier that you can present in an additional API request with the same parameters. When you include the pagination token, Amazon Cognito returns the next set of items after the current list. Subsequent requests return a new pagination token. By use of this token, you can paginate through the full list of items.
     public var nextToken: Swift.String?
@@ -9408,7 +9588,7 @@ public struct ResendConfirmationCodeInput: Swift.Sendable {
     /// The ID of the user pool app client where the user signed up.
     /// This member is required.
     public var clientId: Swift.String?
-    /// A map of custom key-value pairs that you can provide as input for any custom workflows that this action triggers. You create custom workflows by assigning Lambda functions to user pool triggers. When you use the ResendConfirmationCode API action, Amazon Cognito invokes the function that is assigned to the custom message trigger. When Amazon Cognito invokes this function, it passes a JSON payload, which the function receives as input. This payload contains a clientMetadata attribute, which provides the data that you assigned to the ClientMetadata parameter in your ResendConfirmationCode request. In your function code in Lambda, you can process the clientMetadata value to enhance your workflow for your specific needs. For more information, see [ Using Lambda triggers](https://docs.aws.amazon.com/cognito/latest/developerguide/cognito-user-identity-pools-working-with-aws-lambda-triggers.html) in the Amazon Cognito Developer Guide. When you use the ClientMetadata parameter, note that Amazon Cognito won't do the following:
+    /// A map of custom key-value pairs that you can provide as input for any custom workflows that this action triggers. You create custom workflows by assigning Lambda functions to user pool triggers. When Amazon Cognito invokes any of these functions, it passes a JSON payload, which the function receives as input. This payload contains a clientMetadata attribute that provides the data that you assigned to the ClientMetadata parameter in your request. In your function code, you can process the clientMetadata value to enhance your workflow for your specific needs. To review the Lambda trigger types that Amazon Cognito invokes at runtime with API requests, see [ Connecting API actions to Lambda triggers](https://docs.aws.amazon.com/cognito/latest/developerguide/cognito-user-pools-working-with-lambda-triggers.html#lambda-triggers-by-event) in the Amazon Cognito Developer Guide. When you use the ClientMetadata parameter, note that Amazon Cognito won't do the following:
     ///
     /// * Store the ClientMetadata value. This data is available only to Lambda triggers that are assigned to a user pool to support custom workflows. If your user pool configuration doesn't include triggers, the ClientMetadata parameter serves no purpose.
     ///
@@ -9514,7 +9694,7 @@ public struct RespondToAuthChallengeInput: Swift.Sendable {
     /// The ID of the app client where the user is signing in.
     /// This member is required.
     public var clientId: Swift.String?
-    /// A map of custom key-value pairs that you can provide as input for any custom workflows that this action triggers. You create custom workflows by assigning Lambda functions to user pool triggers. When you use the RespondToAuthChallenge API action, Amazon Cognito invokes any functions that are assigned to the following triggers: post authentication, pre token generation, define auth challenge, create auth challenge, and verify auth challenge. When Amazon Cognito invokes any of these functions, it passes a JSON payload, which the function receives as input. This payload contains a clientMetadata attribute, which provides the data that you assigned to the ClientMetadata parameter in your RespondToAuthChallenge request. In your function code in Lambda, you can process the clientMetadata value to enhance your workflow for your specific needs. For more information, see [ Using Lambda triggers](https://docs.aws.amazon.com/cognito/latest/developerguide/cognito-user-identity-pools-working-with-aws-lambda-triggers.html) in the Amazon Cognito Developer Guide. When you use the ClientMetadata parameter, note that Amazon Cognito won't do the following:
+    /// A map of custom key-value pairs that you can provide as input for any custom workflows that this action triggers. You create custom workflows by assigning Lambda functions to user pool triggers. When Amazon Cognito invokes any of these functions, it passes a JSON payload, which the function receives as input. This payload contains a clientMetadata attribute that provides the data that you assigned to the ClientMetadata parameter in your request. In your function code, you can process the clientMetadata value to enhance your workflow for your specific needs. To review the Lambda trigger types that Amazon Cognito invokes at runtime with API requests, see [ Connecting API actions to Lambda triggers](https://docs.aws.amazon.com/cognito/latest/developerguide/cognito-user-pools-working-with-lambda-triggers.html#lambda-triggers-by-event) in the Amazon Cognito Developer Guide. When you use the ClientMetadata parameter, note that Amazon Cognito won't do the following:
     ///
     /// * Store the ClientMetadata value. This data is available only to Lambda triggers that are assigned to a user pool to support custom workflows. If your user pool configuration doesn't include triggers, the ClientMetadata parameter serves no purpose.
     ///
@@ -9928,7 +10108,7 @@ public struct SignUpInput: Swift.Sendable {
     /// The ID of the app client where the user wants to sign up.
     /// This member is required.
     public var clientId: Swift.String?
-    /// A map of custom key-value pairs that you can provide as input for any custom workflows that this action triggers. You create custom workflows by assigning Lambda functions to user pool triggers. When you use the SignUp API action, Amazon Cognito invokes any functions that are assigned to the following triggers: pre sign-up, custom message, and post confirmation. When Amazon Cognito invokes any of these functions, it passes a JSON payload, which the function receives as input. This payload contains a clientMetadata attribute, which provides the data that you assigned to the ClientMetadata parameter in your SignUp request. In your function code in Lambda, you can process the clientMetadata value to enhance your workflow for your specific needs. For more information, see [ Using Lambda triggers](https://docs.aws.amazon.com/cognito/latest/developerguide/cognito-user-identity-pools-working-with-aws-lambda-triggers.html) in the Amazon Cognito Developer Guide. When you use the ClientMetadata parameter, note that Amazon Cognito won't do the following:
+    /// A map of custom key-value pairs that you can provide as input for any custom workflows that this action triggers. You create custom workflows by assigning Lambda functions to user pool triggers. When Amazon Cognito invokes any of these functions, it passes a JSON payload, which the function receives as input. This payload contains a clientMetadata attribute that provides the data that you assigned to the ClientMetadata parameter in your request. In your function code, you can process the clientMetadata value to enhance your workflow for your specific needs. To review the Lambda trigger types that Amazon Cognito invokes at runtime with API requests, see [ Connecting API actions to Lambda triggers](https://docs.aws.amazon.com/cognito/latest/developerguide/cognito-user-pools-working-with-lambda-triggers.html#lambda-triggers-by-event) in the Amazon Cognito Developer Guide. When you use the ClientMetadata parameter, note that Amazon Cognito won't do the following:
     ///
     /// * Store the ClientMetadata value. This data is available only to Lambda triggers that are assigned to a user pool to support custom workflows. If your user pool configuration doesn't include triggers, the ClientMetadata parameter serves no purpose.
     ///
@@ -10454,7 +10634,7 @@ public struct UpdateUserAttributesInput: Swift.Sendable {
     /// A valid access token that Amazon Cognito issued to the currently signed-in user. Must include a scope claim for aws.cognito.signin.user.admin.
     /// This member is required.
     public var accessToken: Swift.String?
-    /// A map of custom key-value pairs that you can provide as input for any custom workflows that this action initiates. You create custom workflows by assigning Lambda functions to user pool triggers. When you use the UpdateUserAttributes API action, Amazon Cognito invokes the function that is assigned to the custom message trigger. When Amazon Cognito invokes this function, it passes a JSON payload, which the function receives as input. This payload contains a clientMetadata attribute, which provides the data that you assigned to the ClientMetadata parameter in your UpdateUserAttributes request. In your function code in Lambda, you can process the clientMetadata value to enhance your workflow for your specific needs. For more information, see [ Using Lambda triggers](https://docs.aws.amazon.com/cognito/latest/developerguide/cognito-user-identity-pools-working-with-aws-lambda-triggers.html) in the Amazon Cognito Developer Guide. When you use the ClientMetadata parameter, note that Amazon Cognito won't do the following:
+    /// A map of custom key-value pairs that you can provide as input for any custom workflows that this action triggers. You create custom workflows by assigning Lambda functions to user pool triggers. When Amazon Cognito invokes any of these functions, it passes a JSON payload, which the function receives as input. This payload contains a clientMetadata attribute that provides the data that you assigned to the ClientMetadata parameter in your request. In your function code, you can process the clientMetadata value to enhance your workflow for your specific needs. To review the Lambda trigger types that Amazon Cognito invokes at runtime with API requests, see [ Connecting API actions to Lambda triggers](https://docs.aws.amazon.com/cognito/latest/developerguide/cognito-user-pools-working-with-lambda-triggers.html#lambda-triggers-by-event) in the Amazon Cognito Developer Guide. When you use the ClientMetadata parameter, note that Amazon Cognito won't do the following:
     ///
     /// * Store the ClientMetadata value. This data is available only to Lambda triggers that are assigned to a user pool to support custom workflows. If your user pool configuration doesn't include triggers, the ClientMetadata parameter serves no purpose.
     ///
@@ -10931,6 +11111,13 @@ extension AddCustomAttributesInput {
     }
 }
 
+extension AddUserPoolClientSecretInput {
+
+    static func urlPathProvider(_ value: AddUserPoolClientSecretInput) -> Swift.String? {
+        return "/"
+    }
+}
+
 extension AdminAddUserToGroupInput {
 
     static func urlPathProvider(_ value: AdminAddUserToGroupInput) -> Swift.String? {
@@ -11281,6 +11468,13 @@ extension DeleteUserPoolClientInput {
     }
 }
 
+extension DeleteUserPoolClientSecretInput {
+
+    static func urlPathProvider(_ value: DeleteUserPoolClientSecretInput) -> Swift.String? {
+        return "/"
+    }
+}
+
 extension DeleteUserPoolDomainInput {
 
     static func urlPathProvider(_ value: DeleteUserPoolDomainInput) -> Swift.String? {
@@ -11533,6 +11727,13 @@ extension ListUserPoolClientsInput {
     }
 }
 
+extension ListUserPoolClientSecretsInput {
+
+    static func urlPathProvider(_ value: ListUserPoolClientSecretsInput) -> Swift.String? {
+        return "/"
+    }
+}
+
 extension ListUserPoolsInput {
 
     static func urlPathProvider(_ value: ListUserPoolsInput) -> Swift.String? {
@@ -11762,6 +11963,16 @@ extension AddCustomAttributesInput {
     static func write(value: AddCustomAttributesInput?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
         try writer["CustomAttributes"].writeList(value.customAttributes, memberWritingClosure: CognitoIdentityProviderClientTypes.SchemaAttributeType.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["UserPoolId"].write(value.userPoolId)
+    }
+}
+
+extension AddUserPoolClientSecretInput {
+
+    static func write(value: AddUserPoolClientSecretInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["ClientId"].write(value.clientId)
+        try writer["ClientSecret"].write(value.clientSecret)
         try writer["UserPoolId"].write(value.userPoolId)
     }
 }
@@ -12229,6 +12440,7 @@ extension CreateUserPoolClientInput {
         try writer["AuthSessionValidity"].write(value.authSessionValidity)
         try writer["CallbackURLs"].writeList(value.callbackURLs, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["ClientName"].write(value.clientName)
+        try writer["ClientSecret"].write(value.clientSecret)
         try writer["DefaultRedirectURI"].write(value.defaultRedirectURI)
         try writer["EnablePropagateAdditionalUserContextData"].write(value.enablePropagateAdditionalUserContextData)
         try writer["EnableTokenRevocation"].write(value.enableTokenRevocation)
@@ -12333,6 +12545,16 @@ extension DeleteUserPoolClientInput {
     static func write(value: DeleteUserPoolClientInput?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
         try writer["ClientId"].write(value.clientId)
+        try writer["UserPoolId"].write(value.userPoolId)
+    }
+}
+
+extension DeleteUserPoolClientSecretInput {
+
+    static func write(value: DeleteUserPoolClientSecretInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["ClientId"].write(value.clientId)
+        try writer["ClientSecretId"].write(value.clientSecretId)
         try writer["UserPoolId"].write(value.userPoolId)
     }
 }
@@ -12668,6 +12890,16 @@ extension ListUserPoolClientsInput {
     static func write(value: ListUserPoolClientsInput?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
         try writer["MaxResults"].write(value.maxResults)
+        try writer["NextToken"].write(value.nextToken)
+        try writer["UserPoolId"].write(value.userPoolId)
+    }
+}
+
+extension ListUserPoolClientSecretsInput {
+
+    static func write(value: ListUserPoolClientSecretsInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["ClientId"].write(value.clientId)
         try writer["NextToken"].write(value.nextToken)
         try writer["UserPoolId"].write(value.userPoolId)
     }
@@ -13063,6 +13295,18 @@ extension AddCustomAttributesOutput {
 
     static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> AddCustomAttributesOutput {
         return AddCustomAttributesOutput()
+    }
+}
+
+extension AddUserPoolClientSecretOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> AddUserPoolClientSecretOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = AddUserPoolClientSecretOutput()
+        value.clientSecretDescriptor = try reader["ClientSecretDescriptor"].readIfPresent(with: CognitoIdentityProviderClientTypes.ClientSecretDescriptorType.read(from:))
+        return value
     }
 }
 
@@ -13536,6 +13780,13 @@ extension DeleteUserPoolClientOutput {
     }
 }
 
+extension DeleteUserPoolClientSecretOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> DeleteUserPoolClientSecretOutput {
+        return DeleteUserPoolClientSecretOutput()
+    }
+}
+
 extension DeleteUserPoolDomainOutput {
 
     static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> DeleteUserPoolDomainOutput {
@@ -13971,6 +14222,19 @@ extension ListUserPoolClientsOutput {
     }
 }
 
+extension ListUserPoolClientSecretsOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> ListUserPoolClientSecretsOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = ListUserPoolClientSecretsOutput()
+        value.clientSecrets = try reader["ClientSecrets"].readListIfPresent(memberReadingClosure: CognitoIdentityProviderClientTypes.ClientSecretDescriptorType.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.nextToken = try reader["NextToken"].readIfPresent()
+        return value
+    }
+}
+
 extension ListUserPoolsOutput {
 
     static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> ListUserPoolsOutput {
@@ -14331,7 +14595,7 @@ enum AddCustomAttributesOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "InternalErrorException": return try InternalErrorException.makeError(baseError: baseError)
@@ -14345,12 +14609,31 @@ enum AddCustomAttributesOutputError {
     }
 }
 
+enum AddUserPoolClientSecretOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
+            case "InvalidParameterException": return try InvalidParameterException.makeError(baseError: baseError)
+            case "LimitExceededException": return try LimitExceededException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "TooManyRequestsException": return try TooManyRequestsException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
 enum AdminAddUserToGroupOutputError {
 
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "InternalErrorException": return try InternalErrorException.makeError(baseError: baseError)
@@ -14369,7 +14652,7 @@ enum AdminConfirmSignUpOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "InternalErrorException": return try InternalErrorException.makeError(baseError: baseError)
@@ -14393,7 +14676,7 @@ enum AdminCreateUserOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "CodeDeliveryFailureException": return try CodeDeliveryFailureException.makeError(baseError: baseError)
@@ -14422,7 +14705,7 @@ enum AdminDeleteUserOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "InternalErrorException": return try InternalErrorException.makeError(baseError: baseError)
@@ -14441,7 +14724,7 @@ enum AdminDeleteUserAttributesOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "InternalErrorException": return try InternalErrorException.makeError(baseError: baseError)
@@ -14460,7 +14743,7 @@ enum AdminDisableProviderForUserOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AliasExistsException": return try AliasExistsException.makeError(baseError: baseError)
@@ -14480,7 +14763,7 @@ enum AdminDisableUserOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "InternalErrorException": return try InternalErrorException.makeError(baseError: baseError)
@@ -14499,7 +14782,7 @@ enum AdminEnableUserOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "InternalErrorException": return try InternalErrorException.makeError(baseError: baseError)
@@ -14518,7 +14801,7 @@ enum AdminForgetDeviceOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "InternalErrorException": return try InternalErrorException.makeError(baseError: baseError)
@@ -14538,7 +14821,7 @@ enum AdminGetDeviceOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "InternalErrorException": return try InternalErrorException.makeError(baseError: baseError)
@@ -14557,7 +14840,7 @@ enum AdminGetUserOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "InternalErrorException": return try InternalErrorException.makeError(baseError: baseError)
@@ -14576,7 +14859,7 @@ enum AdminInitiateAuthOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "InternalErrorException": return try InternalErrorException.makeError(baseError: baseError)
@@ -14606,7 +14889,7 @@ enum AdminLinkProviderForUserOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AliasExistsException": return try AliasExistsException.makeError(baseError: baseError)
@@ -14627,7 +14910,7 @@ enum AdminListDevicesOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "InternalErrorException": return try InternalErrorException.makeError(baseError: baseError)
@@ -14646,7 +14929,7 @@ enum AdminListGroupsForUserOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "InternalErrorException": return try InternalErrorException.makeError(baseError: baseError)
@@ -14665,7 +14948,7 @@ enum AdminListUserAuthEventsOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "InternalErrorException": return try InternalErrorException.makeError(baseError: baseError)
@@ -14685,7 +14968,7 @@ enum AdminRemoveUserFromGroupOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "InternalErrorException": return try InternalErrorException.makeError(baseError: baseError)
@@ -14704,7 +14987,7 @@ enum AdminResetUserPasswordOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "InternalErrorException": return try InternalErrorException.makeError(baseError: baseError)
@@ -14730,7 +15013,7 @@ enum AdminRespondToAuthChallengeOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AliasExistsException": return try AliasExistsException.makeError(baseError: baseError)
@@ -14765,7 +15048,7 @@ enum AdminSetUserMFAPreferenceOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "InternalErrorException": return try InternalErrorException.makeError(baseError: baseError)
@@ -14785,7 +15068,7 @@ enum AdminSetUserPasswordOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "InternalErrorException": return try InternalErrorException.makeError(baseError: baseError)
@@ -14806,7 +15089,7 @@ enum AdminSetUserSettingsOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "InternalErrorException": return try InternalErrorException.makeError(baseError: baseError)
@@ -14824,7 +15107,7 @@ enum AdminUpdateAuthEventFeedbackOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "InternalErrorException": return try InternalErrorException.makeError(baseError: baseError)
@@ -14844,7 +15127,7 @@ enum AdminUpdateDeviceStatusOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "InternalErrorException": return try InternalErrorException.makeError(baseError: baseError)
@@ -14864,7 +15147,7 @@ enum AdminUpdateUserAttributesOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AliasExistsException": return try AliasExistsException.makeError(baseError: baseError)
@@ -14890,7 +15173,7 @@ enum AdminUserGlobalSignOutOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "InternalErrorException": return try InternalErrorException.makeError(baseError: baseError)
@@ -14909,7 +15192,7 @@ enum AssociateSoftwareTokenOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "ConcurrentModificationException": return try ConcurrentModificationException.makeError(baseError: baseError)
@@ -14929,7 +15212,7 @@ enum ChangePasswordOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "ForbiddenException": return try ForbiddenException.makeError(baseError: baseError)
@@ -14954,7 +15237,7 @@ enum CompleteWebAuthnRegistrationOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "ForbiddenException": return try ForbiddenException.makeError(baseError: baseError)
@@ -14962,6 +15245,7 @@ enum CompleteWebAuthnRegistrationOutputError {
             case "InvalidParameterException": return try InvalidParameterException.makeError(baseError: baseError)
             case "LimitExceededException": return try LimitExceededException.makeError(baseError: baseError)
             case "NotAuthorizedException": return try NotAuthorizedException.makeError(baseError: baseError)
+            case "PasswordResetRequiredException": return try PasswordResetRequiredException.makeError(baseError: baseError)
             case "TooManyRequestsException": return try TooManyRequestsException.makeError(baseError: baseError)
             case "WebAuthnChallengeNotFoundException": return try WebAuthnChallengeNotFoundException.makeError(baseError: baseError)
             case "WebAuthnClientMismatchException": return try WebAuthnClientMismatchException.makeError(baseError: baseError)
@@ -14979,7 +15263,7 @@ enum ConfirmDeviceOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "DeviceKeyExistsException": return try DeviceKeyExistsException.makeError(baseError: baseError)
@@ -15006,7 +15290,7 @@ enum ConfirmForgotPasswordOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "CodeMismatchException": return try CodeMismatchException.makeError(baseError: baseError)
@@ -15036,7 +15320,7 @@ enum ConfirmSignUpOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AliasExistsException": return try AliasExistsException.makeError(baseError: baseError)
@@ -15064,7 +15348,7 @@ enum CreateGroupOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "GroupExistsException": return try GroupExistsException.makeError(baseError: baseError)
@@ -15084,7 +15368,7 @@ enum CreateIdentityProviderOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "DuplicateProviderException": return try DuplicateProviderException.makeError(baseError: baseError)
@@ -15104,7 +15388,7 @@ enum CreateManagedLoginBrandingOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "ConcurrentModificationException": return try ConcurrentModificationException.makeError(baseError: baseError)
@@ -15125,7 +15409,7 @@ enum CreateResourceServerOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "InternalErrorException": return try InternalErrorException.makeError(baseError: baseError)
@@ -15144,7 +15428,7 @@ enum CreateTermsOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "ConcurrentModificationException": return try ConcurrentModificationException.makeError(baseError: baseError)
@@ -15165,7 +15449,7 @@ enum CreateUserImportJobOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "InternalErrorException": return try InternalErrorException.makeError(baseError: baseError)
@@ -15185,7 +15469,7 @@ enum CreateUserPoolOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "FeatureUnavailableInTierException": return try FeatureUnavailableInTierException.makeError(baseError: baseError)
@@ -15209,7 +15493,7 @@ enum CreateUserPoolClientOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "FeatureUnavailableInTierException": return try FeatureUnavailableInTierException.makeError(baseError: baseError)
@@ -15231,7 +15515,7 @@ enum CreateUserPoolDomainOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "ConcurrentModificationException": return try ConcurrentModificationException.makeError(baseError: baseError)
@@ -15251,7 +15535,7 @@ enum DeleteGroupOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "InternalErrorException": return try InternalErrorException.makeError(baseError: baseError)
@@ -15269,7 +15553,7 @@ enum DeleteIdentityProviderOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "ConcurrentModificationException": return try ConcurrentModificationException.makeError(baseError: baseError)
@@ -15289,7 +15573,7 @@ enum DeleteManagedLoginBrandingOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "ConcurrentModificationException": return try ConcurrentModificationException.makeError(baseError: baseError)
@@ -15308,7 +15592,7 @@ enum DeleteResourceServerOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "InternalErrorException": return try InternalErrorException.makeError(baseError: baseError)
@@ -15326,7 +15610,7 @@ enum DeleteTermsOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "ConcurrentModificationException": return try ConcurrentModificationException.makeError(baseError: baseError)
@@ -15345,7 +15629,7 @@ enum DeleteUserOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "ForbiddenException": return try ForbiddenException.makeError(baseError: baseError)
@@ -15367,7 +15651,7 @@ enum DeleteUserAttributesOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "ForbiddenException": return try ForbiddenException.makeError(baseError: baseError)
@@ -15389,7 +15673,7 @@ enum DeleteUserPoolOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "InternalErrorException": return try InternalErrorException.makeError(baseError: baseError)
@@ -15408,7 +15692,7 @@ enum DeleteUserPoolClientOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "ConcurrentModificationException": return try ConcurrentModificationException.makeError(baseError: baseError)
@@ -15422,12 +15706,30 @@ enum DeleteUserPoolClientOutputError {
     }
 }
 
+enum DeleteUserPoolClientSecretOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
+            case "InvalidParameterException": return try InvalidParameterException.makeError(baseError: baseError)
+            case "LimitExceededException": return try LimitExceededException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "TooManyRequestsException": return try TooManyRequestsException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
 enum DeleteUserPoolDomainOutputError {
 
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "ConcurrentModificationException": return try ConcurrentModificationException.makeError(baseError: baseError)
@@ -15445,7 +15747,7 @@ enum DeleteWebAuthnCredentialOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "ForbiddenException": return try ForbiddenException.makeError(baseError: baseError)
@@ -15453,6 +15755,7 @@ enum DeleteWebAuthnCredentialOutputError {
             case "InvalidParameterException": return try InvalidParameterException.makeError(baseError: baseError)
             case "LimitExceededException": return try LimitExceededException.makeError(baseError: baseError)
             case "NotAuthorizedException": return try NotAuthorizedException.makeError(baseError: baseError)
+            case "PasswordResetRequiredException": return try PasswordResetRequiredException.makeError(baseError: baseError)
             case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
             case "TooManyRequestsException": return try TooManyRequestsException.makeError(baseError: baseError)
             default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
@@ -15465,7 +15768,7 @@ enum DescribeIdentityProviderOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "InternalErrorException": return try InternalErrorException.makeError(baseError: baseError)
@@ -15483,7 +15786,7 @@ enum DescribeManagedLoginBrandingOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "InternalErrorException": return try InternalErrorException.makeError(baseError: baseError)
@@ -15501,7 +15804,7 @@ enum DescribeManagedLoginBrandingByClientOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "InternalErrorException": return try InternalErrorException.makeError(baseError: baseError)
@@ -15519,7 +15822,7 @@ enum DescribeResourceServerOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "InternalErrorException": return try InternalErrorException.makeError(baseError: baseError)
@@ -15537,7 +15840,7 @@ enum DescribeRiskConfigurationOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "InternalErrorException": return try InternalErrorException.makeError(baseError: baseError)
@@ -15556,7 +15859,7 @@ enum DescribeTermsOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "InternalErrorException": return try InternalErrorException.makeError(baseError: baseError)
@@ -15574,7 +15877,7 @@ enum DescribeUserImportJobOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "InternalErrorException": return try InternalErrorException.makeError(baseError: baseError)
@@ -15592,7 +15895,7 @@ enum DescribeUserPoolOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "InternalErrorException": return try InternalErrorException.makeError(baseError: baseError)
@@ -15611,7 +15914,7 @@ enum DescribeUserPoolClientOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "InternalErrorException": return try InternalErrorException.makeError(baseError: baseError)
@@ -15629,7 +15932,7 @@ enum DescribeUserPoolDomainOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "InternalErrorException": return try InternalErrorException.makeError(baseError: baseError)
@@ -15646,7 +15949,7 @@ enum ForgetDeviceOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "ForbiddenException": return try ForbiddenException.makeError(baseError: baseError)
@@ -15669,7 +15972,7 @@ enum ForgotPasswordOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "CodeDeliveryFailureException": return try CodeDeliveryFailureException.makeError(baseError: baseError)
@@ -15697,7 +16000,7 @@ enum GetCSVHeaderOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "InternalErrorException": return try InternalErrorException.makeError(baseError: baseError)
@@ -15715,7 +16018,7 @@ enum GetDeviceOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "ForbiddenException": return try ForbiddenException.makeError(baseError: baseError)
@@ -15738,7 +16041,7 @@ enum GetGroupOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "InternalErrorException": return try InternalErrorException.makeError(baseError: baseError)
@@ -15756,7 +16059,7 @@ enum GetIdentityProviderByIdentifierOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "InternalErrorException": return try InternalErrorException.makeError(baseError: baseError)
@@ -15774,7 +16077,7 @@ enum GetLogDeliveryConfigurationOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "InternalErrorException": return try InternalErrorException.makeError(baseError: baseError)
@@ -15792,7 +16095,7 @@ enum GetSigningCertificateOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "InternalErrorException": return try InternalErrorException.makeError(baseError: baseError)
@@ -15808,7 +16111,7 @@ enum GetTokensFromRefreshTokenOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "ForbiddenException": return try ForbiddenException.makeError(baseError: baseError)
@@ -15832,7 +16135,7 @@ enum GetUICustomizationOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "InternalErrorException": return try InternalErrorException.makeError(baseError: baseError)
@@ -15850,7 +16153,7 @@ enum GetUserOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "ForbiddenException": return try ForbiddenException.makeError(baseError: baseError)
@@ -15872,7 +16175,7 @@ enum GetUserAttributeVerificationCodeOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "CodeDeliveryFailureException": return try CodeDeliveryFailureException.makeError(baseError: baseError)
@@ -15902,7 +16205,7 @@ enum GetUserAuthFactorsOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "ForbiddenException": return try ForbiddenException.makeError(baseError: baseError)
@@ -15924,7 +16227,7 @@ enum GetUserPoolMfaConfigOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "InternalErrorException": return try InternalErrorException.makeError(baseError: baseError)
@@ -15942,7 +16245,7 @@ enum GlobalSignOutOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "ForbiddenException": return try ForbiddenException.makeError(baseError: baseError)
@@ -15963,7 +16266,7 @@ enum InitiateAuthOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "ForbiddenException": return try ForbiddenException.makeError(baseError: baseError)
@@ -15993,7 +16296,7 @@ enum ListDevicesOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "ForbiddenException": return try ForbiddenException.makeError(baseError: baseError)
@@ -16016,7 +16319,7 @@ enum ListGroupsOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "InternalErrorException": return try InternalErrorException.makeError(baseError: baseError)
@@ -16034,7 +16337,7 @@ enum ListIdentityProvidersOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "InternalErrorException": return try InternalErrorException.makeError(baseError: baseError)
@@ -16052,7 +16355,7 @@ enum ListResourceServersOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "InternalErrorException": return try InternalErrorException.makeError(baseError: baseError)
@@ -16070,7 +16373,7 @@ enum ListTagsForResourceOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "InternalErrorException": return try InternalErrorException.makeError(baseError: baseError)
@@ -16088,7 +16391,7 @@ enum ListTermsOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "InternalErrorException": return try InternalErrorException.makeError(baseError: baseError)
@@ -16106,7 +16409,7 @@ enum ListUserImportJobsOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "InternalErrorException": return try InternalErrorException.makeError(baseError: baseError)
@@ -16124,7 +16427,7 @@ enum ListUserPoolClientsOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "InternalErrorException": return try InternalErrorException.makeError(baseError: baseError)
@@ -16137,12 +16440,30 @@ enum ListUserPoolClientsOutputError {
     }
 }
 
+enum ListUserPoolClientSecretsOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
+            case "InvalidParameterException": return try InvalidParameterException.makeError(baseError: baseError)
+            case "LimitExceededException": return try LimitExceededException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "TooManyRequestsException": return try TooManyRequestsException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
 enum ListUserPoolsOutputError {
 
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "InternalErrorException": return try InternalErrorException.makeError(baseError: baseError)
@@ -16159,7 +16480,7 @@ enum ListUsersOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "InternalErrorException": return try InternalErrorException.makeError(baseError: baseError)
@@ -16177,7 +16498,7 @@ enum ListUsersInGroupOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "InternalErrorException": return try InternalErrorException.makeError(baseError: baseError)
@@ -16195,7 +16516,7 @@ enum ListWebAuthnCredentialsOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "ForbiddenException": return try ForbiddenException.makeError(baseError: baseError)
@@ -16203,6 +16524,7 @@ enum ListWebAuthnCredentialsOutputError {
             case "InvalidParameterException": return try InvalidParameterException.makeError(baseError: baseError)
             case "LimitExceededException": return try LimitExceededException.makeError(baseError: baseError)
             case "NotAuthorizedException": return try NotAuthorizedException.makeError(baseError: baseError)
+            case "PasswordResetRequiredException": return try PasswordResetRequiredException.makeError(baseError: baseError)
             case "TooManyRequestsException": return try TooManyRequestsException.makeError(baseError: baseError)
             default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
         }
@@ -16214,7 +16536,7 @@ enum ResendConfirmationCodeOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "CodeDeliveryFailureException": return try CodeDeliveryFailureException.makeError(baseError: baseError)
@@ -16242,7 +16564,7 @@ enum RespondToAuthChallengeOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AliasExistsException": return try AliasExistsException.makeError(baseError: baseError)
@@ -16278,7 +16600,7 @@ enum RevokeTokenOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "ForbiddenException": return try ForbiddenException.makeError(baseError: baseError)
@@ -16298,7 +16620,7 @@ enum SetLogDeliveryConfigurationOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "FeatureUnavailableInTierException": return try FeatureUnavailableInTierException.makeError(baseError: baseError)
@@ -16317,7 +16639,7 @@ enum SetRiskConfigurationOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "CodeDeliveryFailureException": return try CodeDeliveryFailureException.makeError(baseError: baseError)
@@ -16338,7 +16660,7 @@ enum SetUICustomizationOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "InternalErrorException": return try InternalErrorException.makeError(baseError: baseError)
@@ -16356,7 +16678,7 @@ enum SetUserMFAPreferenceOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "ForbiddenException": return try ForbiddenException.makeError(baseError: baseError)
@@ -16377,7 +16699,7 @@ enum SetUserPoolMfaConfigOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "ConcurrentModificationException": return try ConcurrentModificationException.makeError(baseError: baseError)
@@ -16399,7 +16721,7 @@ enum SetUserSettingsOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "ForbiddenException": return try ForbiddenException.makeError(baseError: baseError)
@@ -16420,7 +16742,7 @@ enum SignUpOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "CodeDeliveryFailureException": return try CodeDeliveryFailureException.makeError(baseError: baseError)
@@ -16449,7 +16771,7 @@ enum StartUserImportJobOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "InternalErrorException": return try InternalErrorException.makeError(baseError: baseError)
@@ -16468,7 +16790,7 @@ enum StartWebAuthnRegistrationOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "ForbiddenException": return try ForbiddenException.makeError(baseError: baseError)
@@ -16476,6 +16798,7 @@ enum StartWebAuthnRegistrationOutputError {
             case "InvalidParameterException": return try InvalidParameterException.makeError(baseError: baseError)
             case "LimitExceededException": return try LimitExceededException.makeError(baseError: baseError)
             case "NotAuthorizedException": return try NotAuthorizedException.makeError(baseError: baseError)
+            case "PasswordResetRequiredException": return try PasswordResetRequiredException.makeError(baseError: baseError)
             case "TooManyRequestsException": return try TooManyRequestsException.makeError(baseError: baseError)
             case "WebAuthnConfigurationMissingException": return try WebAuthnConfigurationMissingException.makeError(baseError: baseError)
             case "WebAuthnNotEnabledException": return try WebAuthnNotEnabledException.makeError(baseError: baseError)
@@ -16489,7 +16812,7 @@ enum StopUserImportJobOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "InternalErrorException": return try InternalErrorException.makeError(baseError: baseError)
@@ -16508,7 +16831,7 @@ enum TagResourceOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "InternalErrorException": return try InternalErrorException.makeError(baseError: baseError)
@@ -16526,7 +16849,7 @@ enum UntagResourceOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "InternalErrorException": return try InternalErrorException.makeError(baseError: baseError)
@@ -16544,7 +16867,7 @@ enum UpdateAuthEventFeedbackOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "InternalErrorException": return try InternalErrorException.makeError(baseError: baseError)
@@ -16564,7 +16887,7 @@ enum UpdateDeviceStatusOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "ForbiddenException": return try ForbiddenException.makeError(baseError: baseError)
@@ -16587,7 +16910,7 @@ enum UpdateGroupOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "InternalErrorException": return try InternalErrorException.makeError(baseError: baseError)
@@ -16605,7 +16928,7 @@ enum UpdateIdentityProviderOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "ConcurrentModificationException": return try ConcurrentModificationException.makeError(baseError: baseError)
@@ -16625,7 +16948,7 @@ enum UpdateManagedLoginBrandingOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "ConcurrentModificationException": return try ConcurrentModificationException.makeError(baseError: baseError)
@@ -16644,7 +16967,7 @@ enum UpdateResourceServerOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "InternalErrorException": return try InternalErrorException.makeError(baseError: baseError)
@@ -16662,7 +16985,7 @@ enum UpdateTermsOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "ConcurrentModificationException": return try ConcurrentModificationException.makeError(baseError: baseError)
@@ -16682,7 +17005,7 @@ enum UpdateUserAttributesOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AliasExistsException": return try AliasExistsException.makeError(baseError: baseError)
@@ -16714,7 +17037,7 @@ enum UpdateUserPoolOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "ConcurrentModificationException": return try ConcurrentModificationException.makeError(baseError: baseError)
@@ -16740,7 +17063,7 @@ enum UpdateUserPoolClientOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "ConcurrentModificationException": return try ConcurrentModificationException.makeError(baseError: baseError)
@@ -16762,7 +17085,7 @@ enum UpdateUserPoolDomainOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "ConcurrentModificationException": return try ConcurrentModificationException.makeError(baseError: baseError)
@@ -16782,7 +17105,7 @@ enum VerifySoftwareTokenOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "CodeMismatchException": return try CodeMismatchException.makeError(baseError: baseError)
@@ -16808,7 +17131,7 @@ enum VerifyUserAttributeOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AliasExistsException": return try AliasExistsException.makeError(baseError: baseError)
@@ -16831,7 +17154,7 @@ enum VerifyUserAttributeOutputError {
 
 extension InternalErrorException {
 
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> InternalErrorException {
+    static func makeError(baseError: ClientRuntime.AWSJSONError) throws -> InternalErrorException {
         let reader = baseError.errorBodyReader
         var value = InternalErrorException()
         value.properties.message = try reader["message"].readIfPresent()
@@ -16844,7 +17167,7 @@ extension InternalErrorException {
 
 extension InvalidParameterException {
 
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> InvalidParameterException {
+    static func makeError(baseError: ClientRuntime.AWSJSONError) throws -> InvalidParameterException {
         let reader = baseError.errorBodyReader
         var value = InvalidParameterException()
         value.properties.message = try reader["message"].readIfPresent()
@@ -16858,7 +17181,7 @@ extension InvalidParameterException {
 
 extension NotAuthorizedException {
 
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> NotAuthorizedException {
+    static func makeError(baseError: ClientRuntime.AWSJSONError) throws -> NotAuthorizedException {
         let reader = baseError.errorBodyReader
         var value = NotAuthorizedException()
         value.properties.message = try reader["message"].readIfPresent()
@@ -16871,7 +17194,7 @@ extension NotAuthorizedException {
 
 extension ResourceNotFoundException {
 
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> ResourceNotFoundException {
+    static func makeError(baseError: ClientRuntime.AWSJSONError) throws -> ResourceNotFoundException {
         let reader = baseError.errorBodyReader
         var value = ResourceNotFoundException()
         value.properties.message = try reader["message"].readIfPresent()
@@ -16884,7 +17207,7 @@ extension ResourceNotFoundException {
 
 extension TooManyRequestsException {
 
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> TooManyRequestsException {
+    static func makeError(baseError: ClientRuntime.AWSJSONError) throws -> TooManyRequestsException {
         let reader = baseError.errorBodyReader
         var value = TooManyRequestsException()
         value.properties.message = try reader["message"].readIfPresent()
@@ -16897,7 +17220,7 @@ extension TooManyRequestsException {
 
 extension UserImportInProgressException {
 
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> UserImportInProgressException {
+    static func makeError(baseError: ClientRuntime.AWSJSONError) throws -> UserImportInProgressException {
         let reader = baseError.errorBodyReader
         var value = UserImportInProgressException()
         value.properties.message = try reader["message"].readIfPresent()
@@ -16908,9 +17231,48 @@ extension UserImportInProgressException {
     }
 }
 
+extension AccessDeniedException {
+
+    static func makeError(baseError: ClientRuntime.AWSJSONError) throws -> AccessDeniedException {
+        let reader = baseError.errorBodyReader
+        var value = AccessDeniedException()
+        value.properties.message = try reader["message"].readIfPresent()
+        value.httpResponse = baseError.httpResponse
+        value.requestID = baseError.requestID
+        value.message = baseError.message
+        return value
+    }
+}
+
+extension InternalServerException {
+
+    static func makeError(baseError: ClientRuntime.AWSJSONError) throws -> InternalServerException {
+        let reader = baseError.errorBodyReader
+        var value = InternalServerException()
+        value.properties.message = try reader["message"].readIfPresent()
+        value.httpResponse = baseError.httpResponse
+        value.requestID = baseError.requestID
+        value.message = baseError.message
+        return value
+    }
+}
+
+extension LimitExceededException {
+
+    static func makeError(baseError: ClientRuntime.AWSJSONError) throws -> LimitExceededException {
+        let reader = baseError.errorBodyReader
+        var value = LimitExceededException()
+        value.properties.message = try reader["message"].readIfPresent()
+        value.httpResponse = baseError.httpResponse
+        value.requestID = baseError.requestID
+        value.message = baseError.message
+        return value
+    }
+}
+
 extension UserNotFoundException {
 
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> UserNotFoundException {
+    static func makeError(baseError: ClientRuntime.AWSJSONError) throws -> UserNotFoundException {
         let reader = baseError.errorBodyReader
         var value = UserNotFoundException()
         value.properties.message = try reader["message"].readIfPresent()
@@ -16923,7 +17285,7 @@ extension UserNotFoundException {
 
 extension InvalidLambdaResponseException {
 
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> InvalidLambdaResponseException {
+    static func makeError(baseError: ClientRuntime.AWSJSONError) throws -> InvalidLambdaResponseException {
         let reader = baseError.errorBodyReader
         var value = InvalidLambdaResponseException()
         value.properties.message = try reader["message"].readIfPresent()
@@ -16934,22 +17296,9 @@ extension InvalidLambdaResponseException {
     }
 }
 
-extension LimitExceededException {
-
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> LimitExceededException {
-        let reader = baseError.errorBodyReader
-        var value = LimitExceededException()
-        value.properties.message = try reader["message"].readIfPresent()
-        value.httpResponse = baseError.httpResponse
-        value.requestID = baseError.requestID
-        value.message = baseError.message
-        return value
-    }
-}
-
 extension TooManyFailedAttemptsException {
 
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> TooManyFailedAttemptsException {
+    static func makeError(baseError: ClientRuntime.AWSJSONError) throws -> TooManyFailedAttemptsException {
         let reader = baseError.errorBodyReader
         var value = TooManyFailedAttemptsException()
         value.properties.message = try reader["message"].readIfPresent()
@@ -16962,7 +17311,7 @@ extension TooManyFailedAttemptsException {
 
 extension UnexpectedLambdaException {
 
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> UnexpectedLambdaException {
+    static func makeError(baseError: ClientRuntime.AWSJSONError) throws -> UnexpectedLambdaException {
         let reader = baseError.errorBodyReader
         var value = UnexpectedLambdaException()
         value.properties.message = try reader["message"].readIfPresent()
@@ -16975,7 +17324,7 @@ extension UnexpectedLambdaException {
 
 extension UserLambdaValidationException {
 
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> UserLambdaValidationException {
+    static func makeError(baseError: ClientRuntime.AWSJSONError) throws -> UserLambdaValidationException {
         let reader = baseError.errorBodyReader
         var value = UserLambdaValidationException()
         value.properties.message = try reader["message"].readIfPresent()
@@ -16988,7 +17337,7 @@ extension UserLambdaValidationException {
 
 extension CodeDeliveryFailureException {
 
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> CodeDeliveryFailureException {
+    static func makeError(baseError: ClientRuntime.AWSJSONError) throws -> CodeDeliveryFailureException {
         let reader = baseError.errorBodyReader
         var value = CodeDeliveryFailureException()
         value.properties.message = try reader["message"].readIfPresent()
@@ -17001,7 +17350,7 @@ extension CodeDeliveryFailureException {
 
 extension InvalidPasswordException {
 
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> InvalidPasswordException {
+    static func makeError(baseError: ClientRuntime.AWSJSONError) throws -> InvalidPasswordException {
         let reader = baseError.errorBodyReader
         var value = InvalidPasswordException()
         value.properties.message = try reader["message"].readIfPresent()
@@ -17014,7 +17363,7 @@ extension InvalidPasswordException {
 
 extension InvalidSmsRoleAccessPolicyException {
 
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> InvalidSmsRoleAccessPolicyException {
+    static func makeError(baseError: ClientRuntime.AWSJSONError) throws -> InvalidSmsRoleAccessPolicyException {
         let reader = baseError.errorBodyReader
         var value = InvalidSmsRoleAccessPolicyException()
         value.properties.message = try reader["message"].readIfPresent()
@@ -17027,7 +17376,7 @@ extension InvalidSmsRoleAccessPolicyException {
 
 extension InvalidSmsRoleTrustRelationshipException {
 
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> InvalidSmsRoleTrustRelationshipException {
+    static func makeError(baseError: ClientRuntime.AWSJSONError) throws -> InvalidSmsRoleTrustRelationshipException {
         let reader = baseError.errorBodyReader
         var value = InvalidSmsRoleTrustRelationshipException()
         value.properties.message = try reader["message"].readIfPresent()
@@ -17040,7 +17389,7 @@ extension InvalidSmsRoleTrustRelationshipException {
 
 extension PreconditionNotMetException {
 
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> PreconditionNotMetException {
+    static func makeError(baseError: ClientRuntime.AWSJSONError) throws -> PreconditionNotMetException {
         let reader = baseError.errorBodyReader
         var value = PreconditionNotMetException()
         value.properties.message = try reader["message"].readIfPresent()
@@ -17053,7 +17402,7 @@ extension PreconditionNotMetException {
 
 extension UnsupportedUserStateException {
 
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> UnsupportedUserStateException {
+    static func makeError(baseError: ClientRuntime.AWSJSONError) throws -> UnsupportedUserStateException {
         let reader = baseError.errorBodyReader
         var value = UnsupportedUserStateException()
         value.properties.message = try reader["message"].readIfPresent()
@@ -17066,7 +17415,7 @@ extension UnsupportedUserStateException {
 
 extension UsernameExistsException {
 
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> UsernameExistsException {
+    static func makeError(baseError: ClientRuntime.AWSJSONError) throws -> UsernameExistsException {
         let reader = baseError.errorBodyReader
         var value = UsernameExistsException()
         value.properties.message = try reader["message"].readIfPresent()
@@ -17079,7 +17428,7 @@ extension UsernameExistsException {
 
 extension AliasExistsException {
 
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> AliasExistsException {
+    static func makeError(baseError: ClientRuntime.AWSJSONError) throws -> AliasExistsException {
         let reader = baseError.errorBodyReader
         var value = AliasExistsException()
         value.properties.message = try reader["message"].readIfPresent()
@@ -17092,7 +17441,7 @@ extension AliasExistsException {
 
 extension InvalidUserPoolConfigurationException {
 
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> InvalidUserPoolConfigurationException {
+    static func makeError(baseError: ClientRuntime.AWSJSONError) throws -> InvalidUserPoolConfigurationException {
         let reader = baseError.errorBodyReader
         var value = InvalidUserPoolConfigurationException()
         value.properties.message = try reader["message"].readIfPresent()
@@ -17105,7 +17454,7 @@ extension InvalidUserPoolConfigurationException {
 
 extension InvalidEmailRoleAccessPolicyException {
 
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> InvalidEmailRoleAccessPolicyException {
+    static func makeError(baseError: ClientRuntime.AWSJSONError) throws -> InvalidEmailRoleAccessPolicyException {
         let reader = baseError.errorBodyReader
         var value = InvalidEmailRoleAccessPolicyException()
         value.properties.message = try reader["message"].readIfPresent()
@@ -17118,7 +17467,7 @@ extension InvalidEmailRoleAccessPolicyException {
 
 extension MFAMethodNotFoundException {
 
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> MFAMethodNotFoundException {
+    static func makeError(baseError: ClientRuntime.AWSJSONError) throws -> MFAMethodNotFoundException {
         let reader = baseError.errorBodyReader
         var value = MFAMethodNotFoundException()
         value.properties.message = try reader["message"].readIfPresent()
@@ -17131,7 +17480,7 @@ extension MFAMethodNotFoundException {
 
 extension PasswordResetRequiredException {
 
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> PasswordResetRequiredException {
+    static func makeError(baseError: ClientRuntime.AWSJSONError) throws -> PasswordResetRequiredException {
         let reader = baseError.errorBodyReader
         var value = PasswordResetRequiredException()
         value.properties.message = try reader["message"].readIfPresent()
@@ -17144,7 +17493,7 @@ extension PasswordResetRequiredException {
 
 extension UnsupportedOperationException {
 
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> UnsupportedOperationException {
+    static func makeError(baseError: ClientRuntime.AWSJSONError) throws -> UnsupportedOperationException {
         let reader = baseError.errorBodyReader
         var value = UnsupportedOperationException()
         value.properties.message = try reader["message"].readIfPresent()
@@ -17157,7 +17506,7 @@ extension UnsupportedOperationException {
 
 extension UserNotConfirmedException {
 
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> UserNotConfirmedException {
+    static func makeError(baseError: ClientRuntime.AWSJSONError) throws -> UserNotConfirmedException {
         let reader = baseError.errorBodyReader
         var value = UserNotConfirmedException()
         value.properties.message = try reader["message"].readIfPresent()
@@ -17170,7 +17519,7 @@ extension UserNotConfirmedException {
 
 extension UserPoolAddOnNotEnabledException {
 
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> UserPoolAddOnNotEnabledException {
+    static func makeError(baseError: ClientRuntime.AWSJSONError) throws -> UserPoolAddOnNotEnabledException {
         let reader = baseError.errorBodyReader
         var value = UserPoolAddOnNotEnabledException()
         value.properties.message = try reader["message"].readIfPresent()
@@ -17183,7 +17532,7 @@ extension UserPoolAddOnNotEnabledException {
 
 extension CodeMismatchException {
 
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> CodeMismatchException {
+    static func makeError(baseError: ClientRuntime.AWSJSONError) throws -> CodeMismatchException {
         let reader = baseError.errorBodyReader
         var value = CodeMismatchException()
         value.properties.message = try reader["message"].readIfPresent()
@@ -17196,7 +17545,7 @@ extension CodeMismatchException {
 
 extension ExpiredCodeException {
 
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> ExpiredCodeException {
+    static func makeError(baseError: ClientRuntime.AWSJSONError) throws -> ExpiredCodeException {
         let reader = baseError.errorBodyReader
         var value = ExpiredCodeException()
         value.properties.message = try reader["message"].readIfPresent()
@@ -17209,7 +17558,7 @@ extension ExpiredCodeException {
 
 extension PasswordHistoryPolicyViolationException {
 
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> PasswordHistoryPolicyViolationException {
+    static func makeError(baseError: ClientRuntime.AWSJSONError) throws -> PasswordHistoryPolicyViolationException {
         let reader = baseError.errorBodyReader
         var value = PasswordHistoryPolicyViolationException()
         value.properties.message = try reader["message"].readIfPresent()
@@ -17222,7 +17571,7 @@ extension PasswordHistoryPolicyViolationException {
 
 extension SoftwareTokenMFANotFoundException {
 
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> SoftwareTokenMFANotFoundException {
+    static func makeError(baseError: ClientRuntime.AWSJSONError) throws -> SoftwareTokenMFANotFoundException {
         let reader = baseError.errorBodyReader
         var value = SoftwareTokenMFANotFoundException()
         value.properties.message = try reader["message"].readIfPresent()
@@ -17235,7 +17584,7 @@ extension SoftwareTokenMFANotFoundException {
 
 extension ConcurrentModificationException {
 
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> ConcurrentModificationException {
+    static func makeError(baseError: ClientRuntime.AWSJSONError) throws -> ConcurrentModificationException {
         let reader = baseError.errorBodyReader
         var value = ConcurrentModificationException()
         value.properties.message = try reader["message"].readIfPresent()
@@ -17248,7 +17597,7 @@ extension ConcurrentModificationException {
 
 extension ForbiddenException {
 
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> ForbiddenException {
+    static func makeError(baseError: ClientRuntime.AWSJSONError) throws -> ForbiddenException {
         let reader = baseError.errorBodyReader
         var value = ForbiddenException()
         value.properties.message = try reader["message"].readIfPresent()
@@ -17261,7 +17610,7 @@ extension ForbiddenException {
 
 extension WebAuthnChallengeNotFoundException {
 
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> WebAuthnChallengeNotFoundException {
+    static func makeError(baseError: ClientRuntime.AWSJSONError) throws -> WebAuthnChallengeNotFoundException {
         let reader = baseError.errorBodyReader
         var value = WebAuthnChallengeNotFoundException()
         value.properties.message = try reader["message"].readIfPresent()
@@ -17274,7 +17623,7 @@ extension WebAuthnChallengeNotFoundException {
 
 extension WebAuthnClientMismatchException {
 
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> WebAuthnClientMismatchException {
+    static func makeError(baseError: ClientRuntime.AWSJSONError) throws -> WebAuthnClientMismatchException {
         let reader = baseError.errorBodyReader
         var value = WebAuthnClientMismatchException()
         value.properties.message = try reader["message"].readIfPresent()
@@ -17287,7 +17636,7 @@ extension WebAuthnClientMismatchException {
 
 extension WebAuthnCredentialNotSupportedException {
 
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> WebAuthnCredentialNotSupportedException {
+    static func makeError(baseError: ClientRuntime.AWSJSONError) throws -> WebAuthnCredentialNotSupportedException {
         let reader = baseError.errorBodyReader
         var value = WebAuthnCredentialNotSupportedException()
         value.properties.message = try reader["message"].readIfPresent()
@@ -17300,7 +17649,7 @@ extension WebAuthnCredentialNotSupportedException {
 
 extension WebAuthnNotEnabledException {
 
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> WebAuthnNotEnabledException {
+    static func makeError(baseError: ClientRuntime.AWSJSONError) throws -> WebAuthnNotEnabledException {
         let reader = baseError.errorBodyReader
         var value = WebAuthnNotEnabledException()
         value.properties.message = try reader["message"].readIfPresent()
@@ -17313,7 +17662,7 @@ extension WebAuthnNotEnabledException {
 
 extension WebAuthnOriginNotAllowedException {
 
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> WebAuthnOriginNotAllowedException {
+    static func makeError(baseError: ClientRuntime.AWSJSONError) throws -> WebAuthnOriginNotAllowedException {
         let reader = baseError.errorBodyReader
         var value = WebAuthnOriginNotAllowedException()
         value.properties.message = try reader["message"].readIfPresent()
@@ -17326,7 +17675,7 @@ extension WebAuthnOriginNotAllowedException {
 
 extension WebAuthnRelyingPartyMismatchException {
 
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> WebAuthnRelyingPartyMismatchException {
+    static func makeError(baseError: ClientRuntime.AWSJSONError) throws -> WebAuthnRelyingPartyMismatchException {
         let reader = baseError.errorBodyReader
         var value = WebAuthnRelyingPartyMismatchException()
         value.properties.message = try reader["message"].readIfPresent()
@@ -17339,7 +17688,7 @@ extension WebAuthnRelyingPartyMismatchException {
 
 extension DeviceKeyExistsException {
 
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> DeviceKeyExistsException {
+    static func makeError(baseError: ClientRuntime.AWSJSONError) throws -> DeviceKeyExistsException {
         let reader = baseError.errorBodyReader
         var value = DeviceKeyExistsException()
         value.properties.message = try reader["message"].readIfPresent()
@@ -17352,7 +17701,7 @@ extension DeviceKeyExistsException {
 
 extension GroupExistsException {
 
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> GroupExistsException {
+    static func makeError(baseError: ClientRuntime.AWSJSONError) throws -> GroupExistsException {
         let reader = baseError.errorBodyReader
         var value = GroupExistsException()
         value.properties.message = try reader["message"].readIfPresent()
@@ -17365,7 +17714,7 @@ extension GroupExistsException {
 
 extension DuplicateProviderException {
 
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> DuplicateProviderException {
+    static func makeError(baseError: ClientRuntime.AWSJSONError) throws -> DuplicateProviderException {
         let reader = baseError.errorBodyReader
         var value = DuplicateProviderException()
         value.properties.message = try reader["message"].readIfPresent()
@@ -17378,7 +17727,7 @@ extension DuplicateProviderException {
 
 extension ManagedLoginBrandingExistsException {
 
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> ManagedLoginBrandingExistsException {
+    static func makeError(baseError: ClientRuntime.AWSJSONError) throws -> ManagedLoginBrandingExistsException {
         let reader = baseError.errorBodyReader
         var value = ManagedLoginBrandingExistsException()
         value.properties.message = try reader["message"].readIfPresent()
@@ -17391,7 +17740,7 @@ extension ManagedLoginBrandingExistsException {
 
 extension TermsExistsException {
 
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> TermsExistsException {
+    static func makeError(baseError: ClientRuntime.AWSJSONError) throws -> TermsExistsException {
         let reader = baseError.errorBodyReader
         var value = TermsExistsException()
         value.properties.message = try reader["message"].readIfPresent()
@@ -17404,7 +17753,7 @@ extension TermsExistsException {
 
 extension FeatureUnavailableInTierException {
 
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> FeatureUnavailableInTierException {
+    static func makeError(baseError: ClientRuntime.AWSJSONError) throws -> FeatureUnavailableInTierException {
         let reader = baseError.errorBodyReader
         var value = FeatureUnavailableInTierException()
         value.properties.message = try reader["message"].readIfPresent()
@@ -17417,7 +17766,7 @@ extension FeatureUnavailableInTierException {
 
 extension TierChangeNotAllowedException {
 
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> TierChangeNotAllowedException {
+    static func makeError(baseError: ClientRuntime.AWSJSONError) throws -> TierChangeNotAllowedException {
         let reader = baseError.errorBodyReader
         var value = TierChangeNotAllowedException()
         value.properties.message = try reader["message"].readIfPresent()
@@ -17430,7 +17779,7 @@ extension TierChangeNotAllowedException {
 
 extension UserPoolTaggingException {
 
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> UserPoolTaggingException {
+    static func makeError(baseError: ClientRuntime.AWSJSONError) throws -> UserPoolTaggingException {
         let reader = baseError.errorBodyReader
         var value = UserPoolTaggingException()
         value.properties.message = try reader["message"].readIfPresent()
@@ -17443,7 +17792,7 @@ extension UserPoolTaggingException {
 
 extension InvalidOAuthFlowException {
 
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> InvalidOAuthFlowException {
+    static func makeError(baseError: ClientRuntime.AWSJSONError) throws -> InvalidOAuthFlowException {
         let reader = baseError.errorBodyReader
         var value = InvalidOAuthFlowException()
         value.properties.message = try reader["message"].readIfPresent()
@@ -17456,7 +17805,7 @@ extension InvalidOAuthFlowException {
 
 extension ScopeDoesNotExistException {
 
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> ScopeDoesNotExistException {
+    static func makeError(baseError: ClientRuntime.AWSJSONError) throws -> ScopeDoesNotExistException {
         let reader = baseError.errorBodyReader
         var value = ScopeDoesNotExistException()
         value.properties.message = try reader["message"].readIfPresent()
@@ -17469,7 +17818,7 @@ extension ScopeDoesNotExistException {
 
 extension UnsupportedIdentityProviderException {
 
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> UnsupportedIdentityProviderException {
+    static func makeError(baseError: ClientRuntime.AWSJSONError) throws -> UnsupportedIdentityProviderException {
         let reader = baseError.errorBodyReader
         var value = UnsupportedIdentityProviderException()
         value.properties.message = try reader["message"].readIfPresent()
@@ -17482,7 +17831,7 @@ extension UnsupportedIdentityProviderException {
 
 extension RefreshTokenReuseException {
 
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> RefreshTokenReuseException {
+    static func makeError(baseError: ClientRuntime.AWSJSONError) throws -> RefreshTokenReuseException {
         let reader = baseError.errorBodyReader
         var value = RefreshTokenReuseException()
         value.properties.message = try reader["message"].readIfPresent()
@@ -17495,7 +17844,7 @@ extension RefreshTokenReuseException {
 
 extension UnauthorizedException {
 
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> UnauthorizedException {
+    static func makeError(baseError: ClientRuntime.AWSJSONError) throws -> UnauthorizedException {
         let reader = baseError.errorBodyReader
         var value = UnauthorizedException()
         value.properties.message = try reader["message"].readIfPresent()
@@ -17508,7 +17857,7 @@ extension UnauthorizedException {
 
 extension UnsupportedTokenTypeException {
 
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> UnsupportedTokenTypeException {
+    static func makeError(baseError: ClientRuntime.AWSJSONError) throws -> UnsupportedTokenTypeException {
         let reader = baseError.errorBodyReader
         var value = UnsupportedTokenTypeException()
         value.properties.message = try reader["message"].readIfPresent()
@@ -17521,7 +17870,7 @@ extension UnsupportedTokenTypeException {
 
 extension WebAuthnConfigurationMissingException {
 
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> WebAuthnConfigurationMissingException {
+    static func makeError(baseError: ClientRuntime.AWSJSONError) throws -> WebAuthnConfigurationMissingException {
         let reader = baseError.errorBodyReader
         var value = WebAuthnConfigurationMissingException()
         value.properties.message = try reader["message"].readIfPresent()
@@ -17534,7 +17883,7 @@ extension WebAuthnConfigurationMissingException {
 
 extension EnableSoftwareTokenMFAException {
 
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> EnableSoftwareTokenMFAException {
+    static func makeError(baseError: ClientRuntime.AWSJSONError) throws -> EnableSoftwareTokenMFAException {
         let reader = baseError.errorBodyReader
         var value = EnableSoftwareTokenMFAException()
         value.properties.message = try reader["message"].readIfPresent()
@@ -17757,6 +18106,18 @@ extension CognitoIdentityProviderClientTypes.ChallengeResponseType {
         var value = CognitoIdentityProviderClientTypes.ChallengeResponseType()
         value.challengeName = try reader["ChallengeName"].readIfPresent()
         value.challengeResponse = try reader["ChallengeResponse"].readIfPresent()
+        return value
+    }
+}
+
+extension CognitoIdentityProviderClientTypes.ClientSecretDescriptorType {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> CognitoIdentityProviderClientTypes.ClientSecretDescriptorType {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = CognitoIdentityProviderClientTypes.ClientSecretDescriptorType()
+        value.clientSecretId = try reader["ClientSecretId"].readIfPresent()
+        value.clientSecretValue = try reader["ClientSecretValue"].readIfPresent()
+        value.clientSecretCreateDate = try reader["ClientSecretCreateDate"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
         return value
     }
 }
