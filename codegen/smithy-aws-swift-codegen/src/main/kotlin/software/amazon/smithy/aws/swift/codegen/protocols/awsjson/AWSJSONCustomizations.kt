@@ -6,8 +6,10 @@
 package software.amazon.smithy.aws.swift.codegen.protocols.awsjson
 
 import software.amazon.smithy.aws.swift.codegen.AWSHTTPProtocolCustomizations
+import software.amazon.smithy.aws.swift.codegen.swiftmodules.AWSSDKAWSJSONTypes
 import software.amazon.smithy.codegen.core.Symbol
 import software.amazon.smithy.model.traits.TimestampFormatTrait
+import software.amazon.smithy.swift.codegen.integration.Plugin
 import software.amazon.smithy.swift.codegen.swiftmodules.ClientRuntimeTypes
 
 class AWSJSONCustomizations : AWSHTTPProtocolCustomizations() {
