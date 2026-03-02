@@ -5,9 +5,8 @@
 // SPDX-License-Identifier: Apache-2.0
 //
 
-import class AWSClientRuntime.AwsQueryCompatibleErrorDetails
+import class ClientRuntime.AwsQueryCompatibleErrorDetails
 @_spi(UnknownAWSHTTPServiceError) import struct AWSClientRuntime.UnknownAWSHTTPServiceError
-//import struct ClientRuntime.MutateHeadersMiddleware
 import protocol ClientRuntime.HTTPError
 import protocol ClientRuntime.ServiceError
 import struct Foundation.Data
