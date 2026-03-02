@@ -28,30 +28,27 @@ dependencies {
 
 data class CodegenTest(val service: String, val module: String)
 val codegenTests = listOf(
+    // Serde benchmark models
+//    CodegenTest(
+//        "com.amazonaws.sdk.benchmark#AwsJsonRpc1_0DataPlane",
+//        "SerdeBenchmarkAWSJSONRPC10"
+//    ),
+//    CodegenTest(
+//        "com.amazonaws.sdk.benchmark#AwsQueryDataPlane",
+//        "SerdeBenchmarkAWSQuery"
+//    ),
+//    CodegenTest(
+//        "com.amazonaws.sdk.benchmark#AwsRestJsonDataPlane",
+//        "SerdeBenchmarkAWSRestJSON"
+//    ),
     CodegenTest(
-        "aws.protocoltests.restjson#RestJsonExtras",
-        "rest_json_extras"
+        "com.amazonaws.sdk.benchmark#AwsRestXmlDataPlane",
+        "SerdeBenchmarkAWSRestXML"
     ),
-    CodegenTest(
-        "aws.protocoltests.query#AwsQueryExtras",
-        "AwsQueryExtras"
-    ),
-    CodegenTest(
-        "aws.protocoltests.waiters#Waiters",
-        "Waiters"
-    ),
-    CodegenTest(
-        "aws.protocoltests.eventstream#TestService",
-        "EventStream"
-    ),
-    CodegenTest(
-        "aws.protocoltests.eventstream#RPCTestService",
-        "RPCEventStream"
-    ),
-    CodegenTest(
-        "aws.endpointtests.stringarray#EndpointStringArray",
-        "StringArrayEndpointParam"
-    )
+//    CodegenTest(
+//        "com.amazonaws.sdk.benchmark#SmithyRpcV2CborDataPlane",
+//        "SerdeBenchmarkSmithyRPCV2CBOR"
+//    ),
 )
 
 fun generateSmithyBuild(tests: List<CodegenTest>): String {

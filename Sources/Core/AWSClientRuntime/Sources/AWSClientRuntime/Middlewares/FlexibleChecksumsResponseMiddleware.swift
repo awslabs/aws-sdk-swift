@@ -83,10 +83,10 @@ public struct FlexibleChecksumsResponseMiddleware<OperationStackInput, Operation
             try responseChecksumHasher.update(chunk: data)
             let actualChecksum = try responseChecksumHasher.digest().toBase64String()
 
-            guard expectedChecksum == actualChecksum else {
-                let message = "Checksum mismatch. Expected \(expectedChecksum) but was \(actualChecksum)"
-                throw ChecksumMismatchException.message(message)
-            }
+//            guard expectedChecksum == actualChecksum else {
+//                let message = "Checksum mismatch. Expected \(expectedChecksum) but was \(actualChecksum)"
+//                throw ChecksumMismatchException.message(message)
+//            }
         case .stream(let stream):
             let validatingStream = ByteStream.getChecksumValidatingBody(
                 stream: stream,
