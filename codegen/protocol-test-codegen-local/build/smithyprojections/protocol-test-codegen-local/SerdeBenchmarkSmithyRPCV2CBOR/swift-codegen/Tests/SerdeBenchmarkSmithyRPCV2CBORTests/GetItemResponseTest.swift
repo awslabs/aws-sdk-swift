@@ -135,8 +135,6 @@ class GetItemResponseTest: HttpResponseTestBase {
                 "smithy-protocol": "rpc-v2-cbor"
             ],
             content: .data(Data("""
-            oA==
-
             """.utf8))
         ) else {
             XCTFail("Something is wrong with the created http response")

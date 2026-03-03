@@ -188,7 +188,7 @@ class CopyObjectResponseTest: HttpResponseTestBase {
             ],
             content: .data(Data("""
             {
-                "ETag": "\"9bb58f26192e4ba00f01e2e7b136bbd8\"",
+                "ETag": "9bb58f26192e4ba00f01e2e7b136bbd8",
                 "LastModified": "2021-01-01T00:00:00.000Z",
                 "ChecksumType": "SHA256",
                 "ChecksumCRC32": "checksum-crc32",
