@@ -700,6 +700,7 @@ extension BedrockAgentCoreControlClientTypes {
         case python311
         case python312
         case python313
+        case python314
         case sdkUnknown(Swift.String)
 
         public static var allCases: [AgentManagedRuntimeType] {
@@ -707,7 +708,8 @@ extension BedrockAgentCoreControlClientTypes {
                 .python310,
                 .python311,
                 .python312,
-                .python313
+                .python313,
+                .python314
             ]
         }
 
@@ -722,6 +724,7 @@ extension BedrockAgentCoreControlClientTypes {
             case .python311: return "PYTHON_3_11"
             case .python312: return "PYTHON_3_12"
             case .python313: return "PYTHON_3_13"
+            case .python314: return "PYTHON_3_14"
             case let .sdkUnknown(s): return s
             }
         }
@@ -1343,6 +1346,22 @@ public struct GetAgentRuntimeInput: Swift.Sendable {
     }
 }
 
+extension BedrockAgentCoreControlClientTypes {
+
+    /// Configuration for microVM metadata service settings.
+    public struct RuntimeMetadataConfiguration: Swift.Sendable {
+        /// Enables MMDSv2 (microVM Metadata Service Version 2) requirement for the agent runtime. When set to true, the runtime microVM will only accept MMDSv2 requests.
+        /// This member is required.
+        public var requireMMDSV2: Swift.Bool?
+
+        public init(
+            requireMMDSV2: Swift.Bool? = nil
+        ) {
+            self.requireMMDSV2 = requireMMDSV2
+        }
+    }
+}
+
 public struct GetAgentRuntimeOutput: Swift.Sendable {
     /// The Amazon Resource Name (ARN) of the AgentCore Runtime.
     /// This member is required.
@@ -1375,6 +1394,8 @@ public struct GetAgentRuntimeOutput: Swift.Sendable {
     /// The life cycle configuration for the AgentCore Runtime.
     /// This member is required.
     public var lifecycleConfiguration: BedrockAgentCoreControlClientTypes.LifecycleConfiguration?
+    /// Configuration for microVM Metadata Service (MMDS) settings for the AgentCore Runtime.
+    public var metadataConfiguration: BedrockAgentCoreControlClientTypes.RuntimeMetadataConfiguration?
     /// The network configuration for the AgentCore Runtime.
     /// This member is required.
     public var networkConfiguration: BedrockAgentCoreControlClientTypes.NetworkConfiguration?
@@ -1404,6 +1425,7 @@ public struct GetAgentRuntimeOutput: Swift.Sendable {
         failureReason: Swift.String? = nil,
         lastUpdatedAt: Foundation.Date? = nil,
         lifecycleConfiguration: BedrockAgentCoreControlClientTypes.LifecycleConfiguration? = nil,
+        metadataConfiguration: BedrockAgentCoreControlClientTypes.RuntimeMetadataConfiguration? = nil,
         networkConfiguration: BedrockAgentCoreControlClientTypes.NetworkConfiguration? = nil,
         protocolConfiguration: BedrockAgentCoreControlClientTypes.ProtocolConfiguration? = nil,
         requestHeaderConfiguration: BedrockAgentCoreControlClientTypes.RequestHeaderConfiguration? = nil,
@@ -1423,6 +1445,7 @@ public struct GetAgentRuntimeOutput: Swift.Sendable {
         self.failureReason = failureReason
         self.lastUpdatedAt = lastUpdatedAt
         self.lifecycleConfiguration = lifecycleConfiguration
+        self.metadataConfiguration = metadataConfiguration
         self.networkConfiguration = networkConfiguration
         self.protocolConfiguration = protocolConfiguration
         self.requestHeaderConfiguration = requestHeaderConfiguration
@@ -1434,7 +1457,7 @@ public struct GetAgentRuntimeOutput: Swift.Sendable {
 
 extension GetAgentRuntimeOutput: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
-        "GetAgentRuntimeOutput(agentRuntimeArn: \(Swift.String(describing: agentRuntimeArn)), agentRuntimeArtifact: \(Swift.String(describing: agentRuntimeArtifact)), agentRuntimeId: \(Swift.String(describing: agentRuntimeId)), agentRuntimeName: \(Swift.String(describing: agentRuntimeName)), agentRuntimeVersion: \(Swift.String(describing: agentRuntimeVersion)), authorizerConfiguration: \(Swift.String(describing: authorizerConfiguration)), createdAt: \(Swift.String(describing: createdAt)), failureReason: \(Swift.String(describing: failureReason)), lastUpdatedAt: \(Swift.String(describing: lastUpdatedAt)), lifecycleConfiguration: \(Swift.String(describing: lifecycleConfiguration)), networkConfiguration: \(Swift.String(describing: networkConfiguration)), protocolConfiguration: \(Swift.String(describing: protocolConfiguration)), requestHeaderConfiguration: \(Swift.String(describing: requestHeaderConfiguration)), roleArn: \(Swift.String(describing: roleArn)), status: \(Swift.String(describing: status)), workloadIdentityDetails: \(Swift.String(describing: workloadIdentityDetails)), description: \"CONTENT_REDACTED\", environmentVariables: \"CONTENT_REDACTED\")"}
+        "GetAgentRuntimeOutput(agentRuntimeArn: \(Swift.String(describing: agentRuntimeArn)), agentRuntimeArtifact: \(Swift.String(describing: agentRuntimeArtifact)), agentRuntimeId: \(Swift.String(describing: agentRuntimeId)), agentRuntimeName: \(Swift.String(describing: agentRuntimeName)), agentRuntimeVersion: \(Swift.String(describing: agentRuntimeVersion)), authorizerConfiguration: \(Swift.String(describing: authorizerConfiguration)), createdAt: \(Swift.String(describing: createdAt)), failureReason: \(Swift.String(describing: failureReason)), lastUpdatedAt: \(Swift.String(describing: lastUpdatedAt)), lifecycleConfiguration: \(Swift.String(describing: lifecycleConfiguration)), metadataConfiguration: \(Swift.String(describing: metadataConfiguration)), networkConfiguration: \(Swift.String(describing: networkConfiguration)), protocolConfiguration: \(Swift.String(describing: protocolConfiguration)), requestHeaderConfiguration: \(Swift.String(describing: requestHeaderConfiguration)), roleArn: \(Swift.String(describing: roleArn)), status: \(Swift.String(describing: status)), workloadIdentityDetails: \(Swift.String(describing: workloadIdentityDetails)), description: \"CONTENT_REDACTED\", environmentVariables: \"CONTENT_REDACTED\")"}
 }
 
 public struct ListAgentRuntimesInput: Swift.Sendable {
@@ -1572,6 +1595,8 @@ public struct UpdateAgentRuntimeInput: Swift.Sendable {
     public var environmentVariables: [Swift.String: Swift.String]?
     /// The updated life cycle configuration for the AgentCore Runtime.
     public var lifecycleConfiguration: BedrockAgentCoreControlClientTypes.LifecycleConfiguration?
+    /// The updated configuration for microVM Metadata Service (MMDS) settings for the AgentCore Runtime.
+    public var metadataConfiguration: BedrockAgentCoreControlClientTypes.RuntimeMetadataConfiguration?
     /// The updated network configuration for the AgentCore Runtime.
     /// This member is required.
     public var networkConfiguration: BedrockAgentCoreControlClientTypes.NetworkConfiguration?
@@ -1591,6 +1616,7 @@ public struct UpdateAgentRuntimeInput: Swift.Sendable {
         description: Swift.String? = nil,
         environmentVariables: [Swift.String: Swift.String]? = nil,
         lifecycleConfiguration: BedrockAgentCoreControlClientTypes.LifecycleConfiguration? = nil,
+        metadataConfiguration: BedrockAgentCoreControlClientTypes.RuntimeMetadataConfiguration? = nil,
         networkConfiguration: BedrockAgentCoreControlClientTypes.NetworkConfiguration? = nil,
         protocolConfiguration: BedrockAgentCoreControlClientTypes.ProtocolConfiguration? = nil,
         requestHeaderConfiguration: BedrockAgentCoreControlClientTypes.RequestHeaderConfiguration? = nil,
@@ -1603,6 +1629,7 @@ public struct UpdateAgentRuntimeInput: Swift.Sendable {
         self.description = description
         self.environmentVariables = environmentVariables
         self.lifecycleConfiguration = lifecycleConfiguration
+        self.metadataConfiguration = metadataConfiguration
         self.networkConfiguration = networkConfiguration
         self.protocolConfiguration = protocolConfiguration
         self.requestHeaderConfiguration = requestHeaderConfiguration
@@ -1612,7 +1639,7 @@ public struct UpdateAgentRuntimeInput: Swift.Sendable {
 
 extension UpdateAgentRuntimeInput: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
-        "UpdateAgentRuntimeInput(agentRuntimeArtifact: \(Swift.String(describing: agentRuntimeArtifact)), agentRuntimeId: \(Swift.String(describing: agentRuntimeId)), authorizerConfiguration: \(Swift.String(describing: authorizerConfiguration)), clientToken: \(Swift.String(describing: clientToken)), lifecycleConfiguration: \(Swift.String(describing: lifecycleConfiguration)), networkConfiguration: \(Swift.String(describing: networkConfiguration)), protocolConfiguration: \(Swift.String(describing: protocolConfiguration)), requestHeaderConfiguration: \(Swift.String(describing: requestHeaderConfiguration)), roleArn: \(Swift.String(describing: roleArn)), description: \"CONTENT_REDACTED\", environmentVariables: \"CONTENT_REDACTED\")"}
+        "UpdateAgentRuntimeInput(agentRuntimeArtifact: \(Swift.String(describing: agentRuntimeArtifact)), agentRuntimeId: \(Swift.String(describing: agentRuntimeId)), authorizerConfiguration: \(Swift.String(describing: authorizerConfiguration)), clientToken: \(Swift.String(describing: clientToken)), lifecycleConfiguration: \(Swift.String(describing: lifecycleConfiguration)), metadataConfiguration: \(Swift.String(describing: metadataConfiguration)), networkConfiguration: \(Swift.String(describing: networkConfiguration)), protocolConfiguration: \(Swift.String(describing: protocolConfiguration)), requestHeaderConfiguration: \(Swift.String(describing: requestHeaderConfiguration)), roleArn: \(Swift.String(describing: roleArn)), description: \"CONTENT_REDACTED\", environmentVariables: \"CONTENT_REDACTED\")"}
 }
 
 public struct UpdateAgentRuntimeOutput: Swift.Sendable {
@@ -8782,24 +8809,32 @@ public struct CreatePolicyEngineInput: Swift.Sendable {
     public var clientToken: Swift.String?
     /// A human-readable description of the policy engine's purpose and scope (1-4,096 characters). This helps administrators understand the policy engine's role in the overall governance strategy. Document which Gateway this engine will be associated with, what types of tools or workflows it governs, and the team or service responsible for maintaining it. Clear descriptions are essential when managing multiple policy engines across different services or environments.
     public var description: Swift.String?
+    /// The Amazon Resource Name (ARN) of the KMS key used to encrypt the policy engine data.
+    public var encryptionKeyArn: Swift.String?
     /// The customer-assigned immutable name for the policy engine. This name identifies the policy engine and cannot be changed after creation.
     /// This member is required.
     public var name: Swift.String?
+    /// A map of tag keys and values to assign to an AgentCore Policy. Tags enable you to categorize your resources in different ways, for example, by purpose, owner, or environment.
+    public var tags: [Swift.String: Swift.String]?
 
     public init(
         clientToken: Swift.String? = nil,
         description: Swift.String? = nil,
-        name: Swift.String? = nil
+        encryptionKeyArn: Swift.String? = nil,
+        name: Swift.String? = nil,
+        tags: [Swift.String: Swift.String]? = nil
     ) {
         self.clientToken = clientToken
         self.description = description
+        self.encryptionKeyArn = encryptionKeyArn
         self.name = name
+        self.tags = tags
     }
 }
 
 extension CreatePolicyEngineInput: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
-        "CreatePolicyEngineInput(clientToken: \(Swift.String(describing: clientToken)), name: \(Swift.String(describing: name)), description: \"CONTENT_REDACTED\")"}
+        "CreatePolicyEngineInput(clientToken: \(Swift.String(describing: clientToken)), encryptionKeyArn: \(Swift.String(describing: encryptionKeyArn)), name: \(Swift.String(describing: name)), tags: \(Swift.String(describing: tags)), description: \"CONTENT_REDACTED\")"}
 }
 
 extension BedrockAgentCoreControlClientTypes {
@@ -8852,6 +8887,8 @@ public struct CreatePolicyEngineOutput: Swift.Sendable {
     public var createdAt: Foundation.Date?
     /// A human-readable description of the policy engine's purpose.
     public var description: Swift.String?
+    /// The Amazon Resource Name (ARN) of the KMS key used to encrypt the policy engine data.
+    public var encryptionKeyArn: Swift.String?
     /// The customer-assigned name of the created policy engine. This matches the name provided in the request and serves as the human-readable identifier.
     /// This member is required.
     public var name: Swift.String?
@@ -8874,6 +8911,7 @@ public struct CreatePolicyEngineOutput: Swift.Sendable {
     public init(
         createdAt: Foundation.Date? = nil,
         description: Swift.String? = nil,
+        encryptionKeyArn: Swift.String? = nil,
         name: Swift.String? = nil,
         policyEngineArn: Swift.String? = nil,
         policyEngineId: Swift.String? = nil,
@@ -8883,6 +8921,7 @@ public struct CreatePolicyEngineOutput: Swift.Sendable {
     ) {
         self.createdAt = createdAt
         self.description = description
+        self.encryptionKeyArn = encryptionKeyArn
         self.name = name
         self.policyEngineArn = policyEngineArn
         self.policyEngineId = policyEngineId
@@ -8894,7 +8933,7 @@ public struct CreatePolicyEngineOutput: Swift.Sendable {
 
 extension CreatePolicyEngineOutput: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
-        "CreatePolicyEngineOutput(createdAt: \(Swift.String(describing: createdAt)), name: \(Swift.String(describing: name)), policyEngineArn: \(Swift.String(describing: policyEngineArn)), policyEngineId: \(Swift.String(describing: policyEngineId)), status: \(Swift.String(describing: status)), statusReasons: \(Swift.String(describing: statusReasons)), updatedAt: \(Swift.String(describing: updatedAt)), description: \"CONTENT_REDACTED\")"}
+        "CreatePolicyEngineOutput(createdAt: \(Swift.String(describing: createdAt)), encryptionKeyArn: \(Swift.String(describing: encryptionKeyArn)), name: \(Swift.String(describing: name)), policyEngineArn: \(Swift.String(describing: policyEngineArn)), policyEngineId: \(Swift.String(describing: policyEngineId)), status: \(Swift.String(describing: status)), statusReasons: \(Swift.String(describing: statusReasons)), updatedAt: \(Swift.String(describing: updatedAt)), description: \"CONTENT_REDACTED\")"}
 }
 
 public struct DeletePolicyEngineInput: Swift.Sendable {
@@ -8915,6 +8954,8 @@ public struct DeletePolicyEngineOutput: Swift.Sendable {
     public var createdAt: Foundation.Date?
     /// The human-readable description of the deleted policy engine.
     public var description: Swift.String?
+    /// The Amazon Resource Name (ARN) of the KMS key used to encrypt the policy engine data.
+    public var encryptionKeyArn: Swift.String?
     /// The customer-assigned name of the deleted policy engine.
     /// This member is required.
     public var name: Swift.String?
@@ -8937,6 +8978,7 @@ public struct DeletePolicyEngineOutput: Swift.Sendable {
     public init(
         createdAt: Foundation.Date? = nil,
         description: Swift.String? = nil,
+        encryptionKeyArn: Swift.String? = nil,
         name: Swift.String? = nil,
         policyEngineArn: Swift.String? = nil,
         policyEngineId: Swift.String? = nil,
@@ -8946,6 +8988,7 @@ public struct DeletePolicyEngineOutput: Swift.Sendable {
     ) {
         self.createdAt = createdAt
         self.description = description
+        self.encryptionKeyArn = encryptionKeyArn
         self.name = name
         self.policyEngineArn = policyEngineArn
         self.policyEngineId = policyEngineId
@@ -8957,7 +9000,7 @@ public struct DeletePolicyEngineOutput: Swift.Sendable {
 
 extension DeletePolicyEngineOutput: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
-        "DeletePolicyEngineOutput(createdAt: \(Swift.String(describing: createdAt)), name: \(Swift.String(describing: name)), policyEngineArn: \(Swift.String(describing: policyEngineArn)), policyEngineId: \(Swift.String(describing: policyEngineId)), status: \(Swift.String(describing: status)), statusReasons: \(Swift.String(describing: statusReasons)), updatedAt: \(Swift.String(describing: updatedAt)), description: \"CONTENT_REDACTED\")"}
+        "DeletePolicyEngineOutput(createdAt: \(Swift.String(describing: createdAt)), encryptionKeyArn: \(Swift.String(describing: encryptionKeyArn)), name: \(Swift.String(describing: name)), policyEngineArn: \(Swift.String(describing: policyEngineArn)), policyEngineId: \(Swift.String(describing: policyEngineId)), status: \(Swift.String(describing: status)), statusReasons: \(Swift.String(describing: statusReasons)), updatedAt: \(Swift.String(describing: updatedAt)), description: \"CONTENT_REDACTED\")"}
 }
 
 public struct GetPolicyEngineInput: Swift.Sendable {
@@ -8978,6 +9021,8 @@ public struct GetPolicyEngineOutput: Swift.Sendable {
     public var createdAt: Foundation.Date?
     /// The human-readable description of the policy engine's purpose and scope. This helps administrators understand the policy engine's role in governance.
     public var description: Swift.String?
+    /// The Amazon Resource Name (ARN) of the KMS key used to encrypt the policy engine data.
+    public var encryptionKeyArn: Swift.String?
     /// The customer-assigned name of the policy engine. This is the human-readable identifier that was specified when the policy engine was created.
     /// This member is required.
     public var name: Swift.String?
@@ -9000,6 +9045,7 @@ public struct GetPolicyEngineOutput: Swift.Sendable {
     public init(
         createdAt: Foundation.Date? = nil,
         description: Swift.String? = nil,
+        encryptionKeyArn: Swift.String? = nil,
         name: Swift.String? = nil,
         policyEngineArn: Swift.String? = nil,
         policyEngineId: Swift.String? = nil,
@@ -9009,6 +9055,7 @@ public struct GetPolicyEngineOutput: Swift.Sendable {
     ) {
         self.createdAt = createdAt
         self.description = description
+        self.encryptionKeyArn = encryptionKeyArn
         self.name = name
         self.policyEngineArn = policyEngineArn
         self.policyEngineId = policyEngineId
@@ -9020,7 +9067,7 @@ public struct GetPolicyEngineOutput: Swift.Sendable {
 
 extension GetPolicyEngineOutput: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
-        "GetPolicyEngineOutput(createdAt: \(Swift.String(describing: createdAt)), name: \(Swift.String(describing: name)), policyEngineArn: \(Swift.String(describing: policyEngineArn)), policyEngineId: \(Swift.String(describing: policyEngineId)), status: \(Swift.String(describing: status)), statusReasons: \(Swift.String(describing: statusReasons)), updatedAt: \(Swift.String(describing: updatedAt)), description: \"CONTENT_REDACTED\")"}
+        "GetPolicyEngineOutput(createdAt: \(Swift.String(describing: createdAt)), encryptionKeyArn: \(Swift.String(describing: encryptionKeyArn)), name: \(Swift.String(describing: name)), policyEngineArn: \(Swift.String(describing: policyEngineArn)), policyEngineId: \(Swift.String(describing: policyEngineId)), status: \(Swift.String(describing: status)), statusReasons: \(Swift.String(describing: statusReasons)), updatedAt: \(Swift.String(describing: updatedAt)), description: \"CONTENT_REDACTED\")"}
 }
 
 public struct ListPolicyEnginesInput: Swift.Sendable {
@@ -9047,6 +9094,8 @@ extension BedrockAgentCoreControlClientTypes {
         public var createdAt: Foundation.Date?
         /// A human-readable description of the policy engine's purpose and scope. Limited to 4,096 characters, this helps administrators understand the policy engine's role in the overall governance strategy.
         public var description: Swift.String?
+        /// The Amazon Resource Name (ARN) of the KMS key used to encrypt the policy engine data.
+        public var encryptionKeyArn: Swift.String?
         /// The customer-assigned immutable name for the policy engine. This human-readable identifier must be unique within the account and cannot exceed 48 characters.
         /// This member is required.
         public var name: Swift.String?
@@ -9069,6 +9118,7 @@ extension BedrockAgentCoreControlClientTypes {
         public init(
             createdAt: Foundation.Date? = nil,
             description: Swift.String? = nil,
+            encryptionKeyArn: Swift.String? = nil,
             name: Swift.String? = nil,
             policyEngineArn: Swift.String? = nil,
             policyEngineId: Swift.String? = nil,
@@ -9078,6 +9128,7 @@ extension BedrockAgentCoreControlClientTypes {
         ) {
             self.createdAt = createdAt
             self.description = description
+            self.encryptionKeyArn = encryptionKeyArn
             self.name = name
             self.policyEngineArn = policyEngineArn
             self.policyEngineId = policyEngineId
@@ -9090,7 +9141,7 @@ extension BedrockAgentCoreControlClientTypes {
 
 extension BedrockAgentCoreControlClientTypes.PolicyEngine: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
-        "PolicyEngine(createdAt: \(Swift.String(describing: createdAt)), name: \(Swift.String(describing: name)), policyEngineArn: \(Swift.String(describing: policyEngineArn)), policyEngineId: \(Swift.String(describing: policyEngineId)), status: \(Swift.String(describing: status)), statusReasons: \(Swift.String(describing: statusReasons)), updatedAt: \(Swift.String(describing: updatedAt)), description: \"CONTENT_REDACTED\")"}
+        "PolicyEngine(createdAt: \(Swift.String(describing: createdAt)), encryptionKeyArn: \(Swift.String(describing: encryptionKeyArn)), name: \(Swift.String(describing: name)), policyEngineArn: \(Swift.String(describing: policyEngineArn)), policyEngineId: \(Swift.String(describing: policyEngineId)), status: \(Swift.String(describing: status)), statusReasons: \(Swift.String(describing: statusReasons)), updatedAt: \(Swift.String(describing: updatedAt)), description: \"CONTENT_REDACTED\")"}
 }
 
 public struct ListPolicyEnginesOutput: Swift.Sendable {
@@ -9109,25 +9160,40 @@ public struct ListPolicyEnginesOutput: Swift.Sendable {
     }
 }
 
+extension BedrockAgentCoreControlClientTypes {
+
+    /// Respresents an optional value that can be provided to update the human-readable description of the resource. If the field is omitted from the request, it will leave the current decription value unchanged.
+    public struct UpdatedDescription: Swift.Sendable {
+        /// Represents an optional value that is used to update the human-readable description of the resource. If set to null, it will clear the current description of the resource.
+        public var optionalValue: Swift.String?
+
+        public init(
+            optionalValue: Swift.String? = nil
+        ) {
+            self.optionalValue = optionalValue
+        }
+    }
+}
+
+extension BedrockAgentCoreControlClientTypes.UpdatedDescription: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "UpdatedDescription(optionalValue: \"CONTENT_REDACTED\")"}
+}
+
 public struct UpdatePolicyEngineInput: Swift.Sendable {
     /// The new description for the policy engine.
-    public var description: Swift.String?
+    public var description: BedrockAgentCoreControlClientTypes.UpdatedDescription?
     /// The unique identifier of the policy engine to be updated.
     /// This member is required.
     public var policyEngineId: Swift.String?
 
     public init(
-        description: Swift.String? = nil,
+        description: BedrockAgentCoreControlClientTypes.UpdatedDescription? = nil,
         policyEngineId: Swift.String? = nil
     ) {
         self.description = description
         self.policyEngineId = policyEngineId
     }
-}
-
-extension UpdatePolicyEngineInput: Swift.CustomDebugStringConvertible {
-    public var debugDescription: Swift.String {
-        "UpdatePolicyEngineInput(policyEngineId: \(Swift.String(describing: policyEngineId)), description: \"CONTENT_REDACTED\")"}
 }
 
 public struct UpdatePolicyEngineOutput: Swift.Sendable {
@@ -9136,6 +9202,8 @@ public struct UpdatePolicyEngineOutput: Swift.Sendable {
     public var createdAt: Foundation.Date?
     /// The updated description of the policy engine.
     public var description: Swift.String?
+    /// The Amazon Resource Name (ARN) of the KMS key used to encrypt the policy engine data.
+    public var encryptionKeyArn: Swift.String?
     /// The name of the updated policy engine.
     /// This member is required.
     public var name: Swift.String?
@@ -9158,6 +9226,7 @@ public struct UpdatePolicyEngineOutput: Swift.Sendable {
     public init(
         createdAt: Foundation.Date? = nil,
         description: Swift.String? = nil,
+        encryptionKeyArn: Swift.String? = nil,
         name: Swift.String? = nil,
         policyEngineArn: Swift.String? = nil,
         policyEngineId: Swift.String? = nil,
@@ -9167,6 +9236,7 @@ public struct UpdatePolicyEngineOutput: Swift.Sendable {
     ) {
         self.createdAt = createdAt
         self.description = description
+        self.encryptionKeyArn = encryptionKeyArn
         self.name = name
         self.policyEngineArn = policyEngineArn
         self.policyEngineId = policyEngineId
@@ -9178,7 +9248,7 @@ public struct UpdatePolicyEngineOutput: Swift.Sendable {
 
 extension UpdatePolicyEngineOutput: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
-        "UpdatePolicyEngineOutput(createdAt: \(Swift.String(describing: createdAt)), name: \(Swift.String(describing: name)), policyEngineArn: \(Swift.String(describing: policyEngineArn)), policyEngineId: \(Swift.String(describing: policyEngineId)), status: \(Swift.String(describing: status)), statusReasons: \(Swift.String(describing: statusReasons)), updatedAt: \(Swift.String(describing: updatedAt)), description: \"CONTENT_REDACTED\")"}
+        "UpdatePolicyEngineOutput(createdAt: \(Swift.String(describing: createdAt)), encryptionKeyArn: \(Swift.String(describing: encryptionKeyArn)), name: \(Swift.String(describing: name)), policyEngineArn: \(Swift.String(describing: policyEngineArn)), policyEngineId: \(Swift.String(describing: policyEngineId)), status: \(Swift.String(describing: status)), statusReasons: \(Swift.String(describing: statusReasons)), updatedAt: \(Swift.String(describing: updatedAt)), description: \"CONTENT_REDACTED\")"}
 }
 
 public struct GetPolicyGenerationInput: Swift.Sendable {
@@ -9342,10 +9412,33 @@ extension BedrockAgentCoreControlClientTypes {
 
 extension BedrockAgentCoreControlClientTypes {
 
+    /// Represents the information identifying a generated policy asset from the AI-powered policy generation process within the AgentCore Policy system. Each asset contains a Cedar policy statement generated from natural language input, along with associated metadata and analysis findings to help users evaluate and select the most appropriate policy option.
+    public struct PolicyGenerationDetails: Swift.Sendable {
+        /// The unique identifier for this generated policy asset within the policy generation request.
+        /// This member is required.
+        public var policyGenerationAssetId: Swift.String?
+        /// The unique identifier for this policy generation request.
+        /// This member is required.
+        public var policyGenerationId: Swift.String?
+
+        public init(
+            policyGenerationAssetId: Swift.String? = nil,
+            policyGenerationId: Swift.String? = nil
+        ) {
+            self.policyGenerationAssetId = policyGenerationAssetId
+            self.policyGenerationId = policyGenerationId
+        }
+    }
+}
+
+extension BedrockAgentCoreControlClientTypes {
+
     /// Represents the definition structure for policies within the AgentCore Policy system. This structure encapsulates different policy formats and languages that can be used to define access control rules.
     public enum PolicyDefinition: Swift.Sendable {
         /// The Cedar policy definition within the policy definition structure. This contains the Cedar policy statement that defines the authorization logic using Cedar's human-readable, analyzable policy language. Cedar policies specify principals (who can access), actions (what operations are allowed), resources (what can be accessed), and optional conditions for fine-grained control. Cedar provides a formal policy language designed for authorization with deterministic evaluation, making policies testable, reviewable, and auditable. All Cedar policies follow a default-deny model where actions are denied unless explicitly permitted, and forbid policies always override permit policies.
         case cedar(BedrockAgentCoreControlClientTypes.CedarPolicy)
+        /// The generated policy asset information within the policy definition structure. This contains information identifying a generated policy asset from the AI-powered policy generation process within the AgentCore Policy system. Each asset contains a Cedar policy statement generated from natural language input, along with associated metadata and analysis findings to help users evaluate and select the most appropriate policy option.
+        case policygeneration(BedrockAgentCoreControlClientTypes.PolicyGenerationDetails)
         case sdkUnknown(Swift.String)
     }
 }
@@ -10087,10 +10180,9 @@ public struct ListPoliciesOutput: Swift.Sendable {
 
 public struct UpdatePolicyInput: Swift.Sendable {
     /// The new Cedar policy statement that defines the access control rules. This replaces the existing policy definition with new logic while maintaining the policy's identity.
-    /// This member is required.
     public var definition: BedrockAgentCoreControlClientTypes.PolicyDefinition?
     /// The new human-readable description for the policy. This optional field allows updating the policy's documentation while keeping the same policy logic.
-    public var description: Swift.String?
+    public var description: BedrockAgentCoreControlClientTypes.UpdatedDescription?
     /// The identifier of the policy engine that manages the policy to be updated. This ensures the policy is updated within the correct policy engine context.
     /// This member is required.
     public var policyEngineId: Swift.String?
@@ -10102,7 +10194,7 @@ public struct UpdatePolicyInput: Swift.Sendable {
 
     public init(
         definition: BedrockAgentCoreControlClientTypes.PolicyDefinition? = nil,
-        description: Swift.String? = nil,
+        description: BedrockAgentCoreControlClientTypes.UpdatedDescription? = nil,
         policyEngineId: Swift.String? = nil,
         policyId: Swift.String? = nil,
         validationMode: BedrockAgentCoreControlClientTypes.PolicyValidationMode? = .failOnAnyFindings
@@ -10113,11 +10205,6 @@ public struct UpdatePolicyInput: Swift.Sendable {
         self.policyId = policyId
         self.validationMode = validationMode
     }
-}
-
-extension UpdatePolicyInput: Swift.CustomDebugStringConvertible {
-    public var debugDescription: Swift.String {
-        "UpdatePolicyInput(definition: \(Swift.String(describing: definition)), policyEngineId: \(Swift.String(describing: policyEngineId)), policyId: \(Swift.String(describing: policyId)), validationMode: \(Swift.String(describing: validationMode)), description: \"CONTENT_REDACTED\")"}
 }
 
 public struct UpdatePolicyOutput: Swift.Sendable {
@@ -12335,7 +12422,9 @@ extension CreatePolicyEngineInput {
         guard let value else { return }
         try writer["clientToken"].write(value.clientToken)
         try writer["description"].write(value.description)
+        try writer["encryptionKeyArn"].write(value.encryptionKeyArn)
         try writer["name"].write(value.name)
+        try writer["tags"].writeMap(value.tags, valueWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
     }
 }
 
@@ -12495,6 +12584,7 @@ extension UpdateAgentRuntimeInput {
         try writer["description"].write(value.description)
         try writer["environmentVariables"].writeMap(value.environmentVariables, valueWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
         try writer["lifecycleConfiguration"].write(value.lifecycleConfiguration, with: BedrockAgentCoreControlClientTypes.LifecycleConfiguration.write(value:to:))
+        try writer["metadataConfiguration"].write(value.metadataConfiguration, with: BedrockAgentCoreControlClientTypes.RuntimeMetadataConfiguration.write(value:to:))
         try writer["networkConfiguration"].write(value.networkConfiguration, with: BedrockAgentCoreControlClientTypes.NetworkConfiguration.write(value:to:))
         try writer["protocolConfiguration"].write(value.protocolConfiguration, with: BedrockAgentCoreControlClientTypes.ProtocolConfiguration.write(value:to:))
         try writer["requestHeaderConfiguration"].write(value.requestHeaderConfiguration, with: BedrockAgentCoreControlClientTypes.RequestHeaderConfiguration.write(value:to:))
@@ -12603,7 +12693,7 @@ extension UpdatePolicyInput {
     static func write(value: UpdatePolicyInput?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
         try writer["definition"].write(value.definition, with: BedrockAgentCoreControlClientTypes.PolicyDefinition.write(value:to:))
-        try writer["description"].write(value.description)
+        try writer["description"].write(value.description, with: BedrockAgentCoreControlClientTypes.UpdatedDescription.write(value:to:))
         try writer["validationMode"].write(value.validationMode)
     }
 }
@@ -12612,7 +12702,7 @@ extension UpdatePolicyEngineInput {
 
     static func write(value: UpdatePolicyEngineInput?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
-        try writer["description"].write(value.description)
+        try writer["description"].write(value.description, with: BedrockAgentCoreControlClientTypes.UpdatedDescription.write(value:to:))
     }
 }
 
@@ -12863,6 +12953,7 @@ extension CreatePolicyEngineOutput {
         var value = CreatePolicyEngineOutput()
         value.createdAt = try reader["createdAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
         value.description = try reader["description"].readIfPresent()
+        value.encryptionKeyArn = try reader["encryptionKeyArn"].readIfPresent()
         value.name = try reader["name"].readIfPresent() ?? ""
         value.policyEngineArn = try reader["policyEngineArn"].readIfPresent() ?? ""
         value.policyEngineId = try reader["policyEngineId"].readIfPresent() ?? ""
@@ -13072,6 +13163,7 @@ extension DeletePolicyEngineOutput {
         var value = DeletePolicyEngineOutput()
         value.createdAt = try reader["createdAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
         value.description = try reader["description"].readIfPresent()
+        value.encryptionKeyArn = try reader["encryptionKeyArn"].readIfPresent()
         value.name = try reader["name"].readIfPresent() ?? ""
         value.policyEngineArn = try reader["policyEngineArn"].readIfPresent() ?? ""
         value.policyEngineId = try reader["policyEngineId"].readIfPresent() ?? ""
@@ -13115,6 +13207,7 @@ extension GetAgentRuntimeOutput {
         value.failureReason = try reader["failureReason"].readIfPresent()
         value.lastUpdatedAt = try reader["lastUpdatedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
         value.lifecycleConfiguration = try reader["lifecycleConfiguration"].readIfPresent(with: BedrockAgentCoreControlClientTypes.LifecycleConfiguration.read(from:))
+        value.metadataConfiguration = try reader["metadataConfiguration"].readIfPresent(with: BedrockAgentCoreControlClientTypes.RuntimeMetadataConfiguration.read(from:))
         value.networkConfiguration = try reader["networkConfiguration"].readIfPresent(with: BedrockAgentCoreControlClientTypes.NetworkConfiguration.read(from:))
         value.protocolConfiguration = try reader["protocolConfiguration"].readIfPresent(with: BedrockAgentCoreControlClientTypes.ProtocolConfiguration.read(from:))
         value.requestHeaderConfiguration = try reader["requestHeaderConfiguration"].readIfPresent(with: BedrockAgentCoreControlClientTypes.RequestHeaderConfiguration.read(from:))
@@ -13388,6 +13481,7 @@ extension GetPolicyEngineOutput {
         var value = GetPolicyEngineOutput()
         value.createdAt = try reader["createdAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
         value.description = try reader["description"].readIfPresent()
+        value.encryptionKeyArn = try reader["encryptionKeyArn"].readIfPresent()
         value.name = try reader["name"].readIfPresent() ?? ""
         value.policyEngineArn = try reader["policyEngineArn"].readIfPresent() ?? ""
         value.policyEngineId = try reader["policyEngineId"].readIfPresent() ?? ""
@@ -13978,6 +14072,7 @@ extension UpdatePolicyEngineOutput {
         var value = UpdatePolicyEngineOutput()
         value.createdAt = try reader["createdAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
         value.description = try reader["description"].readIfPresent()
+        value.encryptionKeyArn = try reader["encryptionKeyArn"].readIfPresent()
         value.name = try reader["name"].readIfPresent() ?? ""
         value.policyEngineArn = try reader["policyEngineArn"].readIfPresent() ?? ""
         value.policyEngineId = try reader["policyEngineId"].readIfPresent() ?? ""
@@ -17789,6 +17884,8 @@ extension BedrockAgentCoreControlClientTypes.PolicyDefinition {
         switch value {
             case let .cedar(cedar):
                 try writer["cedar"].write(cedar, with: BedrockAgentCoreControlClientTypes.CedarPolicy.write(value:to:))
+            case let .policygeneration(policygeneration):
+                try writer["policyGeneration"].write(policygeneration, with: BedrockAgentCoreControlClientTypes.PolicyGenerationDetails.write(value:to:))
             case let .sdkUnknown(sdkUnknown):
                 try writer["sdkUnknown"].write(sdkUnknown)
         }
@@ -17800,6 +17897,8 @@ extension BedrockAgentCoreControlClientTypes.PolicyDefinition {
         switch name {
             case "cedar":
                 return .cedar(try reader["cedar"].read(with: BedrockAgentCoreControlClientTypes.CedarPolicy.read(from:)))
+            case "policyGeneration":
+                return .policygeneration(try reader["policyGeneration"].read(with: BedrockAgentCoreControlClientTypes.PolicyGenerationDetails.read(from:)))
             default:
                 return .sdkUnknown(name ?? "")
         }
@@ -17819,6 +17918,7 @@ extension BedrockAgentCoreControlClientTypes.PolicyEngine {
         value.policyEngineArn = try reader["policyEngineArn"].readIfPresent() ?? ""
         value.status = try reader["status"].readIfPresent() ?? .sdkUnknown("")
         value.statusReasons = try reader["statusReasons"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        value.encryptionKeyArn = try reader["encryptionKeyArn"].readIfPresent()
         return value
     }
 }
@@ -17851,6 +17951,23 @@ extension BedrockAgentCoreControlClientTypes.PolicyGenerationAsset {
         value.definition = try reader["definition"].readIfPresent(with: BedrockAgentCoreControlClientTypes.PolicyDefinition.read(from:))
         value.rawTextFragment = try reader["rawTextFragment"].readIfPresent() ?? ""
         value.findings = try reader["findings"].readListIfPresent(memberReadingClosure: BedrockAgentCoreControlClientTypes.Finding.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        return value
+    }
+}
+
+extension BedrockAgentCoreControlClientTypes.PolicyGenerationDetails {
+
+    static func write(value: BedrockAgentCoreControlClientTypes.PolicyGenerationDetails?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["policyGenerationAssetId"].write(value.policyGenerationAssetId)
+        try writer["policyGenerationId"].write(value.policyGenerationId)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> BedrockAgentCoreControlClientTypes.PolicyGenerationDetails {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = BedrockAgentCoreControlClientTypes.PolicyGenerationDetails()
+        value.policyGenerationId = try reader["policyGenerationId"].readIfPresent() ?? ""
+        value.policyGenerationAssetId = try reader["policyGenerationAssetId"].readIfPresent() ?? ""
         return value
     }
 }
@@ -17994,6 +18111,21 @@ extension BedrockAgentCoreControlClientTypes.Rule {
         value.samplingConfig = try reader["samplingConfig"].readIfPresent(with: BedrockAgentCoreControlClientTypes.SamplingConfig.read(from:))
         value.filters = try reader["filters"].readListIfPresent(memberReadingClosure: BedrockAgentCoreControlClientTypes.Filter.read(from:), memberNodeInfo: "member", isFlattened: false)
         value.sessionConfig = try reader["sessionConfig"].readIfPresent(with: BedrockAgentCoreControlClientTypes.SessionConfig.read(from:))
+        return value
+    }
+}
+
+extension BedrockAgentCoreControlClientTypes.RuntimeMetadataConfiguration {
+
+    static func write(value: BedrockAgentCoreControlClientTypes.RuntimeMetadataConfiguration?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["requireMMDSV2"].write(value.requireMMDSV2)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> BedrockAgentCoreControlClientTypes.RuntimeMetadataConfiguration {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = BedrockAgentCoreControlClientTypes.RuntimeMetadataConfiguration()
+        value.requireMMDSV2 = try reader["requireMMDSV2"].readIfPresent() ?? false
         return value
     }
 }
@@ -18426,6 +18558,14 @@ extension BedrockAgentCoreControlClientTypes.TriggerConditionInput {
             case let .sdkUnknown(sdkUnknown):
                 try writer["sdkUnknown"].write(sdkUnknown)
         }
+    }
+}
+
+extension BedrockAgentCoreControlClientTypes.UpdatedDescription {
+
+    static func write(value: BedrockAgentCoreControlClientTypes.UpdatedDescription?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["optionalValue"].write(value.optionalValue)
     }
 }
 

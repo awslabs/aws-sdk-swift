@@ -6600,7 +6600,7 @@ extension BedrockAgentCoreControlClient {
     /// - `ValidationException` : The input fails to satisfy the constraints specified by the service.
     public func updatePolicy(input: UpdatePolicyInput) async throws -> UpdatePolicyOutput {
         let context = Smithy.ContextBuilder()
-                      .withMethod(value: .put)
+                      .withMethod(value: .patch)
                       .withServiceName(value: serviceName)
                       .withOperation(value: "updatePolicy")
                       .withUnsignedPayloadTrait(value: false)
@@ -6673,7 +6673,7 @@ extension BedrockAgentCoreControlClient {
     /// - `ValidationException` : The input fails to satisfy the constraints specified by the service.
     public func updatePolicyEngine(input: UpdatePolicyEngineInput) async throws -> UpdatePolicyEngineOutput {
         let context = Smithy.ContextBuilder()
-                      .withMethod(value: .put)
+                      .withMethod(value: .patch)
                       .withServiceName(value: serviceName)
                       .withOperation(value: "updatePolicyEngine")
                       .withUnsignedPayloadTrait(value: false)
