@@ -22,8 +22,8 @@ import protocol ClientRuntime.HTTPError
 import protocol ClientRuntime.ModeledError
 @_spi(SmithyReadWrite) import protocol SmithyReadWrite.SmithyReader
 @_spi(SmithyReadWrite) import protocol SmithyReadWrite.SmithyWriter
-@_spi(SmithyReadWrite) import struct AWSClientRuntime.AWSQueryError
 @_spi(UnknownAWSHTTPServiceError) import struct AWSClientRuntime.UnknownAWSHTTPServiceError
+@_spi(SmithyReadWrite) import struct ClientRuntime.AWSQueryError
 @_spi(SmithyReadWrite) import struct SmithyReadWrite.ReadingClosureBox
 @_spi(SmithyReadWrite) import struct SmithyReadWrite.WritingClosureBox
 
@@ -11688,7 +11688,7 @@ enum AddTagsToResourceOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "CacheClusterNotFound": return try CacheClusterNotFoundFault.makeError(baseError: baseError)
@@ -11717,7 +11717,7 @@ enum AuthorizeCacheSecurityGroupIngressOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AuthorizationAlreadyExists": return try AuthorizationAlreadyExistsFault.makeError(baseError: baseError)
@@ -11735,7 +11735,7 @@ enum BatchApplyUpdateActionOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "InvalidParameterValue": return try InvalidParameterValueException.makeError(baseError: baseError)
@@ -11750,7 +11750,7 @@ enum BatchStopUpdateActionOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "InvalidParameterValue": return try InvalidParameterValueException.makeError(baseError: baseError)
@@ -11765,7 +11765,7 @@ enum CompleteMigrationOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "InvalidReplicationGroupState": return try InvalidReplicationGroupStateFault.makeError(baseError: baseError)
@@ -11781,7 +11781,7 @@ enum CopyServerlessCacheSnapshotOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "InvalidParameterCombination": return try InvalidParameterCombinationException.makeError(baseError: baseError)
@@ -11802,7 +11802,7 @@ enum CopySnapshotOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "InvalidParameterCombination": return try InvalidParameterCombinationException.makeError(baseError: baseError)
@@ -11822,7 +11822,7 @@ enum CreateCacheClusterOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "CacheClusterAlreadyExists": return try CacheClusterAlreadyExistsFault.makeError(baseError: baseError)
@@ -11849,7 +11849,7 @@ enum CreateCacheParameterGroupOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "CacheParameterGroupAlreadyExists": return try CacheParameterGroupAlreadyExistsFault.makeError(baseError: baseError)
@@ -11868,7 +11868,7 @@ enum CreateCacheSecurityGroupOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "CacheSecurityGroupAlreadyExists": return try CacheSecurityGroupAlreadyExistsFault.makeError(baseError: baseError)
@@ -11886,7 +11886,7 @@ enum CreateCacheSubnetGroupOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "CacheSubnetGroupAlreadyExists": return try CacheSubnetGroupAlreadyExistsFault.makeError(baseError: baseError)
@@ -11905,7 +11905,7 @@ enum CreateGlobalReplicationGroupOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "GlobalReplicationGroupAlreadyExistsFault": return try GlobalReplicationGroupAlreadyExistsFault.makeError(baseError: baseError)
@@ -11923,7 +11923,7 @@ enum CreateReplicationGroupOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "CacheClusterNotFound": return try CacheClusterNotFoundFault.makeError(baseError: baseError)
@@ -11955,7 +11955,7 @@ enum CreateServerlessCacheOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "InvalidCredentialsException": return try InvalidCredentialsException.makeError(baseError: baseError)
@@ -11979,7 +11979,7 @@ enum CreateServerlessCacheSnapshotOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "InvalidParameterCombination": return try InvalidParameterCombinationException.makeError(baseError: baseError)
@@ -12000,7 +12000,7 @@ enum CreateSnapshotOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "CacheClusterNotFound": return try CacheClusterNotFoundFault.makeError(baseError: baseError)
@@ -12023,7 +12023,7 @@ enum CreateUserOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "DuplicateUserName": return try DuplicateUserNameFault.makeError(baseError: baseError)
@@ -12043,7 +12043,7 @@ enum CreateUserGroupOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "DefaultUserRequired": return try DefaultUserRequired.makeError(baseError: baseError)
@@ -12064,7 +12064,7 @@ enum DecreaseNodeGroupsInGlobalReplicationGroupOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "GlobalReplicationGroupNotFoundFault": return try GlobalReplicationGroupNotFoundFault.makeError(baseError: baseError)
@@ -12081,7 +12081,7 @@ enum DecreaseReplicaCountOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "ClusterQuotaForCustomerExceeded": return try ClusterQuotaForCustomerExceededFault.makeError(baseError: baseError)
@@ -12106,7 +12106,7 @@ enum DeleteCacheClusterOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "CacheClusterNotFound": return try CacheClusterNotFoundFault.makeError(baseError: baseError)
@@ -12126,7 +12126,7 @@ enum DeleteCacheParameterGroupOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "CacheParameterGroupNotFound": return try CacheParameterGroupNotFoundFault.makeError(baseError: baseError)
@@ -12143,7 +12143,7 @@ enum DeleteCacheSecurityGroupOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "CacheSecurityGroupNotFound": return try CacheSecurityGroupNotFoundFault.makeError(baseError: baseError)
@@ -12160,7 +12160,7 @@ enum DeleteCacheSubnetGroupOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "CacheSubnetGroupInUse": return try CacheSubnetGroupInUse.makeError(baseError: baseError)
@@ -12175,7 +12175,7 @@ enum DeleteGlobalReplicationGroupOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "GlobalReplicationGroupNotFoundFault": return try GlobalReplicationGroupNotFoundFault.makeError(baseError: baseError)
@@ -12191,7 +12191,7 @@ enum DeleteReplicationGroupOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "InvalidParameterCombination": return try InvalidParameterCombinationException.makeError(baseError: baseError)
@@ -12211,7 +12211,7 @@ enum DeleteServerlessCacheOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "InvalidCredentialsException": return try InvalidCredentialsException.makeError(baseError: baseError)
@@ -12231,7 +12231,7 @@ enum DeleteServerlessCacheSnapshotOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "InvalidParameterValue": return try InvalidParameterValueException.makeError(baseError: baseError)
@@ -12248,7 +12248,7 @@ enum DeleteSnapshotOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "InvalidParameterCombination": return try InvalidParameterCombinationException.makeError(baseError: baseError)
@@ -12265,7 +12265,7 @@ enum DeleteUserOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "DefaultUserAssociatedToUserGroup": return try DefaultUserAssociatedToUserGroupFault.makeError(baseError: baseError)
@@ -12283,7 +12283,7 @@ enum DeleteUserGroupOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "InvalidParameterValue": return try InvalidParameterValueException.makeError(baseError: baseError)
@@ -12300,7 +12300,7 @@ enum DescribeCacheClustersOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "CacheClusterNotFound": return try CacheClusterNotFoundFault.makeError(baseError: baseError)
@@ -12316,7 +12316,7 @@ enum DescribeCacheEngineVersionsOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
@@ -12329,7 +12329,7 @@ enum DescribeCacheParameterGroupsOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "CacheParameterGroupNotFound": return try CacheParameterGroupNotFoundFault.makeError(baseError: baseError)
@@ -12345,7 +12345,7 @@ enum DescribeCacheParametersOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "CacheParameterGroupNotFound": return try CacheParameterGroupNotFoundFault.makeError(baseError: baseError)
@@ -12361,7 +12361,7 @@ enum DescribeCacheSecurityGroupsOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "CacheSecurityGroupNotFound": return try CacheSecurityGroupNotFoundFault.makeError(baseError: baseError)
@@ -12377,7 +12377,7 @@ enum DescribeCacheSubnetGroupsOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "CacheSubnetGroupNotFoundFault": return try CacheSubnetGroupNotFoundFault.makeError(baseError: baseError)
@@ -12391,7 +12391,7 @@ enum DescribeEngineDefaultParametersOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "InvalidParameterCombination": return try InvalidParameterCombinationException.makeError(baseError: baseError)
@@ -12406,7 +12406,7 @@ enum DescribeEventsOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "InvalidParameterCombination": return try InvalidParameterCombinationException.makeError(baseError: baseError)
@@ -12421,7 +12421,7 @@ enum DescribeGlobalReplicationGroupsOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "GlobalReplicationGroupNotFoundFault": return try GlobalReplicationGroupNotFoundFault.makeError(baseError: baseError)
@@ -12437,7 +12437,7 @@ enum DescribeReplicationGroupsOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "InvalidParameterCombination": return try InvalidParameterCombinationException.makeError(baseError: baseError)
@@ -12453,7 +12453,7 @@ enum DescribeReservedCacheNodesOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "InvalidParameterCombination": return try InvalidParameterCombinationException.makeError(baseError: baseError)
@@ -12469,7 +12469,7 @@ enum DescribeReservedCacheNodesOfferingsOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "InvalidParameterCombination": return try InvalidParameterCombinationException.makeError(baseError: baseError)
@@ -12485,7 +12485,7 @@ enum DescribeServerlessCachesOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "InvalidParameterCombination": return try InvalidParameterCombinationException.makeError(baseError: baseError)
@@ -12501,7 +12501,7 @@ enum DescribeServerlessCacheSnapshotsOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "InvalidParameterCombination": return try InvalidParameterCombinationException.makeError(baseError: baseError)
@@ -12518,7 +12518,7 @@ enum DescribeServiceUpdatesOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "InvalidParameterCombination": return try InvalidParameterCombinationException.makeError(baseError: baseError)
@@ -12534,7 +12534,7 @@ enum DescribeSnapshotsOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "CacheClusterNotFound": return try CacheClusterNotFoundFault.makeError(baseError: baseError)
@@ -12551,7 +12551,7 @@ enum DescribeUpdateActionsOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "InvalidParameterCombination": return try InvalidParameterCombinationException.makeError(baseError: baseError)
@@ -12566,7 +12566,7 @@ enum DescribeUserGroupsOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "InvalidParameterCombination": return try InvalidParameterCombinationException.makeError(baseError: baseError)
@@ -12582,7 +12582,7 @@ enum DescribeUsersOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "InvalidParameterCombination": return try InvalidParameterCombinationException.makeError(baseError: baseError)
@@ -12598,7 +12598,7 @@ enum DisassociateGlobalReplicationGroupOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "GlobalReplicationGroupNotFoundFault": return try GlobalReplicationGroupNotFoundFault.makeError(baseError: baseError)
@@ -12615,7 +12615,7 @@ enum ExportServerlessCacheSnapshotOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "InvalidParameterValue": return try InvalidParameterValueException.makeError(baseError: baseError)
@@ -12632,7 +12632,7 @@ enum FailoverGlobalReplicationGroupOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "GlobalReplicationGroupNotFoundFault": return try GlobalReplicationGroupNotFoundFault.makeError(baseError: baseError)
@@ -12649,7 +12649,7 @@ enum IncreaseNodeGroupsInGlobalReplicationGroupOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "GlobalReplicationGroupNotFoundFault": return try GlobalReplicationGroupNotFoundFault.makeError(baseError: baseError)
@@ -12665,7 +12665,7 @@ enum IncreaseReplicaCountOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "ClusterQuotaForCustomerExceeded": return try ClusterQuotaForCustomerExceededFault.makeError(baseError: baseError)
@@ -12690,7 +12690,7 @@ enum ListAllowedNodeTypeModificationsOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "CacheClusterNotFound": return try CacheClusterNotFoundFault.makeError(baseError: baseError)
@@ -12707,7 +12707,7 @@ enum ListTagsForResourceOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "CacheClusterNotFound": return try CacheClusterNotFoundFault.makeError(baseError: baseError)
@@ -12735,7 +12735,7 @@ enum ModifyCacheClusterOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "CacheClusterNotFound": return try CacheClusterNotFoundFault.makeError(baseError: baseError)
@@ -12759,7 +12759,7 @@ enum ModifyCacheParameterGroupOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "CacheParameterGroupNotFound": return try CacheParameterGroupNotFoundFault.makeError(baseError: baseError)
@@ -12777,7 +12777,7 @@ enum ModifyCacheSubnetGroupOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "CacheSubnetGroupNotFoundFault": return try CacheSubnetGroupNotFoundFault.makeError(baseError: baseError)
@@ -12795,7 +12795,7 @@ enum ModifyGlobalReplicationGroupOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "GlobalReplicationGroupNotFoundFault": return try GlobalReplicationGroupNotFoundFault.makeError(baseError: baseError)
@@ -12811,7 +12811,7 @@ enum ModifyReplicationGroupOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "CacheClusterNotFound": return try CacheClusterNotFoundFault.makeError(baseError: baseError)
@@ -12840,7 +12840,7 @@ enum ModifyReplicationGroupShardConfigurationOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "InsufficientCacheClusterCapacity": return try InsufficientCacheClusterCapacityFault.makeError(baseError: baseError)
@@ -12863,7 +12863,7 @@ enum ModifyServerlessCacheOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "InvalidCredentialsException": return try InvalidCredentialsException.makeError(baseError: baseError)
@@ -12884,7 +12884,7 @@ enum ModifyUserOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "InvalidParameterCombination": return try InvalidParameterCombinationException.makeError(baseError: baseError)
@@ -12902,7 +12902,7 @@ enum ModifyUserGroupOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "DefaultUserRequired": return try DefaultUserRequired.makeError(baseError: baseError)
@@ -12923,7 +12923,7 @@ enum PurchaseReservedCacheNodesOfferingOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "InvalidParameterCombination": return try InvalidParameterCombinationException.makeError(baseError: baseError)
@@ -12942,7 +12942,7 @@ enum RebalanceSlotsInGlobalReplicationGroupOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "GlobalReplicationGroupNotFoundFault": return try GlobalReplicationGroupNotFoundFault.makeError(baseError: baseError)
@@ -12958,7 +12958,7 @@ enum RebootCacheClusterOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "CacheClusterNotFound": return try CacheClusterNotFoundFault.makeError(baseError: baseError)
@@ -12973,7 +12973,7 @@ enum RemoveTagsFromResourceOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "CacheClusterNotFound": return try CacheClusterNotFoundFault.makeError(baseError: baseError)
@@ -13002,7 +13002,7 @@ enum ResetCacheParameterGroupOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "CacheParameterGroupNotFound": return try CacheParameterGroupNotFoundFault.makeError(baseError: baseError)
@@ -13020,7 +13020,7 @@ enum RevokeCacheSecurityGroupIngressOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AuthorizationNotFound": return try AuthorizationNotFoundFault.makeError(baseError: baseError)
@@ -13038,7 +13038,7 @@ enum StartMigrationOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "InvalidParameterValue": return try InvalidParameterValueException.makeError(baseError: baseError)
@@ -13055,7 +13055,7 @@ enum TestFailoverOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "APICallRateForCustomerExceeded": return try APICallRateForCustomerExceededFault.makeError(baseError: baseError)
@@ -13077,7 +13077,7 @@ enum TestMigrationOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "InvalidParameterValue": return try InvalidParameterValueException.makeError(baseError: baseError)
@@ -13091,7 +13091,7 @@ enum TestMigrationOutputError {
 
 extension CacheClusterNotFoundFault {
 
-    static func makeError(baseError: AWSClientRuntime.AWSQueryError) throws -> CacheClusterNotFoundFault {
+    static func makeError(baseError: ClientRuntime.AWSQueryError) throws -> CacheClusterNotFoundFault {
         let reader = baseError.errorBodyReader
         var value = CacheClusterNotFoundFault()
         value.properties.message = try reader["message"].readIfPresent()
@@ -13104,7 +13104,7 @@ extension CacheClusterNotFoundFault {
 
 extension CacheParameterGroupNotFoundFault {
 
-    static func makeError(baseError: AWSClientRuntime.AWSQueryError) throws -> CacheParameterGroupNotFoundFault {
+    static func makeError(baseError: ClientRuntime.AWSQueryError) throws -> CacheParameterGroupNotFoundFault {
         let reader = baseError.errorBodyReader
         var value = CacheParameterGroupNotFoundFault()
         value.properties.message = try reader["message"].readIfPresent()
@@ -13117,7 +13117,7 @@ extension CacheParameterGroupNotFoundFault {
 
 extension CacheSecurityGroupNotFoundFault {
 
-    static func makeError(baseError: AWSClientRuntime.AWSQueryError) throws -> CacheSecurityGroupNotFoundFault {
+    static func makeError(baseError: ClientRuntime.AWSQueryError) throws -> CacheSecurityGroupNotFoundFault {
         let reader = baseError.errorBodyReader
         var value = CacheSecurityGroupNotFoundFault()
         value.properties.message = try reader["message"].readIfPresent()
@@ -13130,7 +13130,7 @@ extension CacheSecurityGroupNotFoundFault {
 
 extension CacheSubnetGroupNotFoundFault {
 
-    static func makeError(baseError: AWSClientRuntime.AWSQueryError) throws -> CacheSubnetGroupNotFoundFault {
+    static func makeError(baseError: ClientRuntime.AWSQueryError) throws -> CacheSubnetGroupNotFoundFault {
         let reader = baseError.errorBodyReader
         var value = CacheSubnetGroupNotFoundFault()
         value.properties.message = try reader["message"].readIfPresent()
@@ -13143,7 +13143,7 @@ extension CacheSubnetGroupNotFoundFault {
 
 extension InvalidARNFault {
 
-    static func makeError(baseError: AWSClientRuntime.AWSQueryError) throws -> InvalidARNFault {
+    static func makeError(baseError: ClientRuntime.AWSQueryError) throws -> InvalidARNFault {
         let reader = baseError.errorBodyReader
         var value = InvalidARNFault()
         value.properties.message = try reader["message"].readIfPresent()
@@ -13156,7 +13156,7 @@ extension InvalidARNFault {
 
 extension InvalidReplicationGroupStateFault {
 
-    static func makeError(baseError: AWSClientRuntime.AWSQueryError) throws -> InvalidReplicationGroupStateFault {
+    static func makeError(baseError: ClientRuntime.AWSQueryError) throws -> InvalidReplicationGroupStateFault {
         let reader = baseError.errorBodyReader
         var value = InvalidReplicationGroupStateFault()
         value.properties.message = try reader["message"].readIfPresent()
@@ -13169,7 +13169,7 @@ extension InvalidReplicationGroupStateFault {
 
 extension InvalidServerlessCacheSnapshotStateFault {
 
-    static func makeError(baseError: AWSClientRuntime.AWSQueryError) throws -> InvalidServerlessCacheSnapshotStateFault {
+    static func makeError(baseError: ClientRuntime.AWSQueryError) throws -> InvalidServerlessCacheSnapshotStateFault {
         let reader = baseError.errorBodyReader
         var value = InvalidServerlessCacheSnapshotStateFault()
         value.properties.message = try reader["message"].readIfPresent()
@@ -13182,7 +13182,7 @@ extension InvalidServerlessCacheSnapshotStateFault {
 
 extension InvalidServerlessCacheStateFault {
 
-    static func makeError(baseError: AWSClientRuntime.AWSQueryError) throws -> InvalidServerlessCacheStateFault {
+    static func makeError(baseError: ClientRuntime.AWSQueryError) throws -> InvalidServerlessCacheStateFault {
         let reader = baseError.errorBodyReader
         var value = InvalidServerlessCacheStateFault()
         value.properties.message = try reader["message"].readIfPresent()
@@ -13195,7 +13195,7 @@ extension InvalidServerlessCacheStateFault {
 
 extension ReplicationGroupNotFoundFault {
 
-    static func makeError(baseError: AWSClientRuntime.AWSQueryError) throws -> ReplicationGroupNotFoundFault {
+    static func makeError(baseError: ClientRuntime.AWSQueryError) throws -> ReplicationGroupNotFoundFault {
         let reader = baseError.errorBodyReader
         var value = ReplicationGroupNotFoundFault()
         value.properties.message = try reader["message"].readIfPresent()
@@ -13208,7 +13208,7 @@ extension ReplicationGroupNotFoundFault {
 
 extension ReservedCacheNodeNotFoundFault {
 
-    static func makeError(baseError: AWSClientRuntime.AWSQueryError) throws -> ReservedCacheNodeNotFoundFault {
+    static func makeError(baseError: ClientRuntime.AWSQueryError) throws -> ReservedCacheNodeNotFoundFault {
         let reader = baseError.errorBodyReader
         var value = ReservedCacheNodeNotFoundFault()
         value.properties.message = try reader["message"].readIfPresent()
@@ -13221,7 +13221,7 @@ extension ReservedCacheNodeNotFoundFault {
 
 extension ServerlessCacheNotFoundFault {
 
-    static func makeError(baseError: AWSClientRuntime.AWSQueryError) throws -> ServerlessCacheNotFoundFault {
+    static func makeError(baseError: ClientRuntime.AWSQueryError) throws -> ServerlessCacheNotFoundFault {
         let reader = baseError.errorBodyReader
         var value = ServerlessCacheNotFoundFault()
         value.properties.message = try reader["message"].readIfPresent()
@@ -13234,7 +13234,7 @@ extension ServerlessCacheNotFoundFault {
 
 extension ServerlessCacheSnapshotNotFoundFault {
 
-    static func makeError(baseError: AWSClientRuntime.AWSQueryError) throws -> ServerlessCacheSnapshotNotFoundFault {
+    static func makeError(baseError: ClientRuntime.AWSQueryError) throws -> ServerlessCacheSnapshotNotFoundFault {
         let reader = baseError.errorBodyReader
         var value = ServerlessCacheSnapshotNotFoundFault()
         value.properties.message = try reader["message"].readIfPresent()
@@ -13247,7 +13247,7 @@ extension ServerlessCacheSnapshotNotFoundFault {
 
 extension SnapshotNotFoundFault {
 
-    static func makeError(baseError: AWSClientRuntime.AWSQueryError) throws -> SnapshotNotFoundFault {
+    static func makeError(baseError: ClientRuntime.AWSQueryError) throws -> SnapshotNotFoundFault {
         let reader = baseError.errorBodyReader
         var value = SnapshotNotFoundFault()
         value.properties.message = try reader["message"].readIfPresent()
@@ -13260,7 +13260,7 @@ extension SnapshotNotFoundFault {
 
 extension TagQuotaPerResourceExceeded {
 
-    static func makeError(baseError: AWSClientRuntime.AWSQueryError) throws -> TagQuotaPerResourceExceeded {
+    static func makeError(baseError: ClientRuntime.AWSQueryError) throws -> TagQuotaPerResourceExceeded {
         let reader = baseError.errorBodyReader
         var value = TagQuotaPerResourceExceeded()
         value.properties.message = try reader["message"].readIfPresent()
@@ -13273,7 +13273,7 @@ extension TagQuotaPerResourceExceeded {
 
 extension UserGroupNotFoundFault {
 
-    static func makeError(baseError: AWSClientRuntime.AWSQueryError) throws -> UserGroupNotFoundFault {
+    static func makeError(baseError: ClientRuntime.AWSQueryError) throws -> UserGroupNotFoundFault {
         let reader = baseError.errorBodyReader
         var value = UserGroupNotFoundFault()
         value.properties.message = try reader["message"].readIfPresent()
@@ -13286,7 +13286,7 @@ extension UserGroupNotFoundFault {
 
 extension UserNotFoundFault {
 
-    static func makeError(baseError: AWSClientRuntime.AWSQueryError) throws -> UserNotFoundFault {
+    static func makeError(baseError: ClientRuntime.AWSQueryError) throws -> UserNotFoundFault {
         let reader = baseError.errorBodyReader
         var value = UserNotFoundFault()
         value.properties.message = try reader["message"].readIfPresent()
@@ -13299,7 +13299,7 @@ extension UserNotFoundFault {
 
 extension AuthorizationAlreadyExistsFault {
 
-    static func makeError(baseError: AWSClientRuntime.AWSQueryError) throws -> AuthorizationAlreadyExistsFault {
+    static func makeError(baseError: ClientRuntime.AWSQueryError) throws -> AuthorizationAlreadyExistsFault {
         let reader = baseError.errorBodyReader
         var value = AuthorizationAlreadyExistsFault()
         value.properties.message = try reader["message"].readIfPresent()
@@ -13312,7 +13312,7 @@ extension AuthorizationAlreadyExistsFault {
 
 extension InvalidCacheSecurityGroupStateFault {
 
-    static func makeError(baseError: AWSClientRuntime.AWSQueryError) throws -> InvalidCacheSecurityGroupStateFault {
+    static func makeError(baseError: ClientRuntime.AWSQueryError) throws -> InvalidCacheSecurityGroupStateFault {
         let reader = baseError.errorBodyReader
         var value = InvalidCacheSecurityGroupStateFault()
         value.properties.message = try reader["message"].readIfPresent()
@@ -13325,7 +13325,7 @@ extension InvalidCacheSecurityGroupStateFault {
 
 extension InvalidParameterCombinationException {
 
-    static func makeError(baseError: AWSClientRuntime.AWSQueryError) throws -> InvalidParameterCombinationException {
+    static func makeError(baseError: ClientRuntime.AWSQueryError) throws -> InvalidParameterCombinationException {
         let reader = baseError.errorBodyReader
         var value = InvalidParameterCombinationException()
         value.properties.message = try reader["message"].readIfPresent()
@@ -13338,7 +13338,7 @@ extension InvalidParameterCombinationException {
 
 extension InvalidParameterValueException {
 
-    static func makeError(baseError: AWSClientRuntime.AWSQueryError) throws -> InvalidParameterValueException {
+    static func makeError(baseError: ClientRuntime.AWSQueryError) throws -> InvalidParameterValueException {
         let reader = baseError.errorBodyReader
         var value = InvalidParameterValueException()
         value.properties.message = try reader["message"].readIfPresent()
@@ -13351,7 +13351,7 @@ extension InvalidParameterValueException {
 
 extension ServiceUpdateNotFoundFault {
 
-    static func makeError(baseError: AWSClientRuntime.AWSQueryError) throws -> ServiceUpdateNotFoundFault {
+    static func makeError(baseError: ClientRuntime.AWSQueryError) throws -> ServiceUpdateNotFoundFault {
         let reader = baseError.errorBodyReader
         var value = ServiceUpdateNotFoundFault()
         value.properties.message = try reader["message"].readIfPresent()
@@ -13364,7 +13364,7 @@ extension ServiceUpdateNotFoundFault {
 
 extension ReplicationGroupNotUnderMigrationFault {
 
-    static func makeError(baseError: AWSClientRuntime.AWSQueryError) throws -> ReplicationGroupNotUnderMigrationFault {
+    static func makeError(baseError: ClientRuntime.AWSQueryError) throws -> ReplicationGroupNotUnderMigrationFault {
         let reader = baseError.errorBodyReader
         var value = ReplicationGroupNotUnderMigrationFault()
         value.properties.message = try reader["message"].readIfPresent()
@@ -13377,7 +13377,7 @@ extension ReplicationGroupNotUnderMigrationFault {
 
 extension ServerlessCacheSnapshotAlreadyExistsFault {
 
-    static func makeError(baseError: AWSClientRuntime.AWSQueryError) throws -> ServerlessCacheSnapshotAlreadyExistsFault {
+    static func makeError(baseError: ClientRuntime.AWSQueryError) throws -> ServerlessCacheSnapshotAlreadyExistsFault {
         let reader = baseError.errorBodyReader
         var value = ServerlessCacheSnapshotAlreadyExistsFault()
         value.properties.message = try reader["message"].readIfPresent()
@@ -13390,7 +13390,7 @@ extension ServerlessCacheSnapshotAlreadyExistsFault {
 
 extension ServerlessCacheSnapshotQuotaExceededFault {
 
-    static func makeError(baseError: AWSClientRuntime.AWSQueryError) throws -> ServerlessCacheSnapshotQuotaExceededFault {
+    static func makeError(baseError: ClientRuntime.AWSQueryError) throws -> ServerlessCacheSnapshotQuotaExceededFault {
         let reader = baseError.errorBodyReader
         var value = ServerlessCacheSnapshotQuotaExceededFault()
         value.properties.message = try reader["message"].readIfPresent()
@@ -13403,7 +13403,7 @@ extension ServerlessCacheSnapshotQuotaExceededFault {
 
 extension ServiceLinkedRoleNotFoundFault {
 
-    static func makeError(baseError: AWSClientRuntime.AWSQueryError) throws -> ServiceLinkedRoleNotFoundFault {
+    static func makeError(baseError: ClientRuntime.AWSQueryError) throws -> ServiceLinkedRoleNotFoundFault {
         let reader = baseError.errorBodyReader
         var value = ServiceLinkedRoleNotFoundFault()
         value.properties.message = try reader["message"].readIfPresent()
@@ -13416,7 +13416,7 @@ extension ServiceLinkedRoleNotFoundFault {
 
 extension InvalidSnapshotStateFault {
 
-    static func makeError(baseError: AWSClientRuntime.AWSQueryError) throws -> InvalidSnapshotStateFault {
+    static func makeError(baseError: ClientRuntime.AWSQueryError) throws -> InvalidSnapshotStateFault {
         let reader = baseError.errorBodyReader
         var value = InvalidSnapshotStateFault()
         value.properties.message = try reader["message"].readIfPresent()
@@ -13429,7 +13429,7 @@ extension InvalidSnapshotStateFault {
 
 extension SnapshotAlreadyExistsFault {
 
-    static func makeError(baseError: AWSClientRuntime.AWSQueryError) throws -> SnapshotAlreadyExistsFault {
+    static func makeError(baseError: ClientRuntime.AWSQueryError) throws -> SnapshotAlreadyExistsFault {
         let reader = baseError.errorBodyReader
         var value = SnapshotAlreadyExistsFault()
         value.properties.message = try reader["message"].readIfPresent()
@@ -13442,7 +13442,7 @@ extension SnapshotAlreadyExistsFault {
 
 extension SnapshotQuotaExceededFault {
 
-    static func makeError(baseError: AWSClientRuntime.AWSQueryError) throws -> SnapshotQuotaExceededFault {
+    static func makeError(baseError: ClientRuntime.AWSQueryError) throws -> SnapshotQuotaExceededFault {
         let reader = baseError.errorBodyReader
         var value = SnapshotQuotaExceededFault()
         value.properties.message = try reader["message"].readIfPresent()
@@ -13455,7 +13455,7 @@ extension SnapshotQuotaExceededFault {
 
 extension CacheClusterAlreadyExistsFault {
 
-    static func makeError(baseError: AWSClientRuntime.AWSQueryError) throws -> CacheClusterAlreadyExistsFault {
+    static func makeError(baseError: ClientRuntime.AWSQueryError) throws -> CacheClusterAlreadyExistsFault {
         let reader = baseError.errorBodyReader
         var value = CacheClusterAlreadyExistsFault()
         value.properties.message = try reader["message"].readIfPresent()
@@ -13468,7 +13468,7 @@ extension CacheClusterAlreadyExistsFault {
 
 extension ClusterQuotaForCustomerExceededFault {
 
-    static func makeError(baseError: AWSClientRuntime.AWSQueryError) throws -> ClusterQuotaForCustomerExceededFault {
+    static func makeError(baseError: ClientRuntime.AWSQueryError) throws -> ClusterQuotaForCustomerExceededFault {
         let reader = baseError.errorBodyReader
         var value = ClusterQuotaForCustomerExceededFault()
         value.properties.message = try reader["message"].readIfPresent()
@@ -13481,7 +13481,7 @@ extension ClusterQuotaForCustomerExceededFault {
 
 extension InsufficientCacheClusterCapacityFault {
 
-    static func makeError(baseError: AWSClientRuntime.AWSQueryError) throws -> InsufficientCacheClusterCapacityFault {
+    static func makeError(baseError: ClientRuntime.AWSQueryError) throws -> InsufficientCacheClusterCapacityFault {
         let reader = baseError.errorBodyReader
         var value = InsufficientCacheClusterCapacityFault()
         value.properties.message = try reader["message"].readIfPresent()
@@ -13494,7 +13494,7 @@ extension InsufficientCacheClusterCapacityFault {
 
 extension InvalidVPCNetworkStateFault {
 
-    static func makeError(baseError: AWSClientRuntime.AWSQueryError) throws -> InvalidVPCNetworkStateFault {
+    static func makeError(baseError: ClientRuntime.AWSQueryError) throws -> InvalidVPCNetworkStateFault {
         let reader = baseError.errorBodyReader
         var value = InvalidVPCNetworkStateFault()
         value.properties.message = try reader["message"].readIfPresent()
@@ -13507,7 +13507,7 @@ extension InvalidVPCNetworkStateFault {
 
 extension NodeQuotaForClusterExceededFault {
 
-    static func makeError(baseError: AWSClientRuntime.AWSQueryError) throws -> NodeQuotaForClusterExceededFault {
+    static func makeError(baseError: ClientRuntime.AWSQueryError) throws -> NodeQuotaForClusterExceededFault {
         let reader = baseError.errorBodyReader
         var value = NodeQuotaForClusterExceededFault()
         value.properties.message = try reader["message"].readIfPresent()
@@ -13520,7 +13520,7 @@ extension NodeQuotaForClusterExceededFault {
 
 extension NodeQuotaForCustomerExceededFault {
 
-    static func makeError(baseError: AWSClientRuntime.AWSQueryError) throws -> NodeQuotaForCustomerExceededFault {
+    static func makeError(baseError: ClientRuntime.AWSQueryError) throws -> NodeQuotaForCustomerExceededFault {
         let reader = baseError.errorBodyReader
         var value = NodeQuotaForCustomerExceededFault()
         value.properties.message = try reader["message"].readIfPresent()
@@ -13533,7 +13533,7 @@ extension NodeQuotaForCustomerExceededFault {
 
 extension CacheParameterGroupAlreadyExistsFault {
 
-    static func makeError(baseError: AWSClientRuntime.AWSQueryError) throws -> CacheParameterGroupAlreadyExistsFault {
+    static func makeError(baseError: ClientRuntime.AWSQueryError) throws -> CacheParameterGroupAlreadyExistsFault {
         let reader = baseError.errorBodyReader
         var value = CacheParameterGroupAlreadyExistsFault()
         value.properties.message = try reader["message"].readIfPresent()
@@ -13546,7 +13546,7 @@ extension CacheParameterGroupAlreadyExistsFault {
 
 extension CacheParameterGroupQuotaExceededFault {
 
-    static func makeError(baseError: AWSClientRuntime.AWSQueryError) throws -> CacheParameterGroupQuotaExceededFault {
+    static func makeError(baseError: ClientRuntime.AWSQueryError) throws -> CacheParameterGroupQuotaExceededFault {
         let reader = baseError.errorBodyReader
         var value = CacheParameterGroupQuotaExceededFault()
         value.properties.message = try reader["message"].readIfPresent()
@@ -13559,7 +13559,7 @@ extension CacheParameterGroupQuotaExceededFault {
 
 extension InvalidCacheParameterGroupStateFault {
 
-    static func makeError(baseError: AWSClientRuntime.AWSQueryError) throws -> InvalidCacheParameterGroupStateFault {
+    static func makeError(baseError: ClientRuntime.AWSQueryError) throws -> InvalidCacheParameterGroupStateFault {
         let reader = baseError.errorBodyReader
         var value = InvalidCacheParameterGroupStateFault()
         value.properties.message = try reader["message"].readIfPresent()
@@ -13572,7 +13572,7 @@ extension InvalidCacheParameterGroupStateFault {
 
 extension CacheSecurityGroupAlreadyExistsFault {
 
-    static func makeError(baseError: AWSClientRuntime.AWSQueryError) throws -> CacheSecurityGroupAlreadyExistsFault {
+    static func makeError(baseError: ClientRuntime.AWSQueryError) throws -> CacheSecurityGroupAlreadyExistsFault {
         let reader = baseError.errorBodyReader
         var value = CacheSecurityGroupAlreadyExistsFault()
         value.properties.message = try reader["message"].readIfPresent()
@@ -13585,7 +13585,7 @@ extension CacheSecurityGroupAlreadyExistsFault {
 
 extension CacheSecurityGroupQuotaExceededFault {
 
-    static func makeError(baseError: AWSClientRuntime.AWSQueryError) throws -> CacheSecurityGroupQuotaExceededFault {
+    static func makeError(baseError: ClientRuntime.AWSQueryError) throws -> CacheSecurityGroupQuotaExceededFault {
         let reader = baseError.errorBodyReader
         var value = CacheSecurityGroupQuotaExceededFault()
         value.properties.message = try reader["message"].readIfPresent()
@@ -13598,7 +13598,7 @@ extension CacheSecurityGroupQuotaExceededFault {
 
 extension CacheSubnetGroupAlreadyExistsFault {
 
-    static func makeError(baseError: AWSClientRuntime.AWSQueryError) throws -> CacheSubnetGroupAlreadyExistsFault {
+    static func makeError(baseError: ClientRuntime.AWSQueryError) throws -> CacheSubnetGroupAlreadyExistsFault {
         let reader = baseError.errorBodyReader
         var value = CacheSubnetGroupAlreadyExistsFault()
         value.properties.message = try reader["message"].readIfPresent()
@@ -13611,7 +13611,7 @@ extension CacheSubnetGroupAlreadyExistsFault {
 
 extension CacheSubnetGroupQuotaExceededFault {
 
-    static func makeError(baseError: AWSClientRuntime.AWSQueryError) throws -> CacheSubnetGroupQuotaExceededFault {
+    static func makeError(baseError: ClientRuntime.AWSQueryError) throws -> CacheSubnetGroupQuotaExceededFault {
         let reader = baseError.errorBodyReader
         var value = CacheSubnetGroupQuotaExceededFault()
         value.properties.message = try reader["message"].readIfPresent()
@@ -13624,7 +13624,7 @@ extension CacheSubnetGroupQuotaExceededFault {
 
 extension CacheSubnetQuotaExceededFault {
 
-    static func makeError(baseError: AWSClientRuntime.AWSQueryError) throws -> CacheSubnetQuotaExceededFault {
+    static func makeError(baseError: ClientRuntime.AWSQueryError) throws -> CacheSubnetQuotaExceededFault {
         let reader = baseError.errorBodyReader
         var value = CacheSubnetQuotaExceededFault()
         value.properties.message = try reader["message"].readIfPresent()
@@ -13637,7 +13637,7 @@ extension CacheSubnetQuotaExceededFault {
 
 extension InvalidSubnet {
 
-    static func makeError(baseError: AWSClientRuntime.AWSQueryError) throws -> InvalidSubnet {
+    static func makeError(baseError: ClientRuntime.AWSQueryError) throws -> InvalidSubnet {
         let reader = baseError.errorBodyReader
         var value = InvalidSubnet()
         value.properties.message = try reader["message"].readIfPresent()
@@ -13650,7 +13650,7 @@ extension InvalidSubnet {
 
 extension SubnetNotAllowedFault {
 
-    static func makeError(baseError: AWSClientRuntime.AWSQueryError) throws -> SubnetNotAllowedFault {
+    static func makeError(baseError: ClientRuntime.AWSQueryError) throws -> SubnetNotAllowedFault {
         let reader = baseError.errorBodyReader
         var value = SubnetNotAllowedFault()
         value.properties.message = try reader["message"].readIfPresent()
@@ -13663,7 +13663,7 @@ extension SubnetNotAllowedFault {
 
 extension GlobalReplicationGroupAlreadyExistsFault {
 
-    static func makeError(baseError: AWSClientRuntime.AWSQueryError) throws -> GlobalReplicationGroupAlreadyExistsFault {
+    static func makeError(baseError: ClientRuntime.AWSQueryError) throws -> GlobalReplicationGroupAlreadyExistsFault {
         let reader = baseError.errorBodyReader
         var value = GlobalReplicationGroupAlreadyExistsFault()
         value.properties.message = try reader["message"].readIfPresent()
@@ -13676,7 +13676,7 @@ extension GlobalReplicationGroupAlreadyExistsFault {
 
 extension GlobalReplicationGroupNotFoundFault {
 
-    static func makeError(baseError: AWSClientRuntime.AWSQueryError) throws -> GlobalReplicationGroupNotFoundFault {
+    static func makeError(baseError: ClientRuntime.AWSQueryError) throws -> GlobalReplicationGroupNotFoundFault {
         let reader = baseError.errorBodyReader
         var value = GlobalReplicationGroupNotFoundFault()
         value.properties.message = try reader["message"].readIfPresent()
@@ -13689,7 +13689,7 @@ extension GlobalReplicationGroupNotFoundFault {
 
 extension InvalidCacheClusterStateFault {
 
-    static func makeError(baseError: AWSClientRuntime.AWSQueryError) throws -> InvalidCacheClusterStateFault {
+    static func makeError(baseError: ClientRuntime.AWSQueryError) throws -> InvalidCacheClusterStateFault {
         let reader = baseError.errorBodyReader
         var value = InvalidCacheClusterStateFault()
         value.properties.message = try reader["message"].readIfPresent()
@@ -13702,7 +13702,7 @@ extension InvalidCacheClusterStateFault {
 
 extension InvalidGlobalReplicationGroupStateFault {
 
-    static func makeError(baseError: AWSClientRuntime.AWSQueryError) throws -> InvalidGlobalReplicationGroupStateFault {
+    static func makeError(baseError: ClientRuntime.AWSQueryError) throws -> InvalidGlobalReplicationGroupStateFault {
         let reader = baseError.errorBodyReader
         var value = InvalidGlobalReplicationGroupStateFault()
         value.properties.message = try reader["message"].readIfPresent()
@@ -13715,7 +13715,7 @@ extension InvalidGlobalReplicationGroupStateFault {
 
 extension InvalidUserGroupStateFault {
 
-    static func makeError(baseError: AWSClientRuntime.AWSQueryError) throws -> InvalidUserGroupStateFault {
+    static func makeError(baseError: ClientRuntime.AWSQueryError) throws -> InvalidUserGroupStateFault {
         let reader = baseError.errorBodyReader
         var value = InvalidUserGroupStateFault()
         value.properties.message = try reader["message"].readIfPresent()
@@ -13728,7 +13728,7 @@ extension InvalidUserGroupStateFault {
 
 extension NodeGroupsPerReplicationGroupQuotaExceededFault {
 
-    static func makeError(baseError: AWSClientRuntime.AWSQueryError) throws -> NodeGroupsPerReplicationGroupQuotaExceededFault {
+    static func makeError(baseError: ClientRuntime.AWSQueryError) throws -> NodeGroupsPerReplicationGroupQuotaExceededFault {
         let reader = baseError.errorBodyReader
         var value = NodeGroupsPerReplicationGroupQuotaExceededFault()
         value.properties.message = try reader["message"].readIfPresent()
@@ -13741,7 +13741,7 @@ extension NodeGroupsPerReplicationGroupQuotaExceededFault {
 
 extension ReplicationGroupAlreadyExistsFault {
 
-    static func makeError(baseError: AWSClientRuntime.AWSQueryError) throws -> ReplicationGroupAlreadyExistsFault {
+    static func makeError(baseError: ClientRuntime.AWSQueryError) throws -> ReplicationGroupAlreadyExistsFault {
         let reader = baseError.errorBodyReader
         var value = ReplicationGroupAlreadyExistsFault()
         value.properties.message = try reader["message"].readIfPresent()
@@ -13754,7 +13754,7 @@ extension ReplicationGroupAlreadyExistsFault {
 
 extension InvalidCredentialsException {
 
-    static func makeError(baseError: AWSClientRuntime.AWSQueryError) throws -> InvalidCredentialsException {
+    static func makeError(baseError: ClientRuntime.AWSQueryError) throws -> InvalidCredentialsException {
         let reader = baseError.errorBodyReader
         var value = InvalidCredentialsException()
         value.properties.message = try reader["message"].readIfPresent()
@@ -13767,7 +13767,7 @@ extension InvalidCredentialsException {
 
 extension ServerlessCacheAlreadyExistsFault {
 
-    static func makeError(baseError: AWSClientRuntime.AWSQueryError) throws -> ServerlessCacheAlreadyExistsFault {
+    static func makeError(baseError: ClientRuntime.AWSQueryError) throws -> ServerlessCacheAlreadyExistsFault {
         let reader = baseError.errorBodyReader
         var value = ServerlessCacheAlreadyExistsFault()
         value.properties.message = try reader["message"].readIfPresent()
@@ -13780,7 +13780,7 @@ extension ServerlessCacheAlreadyExistsFault {
 
 extension ServerlessCacheQuotaForCustomerExceededFault {
 
-    static func makeError(baseError: AWSClientRuntime.AWSQueryError) throws -> ServerlessCacheQuotaForCustomerExceededFault {
+    static func makeError(baseError: ClientRuntime.AWSQueryError) throws -> ServerlessCacheQuotaForCustomerExceededFault {
         let reader = baseError.errorBodyReader
         var value = ServerlessCacheQuotaForCustomerExceededFault()
         value.properties.message = try reader["message"].readIfPresent()
@@ -13793,7 +13793,7 @@ extension ServerlessCacheQuotaForCustomerExceededFault {
 
 extension SnapshotFeatureNotSupportedFault {
 
-    static func makeError(baseError: AWSClientRuntime.AWSQueryError) throws -> SnapshotFeatureNotSupportedFault {
+    static func makeError(baseError: ClientRuntime.AWSQueryError) throws -> SnapshotFeatureNotSupportedFault {
         let reader = baseError.errorBodyReader
         var value = SnapshotFeatureNotSupportedFault()
         value.properties.message = try reader["message"].readIfPresent()
@@ -13806,7 +13806,7 @@ extension SnapshotFeatureNotSupportedFault {
 
 extension DuplicateUserNameFault {
 
-    static func makeError(baseError: AWSClientRuntime.AWSQueryError) throws -> DuplicateUserNameFault {
+    static func makeError(baseError: ClientRuntime.AWSQueryError) throws -> DuplicateUserNameFault {
         let reader = baseError.errorBodyReader
         var value = DuplicateUserNameFault()
         value.properties.message = try reader["message"].readIfPresent()
@@ -13819,7 +13819,7 @@ extension DuplicateUserNameFault {
 
 extension UserAlreadyExistsFault {
 
-    static func makeError(baseError: AWSClientRuntime.AWSQueryError) throws -> UserAlreadyExistsFault {
+    static func makeError(baseError: ClientRuntime.AWSQueryError) throws -> UserAlreadyExistsFault {
         let reader = baseError.errorBodyReader
         var value = UserAlreadyExistsFault()
         value.properties.message = try reader["message"].readIfPresent()
@@ -13832,7 +13832,7 @@ extension UserAlreadyExistsFault {
 
 extension UserQuotaExceededFault {
 
-    static func makeError(baseError: AWSClientRuntime.AWSQueryError) throws -> UserQuotaExceededFault {
+    static func makeError(baseError: ClientRuntime.AWSQueryError) throws -> UserQuotaExceededFault {
         let reader = baseError.errorBodyReader
         var value = UserQuotaExceededFault()
         value.properties.message = try reader["message"].readIfPresent()
@@ -13845,7 +13845,7 @@ extension UserQuotaExceededFault {
 
 extension DefaultUserRequired {
 
-    static func makeError(baseError: AWSClientRuntime.AWSQueryError) throws -> DefaultUserRequired {
+    static func makeError(baseError: ClientRuntime.AWSQueryError) throws -> DefaultUserRequired {
         let reader = baseError.errorBodyReader
         var value = DefaultUserRequired()
         value.properties.message = try reader["message"].readIfPresent()
@@ -13858,7 +13858,7 @@ extension DefaultUserRequired {
 
 extension UserGroupAlreadyExistsFault {
 
-    static func makeError(baseError: AWSClientRuntime.AWSQueryError) throws -> UserGroupAlreadyExistsFault {
+    static func makeError(baseError: ClientRuntime.AWSQueryError) throws -> UserGroupAlreadyExistsFault {
         let reader = baseError.errorBodyReader
         var value = UserGroupAlreadyExistsFault()
         value.properties.message = try reader["message"].readIfPresent()
@@ -13871,7 +13871,7 @@ extension UserGroupAlreadyExistsFault {
 
 extension UserGroupQuotaExceededFault {
 
-    static func makeError(baseError: AWSClientRuntime.AWSQueryError) throws -> UserGroupQuotaExceededFault {
+    static func makeError(baseError: ClientRuntime.AWSQueryError) throws -> UserGroupQuotaExceededFault {
         let reader = baseError.errorBodyReader
         var value = UserGroupQuotaExceededFault()
         value.properties.message = try reader["message"].readIfPresent()
@@ -13884,7 +13884,7 @@ extension UserGroupQuotaExceededFault {
 
 extension NoOperationFault {
 
-    static func makeError(baseError: AWSClientRuntime.AWSQueryError) throws -> NoOperationFault {
+    static func makeError(baseError: ClientRuntime.AWSQueryError) throws -> NoOperationFault {
         let reader = baseError.errorBodyReader
         var value = NoOperationFault()
         value.properties.message = try reader["message"].readIfPresent()
@@ -13897,7 +13897,7 @@ extension NoOperationFault {
 
 extension CacheSubnetGroupInUse {
 
-    static func makeError(baseError: AWSClientRuntime.AWSQueryError) throws -> CacheSubnetGroupInUse {
+    static func makeError(baseError: ClientRuntime.AWSQueryError) throws -> CacheSubnetGroupInUse {
         let reader = baseError.errorBodyReader
         var value = CacheSubnetGroupInUse()
         value.properties.message = try reader["message"].readIfPresent()
@@ -13910,7 +13910,7 @@ extension CacheSubnetGroupInUse {
 
 extension DefaultUserAssociatedToUserGroupFault {
 
-    static func makeError(baseError: AWSClientRuntime.AWSQueryError) throws -> DefaultUserAssociatedToUserGroupFault {
+    static func makeError(baseError: ClientRuntime.AWSQueryError) throws -> DefaultUserAssociatedToUserGroupFault {
         let reader = baseError.errorBodyReader
         var value = DefaultUserAssociatedToUserGroupFault()
         value.properties.message = try reader["message"].readIfPresent()
@@ -13923,7 +13923,7 @@ extension DefaultUserAssociatedToUserGroupFault {
 
 extension InvalidUserStateFault {
 
-    static func makeError(baseError: AWSClientRuntime.AWSQueryError) throws -> InvalidUserStateFault {
+    static func makeError(baseError: ClientRuntime.AWSQueryError) throws -> InvalidUserStateFault {
         let reader = baseError.errorBodyReader
         var value = InvalidUserStateFault()
         value.properties.message = try reader["message"].readIfPresent()
@@ -13936,7 +13936,7 @@ extension InvalidUserStateFault {
 
 extension ReservedCacheNodesOfferingNotFoundFault {
 
-    static func makeError(baseError: AWSClientRuntime.AWSQueryError) throws -> ReservedCacheNodesOfferingNotFoundFault {
+    static func makeError(baseError: ClientRuntime.AWSQueryError) throws -> ReservedCacheNodesOfferingNotFoundFault {
         let reader = baseError.errorBodyReader
         var value = ReservedCacheNodesOfferingNotFoundFault()
         value.properties.message = try reader["message"].readIfPresent()
@@ -13949,7 +13949,7 @@ extension ReservedCacheNodesOfferingNotFoundFault {
 
 extension InvalidKMSKeyFault {
 
-    static func makeError(baseError: AWSClientRuntime.AWSQueryError) throws -> InvalidKMSKeyFault {
+    static func makeError(baseError: ClientRuntime.AWSQueryError) throws -> InvalidKMSKeyFault {
         let reader = baseError.errorBodyReader
         var value = InvalidKMSKeyFault()
         value.properties.message = try reader["message"].readIfPresent()
@@ -13962,7 +13962,7 @@ extension InvalidKMSKeyFault {
 
 extension SubnetInUse {
 
-    static func makeError(baseError: AWSClientRuntime.AWSQueryError) throws -> SubnetInUse {
+    static func makeError(baseError: ClientRuntime.AWSQueryError) throws -> SubnetInUse {
         let reader = baseError.errorBodyReader
         var value = SubnetInUse()
         value.properties.message = try reader["message"].readIfPresent()
@@ -13975,7 +13975,7 @@ extension SubnetInUse {
 
 extension ReservedCacheNodeAlreadyExistsFault {
 
-    static func makeError(baseError: AWSClientRuntime.AWSQueryError) throws -> ReservedCacheNodeAlreadyExistsFault {
+    static func makeError(baseError: ClientRuntime.AWSQueryError) throws -> ReservedCacheNodeAlreadyExistsFault {
         let reader = baseError.errorBodyReader
         var value = ReservedCacheNodeAlreadyExistsFault()
         value.properties.message = try reader["message"].readIfPresent()
@@ -13988,7 +13988,7 @@ extension ReservedCacheNodeAlreadyExistsFault {
 
 extension ReservedCacheNodeQuotaExceededFault {
 
-    static func makeError(baseError: AWSClientRuntime.AWSQueryError) throws -> ReservedCacheNodeQuotaExceededFault {
+    static func makeError(baseError: ClientRuntime.AWSQueryError) throws -> ReservedCacheNodeQuotaExceededFault {
         let reader = baseError.errorBodyReader
         var value = ReservedCacheNodeQuotaExceededFault()
         value.properties.message = try reader["message"].readIfPresent()
@@ -14001,7 +14001,7 @@ extension ReservedCacheNodeQuotaExceededFault {
 
 extension TagNotFoundFault {
 
-    static func makeError(baseError: AWSClientRuntime.AWSQueryError) throws -> TagNotFoundFault {
+    static func makeError(baseError: ClientRuntime.AWSQueryError) throws -> TagNotFoundFault {
         let reader = baseError.errorBodyReader
         var value = TagNotFoundFault()
         value.properties.message = try reader["message"].readIfPresent()
@@ -14014,7 +14014,7 @@ extension TagNotFoundFault {
 
 extension AuthorizationNotFoundFault {
 
-    static func makeError(baseError: AWSClientRuntime.AWSQueryError) throws -> AuthorizationNotFoundFault {
+    static func makeError(baseError: ClientRuntime.AWSQueryError) throws -> AuthorizationNotFoundFault {
         let reader = baseError.errorBodyReader
         var value = AuthorizationNotFoundFault()
         value.properties.message = try reader["message"].readIfPresent()
@@ -14027,7 +14027,7 @@ extension AuthorizationNotFoundFault {
 
 extension ReplicationGroupAlreadyUnderMigrationFault {
 
-    static func makeError(baseError: AWSClientRuntime.AWSQueryError) throws -> ReplicationGroupAlreadyUnderMigrationFault {
+    static func makeError(baseError: ClientRuntime.AWSQueryError) throws -> ReplicationGroupAlreadyUnderMigrationFault {
         let reader = baseError.errorBodyReader
         var value = ReplicationGroupAlreadyUnderMigrationFault()
         value.properties.message = try reader["message"].readIfPresent()
@@ -14040,7 +14040,7 @@ extension ReplicationGroupAlreadyUnderMigrationFault {
 
 extension APICallRateForCustomerExceededFault {
 
-    static func makeError(baseError: AWSClientRuntime.AWSQueryError) throws -> APICallRateForCustomerExceededFault {
+    static func makeError(baseError: ClientRuntime.AWSQueryError) throws -> APICallRateForCustomerExceededFault {
         let reader = baseError.errorBodyReader
         var value = APICallRateForCustomerExceededFault()
         value.properties.message = try reader["message"].readIfPresent()
@@ -14053,7 +14053,7 @@ extension APICallRateForCustomerExceededFault {
 
 extension NodeGroupNotFoundFault {
 
-    static func makeError(baseError: AWSClientRuntime.AWSQueryError) throws -> NodeGroupNotFoundFault {
+    static func makeError(baseError: ClientRuntime.AWSQueryError) throws -> NodeGroupNotFoundFault {
         let reader = baseError.errorBodyReader
         var value = NodeGroupNotFoundFault()
         value.properties.message = try reader["message"].readIfPresent()
@@ -14066,7 +14066,7 @@ extension NodeGroupNotFoundFault {
 
 extension TestFailoverNotAvailableFault {
 
-    static func makeError(baseError: AWSClientRuntime.AWSQueryError) throws -> TestFailoverNotAvailableFault {
+    static func makeError(baseError: ClientRuntime.AWSQueryError) throws -> TestFailoverNotAvailableFault {
         let reader = baseError.errorBodyReader
         var value = TestFailoverNotAvailableFault()
         value.properties.message = try reader["message"].readIfPresent()

@@ -35,12 +35,14 @@ extension ARCRegionswitchClientTypes {
     public enum ExecutionAction: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case activate
         case deactivate
+        case postRecovery
         case sdkUnknown(Swift.String)
 
         public static var allCases: [ExecutionAction] {
             return [
                 .activate,
-                .deactivate
+                .deactivate,
+                .postRecovery
             ]
         }
 
@@ -53,6 +55,7 @@ extension ARCRegionswitchClientTypes {
             switch self {
             case .activate: return "activate"
             case .deactivate: return "deactivate"
+            case .postRecovery: return "postRecovery"
             case let .sdkUnknown(s): return s
             }
         }
@@ -172,6 +175,8 @@ extension ARCRegionswitchClientTypes {
         /// The Amazon Resource Name (ARN) of the plan.
         /// This member is required.
         public var planArn: Swift.String?
+        /// The unique identifier of the most recent recovery execution. Required when starting a post-recovery execution.
+        public var recoveryExecutionId: Swift.String?
         /// The timestamp when the plan execution was started.
         /// This member is required.
         public var startTime: Foundation.Date?
@@ -190,6 +195,7 @@ extension ARCRegionswitchClientTypes {
             executionState: ARCRegionswitchClientTypes.ExecutionState? = nil,
             mode: ARCRegionswitchClientTypes.ExecutionMode? = nil,
             planArn: Swift.String? = nil,
+            recoveryExecutionId: Swift.String? = nil,
             startTime: Foundation.Date? = nil,
             updatedAt: Foundation.Date? = nil,
             version: Swift.String? = nil
@@ -203,6 +209,7 @@ extension ARCRegionswitchClientTypes {
             self.executionState = executionState
             self.mode = mode
             self.planArn = planArn
+            self.recoveryExecutionId = recoveryExecutionId
             self.startTime = startTime
             self.updatedAt = updatedAt
             self.version = version
@@ -882,12 +889,14 @@ extension ARCRegionswitchClientTypes {
     public enum WorkflowTargetAction: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case activate
         case deactivate
+        case postRecovery
         case sdkUnknown(Swift.String)
 
         public static var allCases: [WorkflowTargetAction] {
             return [
                 .activate,
-                .deactivate
+                .deactivate,
+                .postRecovery
             ]
         }
 
@@ -900,6 +909,7 @@ extension ARCRegionswitchClientTypes {
             switch self {
             case .activate: return "activate"
             case .deactivate: return "deactivate"
+            case .postRecovery: return "postRecovery"
             case let .sdkUnknown(s): return s
             }
         }
@@ -1067,13 +1077,17 @@ extension ARCRegionswitchClientTypes {
 
     public enum RegionToRunIn: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case activatingRegion
+        case activeRegion
         case deactivatingRegion
+        case inactiveRegion
         case sdkUnknown(Swift.String)
 
         public static var allCases: [RegionToRunIn] {
             return [
                 .activatingRegion,
-                .deactivatingRegion
+                .activeRegion,
+                .deactivatingRegion,
+                .inactiveRegion
             ]
         }
 
@@ -1085,7 +1099,9 @@ extension ARCRegionswitchClientTypes {
         public var rawValue: Swift.String {
             switch self {
             case .activatingRegion: return "activatingRegion"
+            case .activeRegion: return "activeRegion"
             case .deactivatingRegion: return "deactivatingRegion"
+            case .inactiveRegion: return "inactiveRegion"
             case let .sdkUnknown(s): return s
             }
         }
@@ -1140,7 +1156,7 @@ extension ARCRegionswitchClientTypes {
         /// The Amazon Web Services Lambda functions for the execution block.
         /// This member is required.
         public var lambdas: [ARCRegionswitchClientTypes.Lambdas]?
-        /// The Amazon Web Services Region for the function to run in.
+        /// The Amazon Web Services Region for the function to run in. For recovery workflows use activatingRegion or deactivatingRegion. For post-recovery workflows, use activeRegion (the Region with customer traffic) or inactiveRegion (the Region with no customer traffic).
         /// This member is required.
         public var regionToRun: ARCRegionswitchClientTypes.RegionToRunIn?
         /// The retry interval specified.
@@ -1769,6 +1785,62 @@ extension ARCRegionswitchClientTypes {
 
 extension ARCRegionswitchClientTypes {
 
+    /// Configuration for creating an Amazon RDS cross-Region read replica during post-recovery in a Region switch.
+    public struct RdsCreateCrossRegionReplicaConfiguration: Swift.Sendable {
+        /// The cross-account role for the configuration.
+        public var crossAccountRole: Swift.String?
+        /// A map of database instance ARNs for each Region in the plan.
+        /// This member is required.
+        public var dbInstanceArnMap: [Swift.String: Swift.String]?
+        /// The external ID (secret key) for the configuration.
+        public var externalId: Swift.String?
+        /// The timeout value specified for the configuration.
+        public var timeoutMinutes: Swift.Int?
+
+        public init(
+            crossAccountRole: Swift.String? = nil,
+            dbInstanceArnMap: [Swift.String: Swift.String]? = nil,
+            externalId: Swift.String? = nil,
+            timeoutMinutes: Swift.Int? = 60
+        ) {
+            self.crossAccountRole = crossAccountRole
+            self.dbInstanceArnMap = dbInstanceArnMap
+            self.externalId = externalId
+            self.timeoutMinutes = timeoutMinutes
+        }
+    }
+}
+
+extension ARCRegionswitchClientTypes {
+
+    /// Configuration for promoting an Amazon RDS read replica to a standalone database instance during a Region switch.
+    public struct RdsPromoteReadReplicaConfiguration: Swift.Sendable {
+        /// The cross-account role for the configuration.
+        public var crossAccountRole: Swift.String?
+        /// A map of database instance ARNs for each Region in the plan.
+        /// This member is required.
+        public var dbInstanceArnMap: [Swift.String: Swift.String]?
+        /// The external ID (secret key) for the configuration.
+        public var externalId: Swift.String?
+        /// The timeout value specified for the configuration.
+        public var timeoutMinutes: Swift.Int?
+
+        public init(
+            crossAccountRole: Swift.String? = nil,
+            dbInstanceArnMap: [Swift.String: Swift.String]? = nil,
+            externalId: Swift.String? = nil,
+            timeoutMinutes: Swift.Int? = 60
+        ) {
+            self.crossAccountRole = crossAccountRole
+            self.dbInstanceArnMap = dbInstanceArnMap
+            self.externalId = externalId
+            self.timeoutMinutes = timeoutMinutes
+        }
+    }
+}
+
+extension ARCRegionswitchClientTypes {
+
     /// Configuration for nested Region switch plans. This allows one Region switch plan to trigger another plan as part of its execution.
     public struct RegionSwitchPlanConfiguration: Swift.Sendable {
         /// The Amazon Resource Name (ARN) of the plan configuration.
@@ -1858,6 +1930,8 @@ extension ARCRegionswitchClientTypes {
         case eksResourceScaling
         case executionApproval
         case parallel
+        case rdsCreateCrossRegionReplica
+        case rdsPromoteReadReplica
         case regionSwitch
         case route53HealthCheck
         case routingControl
@@ -1873,6 +1947,8 @@ extension ARCRegionswitchClientTypes {
                 .eksResourceScaling,
                 .executionApproval,
                 .parallel,
+                .rdsCreateCrossRegionReplica,
+                .rdsPromoteReadReplica,
                 .regionSwitch,
                 .route53HealthCheck,
                 .routingControl
@@ -1894,6 +1970,8 @@ extension ARCRegionswitchClientTypes {
             case .eksResourceScaling: return "EKSResourceScaling"
             case .executionApproval: return "ManualApproval"
             case .parallel: return "Parallel"
+            case .rdsCreateCrossRegionReplica: return "RdsCreateCrossRegionReplica"
+            case .rdsPromoteReadReplica: return "RdsPromoteReadReplica"
             case .regionSwitch: return "ARCRegionSwitchPlan"
             case .route53HealthCheck: return "Route53HealthCheck"
             case .routingControl: return "ARCRoutingControl"
@@ -2615,6 +2693,8 @@ public struct StartPlanExecutionInput: Swift.Sendable {
     /// The Amazon Resource Name (ARN) of the plan to execute.
     /// This member is required.
     public var planArn: Swift.String?
+    /// The execution identifier of the recovery execution that ran in the opposite region post-recovery is ran in. Required when starting a post-recovery execution.
+    public var recoveryExecutionId: Swift.String?
     /// The Amazon Web Services Region to target with this execution. This is the Region that traffic will be shifted to or from, depending on the action.
     /// This member is required.
     public var targetRegion: Swift.String?
@@ -2625,6 +2705,7 @@ public struct StartPlanExecutionInput: Swift.Sendable {
         latestVersion: Swift.String? = nil,
         mode: ARCRegionswitchClientTypes.ExecutionMode? = nil,
         planArn: Swift.String? = nil,
+        recoveryExecutionId: Swift.String? = nil,
         targetRegion: Swift.String? = nil
     ) {
         self.action = action
@@ -2632,6 +2713,7 @@ public struct StartPlanExecutionInput: Swift.Sendable {
         self.latestVersion = latestVersion
         self.mode = mode
         self.planArn = planArn
+        self.recoveryExecutionId = recoveryExecutionId
         self.targetRegion = targetRegion
     }
 }
@@ -2821,6 +2903,10 @@ extension ARCRegionswitchClientTypes {
         case route53healthcheckconfig(ARCRegionswitchClientTypes.Route53HealthCheckConfiguration)
         /// Configuration for Amazon DocumentDB global clusters used in a Region switch plan.
         case documentdbconfig(ARCRegionswitchClientTypes.DocumentDbConfiguration)
+        /// An Amazon RDS promote read replica execution block.
+        case rdspromotereadreplicaconfig(ARCRegionswitchClientTypes.RdsPromoteReadReplicaConfiguration)
+        /// An Amazon RDS create cross-Region replica execution block.
+        case rdscreatecrossregionreadreplicaconfig(ARCRegionswitchClientTypes.RdsCreateCrossRegionReplicaConfiguration)
         case sdkUnknown(Swift.String)
     }
 }
@@ -3121,6 +3207,8 @@ public struct GetPlanExecutionOutput: Swift.Sendable {
     /// The Amazon Resource Name (ARN) of the plan.
     /// This member is required.
     public var planArn: Swift.String?
+    /// The unique identifier of the most recent recovery execution. Required when starting a post-recovery execution.
+    public var recoveryExecutionId: Swift.String?
     /// The time (UTC) when the plan execution started.
     /// This member is required.
     public var startTime: Foundation.Date?
@@ -3144,6 +3232,7 @@ public struct GetPlanExecutionOutput: Swift.Sendable {
         nextToken: Swift.String? = nil,
         plan: ARCRegionswitchClientTypes.Plan? = nil,
         planArn: Swift.String? = nil,
+        recoveryExecutionId: Swift.String? = nil,
         startTime: Foundation.Date? = nil,
         stepStates: [ARCRegionswitchClientTypes.StepState]? = nil,
         updatedAt: Foundation.Date? = nil,
@@ -3161,6 +3250,7 @@ public struct GetPlanExecutionOutput: Swift.Sendable {
         self.nextToken = nextToken
         self.plan = plan
         self.planArn = planArn
+        self.recoveryExecutionId = recoveryExecutionId
         self.startTime = startTime
         self.stepStates = stepStates
         self.updatedAt = updatedAt
@@ -3516,6 +3606,7 @@ extension StartPlanExecutionInput {
         try writer["latestVersion"].write(value.latestVersion)
         try writer["mode"].write(value.mode)
         try writer["planArn"].write(value.planArn)
+        try writer["recoveryExecutionId"].write(value.recoveryExecutionId)
         try writer["targetRegion"].write(value.targetRegion)
     }
 }
@@ -3658,6 +3749,7 @@ extension GetPlanExecutionOutput {
         value.nextToken = try reader["nextToken"].readIfPresent()
         value.plan = try reader["plan"].readIfPresent(with: ARCRegionswitchClientTypes.Plan.read(from:))
         value.planArn = try reader["planArn"].readIfPresent() ?? ""
+        value.recoveryExecutionId = try reader["recoveryExecutionId"].readIfPresent()
         value.startTime = try reader["startTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
         value.stepStates = try reader["stepStates"].readListIfPresent(memberReadingClosure: ARCRegionswitchClientTypes.StepState.read(from:), memberNodeInfo: "member", isFlattened: false)
         value.updatedAt = try reader["updatedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
@@ -4219,6 +4311,7 @@ extension ARCRegionswitchClientTypes.AbbreviatedExecution {
         value.executionState = try reader["executionState"].readIfPresent() ?? .sdkUnknown("")
         value.executionAction = try reader["executionAction"].readIfPresent() ?? .sdkUnknown("")
         value.executionRegion = try reader["executionRegion"].readIfPresent() ?? ""
+        value.recoveryExecutionId = try reader["recoveryExecutionId"].readIfPresent()
         value.actualRecoveryTime = try reader["actualRecoveryTime"].readIfPresent()
         return value
     }
@@ -4565,6 +4658,10 @@ extension ARCRegionswitchClientTypes.ExecutionBlockConfiguration {
                 try writer["globalAuroraConfig"].write(globalauroraconfig, with: ARCRegionswitchClientTypes.GlobalAuroraConfiguration.write(value:to:))
             case let .parallelconfig(parallelconfig):
                 try writer["parallelConfig"].write(parallelconfig, with: ARCRegionswitchClientTypes.ParallelExecutionBlockConfiguration.write(value:to:))
+            case let .rdscreatecrossregionreadreplicaconfig(rdscreatecrossregionreadreplicaconfig):
+                try writer["rdsCreateCrossRegionReadReplicaConfig"].write(rdscreatecrossregionreadreplicaconfig, with: ARCRegionswitchClientTypes.RdsCreateCrossRegionReplicaConfiguration.write(value:to:))
+            case let .rdspromotereadreplicaconfig(rdspromotereadreplicaconfig):
+                try writer["rdsPromoteReadReplicaConfig"].write(rdspromotereadreplicaconfig, with: ARCRegionswitchClientTypes.RdsPromoteReadReplicaConfiguration.write(value:to:))
             case let .regionswitchplanconfig(regionswitchplanconfig):
                 try writer["regionSwitchPlanConfig"].write(regionswitchplanconfig, with: ARCRegionswitchClientTypes.RegionSwitchPlanConfiguration.write(value:to:))
             case let .route53healthcheckconfig(route53healthcheckconfig):
@@ -4600,6 +4697,10 @@ extension ARCRegionswitchClientTypes.ExecutionBlockConfiguration {
                 return .route53healthcheckconfig(try reader["route53HealthCheckConfig"].read(with: ARCRegionswitchClientTypes.Route53HealthCheckConfiguration.read(from:)))
             case "documentDbConfig":
                 return .documentdbconfig(try reader["documentDbConfig"].read(with: ARCRegionswitchClientTypes.DocumentDbConfiguration.read(from:)))
+            case "rdsPromoteReadReplicaConfig":
+                return .rdspromotereadreplicaconfig(try reader["rdsPromoteReadReplicaConfig"].read(with: ARCRegionswitchClientTypes.RdsPromoteReadReplicaConfiguration.read(from:)))
+            case "rdsCreateCrossRegionReadReplicaConfig":
+                return .rdscreatecrossregionreadreplicaconfig(try reader["rdsCreateCrossRegionReadReplicaConfig"].read(with: ARCRegionswitchClientTypes.RdsCreateCrossRegionReplicaConfiguration.read(from:)))
             default:
                 return .sdkUnknown(name ?? "")
         }
@@ -4804,6 +4905,48 @@ extension ARCRegionswitchClientTypes.Plan {
         value.owner = try reader["owner"].readIfPresent() ?? ""
         value.version = try reader["version"].readIfPresent()
         value.updatedAt = try reader["updatedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        return value
+    }
+}
+
+extension ARCRegionswitchClientTypes.RdsCreateCrossRegionReplicaConfiguration {
+
+    static func write(value: ARCRegionswitchClientTypes.RdsCreateCrossRegionReplicaConfiguration?, to writer: SmithyCBOR.Writer) throws {
+        guard let value else { return }
+        try writer["crossAccountRole"].write(value.crossAccountRole)
+        try writer["dbInstanceArnMap"].writeMap(value.dbInstanceArnMap, valueWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+        try writer["externalId"].write(value.externalId)
+        try writer["timeoutMinutes"].write(value.timeoutMinutes)
+    }
+
+    static func read(from reader: SmithyCBOR.Reader) throws -> ARCRegionswitchClientTypes.RdsCreateCrossRegionReplicaConfiguration {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = ARCRegionswitchClientTypes.RdsCreateCrossRegionReplicaConfiguration()
+        value.timeoutMinutes = try reader["timeoutMinutes"].readIfPresent() ?? 60
+        value.crossAccountRole = try reader["crossAccountRole"].readIfPresent()
+        value.externalId = try reader["externalId"].readIfPresent()
+        value.dbInstanceArnMap = try reader["dbInstanceArnMap"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false) ?? [:]
+        return value
+    }
+}
+
+extension ARCRegionswitchClientTypes.RdsPromoteReadReplicaConfiguration {
+
+    static func write(value: ARCRegionswitchClientTypes.RdsPromoteReadReplicaConfiguration?, to writer: SmithyCBOR.Writer) throws {
+        guard let value else { return }
+        try writer["crossAccountRole"].write(value.crossAccountRole)
+        try writer["dbInstanceArnMap"].writeMap(value.dbInstanceArnMap, valueWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+        try writer["externalId"].write(value.externalId)
+        try writer["timeoutMinutes"].write(value.timeoutMinutes)
+    }
+
+    static func read(from reader: SmithyCBOR.Reader) throws -> ARCRegionswitchClientTypes.RdsPromoteReadReplicaConfiguration {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = ARCRegionswitchClientTypes.RdsPromoteReadReplicaConfiguration()
+        value.timeoutMinutes = try reader["timeoutMinutes"].readIfPresent() ?? 60
+        value.crossAccountRole = try reader["crossAccountRole"].readIfPresent()
+        value.externalId = try reader["externalId"].readIfPresent()
+        value.dbInstanceArnMap = try reader["dbInstanceArnMap"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false) ?? [:]
         return value
     }
 }

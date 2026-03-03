@@ -22,8 +22,8 @@ import protocol ClientRuntime.HTTPError
 import protocol ClientRuntime.ModeledError
 @_spi(SmithyReadWrite) import protocol SmithyReadWrite.SmithyReader
 @_spi(SmithyReadWrite) import protocol SmithyReadWrite.SmithyWriter
-@_spi(SmithyReadWrite) import struct AWSClientRuntime.AWSQueryError
 @_spi(UnknownAWSHTTPServiceError) import struct AWSClientRuntime.UnknownAWSHTTPServiceError
+@_spi(SmithyReadWrite) import struct ClientRuntime.AWSQueryError
 @_spi(SmithyReadWrite) import struct SmithyReadWrite.ReadingClosureBox
 @_spi(SmithyReadWrite) import struct SmithyReadWrite.WritingClosureBox
 
@@ -6547,7 +6547,7 @@ enum CloneReceiptRuleSetOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AlreadyExists": return try AlreadyExistsException.makeError(baseError: baseError)
@@ -6563,7 +6563,7 @@ enum CreateConfigurationSetOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "ConfigurationSetAlreadyExists": return try ConfigurationSetAlreadyExistsException.makeError(baseError: baseError)
@@ -6579,7 +6579,7 @@ enum CreateConfigurationSetEventDestinationOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "ConfigurationSetDoesNotExist": return try ConfigurationSetDoesNotExistException.makeError(baseError: baseError)
@@ -6598,7 +6598,7 @@ enum CreateConfigurationSetTrackingOptionsOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "ConfigurationSetDoesNotExist": return try ConfigurationSetDoesNotExistException.makeError(baseError: baseError)
@@ -6614,7 +6614,7 @@ enum CreateCustomVerificationEmailTemplateOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "CustomVerificationEmailInvalidContent": return try CustomVerificationEmailInvalidContentException.makeError(baseError: baseError)
@@ -6631,7 +6631,7 @@ enum CreateReceiptFilterOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AlreadyExists": return try AlreadyExistsException.makeError(baseError: baseError)
@@ -6646,7 +6646,7 @@ enum CreateReceiptRuleOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AlreadyExists": return try AlreadyExistsException.makeError(baseError: baseError)
@@ -6666,7 +6666,7 @@ enum CreateReceiptRuleSetOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AlreadyExists": return try AlreadyExistsException.makeError(baseError: baseError)
@@ -6681,7 +6681,7 @@ enum CreateTemplateOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AlreadyExists": return try AlreadyExistsException.makeError(baseError: baseError)
@@ -6697,7 +6697,7 @@ enum DeleteConfigurationSetOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "ConfigurationSetDoesNotExist": return try ConfigurationSetDoesNotExistException.makeError(baseError: baseError)
@@ -6711,7 +6711,7 @@ enum DeleteConfigurationSetEventDestinationOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "ConfigurationSetDoesNotExist": return try ConfigurationSetDoesNotExistException.makeError(baseError: baseError)
@@ -6726,7 +6726,7 @@ enum DeleteConfigurationSetTrackingOptionsOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "ConfigurationSetDoesNotExist": return try ConfigurationSetDoesNotExistException.makeError(baseError: baseError)
@@ -6741,7 +6741,7 @@ enum DeleteCustomVerificationEmailTemplateOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
@@ -6754,7 +6754,7 @@ enum DeleteIdentityOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
@@ -6767,7 +6767,7 @@ enum DeleteIdentityPolicyOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
@@ -6780,7 +6780,7 @@ enum DeleteReceiptFilterOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
@@ -6793,7 +6793,7 @@ enum DeleteReceiptRuleOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "RuleSetDoesNotExist": return try RuleSetDoesNotExistException.makeError(baseError: baseError)
@@ -6807,7 +6807,7 @@ enum DeleteReceiptRuleSetOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "CannotDelete": return try CannotDeleteException.makeError(baseError: baseError)
@@ -6821,7 +6821,7 @@ enum DeleteTemplateOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
@@ -6834,7 +6834,7 @@ enum DeleteVerifiedEmailAddressOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
@@ -6847,7 +6847,7 @@ enum DescribeActiveReceiptRuleSetOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
@@ -6860,7 +6860,7 @@ enum DescribeConfigurationSetOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "ConfigurationSetDoesNotExist": return try ConfigurationSetDoesNotExistException.makeError(baseError: baseError)
@@ -6874,7 +6874,7 @@ enum DescribeReceiptRuleOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "RuleDoesNotExist": return try RuleDoesNotExistException.makeError(baseError: baseError)
@@ -6889,7 +6889,7 @@ enum DescribeReceiptRuleSetOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "RuleSetDoesNotExist": return try RuleSetDoesNotExistException.makeError(baseError: baseError)
@@ -6903,7 +6903,7 @@ enum GetAccountSendingEnabledOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
@@ -6916,7 +6916,7 @@ enum GetCustomVerificationEmailTemplateOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "CustomVerificationEmailTemplateDoesNotExist": return try CustomVerificationEmailTemplateDoesNotExistException.makeError(baseError: baseError)
@@ -6930,7 +6930,7 @@ enum GetIdentityDkimAttributesOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
@@ -6943,7 +6943,7 @@ enum GetIdentityMailFromDomainAttributesOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
@@ -6956,7 +6956,7 @@ enum GetIdentityNotificationAttributesOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
@@ -6969,7 +6969,7 @@ enum GetIdentityPoliciesOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
@@ -6982,7 +6982,7 @@ enum GetIdentityVerificationAttributesOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
@@ -6995,7 +6995,7 @@ enum GetSendQuotaOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
@@ -7008,7 +7008,7 @@ enum GetSendStatisticsOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
@@ -7021,7 +7021,7 @@ enum GetTemplateOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "TemplateDoesNotExist": return try TemplateDoesNotExistException.makeError(baseError: baseError)
@@ -7035,7 +7035,7 @@ enum ListConfigurationSetsOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
@@ -7048,7 +7048,7 @@ enum ListCustomVerificationEmailTemplatesOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
@@ -7061,7 +7061,7 @@ enum ListIdentitiesOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
@@ -7074,7 +7074,7 @@ enum ListIdentityPoliciesOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
@@ -7087,7 +7087,7 @@ enum ListReceiptFiltersOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
@@ -7100,7 +7100,7 @@ enum ListReceiptRuleSetsOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
@@ -7113,7 +7113,7 @@ enum ListTemplatesOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
@@ -7126,7 +7126,7 @@ enum ListVerifiedEmailAddressesOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
@@ -7139,7 +7139,7 @@ enum PutConfigurationSetDeliveryOptionsOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "ConfigurationSetDoesNotExist": return try ConfigurationSetDoesNotExistException.makeError(baseError: baseError)
@@ -7154,7 +7154,7 @@ enum PutIdentityPolicyOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "InvalidPolicy": return try InvalidPolicyException.makeError(baseError: baseError)
@@ -7168,7 +7168,7 @@ enum ReorderReceiptRuleSetOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "RuleDoesNotExist": return try RuleDoesNotExistException.makeError(baseError: baseError)
@@ -7183,7 +7183,7 @@ enum SendBounceOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "MessageRejected": return try MessageRejected.makeError(baseError: baseError)
@@ -7197,7 +7197,7 @@ enum SendBulkTemplatedEmailOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AccountSendingPausedException": return try AccountSendingPausedException.makeError(baseError: baseError)
@@ -7216,7 +7216,7 @@ enum SendCustomVerificationEmailOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "ConfigurationSetDoesNotExist": return try ConfigurationSetDoesNotExistException.makeError(baseError: baseError)
@@ -7234,7 +7234,7 @@ enum SendEmailOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AccountSendingPausedException": return try AccountSendingPausedException.makeError(baseError: baseError)
@@ -7252,7 +7252,7 @@ enum SendRawEmailOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AccountSendingPausedException": return try AccountSendingPausedException.makeError(baseError: baseError)
@@ -7270,7 +7270,7 @@ enum SendTemplatedEmailOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AccountSendingPausedException": return try AccountSendingPausedException.makeError(baseError: baseError)
@@ -7289,7 +7289,7 @@ enum SetActiveReceiptRuleSetOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "RuleSetDoesNotExist": return try RuleSetDoesNotExistException.makeError(baseError: baseError)
@@ -7303,7 +7303,7 @@ enum SetIdentityDkimEnabledOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
@@ -7316,7 +7316,7 @@ enum SetIdentityFeedbackForwardingEnabledOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
@@ -7329,7 +7329,7 @@ enum SetIdentityHeadersInNotificationsEnabledOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
@@ -7342,7 +7342,7 @@ enum SetIdentityMailFromDomainOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
@@ -7355,7 +7355,7 @@ enum SetIdentityNotificationTopicOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
@@ -7368,7 +7368,7 @@ enum SetReceiptRulePositionOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "RuleDoesNotExist": return try RuleDoesNotExistException.makeError(baseError: baseError)
@@ -7383,7 +7383,7 @@ enum TestRenderTemplateOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "InvalidRenderingParameter": return try InvalidRenderingParameterException.makeError(baseError: baseError)
@@ -7399,7 +7399,7 @@ enum UpdateAccountSendingEnabledOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
@@ -7412,7 +7412,7 @@ enum UpdateConfigurationSetEventDestinationOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "ConfigurationSetDoesNotExist": return try ConfigurationSetDoesNotExistException.makeError(baseError: baseError)
@@ -7430,7 +7430,7 @@ enum UpdateConfigurationSetReputationMetricsEnabledOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "ConfigurationSetDoesNotExist": return try ConfigurationSetDoesNotExistException.makeError(baseError: baseError)
@@ -7444,7 +7444,7 @@ enum UpdateConfigurationSetSendingEnabledOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "ConfigurationSetDoesNotExist": return try ConfigurationSetDoesNotExistException.makeError(baseError: baseError)
@@ -7458,7 +7458,7 @@ enum UpdateConfigurationSetTrackingOptionsOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "ConfigurationSetDoesNotExist": return try ConfigurationSetDoesNotExistException.makeError(baseError: baseError)
@@ -7474,7 +7474,7 @@ enum UpdateCustomVerificationEmailTemplateOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "CustomVerificationEmailInvalidContent": return try CustomVerificationEmailInvalidContentException.makeError(baseError: baseError)
@@ -7490,7 +7490,7 @@ enum UpdateReceiptRuleOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "InvalidLambdaFunction": return try InvalidLambdaFunctionException.makeError(baseError: baseError)
@@ -7509,7 +7509,7 @@ enum UpdateTemplateOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "InvalidTemplate": return try InvalidTemplateException.makeError(baseError: baseError)
@@ -7524,7 +7524,7 @@ enum VerifyDomainDkimOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
@@ -7537,7 +7537,7 @@ enum VerifyDomainIdentityOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
@@ -7550,7 +7550,7 @@ enum VerifyEmailAddressOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
@@ -7563,7 +7563,7 @@ enum VerifyEmailIdentityOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
@@ -7573,7 +7573,7 @@ enum VerifyEmailIdentityOutputError {
 
 extension AlreadyExistsException {
 
-    static func makeError(baseError: AWSClientRuntime.AWSQueryError) throws -> AlreadyExistsException {
+    static func makeError(baseError: ClientRuntime.AWSQueryError) throws -> AlreadyExistsException {
         let reader = baseError.errorBodyReader
         var value = AlreadyExistsException()
         value.properties.name = try reader["Name"].readIfPresent()
@@ -7587,7 +7587,7 @@ extension AlreadyExistsException {
 
 extension LimitExceededException {
 
-    static func makeError(baseError: AWSClientRuntime.AWSQueryError) throws -> LimitExceededException {
+    static func makeError(baseError: ClientRuntime.AWSQueryError) throws -> LimitExceededException {
         let reader = baseError.errorBodyReader
         var value = LimitExceededException()
         value.properties.message = try reader["message"].readIfPresent()
@@ -7600,7 +7600,7 @@ extension LimitExceededException {
 
 extension RuleSetDoesNotExistException {
 
-    static func makeError(baseError: AWSClientRuntime.AWSQueryError) throws -> RuleSetDoesNotExistException {
+    static func makeError(baseError: ClientRuntime.AWSQueryError) throws -> RuleSetDoesNotExistException {
         let reader = baseError.errorBodyReader
         var value = RuleSetDoesNotExistException()
         value.properties.name = try reader["Name"].readIfPresent()
@@ -7614,7 +7614,7 @@ extension RuleSetDoesNotExistException {
 
 extension ConfigurationSetAlreadyExistsException {
 
-    static func makeError(baseError: AWSClientRuntime.AWSQueryError) throws -> ConfigurationSetAlreadyExistsException {
+    static func makeError(baseError: ClientRuntime.AWSQueryError) throws -> ConfigurationSetAlreadyExistsException {
         let reader = baseError.errorBodyReader
         var value = ConfigurationSetAlreadyExistsException()
         value.properties.configurationSetName = try reader["ConfigurationSetName"].readIfPresent()
@@ -7628,7 +7628,7 @@ extension ConfigurationSetAlreadyExistsException {
 
 extension InvalidConfigurationSetException {
 
-    static func makeError(baseError: AWSClientRuntime.AWSQueryError) throws -> InvalidConfigurationSetException {
+    static func makeError(baseError: ClientRuntime.AWSQueryError) throws -> InvalidConfigurationSetException {
         let reader = baseError.errorBodyReader
         var value = InvalidConfigurationSetException()
         value.properties.message = try reader["message"].readIfPresent()
@@ -7641,7 +7641,7 @@ extension InvalidConfigurationSetException {
 
 extension ConfigurationSetDoesNotExistException {
 
-    static func makeError(baseError: AWSClientRuntime.AWSQueryError) throws -> ConfigurationSetDoesNotExistException {
+    static func makeError(baseError: ClientRuntime.AWSQueryError) throws -> ConfigurationSetDoesNotExistException {
         let reader = baseError.errorBodyReader
         var value = ConfigurationSetDoesNotExistException()
         value.properties.configurationSetName = try reader["ConfigurationSetName"].readIfPresent()
@@ -7655,7 +7655,7 @@ extension ConfigurationSetDoesNotExistException {
 
 extension EventDestinationAlreadyExistsException {
 
-    static func makeError(baseError: AWSClientRuntime.AWSQueryError) throws -> EventDestinationAlreadyExistsException {
+    static func makeError(baseError: ClientRuntime.AWSQueryError) throws -> EventDestinationAlreadyExistsException {
         let reader = baseError.errorBodyReader
         var value = EventDestinationAlreadyExistsException()
         value.properties.configurationSetName = try reader["ConfigurationSetName"].readIfPresent()
@@ -7670,7 +7670,7 @@ extension EventDestinationAlreadyExistsException {
 
 extension InvalidCloudWatchDestinationException {
 
-    static func makeError(baseError: AWSClientRuntime.AWSQueryError) throws -> InvalidCloudWatchDestinationException {
+    static func makeError(baseError: ClientRuntime.AWSQueryError) throws -> InvalidCloudWatchDestinationException {
         let reader = baseError.errorBodyReader
         var value = InvalidCloudWatchDestinationException()
         value.properties.configurationSetName = try reader["ConfigurationSetName"].readIfPresent()
@@ -7685,7 +7685,7 @@ extension InvalidCloudWatchDestinationException {
 
 extension InvalidFirehoseDestinationException {
 
-    static func makeError(baseError: AWSClientRuntime.AWSQueryError) throws -> InvalidFirehoseDestinationException {
+    static func makeError(baseError: ClientRuntime.AWSQueryError) throws -> InvalidFirehoseDestinationException {
         let reader = baseError.errorBodyReader
         var value = InvalidFirehoseDestinationException()
         value.properties.configurationSetName = try reader["ConfigurationSetName"].readIfPresent()
@@ -7700,7 +7700,7 @@ extension InvalidFirehoseDestinationException {
 
 extension InvalidSNSDestinationException {
 
-    static func makeError(baseError: AWSClientRuntime.AWSQueryError) throws -> InvalidSNSDestinationException {
+    static func makeError(baseError: ClientRuntime.AWSQueryError) throws -> InvalidSNSDestinationException {
         let reader = baseError.errorBodyReader
         var value = InvalidSNSDestinationException()
         value.properties.configurationSetName = try reader["ConfigurationSetName"].readIfPresent()
@@ -7715,7 +7715,7 @@ extension InvalidSNSDestinationException {
 
 extension InvalidTrackingOptionsException {
 
-    static func makeError(baseError: AWSClientRuntime.AWSQueryError) throws -> InvalidTrackingOptionsException {
+    static func makeError(baseError: ClientRuntime.AWSQueryError) throws -> InvalidTrackingOptionsException {
         let reader = baseError.errorBodyReader
         var value = InvalidTrackingOptionsException()
         value.properties.message = try reader["message"].readIfPresent()
@@ -7728,7 +7728,7 @@ extension InvalidTrackingOptionsException {
 
 extension TrackingOptionsAlreadyExistsException {
 
-    static func makeError(baseError: AWSClientRuntime.AWSQueryError) throws -> TrackingOptionsAlreadyExistsException {
+    static func makeError(baseError: ClientRuntime.AWSQueryError) throws -> TrackingOptionsAlreadyExistsException {
         let reader = baseError.errorBodyReader
         var value = TrackingOptionsAlreadyExistsException()
         value.properties.configurationSetName = try reader["ConfigurationSetName"].readIfPresent()
@@ -7742,7 +7742,7 @@ extension TrackingOptionsAlreadyExistsException {
 
 extension CustomVerificationEmailInvalidContentException {
 
-    static func makeError(baseError: AWSClientRuntime.AWSQueryError) throws -> CustomVerificationEmailInvalidContentException {
+    static func makeError(baseError: ClientRuntime.AWSQueryError) throws -> CustomVerificationEmailInvalidContentException {
         let reader = baseError.errorBodyReader
         var value = CustomVerificationEmailInvalidContentException()
         value.properties.message = try reader["message"].readIfPresent()
@@ -7755,7 +7755,7 @@ extension CustomVerificationEmailInvalidContentException {
 
 extension CustomVerificationEmailTemplateAlreadyExistsException {
 
-    static func makeError(baseError: AWSClientRuntime.AWSQueryError) throws -> CustomVerificationEmailTemplateAlreadyExistsException {
+    static func makeError(baseError: ClientRuntime.AWSQueryError) throws -> CustomVerificationEmailTemplateAlreadyExistsException {
         let reader = baseError.errorBodyReader
         var value = CustomVerificationEmailTemplateAlreadyExistsException()
         value.properties.customVerificationEmailTemplateName = try reader["CustomVerificationEmailTemplateName"].readIfPresent()
@@ -7769,7 +7769,7 @@ extension CustomVerificationEmailTemplateAlreadyExistsException {
 
 extension FromEmailAddressNotVerifiedException {
 
-    static func makeError(baseError: AWSClientRuntime.AWSQueryError) throws -> FromEmailAddressNotVerifiedException {
+    static func makeError(baseError: ClientRuntime.AWSQueryError) throws -> FromEmailAddressNotVerifiedException {
         let reader = baseError.errorBodyReader
         var value = FromEmailAddressNotVerifiedException()
         value.properties.fromEmailAddress = try reader["FromEmailAddress"].readIfPresent()
@@ -7783,7 +7783,7 @@ extension FromEmailAddressNotVerifiedException {
 
 extension InvalidLambdaFunctionException {
 
-    static func makeError(baseError: AWSClientRuntime.AWSQueryError) throws -> InvalidLambdaFunctionException {
+    static func makeError(baseError: ClientRuntime.AWSQueryError) throws -> InvalidLambdaFunctionException {
         let reader = baseError.errorBodyReader
         var value = InvalidLambdaFunctionException()
         value.properties.functionArn = try reader["FunctionArn"].readIfPresent()
@@ -7797,7 +7797,7 @@ extension InvalidLambdaFunctionException {
 
 extension InvalidS3ConfigurationException {
 
-    static func makeError(baseError: AWSClientRuntime.AWSQueryError) throws -> InvalidS3ConfigurationException {
+    static func makeError(baseError: ClientRuntime.AWSQueryError) throws -> InvalidS3ConfigurationException {
         let reader = baseError.errorBodyReader
         var value = InvalidS3ConfigurationException()
         value.properties.bucket = try reader["Bucket"].readIfPresent()
@@ -7811,7 +7811,7 @@ extension InvalidS3ConfigurationException {
 
 extension InvalidSnsTopicException {
 
-    static func makeError(baseError: AWSClientRuntime.AWSQueryError) throws -> InvalidSnsTopicException {
+    static func makeError(baseError: ClientRuntime.AWSQueryError) throws -> InvalidSnsTopicException {
         let reader = baseError.errorBodyReader
         var value = InvalidSnsTopicException()
         value.properties.topic = try reader["Topic"].readIfPresent()
@@ -7825,7 +7825,7 @@ extension InvalidSnsTopicException {
 
 extension RuleDoesNotExistException {
 
-    static func makeError(baseError: AWSClientRuntime.AWSQueryError) throws -> RuleDoesNotExistException {
+    static func makeError(baseError: ClientRuntime.AWSQueryError) throws -> RuleDoesNotExistException {
         let reader = baseError.errorBodyReader
         var value = RuleDoesNotExistException()
         value.properties.name = try reader["Name"].readIfPresent()
@@ -7839,7 +7839,7 @@ extension RuleDoesNotExistException {
 
 extension InvalidTemplateException {
 
-    static func makeError(baseError: AWSClientRuntime.AWSQueryError) throws -> InvalidTemplateException {
+    static func makeError(baseError: ClientRuntime.AWSQueryError) throws -> InvalidTemplateException {
         let reader = baseError.errorBodyReader
         var value = InvalidTemplateException()
         value.properties.templateName = try reader["TemplateName"].readIfPresent()
@@ -7853,7 +7853,7 @@ extension InvalidTemplateException {
 
 extension EventDestinationDoesNotExistException {
 
-    static func makeError(baseError: AWSClientRuntime.AWSQueryError) throws -> EventDestinationDoesNotExistException {
+    static func makeError(baseError: ClientRuntime.AWSQueryError) throws -> EventDestinationDoesNotExistException {
         let reader = baseError.errorBodyReader
         var value = EventDestinationDoesNotExistException()
         value.properties.configurationSetName = try reader["ConfigurationSetName"].readIfPresent()
@@ -7868,7 +7868,7 @@ extension EventDestinationDoesNotExistException {
 
 extension TrackingOptionsDoesNotExistException {
 
-    static func makeError(baseError: AWSClientRuntime.AWSQueryError) throws -> TrackingOptionsDoesNotExistException {
+    static func makeError(baseError: ClientRuntime.AWSQueryError) throws -> TrackingOptionsDoesNotExistException {
         let reader = baseError.errorBodyReader
         var value = TrackingOptionsDoesNotExistException()
         value.properties.configurationSetName = try reader["ConfigurationSetName"].readIfPresent()
@@ -7882,7 +7882,7 @@ extension TrackingOptionsDoesNotExistException {
 
 extension CannotDeleteException {
 
-    static func makeError(baseError: AWSClientRuntime.AWSQueryError) throws -> CannotDeleteException {
+    static func makeError(baseError: ClientRuntime.AWSQueryError) throws -> CannotDeleteException {
         let reader = baseError.errorBodyReader
         var value = CannotDeleteException()
         value.properties.name = try reader["Name"].readIfPresent()
@@ -7896,7 +7896,7 @@ extension CannotDeleteException {
 
 extension CustomVerificationEmailTemplateDoesNotExistException {
 
-    static func makeError(baseError: AWSClientRuntime.AWSQueryError) throws -> CustomVerificationEmailTemplateDoesNotExistException {
+    static func makeError(baseError: ClientRuntime.AWSQueryError) throws -> CustomVerificationEmailTemplateDoesNotExistException {
         let reader = baseError.errorBodyReader
         var value = CustomVerificationEmailTemplateDoesNotExistException()
         value.properties.customVerificationEmailTemplateName = try reader["CustomVerificationEmailTemplateName"].readIfPresent()
@@ -7910,7 +7910,7 @@ extension CustomVerificationEmailTemplateDoesNotExistException {
 
 extension TemplateDoesNotExistException {
 
-    static func makeError(baseError: AWSClientRuntime.AWSQueryError) throws -> TemplateDoesNotExistException {
+    static func makeError(baseError: ClientRuntime.AWSQueryError) throws -> TemplateDoesNotExistException {
         let reader = baseError.errorBodyReader
         var value = TemplateDoesNotExistException()
         value.properties.templateName = try reader["TemplateName"].readIfPresent()
@@ -7924,7 +7924,7 @@ extension TemplateDoesNotExistException {
 
 extension InvalidDeliveryOptionsException {
 
-    static func makeError(baseError: AWSClientRuntime.AWSQueryError) throws -> InvalidDeliveryOptionsException {
+    static func makeError(baseError: ClientRuntime.AWSQueryError) throws -> InvalidDeliveryOptionsException {
         let reader = baseError.errorBodyReader
         var value = InvalidDeliveryOptionsException()
         value.properties.message = try reader["message"].readIfPresent()
@@ -7937,7 +7937,7 @@ extension InvalidDeliveryOptionsException {
 
 extension InvalidPolicyException {
 
-    static func makeError(baseError: AWSClientRuntime.AWSQueryError) throws -> InvalidPolicyException {
+    static func makeError(baseError: ClientRuntime.AWSQueryError) throws -> InvalidPolicyException {
         let reader = baseError.errorBodyReader
         var value = InvalidPolicyException()
         value.properties.message = try reader["message"].readIfPresent()
@@ -7950,7 +7950,7 @@ extension InvalidPolicyException {
 
 extension MessageRejected {
 
-    static func makeError(baseError: AWSClientRuntime.AWSQueryError) throws -> MessageRejected {
+    static func makeError(baseError: ClientRuntime.AWSQueryError) throws -> MessageRejected {
         let reader = baseError.errorBodyReader
         var value = MessageRejected()
         value.properties.message = try reader["message"].readIfPresent()
@@ -7963,7 +7963,7 @@ extension MessageRejected {
 
 extension AccountSendingPausedException {
 
-    static func makeError(baseError: AWSClientRuntime.AWSQueryError) throws -> AccountSendingPausedException {
+    static func makeError(baseError: ClientRuntime.AWSQueryError) throws -> AccountSendingPausedException {
         let reader = baseError.errorBodyReader
         var value = AccountSendingPausedException()
         value.properties.message = try reader["message"].readIfPresent()
@@ -7976,7 +7976,7 @@ extension AccountSendingPausedException {
 
 extension ConfigurationSetSendingPausedException {
 
-    static func makeError(baseError: AWSClientRuntime.AWSQueryError) throws -> ConfigurationSetSendingPausedException {
+    static func makeError(baseError: ClientRuntime.AWSQueryError) throws -> ConfigurationSetSendingPausedException {
         let reader = baseError.errorBodyReader
         var value = ConfigurationSetSendingPausedException()
         value.properties.configurationSetName = try reader["ConfigurationSetName"].readIfPresent()
@@ -7990,7 +7990,7 @@ extension ConfigurationSetSendingPausedException {
 
 extension MailFromDomainNotVerifiedException {
 
-    static func makeError(baseError: AWSClientRuntime.AWSQueryError) throws -> MailFromDomainNotVerifiedException {
+    static func makeError(baseError: ClientRuntime.AWSQueryError) throws -> MailFromDomainNotVerifiedException {
         let reader = baseError.errorBodyReader
         var value = MailFromDomainNotVerifiedException()
         value.properties.message = try reader["message"].readIfPresent()
@@ -8003,7 +8003,7 @@ extension MailFromDomainNotVerifiedException {
 
 extension ProductionAccessNotGrantedException {
 
-    static func makeError(baseError: AWSClientRuntime.AWSQueryError) throws -> ProductionAccessNotGrantedException {
+    static func makeError(baseError: ClientRuntime.AWSQueryError) throws -> ProductionAccessNotGrantedException {
         let reader = baseError.errorBodyReader
         var value = ProductionAccessNotGrantedException()
         value.properties.message = try reader["message"].readIfPresent()
@@ -8016,7 +8016,7 @@ extension ProductionAccessNotGrantedException {
 
 extension InvalidRenderingParameterException {
 
-    static func makeError(baseError: AWSClientRuntime.AWSQueryError) throws -> InvalidRenderingParameterException {
+    static func makeError(baseError: ClientRuntime.AWSQueryError) throws -> InvalidRenderingParameterException {
         let reader = baseError.errorBodyReader
         var value = InvalidRenderingParameterException()
         value.properties.templateName = try reader["TemplateName"].readIfPresent()
@@ -8030,7 +8030,7 @@ extension InvalidRenderingParameterException {
 
 extension MissingRenderingAttributeException {
 
-    static func makeError(baseError: AWSClientRuntime.AWSQueryError) throws -> MissingRenderingAttributeException {
+    static func makeError(baseError: ClientRuntime.AWSQueryError) throws -> MissingRenderingAttributeException {
         let reader = baseError.errorBodyReader
         var value = MissingRenderingAttributeException()
         value.properties.templateName = try reader["TemplateName"].readIfPresent()

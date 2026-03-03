@@ -21,7 +21,7 @@ jobs:
 
   swiftlint:
     if: github.repository == 'awslabs/aws-sdk-swift' || github.event_name == 'pull_request'
-    runs-on: macos-15
+    runs-on: macos-26
     steps:
       - name: Checkout sources
         uses: actions/checkout@v4

@@ -49,7 +49,6 @@ import protocol SmithyIdentity.BearerTokenIdentityResolver
 @_spi(AWSEndpointResolverMiddleware) import struct AWSClientRuntime.AWSEndpointResolverMiddleware
 import struct AWSClientRuntime.AmzSdkInvocationIdMiddleware
 import struct AWSClientRuntime.UserAgentMiddleware
-import struct AWSClientRuntime.XAmzTargetMiddleware
 import struct AWSSDKHTTPAuth.SigV4AuthScheme
 import struct ClientRuntime.AuthSchemeMiddleware
 @_spi(SmithyReadWrite) import struct ClientRuntime.BodyMiddleware
@@ -57,6 +56,7 @@ import struct ClientRuntime.ContentLengthMiddleware
 import struct ClientRuntime.ContentTypeMiddleware
 @_spi(SmithyReadWrite) import struct ClientRuntime.DeserializeMiddleware
 import struct ClientRuntime.LoggerMiddleware
+import struct ClientRuntime.MutateHeadersMiddleware
 import struct ClientRuntime.SendableHttpInterceptorProviderBox
 import struct ClientRuntime.SendableInterceptorProviderBox
 import struct ClientRuntime.SignerMiddleware
@@ -666,7 +666,7 @@ extension GlueClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<BatchCreatePartitionOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<BatchCreatePartitionInput, BatchCreatePartitionOutput>(xAmzTarget: "AWSGlue.BatchCreatePartition"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<BatchCreatePartitionInput, BatchCreatePartitionOutput>(overrides: ["X-Amz-Target": "AWSGlue.BatchCreatePartition"]))
         builder.serialize(ClientRuntime.BodyMiddleware<BatchCreatePartitionInput, BatchCreatePartitionOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: BatchCreatePartitionInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<BatchCreatePartitionInput, BatchCreatePartitionOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<BatchCreatePartitionOutput>())
@@ -736,7 +736,7 @@ extension GlueClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<BatchDeleteConnectionOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<BatchDeleteConnectionInput, BatchDeleteConnectionOutput>(xAmzTarget: "AWSGlue.BatchDeleteConnection"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<BatchDeleteConnectionInput, BatchDeleteConnectionOutput>(overrides: ["X-Amz-Target": "AWSGlue.BatchDeleteConnection"]))
         builder.serialize(ClientRuntime.BodyMiddleware<BatchDeleteConnectionInput, BatchDeleteConnectionOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: BatchDeleteConnectionInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<BatchDeleteConnectionInput, BatchDeleteConnectionOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<BatchDeleteConnectionOutput>())
@@ -808,7 +808,7 @@ extension GlueClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<BatchDeletePartitionOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<BatchDeletePartitionInput, BatchDeletePartitionOutput>(xAmzTarget: "AWSGlue.BatchDeletePartition"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<BatchDeletePartitionInput, BatchDeletePartitionOutput>(overrides: ["X-Amz-Target": "AWSGlue.BatchDeletePartition"]))
         builder.serialize(ClientRuntime.BodyMiddleware<BatchDeletePartitionInput, BatchDeletePartitionOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: BatchDeletePartitionInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<BatchDeletePartitionInput, BatchDeletePartitionOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<BatchDeletePartitionOutput>())
@@ -882,7 +882,7 @@ extension GlueClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<BatchDeleteTableOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<BatchDeleteTableInput, BatchDeleteTableOutput>(xAmzTarget: "AWSGlue.BatchDeleteTable"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<BatchDeleteTableInput, BatchDeleteTableOutput>(overrides: ["X-Amz-Target": "AWSGlue.BatchDeleteTable"]))
         builder.serialize(ClientRuntime.BodyMiddleware<BatchDeleteTableInput, BatchDeleteTableOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: BatchDeleteTableInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<BatchDeleteTableInput, BatchDeleteTableOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<BatchDeleteTableOutput>())
@@ -954,7 +954,7 @@ extension GlueClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<BatchDeleteTableVersionOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<BatchDeleteTableVersionInput, BatchDeleteTableVersionOutput>(xAmzTarget: "AWSGlue.BatchDeleteTableVersion"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<BatchDeleteTableVersionInput, BatchDeleteTableVersionOutput>(overrides: ["X-Amz-Target": "AWSGlue.BatchDeleteTableVersion"]))
         builder.serialize(ClientRuntime.BodyMiddleware<BatchDeleteTableVersionInput, BatchDeleteTableVersionOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: BatchDeleteTableVersionInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<BatchDeleteTableVersionInput, BatchDeleteTableVersionOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<BatchDeleteTableVersionOutput>())
@@ -1025,7 +1025,7 @@ extension GlueClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<BatchGetBlueprintsOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<BatchGetBlueprintsInput, BatchGetBlueprintsOutput>(xAmzTarget: "AWSGlue.BatchGetBlueprints"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<BatchGetBlueprintsInput, BatchGetBlueprintsOutput>(overrides: ["X-Amz-Target": "AWSGlue.BatchGetBlueprints"]))
         builder.serialize(ClientRuntime.BodyMiddleware<BatchGetBlueprintsInput, BatchGetBlueprintsOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: BatchGetBlueprintsInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<BatchGetBlueprintsInput, BatchGetBlueprintsOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<BatchGetBlueprintsOutput>())
@@ -1095,7 +1095,7 @@ extension GlueClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<BatchGetCrawlersOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<BatchGetCrawlersInput, BatchGetCrawlersOutput>(xAmzTarget: "AWSGlue.BatchGetCrawlers"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<BatchGetCrawlersInput, BatchGetCrawlersOutput>(overrides: ["X-Amz-Target": "AWSGlue.BatchGetCrawlers"]))
         builder.serialize(ClientRuntime.BodyMiddleware<BatchGetCrawlersInput, BatchGetCrawlersOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: BatchGetCrawlersInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<BatchGetCrawlersInput, BatchGetCrawlersOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<BatchGetCrawlersOutput>())
@@ -1166,7 +1166,7 @@ extension GlueClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<BatchGetCustomEntityTypesOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<BatchGetCustomEntityTypesInput, BatchGetCustomEntityTypesOutput>(xAmzTarget: "AWSGlue.BatchGetCustomEntityTypes"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<BatchGetCustomEntityTypesInput, BatchGetCustomEntityTypesOutput>(overrides: ["X-Amz-Target": "AWSGlue.BatchGetCustomEntityTypes"]))
         builder.serialize(ClientRuntime.BodyMiddleware<BatchGetCustomEntityTypesInput, BatchGetCustomEntityTypesOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: BatchGetCustomEntityTypesInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<BatchGetCustomEntityTypesInput, BatchGetCustomEntityTypesOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<BatchGetCustomEntityTypesOutput>())
@@ -1237,7 +1237,7 @@ extension GlueClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<BatchGetDataQualityResultOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<BatchGetDataQualityResultInput, BatchGetDataQualityResultOutput>(xAmzTarget: "AWSGlue.BatchGetDataQualityResult"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<BatchGetDataQualityResultInput, BatchGetDataQualityResultOutput>(overrides: ["X-Amz-Target": "AWSGlue.BatchGetDataQualityResult"]))
         builder.serialize(ClientRuntime.BodyMiddleware<BatchGetDataQualityResultInput, BatchGetDataQualityResultOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: BatchGetDataQualityResultInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<BatchGetDataQualityResultInput, BatchGetDataQualityResultOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<BatchGetDataQualityResultOutput>())
@@ -1309,7 +1309,7 @@ extension GlueClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<BatchGetDevEndpointsOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<BatchGetDevEndpointsInput, BatchGetDevEndpointsOutput>(xAmzTarget: "AWSGlue.BatchGetDevEndpoints"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<BatchGetDevEndpointsInput, BatchGetDevEndpointsOutput>(overrides: ["X-Amz-Target": "AWSGlue.BatchGetDevEndpoints"]))
         builder.serialize(ClientRuntime.BodyMiddleware<BatchGetDevEndpointsInput, BatchGetDevEndpointsOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: BatchGetDevEndpointsInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<BatchGetDevEndpointsInput, BatchGetDevEndpointsOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<BatchGetDevEndpointsOutput>())
@@ -1380,7 +1380,7 @@ extension GlueClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<BatchGetJobsOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<BatchGetJobsInput, BatchGetJobsOutput>(xAmzTarget: "AWSGlue.BatchGetJobs"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<BatchGetJobsInput, BatchGetJobsOutput>(overrides: ["X-Amz-Target": "AWSGlue.BatchGetJobs"]))
         builder.serialize(ClientRuntime.BodyMiddleware<BatchGetJobsInput, BatchGetJobsOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: BatchGetJobsInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<BatchGetJobsInput, BatchGetJobsOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<BatchGetJobsOutput>())
@@ -1456,7 +1456,7 @@ extension GlueClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<BatchGetPartitionOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<BatchGetPartitionInput, BatchGetPartitionOutput>(xAmzTarget: "AWSGlue.BatchGetPartition"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<BatchGetPartitionInput, BatchGetPartitionOutput>(overrides: ["X-Amz-Target": "AWSGlue.BatchGetPartition"]))
         builder.serialize(ClientRuntime.BodyMiddleware<BatchGetPartitionInput, BatchGetPartitionOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: BatchGetPartitionInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<BatchGetPartitionInput, BatchGetPartitionOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<BatchGetPartitionOutput>())
@@ -1529,7 +1529,7 @@ extension GlueClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<BatchGetTableOptimizerOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<BatchGetTableOptimizerInput, BatchGetTableOptimizerOutput>(xAmzTarget: "AWSGlue.BatchGetTableOptimizer"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<BatchGetTableOptimizerInput, BatchGetTableOptimizerOutput>(overrides: ["X-Amz-Target": "AWSGlue.BatchGetTableOptimizer"]))
         builder.serialize(ClientRuntime.BodyMiddleware<BatchGetTableOptimizerInput, BatchGetTableOptimizerOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: BatchGetTableOptimizerInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<BatchGetTableOptimizerInput, BatchGetTableOptimizerOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<BatchGetTableOptimizerOutput>())
@@ -1600,7 +1600,7 @@ extension GlueClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<BatchGetTriggersOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<BatchGetTriggersInput, BatchGetTriggersOutput>(xAmzTarget: "AWSGlue.BatchGetTriggers"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<BatchGetTriggersInput, BatchGetTriggersOutput>(overrides: ["X-Amz-Target": "AWSGlue.BatchGetTriggers"]))
         builder.serialize(ClientRuntime.BodyMiddleware<BatchGetTriggersInput, BatchGetTriggersOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: BatchGetTriggersInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<BatchGetTriggersInput, BatchGetTriggersOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<BatchGetTriggersOutput>())
@@ -1671,7 +1671,7 @@ extension GlueClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<BatchGetWorkflowsOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<BatchGetWorkflowsInput, BatchGetWorkflowsOutput>(xAmzTarget: "AWSGlue.BatchGetWorkflows"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<BatchGetWorkflowsInput, BatchGetWorkflowsOutput>(overrides: ["X-Amz-Target": "AWSGlue.BatchGetWorkflows"]))
         builder.serialize(ClientRuntime.BodyMiddleware<BatchGetWorkflowsInput, BatchGetWorkflowsOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: BatchGetWorkflowsInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<BatchGetWorkflowsInput, BatchGetWorkflowsOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<BatchGetWorkflowsOutput>())
@@ -1743,7 +1743,7 @@ extension GlueClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<BatchPutDataQualityStatisticAnnotationOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<BatchPutDataQualityStatisticAnnotationInput, BatchPutDataQualityStatisticAnnotationOutput>(xAmzTarget: "AWSGlue.BatchPutDataQualityStatisticAnnotation"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<BatchPutDataQualityStatisticAnnotationInput, BatchPutDataQualityStatisticAnnotationOutput>(overrides: ["X-Amz-Target": "AWSGlue.BatchPutDataQualityStatisticAnnotation"]))
         builder.serialize(ClientRuntime.BodyMiddleware<BatchPutDataQualityStatisticAnnotationInput, BatchPutDataQualityStatisticAnnotationOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: BatchPutDataQualityStatisticAnnotationInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<BatchPutDataQualityStatisticAnnotationInput, BatchPutDataQualityStatisticAnnotationOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<BatchPutDataQualityStatisticAnnotationOutput>())
@@ -1814,7 +1814,7 @@ extension GlueClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<BatchStopJobRunOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<BatchStopJobRunInput, BatchStopJobRunOutput>(xAmzTarget: "AWSGlue.BatchStopJobRun"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<BatchStopJobRunInput, BatchStopJobRunOutput>(overrides: ["X-Amz-Target": "AWSGlue.BatchStopJobRun"]))
         builder.serialize(ClientRuntime.BodyMiddleware<BatchStopJobRunInput, BatchStopJobRunOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: BatchStopJobRunInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<BatchStopJobRunInput, BatchStopJobRunOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<BatchStopJobRunOutput>())
@@ -1887,7 +1887,7 @@ extension GlueClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<BatchUpdatePartitionOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<BatchUpdatePartitionInput, BatchUpdatePartitionOutput>(xAmzTarget: "AWSGlue.BatchUpdatePartition"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<BatchUpdatePartitionInput, BatchUpdatePartitionOutput>(overrides: ["X-Amz-Target": "AWSGlue.BatchUpdatePartition"]))
         builder.serialize(ClientRuntime.BodyMiddleware<BatchUpdatePartitionInput, BatchUpdatePartitionOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: BatchUpdatePartitionInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<BatchUpdatePartitionInput, BatchUpdatePartitionOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<BatchUpdatePartitionOutput>())
@@ -1959,7 +1959,7 @@ extension GlueClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<CancelDataQualityRuleRecommendationRunOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<CancelDataQualityRuleRecommendationRunInput, CancelDataQualityRuleRecommendationRunOutput>(xAmzTarget: "AWSGlue.CancelDataQualityRuleRecommendationRun"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<CancelDataQualityRuleRecommendationRunInput, CancelDataQualityRuleRecommendationRunOutput>(overrides: ["X-Amz-Target": "AWSGlue.CancelDataQualityRuleRecommendationRun"]))
         builder.serialize(ClientRuntime.BodyMiddleware<CancelDataQualityRuleRecommendationRunInput, CancelDataQualityRuleRecommendationRunOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: CancelDataQualityRuleRecommendationRunInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<CancelDataQualityRuleRecommendationRunInput, CancelDataQualityRuleRecommendationRunOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<CancelDataQualityRuleRecommendationRunOutput>())
@@ -2031,7 +2031,7 @@ extension GlueClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<CancelDataQualityRulesetEvaluationRunOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<CancelDataQualityRulesetEvaluationRunInput, CancelDataQualityRulesetEvaluationRunOutput>(xAmzTarget: "AWSGlue.CancelDataQualityRulesetEvaluationRun"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<CancelDataQualityRulesetEvaluationRunInput, CancelDataQualityRulesetEvaluationRunOutput>(overrides: ["X-Amz-Target": "AWSGlue.CancelDataQualityRulesetEvaluationRun"]))
         builder.serialize(ClientRuntime.BodyMiddleware<CancelDataQualityRulesetEvaluationRunInput, CancelDataQualityRulesetEvaluationRunOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: CancelDataQualityRulesetEvaluationRunInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<CancelDataQualityRulesetEvaluationRunInput, CancelDataQualityRulesetEvaluationRunOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<CancelDataQualityRulesetEvaluationRunOutput>())
@@ -2103,7 +2103,7 @@ extension GlueClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<CancelMLTaskRunOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<CancelMLTaskRunInput, CancelMLTaskRunOutput>(xAmzTarget: "AWSGlue.CancelMLTaskRun"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<CancelMLTaskRunInput, CancelMLTaskRunOutput>(overrides: ["X-Amz-Target": "AWSGlue.CancelMLTaskRun"]))
         builder.serialize(ClientRuntime.BodyMiddleware<CancelMLTaskRunInput, CancelMLTaskRunOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: CancelMLTaskRunInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<CancelMLTaskRunInput, CancelMLTaskRunOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<CancelMLTaskRunOutput>())
@@ -2177,7 +2177,7 @@ extension GlueClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<CancelStatementOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<CancelStatementInput, CancelStatementOutput>(xAmzTarget: "AWSGlue.CancelStatement"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<CancelStatementInput, CancelStatementOutput>(overrides: ["X-Amz-Target": "AWSGlue.CancelStatement"]))
         builder.serialize(ClientRuntime.BodyMiddleware<CancelStatementInput, CancelStatementOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: CancelStatementInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<CancelStatementInput, CancelStatementOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<CancelStatementOutput>())
@@ -2248,7 +2248,7 @@ extension GlueClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<CheckSchemaVersionValidityOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<CheckSchemaVersionValidityInput, CheckSchemaVersionValidityOutput>(xAmzTarget: "AWSGlue.CheckSchemaVersionValidity"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<CheckSchemaVersionValidityInput, CheckSchemaVersionValidityOutput>(overrides: ["X-Amz-Target": "AWSGlue.CheckSchemaVersionValidity"]))
         builder.serialize(ClientRuntime.BodyMiddleware<CheckSchemaVersionValidityInput, CheckSchemaVersionValidityOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: CheckSchemaVersionValidityInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<CheckSchemaVersionValidityInput, CheckSchemaVersionValidityOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<CheckSchemaVersionValidityOutput>())
@@ -2321,7 +2321,7 @@ extension GlueClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<CreateBlueprintOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<CreateBlueprintInput, CreateBlueprintOutput>(xAmzTarget: "AWSGlue.CreateBlueprint"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<CreateBlueprintInput, CreateBlueprintOutput>(overrides: ["X-Amz-Target": "AWSGlue.CreateBlueprint"]))
         builder.serialize(ClientRuntime.BodyMiddleware<CreateBlueprintInput, CreateBlueprintOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: CreateBlueprintInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<CreateBlueprintInput, CreateBlueprintOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<CreateBlueprintOutput>())
@@ -2400,7 +2400,7 @@ extension GlueClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<CreateCatalogOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<CreateCatalogInput, CreateCatalogOutput>(xAmzTarget: "AWSGlue.CreateCatalog"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<CreateCatalogInput, CreateCatalogOutput>(overrides: ["X-Amz-Target": "AWSGlue.CreateCatalog"]))
         builder.serialize(ClientRuntime.BodyMiddleware<CreateCatalogInput, CreateCatalogOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: CreateCatalogInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<CreateCatalogInput, CreateCatalogOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<CreateCatalogOutput>())
@@ -2471,7 +2471,7 @@ extension GlueClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<CreateClassifierOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<CreateClassifierInput, CreateClassifierOutput>(xAmzTarget: "AWSGlue.CreateClassifier"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<CreateClassifierInput, CreateClassifierOutput>(overrides: ["X-Amz-Target": "AWSGlue.CreateClassifier"]))
         builder.serialize(ClientRuntime.BodyMiddleware<CreateClassifierInput, CreateClassifierOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: CreateClassifierInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<CreateClassifierInput, CreateClassifierOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<CreateClassifierOutput>())
@@ -2546,7 +2546,7 @@ extension GlueClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<CreateColumnStatisticsTaskSettingsOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<CreateColumnStatisticsTaskSettingsInput, CreateColumnStatisticsTaskSettingsOutput>(xAmzTarget: "AWSGlue.CreateColumnStatisticsTaskSettings"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<CreateColumnStatisticsTaskSettingsInput, CreateColumnStatisticsTaskSettingsOutput>(overrides: ["X-Amz-Target": "AWSGlue.CreateColumnStatisticsTaskSettings"]))
         builder.serialize(ClientRuntime.BodyMiddleware<CreateColumnStatisticsTaskSettingsInput, CreateColumnStatisticsTaskSettingsOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: CreateColumnStatisticsTaskSettingsInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<CreateColumnStatisticsTaskSettingsInput, CreateColumnStatisticsTaskSettingsOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<CreateColumnStatisticsTaskSettingsOutput>())
@@ -2619,7 +2619,7 @@ extension GlueClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<CreateConnectionOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<CreateConnectionInput, CreateConnectionOutput>(xAmzTarget: "AWSGlue.CreateConnection"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<CreateConnectionInput, CreateConnectionOutput>(overrides: ["X-Amz-Target": "AWSGlue.CreateConnection"]))
         builder.serialize(ClientRuntime.BodyMiddleware<CreateConnectionInput, CreateConnectionOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: CreateConnectionInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<CreateConnectionInput, CreateConnectionOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<CreateConnectionOutput>())
@@ -2691,7 +2691,7 @@ extension GlueClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<CreateCrawlerOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<CreateCrawlerInput, CreateCrawlerOutput>(xAmzTarget: "AWSGlue.CreateCrawler"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<CreateCrawlerInput, CreateCrawlerOutput>(overrides: ["X-Amz-Target": "AWSGlue.CreateCrawler"]))
         builder.serialize(ClientRuntime.BodyMiddleware<CreateCrawlerInput, CreateCrawlerOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: CreateCrawlerInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<CreateCrawlerInput, CreateCrawlerOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<CreateCrawlerOutput>())
@@ -2766,7 +2766,7 @@ extension GlueClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<CreateCustomEntityTypeOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<CreateCustomEntityTypeInput, CreateCustomEntityTypeOutput>(xAmzTarget: "AWSGlue.CreateCustomEntityType"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<CreateCustomEntityTypeInput, CreateCustomEntityTypeOutput>(overrides: ["X-Amz-Target": "AWSGlue.CreateCustomEntityType"]))
         builder.serialize(ClientRuntime.BodyMiddleware<CreateCustomEntityTypeInput, CreateCustomEntityTypeOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: CreateCustomEntityTypeInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<CreateCustomEntityTypeInput, CreateCustomEntityTypeOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<CreateCustomEntityTypeOutput>())
@@ -2839,7 +2839,7 @@ extension GlueClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<CreateDataQualityRulesetOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<CreateDataQualityRulesetInput, CreateDataQualityRulesetOutput>(xAmzTarget: "AWSGlue.CreateDataQualityRuleset"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<CreateDataQualityRulesetInput, CreateDataQualityRulesetOutput>(overrides: ["X-Amz-Target": "AWSGlue.CreateDataQualityRuleset"]))
         builder.serialize(ClientRuntime.BodyMiddleware<CreateDataQualityRulesetInput, CreateDataQualityRulesetOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: CreateDataQualityRulesetInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<CreateDataQualityRulesetInput, CreateDataQualityRulesetOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<CreateDataQualityRulesetOutput>())
@@ -2917,7 +2917,7 @@ extension GlueClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<CreateDatabaseOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<CreateDatabaseInput, CreateDatabaseOutput>(xAmzTarget: "AWSGlue.CreateDatabase"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<CreateDatabaseInput, CreateDatabaseOutput>(overrides: ["X-Amz-Target": "AWSGlue.CreateDatabase"]))
         builder.serialize(ClientRuntime.BodyMiddleware<CreateDatabaseInput, CreateDatabaseOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: CreateDatabaseInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<CreateDatabaseInput, CreateDatabaseOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<CreateDatabaseOutput>())
@@ -2993,7 +2993,7 @@ extension GlueClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<CreateDevEndpointOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<CreateDevEndpointInput, CreateDevEndpointOutput>(xAmzTarget: "AWSGlue.CreateDevEndpoint"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<CreateDevEndpointInput, CreateDevEndpointOutput>(overrides: ["X-Amz-Target": "AWSGlue.CreateDevEndpoint"]))
         builder.serialize(ClientRuntime.BodyMiddleware<CreateDevEndpointInput, CreateDevEndpointOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: CreateDevEndpointInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<CreateDevEndpointInput, CreateDevEndpointOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<CreateDevEndpointOutput>())
@@ -3067,7 +3067,7 @@ extension GlueClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<CreateGlueIdentityCenterConfigurationOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<CreateGlueIdentityCenterConfigurationInput, CreateGlueIdentityCenterConfigurationOutput>(xAmzTarget: "AWSGlue.CreateGlueIdentityCenterConfiguration"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<CreateGlueIdentityCenterConfigurationInput, CreateGlueIdentityCenterConfigurationOutput>(overrides: ["X-Amz-Target": "AWSGlue.CreateGlueIdentityCenterConfiguration"]))
         builder.serialize(ClientRuntime.BodyMiddleware<CreateGlueIdentityCenterConfigurationInput, CreateGlueIdentityCenterConfigurationOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: CreateGlueIdentityCenterConfigurationInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<CreateGlueIdentityCenterConfigurationInput, CreateGlueIdentityCenterConfigurationOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<CreateGlueIdentityCenterConfigurationOutput>())
@@ -3147,7 +3147,7 @@ extension GlueClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<CreateIntegrationOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<CreateIntegrationInput, CreateIntegrationOutput>(xAmzTarget: "AWSGlue.CreateIntegration"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<CreateIntegrationInput, CreateIntegrationOutput>(overrides: ["X-Amz-Target": "AWSGlue.CreateIntegration"]))
         builder.serialize(ClientRuntime.BodyMiddleware<CreateIntegrationInput, CreateIntegrationOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: CreateIntegrationInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<CreateIntegrationInput, CreateIntegrationOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<CreateIntegrationOutput>())
@@ -3223,7 +3223,7 @@ extension GlueClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<CreateIntegrationResourcePropertyOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<CreateIntegrationResourcePropertyInput, CreateIntegrationResourcePropertyOutput>(xAmzTarget: "AWSGlue.CreateIntegrationResourceProperty"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<CreateIntegrationResourcePropertyInput, CreateIntegrationResourcePropertyOutput>(overrides: ["X-Amz-Target": "AWSGlue.CreateIntegrationResourceProperty"]))
         builder.serialize(ClientRuntime.BodyMiddleware<CreateIntegrationResourcePropertyInput, CreateIntegrationResourcePropertyOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: CreateIntegrationResourcePropertyInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<CreateIntegrationResourcePropertyInput, CreateIntegrationResourcePropertyOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<CreateIntegrationResourcePropertyOutput>())
@@ -3298,7 +3298,7 @@ extension GlueClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<CreateIntegrationTablePropertiesOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<CreateIntegrationTablePropertiesInput, CreateIntegrationTablePropertiesOutput>(xAmzTarget: "AWSGlue.CreateIntegrationTableProperties"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<CreateIntegrationTablePropertiesInput, CreateIntegrationTablePropertiesOutput>(overrides: ["X-Amz-Target": "AWSGlue.CreateIntegrationTableProperties"]))
         builder.serialize(ClientRuntime.BodyMiddleware<CreateIntegrationTablePropertiesInput, CreateIntegrationTablePropertiesOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: CreateIntegrationTablePropertiesInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<CreateIntegrationTablePropertiesInput, CreateIntegrationTablePropertiesOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<CreateIntegrationTablePropertiesOutput>())
@@ -3373,7 +3373,7 @@ extension GlueClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<CreateJobOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<CreateJobInput, CreateJobOutput>(xAmzTarget: "AWSGlue.CreateJob"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<CreateJobInput, CreateJobOutput>(overrides: ["X-Amz-Target": "AWSGlue.CreateJob"]))
         builder.serialize(ClientRuntime.BodyMiddleware<CreateJobInput, CreateJobOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: CreateJobInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<CreateJobInput, CreateJobOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<CreateJobOutput>())
@@ -3448,7 +3448,7 @@ extension GlueClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<CreateMLTransformOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<CreateMLTransformInput, CreateMLTransformOutput>(xAmzTarget: "AWSGlue.CreateMLTransform"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<CreateMLTransformInput, CreateMLTransformOutput>(overrides: ["X-Amz-Target": "AWSGlue.CreateMLTransform"]))
         builder.serialize(ClientRuntime.BodyMiddleware<CreateMLTransformInput, CreateMLTransformOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: CreateMLTransformInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<CreateMLTransformInput, CreateMLTransformOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<CreateMLTransformOutput>())
@@ -3523,7 +3523,7 @@ extension GlueClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<CreatePartitionOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<CreatePartitionInput, CreatePartitionOutput>(xAmzTarget: "AWSGlue.CreatePartition"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<CreatePartitionInput, CreatePartitionOutput>(overrides: ["X-Amz-Target": "AWSGlue.CreatePartition"]))
         builder.serialize(ClientRuntime.BodyMiddleware<CreatePartitionInput, CreatePartitionOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: CreatePartitionInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<CreatePartitionInput, CreatePartitionOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<CreatePartitionOutput>())
@@ -3598,7 +3598,7 @@ extension GlueClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<CreatePartitionIndexOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<CreatePartitionIndexInput, CreatePartitionIndexOutput>(xAmzTarget: "AWSGlue.CreatePartitionIndex"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<CreatePartitionIndexInput, CreatePartitionIndexOutput>(overrides: ["X-Amz-Target": "AWSGlue.CreatePartitionIndex"]))
         builder.serialize(ClientRuntime.BodyMiddleware<CreatePartitionIndexInput, CreatePartitionIndexOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: CreatePartitionIndexInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<CreatePartitionIndexInput, CreatePartitionIndexOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<CreatePartitionIndexOutput>())
@@ -3672,7 +3672,7 @@ extension GlueClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<CreateRegistryOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<CreateRegistryInput, CreateRegistryOutput>(xAmzTarget: "AWSGlue.CreateRegistry"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<CreateRegistryInput, CreateRegistryOutput>(overrides: ["X-Amz-Target": "AWSGlue.CreateRegistry"]))
         builder.serialize(ClientRuntime.BodyMiddleware<CreateRegistryInput, CreateRegistryOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: CreateRegistryInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<CreateRegistryInput, CreateRegistryOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<CreateRegistryOutput>())
@@ -3747,7 +3747,7 @@ extension GlueClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<CreateSchemaOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<CreateSchemaInput, CreateSchemaOutput>(xAmzTarget: "AWSGlue.CreateSchema"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<CreateSchemaInput, CreateSchemaOutput>(overrides: ["X-Amz-Target": "AWSGlue.CreateSchema"]))
         builder.serialize(ClientRuntime.BodyMiddleware<CreateSchemaInput, CreateSchemaOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: CreateSchemaInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<CreateSchemaInput, CreateSchemaOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<CreateSchemaOutput>())
@@ -3818,7 +3818,7 @@ extension GlueClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<CreateScriptOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<CreateScriptInput, CreateScriptOutput>(xAmzTarget: "AWSGlue.CreateScript"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<CreateScriptInput, CreateScriptOutput>(overrides: ["X-Amz-Target": "AWSGlue.CreateScript"]))
         builder.serialize(ClientRuntime.BodyMiddleware<CreateScriptInput, CreateScriptOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: CreateScriptInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<CreateScriptInput, CreateScriptOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<CreateScriptOutput>())
@@ -3891,7 +3891,7 @@ extension GlueClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<CreateSecurityConfigurationOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<CreateSecurityConfigurationInput, CreateSecurityConfigurationOutput>(xAmzTarget: "AWSGlue.CreateSecurityConfiguration"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<CreateSecurityConfigurationInput, CreateSecurityConfigurationOutput>(overrides: ["X-Amz-Target": "AWSGlue.CreateSecurityConfiguration"]))
         builder.serialize(ClientRuntime.BodyMiddleware<CreateSecurityConfigurationInput, CreateSecurityConfigurationOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: CreateSecurityConfigurationInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<CreateSecurityConfigurationInput, CreateSecurityConfigurationOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<CreateSecurityConfigurationOutput>())
@@ -3967,7 +3967,7 @@ extension GlueClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<CreateSessionOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<CreateSessionInput, CreateSessionOutput>(xAmzTarget: "AWSGlue.CreateSession"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<CreateSessionInput, CreateSessionOutput>(overrides: ["X-Amz-Target": "AWSGlue.CreateSession"]))
         builder.serialize(ClientRuntime.BodyMiddleware<CreateSessionInput, CreateSessionOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: CreateSessionInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<CreateSessionInput, CreateSessionOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<CreateSessionOutput>())
@@ -4046,7 +4046,7 @@ extension GlueClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<CreateTableOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<CreateTableInput, CreateTableOutput>(xAmzTarget: "AWSGlue.CreateTable"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<CreateTableInput, CreateTableOutput>(overrides: ["X-Amz-Target": "AWSGlue.CreateTable"]))
         builder.serialize(ClientRuntime.BodyMiddleware<CreateTableInput, CreateTableOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: CreateTableInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<CreateTableInput, CreateTableOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<CreateTableOutput>())
@@ -4121,7 +4121,7 @@ extension GlueClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<CreateTableOptimizerOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<CreateTableOptimizerInput, CreateTableOptimizerOutput>(xAmzTarget: "AWSGlue.CreateTableOptimizer"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<CreateTableOptimizerInput, CreateTableOptimizerOutput>(overrides: ["X-Amz-Target": "AWSGlue.CreateTableOptimizer"]))
         builder.serialize(ClientRuntime.BodyMiddleware<CreateTableOptimizerInput, CreateTableOptimizerOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: CreateTableOptimizerInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<CreateTableOptimizerInput, CreateTableOptimizerOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<CreateTableOptimizerOutput>())
@@ -4197,7 +4197,7 @@ extension GlueClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<CreateTriggerOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<CreateTriggerInput, CreateTriggerOutput>(xAmzTarget: "AWSGlue.CreateTrigger"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<CreateTriggerInput, CreateTriggerOutput>(overrides: ["X-Amz-Target": "AWSGlue.CreateTrigger"]))
         builder.serialize(ClientRuntime.BodyMiddleware<CreateTriggerInput, CreateTriggerOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: CreateTriggerInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<CreateTriggerInput, CreateTriggerOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<CreateTriggerOutput>())
@@ -4271,7 +4271,7 @@ extension GlueClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<CreateUsageProfileOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<CreateUsageProfileInput, CreateUsageProfileOutput>(xAmzTarget: "AWSGlue.CreateUsageProfile"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<CreateUsageProfileInput, CreateUsageProfileOutput>(overrides: ["X-Amz-Target": "AWSGlue.CreateUsageProfile"]))
         builder.serialize(ClientRuntime.BodyMiddleware<CreateUsageProfileInput, CreateUsageProfileOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: CreateUsageProfileInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<CreateUsageProfileInput, CreateUsageProfileOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<CreateUsageProfileOutput>())
@@ -4346,7 +4346,7 @@ extension GlueClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<CreateUserDefinedFunctionOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<CreateUserDefinedFunctionInput, CreateUserDefinedFunctionOutput>(xAmzTarget: "AWSGlue.CreateUserDefinedFunction"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<CreateUserDefinedFunctionInput, CreateUserDefinedFunctionOutput>(overrides: ["X-Amz-Target": "AWSGlue.CreateUserDefinedFunction"]))
         builder.serialize(ClientRuntime.BodyMiddleware<CreateUserDefinedFunctionInput, CreateUserDefinedFunctionOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: CreateUserDefinedFunctionInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<CreateUserDefinedFunctionInput, CreateUserDefinedFunctionOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<CreateUserDefinedFunctionOutput>())
@@ -4420,7 +4420,7 @@ extension GlueClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<CreateWorkflowOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<CreateWorkflowInput, CreateWorkflowOutput>(xAmzTarget: "AWSGlue.CreateWorkflow"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<CreateWorkflowInput, CreateWorkflowOutput>(overrides: ["X-Amz-Target": "AWSGlue.CreateWorkflow"]))
         builder.serialize(ClientRuntime.BodyMiddleware<CreateWorkflowInput, CreateWorkflowOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: CreateWorkflowInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<CreateWorkflowInput, CreateWorkflowOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<CreateWorkflowOutput>())
@@ -4491,7 +4491,7 @@ extension GlueClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<DeleteBlueprintOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<DeleteBlueprintInput, DeleteBlueprintOutput>(xAmzTarget: "AWSGlue.DeleteBlueprint"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<DeleteBlueprintInput, DeleteBlueprintOutput>(overrides: ["X-Amz-Target": "AWSGlue.DeleteBlueprint"]))
         builder.serialize(ClientRuntime.BodyMiddleware<DeleteBlueprintInput, DeleteBlueprintOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: DeleteBlueprintInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DeleteBlueprintInput, DeleteBlueprintOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DeleteBlueprintOutput>())
@@ -4567,7 +4567,7 @@ extension GlueClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<DeleteCatalogOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<DeleteCatalogInput, DeleteCatalogOutput>(xAmzTarget: "AWSGlue.DeleteCatalog"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<DeleteCatalogInput, DeleteCatalogOutput>(overrides: ["X-Amz-Target": "AWSGlue.DeleteCatalog"]))
         builder.serialize(ClientRuntime.BodyMiddleware<DeleteCatalogInput, DeleteCatalogOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: DeleteCatalogInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DeleteCatalogInput, DeleteCatalogOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DeleteCatalogOutput>())
@@ -4637,7 +4637,7 @@ extension GlueClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<DeleteClassifierOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<DeleteClassifierInput, DeleteClassifierOutput>(xAmzTarget: "AWSGlue.DeleteClassifier"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<DeleteClassifierInput, DeleteClassifierOutput>(overrides: ["X-Amz-Target": "AWSGlue.DeleteClassifier"]))
         builder.serialize(ClientRuntime.BodyMiddleware<DeleteClassifierInput, DeleteClassifierOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: DeleteClassifierInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DeleteClassifierInput, DeleteClassifierOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DeleteClassifierOutput>())
@@ -4710,7 +4710,7 @@ extension GlueClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<DeleteColumnStatisticsForPartitionOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<DeleteColumnStatisticsForPartitionInput, DeleteColumnStatisticsForPartitionOutput>(xAmzTarget: "AWSGlue.DeleteColumnStatisticsForPartition"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<DeleteColumnStatisticsForPartitionInput, DeleteColumnStatisticsForPartitionOutput>(overrides: ["X-Amz-Target": "AWSGlue.DeleteColumnStatisticsForPartition"]))
         builder.serialize(ClientRuntime.BodyMiddleware<DeleteColumnStatisticsForPartitionInput, DeleteColumnStatisticsForPartitionOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: DeleteColumnStatisticsForPartitionInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DeleteColumnStatisticsForPartitionInput, DeleteColumnStatisticsForPartitionOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DeleteColumnStatisticsForPartitionOutput>())
@@ -4783,7 +4783,7 @@ extension GlueClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<DeleteColumnStatisticsForTableOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<DeleteColumnStatisticsForTableInput, DeleteColumnStatisticsForTableOutput>(xAmzTarget: "AWSGlue.DeleteColumnStatisticsForTable"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<DeleteColumnStatisticsForTableInput, DeleteColumnStatisticsForTableOutput>(overrides: ["X-Amz-Target": "AWSGlue.DeleteColumnStatisticsForTable"]))
         builder.serialize(ClientRuntime.BodyMiddleware<DeleteColumnStatisticsForTableInput, DeleteColumnStatisticsForTableOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: DeleteColumnStatisticsForTableInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DeleteColumnStatisticsForTableInput, DeleteColumnStatisticsForTableOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DeleteColumnStatisticsForTableOutput>())
@@ -4854,7 +4854,7 @@ extension GlueClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<DeleteColumnStatisticsTaskSettingsOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<DeleteColumnStatisticsTaskSettingsInput, DeleteColumnStatisticsTaskSettingsOutput>(xAmzTarget: "AWSGlue.DeleteColumnStatisticsTaskSettings"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<DeleteColumnStatisticsTaskSettingsInput, DeleteColumnStatisticsTaskSettingsOutput>(overrides: ["X-Amz-Target": "AWSGlue.DeleteColumnStatisticsTaskSettings"]))
         builder.serialize(ClientRuntime.BodyMiddleware<DeleteColumnStatisticsTaskSettingsInput, DeleteColumnStatisticsTaskSettingsOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: DeleteColumnStatisticsTaskSettingsInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DeleteColumnStatisticsTaskSettingsInput, DeleteColumnStatisticsTaskSettingsOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DeleteColumnStatisticsTaskSettingsOutput>())
@@ -4924,7 +4924,7 @@ extension GlueClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<DeleteConnectionOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<DeleteConnectionInput, DeleteConnectionOutput>(xAmzTarget: "AWSGlue.DeleteConnection"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<DeleteConnectionInput, DeleteConnectionOutput>(overrides: ["X-Amz-Target": "AWSGlue.DeleteConnection"]))
         builder.serialize(ClientRuntime.BodyMiddleware<DeleteConnectionInput, DeleteConnectionOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: DeleteConnectionInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DeleteConnectionInput, DeleteConnectionOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DeleteConnectionOutput>())
@@ -4998,7 +4998,7 @@ extension GlueClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<DeleteConnectionTypeOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<DeleteConnectionTypeInput, DeleteConnectionTypeOutput>(xAmzTarget: "AWSGlue.DeleteConnectionType"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<DeleteConnectionTypeInput, DeleteConnectionTypeOutput>(overrides: ["X-Amz-Target": "AWSGlue.DeleteConnectionType"]))
         builder.serialize(ClientRuntime.BodyMiddleware<DeleteConnectionTypeInput, DeleteConnectionTypeOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: DeleteConnectionTypeInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DeleteConnectionTypeInput, DeleteConnectionTypeOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DeleteConnectionTypeOutput>())
@@ -5070,7 +5070,7 @@ extension GlueClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<DeleteCrawlerOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<DeleteCrawlerInput, DeleteCrawlerOutput>(xAmzTarget: "AWSGlue.DeleteCrawler"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<DeleteCrawlerInput, DeleteCrawlerOutput>(overrides: ["X-Amz-Target": "AWSGlue.DeleteCrawler"]))
         builder.serialize(ClientRuntime.BodyMiddleware<DeleteCrawlerInput, DeleteCrawlerOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: DeleteCrawlerInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DeleteCrawlerInput, DeleteCrawlerOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DeleteCrawlerOutput>())
@@ -5143,7 +5143,7 @@ extension GlueClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<DeleteCustomEntityTypeOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<DeleteCustomEntityTypeInput, DeleteCustomEntityTypeOutput>(xAmzTarget: "AWSGlue.DeleteCustomEntityType"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<DeleteCustomEntityTypeInput, DeleteCustomEntityTypeOutput>(overrides: ["X-Amz-Target": "AWSGlue.DeleteCustomEntityType"]))
         builder.serialize(ClientRuntime.BodyMiddleware<DeleteCustomEntityTypeInput, DeleteCustomEntityTypeOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: DeleteCustomEntityTypeInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DeleteCustomEntityTypeInput, DeleteCustomEntityTypeOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DeleteCustomEntityTypeOutput>())
@@ -5215,7 +5215,7 @@ extension GlueClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<DeleteDataQualityRulesetOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<DeleteDataQualityRulesetInput, DeleteDataQualityRulesetOutput>(xAmzTarget: "AWSGlue.DeleteDataQualityRuleset"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<DeleteDataQualityRulesetInput, DeleteDataQualityRulesetOutput>(overrides: ["X-Amz-Target": "AWSGlue.DeleteDataQualityRuleset"]))
         builder.serialize(ClientRuntime.BodyMiddleware<DeleteDataQualityRulesetInput, DeleteDataQualityRulesetOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: DeleteDataQualityRulesetInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DeleteDataQualityRulesetInput, DeleteDataQualityRulesetOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DeleteDataQualityRulesetOutput>())
@@ -5290,7 +5290,7 @@ extension GlueClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<DeleteDatabaseOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<DeleteDatabaseInput, DeleteDatabaseOutput>(xAmzTarget: "AWSGlue.DeleteDatabase"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<DeleteDatabaseInput, DeleteDatabaseOutput>(overrides: ["X-Amz-Target": "AWSGlue.DeleteDatabase"]))
         builder.serialize(ClientRuntime.BodyMiddleware<DeleteDatabaseInput, DeleteDatabaseOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: DeleteDatabaseInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DeleteDatabaseInput, DeleteDatabaseOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DeleteDatabaseOutput>())
@@ -5362,7 +5362,7 @@ extension GlueClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<DeleteDevEndpointOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<DeleteDevEndpointInput, DeleteDevEndpointOutput>(xAmzTarget: "AWSGlue.DeleteDevEndpoint"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<DeleteDevEndpointInput, DeleteDevEndpointOutput>(overrides: ["X-Amz-Target": "AWSGlue.DeleteDevEndpoint"]))
         builder.serialize(ClientRuntime.BodyMiddleware<DeleteDevEndpointInput, DeleteDevEndpointOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: DeleteDevEndpointInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DeleteDevEndpointInput, DeleteDevEndpointOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DeleteDevEndpointOutput>())
@@ -5436,7 +5436,7 @@ extension GlueClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<DeleteGlueIdentityCenterConfigurationOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<DeleteGlueIdentityCenterConfigurationInput, DeleteGlueIdentityCenterConfigurationOutput>(xAmzTarget: "AWSGlue.DeleteGlueIdentityCenterConfiguration"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<DeleteGlueIdentityCenterConfigurationInput, DeleteGlueIdentityCenterConfigurationOutput>(overrides: ["X-Amz-Target": "AWSGlue.DeleteGlueIdentityCenterConfiguration"]))
         builder.serialize(ClientRuntime.BodyMiddleware<DeleteGlueIdentityCenterConfigurationInput, DeleteGlueIdentityCenterConfigurationOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: DeleteGlueIdentityCenterConfigurationInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DeleteGlueIdentityCenterConfigurationInput, DeleteGlueIdentityCenterConfigurationOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DeleteGlueIdentityCenterConfigurationOutput>())
@@ -5515,7 +5515,7 @@ extension GlueClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<DeleteIntegrationOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<DeleteIntegrationInput, DeleteIntegrationOutput>(xAmzTarget: "AWSGlue.DeleteIntegration"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<DeleteIntegrationInput, DeleteIntegrationOutput>(overrides: ["X-Amz-Target": "AWSGlue.DeleteIntegration"]))
         builder.serialize(ClientRuntime.BodyMiddleware<DeleteIntegrationInput, DeleteIntegrationOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: DeleteIntegrationInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DeleteIntegrationInput, DeleteIntegrationOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DeleteIntegrationOutput>())
@@ -5590,7 +5590,7 @@ extension GlueClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<DeleteIntegrationResourcePropertyOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<DeleteIntegrationResourcePropertyInput, DeleteIntegrationResourcePropertyOutput>(xAmzTarget: "AWSGlue.DeleteIntegrationResourceProperty"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<DeleteIntegrationResourcePropertyInput, DeleteIntegrationResourcePropertyOutput>(overrides: ["X-Amz-Target": "AWSGlue.DeleteIntegrationResourceProperty"]))
         builder.serialize(ClientRuntime.BodyMiddleware<DeleteIntegrationResourcePropertyInput, DeleteIntegrationResourcePropertyOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: DeleteIntegrationResourcePropertyInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DeleteIntegrationResourcePropertyInput, DeleteIntegrationResourcePropertyOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DeleteIntegrationResourcePropertyOutput>())
@@ -5665,7 +5665,7 @@ extension GlueClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<DeleteIntegrationTablePropertiesOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<DeleteIntegrationTablePropertiesInput, DeleteIntegrationTablePropertiesOutput>(xAmzTarget: "AWSGlue.DeleteIntegrationTableProperties"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<DeleteIntegrationTablePropertiesInput, DeleteIntegrationTablePropertiesOutput>(overrides: ["X-Amz-Target": "AWSGlue.DeleteIntegrationTableProperties"]))
         builder.serialize(ClientRuntime.BodyMiddleware<DeleteIntegrationTablePropertiesInput, DeleteIntegrationTablePropertiesOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: DeleteIntegrationTablePropertiesInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DeleteIntegrationTablePropertiesInput, DeleteIntegrationTablePropertiesOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DeleteIntegrationTablePropertiesOutput>())
@@ -5736,7 +5736,7 @@ extension GlueClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<DeleteJobOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<DeleteJobInput, DeleteJobOutput>(xAmzTarget: "AWSGlue.DeleteJob"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<DeleteJobInput, DeleteJobOutput>(overrides: ["X-Amz-Target": "AWSGlue.DeleteJob"]))
         builder.serialize(ClientRuntime.BodyMiddleware<DeleteJobInput, DeleteJobOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: DeleteJobInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DeleteJobInput, DeleteJobOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DeleteJobOutput>())
@@ -5808,7 +5808,7 @@ extension GlueClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<DeleteMLTransformOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<DeleteMLTransformInput, DeleteMLTransformOutput>(xAmzTarget: "AWSGlue.DeleteMLTransform"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<DeleteMLTransformInput, DeleteMLTransformOutput>(overrides: ["X-Amz-Target": "AWSGlue.DeleteMLTransform"]))
         builder.serialize(ClientRuntime.BodyMiddleware<DeleteMLTransformInput, DeleteMLTransformOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: DeleteMLTransformInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DeleteMLTransformInput, DeleteMLTransformOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DeleteMLTransformOutput>())
@@ -5880,7 +5880,7 @@ extension GlueClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<DeletePartitionOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<DeletePartitionInput, DeletePartitionOutput>(xAmzTarget: "AWSGlue.DeletePartition"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<DeletePartitionInput, DeletePartitionOutput>(overrides: ["X-Amz-Target": "AWSGlue.DeletePartition"]))
         builder.serialize(ClientRuntime.BodyMiddleware<DeletePartitionInput, DeletePartitionOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: DeletePartitionInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DeletePartitionInput, DeletePartitionOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DeletePartitionOutput>())
@@ -5954,7 +5954,7 @@ extension GlueClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<DeletePartitionIndexOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<DeletePartitionIndexInput, DeletePartitionIndexOutput>(xAmzTarget: "AWSGlue.DeletePartitionIndex"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<DeletePartitionIndexInput, DeletePartitionIndexOutput>(overrides: ["X-Amz-Target": "AWSGlue.DeletePartitionIndex"]))
         builder.serialize(ClientRuntime.BodyMiddleware<DeletePartitionIndexInput, DeletePartitionIndexOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: DeletePartitionIndexInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DeletePartitionIndexInput, DeletePartitionIndexOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DeletePartitionIndexOutput>())
@@ -6026,7 +6026,7 @@ extension GlueClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<DeleteRegistryOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<DeleteRegistryInput, DeleteRegistryOutput>(xAmzTarget: "AWSGlue.DeleteRegistry"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<DeleteRegistryInput, DeleteRegistryOutput>(overrides: ["X-Amz-Target": "AWSGlue.DeleteRegistry"]))
         builder.serialize(ClientRuntime.BodyMiddleware<DeleteRegistryInput, DeleteRegistryOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: DeleteRegistryInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DeleteRegistryInput, DeleteRegistryOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DeleteRegistryOutput>())
@@ -6099,7 +6099,7 @@ extension GlueClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<DeleteResourcePolicyOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<DeleteResourcePolicyInput, DeleteResourcePolicyOutput>(xAmzTarget: "AWSGlue.DeleteResourcePolicy"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<DeleteResourcePolicyInput, DeleteResourcePolicyOutput>(overrides: ["X-Amz-Target": "AWSGlue.DeleteResourcePolicy"]))
         builder.serialize(ClientRuntime.BodyMiddleware<DeleteResourcePolicyInput, DeleteResourcePolicyOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: DeleteResourcePolicyInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DeleteResourcePolicyInput, DeleteResourcePolicyOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DeleteResourcePolicyOutput>())
@@ -6171,7 +6171,7 @@ extension GlueClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<DeleteSchemaOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<DeleteSchemaInput, DeleteSchemaOutput>(xAmzTarget: "AWSGlue.DeleteSchema"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<DeleteSchemaInput, DeleteSchemaOutput>(overrides: ["X-Amz-Target": "AWSGlue.DeleteSchema"]))
         builder.serialize(ClientRuntime.BodyMiddleware<DeleteSchemaInput, DeleteSchemaOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: DeleteSchemaInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DeleteSchemaInput, DeleteSchemaOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DeleteSchemaOutput>())
@@ -6243,7 +6243,7 @@ extension GlueClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<DeleteSchemaVersionsOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<DeleteSchemaVersionsInput, DeleteSchemaVersionsOutput>(xAmzTarget: "AWSGlue.DeleteSchemaVersions"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<DeleteSchemaVersionsInput, DeleteSchemaVersionsOutput>(overrides: ["X-Amz-Target": "AWSGlue.DeleteSchemaVersions"]))
         builder.serialize(ClientRuntime.BodyMiddleware<DeleteSchemaVersionsInput, DeleteSchemaVersionsOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: DeleteSchemaVersionsInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DeleteSchemaVersionsInput, DeleteSchemaVersionsOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DeleteSchemaVersionsOutput>())
@@ -6315,7 +6315,7 @@ extension GlueClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<DeleteSecurityConfigurationOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<DeleteSecurityConfigurationInput, DeleteSecurityConfigurationOutput>(xAmzTarget: "AWSGlue.DeleteSecurityConfiguration"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<DeleteSecurityConfigurationInput, DeleteSecurityConfigurationOutput>(overrides: ["X-Amz-Target": "AWSGlue.DeleteSecurityConfiguration"]))
         builder.serialize(ClientRuntime.BodyMiddleware<DeleteSecurityConfigurationInput, DeleteSecurityConfigurationOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: DeleteSecurityConfigurationInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DeleteSecurityConfigurationInput, DeleteSecurityConfigurationOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DeleteSecurityConfigurationOutput>())
@@ -6389,7 +6389,7 @@ extension GlueClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<DeleteSessionOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<DeleteSessionInput, DeleteSessionOutput>(xAmzTarget: "AWSGlue.DeleteSession"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<DeleteSessionInput, DeleteSessionOutput>(overrides: ["X-Amz-Target": "AWSGlue.DeleteSession"]))
         builder.serialize(ClientRuntime.BodyMiddleware<DeleteSessionInput, DeleteSessionOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: DeleteSessionInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DeleteSessionInput, DeleteSessionOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DeleteSessionOutput>())
@@ -6465,7 +6465,7 @@ extension GlueClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<DeleteTableOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<DeleteTableInput, DeleteTableOutput>(xAmzTarget: "AWSGlue.DeleteTable"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<DeleteTableInput, DeleteTableOutput>(overrides: ["X-Amz-Target": "AWSGlue.DeleteTable"]))
         builder.serialize(ClientRuntime.BodyMiddleware<DeleteTableInput, DeleteTableOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: DeleteTableInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DeleteTableInput, DeleteTableOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DeleteTableOutput>())
@@ -6538,7 +6538,7 @@ extension GlueClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<DeleteTableOptimizerOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<DeleteTableOptimizerInput, DeleteTableOptimizerOutput>(xAmzTarget: "AWSGlue.DeleteTableOptimizer"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<DeleteTableOptimizerInput, DeleteTableOptimizerOutput>(overrides: ["X-Amz-Target": "AWSGlue.DeleteTableOptimizer"]))
         builder.serialize(ClientRuntime.BodyMiddleware<DeleteTableOptimizerInput, DeleteTableOptimizerOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: DeleteTableOptimizerInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DeleteTableOptimizerInput, DeleteTableOptimizerOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DeleteTableOptimizerOutput>())
@@ -6610,7 +6610,7 @@ extension GlueClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<DeleteTableVersionOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<DeleteTableVersionInput, DeleteTableVersionOutput>(xAmzTarget: "AWSGlue.DeleteTableVersion"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<DeleteTableVersionInput, DeleteTableVersionOutput>(overrides: ["X-Amz-Target": "AWSGlue.DeleteTableVersion"]))
         builder.serialize(ClientRuntime.BodyMiddleware<DeleteTableVersionInput, DeleteTableVersionOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: DeleteTableVersionInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DeleteTableVersionInput, DeleteTableVersionOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DeleteTableVersionOutput>())
@@ -6682,7 +6682,7 @@ extension GlueClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<DeleteTriggerOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<DeleteTriggerInput, DeleteTriggerOutput>(xAmzTarget: "AWSGlue.DeleteTrigger"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<DeleteTriggerInput, DeleteTriggerOutput>(overrides: ["X-Amz-Target": "AWSGlue.DeleteTrigger"]))
         builder.serialize(ClientRuntime.BodyMiddleware<DeleteTriggerInput, DeleteTriggerOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: DeleteTriggerInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DeleteTriggerInput, DeleteTriggerOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DeleteTriggerOutput>())
@@ -6754,7 +6754,7 @@ extension GlueClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<DeleteUsageProfileOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<DeleteUsageProfileInput, DeleteUsageProfileOutput>(xAmzTarget: "AWSGlue.DeleteUsageProfile"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<DeleteUsageProfileInput, DeleteUsageProfileOutput>(overrides: ["X-Amz-Target": "AWSGlue.DeleteUsageProfile"]))
         builder.serialize(ClientRuntime.BodyMiddleware<DeleteUsageProfileInput, DeleteUsageProfileOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: DeleteUsageProfileInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DeleteUsageProfileInput, DeleteUsageProfileOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DeleteUsageProfileOutput>())
@@ -6826,7 +6826,7 @@ extension GlueClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<DeleteUserDefinedFunctionOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<DeleteUserDefinedFunctionInput, DeleteUserDefinedFunctionOutput>(xAmzTarget: "AWSGlue.DeleteUserDefinedFunction"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<DeleteUserDefinedFunctionInput, DeleteUserDefinedFunctionOutput>(overrides: ["X-Amz-Target": "AWSGlue.DeleteUserDefinedFunction"]))
         builder.serialize(ClientRuntime.BodyMiddleware<DeleteUserDefinedFunctionInput, DeleteUserDefinedFunctionOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: DeleteUserDefinedFunctionInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DeleteUserDefinedFunctionInput, DeleteUserDefinedFunctionOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DeleteUserDefinedFunctionOutput>())
@@ -6898,7 +6898,7 @@ extension GlueClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<DeleteWorkflowOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<DeleteWorkflowInput, DeleteWorkflowOutput>(xAmzTarget: "AWSGlue.DeleteWorkflow"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<DeleteWorkflowInput, DeleteWorkflowOutput>(overrides: ["X-Amz-Target": "AWSGlue.DeleteWorkflow"]))
         builder.serialize(ClientRuntime.BodyMiddleware<DeleteWorkflowInput, DeleteWorkflowOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: DeleteWorkflowInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DeleteWorkflowInput, DeleteWorkflowOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DeleteWorkflowOutput>())
@@ -6970,7 +6970,7 @@ extension GlueClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<DescribeConnectionTypeOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<DescribeConnectionTypeInput, DescribeConnectionTypeOutput>(xAmzTarget: "AWSGlue.DescribeConnectionType"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<DescribeConnectionTypeInput, DescribeConnectionTypeOutput>(overrides: ["X-Amz-Target": "AWSGlue.DescribeConnectionType"]))
         builder.serialize(ClientRuntime.BodyMiddleware<DescribeConnectionTypeInput, DescribeConnectionTypeOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: DescribeConnectionTypeInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DescribeConnectionTypeInput, DescribeConnectionTypeOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DescribeConnectionTypeOutput>())
@@ -7045,7 +7045,7 @@ extension GlueClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<DescribeEntityOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<DescribeEntityInput, DescribeEntityOutput>(xAmzTarget: "AWSGlue.DescribeEntity"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<DescribeEntityInput, DescribeEntityOutput>(overrides: ["X-Amz-Target": "AWSGlue.DescribeEntity"]))
         builder.serialize(ClientRuntime.BodyMiddleware<DescribeEntityInput, DescribeEntityOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: DescribeEntityInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DescribeEntityInput, DescribeEntityOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DescribeEntityOutput>())
@@ -7122,7 +7122,7 @@ extension GlueClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<DescribeInboundIntegrationsOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<DescribeInboundIntegrationsInput, DescribeInboundIntegrationsOutput>(xAmzTarget: "AWSGlue.DescribeInboundIntegrations"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<DescribeInboundIntegrationsInput, DescribeInboundIntegrationsOutput>(overrides: ["X-Amz-Target": "AWSGlue.DescribeInboundIntegrations"]))
         builder.serialize(ClientRuntime.BodyMiddleware<DescribeInboundIntegrationsInput, DescribeInboundIntegrationsOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: DescribeInboundIntegrationsInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DescribeInboundIntegrationsInput, DescribeInboundIntegrationsOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DescribeInboundIntegrationsOutput>())
@@ -7197,7 +7197,7 @@ extension GlueClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<DescribeIntegrationsOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<DescribeIntegrationsInput, DescribeIntegrationsOutput>(xAmzTarget: "AWSGlue.DescribeIntegrations"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<DescribeIntegrationsInput, DescribeIntegrationsOutput>(overrides: ["X-Amz-Target": "AWSGlue.DescribeIntegrations"]))
         builder.serialize(ClientRuntime.BodyMiddleware<DescribeIntegrationsInput, DescribeIntegrationsOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: DescribeIntegrationsInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DescribeIntegrationsInput, DescribeIntegrationsOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DescribeIntegrationsOutput>())
@@ -7269,7 +7269,7 @@ extension GlueClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<GetBlueprintOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<GetBlueprintInput, GetBlueprintOutput>(xAmzTarget: "AWSGlue.GetBlueprint"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<GetBlueprintInput, GetBlueprintOutput>(overrides: ["X-Amz-Target": "AWSGlue.GetBlueprint"]))
         builder.serialize(ClientRuntime.BodyMiddleware<GetBlueprintInput, GetBlueprintOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: GetBlueprintInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<GetBlueprintInput, GetBlueprintOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<GetBlueprintOutput>())
@@ -7340,7 +7340,7 @@ extension GlueClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<GetBlueprintRunOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<GetBlueprintRunInput, GetBlueprintRunOutput>(xAmzTarget: "AWSGlue.GetBlueprintRun"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<GetBlueprintRunInput, GetBlueprintRunOutput>(overrides: ["X-Amz-Target": "AWSGlue.GetBlueprintRun"]))
         builder.serialize(ClientRuntime.BodyMiddleware<GetBlueprintRunInput, GetBlueprintRunOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: GetBlueprintRunInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<GetBlueprintRunInput, GetBlueprintRunOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<GetBlueprintRunOutput>())
@@ -7412,7 +7412,7 @@ extension GlueClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<GetBlueprintRunsOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<GetBlueprintRunsInput, GetBlueprintRunsOutput>(xAmzTarget: "AWSGlue.GetBlueprintRuns"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<GetBlueprintRunsInput, GetBlueprintRunsOutput>(overrides: ["X-Amz-Target": "AWSGlue.GetBlueprintRuns"]))
         builder.serialize(ClientRuntime.BodyMiddleware<GetBlueprintRunsInput, GetBlueprintRunsOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: GetBlueprintRunsInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<GetBlueprintRunsInput, GetBlueprintRunsOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<GetBlueprintRunsOutput>())
@@ -7488,7 +7488,7 @@ extension GlueClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<GetCatalogOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<GetCatalogInput, GetCatalogOutput>(xAmzTarget: "AWSGlue.GetCatalog"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<GetCatalogInput, GetCatalogOutput>(overrides: ["X-Amz-Target": "AWSGlue.GetCatalog"]))
         builder.serialize(ClientRuntime.BodyMiddleware<GetCatalogInput, GetCatalogOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: GetCatalogInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<GetCatalogInput, GetCatalogOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<GetCatalogOutput>())
@@ -7558,7 +7558,7 @@ extension GlueClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<GetCatalogImportStatusOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<GetCatalogImportStatusInput, GetCatalogImportStatusOutput>(xAmzTarget: "AWSGlue.GetCatalogImportStatus"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<GetCatalogImportStatusInput, GetCatalogImportStatusOutput>(overrides: ["X-Amz-Target": "AWSGlue.GetCatalogImportStatus"]))
         builder.serialize(ClientRuntime.BodyMiddleware<GetCatalogImportStatusInput, GetCatalogImportStatusOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: GetCatalogImportStatusInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<GetCatalogImportStatusInput, GetCatalogImportStatusOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<GetCatalogImportStatusOutput>())
@@ -7634,7 +7634,7 @@ extension GlueClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<GetCatalogsOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<GetCatalogsInput, GetCatalogsOutput>(xAmzTarget: "AWSGlue.GetCatalogs"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<GetCatalogsInput, GetCatalogsOutput>(overrides: ["X-Amz-Target": "AWSGlue.GetCatalogs"]))
         builder.serialize(ClientRuntime.BodyMiddleware<GetCatalogsInput, GetCatalogsOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: GetCatalogsInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<GetCatalogsInput, GetCatalogsOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<GetCatalogsOutput>())
@@ -7704,7 +7704,7 @@ extension GlueClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<GetClassifierOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<GetClassifierInput, GetClassifierOutput>(xAmzTarget: "AWSGlue.GetClassifier"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<GetClassifierInput, GetClassifierOutput>(overrides: ["X-Amz-Target": "AWSGlue.GetClassifier"]))
         builder.serialize(ClientRuntime.BodyMiddleware<GetClassifierInput, GetClassifierOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: GetClassifierInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<GetClassifierInput, GetClassifierOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<GetClassifierOutput>())
@@ -7773,7 +7773,7 @@ extension GlueClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<GetClassifiersOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<GetClassifiersInput, GetClassifiersOutput>(xAmzTarget: "AWSGlue.GetClassifiers"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<GetClassifiersInput, GetClassifiersOutput>(overrides: ["X-Amz-Target": "AWSGlue.GetClassifiers"]))
         builder.serialize(ClientRuntime.BodyMiddleware<GetClassifiersInput, GetClassifiersOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: GetClassifiersInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<GetClassifiersInput, GetClassifiersOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<GetClassifiersOutput>())
@@ -7846,7 +7846,7 @@ extension GlueClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<GetColumnStatisticsForPartitionOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<GetColumnStatisticsForPartitionInput, GetColumnStatisticsForPartitionOutput>(xAmzTarget: "AWSGlue.GetColumnStatisticsForPartition"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<GetColumnStatisticsForPartitionInput, GetColumnStatisticsForPartitionOutput>(overrides: ["X-Amz-Target": "AWSGlue.GetColumnStatisticsForPartition"]))
         builder.serialize(ClientRuntime.BodyMiddleware<GetColumnStatisticsForPartitionInput, GetColumnStatisticsForPartitionOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: GetColumnStatisticsForPartitionInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<GetColumnStatisticsForPartitionInput, GetColumnStatisticsForPartitionOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<GetColumnStatisticsForPartitionOutput>())
@@ -7919,7 +7919,7 @@ extension GlueClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<GetColumnStatisticsForTableOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<GetColumnStatisticsForTableInput, GetColumnStatisticsForTableOutput>(xAmzTarget: "AWSGlue.GetColumnStatisticsForTable"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<GetColumnStatisticsForTableInput, GetColumnStatisticsForTableOutput>(overrides: ["X-Amz-Target": "AWSGlue.GetColumnStatisticsForTable"]))
         builder.serialize(ClientRuntime.BodyMiddleware<GetColumnStatisticsForTableInput, GetColumnStatisticsForTableOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: GetColumnStatisticsForTableInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<GetColumnStatisticsForTableInput, GetColumnStatisticsForTableOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<GetColumnStatisticsForTableOutput>())
@@ -7990,7 +7990,7 @@ extension GlueClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<GetColumnStatisticsTaskRunOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<GetColumnStatisticsTaskRunInput, GetColumnStatisticsTaskRunOutput>(xAmzTarget: "AWSGlue.GetColumnStatisticsTaskRun"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<GetColumnStatisticsTaskRunInput, GetColumnStatisticsTaskRunOutput>(overrides: ["X-Amz-Target": "AWSGlue.GetColumnStatisticsTaskRun"]))
         builder.serialize(ClientRuntime.BodyMiddleware<GetColumnStatisticsTaskRunInput, GetColumnStatisticsTaskRunOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: GetColumnStatisticsTaskRunInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<GetColumnStatisticsTaskRunInput, GetColumnStatisticsTaskRunOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<GetColumnStatisticsTaskRunOutput>())
@@ -8059,7 +8059,7 @@ extension GlueClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<GetColumnStatisticsTaskRunsOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<GetColumnStatisticsTaskRunsInput, GetColumnStatisticsTaskRunsOutput>(xAmzTarget: "AWSGlue.GetColumnStatisticsTaskRuns"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<GetColumnStatisticsTaskRunsInput, GetColumnStatisticsTaskRunsOutput>(overrides: ["X-Amz-Target": "AWSGlue.GetColumnStatisticsTaskRuns"]))
         builder.serialize(ClientRuntime.BodyMiddleware<GetColumnStatisticsTaskRunsInput, GetColumnStatisticsTaskRunsOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: GetColumnStatisticsTaskRunsInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<GetColumnStatisticsTaskRunsInput, GetColumnStatisticsTaskRunsOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<GetColumnStatisticsTaskRunsOutput>())
@@ -8130,7 +8130,7 @@ extension GlueClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<GetColumnStatisticsTaskSettingsOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<GetColumnStatisticsTaskSettingsInput, GetColumnStatisticsTaskSettingsOutput>(xAmzTarget: "AWSGlue.GetColumnStatisticsTaskSettings"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<GetColumnStatisticsTaskSettingsInput, GetColumnStatisticsTaskSettingsOutput>(overrides: ["X-Amz-Target": "AWSGlue.GetColumnStatisticsTaskSettings"]))
         builder.serialize(ClientRuntime.BodyMiddleware<GetColumnStatisticsTaskSettingsInput, GetColumnStatisticsTaskSettingsOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: GetColumnStatisticsTaskSettingsInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<GetColumnStatisticsTaskSettingsInput, GetColumnStatisticsTaskSettingsOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<GetColumnStatisticsTaskSettingsOutput>())
@@ -8202,7 +8202,7 @@ extension GlueClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<GetConnectionOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<GetConnectionInput, GetConnectionOutput>(xAmzTarget: "AWSGlue.GetConnection"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<GetConnectionInput, GetConnectionOutput>(overrides: ["X-Amz-Target": "AWSGlue.GetConnection"]))
         builder.serialize(ClientRuntime.BodyMiddleware<GetConnectionInput, GetConnectionOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: GetConnectionInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<GetConnectionInput, GetConnectionOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<GetConnectionOutput>())
@@ -8274,7 +8274,7 @@ extension GlueClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<GetConnectionsOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<GetConnectionsInput, GetConnectionsOutput>(xAmzTarget: "AWSGlue.GetConnections"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<GetConnectionsInput, GetConnectionsOutput>(overrides: ["X-Amz-Target": "AWSGlue.GetConnections"]))
         builder.serialize(ClientRuntime.BodyMiddleware<GetConnectionsInput, GetConnectionsOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: GetConnectionsInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<GetConnectionsInput, GetConnectionsOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<GetConnectionsOutput>())
@@ -8344,7 +8344,7 @@ extension GlueClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<GetCrawlerOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<GetCrawlerInput, GetCrawlerOutput>(xAmzTarget: "AWSGlue.GetCrawler"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<GetCrawlerInput, GetCrawlerOutput>(overrides: ["X-Amz-Target": "AWSGlue.GetCrawler"]))
         builder.serialize(ClientRuntime.BodyMiddleware<GetCrawlerInput, GetCrawlerOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: GetCrawlerInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<GetCrawlerInput, GetCrawlerOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<GetCrawlerOutput>())
@@ -8413,7 +8413,7 @@ extension GlueClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<GetCrawlerMetricsOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<GetCrawlerMetricsInput, GetCrawlerMetricsOutput>(xAmzTarget: "AWSGlue.GetCrawlerMetrics"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<GetCrawlerMetricsInput, GetCrawlerMetricsOutput>(overrides: ["X-Amz-Target": "AWSGlue.GetCrawlerMetrics"]))
         builder.serialize(ClientRuntime.BodyMiddleware<GetCrawlerMetricsInput, GetCrawlerMetricsOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: GetCrawlerMetricsInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<GetCrawlerMetricsInput, GetCrawlerMetricsOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<GetCrawlerMetricsOutput>())
@@ -8482,7 +8482,7 @@ extension GlueClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<GetCrawlersOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<GetCrawlersInput, GetCrawlersOutput>(xAmzTarget: "AWSGlue.GetCrawlers"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<GetCrawlersInput, GetCrawlersOutput>(overrides: ["X-Amz-Target": "AWSGlue.GetCrawlers"]))
         builder.serialize(ClientRuntime.BodyMiddleware<GetCrawlersInput, GetCrawlersOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: GetCrawlersInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<GetCrawlersInput, GetCrawlersOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<GetCrawlersOutput>())
@@ -8555,7 +8555,7 @@ extension GlueClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<GetCustomEntityTypeOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<GetCustomEntityTypeInput, GetCustomEntityTypeOutput>(xAmzTarget: "AWSGlue.GetCustomEntityType"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<GetCustomEntityTypeInput, GetCustomEntityTypeOutput>(overrides: ["X-Amz-Target": "AWSGlue.GetCustomEntityType"]))
         builder.serialize(ClientRuntime.BodyMiddleware<GetCustomEntityTypeInput, GetCustomEntityTypeOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: GetCustomEntityTypeInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<GetCustomEntityTypeInput, GetCustomEntityTypeOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<GetCustomEntityTypeOutput>())
@@ -8626,7 +8626,7 @@ extension GlueClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<GetDataCatalogEncryptionSettingsOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<GetDataCatalogEncryptionSettingsInput, GetDataCatalogEncryptionSettingsOutput>(xAmzTarget: "AWSGlue.GetDataCatalogEncryptionSettings"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<GetDataCatalogEncryptionSettingsInput, GetDataCatalogEncryptionSettingsOutput>(overrides: ["X-Amz-Target": "AWSGlue.GetDataCatalogEncryptionSettings"]))
         builder.serialize(ClientRuntime.BodyMiddleware<GetDataCatalogEncryptionSettingsInput, GetDataCatalogEncryptionSettingsOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: GetDataCatalogEncryptionSettingsInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<GetDataCatalogEncryptionSettingsInput, GetDataCatalogEncryptionSettingsOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<GetDataCatalogEncryptionSettingsOutput>())
@@ -8698,7 +8698,7 @@ extension GlueClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<GetDataQualityModelOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<GetDataQualityModelInput, GetDataQualityModelOutput>(xAmzTarget: "AWSGlue.GetDataQualityModel"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<GetDataQualityModelInput, GetDataQualityModelOutput>(overrides: ["X-Amz-Target": "AWSGlue.GetDataQualityModel"]))
         builder.serialize(ClientRuntime.BodyMiddleware<GetDataQualityModelInput, GetDataQualityModelOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: GetDataQualityModelInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<GetDataQualityModelInput, GetDataQualityModelOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<GetDataQualityModelOutput>())
@@ -8770,7 +8770,7 @@ extension GlueClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<GetDataQualityModelResultOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<GetDataQualityModelResultInput, GetDataQualityModelResultOutput>(xAmzTarget: "AWSGlue.GetDataQualityModelResult"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<GetDataQualityModelResultInput, GetDataQualityModelResultOutput>(overrides: ["X-Amz-Target": "AWSGlue.GetDataQualityModelResult"]))
         builder.serialize(ClientRuntime.BodyMiddleware<GetDataQualityModelResultInput, GetDataQualityModelResultOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: GetDataQualityModelResultInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<GetDataQualityModelResultInput, GetDataQualityModelResultOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<GetDataQualityModelResultOutput>())
@@ -8842,7 +8842,7 @@ extension GlueClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<GetDataQualityResultOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<GetDataQualityResultInput, GetDataQualityResultOutput>(xAmzTarget: "AWSGlue.GetDataQualityResult"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<GetDataQualityResultInput, GetDataQualityResultOutput>(overrides: ["X-Amz-Target": "AWSGlue.GetDataQualityResult"]))
         builder.serialize(ClientRuntime.BodyMiddleware<GetDataQualityResultInput, GetDataQualityResultOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: GetDataQualityResultInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<GetDataQualityResultInput, GetDataQualityResultOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<GetDataQualityResultOutput>())
@@ -8914,7 +8914,7 @@ extension GlueClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<GetDataQualityRuleRecommendationRunOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<GetDataQualityRuleRecommendationRunInput, GetDataQualityRuleRecommendationRunOutput>(xAmzTarget: "AWSGlue.GetDataQualityRuleRecommendationRun"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<GetDataQualityRuleRecommendationRunInput, GetDataQualityRuleRecommendationRunOutput>(overrides: ["X-Amz-Target": "AWSGlue.GetDataQualityRuleRecommendationRun"]))
         builder.serialize(ClientRuntime.BodyMiddleware<GetDataQualityRuleRecommendationRunInput, GetDataQualityRuleRecommendationRunOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: GetDataQualityRuleRecommendationRunInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<GetDataQualityRuleRecommendationRunInput, GetDataQualityRuleRecommendationRunOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<GetDataQualityRuleRecommendationRunOutput>())
@@ -8986,7 +8986,7 @@ extension GlueClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<GetDataQualityRulesetOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<GetDataQualityRulesetInput, GetDataQualityRulesetOutput>(xAmzTarget: "AWSGlue.GetDataQualityRuleset"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<GetDataQualityRulesetInput, GetDataQualityRulesetOutput>(overrides: ["X-Amz-Target": "AWSGlue.GetDataQualityRuleset"]))
         builder.serialize(ClientRuntime.BodyMiddleware<GetDataQualityRulesetInput, GetDataQualityRulesetOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: GetDataQualityRulesetInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<GetDataQualityRulesetInput, GetDataQualityRulesetOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<GetDataQualityRulesetOutput>())
@@ -9058,7 +9058,7 @@ extension GlueClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<GetDataQualityRulesetEvaluationRunOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<GetDataQualityRulesetEvaluationRunInput, GetDataQualityRulesetEvaluationRunOutput>(xAmzTarget: "AWSGlue.GetDataQualityRulesetEvaluationRun"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<GetDataQualityRulesetEvaluationRunInput, GetDataQualityRulesetEvaluationRunOutput>(overrides: ["X-Amz-Target": "AWSGlue.GetDataQualityRulesetEvaluationRun"]))
         builder.serialize(ClientRuntime.BodyMiddleware<GetDataQualityRulesetEvaluationRunInput, GetDataQualityRulesetEvaluationRunOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: GetDataQualityRulesetEvaluationRunInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<GetDataQualityRulesetEvaluationRunInput, GetDataQualityRulesetEvaluationRunOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<GetDataQualityRulesetEvaluationRunOutput>())
@@ -9133,7 +9133,7 @@ extension GlueClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<GetDatabaseOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<GetDatabaseInput, GetDatabaseOutput>(xAmzTarget: "AWSGlue.GetDatabase"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<GetDatabaseInput, GetDatabaseOutput>(overrides: ["X-Amz-Target": "AWSGlue.GetDatabase"]))
         builder.serialize(ClientRuntime.BodyMiddleware<GetDatabaseInput, GetDatabaseOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: GetDatabaseInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<GetDatabaseInput, GetDatabaseOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<GetDatabaseOutput>())
@@ -9208,7 +9208,7 @@ extension GlueClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<GetDatabasesOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<GetDatabasesInput, GetDatabasesOutput>(xAmzTarget: "AWSGlue.GetDatabases"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<GetDatabasesInput, GetDatabasesOutput>(overrides: ["X-Amz-Target": "AWSGlue.GetDatabases"]))
         builder.serialize(ClientRuntime.BodyMiddleware<GetDatabasesInput, GetDatabasesOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: GetDatabasesInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<GetDatabasesInput, GetDatabasesOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<GetDatabasesOutput>())
@@ -9279,7 +9279,7 @@ extension GlueClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<GetDataflowGraphOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<GetDataflowGraphInput, GetDataflowGraphOutput>(xAmzTarget: "AWSGlue.GetDataflowGraph"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<GetDataflowGraphInput, GetDataflowGraphOutput>(overrides: ["X-Amz-Target": "AWSGlue.GetDataflowGraph"]))
         builder.serialize(ClientRuntime.BodyMiddleware<GetDataflowGraphInput, GetDataflowGraphOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: GetDataflowGraphInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<GetDataflowGraphInput, GetDataflowGraphOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<GetDataflowGraphOutput>())
@@ -9351,7 +9351,7 @@ extension GlueClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<GetDevEndpointOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<GetDevEndpointInput, GetDevEndpointOutput>(xAmzTarget: "AWSGlue.GetDevEndpoint"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<GetDevEndpointInput, GetDevEndpointOutput>(overrides: ["X-Amz-Target": "AWSGlue.GetDevEndpoint"]))
         builder.serialize(ClientRuntime.BodyMiddleware<GetDevEndpointInput, GetDevEndpointOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: GetDevEndpointInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<GetDevEndpointInput, GetDevEndpointOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<GetDevEndpointOutput>())
@@ -9423,7 +9423,7 @@ extension GlueClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<GetDevEndpointsOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<GetDevEndpointsInput, GetDevEndpointsOutput>(xAmzTarget: "AWSGlue.GetDevEndpoints"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<GetDevEndpointsInput, GetDevEndpointsOutput>(overrides: ["X-Amz-Target": "AWSGlue.GetDevEndpoints"]))
         builder.serialize(ClientRuntime.BodyMiddleware<GetDevEndpointsInput, GetDevEndpointsOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: GetDevEndpointsInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<GetDevEndpointsInput, GetDevEndpointsOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<GetDevEndpointsOutput>())
@@ -9498,7 +9498,7 @@ extension GlueClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<GetEntityRecordsOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<GetEntityRecordsInput, GetEntityRecordsOutput>(xAmzTarget: "AWSGlue.GetEntityRecords"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<GetEntityRecordsInput, GetEntityRecordsOutput>(overrides: ["X-Amz-Target": "AWSGlue.GetEntityRecords"]))
         builder.serialize(ClientRuntime.BodyMiddleware<GetEntityRecordsInput, GetEntityRecordsOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: GetEntityRecordsInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<GetEntityRecordsInput, GetEntityRecordsOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<GetEntityRecordsOutput>())
@@ -9572,7 +9572,7 @@ extension GlueClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<GetGlueIdentityCenterConfigurationOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<GetGlueIdentityCenterConfigurationInput, GetGlueIdentityCenterConfigurationOutput>(xAmzTarget: "AWSGlue.GetGlueIdentityCenterConfiguration"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<GetGlueIdentityCenterConfigurationInput, GetGlueIdentityCenterConfigurationOutput>(overrides: ["X-Amz-Target": "AWSGlue.GetGlueIdentityCenterConfiguration"]))
         builder.serialize(ClientRuntime.BodyMiddleware<GetGlueIdentityCenterConfigurationInput, GetGlueIdentityCenterConfigurationOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: GetGlueIdentityCenterConfigurationInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<GetGlueIdentityCenterConfigurationInput, GetGlueIdentityCenterConfigurationOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<GetGlueIdentityCenterConfigurationOutput>())
@@ -9647,7 +9647,7 @@ extension GlueClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<GetIntegrationResourcePropertyOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<GetIntegrationResourcePropertyInput, GetIntegrationResourcePropertyOutput>(xAmzTarget: "AWSGlue.GetIntegrationResourceProperty"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<GetIntegrationResourcePropertyInput, GetIntegrationResourcePropertyOutput>(overrides: ["X-Amz-Target": "AWSGlue.GetIntegrationResourceProperty"]))
         builder.serialize(ClientRuntime.BodyMiddleware<GetIntegrationResourcePropertyInput, GetIntegrationResourcePropertyOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: GetIntegrationResourcePropertyInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<GetIntegrationResourcePropertyInput, GetIntegrationResourcePropertyOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<GetIntegrationResourcePropertyOutput>())
@@ -9722,7 +9722,7 @@ extension GlueClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<GetIntegrationTablePropertiesOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<GetIntegrationTablePropertiesInput, GetIntegrationTablePropertiesOutput>(xAmzTarget: "AWSGlue.GetIntegrationTableProperties"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<GetIntegrationTablePropertiesInput, GetIntegrationTablePropertiesOutput>(overrides: ["X-Amz-Target": "AWSGlue.GetIntegrationTableProperties"]))
         builder.serialize(ClientRuntime.BodyMiddleware<GetIntegrationTablePropertiesInput, GetIntegrationTablePropertiesOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: GetIntegrationTablePropertiesInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<GetIntegrationTablePropertiesInput, GetIntegrationTablePropertiesOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<GetIntegrationTablePropertiesOutput>())
@@ -9794,7 +9794,7 @@ extension GlueClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<GetJobOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<GetJobInput, GetJobOutput>(xAmzTarget: "AWSGlue.GetJob"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<GetJobInput, GetJobOutput>(overrides: ["X-Amz-Target": "AWSGlue.GetJob"]))
         builder.serialize(ClientRuntime.BodyMiddleware<GetJobInput, GetJobOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: GetJobInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<GetJobInput, GetJobOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<GetJobOutput>())
@@ -9873,7 +9873,7 @@ extension GlueClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<GetJobBookmarkOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<GetJobBookmarkInput, GetJobBookmarkOutput>(xAmzTarget: "AWSGlue.GetJobBookmark"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<GetJobBookmarkInput, GetJobBookmarkOutput>(overrides: ["X-Amz-Target": "AWSGlue.GetJobBookmark"]))
         builder.serialize(ClientRuntime.BodyMiddleware<GetJobBookmarkInput, GetJobBookmarkOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: GetJobBookmarkInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<GetJobBookmarkInput, GetJobBookmarkOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<GetJobBookmarkOutput>())
@@ -9945,7 +9945,7 @@ extension GlueClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<GetJobRunOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<GetJobRunInput, GetJobRunOutput>(xAmzTarget: "AWSGlue.GetJobRun"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<GetJobRunInput, GetJobRunOutput>(overrides: ["X-Amz-Target": "AWSGlue.GetJobRun"]))
         builder.serialize(ClientRuntime.BodyMiddleware<GetJobRunInput, GetJobRunOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: GetJobRunInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<GetJobRunInput, GetJobRunOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<GetJobRunOutput>())
@@ -10017,7 +10017,7 @@ extension GlueClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<GetJobRunsOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<GetJobRunsInput, GetJobRunsOutput>(xAmzTarget: "AWSGlue.GetJobRuns"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<GetJobRunsInput, GetJobRunsOutput>(overrides: ["X-Amz-Target": "AWSGlue.GetJobRuns"]))
         builder.serialize(ClientRuntime.BodyMiddleware<GetJobRunsInput, GetJobRunsOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: GetJobRunsInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<GetJobRunsInput, GetJobRunsOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<GetJobRunsOutput>())
@@ -10089,7 +10089,7 @@ extension GlueClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<GetJobsOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<GetJobsInput, GetJobsOutput>(xAmzTarget: "AWSGlue.GetJobs"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<GetJobsInput, GetJobsOutput>(overrides: ["X-Amz-Target": "AWSGlue.GetJobs"]))
         builder.serialize(ClientRuntime.BodyMiddleware<GetJobsInput, GetJobsOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: GetJobsInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<GetJobsInput, GetJobsOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<GetJobsOutput>())
@@ -10161,7 +10161,7 @@ extension GlueClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<GetMLTaskRunOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<GetMLTaskRunInput, GetMLTaskRunOutput>(xAmzTarget: "AWSGlue.GetMLTaskRun"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<GetMLTaskRunInput, GetMLTaskRunOutput>(overrides: ["X-Amz-Target": "AWSGlue.GetMLTaskRun"]))
         builder.serialize(ClientRuntime.BodyMiddleware<GetMLTaskRunInput, GetMLTaskRunOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: GetMLTaskRunInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<GetMLTaskRunInput, GetMLTaskRunOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<GetMLTaskRunOutput>())
@@ -10233,7 +10233,7 @@ extension GlueClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<GetMLTaskRunsOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<GetMLTaskRunsInput, GetMLTaskRunsOutput>(xAmzTarget: "AWSGlue.GetMLTaskRuns"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<GetMLTaskRunsInput, GetMLTaskRunsOutput>(overrides: ["X-Amz-Target": "AWSGlue.GetMLTaskRuns"]))
         builder.serialize(ClientRuntime.BodyMiddleware<GetMLTaskRunsInput, GetMLTaskRunsOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: GetMLTaskRunsInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<GetMLTaskRunsInput, GetMLTaskRunsOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<GetMLTaskRunsOutput>())
@@ -10305,7 +10305,7 @@ extension GlueClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<GetMLTransformOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<GetMLTransformInput, GetMLTransformOutput>(xAmzTarget: "AWSGlue.GetMLTransform"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<GetMLTransformInput, GetMLTransformOutput>(overrides: ["X-Amz-Target": "AWSGlue.GetMLTransform"]))
         builder.serialize(ClientRuntime.BodyMiddleware<GetMLTransformInput, GetMLTransformOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: GetMLTransformInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<GetMLTransformInput, GetMLTransformOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<GetMLTransformOutput>())
@@ -10377,7 +10377,7 @@ extension GlueClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<GetMLTransformsOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<GetMLTransformsInput, GetMLTransformsOutput>(xAmzTarget: "AWSGlue.GetMLTransforms"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<GetMLTransformsInput, GetMLTransformsOutput>(overrides: ["X-Amz-Target": "AWSGlue.GetMLTransforms"]))
         builder.serialize(ClientRuntime.BodyMiddleware<GetMLTransformsInput, GetMLTransformsOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: GetMLTransformsInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<GetMLTransformsInput, GetMLTransformsOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<GetMLTransformsOutput>())
@@ -10449,7 +10449,7 @@ extension GlueClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<GetMappingOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<GetMappingInput, GetMappingOutput>(xAmzTarget: "AWSGlue.GetMapping"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<GetMappingInput, GetMappingOutput>(overrides: ["X-Amz-Target": "AWSGlue.GetMapping"]))
         builder.serialize(ClientRuntime.BodyMiddleware<GetMappingInput, GetMappingOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: GetMappingInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<GetMappingInput, GetMappingOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<GetMappingOutput>())
@@ -10521,7 +10521,7 @@ extension GlueClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<GetMaterializedViewRefreshTaskRunOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<GetMaterializedViewRefreshTaskRunInput, GetMaterializedViewRefreshTaskRunOutput>(xAmzTarget: "AWSGlue.GetMaterializedViewRefreshTaskRun"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<GetMaterializedViewRefreshTaskRunInput, GetMaterializedViewRefreshTaskRunOutput>(overrides: ["X-Amz-Target": "AWSGlue.GetMaterializedViewRefreshTaskRun"]))
         builder.serialize(ClientRuntime.BodyMiddleware<GetMaterializedViewRefreshTaskRunInput, GetMaterializedViewRefreshTaskRunOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: GetMaterializedViewRefreshTaskRunInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<GetMaterializedViewRefreshTaskRunInput, GetMaterializedViewRefreshTaskRunOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<GetMaterializedViewRefreshTaskRunOutput>())
@@ -10596,7 +10596,7 @@ extension GlueClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<GetPartitionOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<GetPartitionInput, GetPartitionOutput>(xAmzTarget: "AWSGlue.GetPartition"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<GetPartitionInput, GetPartitionOutput>(overrides: ["X-Amz-Target": "AWSGlue.GetPartition"]))
         builder.serialize(ClientRuntime.BodyMiddleware<GetPartitionInput, GetPartitionOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: GetPartitionInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<GetPartitionInput, GetPartitionOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<GetPartitionOutput>())
@@ -10669,7 +10669,7 @@ extension GlueClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<GetPartitionIndexesOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<GetPartitionIndexesInput, GetPartitionIndexesOutput>(xAmzTarget: "AWSGlue.GetPartitionIndexes"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<GetPartitionIndexesInput, GetPartitionIndexesOutput>(overrides: ["X-Amz-Target": "AWSGlue.GetPartitionIndexes"]))
         builder.serialize(ClientRuntime.BodyMiddleware<GetPartitionIndexesInput, GetPartitionIndexesOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: GetPartitionIndexesInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<GetPartitionIndexesInput, GetPartitionIndexesOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<GetPartitionIndexesOutput>())
@@ -10746,7 +10746,7 @@ extension GlueClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<GetPartitionsOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<GetPartitionsInput, GetPartitionsOutput>(xAmzTarget: "AWSGlue.GetPartitions"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<GetPartitionsInput, GetPartitionsOutput>(overrides: ["X-Amz-Target": "AWSGlue.GetPartitions"]))
         builder.serialize(ClientRuntime.BodyMiddleware<GetPartitionsInput, GetPartitionsOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: GetPartitionsInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<GetPartitionsInput, GetPartitionsOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<GetPartitionsOutput>())
@@ -10817,7 +10817,7 @@ extension GlueClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<GetPlanOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<GetPlanInput, GetPlanOutput>(xAmzTarget: "AWSGlue.GetPlan"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<GetPlanInput, GetPlanOutput>(overrides: ["X-Amz-Target": "AWSGlue.GetPlan"]))
         builder.serialize(ClientRuntime.BodyMiddleware<GetPlanInput, GetPlanOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: GetPlanInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<GetPlanInput, GetPlanOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<GetPlanOutput>())
@@ -10889,7 +10889,7 @@ extension GlueClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<GetRegistryOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<GetRegistryInput, GetRegistryOutput>(xAmzTarget: "AWSGlue.GetRegistry"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<GetRegistryInput, GetRegistryOutput>(overrides: ["X-Amz-Target": "AWSGlue.GetRegistry"]))
         builder.serialize(ClientRuntime.BodyMiddleware<GetRegistryInput, GetRegistryOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: GetRegistryInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<GetRegistryInput, GetRegistryOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<GetRegistryOutput>())
@@ -10961,7 +10961,7 @@ extension GlueClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<GetResourcePoliciesOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<GetResourcePoliciesInput, GetResourcePoliciesOutput>(xAmzTarget: "AWSGlue.GetResourcePolicies"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<GetResourcePoliciesInput, GetResourcePoliciesOutput>(overrides: ["X-Amz-Target": "AWSGlue.GetResourcePolicies"]))
         builder.serialize(ClientRuntime.BodyMiddleware<GetResourcePoliciesInput, GetResourcePoliciesOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: GetResourcePoliciesInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<GetResourcePoliciesInput, GetResourcePoliciesOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<GetResourcePoliciesOutput>())
@@ -11033,7 +11033,7 @@ extension GlueClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<GetResourcePolicyOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<GetResourcePolicyInput, GetResourcePolicyOutput>(xAmzTarget: "AWSGlue.GetResourcePolicy"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<GetResourcePolicyInput, GetResourcePolicyOutput>(overrides: ["X-Amz-Target": "AWSGlue.GetResourcePolicy"]))
         builder.serialize(ClientRuntime.BodyMiddleware<GetResourcePolicyInput, GetResourcePolicyOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: GetResourcePolicyInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<GetResourcePolicyInput, GetResourcePolicyOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<GetResourcePolicyOutput>())
@@ -11105,7 +11105,7 @@ extension GlueClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<GetSchemaOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<GetSchemaInput, GetSchemaOutput>(xAmzTarget: "AWSGlue.GetSchema"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<GetSchemaInput, GetSchemaOutput>(overrides: ["X-Amz-Target": "AWSGlue.GetSchema"]))
         builder.serialize(ClientRuntime.BodyMiddleware<GetSchemaInput, GetSchemaOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: GetSchemaInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<GetSchemaInput, GetSchemaOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<GetSchemaOutput>())
@@ -11177,7 +11177,7 @@ extension GlueClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<GetSchemaByDefinitionOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<GetSchemaByDefinitionInput, GetSchemaByDefinitionOutput>(xAmzTarget: "AWSGlue.GetSchemaByDefinition"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<GetSchemaByDefinitionInput, GetSchemaByDefinitionOutput>(overrides: ["X-Amz-Target": "AWSGlue.GetSchemaByDefinition"]))
         builder.serialize(ClientRuntime.BodyMiddleware<GetSchemaByDefinitionInput, GetSchemaByDefinitionOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: GetSchemaByDefinitionInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<GetSchemaByDefinitionInput, GetSchemaByDefinitionOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<GetSchemaByDefinitionOutput>())
@@ -11249,7 +11249,7 @@ extension GlueClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<GetSchemaVersionOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<GetSchemaVersionInput, GetSchemaVersionOutput>(xAmzTarget: "AWSGlue.GetSchemaVersion"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<GetSchemaVersionInput, GetSchemaVersionOutput>(overrides: ["X-Amz-Target": "AWSGlue.GetSchemaVersion"]))
         builder.serialize(ClientRuntime.BodyMiddleware<GetSchemaVersionInput, GetSchemaVersionOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: GetSchemaVersionInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<GetSchemaVersionInput, GetSchemaVersionOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<GetSchemaVersionOutput>())
@@ -11321,7 +11321,7 @@ extension GlueClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<GetSchemaVersionsDiffOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<GetSchemaVersionsDiffInput, GetSchemaVersionsDiffOutput>(xAmzTarget: "AWSGlue.GetSchemaVersionsDiff"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<GetSchemaVersionsDiffInput, GetSchemaVersionsDiffOutput>(overrides: ["X-Amz-Target": "AWSGlue.GetSchemaVersionsDiff"]))
         builder.serialize(ClientRuntime.BodyMiddleware<GetSchemaVersionsDiffInput, GetSchemaVersionsDiffOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: GetSchemaVersionsDiffInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<GetSchemaVersionsDiffInput, GetSchemaVersionsDiffOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<GetSchemaVersionsDiffOutput>())
@@ -11393,7 +11393,7 @@ extension GlueClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<GetSecurityConfigurationOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<GetSecurityConfigurationInput, GetSecurityConfigurationOutput>(xAmzTarget: "AWSGlue.GetSecurityConfiguration"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<GetSecurityConfigurationInput, GetSecurityConfigurationOutput>(overrides: ["X-Amz-Target": "AWSGlue.GetSecurityConfiguration"]))
         builder.serialize(ClientRuntime.BodyMiddleware<GetSecurityConfigurationInput, GetSecurityConfigurationOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: GetSecurityConfigurationInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<GetSecurityConfigurationInput, GetSecurityConfigurationOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<GetSecurityConfigurationOutput>())
@@ -11465,7 +11465,7 @@ extension GlueClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<GetSecurityConfigurationsOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<GetSecurityConfigurationsInput, GetSecurityConfigurationsOutput>(xAmzTarget: "AWSGlue.GetSecurityConfigurations"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<GetSecurityConfigurationsInput, GetSecurityConfigurationsOutput>(overrides: ["X-Amz-Target": "AWSGlue.GetSecurityConfigurations"]))
         builder.serialize(ClientRuntime.BodyMiddleware<GetSecurityConfigurationsInput, GetSecurityConfigurationsOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: GetSecurityConfigurationsInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<GetSecurityConfigurationsInput, GetSecurityConfigurationsOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<GetSecurityConfigurationsOutput>())
@@ -11538,7 +11538,7 @@ extension GlueClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<GetSessionOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<GetSessionInput, GetSessionOutput>(xAmzTarget: "AWSGlue.GetSession"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<GetSessionInput, GetSessionOutput>(overrides: ["X-Amz-Target": "AWSGlue.GetSession"]))
         builder.serialize(ClientRuntime.BodyMiddleware<GetSessionInput, GetSessionOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: GetSessionInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<GetSessionInput, GetSessionOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<GetSessionOutput>())
@@ -11612,7 +11612,7 @@ extension GlueClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<GetStatementOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<GetStatementInput, GetStatementOutput>(xAmzTarget: "AWSGlue.GetStatement"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<GetStatementInput, GetStatementOutput>(overrides: ["X-Amz-Target": "AWSGlue.GetStatement"]))
         builder.serialize(ClientRuntime.BodyMiddleware<GetStatementInput, GetStatementOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: GetStatementInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<GetStatementInput, GetStatementOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<GetStatementOutput>())
@@ -11688,7 +11688,7 @@ extension GlueClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<GetTableOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<GetTableInput, GetTableOutput>(xAmzTarget: "AWSGlue.GetTable"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<GetTableInput, GetTableOutput>(overrides: ["X-Amz-Target": "AWSGlue.GetTable"]))
         builder.serialize(ClientRuntime.BodyMiddleware<GetTableInput, GetTableOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: GetTableInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<GetTableInput, GetTableOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<GetTableOutput>())
@@ -11761,7 +11761,7 @@ extension GlueClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<GetTableOptimizerOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<GetTableOptimizerInput, GetTableOptimizerOutput>(xAmzTarget: "AWSGlue.GetTableOptimizer"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<GetTableOptimizerInput, GetTableOptimizerOutput>(overrides: ["X-Amz-Target": "AWSGlue.GetTableOptimizer"]))
         builder.serialize(ClientRuntime.BodyMiddleware<GetTableOptimizerInput, GetTableOptimizerOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: GetTableOptimizerInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<GetTableOptimizerInput, GetTableOptimizerOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<GetTableOptimizerOutput>())
@@ -11834,7 +11834,7 @@ extension GlueClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<GetTableVersionOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<GetTableVersionInput, GetTableVersionOutput>(xAmzTarget: "AWSGlue.GetTableVersion"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<GetTableVersionInput, GetTableVersionOutput>(overrides: ["X-Amz-Target": "AWSGlue.GetTableVersion"]))
         builder.serialize(ClientRuntime.BodyMiddleware<GetTableVersionInput, GetTableVersionOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: GetTableVersionInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<GetTableVersionInput, GetTableVersionOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<GetTableVersionOutput>())
@@ -11907,7 +11907,7 @@ extension GlueClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<GetTableVersionsOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<GetTableVersionsInput, GetTableVersionsOutput>(xAmzTarget: "AWSGlue.GetTableVersions"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<GetTableVersionsInput, GetTableVersionsOutput>(overrides: ["X-Amz-Target": "AWSGlue.GetTableVersions"]))
         builder.serialize(ClientRuntime.BodyMiddleware<GetTableVersionsInput, GetTableVersionsOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: GetTableVersionsInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<GetTableVersionsInput, GetTableVersionsOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<GetTableVersionsOutput>())
@@ -11982,7 +11982,7 @@ extension GlueClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<GetTablesOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<GetTablesInput, GetTablesOutput>(xAmzTarget: "AWSGlue.GetTables"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<GetTablesInput, GetTablesOutput>(overrides: ["X-Amz-Target": "AWSGlue.GetTables"]))
         builder.serialize(ClientRuntime.BodyMiddleware<GetTablesInput, GetTablesOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: GetTablesInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<GetTablesInput, GetTablesOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<GetTablesOutput>())
@@ -12054,7 +12054,7 @@ extension GlueClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<GetTagsOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<GetTagsInput, GetTagsOutput>(xAmzTarget: "AWSGlue.GetTags"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<GetTagsInput, GetTagsOutput>(overrides: ["X-Amz-Target": "AWSGlue.GetTags"]))
         builder.serialize(ClientRuntime.BodyMiddleware<GetTagsInput, GetTagsOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: GetTagsInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<GetTagsInput, GetTagsOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<GetTagsOutput>())
@@ -12126,7 +12126,7 @@ extension GlueClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<GetTriggerOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<GetTriggerInput, GetTriggerOutput>(xAmzTarget: "AWSGlue.GetTrigger"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<GetTriggerInput, GetTriggerOutput>(overrides: ["X-Amz-Target": "AWSGlue.GetTrigger"]))
         builder.serialize(ClientRuntime.BodyMiddleware<GetTriggerInput, GetTriggerOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: GetTriggerInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<GetTriggerInput, GetTriggerOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<GetTriggerOutput>())
@@ -12198,7 +12198,7 @@ extension GlueClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<GetTriggersOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<GetTriggersInput, GetTriggersOutput>(xAmzTarget: "AWSGlue.GetTriggers"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<GetTriggersInput, GetTriggersOutput>(overrides: ["X-Amz-Target": "AWSGlue.GetTriggers"]))
         builder.serialize(ClientRuntime.BodyMiddleware<GetTriggersInput, GetTriggersOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: GetTriggersInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<GetTriggersInput, GetTriggersOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<GetTriggersOutput>())
@@ -12274,7 +12274,7 @@ extension GlueClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<GetUnfilteredPartitionMetadataOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<GetUnfilteredPartitionMetadataInput, GetUnfilteredPartitionMetadataOutput>(xAmzTarget: "AWSGlue.GetUnfilteredPartitionMetadata"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<GetUnfilteredPartitionMetadataInput, GetUnfilteredPartitionMetadataOutput>(overrides: ["X-Amz-Target": "AWSGlue.GetUnfilteredPartitionMetadata"]))
         builder.serialize(ClientRuntime.BodyMiddleware<GetUnfilteredPartitionMetadataInput, GetUnfilteredPartitionMetadataOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: GetUnfilteredPartitionMetadataInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<GetUnfilteredPartitionMetadataInput, GetUnfilteredPartitionMetadataOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<GetUnfilteredPartitionMetadataOutput>())
@@ -12350,7 +12350,7 @@ extension GlueClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<GetUnfilteredPartitionsMetadataOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<GetUnfilteredPartitionsMetadataInput, GetUnfilteredPartitionsMetadataOutput>(xAmzTarget: "AWSGlue.GetUnfilteredPartitionsMetadata"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<GetUnfilteredPartitionsMetadataInput, GetUnfilteredPartitionsMetadataOutput>(overrides: ["X-Amz-Target": "AWSGlue.GetUnfilteredPartitionsMetadata"]))
         builder.serialize(ClientRuntime.BodyMiddleware<GetUnfilteredPartitionsMetadataInput, GetUnfilteredPartitionsMetadataOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: GetUnfilteredPartitionsMetadataInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<GetUnfilteredPartitionsMetadataInput, GetUnfilteredPartitionsMetadataOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<GetUnfilteredPartitionsMetadataOutput>())
@@ -12426,7 +12426,7 @@ extension GlueClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<GetUnfilteredTableMetadataOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<GetUnfilteredTableMetadataInput, GetUnfilteredTableMetadataOutput>(xAmzTarget: "AWSGlue.GetUnfilteredTableMetadata"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<GetUnfilteredTableMetadataInput, GetUnfilteredTableMetadataOutput>(overrides: ["X-Amz-Target": "AWSGlue.GetUnfilteredTableMetadata"]))
         builder.serialize(ClientRuntime.BodyMiddleware<GetUnfilteredTableMetadataInput, GetUnfilteredTableMetadataOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: GetUnfilteredTableMetadataInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<GetUnfilteredTableMetadataInput, GetUnfilteredTableMetadataOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<GetUnfilteredTableMetadataOutput>())
@@ -12499,7 +12499,7 @@ extension GlueClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<GetUsageProfileOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<GetUsageProfileInput, GetUsageProfileOutput>(xAmzTarget: "AWSGlue.GetUsageProfile"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<GetUsageProfileInput, GetUsageProfileOutput>(overrides: ["X-Amz-Target": "AWSGlue.GetUsageProfile"]))
         builder.serialize(ClientRuntime.BodyMiddleware<GetUsageProfileInput, GetUsageProfileOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: GetUsageProfileInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<GetUsageProfileInput, GetUsageProfileOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<GetUsageProfileOutput>())
@@ -12572,7 +12572,7 @@ extension GlueClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<GetUserDefinedFunctionOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<GetUserDefinedFunctionInput, GetUserDefinedFunctionOutput>(xAmzTarget: "AWSGlue.GetUserDefinedFunction"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<GetUserDefinedFunctionInput, GetUserDefinedFunctionOutput>(overrides: ["X-Amz-Target": "AWSGlue.GetUserDefinedFunction"]))
         builder.serialize(ClientRuntime.BodyMiddleware<GetUserDefinedFunctionInput, GetUserDefinedFunctionOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: GetUserDefinedFunctionInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<GetUserDefinedFunctionInput, GetUserDefinedFunctionOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<GetUserDefinedFunctionOutput>())
@@ -12645,7 +12645,7 @@ extension GlueClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<GetUserDefinedFunctionsOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<GetUserDefinedFunctionsInput, GetUserDefinedFunctionsOutput>(xAmzTarget: "AWSGlue.GetUserDefinedFunctions"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<GetUserDefinedFunctionsInput, GetUserDefinedFunctionsOutput>(overrides: ["X-Amz-Target": "AWSGlue.GetUserDefinedFunctions"]))
         builder.serialize(ClientRuntime.BodyMiddleware<GetUserDefinedFunctionsInput, GetUserDefinedFunctionsOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: GetUserDefinedFunctionsInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<GetUserDefinedFunctionsInput, GetUserDefinedFunctionsOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<GetUserDefinedFunctionsOutput>())
@@ -12717,7 +12717,7 @@ extension GlueClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<GetWorkflowOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<GetWorkflowInput, GetWorkflowOutput>(xAmzTarget: "AWSGlue.GetWorkflow"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<GetWorkflowInput, GetWorkflowOutput>(overrides: ["X-Amz-Target": "AWSGlue.GetWorkflow"]))
         builder.serialize(ClientRuntime.BodyMiddleware<GetWorkflowInput, GetWorkflowOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: GetWorkflowInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<GetWorkflowInput, GetWorkflowOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<GetWorkflowOutput>())
@@ -12789,7 +12789,7 @@ extension GlueClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<GetWorkflowRunOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<GetWorkflowRunInput, GetWorkflowRunOutput>(xAmzTarget: "AWSGlue.GetWorkflowRun"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<GetWorkflowRunInput, GetWorkflowRunOutput>(overrides: ["X-Amz-Target": "AWSGlue.GetWorkflowRun"]))
         builder.serialize(ClientRuntime.BodyMiddleware<GetWorkflowRunInput, GetWorkflowRunOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: GetWorkflowRunInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<GetWorkflowRunInput, GetWorkflowRunOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<GetWorkflowRunOutput>())
@@ -12861,7 +12861,7 @@ extension GlueClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<GetWorkflowRunPropertiesOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<GetWorkflowRunPropertiesInput, GetWorkflowRunPropertiesOutput>(xAmzTarget: "AWSGlue.GetWorkflowRunProperties"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<GetWorkflowRunPropertiesInput, GetWorkflowRunPropertiesOutput>(overrides: ["X-Amz-Target": "AWSGlue.GetWorkflowRunProperties"]))
         builder.serialize(ClientRuntime.BodyMiddleware<GetWorkflowRunPropertiesInput, GetWorkflowRunPropertiesOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: GetWorkflowRunPropertiesInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<GetWorkflowRunPropertiesInput, GetWorkflowRunPropertiesOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<GetWorkflowRunPropertiesOutput>())
@@ -12933,7 +12933,7 @@ extension GlueClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<GetWorkflowRunsOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<GetWorkflowRunsInput, GetWorkflowRunsOutput>(xAmzTarget: "AWSGlue.GetWorkflowRuns"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<GetWorkflowRunsInput, GetWorkflowRunsOutput>(overrides: ["X-Amz-Target": "AWSGlue.GetWorkflowRuns"]))
         builder.serialize(ClientRuntime.BodyMiddleware<GetWorkflowRunsInput, GetWorkflowRunsOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: GetWorkflowRunsInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<GetWorkflowRunsInput, GetWorkflowRunsOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<GetWorkflowRunsOutput>())
@@ -13003,7 +13003,7 @@ extension GlueClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<ImportCatalogToGlueOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<ImportCatalogToGlueInput, ImportCatalogToGlueOutput>(xAmzTarget: "AWSGlue.ImportCatalogToGlue"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<ImportCatalogToGlueInput, ImportCatalogToGlueOutput>(overrides: ["X-Amz-Target": "AWSGlue.ImportCatalogToGlue"]))
         builder.serialize(ClientRuntime.BodyMiddleware<ImportCatalogToGlueInput, ImportCatalogToGlueOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: ImportCatalogToGlueInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<ImportCatalogToGlueInput, ImportCatalogToGlueOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ImportCatalogToGlueOutput>())
@@ -13074,7 +13074,7 @@ extension GlueClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<ListBlueprintsOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<ListBlueprintsInput, ListBlueprintsOutput>(xAmzTarget: "AWSGlue.ListBlueprints"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<ListBlueprintsInput, ListBlueprintsOutput>(overrides: ["X-Amz-Target": "AWSGlue.ListBlueprints"]))
         builder.serialize(ClientRuntime.BodyMiddleware<ListBlueprintsInput, ListBlueprintsOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: ListBlueprintsInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<ListBlueprintsInput, ListBlueprintsOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ListBlueprintsOutput>())
@@ -13143,7 +13143,7 @@ extension GlueClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<ListColumnStatisticsTaskRunsOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<ListColumnStatisticsTaskRunsInput, ListColumnStatisticsTaskRunsOutput>(xAmzTarget: "AWSGlue.ListColumnStatisticsTaskRuns"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<ListColumnStatisticsTaskRunsInput, ListColumnStatisticsTaskRunsOutput>(overrides: ["X-Amz-Target": "AWSGlue.ListColumnStatisticsTaskRuns"]))
         builder.serialize(ClientRuntime.BodyMiddleware<ListColumnStatisticsTaskRunsInput, ListColumnStatisticsTaskRunsOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: ListColumnStatisticsTaskRunsInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<ListColumnStatisticsTaskRunsInput, ListColumnStatisticsTaskRunsOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ListColumnStatisticsTaskRunsOutput>())
@@ -13213,7 +13213,7 @@ extension GlueClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<ListConnectionTypesOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<ListConnectionTypesInput, ListConnectionTypesOutput>(xAmzTarget: "AWSGlue.ListConnectionTypes"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<ListConnectionTypesInput, ListConnectionTypesOutput>(overrides: ["X-Amz-Target": "AWSGlue.ListConnectionTypes"]))
         builder.serialize(ClientRuntime.BodyMiddleware<ListConnectionTypesInput, ListConnectionTypesOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: ListConnectionTypesInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<ListConnectionTypesInput, ListConnectionTypesOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ListConnectionTypesOutput>())
@@ -13282,7 +13282,7 @@ extension GlueClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<ListCrawlersOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<ListCrawlersInput, ListCrawlersOutput>(xAmzTarget: "AWSGlue.ListCrawlers"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<ListCrawlersInput, ListCrawlersOutput>(overrides: ["X-Amz-Target": "AWSGlue.ListCrawlers"]))
         builder.serialize(ClientRuntime.BodyMiddleware<ListCrawlersInput, ListCrawlersOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: ListCrawlersInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<ListCrawlersInput, ListCrawlersOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ListCrawlersOutput>())
@@ -13361,7 +13361,7 @@ extension GlueClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<ListCrawlsOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<ListCrawlsInput, ListCrawlsOutput>(xAmzTarget: "AWSGlue.ListCrawls"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<ListCrawlsInput, ListCrawlsOutput>(overrides: ["X-Amz-Target": "AWSGlue.ListCrawls"]))
         builder.serialize(ClientRuntime.BodyMiddleware<ListCrawlsInput, ListCrawlsOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: ListCrawlsInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<ListCrawlsInput, ListCrawlsOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ListCrawlsOutput>())
@@ -13432,7 +13432,7 @@ extension GlueClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<ListCustomEntityTypesOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<ListCustomEntityTypesInput, ListCustomEntityTypesOutput>(xAmzTarget: "AWSGlue.ListCustomEntityTypes"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<ListCustomEntityTypesInput, ListCustomEntityTypesOutput>(overrides: ["X-Amz-Target": "AWSGlue.ListCustomEntityTypes"]))
         builder.serialize(ClientRuntime.BodyMiddleware<ListCustomEntityTypesInput, ListCustomEntityTypesOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: ListCustomEntityTypesInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<ListCustomEntityTypesInput, ListCustomEntityTypesOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ListCustomEntityTypesOutput>())
@@ -13503,7 +13503,7 @@ extension GlueClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<ListDataQualityResultsOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<ListDataQualityResultsInput, ListDataQualityResultsOutput>(xAmzTarget: "AWSGlue.ListDataQualityResults"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<ListDataQualityResultsInput, ListDataQualityResultsOutput>(overrides: ["X-Amz-Target": "AWSGlue.ListDataQualityResults"]))
         builder.serialize(ClientRuntime.BodyMiddleware<ListDataQualityResultsInput, ListDataQualityResultsOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: ListDataQualityResultsInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<ListDataQualityResultsInput, ListDataQualityResultsOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ListDataQualityResultsOutput>())
@@ -13574,7 +13574,7 @@ extension GlueClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<ListDataQualityRuleRecommendationRunsOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<ListDataQualityRuleRecommendationRunsInput, ListDataQualityRuleRecommendationRunsOutput>(xAmzTarget: "AWSGlue.ListDataQualityRuleRecommendationRuns"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<ListDataQualityRuleRecommendationRunsInput, ListDataQualityRuleRecommendationRunsOutput>(overrides: ["X-Amz-Target": "AWSGlue.ListDataQualityRuleRecommendationRuns"]))
         builder.serialize(ClientRuntime.BodyMiddleware<ListDataQualityRuleRecommendationRunsInput, ListDataQualityRuleRecommendationRunsOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: ListDataQualityRuleRecommendationRunsInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<ListDataQualityRuleRecommendationRunsInput, ListDataQualityRuleRecommendationRunsOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ListDataQualityRuleRecommendationRunsOutput>())
@@ -13645,7 +13645,7 @@ extension GlueClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<ListDataQualityRulesetEvaluationRunsOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<ListDataQualityRulesetEvaluationRunsInput, ListDataQualityRulesetEvaluationRunsOutput>(xAmzTarget: "AWSGlue.ListDataQualityRulesetEvaluationRuns"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<ListDataQualityRulesetEvaluationRunsInput, ListDataQualityRulesetEvaluationRunsOutput>(overrides: ["X-Amz-Target": "AWSGlue.ListDataQualityRulesetEvaluationRuns"]))
         builder.serialize(ClientRuntime.BodyMiddleware<ListDataQualityRulesetEvaluationRunsInput, ListDataQualityRulesetEvaluationRunsOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: ListDataQualityRulesetEvaluationRunsInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<ListDataQualityRulesetEvaluationRunsInput, ListDataQualityRulesetEvaluationRunsOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ListDataQualityRulesetEvaluationRunsOutput>())
@@ -13717,7 +13717,7 @@ extension GlueClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<ListDataQualityRulesetsOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<ListDataQualityRulesetsInput, ListDataQualityRulesetsOutput>(xAmzTarget: "AWSGlue.ListDataQualityRulesets"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<ListDataQualityRulesetsInput, ListDataQualityRulesetsOutput>(overrides: ["X-Amz-Target": "AWSGlue.ListDataQualityRulesets"]))
         builder.serialize(ClientRuntime.BodyMiddleware<ListDataQualityRulesetsInput, ListDataQualityRulesetsOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: ListDataQualityRulesetsInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<ListDataQualityRulesetsInput, ListDataQualityRulesetsOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ListDataQualityRulesetsOutput>())
@@ -13787,7 +13787,7 @@ extension GlueClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<ListDataQualityStatisticAnnotationsOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<ListDataQualityStatisticAnnotationsInput, ListDataQualityStatisticAnnotationsOutput>(xAmzTarget: "AWSGlue.ListDataQualityStatisticAnnotations"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<ListDataQualityStatisticAnnotationsInput, ListDataQualityStatisticAnnotationsOutput>(overrides: ["X-Amz-Target": "AWSGlue.ListDataQualityStatisticAnnotations"]))
         builder.serialize(ClientRuntime.BodyMiddleware<ListDataQualityStatisticAnnotationsInput, ListDataQualityStatisticAnnotationsOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: ListDataQualityStatisticAnnotationsInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<ListDataQualityStatisticAnnotationsInput, ListDataQualityStatisticAnnotationsOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ListDataQualityStatisticAnnotationsOutput>())
@@ -13858,7 +13858,7 @@ extension GlueClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<ListDataQualityStatisticsOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<ListDataQualityStatisticsInput, ListDataQualityStatisticsOutput>(xAmzTarget: "AWSGlue.ListDataQualityStatistics"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<ListDataQualityStatisticsInput, ListDataQualityStatisticsOutput>(overrides: ["X-Amz-Target": "AWSGlue.ListDataQualityStatistics"]))
         builder.serialize(ClientRuntime.BodyMiddleware<ListDataQualityStatisticsInput, ListDataQualityStatisticsOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: ListDataQualityStatisticsInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<ListDataQualityStatisticsInput, ListDataQualityStatisticsOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ListDataQualityStatisticsOutput>())
@@ -13930,7 +13930,7 @@ extension GlueClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<ListDevEndpointsOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<ListDevEndpointsInput, ListDevEndpointsOutput>(xAmzTarget: "AWSGlue.ListDevEndpoints"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<ListDevEndpointsInput, ListDevEndpointsOutput>(overrides: ["X-Amz-Target": "AWSGlue.ListDevEndpoints"]))
         builder.serialize(ClientRuntime.BodyMiddleware<ListDevEndpointsInput, ListDevEndpointsOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: ListDevEndpointsInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<ListDevEndpointsInput, ListDevEndpointsOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ListDevEndpointsOutput>())
@@ -14005,7 +14005,7 @@ extension GlueClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<ListEntitiesOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<ListEntitiesInput, ListEntitiesOutput>(xAmzTarget: "AWSGlue.ListEntities"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<ListEntitiesInput, ListEntitiesOutput>(overrides: ["X-Amz-Target": "AWSGlue.ListEntities"]))
         builder.serialize(ClientRuntime.BodyMiddleware<ListEntitiesInput, ListEntitiesOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: ListEntitiesInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<ListEntitiesInput, ListEntitiesOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ListEntitiesOutput>())
@@ -14080,7 +14080,7 @@ extension GlueClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<ListIntegrationResourcePropertiesOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<ListIntegrationResourcePropertiesInput, ListIntegrationResourcePropertiesOutput>(xAmzTarget: "AWSGlue.ListIntegrationResourceProperties"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<ListIntegrationResourcePropertiesInput, ListIntegrationResourcePropertiesOutput>(overrides: ["X-Amz-Target": "AWSGlue.ListIntegrationResourceProperties"]))
         builder.serialize(ClientRuntime.BodyMiddleware<ListIntegrationResourcePropertiesInput, ListIntegrationResourcePropertiesOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: ListIntegrationResourcePropertiesInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<ListIntegrationResourcePropertiesInput, ListIntegrationResourcePropertiesOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ListIntegrationResourcePropertiesOutput>())
@@ -14152,7 +14152,7 @@ extension GlueClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<ListJobsOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<ListJobsInput, ListJobsOutput>(xAmzTarget: "AWSGlue.ListJobs"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<ListJobsInput, ListJobsOutput>(overrides: ["X-Amz-Target": "AWSGlue.ListJobs"]))
         builder.serialize(ClientRuntime.BodyMiddleware<ListJobsInput, ListJobsOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: ListJobsInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<ListJobsInput, ListJobsOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ListJobsOutput>())
@@ -14224,7 +14224,7 @@ extension GlueClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<ListMLTransformsOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<ListMLTransformsInput, ListMLTransformsOutput>(xAmzTarget: "AWSGlue.ListMLTransforms"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<ListMLTransformsInput, ListMLTransformsOutput>(overrides: ["X-Amz-Target": "AWSGlue.ListMLTransforms"]))
         builder.serialize(ClientRuntime.BodyMiddleware<ListMLTransformsInput, ListMLTransformsOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: ListMLTransformsInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<ListMLTransformsInput, ListMLTransformsOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ListMLTransformsOutput>())
@@ -14295,7 +14295,7 @@ extension GlueClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<ListMaterializedViewRefreshTaskRunsOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<ListMaterializedViewRefreshTaskRunsInput, ListMaterializedViewRefreshTaskRunsOutput>(xAmzTarget: "AWSGlue.ListMaterializedViewRefreshTaskRuns"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<ListMaterializedViewRefreshTaskRunsInput, ListMaterializedViewRefreshTaskRunsOutput>(overrides: ["X-Amz-Target": "AWSGlue.ListMaterializedViewRefreshTaskRuns"]))
         builder.serialize(ClientRuntime.BodyMiddleware<ListMaterializedViewRefreshTaskRunsInput, ListMaterializedViewRefreshTaskRunsOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: ListMaterializedViewRefreshTaskRunsInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<ListMaterializedViewRefreshTaskRunsInput, ListMaterializedViewRefreshTaskRunsOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ListMaterializedViewRefreshTaskRunsOutput>())
@@ -14366,7 +14366,7 @@ extension GlueClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<ListRegistriesOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<ListRegistriesInput, ListRegistriesOutput>(xAmzTarget: "AWSGlue.ListRegistries"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<ListRegistriesInput, ListRegistriesOutput>(overrides: ["X-Amz-Target": "AWSGlue.ListRegistries"]))
         builder.serialize(ClientRuntime.BodyMiddleware<ListRegistriesInput, ListRegistriesOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: ListRegistriesInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<ListRegistriesInput, ListRegistriesOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ListRegistriesOutput>())
@@ -14438,7 +14438,7 @@ extension GlueClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<ListSchemaVersionsOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<ListSchemaVersionsInput, ListSchemaVersionsOutput>(xAmzTarget: "AWSGlue.ListSchemaVersions"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<ListSchemaVersionsInput, ListSchemaVersionsOutput>(overrides: ["X-Amz-Target": "AWSGlue.ListSchemaVersions"]))
         builder.serialize(ClientRuntime.BodyMiddleware<ListSchemaVersionsInput, ListSchemaVersionsOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: ListSchemaVersionsInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<ListSchemaVersionsInput, ListSchemaVersionsOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ListSchemaVersionsOutput>())
@@ -14510,7 +14510,7 @@ extension GlueClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<ListSchemasOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<ListSchemasInput, ListSchemasOutput>(xAmzTarget: "AWSGlue.ListSchemas"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<ListSchemasInput, ListSchemasOutput>(overrides: ["X-Amz-Target": "AWSGlue.ListSchemas"]))
         builder.serialize(ClientRuntime.BodyMiddleware<ListSchemasInput, ListSchemasOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: ListSchemasInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<ListSchemasInput, ListSchemasOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ListSchemasOutput>())
@@ -14582,7 +14582,7 @@ extension GlueClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<ListSessionsOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<ListSessionsInput, ListSessionsOutput>(xAmzTarget: "AWSGlue.ListSessions"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<ListSessionsInput, ListSessionsOutput>(overrides: ["X-Amz-Target": "AWSGlue.ListSessions"]))
         builder.serialize(ClientRuntime.BodyMiddleware<ListSessionsInput, ListSessionsOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: ListSessionsInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<ListSessionsInput, ListSessionsOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ListSessionsOutput>())
@@ -14656,7 +14656,7 @@ extension GlueClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<ListStatementsOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<ListStatementsInput, ListStatementsOutput>(xAmzTarget: "AWSGlue.ListStatements"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<ListStatementsInput, ListStatementsOutput>(overrides: ["X-Amz-Target": "AWSGlue.ListStatements"]))
         builder.serialize(ClientRuntime.BodyMiddleware<ListStatementsInput, ListStatementsOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: ListStatementsInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<ListStatementsInput, ListStatementsOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ListStatementsOutput>())
@@ -14730,7 +14730,7 @@ extension GlueClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<ListTableOptimizerRunsOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<ListTableOptimizerRunsInput, ListTableOptimizerRunsOutput>(xAmzTarget: "AWSGlue.ListTableOptimizerRuns"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<ListTableOptimizerRunsInput, ListTableOptimizerRunsOutput>(overrides: ["X-Amz-Target": "AWSGlue.ListTableOptimizerRuns"]))
         builder.serialize(ClientRuntime.BodyMiddleware<ListTableOptimizerRunsInput, ListTableOptimizerRunsOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: ListTableOptimizerRunsInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<ListTableOptimizerRunsInput, ListTableOptimizerRunsOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ListTableOptimizerRunsOutput>())
@@ -14802,7 +14802,7 @@ extension GlueClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<ListTriggersOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<ListTriggersInput, ListTriggersOutput>(xAmzTarget: "AWSGlue.ListTriggers"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<ListTriggersInput, ListTriggersOutput>(overrides: ["X-Amz-Target": "AWSGlue.ListTriggers"]))
         builder.serialize(ClientRuntime.BodyMiddleware<ListTriggersInput, ListTriggersOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: ListTriggersInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<ListTriggersInput, ListTriggersOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ListTriggersOutput>())
@@ -14874,7 +14874,7 @@ extension GlueClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<ListUsageProfilesOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<ListUsageProfilesInput, ListUsageProfilesOutput>(xAmzTarget: "AWSGlue.ListUsageProfiles"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<ListUsageProfilesInput, ListUsageProfilesOutput>(overrides: ["X-Amz-Target": "AWSGlue.ListUsageProfiles"]))
         builder.serialize(ClientRuntime.BodyMiddleware<ListUsageProfilesInput, ListUsageProfilesOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: ListUsageProfilesInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<ListUsageProfilesInput, ListUsageProfilesOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ListUsageProfilesOutput>())
@@ -14945,7 +14945,7 @@ extension GlueClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<ListWorkflowsOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<ListWorkflowsInput, ListWorkflowsOutput>(xAmzTarget: "AWSGlue.ListWorkflows"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<ListWorkflowsInput, ListWorkflowsOutput>(overrides: ["X-Amz-Target": "AWSGlue.ListWorkflows"]))
         builder.serialize(ClientRuntime.BodyMiddleware<ListWorkflowsInput, ListWorkflowsOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: ListWorkflowsInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<ListWorkflowsInput, ListWorkflowsOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ListWorkflowsOutput>())
@@ -15024,7 +15024,7 @@ extension GlueClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<ModifyIntegrationOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<ModifyIntegrationInput, ModifyIntegrationOutput>(xAmzTarget: "AWSGlue.ModifyIntegration"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<ModifyIntegrationInput, ModifyIntegrationOutput>(overrides: ["X-Amz-Target": "AWSGlue.ModifyIntegration"]))
         builder.serialize(ClientRuntime.BodyMiddleware<ModifyIntegrationInput, ModifyIntegrationOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: ModifyIntegrationInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<ModifyIntegrationInput, ModifyIntegrationOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ModifyIntegrationOutput>())
@@ -15095,7 +15095,7 @@ extension GlueClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<PutDataCatalogEncryptionSettingsOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<PutDataCatalogEncryptionSettingsInput, PutDataCatalogEncryptionSettingsOutput>(xAmzTarget: "AWSGlue.PutDataCatalogEncryptionSettings"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<PutDataCatalogEncryptionSettingsInput, PutDataCatalogEncryptionSettingsOutput>(overrides: ["X-Amz-Target": "AWSGlue.PutDataCatalogEncryptionSettings"]))
         builder.serialize(ClientRuntime.BodyMiddleware<PutDataCatalogEncryptionSettingsInput, PutDataCatalogEncryptionSettingsOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: PutDataCatalogEncryptionSettingsInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<PutDataCatalogEncryptionSettingsInput, PutDataCatalogEncryptionSettingsOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<PutDataCatalogEncryptionSettingsOutput>())
@@ -15166,7 +15166,7 @@ extension GlueClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<PutDataQualityProfileAnnotationOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<PutDataQualityProfileAnnotationInput, PutDataQualityProfileAnnotationOutput>(xAmzTarget: "AWSGlue.PutDataQualityProfileAnnotation"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<PutDataQualityProfileAnnotationInput, PutDataQualityProfileAnnotationOutput>(overrides: ["X-Amz-Target": "AWSGlue.PutDataQualityProfileAnnotation"]))
         builder.serialize(ClientRuntime.BodyMiddleware<PutDataQualityProfileAnnotationInput, PutDataQualityProfileAnnotationOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: PutDataQualityProfileAnnotationInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<PutDataQualityProfileAnnotationInput, PutDataQualityProfileAnnotationOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<PutDataQualityProfileAnnotationOutput>())
@@ -15239,7 +15239,7 @@ extension GlueClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<PutResourcePolicyOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<PutResourcePolicyInput, PutResourcePolicyOutput>(xAmzTarget: "AWSGlue.PutResourcePolicy"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<PutResourcePolicyInput, PutResourcePolicyOutput>(overrides: ["X-Amz-Target": "AWSGlue.PutResourcePolicy"]))
         builder.serialize(ClientRuntime.BodyMiddleware<PutResourcePolicyInput, PutResourcePolicyOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: PutResourcePolicyInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<PutResourcePolicyInput, PutResourcePolicyOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<PutResourcePolicyOutput>())
@@ -15312,7 +15312,7 @@ extension GlueClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<PutSchemaVersionMetadataOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<PutSchemaVersionMetadataInput, PutSchemaVersionMetadataOutput>(xAmzTarget: "AWSGlue.PutSchemaVersionMetadata"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<PutSchemaVersionMetadataInput, PutSchemaVersionMetadataOutput>(overrides: ["X-Amz-Target": "AWSGlue.PutSchemaVersionMetadata"]))
         builder.serialize(ClientRuntime.BodyMiddleware<PutSchemaVersionMetadataInput, PutSchemaVersionMetadataOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: PutSchemaVersionMetadataInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<PutSchemaVersionMetadataInput, PutSchemaVersionMetadataOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<PutSchemaVersionMetadataOutput>())
@@ -15387,7 +15387,7 @@ extension GlueClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<PutWorkflowRunPropertiesOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<PutWorkflowRunPropertiesInput, PutWorkflowRunPropertiesOutput>(xAmzTarget: "AWSGlue.PutWorkflowRunProperties"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<PutWorkflowRunPropertiesInput, PutWorkflowRunPropertiesOutput>(overrides: ["X-Amz-Target": "AWSGlue.PutWorkflowRunProperties"]))
         builder.serialize(ClientRuntime.BodyMiddleware<PutWorkflowRunPropertiesInput, PutWorkflowRunPropertiesOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: PutWorkflowRunPropertiesInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<PutWorkflowRunPropertiesInput, PutWorkflowRunPropertiesOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<PutWorkflowRunPropertiesOutput>())
@@ -15458,7 +15458,7 @@ extension GlueClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<QuerySchemaVersionMetadataOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<QuerySchemaVersionMetadataInput, QuerySchemaVersionMetadataOutput>(xAmzTarget: "AWSGlue.QuerySchemaVersionMetadata"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<QuerySchemaVersionMetadataInput, QuerySchemaVersionMetadataOutput>(overrides: ["X-Amz-Target": "AWSGlue.QuerySchemaVersionMetadata"]))
         builder.serialize(ClientRuntime.BodyMiddleware<QuerySchemaVersionMetadataInput, QuerySchemaVersionMetadataOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: QuerySchemaVersionMetadataInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<QuerySchemaVersionMetadataInput, QuerySchemaVersionMetadataOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<QuerySchemaVersionMetadataOutput>())
@@ -15532,7 +15532,7 @@ extension GlueClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<RegisterConnectionTypeOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<RegisterConnectionTypeInput, RegisterConnectionTypeOutput>(xAmzTarget: "AWSGlue.RegisterConnectionType"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<RegisterConnectionTypeInput, RegisterConnectionTypeOutput>(overrides: ["X-Amz-Target": "AWSGlue.RegisterConnectionType"]))
         builder.serialize(ClientRuntime.BodyMiddleware<RegisterConnectionTypeInput, RegisterConnectionTypeOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: RegisterConnectionTypeInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<RegisterConnectionTypeInput, RegisterConnectionTypeOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<RegisterConnectionTypeOutput>())
@@ -15606,7 +15606,7 @@ extension GlueClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<RegisterSchemaVersionOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<RegisterSchemaVersionInput, RegisterSchemaVersionOutput>(xAmzTarget: "AWSGlue.RegisterSchemaVersion"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<RegisterSchemaVersionInput, RegisterSchemaVersionOutput>(overrides: ["X-Amz-Target": "AWSGlue.RegisterSchemaVersion"]))
         builder.serialize(ClientRuntime.BodyMiddleware<RegisterSchemaVersionInput, RegisterSchemaVersionOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: RegisterSchemaVersionInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<RegisterSchemaVersionInput, RegisterSchemaVersionOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<RegisterSchemaVersionOutput>())
@@ -15677,7 +15677,7 @@ extension GlueClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<RemoveSchemaVersionMetadataOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<RemoveSchemaVersionMetadataInput, RemoveSchemaVersionMetadataOutput>(xAmzTarget: "AWSGlue.RemoveSchemaVersionMetadata"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<RemoveSchemaVersionMetadataInput, RemoveSchemaVersionMetadataOutput>(overrides: ["X-Amz-Target": "AWSGlue.RemoveSchemaVersionMetadata"]))
         builder.serialize(ClientRuntime.BodyMiddleware<RemoveSchemaVersionMetadataInput, RemoveSchemaVersionMetadataOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: RemoveSchemaVersionMetadataInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<RemoveSchemaVersionMetadataInput, RemoveSchemaVersionMetadataOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<RemoveSchemaVersionMetadataOutput>())
@@ -15755,7 +15755,7 @@ extension GlueClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<ResetJobBookmarkOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<ResetJobBookmarkInput, ResetJobBookmarkOutput>(xAmzTarget: "AWSGlue.ResetJobBookmark"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<ResetJobBookmarkInput, ResetJobBookmarkOutput>(overrides: ["X-Amz-Target": "AWSGlue.ResetJobBookmark"]))
         builder.serialize(ClientRuntime.BodyMiddleware<ResetJobBookmarkInput, ResetJobBookmarkOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: ResetJobBookmarkInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<ResetJobBookmarkInput, ResetJobBookmarkOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ResetJobBookmarkOutput>())
@@ -15829,7 +15829,7 @@ extension GlueClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<ResumeWorkflowRunOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<ResumeWorkflowRunInput, ResumeWorkflowRunOutput>(xAmzTarget: "AWSGlue.ResumeWorkflowRun"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<ResumeWorkflowRunInput, ResumeWorkflowRunOutput>(overrides: ["X-Amz-Target": "AWSGlue.ResumeWorkflowRun"]))
         builder.serialize(ClientRuntime.BodyMiddleware<ResumeWorkflowRunInput, ResumeWorkflowRunOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: ResumeWorkflowRunInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<ResumeWorkflowRunInput, ResumeWorkflowRunOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ResumeWorkflowRunOutput>())
@@ -15905,7 +15905,7 @@ extension GlueClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<RunStatementOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<RunStatementInput, RunStatementOutput>(xAmzTarget: "AWSGlue.RunStatement"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<RunStatementInput, RunStatementOutput>(overrides: ["X-Amz-Target": "AWSGlue.RunStatement"]))
         builder.serialize(ClientRuntime.BodyMiddleware<RunStatementInput, RunStatementOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: RunStatementInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<RunStatementInput, RunStatementOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<RunStatementOutput>())
@@ -15976,7 +15976,7 @@ extension GlueClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<SearchTablesOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<SearchTablesInput, SearchTablesOutput>(xAmzTarget: "AWSGlue.SearchTables"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<SearchTablesInput, SearchTablesOutput>(overrides: ["X-Amz-Target": "AWSGlue.SearchTables"]))
         builder.serialize(ClientRuntime.BodyMiddleware<SearchTablesInput, SearchTablesOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: SearchTablesInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<SearchTablesInput, SearchTablesOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<SearchTablesOutput>())
@@ -16050,7 +16050,7 @@ extension GlueClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<StartBlueprintRunOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<StartBlueprintRunInput, StartBlueprintRunOutput>(xAmzTarget: "AWSGlue.StartBlueprintRun"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<StartBlueprintRunInput, StartBlueprintRunOutput>(overrides: ["X-Amz-Target": "AWSGlue.StartBlueprintRun"]))
         builder.serialize(ClientRuntime.BodyMiddleware<StartBlueprintRunInput, StartBlueprintRunOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: StartBlueprintRunInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<StartBlueprintRunInput, StartBlueprintRunOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<StartBlueprintRunOutput>())
@@ -16124,7 +16124,7 @@ extension GlueClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<StartColumnStatisticsTaskRunOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<StartColumnStatisticsTaskRunInput, StartColumnStatisticsTaskRunOutput>(xAmzTarget: "AWSGlue.StartColumnStatisticsTaskRun"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<StartColumnStatisticsTaskRunInput, StartColumnStatisticsTaskRunOutput>(overrides: ["X-Amz-Target": "AWSGlue.StartColumnStatisticsTaskRun"]))
         builder.serialize(ClientRuntime.BodyMiddleware<StartColumnStatisticsTaskRunInput, StartColumnStatisticsTaskRunOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: StartColumnStatisticsTaskRunInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<StartColumnStatisticsTaskRunInput, StartColumnStatisticsTaskRunOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<StartColumnStatisticsTaskRunOutput>())
@@ -16196,7 +16196,7 @@ extension GlueClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<StartColumnStatisticsTaskRunScheduleOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<StartColumnStatisticsTaskRunScheduleInput, StartColumnStatisticsTaskRunScheduleOutput>(xAmzTarget: "AWSGlue.StartColumnStatisticsTaskRunSchedule"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<StartColumnStatisticsTaskRunScheduleInput, StartColumnStatisticsTaskRunScheduleOutput>(overrides: ["X-Amz-Target": "AWSGlue.StartColumnStatisticsTaskRunSchedule"]))
         builder.serialize(ClientRuntime.BodyMiddleware<StartColumnStatisticsTaskRunScheduleInput, StartColumnStatisticsTaskRunScheduleOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: StartColumnStatisticsTaskRunScheduleInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<StartColumnStatisticsTaskRunScheduleInput, StartColumnStatisticsTaskRunScheduleOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<StartColumnStatisticsTaskRunScheduleOutput>())
@@ -16267,7 +16267,7 @@ extension GlueClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<StartCrawlerOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<StartCrawlerInput, StartCrawlerOutput>(xAmzTarget: "AWSGlue.StartCrawler"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<StartCrawlerInput, StartCrawlerOutput>(overrides: ["X-Amz-Target": "AWSGlue.StartCrawler"]))
         builder.serialize(ClientRuntime.BodyMiddleware<StartCrawlerInput, StartCrawlerOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: StartCrawlerInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<StartCrawlerInput, StartCrawlerOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<StartCrawlerOutput>())
@@ -16340,7 +16340,7 @@ extension GlueClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<StartCrawlerScheduleOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<StartCrawlerScheduleInput, StartCrawlerScheduleOutput>(xAmzTarget: "AWSGlue.StartCrawlerSchedule"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<StartCrawlerScheduleInput, StartCrawlerScheduleOutput>(overrides: ["X-Amz-Target": "AWSGlue.StartCrawlerSchedule"]))
         builder.serialize(ClientRuntime.BodyMiddleware<StartCrawlerScheduleInput, StartCrawlerScheduleOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: StartCrawlerScheduleInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<StartCrawlerScheduleInput, StartCrawlerScheduleOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<StartCrawlerScheduleOutput>())
@@ -16412,7 +16412,7 @@ extension GlueClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<StartDataQualityRuleRecommendationRunOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<StartDataQualityRuleRecommendationRunInput, StartDataQualityRuleRecommendationRunOutput>(xAmzTarget: "AWSGlue.StartDataQualityRuleRecommendationRun"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<StartDataQualityRuleRecommendationRunInput, StartDataQualityRuleRecommendationRunOutput>(overrides: ["X-Amz-Target": "AWSGlue.StartDataQualityRuleRecommendationRun"]))
         builder.serialize(ClientRuntime.BodyMiddleware<StartDataQualityRuleRecommendationRunInput, StartDataQualityRuleRecommendationRunOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: StartDataQualityRuleRecommendationRunInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<StartDataQualityRuleRecommendationRunInput, StartDataQualityRuleRecommendationRunOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<StartDataQualityRuleRecommendationRunOutput>())
@@ -16485,7 +16485,7 @@ extension GlueClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<StartDataQualityRulesetEvaluationRunOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<StartDataQualityRulesetEvaluationRunInput, StartDataQualityRulesetEvaluationRunOutput>(xAmzTarget: "AWSGlue.StartDataQualityRulesetEvaluationRun"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<StartDataQualityRulesetEvaluationRunInput, StartDataQualityRulesetEvaluationRunOutput>(overrides: ["X-Amz-Target": "AWSGlue.StartDataQualityRulesetEvaluationRun"]))
         builder.serialize(ClientRuntime.BodyMiddleware<StartDataQualityRulesetEvaluationRunInput, StartDataQualityRulesetEvaluationRunOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: StartDataQualityRulesetEvaluationRunInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<StartDataQualityRulesetEvaluationRunInput, StartDataQualityRulesetEvaluationRunOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<StartDataQualityRulesetEvaluationRunOutput>())
@@ -16557,7 +16557,7 @@ extension GlueClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<StartExportLabelsTaskRunOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<StartExportLabelsTaskRunInput, StartExportLabelsTaskRunOutput>(xAmzTarget: "AWSGlue.StartExportLabelsTaskRun"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<StartExportLabelsTaskRunInput, StartExportLabelsTaskRunOutput>(overrides: ["X-Amz-Target": "AWSGlue.StartExportLabelsTaskRun"]))
         builder.serialize(ClientRuntime.BodyMiddleware<StartExportLabelsTaskRunInput, StartExportLabelsTaskRunOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: StartExportLabelsTaskRunInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<StartExportLabelsTaskRunInput, StartExportLabelsTaskRunOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<StartExportLabelsTaskRunOutput>())
@@ -16630,7 +16630,7 @@ extension GlueClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<StartImportLabelsTaskRunOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<StartImportLabelsTaskRunInput, StartImportLabelsTaskRunOutput>(xAmzTarget: "AWSGlue.StartImportLabelsTaskRun"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<StartImportLabelsTaskRunInput, StartImportLabelsTaskRunOutput>(overrides: ["X-Amz-Target": "AWSGlue.StartImportLabelsTaskRun"]))
         builder.serialize(ClientRuntime.BodyMiddleware<StartImportLabelsTaskRunInput, StartImportLabelsTaskRunOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: StartImportLabelsTaskRunInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<StartImportLabelsTaskRunInput, StartImportLabelsTaskRunOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<StartImportLabelsTaskRunOutput>())
@@ -16704,7 +16704,7 @@ extension GlueClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<StartJobRunOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<StartJobRunInput, StartJobRunOutput>(xAmzTarget: "AWSGlue.StartJobRun"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<StartJobRunInput, StartJobRunOutput>(overrides: ["X-Amz-Target": "AWSGlue.StartJobRun"]))
         builder.serialize(ClientRuntime.BodyMiddleware<StartJobRunInput, StartJobRunOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: StartJobRunInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<StartJobRunInput, StartJobRunOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<StartJobRunOutput>())
@@ -16778,7 +16778,7 @@ extension GlueClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<StartMLEvaluationTaskRunOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<StartMLEvaluationTaskRunInput, StartMLEvaluationTaskRunOutput>(xAmzTarget: "AWSGlue.StartMLEvaluationTaskRun"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<StartMLEvaluationTaskRunInput, StartMLEvaluationTaskRunOutput>(overrides: ["X-Amz-Target": "AWSGlue.StartMLEvaluationTaskRun"]))
         builder.serialize(ClientRuntime.BodyMiddleware<StartMLEvaluationTaskRunInput, StartMLEvaluationTaskRunOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: StartMLEvaluationTaskRunInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<StartMLEvaluationTaskRunInput, StartMLEvaluationTaskRunOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<StartMLEvaluationTaskRunOutput>())
@@ -16851,7 +16851,7 @@ extension GlueClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<StartMLLabelingSetGenerationTaskRunOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<StartMLLabelingSetGenerationTaskRunInput, StartMLLabelingSetGenerationTaskRunOutput>(xAmzTarget: "AWSGlue.StartMLLabelingSetGenerationTaskRun"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<StartMLLabelingSetGenerationTaskRunInput, StartMLLabelingSetGenerationTaskRunOutput>(overrides: ["X-Amz-Target": "AWSGlue.StartMLLabelingSetGenerationTaskRun"]))
         builder.serialize(ClientRuntime.BodyMiddleware<StartMLLabelingSetGenerationTaskRunInput, StartMLLabelingSetGenerationTaskRunOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: StartMLLabelingSetGenerationTaskRunInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<StartMLLabelingSetGenerationTaskRunInput, StartMLLabelingSetGenerationTaskRunOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<StartMLLabelingSetGenerationTaskRunOutput>())
@@ -16925,7 +16925,7 @@ extension GlueClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<StartMaterializedViewRefreshTaskRunOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<StartMaterializedViewRefreshTaskRunInput, StartMaterializedViewRefreshTaskRunOutput>(xAmzTarget: "AWSGlue.StartMaterializedViewRefreshTaskRun"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<StartMaterializedViewRefreshTaskRunInput, StartMaterializedViewRefreshTaskRunOutput>(overrides: ["X-Amz-Target": "AWSGlue.StartMaterializedViewRefreshTaskRun"]))
         builder.serialize(ClientRuntime.BodyMiddleware<StartMaterializedViewRefreshTaskRunInput, StartMaterializedViewRefreshTaskRunOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: StartMaterializedViewRefreshTaskRunInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<StartMaterializedViewRefreshTaskRunInput, StartMaterializedViewRefreshTaskRunOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<StartMaterializedViewRefreshTaskRunOutput>())
@@ -16999,7 +16999,7 @@ extension GlueClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<StartTriggerOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<StartTriggerInput, StartTriggerOutput>(xAmzTarget: "AWSGlue.StartTrigger"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<StartTriggerInput, StartTriggerOutput>(overrides: ["X-Amz-Target": "AWSGlue.StartTrigger"]))
         builder.serialize(ClientRuntime.BodyMiddleware<StartTriggerInput, StartTriggerOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: StartTriggerInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<StartTriggerInput, StartTriggerOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<StartTriggerOutput>())
@@ -17073,7 +17073,7 @@ extension GlueClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<StartWorkflowRunOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<StartWorkflowRunInput, StartWorkflowRunOutput>(xAmzTarget: "AWSGlue.StartWorkflowRun"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<StartWorkflowRunInput, StartWorkflowRunOutput>(overrides: ["X-Amz-Target": "AWSGlue.StartWorkflowRun"]))
         builder.serialize(ClientRuntime.BodyMiddleware<StartWorkflowRunInput, StartWorkflowRunOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: StartWorkflowRunInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<StartWorkflowRunInput, StartWorkflowRunOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<StartWorkflowRunOutput>())
@@ -17145,7 +17145,7 @@ extension GlueClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<StopColumnStatisticsTaskRunOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<StopColumnStatisticsTaskRunInput, StopColumnStatisticsTaskRunOutput>(xAmzTarget: "AWSGlue.StopColumnStatisticsTaskRun"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<StopColumnStatisticsTaskRunInput, StopColumnStatisticsTaskRunOutput>(overrides: ["X-Amz-Target": "AWSGlue.StopColumnStatisticsTaskRun"]))
         builder.serialize(ClientRuntime.BodyMiddleware<StopColumnStatisticsTaskRunInput, StopColumnStatisticsTaskRunOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: StopColumnStatisticsTaskRunInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<StopColumnStatisticsTaskRunInput, StopColumnStatisticsTaskRunOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<StopColumnStatisticsTaskRunOutput>())
@@ -17216,7 +17216,7 @@ extension GlueClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<StopColumnStatisticsTaskRunScheduleOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<StopColumnStatisticsTaskRunScheduleInput, StopColumnStatisticsTaskRunScheduleOutput>(xAmzTarget: "AWSGlue.StopColumnStatisticsTaskRunSchedule"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<StopColumnStatisticsTaskRunScheduleInput, StopColumnStatisticsTaskRunScheduleOutput>(overrides: ["X-Amz-Target": "AWSGlue.StopColumnStatisticsTaskRunSchedule"]))
         builder.serialize(ClientRuntime.BodyMiddleware<StopColumnStatisticsTaskRunScheduleInput, StopColumnStatisticsTaskRunScheduleOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: StopColumnStatisticsTaskRunScheduleInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<StopColumnStatisticsTaskRunScheduleInput, StopColumnStatisticsTaskRunScheduleOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<StopColumnStatisticsTaskRunScheduleOutput>())
@@ -17288,7 +17288,7 @@ extension GlueClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<StopCrawlerOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<StopCrawlerInput, StopCrawlerOutput>(xAmzTarget: "AWSGlue.StopCrawler"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<StopCrawlerInput, StopCrawlerOutput>(overrides: ["X-Amz-Target": "AWSGlue.StopCrawler"]))
         builder.serialize(ClientRuntime.BodyMiddleware<StopCrawlerInput, StopCrawlerOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: StopCrawlerInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<StopCrawlerInput, StopCrawlerOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<StopCrawlerOutput>())
@@ -17360,7 +17360,7 @@ extension GlueClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<StopCrawlerScheduleOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<StopCrawlerScheduleInput, StopCrawlerScheduleOutput>(xAmzTarget: "AWSGlue.StopCrawlerSchedule"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<StopCrawlerScheduleInput, StopCrawlerScheduleOutput>(overrides: ["X-Amz-Target": "AWSGlue.StopCrawlerSchedule"]))
         builder.serialize(ClientRuntime.BodyMiddleware<StopCrawlerScheduleInput, StopCrawlerScheduleOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: StopCrawlerScheduleInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<StopCrawlerScheduleInput, StopCrawlerScheduleOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<StopCrawlerScheduleOutput>())
@@ -17433,7 +17433,7 @@ extension GlueClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<StopMaterializedViewRefreshTaskRunOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<StopMaterializedViewRefreshTaskRunInput, StopMaterializedViewRefreshTaskRunOutput>(xAmzTarget: "AWSGlue.StopMaterializedViewRefreshTaskRun"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<StopMaterializedViewRefreshTaskRunInput, StopMaterializedViewRefreshTaskRunOutput>(overrides: ["X-Amz-Target": "AWSGlue.StopMaterializedViewRefreshTaskRun"]))
         builder.serialize(ClientRuntime.BodyMiddleware<StopMaterializedViewRefreshTaskRunInput, StopMaterializedViewRefreshTaskRunOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: StopMaterializedViewRefreshTaskRunInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<StopMaterializedViewRefreshTaskRunInput, StopMaterializedViewRefreshTaskRunOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<StopMaterializedViewRefreshTaskRunOutput>())
@@ -17507,7 +17507,7 @@ extension GlueClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<StopSessionOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<StopSessionInput, StopSessionOutput>(xAmzTarget: "AWSGlue.StopSession"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<StopSessionInput, StopSessionOutput>(overrides: ["X-Amz-Target": "AWSGlue.StopSession"]))
         builder.serialize(ClientRuntime.BodyMiddleware<StopSessionInput, StopSessionOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: StopSessionInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<StopSessionInput, StopSessionOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<StopSessionOutput>())
@@ -17580,7 +17580,7 @@ extension GlueClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<StopTriggerOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<StopTriggerInput, StopTriggerOutput>(xAmzTarget: "AWSGlue.StopTrigger"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<StopTriggerInput, StopTriggerOutput>(overrides: ["X-Amz-Target": "AWSGlue.StopTrigger"]))
         builder.serialize(ClientRuntime.BodyMiddleware<StopTriggerInput, StopTriggerOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: StopTriggerInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<StopTriggerInput, StopTriggerOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<StopTriggerOutput>())
@@ -17653,7 +17653,7 @@ extension GlueClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<StopWorkflowRunOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<StopWorkflowRunInput, StopWorkflowRunOutput>(xAmzTarget: "AWSGlue.StopWorkflowRun"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<StopWorkflowRunInput, StopWorkflowRunOutput>(overrides: ["X-Amz-Target": "AWSGlue.StopWorkflowRun"]))
         builder.serialize(ClientRuntime.BodyMiddleware<StopWorkflowRunInput, StopWorkflowRunOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: StopWorkflowRunInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<StopWorkflowRunInput, StopWorkflowRunOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<StopWorkflowRunOutput>())
@@ -17725,7 +17725,7 @@ extension GlueClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<TagResourceOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<TagResourceInput, TagResourceOutput>(xAmzTarget: "AWSGlue.TagResource"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<TagResourceInput, TagResourceOutput>(overrides: ["X-Amz-Target": "AWSGlue.TagResource"]))
         builder.serialize(ClientRuntime.BodyMiddleware<TagResourceInput, TagResourceOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: TagResourceInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<TagResourceInput, TagResourceOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<TagResourceOutput>())
@@ -17802,7 +17802,7 @@ extension GlueClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<TestConnectionOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<TestConnectionInput, TestConnectionOutput>(xAmzTarget: "AWSGlue.TestConnection"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<TestConnectionInput, TestConnectionOutput>(overrides: ["X-Amz-Target": "AWSGlue.TestConnection"]))
         builder.serialize(ClientRuntime.BodyMiddleware<TestConnectionInput, TestConnectionOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: TestConnectionInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<TestConnectionInput, TestConnectionOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<TestConnectionOutput>())
@@ -17874,7 +17874,7 @@ extension GlueClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<UntagResourceOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<UntagResourceInput, UntagResourceOutput>(xAmzTarget: "AWSGlue.UntagResource"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<UntagResourceInput, UntagResourceOutput>(overrides: ["X-Amz-Target": "AWSGlue.UntagResource"]))
         builder.serialize(ClientRuntime.BodyMiddleware<UntagResourceInput, UntagResourceOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: UntagResourceInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<UntagResourceInput, UntagResourceOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<UntagResourceOutput>())
@@ -17948,7 +17948,7 @@ extension GlueClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<UpdateBlueprintOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<UpdateBlueprintInput, UpdateBlueprintOutput>(xAmzTarget: "AWSGlue.UpdateBlueprint"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<UpdateBlueprintInput, UpdateBlueprintOutput>(overrides: ["X-Amz-Target": "AWSGlue.UpdateBlueprint"]))
         builder.serialize(ClientRuntime.BodyMiddleware<UpdateBlueprintInput, UpdateBlueprintOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: UpdateBlueprintInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<UpdateBlueprintInput, UpdateBlueprintOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<UpdateBlueprintOutput>())
@@ -18024,7 +18024,7 @@ extension GlueClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<UpdateCatalogOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<UpdateCatalogInput, UpdateCatalogOutput>(xAmzTarget: "AWSGlue.UpdateCatalog"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<UpdateCatalogInput, UpdateCatalogOutput>(overrides: ["X-Amz-Target": "AWSGlue.UpdateCatalog"]))
         builder.serialize(ClientRuntime.BodyMiddleware<UpdateCatalogInput, UpdateCatalogOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: UpdateCatalogInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<UpdateCatalogInput, UpdateCatalogOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<UpdateCatalogOutput>())
@@ -18096,7 +18096,7 @@ extension GlueClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<UpdateClassifierOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<UpdateClassifierInput, UpdateClassifierOutput>(xAmzTarget: "AWSGlue.UpdateClassifier"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<UpdateClassifierInput, UpdateClassifierOutput>(overrides: ["X-Amz-Target": "AWSGlue.UpdateClassifier"]))
         builder.serialize(ClientRuntime.BodyMiddleware<UpdateClassifierInput, UpdateClassifierOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: UpdateClassifierInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<UpdateClassifierInput, UpdateClassifierOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<UpdateClassifierOutput>())
@@ -18169,7 +18169,7 @@ extension GlueClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<UpdateColumnStatisticsForPartitionOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<UpdateColumnStatisticsForPartitionInput, UpdateColumnStatisticsForPartitionOutput>(xAmzTarget: "AWSGlue.UpdateColumnStatisticsForPartition"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<UpdateColumnStatisticsForPartitionInput, UpdateColumnStatisticsForPartitionOutput>(overrides: ["X-Amz-Target": "AWSGlue.UpdateColumnStatisticsForPartition"]))
         builder.serialize(ClientRuntime.BodyMiddleware<UpdateColumnStatisticsForPartitionInput, UpdateColumnStatisticsForPartitionOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: UpdateColumnStatisticsForPartitionInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<UpdateColumnStatisticsForPartitionInput, UpdateColumnStatisticsForPartitionOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<UpdateColumnStatisticsForPartitionOutput>())
@@ -18242,7 +18242,7 @@ extension GlueClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<UpdateColumnStatisticsForTableOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<UpdateColumnStatisticsForTableInput, UpdateColumnStatisticsForTableOutput>(xAmzTarget: "AWSGlue.UpdateColumnStatisticsForTable"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<UpdateColumnStatisticsForTableInput, UpdateColumnStatisticsForTableOutput>(overrides: ["X-Amz-Target": "AWSGlue.UpdateColumnStatisticsForTable"]))
         builder.serialize(ClientRuntime.BodyMiddleware<UpdateColumnStatisticsForTableInput, UpdateColumnStatisticsForTableOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: UpdateColumnStatisticsForTableInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<UpdateColumnStatisticsForTableInput, UpdateColumnStatisticsForTableOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<UpdateColumnStatisticsForTableOutput>())
@@ -18315,7 +18315,7 @@ extension GlueClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<UpdateColumnStatisticsTaskSettingsOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<UpdateColumnStatisticsTaskSettingsInput, UpdateColumnStatisticsTaskSettingsOutput>(xAmzTarget: "AWSGlue.UpdateColumnStatisticsTaskSettings"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<UpdateColumnStatisticsTaskSettingsInput, UpdateColumnStatisticsTaskSettingsOutput>(overrides: ["X-Amz-Target": "AWSGlue.UpdateColumnStatisticsTaskSettings"]))
         builder.serialize(ClientRuntime.BodyMiddleware<UpdateColumnStatisticsTaskSettingsInput, UpdateColumnStatisticsTaskSettingsOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: UpdateColumnStatisticsTaskSettingsInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<UpdateColumnStatisticsTaskSettingsInput, UpdateColumnStatisticsTaskSettingsOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<UpdateColumnStatisticsTaskSettingsOutput>())
@@ -18387,7 +18387,7 @@ extension GlueClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<UpdateConnectionOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<UpdateConnectionInput, UpdateConnectionOutput>(xAmzTarget: "AWSGlue.UpdateConnection"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<UpdateConnectionInput, UpdateConnectionOutput>(overrides: ["X-Amz-Target": "AWSGlue.UpdateConnection"]))
         builder.serialize(ClientRuntime.BodyMiddleware<UpdateConnectionInput, UpdateConnectionOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: UpdateConnectionInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<UpdateConnectionInput, UpdateConnectionOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<UpdateConnectionOutput>())
@@ -18460,7 +18460,7 @@ extension GlueClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<UpdateCrawlerOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<UpdateCrawlerInput, UpdateCrawlerOutput>(xAmzTarget: "AWSGlue.UpdateCrawler"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<UpdateCrawlerInput, UpdateCrawlerOutput>(overrides: ["X-Amz-Target": "AWSGlue.UpdateCrawler"]))
         builder.serialize(ClientRuntime.BodyMiddleware<UpdateCrawlerInput, UpdateCrawlerOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: UpdateCrawlerInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<UpdateCrawlerInput, UpdateCrawlerOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<UpdateCrawlerOutput>())
@@ -18533,7 +18533,7 @@ extension GlueClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<UpdateCrawlerScheduleOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<UpdateCrawlerScheduleInput, UpdateCrawlerScheduleOutput>(xAmzTarget: "AWSGlue.UpdateCrawlerSchedule"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<UpdateCrawlerScheduleInput, UpdateCrawlerScheduleOutput>(overrides: ["X-Amz-Target": "AWSGlue.UpdateCrawlerSchedule"]))
         builder.serialize(ClientRuntime.BodyMiddleware<UpdateCrawlerScheduleInput, UpdateCrawlerScheduleOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: UpdateCrawlerScheduleInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<UpdateCrawlerScheduleInput, UpdateCrawlerScheduleOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<UpdateCrawlerScheduleOutput>())
@@ -18608,7 +18608,7 @@ extension GlueClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<UpdateDataQualityRulesetOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<UpdateDataQualityRulesetInput, UpdateDataQualityRulesetOutput>(xAmzTarget: "AWSGlue.UpdateDataQualityRuleset"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<UpdateDataQualityRulesetInput, UpdateDataQualityRulesetOutput>(overrides: ["X-Amz-Target": "AWSGlue.UpdateDataQualityRuleset"]))
         builder.serialize(ClientRuntime.BodyMiddleware<UpdateDataQualityRulesetInput, UpdateDataQualityRulesetOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: UpdateDataQualityRulesetInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<UpdateDataQualityRulesetInput, UpdateDataQualityRulesetOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<UpdateDataQualityRulesetOutput>())
@@ -18685,7 +18685,7 @@ extension GlueClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<UpdateDatabaseOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<UpdateDatabaseInput, UpdateDatabaseOutput>(xAmzTarget: "AWSGlue.UpdateDatabase"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<UpdateDatabaseInput, UpdateDatabaseOutput>(overrides: ["X-Amz-Target": "AWSGlue.UpdateDatabase"]))
         builder.serialize(ClientRuntime.BodyMiddleware<UpdateDatabaseInput, UpdateDatabaseOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: UpdateDatabaseInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<UpdateDatabaseInput, UpdateDatabaseOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<UpdateDatabaseOutput>())
@@ -18758,7 +18758,7 @@ extension GlueClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<UpdateDevEndpointOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<UpdateDevEndpointInput, UpdateDevEndpointOutput>(xAmzTarget: "AWSGlue.UpdateDevEndpoint"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<UpdateDevEndpointInput, UpdateDevEndpointOutput>(overrides: ["X-Amz-Target": "AWSGlue.UpdateDevEndpoint"]))
         builder.serialize(ClientRuntime.BodyMiddleware<UpdateDevEndpointInput, UpdateDevEndpointOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: UpdateDevEndpointInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<UpdateDevEndpointInput, UpdateDevEndpointOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<UpdateDevEndpointOutput>())
@@ -18832,7 +18832,7 @@ extension GlueClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<UpdateGlueIdentityCenterConfigurationOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<UpdateGlueIdentityCenterConfigurationInput, UpdateGlueIdentityCenterConfigurationOutput>(xAmzTarget: "AWSGlue.UpdateGlueIdentityCenterConfiguration"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<UpdateGlueIdentityCenterConfigurationInput, UpdateGlueIdentityCenterConfigurationOutput>(overrides: ["X-Amz-Target": "AWSGlue.UpdateGlueIdentityCenterConfiguration"]))
         builder.serialize(ClientRuntime.BodyMiddleware<UpdateGlueIdentityCenterConfigurationInput, UpdateGlueIdentityCenterConfigurationOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: UpdateGlueIdentityCenterConfigurationInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<UpdateGlueIdentityCenterConfigurationInput, UpdateGlueIdentityCenterConfigurationOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<UpdateGlueIdentityCenterConfigurationOutput>())
@@ -18907,7 +18907,7 @@ extension GlueClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<UpdateIntegrationResourcePropertyOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<UpdateIntegrationResourcePropertyInput, UpdateIntegrationResourcePropertyOutput>(xAmzTarget: "AWSGlue.UpdateIntegrationResourceProperty"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<UpdateIntegrationResourcePropertyInput, UpdateIntegrationResourcePropertyOutput>(overrides: ["X-Amz-Target": "AWSGlue.UpdateIntegrationResourceProperty"]))
         builder.serialize(ClientRuntime.BodyMiddleware<UpdateIntegrationResourcePropertyInput, UpdateIntegrationResourcePropertyOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: UpdateIntegrationResourcePropertyInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<UpdateIntegrationResourcePropertyInput, UpdateIntegrationResourcePropertyOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<UpdateIntegrationResourcePropertyOutput>())
@@ -18982,7 +18982,7 @@ extension GlueClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<UpdateIntegrationTablePropertiesOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<UpdateIntegrationTablePropertiesInput, UpdateIntegrationTablePropertiesOutput>(xAmzTarget: "AWSGlue.UpdateIntegrationTableProperties"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<UpdateIntegrationTablePropertiesInput, UpdateIntegrationTablePropertiesOutput>(overrides: ["X-Amz-Target": "AWSGlue.UpdateIntegrationTableProperties"]))
         builder.serialize(ClientRuntime.BodyMiddleware<UpdateIntegrationTablePropertiesInput, UpdateIntegrationTablePropertiesOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: UpdateIntegrationTablePropertiesInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<UpdateIntegrationTablePropertiesInput, UpdateIntegrationTablePropertiesOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<UpdateIntegrationTablePropertiesOutput>())
@@ -19055,7 +19055,7 @@ extension GlueClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<UpdateJobOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<UpdateJobInput, UpdateJobOutput>(xAmzTarget: "AWSGlue.UpdateJob"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<UpdateJobInput, UpdateJobOutput>(overrides: ["X-Amz-Target": "AWSGlue.UpdateJob"]))
         builder.serialize(ClientRuntime.BodyMiddleware<UpdateJobInput, UpdateJobOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: UpdateJobInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<UpdateJobInput, UpdateJobOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<UpdateJobOutput>())
@@ -19130,7 +19130,7 @@ extension GlueClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<UpdateJobFromSourceControlOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<UpdateJobFromSourceControlInput, UpdateJobFromSourceControlOutput>(xAmzTarget: "AWSGlue.UpdateJobFromSourceControl"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<UpdateJobFromSourceControlInput, UpdateJobFromSourceControlOutput>(overrides: ["X-Amz-Target": "AWSGlue.UpdateJobFromSourceControl"]))
         builder.serialize(ClientRuntime.BodyMiddleware<UpdateJobFromSourceControlInput, UpdateJobFromSourceControlOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: UpdateJobFromSourceControlInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<UpdateJobFromSourceControlInput, UpdateJobFromSourceControlOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<UpdateJobFromSourceControlOutput>())
@@ -19203,7 +19203,7 @@ extension GlueClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<UpdateMLTransformOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<UpdateMLTransformInput, UpdateMLTransformOutput>(xAmzTarget: "AWSGlue.UpdateMLTransform"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<UpdateMLTransformInput, UpdateMLTransformOutput>(overrides: ["X-Amz-Target": "AWSGlue.UpdateMLTransform"]))
         builder.serialize(ClientRuntime.BodyMiddleware<UpdateMLTransformInput, UpdateMLTransformOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: UpdateMLTransformInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<UpdateMLTransformInput, UpdateMLTransformOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<UpdateMLTransformOutput>())
@@ -19276,7 +19276,7 @@ extension GlueClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<UpdatePartitionOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<UpdatePartitionInput, UpdatePartitionOutput>(xAmzTarget: "AWSGlue.UpdatePartition"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<UpdatePartitionInput, UpdatePartitionOutput>(overrides: ["X-Amz-Target": "AWSGlue.UpdatePartition"]))
         builder.serialize(ClientRuntime.BodyMiddleware<UpdatePartitionInput, UpdatePartitionOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: UpdatePartitionInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<UpdatePartitionInput, UpdatePartitionOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<UpdatePartitionOutput>())
@@ -19349,7 +19349,7 @@ extension GlueClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<UpdateRegistryOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<UpdateRegistryInput, UpdateRegistryOutput>(xAmzTarget: "AWSGlue.UpdateRegistry"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<UpdateRegistryInput, UpdateRegistryOutput>(overrides: ["X-Amz-Target": "AWSGlue.UpdateRegistry"]))
         builder.serialize(ClientRuntime.BodyMiddleware<UpdateRegistryInput, UpdateRegistryOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: UpdateRegistryInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<UpdateRegistryInput, UpdateRegistryOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<UpdateRegistryOutput>())
@@ -19422,7 +19422,7 @@ extension GlueClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<UpdateSchemaOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<UpdateSchemaInput, UpdateSchemaOutput>(xAmzTarget: "AWSGlue.UpdateSchema"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<UpdateSchemaInput, UpdateSchemaOutput>(overrides: ["X-Amz-Target": "AWSGlue.UpdateSchema"]))
         builder.serialize(ClientRuntime.BodyMiddleware<UpdateSchemaInput, UpdateSchemaOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: UpdateSchemaInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<UpdateSchemaInput, UpdateSchemaOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<UpdateSchemaOutput>())
@@ -19497,7 +19497,7 @@ extension GlueClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<UpdateSourceControlFromJobOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<UpdateSourceControlFromJobInput, UpdateSourceControlFromJobOutput>(xAmzTarget: "AWSGlue.UpdateSourceControlFromJob"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<UpdateSourceControlFromJobInput, UpdateSourceControlFromJobOutput>(overrides: ["X-Amz-Target": "AWSGlue.UpdateSourceControlFromJob"]))
         builder.serialize(ClientRuntime.BodyMiddleware<UpdateSourceControlFromJobInput, UpdateSourceControlFromJobOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: UpdateSourceControlFromJobInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<UpdateSourceControlFromJobInput, UpdateSourceControlFromJobOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<UpdateSourceControlFromJobOutput>())
@@ -19576,7 +19576,7 @@ extension GlueClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<UpdateTableOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<UpdateTableInput, UpdateTableOutput>(xAmzTarget: "AWSGlue.UpdateTable"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<UpdateTableInput, UpdateTableOutput>(overrides: ["X-Amz-Target": "AWSGlue.UpdateTable"]))
         builder.serialize(ClientRuntime.BodyMiddleware<UpdateTableInput, UpdateTableOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: UpdateTableInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<UpdateTableInput, UpdateTableOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<UpdateTableOutput>())
@@ -19651,7 +19651,7 @@ extension GlueClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<UpdateTableOptimizerOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<UpdateTableOptimizerInput, UpdateTableOptimizerOutput>(xAmzTarget: "AWSGlue.UpdateTableOptimizer"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<UpdateTableOptimizerInput, UpdateTableOptimizerOutput>(overrides: ["X-Amz-Target": "AWSGlue.UpdateTableOptimizer"]))
         builder.serialize(ClientRuntime.BodyMiddleware<UpdateTableOptimizerInput, UpdateTableOptimizerOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: UpdateTableOptimizerInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<UpdateTableOptimizerInput, UpdateTableOptimizerOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<UpdateTableOptimizerOutput>())
@@ -19724,7 +19724,7 @@ extension GlueClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<UpdateTriggerOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<UpdateTriggerInput, UpdateTriggerOutput>(xAmzTarget: "AWSGlue.UpdateTrigger"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<UpdateTriggerInput, UpdateTriggerOutput>(overrides: ["X-Amz-Target": "AWSGlue.UpdateTrigger"]))
         builder.serialize(ClientRuntime.BodyMiddleware<UpdateTriggerInput, UpdateTriggerOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: UpdateTriggerInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<UpdateTriggerInput, UpdateTriggerOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<UpdateTriggerOutput>())
@@ -19798,7 +19798,7 @@ extension GlueClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<UpdateUsageProfileOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<UpdateUsageProfileInput, UpdateUsageProfileOutput>(xAmzTarget: "AWSGlue.UpdateUsageProfile"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<UpdateUsageProfileInput, UpdateUsageProfileOutput>(overrides: ["X-Amz-Target": "AWSGlue.UpdateUsageProfile"]))
         builder.serialize(ClientRuntime.BodyMiddleware<UpdateUsageProfileInput, UpdateUsageProfileOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: UpdateUsageProfileInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<UpdateUsageProfileInput, UpdateUsageProfileOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<UpdateUsageProfileOutput>())
@@ -19871,7 +19871,7 @@ extension GlueClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<UpdateUserDefinedFunctionOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<UpdateUserDefinedFunctionInput, UpdateUserDefinedFunctionOutput>(xAmzTarget: "AWSGlue.UpdateUserDefinedFunction"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<UpdateUserDefinedFunctionInput, UpdateUserDefinedFunctionOutput>(overrides: ["X-Amz-Target": "AWSGlue.UpdateUserDefinedFunction"]))
         builder.serialize(ClientRuntime.BodyMiddleware<UpdateUserDefinedFunctionInput, UpdateUserDefinedFunctionOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: UpdateUserDefinedFunctionInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<UpdateUserDefinedFunctionInput, UpdateUserDefinedFunctionOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<UpdateUserDefinedFunctionOutput>())
@@ -19944,7 +19944,7 @@ extension GlueClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<UpdateWorkflowOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<UpdateWorkflowInput, UpdateWorkflowOutput>(xAmzTarget: "AWSGlue.UpdateWorkflow"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<UpdateWorkflowInput, UpdateWorkflowOutput>(overrides: ["X-Amz-Target": "AWSGlue.UpdateWorkflow"]))
         builder.serialize(ClientRuntime.BodyMiddleware<UpdateWorkflowInput, UpdateWorkflowOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: UpdateWorkflowInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<UpdateWorkflowInput, UpdateWorkflowOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<UpdateWorkflowOutput>())

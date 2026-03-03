@@ -6,27 +6,7 @@ import software.amazon.smithy.swift.codegen.SwiftDeclaration
 import software.amazon.smithy.swift.codegen.swiftmodules.SwiftSymbol
 
 object AWSClientRuntimeTypes {
-    object AWSQuery {
-        val AWSQueryError = runtimeSymbol("AWSQueryError", SwiftDeclaration.STRUCT, listOf("SmithyReadWrite"))
-        val AWSQueryCompatibleUtils = runtimeSymbol("AWSQueryCompatibleUtils", SwiftDeclaration.ENUM, listOf("SmithyReadWrite"))
-    }
-
-    object EC2Query {
-        val EC2QueryError = runtimeSymbol("EC2QueryError", SwiftDeclaration.STRUCT, listOf("SmithyReadWrite"))
-    }
-
-    object AWSJSON {
-        val AWSJSONError = runtimeSymbol("AWSJSONError", SwiftDeclaration.STRUCT, listOf("SmithyReadWrite"))
-        val XAmzTargetMiddleware = runtimeSymbol("XAmzTargetMiddleware", SwiftDeclaration.STRUCT)
-    }
-
-    object RestJSON {
-        val RestJSONError = runtimeSymbol("RestJSONError", SwiftDeclaration.STRUCT, listOf("SmithyReadWrite"))
-    }
-
     object RestXML {
-        val RestXMLError = runtimeSymbol("RestXMLError", SwiftDeclaration.STRUCT, listOf("SmithyReadWrite"))
-
         object S3 {
             val AWSS3ServiceError = runtimeSymbol("AWSS3ServiceError", SwiftDeclaration.PROTOCOL, listOf("SmithyReadWrite"))
             val AWSS3ErrorWith200StatusXMLMiddleware = runtimeSymbol("AWSS3ErrorWith200StatusXMLMiddleware", SwiftDeclaration.STRUCT)

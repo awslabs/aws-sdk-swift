@@ -23,8 +23,8 @@ import protocol ClientRuntime.HTTPError
 import protocol ClientRuntime.ModeledError
 @_spi(SmithyReadWrite) import protocol SmithyReadWrite.SmithyReader
 @_spi(SmithyReadWrite) import protocol SmithyReadWrite.SmithyWriter
-@_spi(SmithyReadWrite) import struct AWSClientRuntime.RestJSONError
 @_spi(UnknownAWSHTTPServiceError) import struct AWSClientRuntime.UnknownAWSHTTPServiceError
+@_spi(SmithyReadWrite) import struct ClientRuntime.RestJSONError
 import struct Smithy.URIQueryItem
 import struct SmithyHTTPAPI.Header
 import struct SmithyHTTPAPI.Headers
@@ -6608,7 +6608,7 @@ enum AbortDocumentVersionUploadOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "ConcurrentModificationException": return try ConcurrentModificationException.makeError(baseError: baseError)
@@ -6628,7 +6628,7 @@ enum ActivateUserOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "EntityNotExistsException": return try EntityNotExistsException.makeError(baseError: baseError)
@@ -6646,7 +6646,7 @@ enum AddResourcePermissionsOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "FailedDependencyException": return try FailedDependencyException.makeError(baseError: baseError)
@@ -6664,7 +6664,7 @@ enum CreateCommentOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "DocumentLockedForCommentsException": return try DocumentLockedForCommentsException.makeError(baseError: baseError)
@@ -6685,7 +6685,7 @@ enum CreateCustomMetadataOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "CustomMetadataLimitExceededException": return try CustomMetadataLimitExceededException.makeError(baseError: baseError)
@@ -6705,7 +6705,7 @@ enum CreateFolderOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "ConcurrentModificationException": return try ConcurrentModificationException.makeError(baseError: baseError)
@@ -6728,7 +6728,7 @@ enum CreateLabelsOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "EntityNotExistsException": return try EntityNotExistsException.makeError(baseError: baseError)
@@ -6747,7 +6747,7 @@ enum CreateNotificationSubscriptionOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "InvalidArgumentException": return try InvalidArgumentException.makeError(baseError: baseError)
@@ -6764,7 +6764,7 @@ enum CreateUserOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "EntityAlreadyExistsException": return try EntityAlreadyExistsException.makeError(baseError: baseError)
@@ -6782,7 +6782,7 @@ enum DeactivateUserOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "EntityNotExistsException": return try EntityNotExistsException.makeError(baseError: baseError)
@@ -6800,7 +6800,7 @@ enum DeleteCommentOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "DocumentLockedForCommentsException": return try DocumentLockedForCommentsException.makeError(baseError: baseError)
@@ -6820,7 +6820,7 @@ enum DeleteCustomMetadataOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "EntityNotExistsException": return try EntityNotExistsException.makeError(baseError: baseError)
@@ -6839,7 +6839,7 @@ enum DeleteDocumentOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "ConcurrentModificationException": return try ConcurrentModificationException.makeError(baseError: baseError)
@@ -6861,7 +6861,7 @@ enum DeleteDocumentVersionOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "ConcurrentModificationException": return try ConcurrentModificationException.makeError(baseError: baseError)
@@ -6882,7 +6882,7 @@ enum DeleteFolderOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "ConcurrentModificationException": return try ConcurrentModificationException.makeError(baseError: baseError)
@@ -6904,7 +6904,7 @@ enum DeleteFolderContentsOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "ConflictingOperationException": return try ConflictingOperationException.makeError(baseError: baseError)
@@ -6924,7 +6924,7 @@ enum DeleteLabelsOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "EntityNotExistsException": return try EntityNotExistsException.makeError(baseError: baseError)
@@ -6943,7 +6943,7 @@ enum DeleteNotificationSubscriptionOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "EntityNotExistsException": return try EntityNotExistsException.makeError(baseError: baseError)
@@ -6960,7 +6960,7 @@ enum DeleteUserOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "EntityNotExistsException": return try EntityNotExistsException.makeError(baseError: baseError)
@@ -6978,7 +6978,7 @@ enum DescribeActivitiesOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "FailedDependencyException": return try FailedDependencyException.makeError(baseError: baseError)
@@ -6996,7 +6996,7 @@ enum DescribeCommentsOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "EntityNotExistsException": return try EntityNotExistsException.makeError(baseError: baseError)
@@ -7015,7 +7015,7 @@ enum DescribeDocumentVersionsOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "EntityNotExistsException": return try EntityNotExistsException.makeError(baseError: baseError)
@@ -7036,7 +7036,7 @@ enum DescribeFolderContentsOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "EntityNotExistsException": return try EntityNotExistsException.makeError(baseError: baseError)
@@ -7055,7 +7055,7 @@ enum DescribeGroupsOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "FailedDependencyException": return try FailedDependencyException.makeError(baseError: baseError)
@@ -7072,7 +7072,7 @@ enum DescribeNotificationSubscriptionsOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "EntityNotExistsException": return try EntityNotExistsException.makeError(baseError: baseError)
@@ -7088,7 +7088,7 @@ enum DescribeResourcePermissionsOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "FailedDependencyException": return try FailedDependencyException.makeError(baseError: baseError)
@@ -7106,7 +7106,7 @@ enum DescribeRootFoldersOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "FailedDependencyException": return try FailedDependencyException.makeError(baseError: baseError)
@@ -7124,7 +7124,7 @@ enum DescribeUsersOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "EntityNotExistsException": return try EntityNotExistsException.makeError(baseError: baseError)
@@ -7144,7 +7144,7 @@ enum GetCurrentUserOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "EntityNotExistsException": return try EntityNotExistsException.makeError(baseError: baseError)
@@ -7162,7 +7162,7 @@ enum GetDocumentOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "EntityNotExistsException": return try EntityNotExistsException.makeError(baseError: baseError)
@@ -7182,7 +7182,7 @@ enum GetDocumentPathOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "EntityNotExistsException": return try EntityNotExistsException.makeError(baseError: baseError)
@@ -7200,7 +7200,7 @@ enum GetDocumentVersionOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "EntityNotExistsException": return try EntityNotExistsException.makeError(baseError: baseError)
@@ -7220,7 +7220,7 @@ enum GetFolderOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "EntityNotExistsException": return try EntityNotExistsException.makeError(baseError: baseError)
@@ -7240,7 +7240,7 @@ enum GetFolderPathOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "EntityNotExistsException": return try EntityNotExistsException.makeError(baseError: baseError)
@@ -7258,7 +7258,7 @@ enum GetResourcesOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "FailedDependencyException": return try FailedDependencyException.makeError(baseError: baseError)
@@ -7276,7 +7276,7 @@ enum InitiateDocumentVersionUploadOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "DraftUploadOutOfSyncException": return try DraftUploadOutOfSyncException.makeError(baseError: baseError)
@@ -7303,7 +7303,7 @@ enum RemoveAllResourcePermissionsOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "FailedDependencyException": return try FailedDependencyException.makeError(baseError: baseError)
@@ -7320,7 +7320,7 @@ enum RemoveResourcePermissionOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "FailedDependencyException": return try FailedDependencyException.makeError(baseError: baseError)
@@ -7337,7 +7337,7 @@ enum RestoreDocumentVersionsOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "ConcurrentModificationException": return try ConcurrentModificationException.makeError(baseError: baseError)
@@ -7358,7 +7358,7 @@ enum SearchResourcesOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "InvalidArgumentException": return try InvalidArgumentException.makeError(baseError: baseError)
@@ -7375,7 +7375,7 @@ enum UpdateDocumentOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "ConcurrentModificationException": return try ConcurrentModificationException.makeError(baseError: baseError)
@@ -7398,7 +7398,7 @@ enum UpdateDocumentVersionOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "ConcurrentModificationException": return try ConcurrentModificationException.makeError(baseError: baseError)
@@ -7419,7 +7419,7 @@ enum UpdateFolderOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "ConcurrentModificationException": return try ConcurrentModificationException.makeError(baseError: baseError)
@@ -7442,7 +7442,7 @@ enum UpdateUserOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "DeactivatingLastSystemUserException": return try DeactivatingLastSystemUserException.makeError(baseError: baseError)
@@ -7461,7 +7461,7 @@ enum UpdateUserOutputError {
 
 extension ConcurrentModificationException {
 
-    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> ConcurrentModificationException {
+    static func makeError(baseError: ClientRuntime.RestJSONError) throws -> ConcurrentModificationException {
         let reader = baseError.errorBodyReader
         var value = ConcurrentModificationException()
         value.properties.message = try reader["Message"].readIfPresent()
@@ -7474,7 +7474,7 @@ extension ConcurrentModificationException {
 
 extension EntityNotExistsException {
 
-    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> EntityNotExistsException {
+    static func makeError(baseError: ClientRuntime.RestJSONError) throws -> EntityNotExistsException {
         let reader = baseError.errorBodyReader
         var value = EntityNotExistsException()
         value.properties.entityIds = try reader["EntityIds"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
@@ -7488,7 +7488,7 @@ extension EntityNotExistsException {
 
 extension FailedDependencyException {
 
-    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> FailedDependencyException {
+    static func makeError(baseError: ClientRuntime.RestJSONError) throws -> FailedDependencyException {
         let reader = baseError.errorBodyReader
         var value = FailedDependencyException()
         value.properties.message = try reader["Message"].readIfPresent()
@@ -7501,7 +7501,7 @@ extension FailedDependencyException {
 
 extension ProhibitedStateException {
 
-    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> ProhibitedStateException {
+    static func makeError(baseError: ClientRuntime.RestJSONError) throws -> ProhibitedStateException {
         let reader = baseError.errorBodyReader
         var value = ProhibitedStateException()
         value.properties.message = try reader["Message"].readIfPresent()
@@ -7514,7 +7514,7 @@ extension ProhibitedStateException {
 
 extension ServiceUnavailableException {
 
-    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> ServiceUnavailableException {
+    static func makeError(baseError: ClientRuntime.RestJSONError) throws -> ServiceUnavailableException {
         let reader = baseError.errorBodyReader
         var value = ServiceUnavailableException()
         value.properties.message = try reader["Message"].readIfPresent()
@@ -7527,7 +7527,7 @@ extension ServiceUnavailableException {
 
 extension UnauthorizedOperationException {
 
-    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> UnauthorizedOperationException {
+    static func makeError(baseError: ClientRuntime.RestJSONError) throws -> UnauthorizedOperationException {
         let reader = baseError.errorBodyReader
         var value = UnauthorizedOperationException()
         value.properties.code = try reader["Code"].readIfPresent()
@@ -7541,7 +7541,7 @@ extension UnauthorizedOperationException {
 
 extension UnauthorizedResourceAccessException {
 
-    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> UnauthorizedResourceAccessException {
+    static func makeError(baseError: ClientRuntime.RestJSONError) throws -> UnauthorizedResourceAccessException {
         let reader = baseError.errorBodyReader
         var value = UnauthorizedResourceAccessException()
         value.properties.message = try reader["Message"].readIfPresent()
@@ -7554,7 +7554,7 @@ extension UnauthorizedResourceAccessException {
 
 extension DocumentLockedForCommentsException {
 
-    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> DocumentLockedForCommentsException {
+    static func makeError(baseError: ClientRuntime.RestJSONError) throws -> DocumentLockedForCommentsException {
         let reader = baseError.errorBodyReader
         var value = DocumentLockedForCommentsException()
         value.properties.message = try reader["Message"].readIfPresent()
@@ -7567,7 +7567,7 @@ extension DocumentLockedForCommentsException {
 
 extension InvalidCommentOperationException {
 
-    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> InvalidCommentOperationException {
+    static func makeError(baseError: ClientRuntime.RestJSONError) throws -> InvalidCommentOperationException {
         let reader = baseError.errorBodyReader
         var value = InvalidCommentOperationException()
         value.properties.message = try reader["Message"].readIfPresent()
@@ -7580,7 +7580,7 @@ extension InvalidCommentOperationException {
 
 extension CustomMetadataLimitExceededException {
 
-    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> CustomMetadataLimitExceededException {
+    static func makeError(baseError: ClientRuntime.RestJSONError) throws -> CustomMetadataLimitExceededException {
         let reader = baseError.errorBodyReader
         var value = CustomMetadataLimitExceededException()
         value.properties.message = try reader["Message"].readIfPresent()
@@ -7593,7 +7593,7 @@ extension CustomMetadataLimitExceededException {
 
 extension ConflictingOperationException {
 
-    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> ConflictingOperationException {
+    static func makeError(baseError: ClientRuntime.RestJSONError) throws -> ConflictingOperationException {
         let reader = baseError.errorBodyReader
         var value = ConflictingOperationException()
         value.properties.message = try reader["Message"].readIfPresent()
@@ -7606,7 +7606,7 @@ extension ConflictingOperationException {
 
 extension EntityAlreadyExistsException {
 
-    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> EntityAlreadyExistsException {
+    static func makeError(baseError: ClientRuntime.RestJSONError) throws -> EntityAlreadyExistsException {
         let reader = baseError.errorBodyReader
         var value = EntityAlreadyExistsException()
         value.properties.message = try reader["Message"].readIfPresent()
@@ -7619,7 +7619,7 @@ extension EntityAlreadyExistsException {
 
 extension LimitExceededException {
 
-    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> LimitExceededException {
+    static func makeError(baseError: ClientRuntime.RestJSONError) throws -> LimitExceededException {
         let reader = baseError.errorBodyReader
         var value = LimitExceededException()
         value.properties.message = try reader["Message"].readIfPresent()
@@ -7632,7 +7632,7 @@ extension LimitExceededException {
 
 extension TooManyLabelsException {
 
-    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> TooManyLabelsException {
+    static func makeError(baseError: ClientRuntime.RestJSONError) throws -> TooManyLabelsException {
         let reader = baseError.errorBodyReader
         var value = TooManyLabelsException()
         value.properties.message = try reader["Message"].readIfPresent()
@@ -7645,7 +7645,7 @@ extension TooManyLabelsException {
 
 extension InvalidArgumentException {
 
-    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> InvalidArgumentException {
+    static func makeError(baseError: ClientRuntime.RestJSONError) throws -> InvalidArgumentException {
         let reader = baseError.errorBodyReader
         var value = InvalidArgumentException()
         value.properties.message = try reader["Message"].readIfPresent()
@@ -7658,7 +7658,7 @@ extension InvalidArgumentException {
 
 extension TooManySubscriptionsException {
 
-    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> TooManySubscriptionsException {
+    static func makeError(baseError: ClientRuntime.RestJSONError) throws -> TooManySubscriptionsException {
         let reader = baseError.errorBodyReader
         var value = TooManySubscriptionsException()
         value.properties.message = try reader["Message"].readIfPresent()
@@ -7671,7 +7671,7 @@ extension TooManySubscriptionsException {
 
 extension InvalidOperationException {
 
-    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> InvalidOperationException {
+    static func makeError(baseError: ClientRuntime.RestJSONError) throws -> InvalidOperationException {
         let reader = baseError.errorBodyReader
         var value = InvalidOperationException()
         value.properties.message = try reader["Message"].readIfPresent()
@@ -7684,7 +7684,7 @@ extension InvalidOperationException {
 
 extension InvalidPasswordException {
 
-    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> InvalidPasswordException {
+    static func makeError(baseError: ClientRuntime.RestJSONError) throws -> InvalidPasswordException {
         let reader = baseError.errorBodyReader
         var value = InvalidPasswordException()
         value.properties.message = try reader["Message"].readIfPresent()
@@ -7697,7 +7697,7 @@ extension InvalidPasswordException {
 
 extension RequestedEntityTooLargeException {
 
-    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> RequestedEntityTooLargeException {
+    static func makeError(baseError: ClientRuntime.RestJSONError) throws -> RequestedEntityTooLargeException {
         let reader = baseError.errorBodyReader
         var value = RequestedEntityTooLargeException()
         value.properties.message = try reader["Message"].readIfPresent()
@@ -7710,7 +7710,7 @@ extension RequestedEntityTooLargeException {
 
 extension DraftUploadOutOfSyncException {
 
-    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> DraftUploadOutOfSyncException {
+    static func makeError(baseError: ClientRuntime.RestJSONError) throws -> DraftUploadOutOfSyncException {
         let reader = baseError.errorBodyReader
         var value = DraftUploadOutOfSyncException()
         value.properties.message = try reader["Message"].readIfPresent()
@@ -7723,7 +7723,7 @@ extension DraftUploadOutOfSyncException {
 
 extension ResourceAlreadyCheckedOutException {
 
-    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> ResourceAlreadyCheckedOutException {
+    static func makeError(baseError: ClientRuntime.RestJSONError) throws -> ResourceAlreadyCheckedOutException {
         let reader = baseError.errorBodyReader
         var value = ResourceAlreadyCheckedOutException()
         value.properties.message = try reader["Message"].readIfPresent()
@@ -7736,7 +7736,7 @@ extension ResourceAlreadyCheckedOutException {
 
 extension StorageLimitExceededException {
 
-    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> StorageLimitExceededException {
+    static func makeError(baseError: ClientRuntime.RestJSONError) throws -> StorageLimitExceededException {
         let reader = baseError.errorBodyReader
         var value = StorageLimitExceededException()
         value.properties.message = try reader["Message"].readIfPresent()
@@ -7749,7 +7749,7 @@ extension StorageLimitExceededException {
 
 extension StorageLimitWillExceedException {
 
-    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> StorageLimitWillExceedException {
+    static func makeError(baseError: ClientRuntime.RestJSONError) throws -> StorageLimitWillExceedException {
         let reader = baseError.errorBodyReader
         var value = StorageLimitWillExceedException()
         value.properties.message = try reader["Message"].readIfPresent()
@@ -7762,7 +7762,7 @@ extension StorageLimitWillExceedException {
 
 extension DeactivatingLastSystemUserException {
 
-    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> DeactivatingLastSystemUserException {
+    static func makeError(baseError: ClientRuntime.RestJSONError) throws -> DeactivatingLastSystemUserException {
         let reader = baseError.errorBodyReader
         var value = DeactivatingLastSystemUserException()
         value.properties.code = try reader["Code"].readIfPresent()
@@ -7776,7 +7776,7 @@ extension DeactivatingLastSystemUserException {
 
 extension IllegalUserStateException {
 
-    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> IllegalUserStateException {
+    static func makeError(baseError: ClientRuntime.RestJSONError) throws -> IllegalUserStateException {
         let reader = baseError.errorBodyReader
         var value = IllegalUserStateException()
         value.properties.message = try reader["Message"].readIfPresent()

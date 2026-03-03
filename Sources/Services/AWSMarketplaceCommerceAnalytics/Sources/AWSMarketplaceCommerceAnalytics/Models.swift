@@ -20,8 +20,8 @@ import protocol ClientRuntime.HTTPError
 import protocol ClientRuntime.ModeledError
 @_spi(SmithyReadWrite) import protocol SmithyReadWrite.SmithyReader
 @_spi(SmithyReadWrite) import protocol SmithyReadWrite.SmithyWriter
-@_spi(SmithyReadWrite) import struct AWSClientRuntime.AWSJSONError
 @_spi(UnknownAWSHTTPServiceError) import struct AWSClientRuntime.UnknownAWSHTTPServiceError
+@_spi(SmithyReadWrite) import struct ClientRuntime.AWSJSONError
 
 extension MarketplaceCommerceAnalyticsClientTypes {
 
@@ -407,7 +407,7 @@ enum GenerateDataSetOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "MarketplaceCommerceAnalyticsException": return try MarketplaceCommerceAnalyticsException.makeError(baseError: baseError)
@@ -421,7 +421,7 @@ enum StartSupportDataExportOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "MarketplaceCommerceAnalyticsException": return try MarketplaceCommerceAnalyticsException.makeError(baseError: baseError)
@@ -432,7 +432,7 @@ enum StartSupportDataExportOutputError {
 
 extension MarketplaceCommerceAnalyticsException {
 
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> MarketplaceCommerceAnalyticsException {
+    static func makeError(baseError: ClientRuntime.AWSJSONError) throws -> MarketplaceCommerceAnalyticsException {
         let reader = baseError.errorBodyReader
         var value = MarketplaceCommerceAnalyticsException()
         value.properties.message = try reader["message"].readIfPresent()

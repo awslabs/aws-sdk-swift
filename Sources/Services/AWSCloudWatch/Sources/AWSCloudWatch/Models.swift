@@ -12,8 +12,8 @@ import Foundation
 @_spi(SmithyReadWrite) import class SmithyCBOR.Reader
 @_spi(SmithyReadWrite) import class SmithyCBOR.Writer
 import class SmithyHTTPAPI.HTTPResponse
-@_spi(SmithyReadWrite) import enum AWSClientRuntime.AWSQueryCompatibleUtils
 import enum ClientRuntime.ErrorFault
+@_spi(SmithyReadWrite) import enum ClientRuntime.QueryCompatibleUtils
 import enum SmithyReadWrite.ReaderError
 @_spi(SmithyReadWrite) import enum SmithyReadWrite.ReadingClosures
 @_spi(SmithyReadWrite) import enum SmithyReadWrite.WritingClosures
@@ -5458,7 +5458,7 @@ enum DeleteAlarmMuteRuleOutputError {
         let data = try await httpResponse.data()
         let responseReader = try SmithyCBOR.Reader.from(data: data)
         let errorDetails = httpResponse.headers.value(for: "x-amzn-query-error")
-        let baseError: ClientRuntime.RpcV2CborError = try AWSClientRuntime.AWSQueryCompatibleUtils.makeQueryCompatibleError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false, errorDetails: errorDetails)
+        let baseError: ClientRuntime.RpcV2CborError = try ClientRuntime.QueryCompatibleUtils.makeQueryCompatibleError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false, errorDetails: errorDetails)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
@@ -5472,7 +5472,7 @@ enum DeleteAlarmsOutputError {
         let data = try await httpResponse.data()
         let responseReader = try SmithyCBOR.Reader.from(data: data)
         let errorDetails = httpResponse.headers.value(for: "x-amzn-query-error")
-        let baseError: ClientRuntime.RpcV2CborError = try AWSClientRuntime.AWSQueryCompatibleUtils.makeQueryCompatibleError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false, errorDetails: errorDetails)
+        let baseError: ClientRuntime.RpcV2CborError = try ClientRuntime.QueryCompatibleUtils.makeQueryCompatibleError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false, errorDetails: errorDetails)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "ResourceNotFound": return try ResourceNotFound.makeError(baseError: baseError)
@@ -5487,7 +5487,7 @@ enum DeleteAnomalyDetectorOutputError {
         let data = try await httpResponse.data()
         let responseReader = try SmithyCBOR.Reader.from(data: data)
         let errorDetails = httpResponse.headers.value(for: "x-amzn-query-error")
-        let baseError: ClientRuntime.RpcV2CborError = try AWSClientRuntime.AWSQueryCompatibleUtils.makeQueryCompatibleError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false, errorDetails: errorDetails)
+        let baseError: ClientRuntime.RpcV2CborError = try ClientRuntime.QueryCompatibleUtils.makeQueryCompatibleError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false, errorDetails: errorDetails)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "InternalServiceError": return try InternalServiceFault.makeError(baseError: baseError)
@@ -5506,7 +5506,7 @@ enum DeleteDashboardsOutputError {
         let data = try await httpResponse.data()
         let responseReader = try SmithyCBOR.Reader.from(data: data)
         let errorDetails = httpResponse.headers.value(for: "x-amzn-query-error")
-        let baseError: ClientRuntime.RpcV2CborError = try AWSClientRuntime.AWSQueryCompatibleUtils.makeQueryCompatibleError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false, errorDetails: errorDetails)
+        let baseError: ClientRuntime.RpcV2CborError = try ClientRuntime.QueryCompatibleUtils.makeQueryCompatibleError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false, errorDetails: errorDetails)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "ConflictException": return try ConflictException.makeError(baseError: baseError)
@@ -5524,7 +5524,7 @@ enum DeleteInsightRulesOutputError {
         let data = try await httpResponse.data()
         let responseReader = try SmithyCBOR.Reader.from(data: data)
         let errorDetails = httpResponse.headers.value(for: "x-amzn-query-error")
-        let baseError: ClientRuntime.RpcV2CborError = try AWSClientRuntime.AWSQueryCompatibleUtils.makeQueryCompatibleError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false, errorDetails: errorDetails)
+        let baseError: ClientRuntime.RpcV2CborError = try ClientRuntime.QueryCompatibleUtils.makeQueryCompatibleError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false, errorDetails: errorDetails)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "InvalidParameterValue": return try InvalidParameterValueException.makeError(baseError: baseError)
@@ -5540,7 +5540,7 @@ enum DeleteMetricStreamOutputError {
         let data = try await httpResponse.data()
         let responseReader = try SmithyCBOR.Reader.from(data: data)
         let errorDetails = httpResponse.headers.value(for: "x-amzn-query-error")
-        let baseError: ClientRuntime.RpcV2CborError = try AWSClientRuntime.AWSQueryCompatibleUtils.makeQueryCompatibleError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false, errorDetails: errorDetails)
+        let baseError: ClientRuntime.RpcV2CborError = try ClientRuntime.QueryCompatibleUtils.makeQueryCompatibleError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false, errorDetails: errorDetails)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "InternalServiceError": return try InternalServiceFault.makeError(baseError: baseError)
@@ -5557,7 +5557,7 @@ enum DescribeAlarmContributorsOutputError {
         let data = try await httpResponse.data()
         let responseReader = try SmithyCBOR.Reader.from(data: data)
         let errorDetails = httpResponse.headers.value(for: "x-amzn-query-error")
-        let baseError: ClientRuntime.RpcV2CborError = try AWSClientRuntime.AWSQueryCompatibleUtils.makeQueryCompatibleError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false, errorDetails: errorDetails)
+        let baseError: ClientRuntime.RpcV2CborError = try ClientRuntime.QueryCompatibleUtils.makeQueryCompatibleError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false, errorDetails: errorDetails)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "InvalidNextToken": return try InvalidNextToken.makeError(baseError: baseError)
@@ -5573,7 +5573,7 @@ enum DescribeAlarmHistoryOutputError {
         let data = try await httpResponse.data()
         let responseReader = try SmithyCBOR.Reader.from(data: data)
         let errorDetails = httpResponse.headers.value(for: "x-amzn-query-error")
-        let baseError: ClientRuntime.RpcV2CborError = try AWSClientRuntime.AWSQueryCompatibleUtils.makeQueryCompatibleError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false, errorDetails: errorDetails)
+        let baseError: ClientRuntime.RpcV2CborError = try ClientRuntime.QueryCompatibleUtils.makeQueryCompatibleError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false, errorDetails: errorDetails)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "InvalidNextToken": return try InvalidNextToken.makeError(baseError: baseError)
@@ -5588,7 +5588,7 @@ enum DescribeAlarmsOutputError {
         let data = try await httpResponse.data()
         let responseReader = try SmithyCBOR.Reader.from(data: data)
         let errorDetails = httpResponse.headers.value(for: "x-amzn-query-error")
-        let baseError: ClientRuntime.RpcV2CborError = try AWSClientRuntime.AWSQueryCompatibleUtils.makeQueryCompatibleError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false, errorDetails: errorDetails)
+        let baseError: ClientRuntime.RpcV2CborError = try ClientRuntime.QueryCompatibleUtils.makeQueryCompatibleError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false, errorDetails: errorDetails)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "InvalidNextToken": return try InvalidNextToken.makeError(baseError: baseError)
@@ -5603,7 +5603,7 @@ enum DescribeAlarmsForMetricOutputError {
         let data = try await httpResponse.data()
         let responseReader = try SmithyCBOR.Reader.from(data: data)
         let errorDetails = httpResponse.headers.value(for: "x-amzn-query-error")
-        let baseError: ClientRuntime.RpcV2CborError = try AWSClientRuntime.AWSQueryCompatibleUtils.makeQueryCompatibleError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false, errorDetails: errorDetails)
+        let baseError: ClientRuntime.RpcV2CborError = try ClientRuntime.QueryCompatibleUtils.makeQueryCompatibleError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false, errorDetails: errorDetails)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
@@ -5617,7 +5617,7 @@ enum DescribeAnomalyDetectorsOutputError {
         let data = try await httpResponse.data()
         let responseReader = try SmithyCBOR.Reader.from(data: data)
         let errorDetails = httpResponse.headers.value(for: "x-amzn-query-error")
-        let baseError: ClientRuntime.RpcV2CborError = try AWSClientRuntime.AWSQueryCompatibleUtils.makeQueryCompatibleError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false, errorDetails: errorDetails)
+        let baseError: ClientRuntime.RpcV2CborError = try ClientRuntime.QueryCompatibleUtils.makeQueryCompatibleError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false, errorDetails: errorDetails)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "InternalServiceError": return try InternalServiceFault.makeError(baseError: baseError)
@@ -5635,7 +5635,7 @@ enum DescribeInsightRulesOutputError {
         let data = try await httpResponse.data()
         let responseReader = try SmithyCBOR.Reader.from(data: data)
         let errorDetails = httpResponse.headers.value(for: "x-amzn-query-error")
-        let baseError: ClientRuntime.RpcV2CborError = try AWSClientRuntime.AWSQueryCompatibleUtils.makeQueryCompatibleError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false, errorDetails: errorDetails)
+        let baseError: ClientRuntime.RpcV2CborError = try ClientRuntime.QueryCompatibleUtils.makeQueryCompatibleError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false, errorDetails: errorDetails)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "InvalidNextToken": return try InvalidNextToken.makeError(baseError: baseError)
@@ -5650,7 +5650,7 @@ enum DisableAlarmActionsOutputError {
         let data = try await httpResponse.data()
         let responseReader = try SmithyCBOR.Reader.from(data: data)
         let errorDetails = httpResponse.headers.value(for: "x-amzn-query-error")
-        let baseError: ClientRuntime.RpcV2CborError = try AWSClientRuntime.AWSQueryCompatibleUtils.makeQueryCompatibleError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false, errorDetails: errorDetails)
+        let baseError: ClientRuntime.RpcV2CborError = try ClientRuntime.QueryCompatibleUtils.makeQueryCompatibleError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false, errorDetails: errorDetails)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
@@ -5664,7 +5664,7 @@ enum DisableInsightRulesOutputError {
         let data = try await httpResponse.data()
         let responseReader = try SmithyCBOR.Reader.from(data: data)
         let errorDetails = httpResponse.headers.value(for: "x-amzn-query-error")
-        let baseError: ClientRuntime.RpcV2CborError = try AWSClientRuntime.AWSQueryCompatibleUtils.makeQueryCompatibleError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false, errorDetails: errorDetails)
+        let baseError: ClientRuntime.RpcV2CborError = try ClientRuntime.QueryCompatibleUtils.makeQueryCompatibleError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false, errorDetails: errorDetails)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "InvalidParameterValue": return try InvalidParameterValueException.makeError(baseError: baseError)
@@ -5680,7 +5680,7 @@ enum EnableAlarmActionsOutputError {
         let data = try await httpResponse.data()
         let responseReader = try SmithyCBOR.Reader.from(data: data)
         let errorDetails = httpResponse.headers.value(for: "x-amzn-query-error")
-        let baseError: ClientRuntime.RpcV2CborError = try AWSClientRuntime.AWSQueryCompatibleUtils.makeQueryCompatibleError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false, errorDetails: errorDetails)
+        let baseError: ClientRuntime.RpcV2CborError = try ClientRuntime.QueryCompatibleUtils.makeQueryCompatibleError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false, errorDetails: errorDetails)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
@@ -5694,7 +5694,7 @@ enum EnableInsightRulesOutputError {
         let data = try await httpResponse.data()
         let responseReader = try SmithyCBOR.Reader.from(data: data)
         let errorDetails = httpResponse.headers.value(for: "x-amzn-query-error")
-        let baseError: ClientRuntime.RpcV2CborError = try AWSClientRuntime.AWSQueryCompatibleUtils.makeQueryCompatibleError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false, errorDetails: errorDetails)
+        let baseError: ClientRuntime.RpcV2CborError = try ClientRuntime.QueryCompatibleUtils.makeQueryCompatibleError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false, errorDetails: errorDetails)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "InvalidParameterValue": return try InvalidParameterValueException.makeError(baseError: baseError)
@@ -5711,7 +5711,7 @@ enum GetAlarmMuteRuleOutputError {
         let data = try await httpResponse.data()
         let responseReader = try SmithyCBOR.Reader.from(data: data)
         let errorDetails = httpResponse.headers.value(for: "x-amzn-query-error")
-        let baseError: ClientRuntime.RpcV2CborError = try AWSClientRuntime.AWSQueryCompatibleUtils.makeQueryCompatibleError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false, errorDetails: errorDetails)
+        let baseError: ClientRuntime.RpcV2CborError = try ClientRuntime.QueryCompatibleUtils.makeQueryCompatibleError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false, errorDetails: errorDetails)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
@@ -5726,7 +5726,7 @@ enum GetDashboardOutputError {
         let data = try await httpResponse.data()
         let responseReader = try SmithyCBOR.Reader.from(data: data)
         let errorDetails = httpResponse.headers.value(for: "x-amzn-query-error")
-        let baseError: ClientRuntime.RpcV2CborError = try AWSClientRuntime.AWSQueryCompatibleUtils.makeQueryCompatibleError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false, errorDetails: errorDetails)
+        let baseError: ClientRuntime.RpcV2CborError = try ClientRuntime.QueryCompatibleUtils.makeQueryCompatibleError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false, errorDetails: errorDetails)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "ResourceNotFound": return try DashboardNotFoundError.makeError(baseError: baseError)
@@ -5743,7 +5743,7 @@ enum GetInsightRuleReportOutputError {
         let data = try await httpResponse.data()
         let responseReader = try SmithyCBOR.Reader.from(data: data)
         let errorDetails = httpResponse.headers.value(for: "x-amzn-query-error")
-        let baseError: ClientRuntime.RpcV2CborError = try AWSClientRuntime.AWSQueryCompatibleUtils.makeQueryCompatibleError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false, errorDetails: errorDetails)
+        let baseError: ClientRuntime.RpcV2CborError = try ClientRuntime.QueryCompatibleUtils.makeQueryCompatibleError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false, errorDetails: errorDetails)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "InvalidParameterValue": return try InvalidParameterValueException.makeError(baseError: baseError)
@@ -5760,7 +5760,7 @@ enum GetMetricDataOutputError {
         let data = try await httpResponse.data()
         let responseReader = try SmithyCBOR.Reader.from(data: data)
         let errorDetails = httpResponse.headers.value(for: "x-amzn-query-error")
-        let baseError: ClientRuntime.RpcV2CborError = try AWSClientRuntime.AWSQueryCompatibleUtils.makeQueryCompatibleError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false, errorDetails: errorDetails)
+        let baseError: ClientRuntime.RpcV2CborError = try ClientRuntime.QueryCompatibleUtils.makeQueryCompatibleError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false, errorDetails: errorDetails)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "InvalidNextToken": return try InvalidNextToken.makeError(baseError: baseError)
@@ -5775,7 +5775,7 @@ enum GetMetricStatisticsOutputError {
         let data = try await httpResponse.data()
         let responseReader = try SmithyCBOR.Reader.from(data: data)
         let errorDetails = httpResponse.headers.value(for: "x-amzn-query-error")
-        let baseError: ClientRuntime.RpcV2CborError = try AWSClientRuntime.AWSQueryCompatibleUtils.makeQueryCompatibleError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false, errorDetails: errorDetails)
+        let baseError: ClientRuntime.RpcV2CborError = try ClientRuntime.QueryCompatibleUtils.makeQueryCompatibleError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false, errorDetails: errorDetails)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "InternalServiceError": return try InternalServiceFault.makeError(baseError: baseError)
@@ -5793,7 +5793,7 @@ enum GetMetricStreamOutputError {
         let data = try await httpResponse.data()
         let responseReader = try SmithyCBOR.Reader.from(data: data)
         let errorDetails = httpResponse.headers.value(for: "x-amzn-query-error")
-        let baseError: ClientRuntime.RpcV2CborError = try AWSClientRuntime.AWSQueryCompatibleUtils.makeQueryCompatibleError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false, errorDetails: errorDetails)
+        let baseError: ClientRuntime.RpcV2CborError = try ClientRuntime.QueryCompatibleUtils.makeQueryCompatibleError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false, errorDetails: errorDetails)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "InternalServiceError": return try InternalServiceFault.makeError(baseError: baseError)
@@ -5812,7 +5812,7 @@ enum GetMetricWidgetImageOutputError {
         let data = try await httpResponse.data()
         let responseReader = try SmithyCBOR.Reader.from(data: data)
         let errorDetails = httpResponse.headers.value(for: "x-amzn-query-error")
-        let baseError: ClientRuntime.RpcV2CborError = try AWSClientRuntime.AWSQueryCompatibleUtils.makeQueryCompatibleError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false, errorDetails: errorDetails)
+        let baseError: ClientRuntime.RpcV2CborError = try ClientRuntime.QueryCompatibleUtils.makeQueryCompatibleError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false, errorDetails: errorDetails)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
@@ -5826,7 +5826,7 @@ enum ListAlarmMuteRulesOutputError {
         let data = try await httpResponse.data()
         let responseReader = try SmithyCBOR.Reader.from(data: data)
         let errorDetails = httpResponse.headers.value(for: "x-amzn-query-error")
-        let baseError: ClientRuntime.RpcV2CborError = try AWSClientRuntime.AWSQueryCompatibleUtils.makeQueryCompatibleError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false, errorDetails: errorDetails)
+        let baseError: ClientRuntime.RpcV2CborError = try ClientRuntime.QueryCompatibleUtils.makeQueryCompatibleError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false, errorDetails: errorDetails)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "InvalidNextToken": return try InvalidNextToken.makeError(baseError: baseError)
@@ -5842,7 +5842,7 @@ enum ListDashboardsOutputError {
         let data = try await httpResponse.data()
         let responseReader = try SmithyCBOR.Reader.from(data: data)
         let errorDetails = httpResponse.headers.value(for: "x-amzn-query-error")
-        let baseError: ClientRuntime.RpcV2CborError = try AWSClientRuntime.AWSQueryCompatibleUtils.makeQueryCompatibleError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false, errorDetails: errorDetails)
+        let baseError: ClientRuntime.RpcV2CborError = try ClientRuntime.QueryCompatibleUtils.makeQueryCompatibleError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false, errorDetails: errorDetails)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "InternalServiceError": return try InternalServiceFault.makeError(baseError: baseError)
@@ -5858,7 +5858,7 @@ enum ListManagedInsightRulesOutputError {
         let data = try await httpResponse.data()
         let responseReader = try SmithyCBOR.Reader.from(data: data)
         let errorDetails = httpResponse.headers.value(for: "x-amzn-query-error")
-        let baseError: ClientRuntime.RpcV2CborError = try AWSClientRuntime.AWSQueryCompatibleUtils.makeQueryCompatibleError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false, errorDetails: errorDetails)
+        let baseError: ClientRuntime.RpcV2CborError = try ClientRuntime.QueryCompatibleUtils.makeQueryCompatibleError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false, errorDetails: errorDetails)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "InvalidNextToken": return try InvalidNextToken.makeError(baseError: baseError)
@@ -5875,7 +5875,7 @@ enum ListMetricsOutputError {
         let data = try await httpResponse.data()
         let responseReader = try SmithyCBOR.Reader.from(data: data)
         let errorDetails = httpResponse.headers.value(for: "x-amzn-query-error")
-        let baseError: ClientRuntime.RpcV2CborError = try AWSClientRuntime.AWSQueryCompatibleUtils.makeQueryCompatibleError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false, errorDetails: errorDetails)
+        let baseError: ClientRuntime.RpcV2CborError = try ClientRuntime.QueryCompatibleUtils.makeQueryCompatibleError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false, errorDetails: errorDetails)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "InternalServiceError": return try InternalServiceFault.makeError(baseError: baseError)
@@ -5891,7 +5891,7 @@ enum ListMetricStreamsOutputError {
         let data = try await httpResponse.data()
         let responseReader = try SmithyCBOR.Reader.from(data: data)
         let errorDetails = httpResponse.headers.value(for: "x-amzn-query-error")
-        let baseError: ClientRuntime.RpcV2CborError = try AWSClientRuntime.AWSQueryCompatibleUtils.makeQueryCompatibleError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false, errorDetails: errorDetails)
+        let baseError: ClientRuntime.RpcV2CborError = try ClientRuntime.QueryCompatibleUtils.makeQueryCompatibleError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false, errorDetails: errorDetails)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "InternalServiceError": return try InternalServiceFault.makeError(baseError: baseError)
@@ -5909,7 +5909,7 @@ enum ListTagsForResourceOutputError {
         let data = try await httpResponse.data()
         let responseReader = try SmithyCBOR.Reader.from(data: data)
         let errorDetails = httpResponse.headers.value(for: "x-amzn-query-error")
-        let baseError: ClientRuntime.RpcV2CborError = try AWSClientRuntime.AWSQueryCompatibleUtils.makeQueryCompatibleError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false, errorDetails: errorDetails)
+        let baseError: ClientRuntime.RpcV2CborError = try ClientRuntime.QueryCompatibleUtils.makeQueryCompatibleError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false, errorDetails: errorDetails)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "InternalServiceError": return try InternalServiceFault.makeError(baseError: baseError)
@@ -5926,7 +5926,7 @@ enum PutAlarmMuteRuleOutputError {
         let data = try await httpResponse.data()
         let responseReader = try SmithyCBOR.Reader.from(data: data)
         let errorDetails = httpResponse.headers.value(for: "x-amzn-query-error")
-        let baseError: ClientRuntime.RpcV2CborError = try AWSClientRuntime.AWSQueryCompatibleUtils.makeQueryCompatibleError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false, errorDetails: errorDetails)
+        let baseError: ClientRuntime.RpcV2CborError = try ClientRuntime.QueryCompatibleUtils.makeQueryCompatibleError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false, errorDetails: errorDetails)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "LimitExceeded": return try LimitExceededFault.makeError(baseError: baseError)
@@ -5941,7 +5941,7 @@ enum PutAnomalyDetectorOutputError {
         let data = try await httpResponse.data()
         let responseReader = try SmithyCBOR.Reader.from(data: data)
         let errorDetails = httpResponse.headers.value(for: "x-amzn-query-error")
-        let baseError: ClientRuntime.RpcV2CborError = try AWSClientRuntime.AWSQueryCompatibleUtils.makeQueryCompatibleError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false, errorDetails: errorDetails)
+        let baseError: ClientRuntime.RpcV2CborError = try ClientRuntime.QueryCompatibleUtils.makeQueryCompatibleError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false, errorDetails: errorDetails)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "InternalServiceError": return try InternalServiceFault.makeError(baseError: baseError)
@@ -5960,7 +5960,7 @@ enum PutCompositeAlarmOutputError {
         let data = try await httpResponse.data()
         let responseReader = try SmithyCBOR.Reader.from(data: data)
         let errorDetails = httpResponse.headers.value(for: "x-amzn-query-error")
-        let baseError: ClientRuntime.RpcV2CborError = try AWSClientRuntime.AWSQueryCompatibleUtils.makeQueryCompatibleError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false, errorDetails: errorDetails)
+        let baseError: ClientRuntime.RpcV2CborError = try ClientRuntime.QueryCompatibleUtils.makeQueryCompatibleError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false, errorDetails: errorDetails)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "LimitExceeded": return try LimitExceededFault.makeError(baseError: baseError)
@@ -5975,7 +5975,7 @@ enum PutDashboardOutputError {
         let data = try await httpResponse.data()
         let responseReader = try SmithyCBOR.Reader.from(data: data)
         let errorDetails = httpResponse.headers.value(for: "x-amzn-query-error")
-        let baseError: ClientRuntime.RpcV2CborError = try AWSClientRuntime.AWSQueryCompatibleUtils.makeQueryCompatibleError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false, errorDetails: errorDetails)
+        let baseError: ClientRuntime.RpcV2CborError = try ClientRuntime.QueryCompatibleUtils.makeQueryCompatibleError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false, errorDetails: errorDetails)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "ConflictException": return try ConflictException.makeError(baseError: baseError)
@@ -5992,7 +5992,7 @@ enum PutInsightRuleOutputError {
         let data = try await httpResponse.data()
         let responseReader = try SmithyCBOR.Reader.from(data: data)
         let errorDetails = httpResponse.headers.value(for: "x-amzn-query-error")
-        let baseError: ClientRuntime.RpcV2CborError = try AWSClientRuntime.AWSQueryCompatibleUtils.makeQueryCompatibleError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false, errorDetails: errorDetails)
+        let baseError: ClientRuntime.RpcV2CborError = try ClientRuntime.QueryCompatibleUtils.makeQueryCompatibleError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false, errorDetails: errorDetails)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "InvalidParameterValue": return try InvalidParameterValueException.makeError(baseError: baseError)
@@ -6009,7 +6009,7 @@ enum PutManagedInsightRulesOutputError {
         let data = try await httpResponse.data()
         let responseReader = try SmithyCBOR.Reader.from(data: data)
         let errorDetails = httpResponse.headers.value(for: "x-amzn-query-error")
-        let baseError: ClientRuntime.RpcV2CborError = try AWSClientRuntime.AWSQueryCompatibleUtils.makeQueryCompatibleError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false, errorDetails: errorDetails)
+        let baseError: ClientRuntime.RpcV2CborError = try ClientRuntime.QueryCompatibleUtils.makeQueryCompatibleError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false, errorDetails: errorDetails)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "InvalidParameterValue": return try InvalidParameterValueException.makeError(baseError: baseError)
@@ -6025,7 +6025,7 @@ enum PutMetricAlarmOutputError {
         let data = try await httpResponse.data()
         let responseReader = try SmithyCBOR.Reader.from(data: data)
         let errorDetails = httpResponse.headers.value(for: "x-amzn-query-error")
-        let baseError: ClientRuntime.RpcV2CborError = try AWSClientRuntime.AWSQueryCompatibleUtils.makeQueryCompatibleError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false, errorDetails: errorDetails)
+        let baseError: ClientRuntime.RpcV2CborError = try ClientRuntime.QueryCompatibleUtils.makeQueryCompatibleError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false, errorDetails: errorDetails)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "LimitExceeded": return try LimitExceededFault.makeError(baseError: baseError)
@@ -6040,7 +6040,7 @@ enum PutMetricDataOutputError {
         let data = try await httpResponse.data()
         let responseReader = try SmithyCBOR.Reader.from(data: data)
         let errorDetails = httpResponse.headers.value(for: "x-amzn-query-error")
-        let baseError: ClientRuntime.RpcV2CborError = try AWSClientRuntime.AWSQueryCompatibleUtils.makeQueryCompatibleError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false, errorDetails: errorDetails)
+        let baseError: ClientRuntime.RpcV2CborError = try ClientRuntime.QueryCompatibleUtils.makeQueryCompatibleError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false, errorDetails: errorDetails)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "InternalServiceError": return try InternalServiceFault.makeError(baseError: baseError)
@@ -6058,7 +6058,7 @@ enum PutMetricStreamOutputError {
         let data = try await httpResponse.data()
         let responseReader = try SmithyCBOR.Reader.from(data: data)
         let errorDetails = httpResponse.headers.value(for: "x-amzn-query-error")
-        let baseError: ClientRuntime.RpcV2CborError = try AWSClientRuntime.AWSQueryCompatibleUtils.makeQueryCompatibleError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false, errorDetails: errorDetails)
+        let baseError: ClientRuntime.RpcV2CborError = try ClientRuntime.QueryCompatibleUtils.makeQueryCompatibleError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false, errorDetails: errorDetails)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "ConcurrentModificationException": return try ConcurrentModificationException.makeError(baseError: baseError)
@@ -6077,7 +6077,7 @@ enum SetAlarmStateOutputError {
         let data = try await httpResponse.data()
         let responseReader = try SmithyCBOR.Reader.from(data: data)
         let errorDetails = httpResponse.headers.value(for: "x-amzn-query-error")
-        let baseError: ClientRuntime.RpcV2CborError = try AWSClientRuntime.AWSQueryCompatibleUtils.makeQueryCompatibleError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false, errorDetails: errorDetails)
+        let baseError: ClientRuntime.RpcV2CborError = try ClientRuntime.QueryCompatibleUtils.makeQueryCompatibleError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false, errorDetails: errorDetails)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "InvalidFormat": return try InvalidFormatFault.makeError(baseError: baseError)
@@ -6093,7 +6093,7 @@ enum StartMetricStreamsOutputError {
         let data = try await httpResponse.data()
         let responseReader = try SmithyCBOR.Reader.from(data: data)
         let errorDetails = httpResponse.headers.value(for: "x-amzn-query-error")
-        let baseError: ClientRuntime.RpcV2CborError = try AWSClientRuntime.AWSQueryCompatibleUtils.makeQueryCompatibleError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false, errorDetails: errorDetails)
+        let baseError: ClientRuntime.RpcV2CborError = try ClientRuntime.QueryCompatibleUtils.makeQueryCompatibleError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false, errorDetails: errorDetails)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "InternalServiceError": return try InternalServiceFault.makeError(baseError: baseError)
@@ -6110,7 +6110,7 @@ enum StopMetricStreamsOutputError {
         let data = try await httpResponse.data()
         let responseReader = try SmithyCBOR.Reader.from(data: data)
         let errorDetails = httpResponse.headers.value(for: "x-amzn-query-error")
-        let baseError: ClientRuntime.RpcV2CborError = try AWSClientRuntime.AWSQueryCompatibleUtils.makeQueryCompatibleError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false, errorDetails: errorDetails)
+        let baseError: ClientRuntime.RpcV2CborError = try ClientRuntime.QueryCompatibleUtils.makeQueryCompatibleError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false, errorDetails: errorDetails)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "InternalServiceError": return try InternalServiceFault.makeError(baseError: baseError)
@@ -6127,7 +6127,7 @@ enum TagResourceOutputError {
         let data = try await httpResponse.data()
         let responseReader = try SmithyCBOR.Reader.from(data: data)
         let errorDetails = httpResponse.headers.value(for: "x-amzn-query-error")
-        let baseError: ClientRuntime.RpcV2CborError = try AWSClientRuntime.AWSQueryCompatibleUtils.makeQueryCompatibleError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false, errorDetails: errorDetails)
+        let baseError: ClientRuntime.RpcV2CborError = try ClientRuntime.QueryCompatibleUtils.makeQueryCompatibleError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false, errorDetails: errorDetails)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "ConcurrentModificationException": return try ConcurrentModificationException.makeError(baseError: baseError)
@@ -6146,7 +6146,7 @@ enum UntagResourceOutputError {
         let data = try await httpResponse.data()
         let responseReader = try SmithyCBOR.Reader.from(data: data)
         let errorDetails = httpResponse.headers.value(for: "x-amzn-query-error")
-        let baseError: ClientRuntime.RpcV2CborError = try AWSClientRuntime.AWSQueryCompatibleUtils.makeQueryCompatibleError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false, errorDetails: errorDetails)
+        let baseError: ClientRuntime.RpcV2CborError = try ClientRuntime.QueryCompatibleUtils.makeQueryCompatibleError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false, errorDetails: errorDetails)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "ConcurrentModificationException": return try ConcurrentModificationException.makeError(baseError: baseError)
