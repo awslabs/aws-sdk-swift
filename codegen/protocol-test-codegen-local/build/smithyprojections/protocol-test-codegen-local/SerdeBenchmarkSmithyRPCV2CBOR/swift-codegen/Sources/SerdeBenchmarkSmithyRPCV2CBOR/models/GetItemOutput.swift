@@ -22,26 +22,3 @@ public struct GetItemOutput: Swift.Sendable {
         self.item = item
     }
 }
-
-extension GetItemOutput: CustomStringConvertible {
-    public var description: String {
-        var parts: [String] = []
-        parts.append("GetItemOutput {")
-        if let consumedCapacity = consumedCapacity {
-            parts.append("  consumedCapacity: \(consumedCapacity)")
-        } else {
-            parts.append("  consumedCapacity: nil")
-        }
-        if let item = item {
-            parts.append("  item: [")
-            for (key, value) in item.sorted(by: { $0.key < $1.key }) {
-                parts.append("    \(key): \(value)")
-            }
-            parts.append("  ]")
-        } else {
-            parts.append("  item: nil")
-        }
-        parts.append("}")
-        return parts.joined(separator: "\n")
-    }
-}

@@ -22,11 +22,6 @@ extension GetItemOutput {
         var value = GetItemOutput()
         value.consumedCapacity = try reader["ConsumedCapacity"].readIfPresent(with: SmithyRpcV2CborDataPlaneClientTypes.ConsumedCapacity.read(from:))
         value.item = try reader["Item"].readMapIfPresent(valueReadingClosure: SmithyRpcV2CborDataPlaneClientTypes.AttributeValue.read(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
-        throw TempError.TempError("\(value)")
         return value
     }
-}
-
-public enum TempError: Swift.Error {
-    case TempError(String)
 }
