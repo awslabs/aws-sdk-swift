@@ -490,7 +490,7 @@
         "com.amazonaws.glacier#Glacier",
         "com.amazonaws.machinelearning#AmazonML_20141212",
         "com.amazonaws.s3#AmazonS3",
-        "com.amazonaws.sdk.benchmark#AwsJsonRpc1_0DataPlane"
+        "com.amazonaws.sdk.benchmark#SmithyRpcV2CborDataPlane"
     ],
     "traitDefNames": [
         "aws.api#arn",
@@ -733,15 +733,6 @@
         {
             "id": "EnumShape",
             "severity": "SUPPRESSED",
-            "shapeId": "com.amazonaws.s3#EncodingType$url",
-            "message": "The name `url` does not match the recommended enum name format of beginning with an uppercase letter, followed by any number of uppercase letters, numbers, or underscores.",
-            "filename": "jar:file:/Users/chanyoo/.gradle/caches/modules-2/files-2.1/software.amazon.smithy/smithy-aws-protocol-tests/1.67.0/ec9ff28100ffc321cb78a23f84113d616f620356/smithy-aws-protocol-tests-1.67.0.jar!/META-INF/smithy/restXml/services/s3.smithy",
-            "line": 602,
-            "column": 5
-        },
-        {
-            "id": "EnumShape",
-            "severity": "SUPPRESSED",
             "shapeId": "com.amazonaws.s3#RequestPayer$requester",
             "message": "The name `requester` does not match the recommended enum name format of beginning with an uppercase letter, followed by any number of uppercase letters, numbers, or underscores.",
             "filename": "jar:file:/Users/chanyoo/.gradle/caches/modules-2/files-2.1/software.amazon.smithy/smithy-aws-protocol-tests/1.67.0/ec9ff28100ffc321cb78a23f84113d616f620356/smithy-aws-protocol-tests-1.67.0.jar!/META-INF/smithy/restXml/services/s3.smithy",
@@ -749,12 +740,21 @@
             "column": 5
         },
         {
+            "id": "EnumShape",
+            "severity": "SUPPRESSED",
+            "shapeId": "com.amazonaws.s3#EncodingType$url",
+            "message": "The name `url` does not match the recommended enum name format of beginning with an uppercase letter, followed by any number of uppercase letters, numbers, or underscores.",
+            "filename": "jar:file:/Users/chanyoo/.gradle/caches/modules-2/files-2.1/software.amazon.smithy/smithy-aws-protocol-tests/1.67.0/ec9ff28100ffc321cb78a23f84113d616f620356/smithy-aws-protocol-tests-1.67.0.jar!/META-INF/smithy/restXml/services/s3.smithy",
+            "line": 602,
+            "column": 5
+        },
+        {
             "id": "HttpChecksumTrait.HttpHeader.PutObjectRequest.x-amz-checksum-crc32",
             "severity": "SUPPRESSED",
             "shapeId": "com.amazonaws.sdk.benchmark#PutObject",
             "message": "The `httpHeader` binding of `x-amz-checksum-crc32` on `PutObjectRequest` starts with the prefix `x-amz-checksum-` used by the `httpChecksum` trait.",
-            "filename": "/Users/chanyoo/Developer/aws-sdk-swift/codegen/protocol-test-codegen-local/model/aws-json-rpc-1-0-data-plane.json",
-            "line": 11399,
+            "filename": "/Users/chanyoo/Developer/aws-sdk-swift/codegen/protocol-test-codegen-local/model/smithy-rpc-v2-cbor-data-plane.json",
+            "line": 11369,
             "column": 50
         },
         {
@@ -762,8 +762,8 @@
             "severity": "SUPPRESSED",
             "shapeId": "com.amazonaws.sdk.benchmark#PutObject",
             "message": "The `httpHeader` binding of `x-amz-checksum-crc32c` on `PutObjectRequest` starts with the prefix `x-amz-checksum-` used by the `httpChecksum` trait.",
-            "filename": "/Users/chanyoo/Developer/aws-sdk-swift/codegen/protocol-test-codegen-local/model/aws-json-rpc-1-0-data-plane.json",
-            "line": 11399,
+            "filename": "/Users/chanyoo/Developer/aws-sdk-swift/codegen/protocol-test-codegen-local/model/smithy-rpc-v2-cbor-data-plane.json",
+            "line": 11369,
             "column": 50
         },
         {
@@ -771,8 +771,8 @@
             "severity": "SUPPRESSED",
             "shapeId": "com.amazonaws.sdk.benchmark#PutObject",
             "message": "The `httpHeader` binding of `x-amz-checksum-crc64nvme` on `PutObjectRequest` starts with the prefix `x-amz-checksum-` used by the `httpChecksum` trait.",
-            "filename": "/Users/chanyoo/Developer/aws-sdk-swift/codegen/protocol-test-codegen-local/model/aws-json-rpc-1-0-data-plane.json",
-            "line": 11399,
+            "filename": "/Users/chanyoo/Developer/aws-sdk-swift/codegen/protocol-test-codegen-local/model/smithy-rpc-v2-cbor-data-plane.json",
+            "line": 11369,
             "column": 50
         },
         {
@@ -780,8 +780,8 @@
             "severity": "SUPPRESSED",
             "shapeId": "com.amazonaws.sdk.benchmark#PutObject",
             "message": "The `httpHeader` binding of `x-amz-checksum-sha1` on `PutObjectRequest` starts with the prefix `x-amz-checksum-` used by the `httpChecksum` trait.",
-            "filename": "/Users/chanyoo/Developer/aws-sdk-swift/codegen/protocol-test-codegen-local/model/aws-json-rpc-1-0-data-plane.json",
-            "line": 11399,
+            "filename": "/Users/chanyoo/Developer/aws-sdk-swift/codegen/protocol-test-codegen-local/model/smithy-rpc-v2-cbor-data-plane.json",
+            "line": 11369,
             "column": 50
         },
         {
@@ -789,8 +789,8 @@
             "severity": "SUPPRESSED",
             "shapeId": "com.amazonaws.sdk.benchmark#PutObject",
             "message": "The `httpHeader` binding of `x-amz-checksum-sha256` on `PutObjectRequest` starts with the prefix `x-amz-checksum-` used by the `httpChecksum` trait.",
-            "filename": "/Users/chanyoo/Developer/aws-sdk-swift/codegen/protocol-test-codegen-local/model/aws-json-rpc-1-0-data-plane.json",
-            "line": 11399,
+            "filename": "/Users/chanyoo/Developer/aws-sdk-swift/codegen/protocol-test-codegen-local/model/smithy-rpc-v2-cbor-data-plane.json",
+            "line": 11369,
             "column": 50
         },
         {
@@ -798,8 +798,8 @@
             "severity": "SUPPRESSED",
             "shapeId": "com.amazonaws.sdk.benchmark#GetObject",
             "message": "The `httpHeader` binding of `x-amz-checksum-crc32` on `GetObjectOutput` starts with the prefix `x-amz-checksum-` used by the `httpChecksum` trait.",
-            "filename": "/Users/chanyoo/Developer/aws-sdk-swift/codegen/protocol-test-codegen-local/model/aws-json-rpc-1-0-data-plane.json",
-            "line": 3544,
+            "filename": "/Users/chanyoo/Developer/aws-sdk-swift/codegen/protocol-test-codegen-local/model/smithy-rpc-v2-cbor-data-plane.json",
+            "line": 3514,
             "column": 50
         },
         {
@@ -807,8 +807,8 @@
             "severity": "SUPPRESSED",
             "shapeId": "com.amazonaws.sdk.benchmark#GetObject",
             "message": "The `httpHeader` binding of `x-amz-checksum-crc32c` on `GetObjectOutput` starts with the prefix `x-amz-checksum-` used by the `httpChecksum` trait.",
-            "filename": "/Users/chanyoo/Developer/aws-sdk-swift/codegen/protocol-test-codegen-local/model/aws-json-rpc-1-0-data-plane.json",
-            "line": 3544,
+            "filename": "/Users/chanyoo/Developer/aws-sdk-swift/codegen/protocol-test-codegen-local/model/smithy-rpc-v2-cbor-data-plane.json",
+            "line": 3514,
             "column": 50
         },
         {
@@ -816,8 +816,8 @@
             "severity": "SUPPRESSED",
             "shapeId": "com.amazonaws.sdk.benchmark#GetObject",
             "message": "The `httpHeader` binding of `x-amz-checksum-crc64nvme` on `GetObjectOutput` starts with the prefix `x-amz-checksum-` used by the `httpChecksum` trait.",
-            "filename": "/Users/chanyoo/Developer/aws-sdk-swift/codegen/protocol-test-codegen-local/model/aws-json-rpc-1-0-data-plane.json",
-            "line": 3544,
+            "filename": "/Users/chanyoo/Developer/aws-sdk-swift/codegen/protocol-test-codegen-local/model/smithy-rpc-v2-cbor-data-plane.json",
+            "line": 3514,
             "column": 50
         },
         {
@@ -825,8 +825,8 @@
             "severity": "SUPPRESSED",
             "shapeId": "com.amazonaws.sdk.benchmark#GetObject",
             "message": "The `httpHeader` binding of `x-amz-checksum-sha1` on `GetObjectOutput` starts with the prefix `x-amz-checksum-` used by the `httpChecksum` trait.",
-            "filename": "/Users/chanyoo/Developer/aws-sdk-swift/codegen/protocol-test-codegen-local/model/aws-json-rpc-1-0-data-plane.json",
-            "line": 3544,
+            "filename": "/Users/chanyoo/Developer/aws-sdk-swift/codegen/protocol-test-codegen-local/model/smithy-rpc-v2-cbor-data-plane.json",
+            "line": 3514,
             "column": 50
         },
         {
@@ -834,8 +834,8 @@
             "severity": "SUPPRESSED",
             "shapeId": "com.amazonaws.sdk.benchmark#GetObject",
             "message": "The `httpHeader` binding of `x-amz-checksum-sha256` on `GetObjectOutput` starts with the prefix `x-amz-checksum-` used by the `httpChecksum` trait.",
-            "filename": "/Users/chanyoo/Developer/aws-sdk-swift/codegen/protocol-test-codegen-local/model/aws-json-rpc-1-0-data-plane.json",
-            "line": 3544,
+            "filename": "/Users/chanyoo/Developer/aws-sdk-swift/codegen/protocol-test-codegen-local/model/smithy-rpc-v2-cbor-data-plane.json",
+            "line": 3514,
             "column": 50
         },
         {
@@ -843,9 +843,18 @@
             "severity": "SUPPRESSED",
             "shapeId": "com.amazonaws.sdk.benchmark#GetObject",
             "message": "The `httpHeader` binding of `x-amz-checksum-type` on `GetObjectOutput` starts with the prefix `x-amz-checksum-` used by the `httpChecksum` trait.",
-            "filename": "/Users/chanyoo/Developer/aws-sdk-swift/codegen/protocol-test-codegen-local/model/aws-json-rpc-1-0-data-plane.json",
-            "line": 3544,
+            "filename": "/Users/chanyoo/Developer/aws-sdk-swift/codegen/protocol-test-codegen-local/model/smithy-rpc-v2-cbor-data-plane.json",
+            "line": 3514,
             "column": 50
+        },
+        {
+            "id": "SigV4Traits",
+            "severity": "SUPPRESSED",
+            "shapeId": "aws.protocoltests.ec2#AwsEc2",
+            "message": "Value for `aws.api#service$arnNamespace` \"awsec2\" and value for `aws.auth#sigv4$name` \"ec2query\" SHOULD match.",
+            "filename": "jar:file:/Users/chanyoo/.gradle/caches/modules-2/files-2.1/software.amazon.smithy/smithy-aws-protocol-tests/1.67.0/ec9ff28100ffc321cb78a23f84113d616f620356/smithy-aws-protocol-tests-1.67.0.jar!/META-INF/smithy/ec2Query/main.smithy",
+            "line": 44,
+            "column": 1
         },
         {
             "id": "SigV4Traits",
@@ -866,42 +875,13 @@
             "column": 1
         },
         {
-            "id": "SigV4Traits",
-            "severity": "SUPPRESSED",
-            "shapeId": "aws.protocoltests.ec2#AwsEc2",
-            "message": "Value for `aws.api#service$arnNamespace` \"awsec2\" and value for `aws.auth#sigv4$name` \"ec2query\" SHOULD match.",
-            "filename": "jar:file:/Users/chanyoo/.gradle/caches/modules-2/files-2.1/software.amazon.smithy/smithy-aws-protocol-tests/1.67.0/ec9ff28100ffc321cb78a23f84113d616f620356/smithy-aws-protocol-tests-1.67.0.jar!/META-INF/smithy/ec2Query/main.smithy",
-            "line": 44,
-            "column": 1
-        },
-        {
             "id": "DeprecatedTrait",
             "severity": "SUPPRESSED",
-            "shapeId": "aws.protocoltests.query#AwsQuery",
-            "message": "This shape applies a trait that is deprecated: aws.protocols#awsQuery",
+            "shapeId": "aws.protocoltests.restxml.xmlns#RestXmlWithNamespace",
+            "message": "This shape applies a trait that is deprecated: aws.protocols#restXml",
             "suppressionReason": "Some of the AWS protocols make use of deprecated traits, and some are\nthemselves deprecated traits. As this package is intended to test those\nprotocols, the warnings should be suppressed.",
-            "filename": "jar:file:/Users/chanyoo/.gradle/caches/modules-2/files-2.1/software.amazon.smithy/smithy-aws-protocol-tests/1.67.0/ec9ff28100ffc321cb78a23f84113d616f620356/smithy-aws-protocol-tests-1.67.0.jar!/META-INF/smithy/awsQuery/main.smithy",
-            "line": 14,
-            "column": 1
-        },
-        {
-            "id": "DeprecatedTrait",
-            "severity": "SUPPRESSED",
-            "shapeId": "aws.protocoltests.query#AwsQueryExtras",
-            "message": "This shape applies a trait that is deprecated: aws.protocols#awsQuery",
-            "suppressionReason": "Some of the AWS protocols make use of deprecated traits, and some are\nthemselves deprecated traits. As this package is intended to test those\nprotocols, the warnings should be suppressed.",
-            "filename": "/Users/chanyoo/Developer/aws-sdk-swift/codegen/protocol-test-codegen-local/model/aws-query-extras.smithy",
-            "line": 12,
-            "column": 1
-        },
-        {
-            "id": "DeprecatedTrait",
-            "severity": "SUPPRESSED",
-            "shapeId": "aws.protocoltests.ec2#AwsEc2",
-            "message": "This shape applies a trait that is deprecated: aws.protocols#ec2Query",
-            "suppressionReason": "Some of the AWS protocols make use of deprecated traits, and some are\nthemselves deprecated traits. As this package is intended to test those\nprotocols, the warnings should be suppressed.",
-            "filename": "jar:file:/Users/chanyoo/.gradle/caches/modules-2/files-2.1/software.amazon.smithy/smithy-aws-protocol-tests/1.67.0/ec9ff28100ffc321cb78a23f84113d616f620356/smithy-aws-protocol-tests-1.67.0.jar!/META-INF/smithy/ec2Query/main.smithy",
-            "line": 41,
+            "filename": "jar:file:/Users/chanyoo/.gradle/caches/modules-2/files-2.1/software.amazon.smithy/smithy-aws-protocol-tests/1.67.0/ec9ff28100ffc321cb78a23f84113d616f620356/smithy-aws-protocol-tests-1.67.0.jar!/META-INF/smithy/restXmlWithNamespace/main.smithy",
+            "line": 23,
             "column": 1
         },
         {
@@ -927,11 +907,31 @@
         {
             "id": "DeprecatedTrait",
             "severity": "SUPPRESSED",
-            "shapeId": "aws.protocoltests.restxml.xmlns#RestXmlWithNamespace",
-            "message": "This shape applies a trait that is deprecated: aws.protocols#restXml",
+            "shapeId": "aws.protocoltests.query#AwsQueryExtras",
+            "message": "This shape applies a trait that is deprecated: aws.protocols#awsQuery",
             "suppressionReason": "Some of the AWS protocols make use of deprecated traits, and some are\nthemselves deprecated traits. As this package is intended to test those\nprotocols, the warnings should be suppressed.",
-            "filename": "jar:file:/Users/chanyoo/.gradle/caches/modules-2/files-2.1/software.amazon.smithy/smithy-aws-protocol-tests/1.67.0/ec9ff28100ffc321cb78a23f84113d616f620356/smithy-aws-protocol-tests-1.67.0.jar!/META-INF/smithy/restXmlWithNamespace/main.smithy",
-            "line": 23,
+            "filename": "/Users/chanyoo/Developer/aws-sdk-swift/codegen/protocol-test-codegen-local/model/aws-query-extras.smithy",
+            "line": 12,
+            "column": 1
+        },
+        {
+            "id": "DeprecatedTrait",
+            "severity": "SUPPRESSED",
+            "shapeId": "aws.protocoltests.query#AwsQuery",
+            "message": "This shape applies a trait that is deprecated: aws.protocols#awsQuery",
+            "suppressionReason": "Some of the AWS protocols make use of deprecated traits, and some are\nthemselves deprecated traits. As this package is intended to test those\nprotocols, the warnings should be suppressed.",
+            "filename": "jar:file:/Users/chanyoo/.gradle/caches/modules-2/files-2.1/software.amazon.smithy/smithy-aws-protocol-tests/1.67.0/ec9ff28100ffc321cb78a23f84113d616f620356/smithy-aws-protocol-tests-1.67.0.jar!/META-INF/smithy/awsQuery/main.smithy",
+            "line": 14,
+            "column": 1
+        },
+        {
+            "id": "DeprecatedTrait",
+            "severity": "SUPPRESSED",
+            "shapeId": "aws.protocoltests.ec2#AwsEc2",
+            "message": "This shape applies a trait that is deprecated: aws.protocols#ec2Query",
+            "suppressionReason": "Some of the AWS protocols make use of deprecated traits, and some are\nthemselves deprecated traits. As this package is intended to test those\nprotocols, the warnings should be suppressed.",
+            "filename": "jar:file:/Users/chanyoo/.gradle/caches/modules-2/files-2.1/software.amazon.smithy/smithy-aws-protocol-tests/1.67.0/ec9ff28100ffc321cb78a23f84113d616f620356/smithy-aws-protocol-tests-1.67.0.jar!/META-INF/smithy/ec2Query/main.smithy",
+            "line": 41,
             "column": 1
         },
         {
@@ -957,8 +957,8 @@
             "severity": "SUPPRESSED",
             "shapeId": "com.amazonaws.sdk.benchmark#PutObjectRequest$ContentLength",
             "message": "`Content-Length` is not an allowed HTTP header binding",
-            "filename": "/Users/chanyoo/Developer/aws-sdk-swift/codegen/protocol-test-codegen-local/model/aws-json-rpc-1-0-data-plane.json",
-            "line": 11685,
+            "filename": "/Users/chanyoo/Developer/aws-sdk-swift/codegen/protocol-test-codegen-local/model/smithy-rpc-v2-cbor-data-plane.json",
+            "line": 11655,
             "column": 50
         },
         {
@@ -966,8 +966,8 @@
             "severity": "SUPPRESSED",
             "shapeId": "com.amazonaws.sdk.benchmark#HeadObjectOutput$ContentLength",
             "message": "`Content-Length` is not an allowed HTTP header binding",
-            "filename": "/Users/chanyoo/Developer/aws-sdk-swift/codegen/protocol-test-codegen-local/model/aws-json-rpc-1-0-data-plane.json",
-            "line": 4099,
+            "filename": "/Users/chanyoo/Developer/aws-sdk-swift/codegen/protocol-test-codegen-local/model/smithy-rpc-v2-cbor-data-plane.json",
+            "line": 4069,
             "column": 50
         },
         {
@@ -975,71 +975,17 @@
             "severity": "SUPPRESSED",
             "shapeId": "com.amazonaws.sdk.benchmark#GetObjectOutput$ContentLength",
             "message": "`Content-Length` is not an allowed HTTP header binding",
-            "filename": "/Users/chanyoo/Developer/aws-sdk-swift/codegen/protocol-test-codegen-local/model/aws-json-rpc-1-0-data-plane.json",
-            "line": 3728,
+            "filename": "/Users/chanyoo/Developer/aws-sdk-swift/codegen/protocol-test-codegen-local/model/smithy-rpc-v2-cbor-data-plane.json",
+            "line": 3698,
             "column": 50
-        },
-        {
-            "id": "HttpMethodSemantics.MissingReadonlyTrait",
-            "severity": "SUPPRESSED",
-            "shapeId": "com.amazonaws.s3#GetObject",
-            "message": "This operation uses the `GET` method in the `http` trait, but is not marked with the readonly trait",
-            "filename": "jar:file:/Users/chanyoo/.gradle/caches/modules-2/files-2.1/software.amazon.smithy/smithy-aws-protocol-tests/1.67.0/ec9ff28100ffc321cb78a23f84113d616f620356/smithy-aws-protocol-tests-1.67.0.jar!/META-INF/smithy/restXml/services/s3.smithy",
-            "line": 404,
-            "column": 1
         },
         {
             "id": "HttpMethodSemantics.MissingReadonlyTrait",
             "severity": "SUPPRESSED",
             "shapeId": "com.amazonaws.sdk.benchmark#GetObject",
             "message": "This operation uses the `GET` method in the `http` trait, but is not marked with the readonly trait",
-            "filename": "/Users/chanyoo/Developer/aws-sdk-swift/codegen/protocol-test-codegen-local/model/aws-json-rpc-1-0-data-plane.json",
-            "line": 3564,
-            "column": 36
-        },
-        {
-            "id": "HttpMethodSemantics.MissingIdempotentTrait",
-            "severity": "SUPPRESSED",
-            "shapeId": "com.amazonaws.s3#DeleteObjectTagging",
-            "message": "This operation uses the `DELETE` method in the `http` trait, but is not marked with the idempotent trait",
-            "filename": "jar:file:/Users/chanyoo/.gradle/caches/modules-2/files-2.1/software.amazon.smithy/smithy-aws-protocol-tests/1.67.0/ec9ff28100ffc321cb78a23f84113d616f620356/smithy-aws-protocol-tests-1.67.0.jar!/META-INF/smithy/restXml/services/s3.smithy",
-            "line": 338,
-            "column": 1
-        },
-        {
-            "id": "HttpMethodSemantics.MissingIdempotentTrait",
-            "severity": "SUPPRESSED",
-            "shapeId": "com.amazonaws.sdk.benchmark#CopyObject",
-            "message": "This operation uses the `PUT` method in the `http` trait, but is not marked with the idempotent trait",
-            "filename": "/Users/chanyoo/Developer/aws-sdk-swift/codegen/protocol-test-codegen-local/model/aws-json-rpc-1-0-data-plane.json",
-            "line": 273,
-            "column": 36
-        },
-        {
-            "id": "HttpMethodSemantics.MissingReadonlyTrait",
-            "severity": "SUPPRESSED",
-            "shapeId": "com.amazonaws.s3#ListObjectsV2",
-            "message": "This operation uses the `GET` method in the `http` trait, but is not marked with the readonly trait",
-            "filename": "jar:file:/Users/chanyoo/.gradle/caches/modules-2/files-2.1/software.amazon.smithy/smithy-aws-protocol-tests/1.67.0/ec9ff28100ffc321cb78a23f84113d616f620356/smithy-aws-protocol-tests-1.67.0.jar!/META-INF/smithy/restXml/services/s3.smithy",
-            "line": 260,
-            "column": 1
-        },
-        {
-            "id": "HttpMethodSemantics.MissingReadonlyTrait",
-            "severity": "SUPPRESSED",
-            "shapeId": "aws.protocoltests.restjson#EnumQuery",
-            "message": "This operation uses the `GET` method in the `http` trait, but is not marked with the readonly trait",
-            "filename": "/Users/chanyoo/Developer/aws-sdk-swift/codegen/protocol-test-codegen-local/model/rest-json-extras.smithy",
-            "line": 123,
-            "column": 1
-        },
-        {
-            "id": "HttpMethodSemantics.MissingReadonlyTrait",
-            "severity": "SUPPRESSED",
-            "shapeId": "com.amazonaws.sdk.benchmark#HeadObject",
-            "message": "This operation uses the `HEAD` method in the `http` trait, but is not marked with the readonly trait",
-            "filename": "/Users/chanyoo/Developer/aws-sdk-swift/codegen/protocol-test-codegen-local/model/aws-json-rpc-1-0-data-plane.json",
-            "line": 4050,
+            "filename": "/Users/chanyoo/Developer/aws-sdk-swift/codegen/protocol-test-codegen-local/model/smithy-rpc-v2-cbor-data-plane.json",
+            "line": 3534,
             "column": 36
         },
         {
@@ -1054,6 +1000,42 @@
         {
             "id": "HttpMethodSemantics.MissingReadonlyTrait",
             "severity": "SUPPRESSED",
+            "shapeId": "com.amazonaws.s3#GetObject",
+            "message": "This operation uses the `GET` method in the `http` trait, but is not marked with the readonly trait",
+            "filename": "jar:file:/Users/chanyoo/.gradle/caches/modules-2/files-2.1/software.amazon.smithy/smithy-aws-protocol-tests/1.67.0/ec9ff28100ffc321cb78a23f84113d616f620356/smithy-aws-protocol-tests-1.67.0.jar!/META-INF/smithy/restXml/services/s3.smithy",
+            "line": 404,
+            "column": 1
+        },
+        {
+            "id": "HttpMethodSemantics.MissingIdempotentTrait",
+            "severity": "SUPPRESSED",
+            "shapeId": "com.amazonaws.sdk.benchmark#CopyObject",
+            "message": "This operation uses the `PUT` method in the `http` trait, but is not marked with the idempotent trait",
+            "filename": "/Users/chanyoo/Developer/aws-sdk-swift/codegen/protocol-test-codegen-local/model/smithy-rpc-v2-cbor-data-plane.json",
+            "line": 243,
+            "column": 36
+        },
+        {
+            "id": "HttpMethodSemantics.MissingIdempotentTrait",
+            "severity": "SUPPRESSED",
+            "shapeId": "com.amazonaws.s3#DeleteObjectTagging",
+            "message": "This operation uses the `DELETE` method in the `http` trait, but is not marked with the idempotent trait",
+            "filename": "jar:file:/Users/chanyoo/.gradle/caches/modules-2/files-2.1/software.amazon.smithy/smithy-aws-protocol-tests/1.67.0/ec9ff28100ffc321cb78a23f84113d616f620356/smithy-aws-protocol-tests-1.67.0.jar!/META-INF/smithy/restXml/services/s3.smithy",
+            "line": 338,
+            "column": 1
+        },
+        {
+            "id": "HttpMethodSemantics.MissingReadonlyTrait",
+            "severity": "SUPPRESSED",
+            "shapeId": "com.amazonaws.s3#ListObjectsV2",
+            "message": "This operation uses the `GET` method in the `http` trait, but is not marked with the readonly trait",
+            "filename": "jar:file:/Users/chanyoo/.gradle/caches/modules-2/files-2.1/software.amazon.smithy/smithy-aws-protocol-tests/1.67.0/ec9ff28100ffc321cb78a23f84113d616f620356/smithy-aws-protocol-tests-1.67.0.jar!/META-INF/smithy/restXml/services/s3.smithy",
+            "line": 260,
+            "column": 1
+        },
+        {
+            "id": "HttpMethodSemantics.MissingReadonlyTrait",
+            "severity": "SUPPRESSED",
             "shapeId": "com.amazonaws.s3#GetBucketLocation",
             "message": "This operation uses the `GET` method in the `http` trait, but is not marked with the readonly trait",
             "filename": "jar:file:/Users/chanyoo/.gradle/caches/modules-2/files-2.1/software.amazon.smithy/smithy-aws-protocol-tests/1.67.0/ec9ff28100ffc321cb78a23f84113d616f620356/smithy-aws-protocol-tests-1.67.0.jar!/META-INF/smithy/restXml/services/s3.smithy",
@@ -1061,22 +1043,31 @@
             "column": 1
         },
         {
+            "id": "HttpMethodSemantics.MissingReadonlyTrait",
+            "severity": "SUPPRESSED",
+            "shapeId": "com.amazonaws.sdk.benchmark#HeadObject",
+            "message": "This operation uses the `HEAD` method in the `http` trait, but is not marked with the readonly trait",
+            "filename": "/Users/chanyoo/Developer/aws-sdk-swift/codegen/protocol-test-codegen-local/model/smithy-rpc-v2-cbor-data-plane.json",
+            "line": 4020,
+            "column": 36
+        },
+        {
+            "id": "HttpMethodSemantics.MissingReadonlyTrait",
+            "severity": "SUPPRESSED",
+            "shapeId": "aws.protocoltests.restjson#EnumQuery",
+            "message": "This operation uses the `GET` method in the `http` trait, but is not marked with the readonly trait",
+            "filename": "/Users/chanyoo/Developer/aws-sdk-swift/codegen/protocol-test-codegen-local/model/rest-json-extras.smithy",
+            "line": 123,
+            "column": 1
+        },
+        {
             "id": "HttpMethodSemantics.MissingIdempotentTrait",
             "severity": "SUPPRESSED",
             "shapeId": "com.amazonaws.sdk.benchmark#PutObject",
             "message": "This operation uses the `PUT` method in the `http` trait, but is not marked with the idempotent trait",
-            "filename": "/Users/chanyoo/Developer/aws-sdk-swift/codegen/protocol-test-codegen-local/model/aws-json-rpc-1-0-data-plane.json",
-            "line": 11412,
+            "filename": "/Users/chanyoo/Developer/aws-sdk-swift/codegen/protocol-test-codegen-local/model/smithy-rpc-v2-cbor-data-plane.json",
+            "line": 11382,
             "column": 36
-        },
-        {
-            "id": "HttpPrefixHeadersTrait",
-            "severity": "NOTE",
-            "shapeId": "aws.protocoltests.restxml#HttpEmptyPrefixHeadersOutput$specificHeader",
-            "message": "`httpHeader` binding of `hello` conflicts with the `httpPrefixHeaders` binding of `aws.protocoltests.restxml#HttpEmptyPrefixHeadersOutput$prefixHeaders` to ``. The service will not be able to disambiguate between header parameters intended for the `aws.protocoltests.restxml#HttpEmptyPrefixHeadersOutput$prefixHeaders` member and those explicitly bound to the `httpHeader` members.",
-            "filename": "jar:file:/Users/chanyoo/.gradle/caches/modules-2/files-2.1/software.amazon.smithy/smithy-aws-protocol-tests/1.67.0/ec9ff28100ffc321cb78a23f84113d616f620356/smithy-aws-protocol-tests-1.67.0.jar!/META-INF/smithy/restXml/http-prefix-headers.smithy",
-            "line": 142,
-            "column": 9
         },
         {
             "id": "HttpPrefixHeadersTrait",
@@ -1090,10 +1081,10 @@
         {
             "id": "HttpPrefixHeadersTrait",
             "severity": "NOTE",
-            "shapeId": "aws.protocoltests.restxml#HttpEmptyPrefixHeadersInput$specificHeader",
-            "message": "`httpHeader` binding of `hello` conflicts with the `httpPrefixHeaders` binding of `aws.protocoltests.restxml#HttpEmptyPrefixHeadersInput$prefixHeaders` to ``. The service will not be able to disambiguate between header parameters intended for the `aws.protocoltests.restxml#HttpEmptyPrefixHeadersInput$prefixHeaders` member and those explicitly bound to the `httpHeader` members.",
+            "shapeId": "aws.protocoltests.restxml#HttpEmptyPrefixHeadersOutput$specificHeader",
+            "message": "`httpHeader` binding of `hello` conflicts with the `httpPrefixHeaders` binding of `aws.protocoltests.restxml#HttpEmptyPrefixHeadersOutput$prefixHeaders` to ``. The service will not be able to disambiguate between header parameters intended for the `aws.protocoltests.restxml#HttpEmptyPrefixHeadersOutput$prefixHeaders` member and those explicitly bound to the `httpHeader` members.",
             "filename": "jar:file:/Users/chanyoo/.gradle/caches/modules-2/files-2.1/software.amazon.smithy/smithy-aws-protocol-tests/1.67.0/ec9ff28100ffc321cb78a23f84113d616f620356/smithy-aws-protocol-tests-1.67.0.jar!/META-INF/smithy/restXml/http-prefix-headers.smithy",
-            "line": 135,
+            "line": 142,
             "column": 9
         },
         {
@@ -1106,21 +1097,30 @@
             "column": 9
         },
         {
+            "id": "HttpPrefixHeadersTrait",
+            "severity": "NOTE",
+            "shapeId": "aws.protocoltests.restxml#HttpEmptyPrefixHeadersInput$specificHeader",
+            "message": "`httpHeader` binding of `hello` conflicts with the `httpPrefixHeaders` binding of `aws.protocoltests.restxml#HttpEmptyPrefixHeadersInput$prefixHeaders` to ``. The service will not be able to disambiguate between header parameters intended for the `aws.protocoltests.restxml#HttpEmptyPrefixHeadersInput$prefixHeaders` member and those explicitly bound to the `httpHeader` members.",
+            "filename": "jar:file:/Users/chanyoo/.gradle/caches/modules-2/files-2.1/software.amazon.smithy/smithy-aws-protocol-tests/1.67.0/ec9ff28100ffc321cb78a23f84113d616f620356/smithy-aws-protocol-tests-1.67.0.jar!/META-INF/smithy/restXml/http-prefix-headers.smithy",
+            "line": 135,
+            "column": 9
+        },
+        {
+            "id": "HttpQueryParamsTrait",
+            "severity": "SUPPRESSED",
+            "shapeId": "aws.protocoltests.restjson#QueryParamsAsStringListMapInput",
+            "message": "Structure member `foo` is marked with the `httpQueryParams` trait, and `httpQuery` traits are applied to the following members: `qux`. The service will not be able to disambiguate between query string parameters intended for the `foo` member and those explicitly bound to the `httpQuery` members.",
+            "filename": "jar:file:/Users/chanyoo/.gradle/caches/modules-2/files-2.1/software.amazon.smithy/smithy-aws-protocol-tests/1.67.0/ec9ff28100ffc321cb78a23f84113d616f620356/smithy-aws-protocol-tests-1.67.0.jar!/META-INF/smithy/restJson1/http-query.smithy",
+            "line": 696,
+            "column": 1
+        },
+        {
             "id": "HttpQueryParamsTrait",
             "severity": "SUPPRESSED",
             "shapeId": "aws.protocoltests.restjson#AllQueryStringTypesInput",
             "message": "Structure member `queryParamsMapOfStringList` is marked with the `httpQueryParams` trait, and `httpQuery` traits are applied to the following members: `queryBoolean`, `queryBooleanList`, `queryByte`, `queryDouble`, `queryDoubleList`, `queryEnum`, `queryEnumList`, `queryFloat`, `queryInteger`, `queryIntegerEnum`, `queryIntegerEnumList`, `queryIntegerList`, `queryIntegerSet`, `queryLong`, `queryShort`, `queryString`, `queryStringList`, `queryStringSet`, `queryTimestamp`, `queryTimestampList`. The service will not be able to disambiguate between query string parameters intended for the `queryParamsMapOfStringList` member and those explicitly bound to the `httpQuery` members.",
             "filename": "jar:file:/Users/chanyoo/.gradle/caches/modules-2/files-2.1/software.amazon.smithy/smithy-aws-protocol-tests/1.67.0/ec9ff28100ffc321cb78a23f84113d616f620356/smithy-aws-protocol-tests-1.67.0.jar!/META-INF/smithy/restJson1/http-query.smithy",
             "line": 244,
-            "column": 1
-        },
-        {
-            "id": "HttpQueryParamsTrait",
-            "severity": "SUPPRESSED",
-            "shapeId": "aws.protocoltests.restjson#QueryPrecedenceInput",
-            "message": "Structure member `baz` is marked with the `httpQueryParams` trait, and `httpQuery` traits are applied to the following members: `foo`. The service will not be able to disambiguate between query string parameters intended for the `baz` member and those explicitly bound to the `httpQuery` members.",
-            "filename": "jar:file:/Users/chanyoo/.gradle/caches/modules-2/files-2.1/software.amazon.smithy/smithy-aws-protocol-tests/1.67.0/ec9ff28100ffc321cb78a23f84113d616f620356/smithy-aws-protocol-tests-1.67.0.jar!/META-INF/smithy/restJson1/http-query.smithy",
-            "line": 637,
             "column": 1
         },
         {
@@ -1135,19 +1135,10 @@
         {
             "id": "HttpQueryParamsTrait",
             "severity": "SUPPRESSED",
-            "shapeId": "aws.protocoltests.restjson#QueryParamsAsStringListMapInput",
-            "message": "Structure member `foo` is marked with the `httpQueryParams` trait, and `httpQuery` traits are applied to the following members: `qux`. The service will not be able to disambiguate between query string parameters intended for the `foo` member and those explicitly bound to the `httpQuery` members.",
+            "shapeId": "aws.protocoltests.restjson#QueryPrecedenceInput",
+            "message": "Structure member `baz` is marked with the `httpQueryParams` trait, and `httpQuery` traits are applied to the following members: `foo`. The service will not be able to disambiguate between query string parameters intended for the `baz` member and those explicitly bound to the `httpQuery` members.",
             "filename": "jar:file:/Users/chanyoo/.gradle/caches/modules-2/files-2.1/software.amazon.smithy/smithy-aws-protocol-tests/1.67.0/ec9ff28100ffc321cb78a23f84113d616f620356/smithy-aws-protocol-tests-1.67.0.jar!/META-INF/smithy/restJson1/http-query.smithy",
-            "line": 696,
-            "column": 1
-        },
-        {
-            "id": "HttpQueryParamsTrait",
-            "severity": "SUPPRESSED",
-            "shapeId": "aws.protocoltests.restxml#AllQueryStringTypesInput",
-            "message": "Structure member `queryParamsMapOfStrings` is marked with the `httpQueryParams` trait, and `httpQuery` traits are applied to the following members: `queryBoolean`, `queryBooleanList`, `queryByte`, `queryDouble`, `queryDoubleList`, `queryEnum`, `queryEnumList`, `queryFloat`, `queryInteger`, `queryIntegerEnum`, `queryIntegerEnumList`, `queryIntegerList`, `queryIntegerSet`, `queryLong`, `queryShort`, `queryString`, `queryStringList`, `queryStringSet`, `queryTimestamp`, `queryTimestampList`. The service will not be able to disambiguate between query string parameters intended for the `queryParamsMapOfStrings` member and those explicitly bound to the `httpQuery` members.",
-            "filename": "jar:file:/Users/chanyoo/.gradle/caches/modules-2/files-2.1/software.amazon.smithy/smithy-aws-protocol-tests/1.67.0/ec9ff28100ffc321cb78a23f84113d616f620356/smithy-aws-protocol-tests-1.67.0.jar!/META-INF/smithy/restXml/http-query.smithy",
-            "line": 202,
+            "line": 637,
             "column": 1
         },
         {
@@ -1160,6 +1151,15 @@
             "column": 1
         },
         {
+            "id": "HttpQueryParamsTrait",
+            "severity": "SUPPRESSED",
+            "shapeId": "aws.protocoltests.restxml#AllQueryStringTypesInput",
+            "message": "Structure member `queryParamsMapOfStrings` is marked with the `httpQueryParams` trait, and `httpQuery` traits are applied to the following members: `queryBoolean`, `queryBooleanList`, `queryByte`, `queryDouble`, `queryDoubleList`, `queryEnum`, `queryEnumList`, `queryFloat`, `queryInteger`, `queryIntegerEnum`, `queryIntegerEnumList`, `queryIntegerList`, `queryIntegerSet`, `queryLong`, `queryShort`, `queryString`, `queryStringList`, `queryStringSet`, `queryTimestamp`, `queryTimestampList`. The service will not be able to disambiguate between query string parameters intended for the `queryParamsMapOfStrings` member and those explicitly bound to the `httpQuery` members.",
+            "filename": "jar:file:/Users/chanyoo/.gradle/caches/modules-2/files-2.1/software.amazon.smithy/smithy-aws-protocol-tests/1.67.0/ec9ff28100ffc321cb78a23f84113d616f620356/smithy-aws-protocol-tests-1.67.0.jar!/META-INF/smithy/restXml/http-query.smithy",
+            "line": 202,
+            "column": 1
+        },
+        {
             "id": "OperationNameAmbiguity",
             "severity": "WARNING",
             "shapeId": "aws.protocoltests.restjson#PrimitiveIntHeaderInput",
@@ -1169,130 +1169,22 @@
             "column": 1
         },
         {
-            "id": "UnstableTrait.smithy.rules#endpointTests",
+            "id": "UnstableTrait.smithy.api#httpChecksumRequired",
             "severity": "SUPPRESSED",
-            "shapeId": "aws.endpointtests.stringarray#EndpointStringArray",
-            "message": "This shape applies a trait that is unstable: smithy.rules#endpointTests",
-            "filename": "/Users/chanyoo/Developer/aws-sdk-swift/codegen/protocol-test-codegen-local/model/endpoints-string-array.smithy",
-            "line": 50,
+            "shapeId": "aws.protocoltests.restjson#HttpChecksumRequired",
+            "message": "This shape applies a trait that is unstable: smithy.api#httpChecksumRequired",
+            "filename": "jar:file:/Users/chanyoo/.gradle/caches/modules-2/files-2.1/software.amazon.smithy/smithy-aws-protocol-tests/1.67.0/ec9ff28100ffc321cb78a23f84113d616f620356/smithy-aws-protocol-tests-1.67.0.jar!/META-INF/smithy/restJson1/http-checksums.smithy",
+            "line": 12,
             "column": 1
         },
         {
             "id": "UnstableTrait.smithy.test#httpMalformedRequestTests",
             "severity": "SUPPRESSED",
-            "shapeId": "aws.protocoltests.restjson.validation#MalformedRequired",
+            "shapeId": "aws.protocoltests.restjson#MalformedUnion",
             "message": "This shape applies a trait that is unstable: smithy.test#httpMalformedRequestTests",
-            "filename": "jar:file:/Users/chanyoo/.gradle/caches/modules-2/files-2.1/software.amazon.smithy/smithy-aws-protocol-tests/1.67.0/ec9ff28100ffc321cb78a23f84113d616f620356/smithy-aws-protocol-tests-1.67.0.jar!/META-INF/smithy/restJson1/validation/malformed-required.smithy",
-            "line": 16,
-            "column": 25
-        },
-        {
-            "id": "UnstableTrait.smithy.test#httpMalformedRequestTests",
-            "severity": "SUPPRESSED",
-            "shapeId": "aws.protocoltests.restjson#MalformedContentTypeWithoutBody",
-            "message": "This shape applies a trait that is unstable: smithy.test#httpMalformedRequestTests",
-            "filename": "jar:file:/Users/chanyoo/.gradle/caches/modules-2/files-2.1/software.amazon.smithy/smithy-aws-protocol-tests/1.67.0/ec9ff28100ffc321cb78a23f84113d616f620356/smithy-aws-protocol-tests-1.67.0.jar!/META-INF/smithy/restJson1/malformedRequests/malformed-content-type.smithy",
-            "line": 10,
-            "column": 39
-        },
-        {
-            "id": "UnstableTrait.smithy.test#httpMalformedRequestTests",
-            "severity": "SUPPRESSED",
-            "shapeId": "aws.protocoltests.restjson#MalformedFloat",
-            "message": "This shape applies a trait that is unstable: smithy.test#httpMalformedRequestTests",
-            "filename": "jar:file:/Users/chanyoo/.gradle/caches/modules-2/files-2.1/software.amazon.smithy/smithy-aws-protocol-tests/1.67.0/ec9ff28100ffc321cb78a23f84113d616f620356/smithy-aws-protocol-tests-1.67.0.jar!/META-INF/smithy/restJson1/malformedRequests/malformed-float.smithy",
+            "filename": "jar:file:/Users/chanyoo/.gradle/caches/modules-2/files-2.1/software.amazon.smithy/smithy-aws-protocol-tests/1.67.0/ec9ff28100ffc321cb78a23f84113d616f620356/smithy-aws-protocol-tests-1.67.0.jar!/META-INF/smithy/restJson1/malformedRequests/malformed-union.smithy",
             "line": 14,
             "column": 22
-        },
-        {
-            "id": "UnstableTrait.smithy.test#httpMalformedRequestTests",
-            "severity": "SUPPRESSED",
-            "shapeId": "aws.protocoltests.restjson#MalformedByte",
-            "message": "This shape applies a trait that is unstable: smithy.test#httpMalformedRequestTests",
-            "filename": "jar:file:/Users/chanyoo/.gradle/caches/modules-2/files-2.1/software.amazon.smithy/smithy-aws-protocol-tests/1.67.0/ec9ff28100ffc321cb78a23f84113d616f620356/smithy-aws-protocol-tests-1.67.0.jar!/META-INF/smithy/restJson1/malformedRequests/malformed-byte.smithy",
-            "line": 14,
-            "column": 21
-        },
-        {
-            "id": "UnstableTrait.smithy.test#httpMalformedRequestTests",
-            "severity": "SUPPRESSED",
-            "shapeId": "aws.protocoltests.restjson.validation#MalformedLengthQueryString",
-            "message": "This shape applies a trait that is unstable: smithy.test#httpMalformedRequestTests",
-            "filename": "jar:file:/Users/chanyoo/.gradle/caches/modules-2/files-2.1/software.amazon.smithy/smithy-aws-protocol-tests/1.67.0/ec9ff28100ffc321cb78a23f84113d616f620356/smithy-aws-protocol-tests-1.67.0.jar!/META-INF/smithy/restJson1/validation/malformed-length.smithy",
-            "line": 556,
-            "column": 34
-        },
-        {
-            "id": "UnstableTrait.smithy.test#httpMalformedRequestTests",
-            "severity": "SUPPRESSED",
-            "shapeId": "aws.protocoltests.restjson.validation#MalformedLengthOverride",
-            "message": "This shape applies a trait that is unstable: smithy.test#httpMalformedRequestTests",
-            "filename": "jar:file:/Users/chanyoo/.gradle/caches/modules-2/files-2.1/software.amazon.smithy/smithy-aws-protocol-tests/1.67.0/ec9ff28100ffc321cb78a23f84113d616f620356/smithy-aws-protocol-tests-1.67.0.jar!/META-INF/smithy/restJson1/validation/malformed-length.smithy",
-            "line": 347,
-            "column": 31
-        },
-        {
-            "id": "UnstableTrait.smithy.test#httpMalformedRequestTests",
-            "severity": "SUPPRESSED",
-            "shapeId": "aws.protocoltests.restjson#MalformedContentTypeWithoutBodyEmptyInput",
-            "message": "This shape applies a trait that is unstable: smithy.test#httpMalformedRequestTests",
-            "filename": "jar:file:/Users/chanyoo/.gradle/caches/modules-2/files-2.1/software.amazon.smithy/smithy-aws-protocol-tests/1.67.0/ec9ff28100ffc321cb78a23f84113d616f620356/smithy-aws-protocol-tests-1.67.0.jar!/META-INF/smithy/restJson1/malformedRequests/malformed-content-type.smithy",
-            "line": 129,
-            "column": 49
-        },
-        {
-            "id": "UnstableTrait.smithy.test#httpMalformedRequestTests",
-            "severity": "SUPPRESSED",
-            "shapeId": "aws.protocoltests.restjson.validation#SensitiveValidation",
-            "message": "This shape applies a trait that is unstable: smithy.test#httpMalformedRequestTests",
-            "filename": "jar:file:/Users/chanyoo/.gradle/caches/modules-2/files-2.1/software.amazon.smithy/smithy-aws-protocol-tests/1.67.0/ec9ff28100ffc321cb78a23f84113d616f620356/smithy-aws-protocol-tests-1.67.0.jar!/META-INF/smithy/restJson1/validation/sensitive-validation.smithy",
-            "line": 16,
-            "column": 27
-        },
-        {
-            "id": "UnstableTrait.smithy.test#httpMalformedRequestTests",
-            "severity": "SUPPRESSED",
-            "shapeId": "aws.protocoltests.restjson.validation#MalformedUniqueItems",
-            "message": "This shape applies a trait that is unstable: smithy.test#httpMalformedRequestTests",
-            "filename": "jar:file:/Users/chanyoo/.gradle/caches/modules-2/files-2.1/software.amazon.smithy/smithy-aws-protocol-tests/1.67.0/ec9ff28100ffc321cb78a23f84113d616f620356/smithy-aws-protocol-tests-1.67.0.jar!/META-INF/smithy/restJson1/validation/malformed-uniqueItems.smithy",
-            "line": 31,
-            "column": 28
-        },
-        {
-            "id": "UnstableTrait.smithy.test#httpMalformedRequestTests",
-            "severity": "SUPPRESSED",
-            "shapeId": "aws.protocoltests.restjson#MalformedTimestampHeaderEpoch",
-            "message": "This shape applies a trait that is unstable: smithy.test#httpMalformedRequestTests",
-            "filename": "jar:file:/Users/chanyoo/.gradle/caches/modules-2/files-2.1/software.amazon.smithy/smithy-aws-protocol-tests/1.67.0/ec9ff28100ffc321cb78a23f84113d616f620356/smithy-aws-protocol-tests-1.67.0.jar!/META-INF/smithy/restJson1/malformedRequests/malformed-timestamp-header.smithy",
-            "line": 168,
-            "column": 37
-        },
-        {
-            "id": "UnstableTrait.smithy.test#httpMalformedRequestTests",
-            "severity": "SUPPRESSED",
-            "shapeId": "aws.protocoltests.restjson#MalformedBoolean",
-            "message": "This shape applies a trait that is unstable: smithy.test#httpMalformedRequestTests",
-            "filename": "jar:file:/Users/chanyoo/.gradle/caches/modules-2/files-2.1/software.amazon.smithy/smithy-aws-protocol-tests/1.67.0/ec9ff28100ffc321cb78a23f84113d616f620356/smithy-aws-protocol-tests-1.67.0.jar!/META-INF/smithy/restJson1/malformedRequests/malformed-boolean.smithy",
-            "line": 14,
-            "column": 24
-        },
-        {
-            "id": "UnstableTrait.smithy.test#httpMalformedRequestTests",
-            "severity": "SUPPRESSED",
-            "shapeId": "aws.protocoltests.restjson#MalformedAcceptWithBody",
-            "message": "This shape applies a trait that is unstable: smithy.test#httpMalformedRequestTests",
-            "filename": "jar:file:/Users/chanyoo/.gradle/caches/modules-2/files-2.1/software.amazon.smithy/smithy-aws-protocol-tests/1.67.0/ec9ff28100ffc321cb78a23f84113d616f620356/smithy-aws-protocol-tests-1.67.0.jar!/META-INF/smithy/restJson1/malformedRequests/malformed-accept.smithy",
-            "line": 10,
-            "column": 31
-        },
-        {
-            "id": "UnstableTrait.smithy.test#httpMalformedRequestTests",
-            "severity": "SUPPRESSED",
-            "shapeId": "aws.protocoltests.restjson#MalformedTimestampHeaderDateTime",
-            "message": "This shape applies a trait that is unstable: smithy.test#httpMalformedRequestTests",
-            "filename": "jar:file:/Users/chanyoo/.gradle/caches/modules-2/files-2.1/software.amazon.smithy/smithy-aws-protocol-tests/1.67.0/ec9ff28100ffc321cb78a23f84113d616f620356/smithy-aws-protocol-tests-1.67.0.jar!/META-INF/smithy/restJson1/malformedRequests/malformed-timestamp-header.smithy",
-            "line": 79,
-            "column": 40
         },
         {
             "id": "UnstableTrait.smithy.test#httpMalformedRequestTests",
@@ -1315,191 +1207,11 @@
         {
             "id": "UnstableTrait.smithy.test#httpMalformedRequestTests",
             "severity": "SUPPRESSED",
-            "shapeId": "aws.protocoltests.restjson#MalformedShort",
+            "shapeId": "aws.protocoltests.restjson.validation#SensitiveValidation",
             "message": "This shape applies a trait that is unstable: smithy.test#httpMalformedRequestTests",
-            "filename": "jar:file:/Users/chanyoo/.gradle/caches/modules-2/files-2.1/software.amazon.smithy/smithy-aws-protocol-tests/1.67.0/ec9ff28100ffc321cb78a23f84113d616f620356/smithy-aws-protocol-tests-1.67.0.jar!/META-INF/smithy/restJson1/malformedRequests/malformed-short.smithy",
-            "line": 14,
-            "column": 22
-        },
-        {
-            "id": "UnstableTrait.smithy.test#httpMalformedRequestTests",
-            "severity": "SUPPRESSED",
-            "shapeId": "aws.protocoltests.restjson#MalformedUnion",
-            "message": "This shape applies a trait that is unstable: smithy.test#httpMalformedRequestTests",
-            "filename": "jar:file:/Users/chanyoo/.gradle/caches/modules-2/files-2.1/software.amazon.smithy/smithy-aws-protocol-tests/1.67.0/ec9ff28100ffc321cb78a23f84113d616f620356/smithy-aws-protocol-tests-1.67.0.jar!/META-INF/smithy/restJson1/malformedRequests/malformed-union.smithy",
-            "line": 14,
-            "column": 22
-        },
-        {
-            "id": "UnstableTrait.smithy.test#httpMalformedRequestTests",
-            "severity": "SUPPRESSED",
-            "shapeId": "aws.protocoltests.restjson#MalformedTimestampPathHttpDate",
-            "message": "This shape applies a trait that is unstable: smithy.test#httpMalformedRequestTests",
-            "filename": "jar:file:/Users/chanyoo/.gradle/caches/modules-2/files-2.1/software.amazon.smithy/smithy-aws-protocol-tests/1.67.0/ec9ff28100ffc321cb78a23f84113d616f620356/smithy-aws-protocol-tests-1.67.0.jar!/META-INF/smithy/restJson1/malformedRequests/malformed-timestamp-path.smithy",
-            "line": 125,
-            "column": 38
-        },
-        {
-            "id": "UnstableTrait.smithy.test#httpMalformedRequestTests",
-            "severity": "SUPPRESSED",
-            "shapeId": "aws.protocoltests.restjson#MalformedTimestampQueryHttpDate",
-            "message": "This shape applies a trait that is unstable: smithy.test#httpMalformedRequestTests",
-            "filename": "jar:file:/Users/chanyoo/.gradle/caches/modules-2/files-2.1/software.amazon.smithy/smithy-aws-protocol-tests/1.67.0/ec9ff28100ffc321cb78a23f84113d616f620356/smithy-aws-protocol-tests-1.67.0.jar!/META-INF/smithy/restJson1/malformedRequests/malformed-timestamp-query.smithy",
-            "line": 137,
-            "column": 39
-        },
-        {
-            "id": "UnstableTrait.smithy.test#httpMalformedRequestTests",
-            "severity": "SUPPRESSED",
-            "shapeId": "aws.protocoltests.restjson#HttpStringPayload",
-            "message": "This shape applies a trait that is unstable: smithy.test#httpMalformedRequestTests",
-            "filename": "jar:file:/Users/chanyoo/.gradle/caches/modules-2/files-2.1/software.amazon.smithy/smithy-aws-protocol-tests/1.67.0/ec9ff28100ffc321cb78a23f84113d616f620356/smithy-aws-protocol-tests-1.67.0.jar!/META-INF/smithy/restJson1/http-string-payload.smithy",
-            "line": 75,
-            "column": 1
-        },
-        {
-            "id": "UnstableTrait.smithy.test#httpMalformedRequestTests",
-            "severity": "SUPPRESSED",
-            "shapeId": "aws.protocoltests.restjson#MalformedTimestampBodyHttpDate",
-            "message": "This shape applies a trait that is unstable: smithy.test#httpMalformedRequestTests",
-            "filename": "jar:file:/Users/chanyoo/.gradle/caches/modules-2/files-2.1/software.amazon.smithy/smithy-aws-protocol-tests/1.67.0/ec9ff28100ffc321cb78a23f84113d616f620356/smithy-aws-protocol-tests-1.67.0.jar!/META-INF/smithy/restJson1/malformedRequests/malformed-timestamp-body.smithy",
-            "line": 256,
-            "column": 38
-        },
-        {
-            "id": "UnstableTrait.smithy.test#httpMalformedRequestTests",
-            "severity": "SUPPRESSED",
-            "shapeId": "aws.protocoltests.restjson#MalformedMap",
-            "message": "This shape applies a trait that is unstable: smithy.test#httpMalformedRequestTests",
-            "filename": "jar:file:/Users/chanyoo/.gradle/caches/modules-2/files-2.1/software.amazon.smithy/smithy-aws-protocol-tests/1.67.0/ec9ff28100ffc321cb78a23f84113d616f620356/smithy-aws-protocol-tests-1.67.0.jar!/META-INF/smithy/restJson1/malformedRequests/malformed-map.smithy",
-            "line": 14,
-            "column": 20
-        },
-        {
-            "id": "UnstableTrait.smithy.test#httpMalformedRequestTests",
-            "severity": "SUPPRESSED",
-            "shapeId": "aws.protocoltests.restjson#MalformedAcceptWithPayload",
-            "message": "This shape applies a trait that is unstable: smithy.test#httpMalformedRequestTests",
-            "filename": "jar:file:/Users/chanyoo/.gradle/caches/modules-2/files-2.1/software.amazon.smithy/smithy-aws-protocol-tests/1.67.0/ec9ff28100ffc321cb78a23f84113d616f620356/smithy-aws-protocol-tests-1.67.0.jar!/META-INF/smithy/restJson1/malformedRequests/malformed-accept.smithy",
-            "line": 34,
-            "column": 34
-        },
-        {
-            "id": "UnstableTrait.smithy.test#httpMalformedRequestTests",
-            "severity": "SUPPRESSED",
-            "shapeId": "aws.protocoltests.restjson#MalformedTimestampBodyDateTime",
-            "message": "This shape applies a trait that is unstable: smithy.test#httpMalformedRequestTests",
-            "filename": "jar:file:/Users/chanyoo/.gradle/caches/modules-2/files-2.1/software.amazon.smithy/smithy-aws-protocol-tests/1.67.0/ec9ff28100ffc321cb78a23f84113d616f620356/smithy-aws-protocol-tests-1.67.0.jar!/META-INF/smithy/restJson1/malformedRequests/malformed-timestamp-body.smithy",
-            "line": 135,
-            "column": 38
-        },
-        {
-            "id": "UnstableTrait.smithy.test#httpMalformedRequestTests",
-            "severity": "SUPPRESSED",
-            "shapeId": "aws.protocoltests.restjson#MalformedBlob",
-            "message": "This shape applies a trait that is unstable: smithy.test#httpMalformedRequestTests",
-            "filename": "jar:file:/Users/chanyoo/.gradle/caches/modules-2/files-2.1/software.amazon.smithy/smithy-aws-protocol-tests/1.67.0/ec9ff28100ffc321cb78a23f84113d616f620356/smithy-aws-protocol-tests-1.67.0.jar!/META-INF/smithy/restJson1/malformedRequests/malformed-blob.smithy",
-            "line": 14,
-            "column": 21
-        },
-        {
-            "id": "UnstableTrait.smithy.test#httpMalformedRequestTests",
-            "severity": "SUPPRESSED",
-            "shapeId": "aws.protocoltests.restjson#MalformedTimestampQueryEpoch",
-            "message": "This shape applies a trait that is unstable: smithy.test#httpMalformedRequestTests",
-            "filename": "jar:file:/Users/chanyoo/.gradle/caches/modules-2/files-2.1/software.amazon.smithy/smithy-aws-protocol-tests/1.67.0/ec9ff28100ffc321cb78a23f84113d616f620356/smithy-aws-protocol-tests-1.67.0.jar!/META-INF/smithy/restJson1/malformedRequests/malformed-timestamp-query.smithy",
-            "line": 190,
-            "column": 36
-        },
-        {
-            "id": "UnstableTrait.smithy.test#httpMalformedRequestTests",
-            "severity": "SUPPRESSED",
-            "shapeId": "aws.protocoltests.restjson.validation#MalformedPattern",
-            "message": "This shape applies a trait that is unstable: smithy.test#httpMalformedRequestTests",
-            "filename": "jar:file:/Users/chanyoo/.gradle/caches/modules-2/files-2.1/software.amazon.smithy/smithy-aws-protocol-tests/1.67.0/ec9ff28100ffc321cb78a23f84113d616f620356/smithy-aws-protocol-tests-1.67.0.jar!/META-INF/smithy/restJson1/validation/malformed-pattern.smithy",
-            "line": 23,
-            "column": 24
-        },
-        {
-            "id": "UnstableTrait.smithy.test#httpMalformedRequestTests",
-            "severity": "SUPPRESSED",
-            "shapeId": "aws.protocoltests.restjson.validation#MalformedPatternOverride",
-            "message": "This shape applies a trait that is unstable: smithy.test#httpMalformedRequestTests",
-            "filename": "jar:file:/Users/chanyoo/.gradle/caches/modules-2/files-2.1/software.amazon.smithy/smithy-aws-protocol-tests/1.67.0/ec9ff28100ffc321cb78a23f84113d616f620356/smithy-aws-protocol-tests-1.67.0.jar!/META-INF/smithy/restJson1/validation/malformed-pattern.smithy",
-            "line": 223,
-            "column": 32
-        },
-        {
-            "id": "UnstableTrait.smithy.test#httpMalformedRequestTests",
-            "severity": "SUPPRESSED",
-            "shapeId": "aws.protocoltests.restjson#MalformedTimestampPathEpoch",
-            "message": "This shape applies a trait that is unstable: smithy.test#httpMalformedRequestTests",
-            "filename": "jar:file:/Users/chanyoo/.gradle/caches/modules-2/files-2.1/software.amazon.smithy/smithy-aws-protocol-tests/1.67.0/ec9ff28100ffc321cb78a23f84113d616f620356/smithy-aws-protocol-tests-1.67.0.jar!/META-INF/smithy/restJson1/malformedRequests/malformed-timestamp-path.smithy",
-            "line": 172,
-            "column": 35
-        },
-        {
-            "id": "UnstableTrait.smithy.test#httpMalformedRequestTests",
-            "severity": "SUPPRESSED",
-            "shapeId": "aws.protocoltests.restjson#MalformedAcceptWithGenericString",
-            "message": "This shape applies a trait that is unstable: smithy.test#httpMalformedRequestTests",
-            "filename": "jar:file:/Users/chanyoo/.gradle/caches/modules-2/files-2.1/software.amazon.smithy/smithy-aws-protocol-tests/1.67.0/ec9ff28100ffc321cb78a23f84113d616f620356/smithy-aws-protocol-tests-1.67.0.jar!/META-INF/smithy/restJson1/malformedRequests/malformed-accept.smithy",
-            "line": 58,
-            "column": 40
-        },
-        {
-            "id": "UnstableTrait.smithy.test#httpMalformedRequestTests",
-            "severity": "SUPPRESSED",
-            "shapeId": "aws.protocoltests.restjson#MalformedList",
-            "message": "This shape applies a trait that is unstable: smithy.test#httpMalformedRequestTests",
-            "filename": "jar:file:/Users/chanyoo/.gradle/caches/modules-2/files-2.1/software.amazon.smithy/smithy-aws-protocol-tests/1.67.0/ec9ff28100ffc321cb78a23f84113d616f620356/smithy-aws-protocol-tests-1.67.0.jar!/META-INF/smithy/restJson1/malformedRequests/malformed-list.smithy",
-            "line": 14,
-            "column": 21
-        },
-        {
-            "id": "UnstableTrait.smithy.test#httpMalformedRequestTests",
-            "severity": "SUPPRESSED",
-            "shapeId": "aws.protocoltests.restjson#MalformedLong",
-            "message": "This shape applies a trait that is unstable: smithy.test#httpMalformedRequestTests",
-            "filename": "jar:file:/Users/chanyoo/.gradle/caches/modules-2/files-2.1/software.amazon.smithy/smithy-aws-protocol-tests/1.67.0/ec9ff28100ffc321cb78a23f84113d616f620356/smithy-aws-protocol-tests-1.67.0.jar!/META-INF/smithy/restJson1/malformedRequests/malformed-long.smithy",
-            "line": 14,
-            "column": 21
-        },
-        {
-            "id": "UnstableTrait.smithy.test#httpMalformedRequestTests",
-            "severity": "SUPPRESSED",
-            "shapeId": "aws.protocoltests.restjson.validation#MalformedRange",
-            "message": "This shape applies a trait that is unstable: smithy.test#httpMalformedRequestTests",
-            "filename": "jar:file:/Users/chanyoo/.gradle/caches/modules-2/files-2.1/software.amazon.smithy/smithy-aws-protocol-tests/1.67.0/ec9ff28100ffc321cb78a23f84113d616f620356/smithy-aws-protocol-tests-1.67.0.jar!/META-INF/smithy/restJson1/validation/malformed-range.smithy",
-            "line": 23,
-            "column": 22
-        },
-        {
-            "id": "UnstableTrait.smithy.test#httpMalformedRequestTests",
-            "severity": "SUPPRESSED",
-            "shapeId": "aws.protocoltests.restjson.validation#RecursiveStructures",
-            "message": "This shape applies a trait that is unstable: smithy.test#httpMalformedRequestTests",
-            "filename": "jar:file:/Users/chanyoo/.gradle/caches/modules-2/files-2.1/software.amazon.smithy/smithy-aws-protocol-tests/1.67.0/ec9ff28100ffc321cb78a23f84113d616f620356/smithy-aws-protocol-tests-1.67.0.jar!/META-INF/smithy/restJson1/validation/recursive-structures.smithy",
-            "line": 46,
+            "filename": "jar:file:/Users/chanyoo/.gradle/caches/modules-2/files-2.1/software.amazon.smithy/smithy-aws-protocol-tests/1.67.0/ec9ff28100ffc321cb78a23f84113d616f620356/smithy-aws-protocol-tests-1.67.0.jar!/META-INF/smithy/restJson1/validation/sensitive-validation.smithy",
+            "line": 16,
             "column": 27
-        },
-        {
-            "id": "UnstableTrait.smithy.test#httpMalformedRequestTests",
-            "severity": "SUPPRESSED",
-            "shapeId": "aws.protocoltests.restjson#MalformedTimestampQueryDefault",
-            "message": "This shape applies a trait that is unstable: smithy.test#httpMalformedRequestTests",
-            "filename": "jar:file:/Users/chanyoo/.gradle/caches/modules-2/files-2.1/software.amazon.smithy/smithy-aws-protocol-tests/1.67.0/ec9ff28100ffc321cb78a23f84113d616f620356/smithy-aws-protocol-tests-1.67.0.jar!/META-INF/smithy/restJson1/malformedRequests/malformed-timestamp-query.smithy",
-            "line": 26,
-            "column": 38
-        },
-        {
-            "id": "UnstableTrait.smithy.test#httpMalformedRequestTests",
-            "severity": "SUPPRESSED",
-            "shapeId": "aws.protocoltests.restjson#MalformedString",
-            "message": "This shape applies a trait that is unstable: smithy.test#httpMalformedRequestTests",
-            "filename": "jar:file:/Users/chanyoo/.gradle/caches/modules-2/files-2.1/software.amazon.smithy/smithy-aws-protocol-tests/1.67.0/ec9ff28100ffc321cb78a23f84113d616f620356/smithy-aws-protocol-tests-1.67.0.jar!/META-INF/smithy/restJson1/malformedRequests/malformed-string.smithy",
-            "line": 14,
-            "column": 23
         },
         {
             "id": "UnstableTrait.smithy.test#httpMalformedRequestTests",
@@ -1513,20 +1225,110 @@
         {
             "id": "UnstableTrait.smithy.test#httpMalformedRequestTests",
             "severity": "SUPPRESSED",
-            "shapeId": "aws.protocoltests.restjson#MalformedInteger",
-            "message": "This shape applies a trait that is unstable: smithy.test#httpMalformedRequestTests",
-            "filename": "jar:file:/Users/chanyoo/.gradle/caches/modules-2/files-2.1/software.amazon.smithy/smithy-aws-protocol-tests/1.67.0/ec9ff28100ffc321cb78a23f84113d616f620356/smithy-aws-protocol-tests-1.67.0.jar!/META-INF/smithy/restJson1/malformedRequests/malformed-integer.smithy",
-            "line": 14,
-            "column": 24
-        },
-        {
-            "id": "UnstableTrait.smithy.test#httpMalformedRequestTests",
-            "severity": "SUPPRESSED",
             "shapeId": "aws.protocoltests.restjson#MalformedContentTypeWithBody",
             "message": "This shape applies a trait that is unstable: smithy.test#httpMalformedRequestTests",
             "filename": "jar:file:/Users/chanyoo/.gradle/caches/modules-2/files-2.1/software.amazon.smithy/smithy-aws-protocol-tests/1.67.0/ec9ff28100ffc321cb78a23f84113d616f620356/smithy-aws-protocol-tests-1.67.0.jar!/META-INF/smithy/restJson1/malformedRequests/malformed-content-type.smithy",
             "line": 35,
             "column": 36
+        },
+        {
+            "id": "UnstableTrait.smithy.test#httpMalformedRequestTests",
+            "severity": "SUPPRESSED",
+            "shapeId": "aws.protocoltests.restjson#MalformedTimestampHeaderDateTime",
+            "message": "This shape applies a trait that is unstable: smithy.test#httpMalformedRequestTests",
+            "filename": "jar:file:/Users/chanyoo/.gradle/caches/modules-2/files-2.1/software.amazon.smithy/smithy-aws-protocol-tests/1.67.0/ec9ff28100ffc321cb78a23f84113d616f620356/smithy-aws-protocol-tests-1.67.0.jar!/META-INF/smithy/restJson1/malformedRequests/malformed-timestamp-header.smithy",
+            "line": 79,
+            "column": 40
+        },
+        {
+            "id": "UnstableTrait.smithy.test#httpMalformedRequestTests",
+            "severity": "SUPPRESSED",
+            "shapeId": "aws.protocoltests.restjson#MalformedShort",
+            "message": "This shape applies a trait that is unstable: smithy.test#httpMalformedRequestTests",
+            "filename": "jar:file:/Users/chanyoo/.gradle/caches/modules-2/files-2.1/software.amazon.smithy/smithy-aws-protocol-tests/1.67.0/ec9ff28100ffc321cb78a23f84113d616f620356/smithy-aws-protocol-tests-1.67.0.jar!/META-INF/smithy/restJson1/malformedRequests/malformed-short.smithy",
+            "line": 14,
+            "column": 22
+        },
+        {
+            "id": "UnstableTrait.smithy.test#httpMalformedRequestTests",
+            "severity": "SUPPRESSED",
+            "shapeId": "aws.protocoltests.restjson.validation#MalformedUniqueItems",
+            "message": "This shape applies a trait that is unstable: smithy.test#httpMalformedRequestTests",
+            "filename": "jar:file:/Users/chanyoo/.gradle/caches/modules-2/files-2.1/software.amazon.smithy/smithy-aws-protocol-tests/1.67.0/ec9ff28100ffc321cb78a23f84113d616f620356/smithy-aws-protocol-tests-1.67.0.jar!/META-INF/smithy/restJson1/validation/malformed-uniqueItems.smithy",
+            "line": 31,
+            "column": 28
+        },
+        {
+            "id": "UnstableTrait.smithy.test#httpMalformedRequestTests",
+            "severity": "SUPPRESSED",
+            "shapeId": "aws.protocoltests.restjson#MalformedString",
+            "message": "This shape applies a trait that is unstable: smithy.test#httpMalformedRequestTests",
+            "filename": "jar:file:/Users/chanyoo/.gradle/caches/modules-2/files-2.1/software.amazon.smithy/smithy-aws-protocol-tests/1.67.0/ec9ff28100ffc321cb78a23f84113d616f620356/smithy-aws-protocol-tests-1.67.0.jar!/META-INF/smithy/restJson1/malformedRequests/malformed-string.smithy",
+            "line": 14,
+            "column": 23
+        },
+        {
+            "id": "UnstableTrait.smithy.test#httpMalformedRequestTests",
+            "severity": "SUPPRESSED",
+            "shapeId": "aws.protocoltests.restjson#MalformedContentTypeWithoutBody",
+            "message": "This shape applies a trait that is unstable: smithy.test#httpMalformedRequestTests",
+            "filename": "jar:file:/Users/chanyoo/.gradle/caches/modules-2/files-2.1/software.amazon.smithy/smithy-aws-protocol-tests/1.67.0/ec9ff28100ffc321cb78a23f84113d616f620356/smithy-aws-protocol-tests-1.67.0.jar!/META-INF/smithy/restJson1/malformedRequests/malformed-content-type.smithy",
+            "line": 10,
+            "column": 39
+        },
+        {
+            "id": "UnstableTrait.smithy.test#httpMalformedRequestTests",
+            "severity": "SUPPRESSED",
+            "shapeId": "aws.protocoltests.restjson#MalformedAcceptWithGenericString",
+            "message": "This shape applies a trait that is unstable: smithy.test#httpMalformedRequestTests",
+            "filename": "jar:file:/Users/chanyoo/.gradle/caches/modules-2/files-2.1/software.amazon.smithy/smithy-aws-protocol-tests/1.67.0/ec9ff28100ffc321cb78a23f84113d616f620356/smithy-aws-protocol-tests-1.67.0.jar!/META-INF/smithy/restJson1/malformedRequests/malformed-accept.smithy",
+            "line": 58,
+            "column": 40
+        },
+        {
+            "id": "UnstableTrait.smithy.test#httpMalformedRequestTests",
+            "severity": "SUPPRESSED",
+            "shapeId": "aws.protocoltests.restjson#MalformedByte",
+            "message": "This shape applies a trait that is unstable: smithy.test#httpMalformedRequestTests",
+            "filename": "jar:file:/Users/chanyoo/.gradle/caches/modules-2/files-2.1/software.amazon.smithy/smithy-aws-protocol-tests/1.67.0/ec9ff28100ffc321cb78a23f84113d616f620356/smithy-aws-protocol-tests-1.67.0.jar!/META-INF/smithy/restJson1/malformedRequests/malformed-byte.smithy",
+            "line": 14,
+            "column": 21
+        },
+        {
+            "id": "UnstableTrait.smithy.test#httpMalformedRequestTests",
+            "severity": "SUPPRESSED",
+            "shapeId": "aws.protocoltests.restjson.validation#MalformedLengthQueryString",
+            "message": "This shape applies a trait that is unstable: smithy.test#httpMalformedRequestTests",
+            "filename": "jar:file:/Users/chanyoo/.gradle/caches/modules-2/files-2.1/software.amazon.smithy/smithy-aws-protocol-tests/1.67.0/ec9ff28100ffc321cb78a23f84113d616f620356/smithy-aws-protocol-tests-1.67.0.jar!/META-INF/smithy/restJson1/validation/malformed-length.smithy",
+            "line": 556,
+            "column": 34
+        },
+        {
+            "id": "UnstableTrait.smithy.test#httpMalformedRequestTests",
+            "severity": "SUPPRESSED",
+            "shapeId": "aws.protocoltests.restjson#MalformedMap",
+            "message": "This shape applies a trait that is unstable: smithy.test#httpMalformedRequestTests",
+            "filename": "jar:file:/Users/chanyoo/.gradle/caches/modules-2/files-2.1/software.amazon.smithy/smithy-aws-protocol-tests/1.67.0/ec9ff28100ffc321cb78a23f84113d616f620356/smithy-aws-protocol-tests-1.67.0.jar!/META-INF/smithy/restJson1/malformedRequests/malformed-map.smithy",
+            "line": 14,
+            "column": 20
+        },
+        {
+            "id": "UnstableTrait.smithy.test#httpMalformedRequestTests",
+            "severity": "SUPPRESSED",
+            "shapeId": "aws.protocoltests.restjson#MalformedTimestampBodyDefault",
+            "message": "This shape applies a trait that is unstable: smithy.test#httpMalformedRequestTests",
+            "filename": "jar:file:/Users/chanyoo/.gradle/caches/modules-2/files-2.1/software.amazon.smithy/smithy-aws-protocol-tests/1.67.0/ec9ff28100ffc321cb78a23f84113d616f620356/smithy-aws-protocol-tests-1.67.0.jar!/META-INF/smithy/restJson1/malformedRequests/malformed-timestamp-body.smithy",
+            "line": 26,
+            "column": 37
+        },
+        {
+            "id": "UnstableTrait.smithy.test#httpMalformedRequestTests",
+            "severity": "SUPPRESSED",
+            "shapeId": "aws.protocoltests.restjson.validation#MalformedLengthOverride",
+            "message": "This shape applies a trait that is unstable: smithy.test#httpMalformedRequestTests",
+            "filename": "jar:file:/Users/chanyoo/.gradle/caches/modules-2/files-2.1/software.amazon.smithy/smithy-aws-protocol-tests/1.67.0/ec9ff28100ffc321cb78a23f84113d616f620356/smithy-aws-protocol-tests-1.67.0.jar!/META-INF/smithy/restJson1/validation/malformed-length.smithy",
+            "line": 347,
+            "column": 31
         },
         {
             "id": "UnstableTrait.smithy.test#httpMalformedRequestTests",
@@ -1540,11 +1342,11 @@
         {
             "id": "UnstableTrait.smithy.test#httpMalformedRequestTests",
             "severity": "SUPPRESSED",
-            "shapeId": "aws.protocoltests.restjson#MalformedRequestBody",
+            "shapeId": "aws.protocoltests.restjson#MalformedContentTypeWithoutBodyEmptyInput",
             "message": "This shape applies a trait that is unstable: smithy.test#httpMalformedRequestTests",
-            "filename": "jar:file:/Users/chanyoo/.gradle/caches/modules-2/files-2.1/software.amazon.smithy/smithy-aws-protocol-tests/1.67.0/ec9ff28100ffc321cb78a23f84113d616f620356/smithy-aws-protocol-tests-1.67.0.jar!/META-INF/smithy/restJson1/malformedRequests/malformed-request-body.smithy",
-            "line": 14,
-            "column": 28
+            "filename": "jar:file:/Users/chanyoo/.gradle/caches/modules-2/files-2.1/software.amazon.smithy/smithy-aws-protocol-tests/1.67.0/ec9ff28100ffc321cb78a23f84113d616f620356/smithy-aws-protocol-tests-1.67.0.jar!/META-INF/smithy/restJson1/malformedRequests/malformed-content-type.smithy",
+            "line": 129,
+            "column": 49
         },
         {
             "id": "UnstableTrait.smithy.test#httpMalformedRequestTests",
@@ -1558,11 +1360,20 @@
         {
             "id": "UnstableTrait.smithy.test#httpMalformedRequestTests",
             "severity": "SUPPRESSED",
-            "shapeId": "aws.protocoltests.restjson#MalformedTimestampBodyDefault",
+            "shapeId": "aws.protocoltests.restjson.validation#MalformedRequired",
             "message": "This shape applies a trait that is unstable: smithy.test#httpMalformedRequestTests",
-            "filename": "jar:file:/Users/chanyoo/.gradle/caches/modules-2/files-2.1/software.amazon.smithy/smithy-aws-protocol-tests/1.67.0/ec9ff28100ffc321cb78a23f84113d616f620356/smithy-aws-protocol-tests-1.67.0.jar!/META-INF/smithy/restJson1/malformedRequests/malformed-timestamp-body.smithy",
-            "line": 26,
-            "column": 37
+            "filename": "jar:file:/Users/chanyoo/.gradle/caches/modules-2/files-2.1/software.amazon.smithy/smithy-aws-protocol-tests/1.67.0/ec9ff28100ffc321cb78a23f84113d616f620356/smithy-aws-protocol-tests-1.67.0.jar!/META-INF/smithy/restJson1/validation/malformed-required.smithy",
+            "line": 16,
+            "column": 25
+        },
+        {
+            "id": "UnstableTrait.smithy.test#httpMalformedRequestTests",
+            "severity": "SUPPRESSED",
+            "shapeId": "aws.protocoltests.restjson#MalformedRequestBody",
+            "message": "This shape applies a trait that is unstable: smithy.test#httpMalformedRequestTests",
+            "filename": "jar:file:/Users/chanyoo/.gradle/caches/modules-2/files-2.1/software.amazon.smithy/smithy-aws-protocol-tests/1.67.0/ec9ff28100ffc321cb78a23f84113d616f620356/smithy-aws-protocol-tests-1.67.0.jar!/META-INF/smithy/restJson1/malformedRequests/malformed-request-body.smithy",
+            "line": 14,
+            "column": 28
         },
         {
             "id": "UnstableTrait.smithy.test#httpMalformedRequestTests",
@@ -1583,30 +1394,201 @@
             "column": 39
         },
         {
-            "id": "UnstableTrait.smithy.rules#staticContextParams",
+            "id": "UnstableTrait.smithy.test#httpMalformedRequestTests",
             "severity": "SUPPRESSED",
-            "shapeId": "aws.endpointtests.stringarray#StaticContextOperation",
-            "message": "This shape applies a trait that is unstable: smithy.rules#staticContextParams",
-            "filename": "/Users/chanyoo/Developer/aws-sdk-swift/codegen/protocol-test-codegen-local/model/endpoints-string-array.smithy",
-            "line": 154,
+            "shapeId": "aws.protocoltests.restjson#MalformedInteger",
+            "message": "This shape applies a trait that is unstable: smithy.test#httpMalformedRequestTests",
+            "filename": "jar:file:/Users/chanyoo/.gradle/caches/modules-2/files-2.1/software.amazon.smithy/smithy-aws-protocol-tests/1.67.0/ec9ff28100ffc321cb78a23f84113d616f620356/smithy-aws-protocol-tests-1.67.0.jar!/META-INF/smithy/restJson1/malformedRequests/malformed-integer.smithy",
+            "line": 14,
+            "column": 24
+        },
+        {
+            "id": "UnstableTrait.smithy.test#httpMalformedRequestTests",
+            "severity": "SUPPRESSED",
+            "shapeId": "aws.protocoltests.restjson.validation#MalformedPatternOverride",
+            "message": "This shape applies a trait that is unstable: smithy.test#httpMalformedRequestTests",
+            "filename": "jar:file:/Users/chanyoo/.gradle/caches/modules-2/files-2.1/software.amazon.smithy/smithy-aws-protocol-tests/1.67.0/ec9ff28100ffc321cb78a23f84113d616f620356/smithy-aws-protocol-tests-1.67.0.jar!/META-INF/smithy/restJson1/validation/malformed-pattern.smithy",
+            "line": 223,
+            "column": 32
+        },
+        {
+            "id": "UnstableTrait.smithy.test#httpMalformedRequestTests",
+            "severity": "SUPPRESSED",
+            "shapeId": "aws.protocoltests.restjson.validation#MalformedRange",
+            "message": "This shape applies a trait that is unstable: smithy.test#httpMalformedRequestTests",
+            "filename": "jar:file:/Users/chanyoo/.gradle/caches/modules-2/files-2.1/software.amazon.smithy/smithy-aws-protocol-tests/1.67.0/ec9ff28100ffc321cb78a23f84113d616f620356/smithy-aws-protocol-tests-1.67.0.jar!/META-INF/smithy/restJson1/validation/malformed-range.smithy",
+            "line": 23,
+            "column": 22
+        },
+        {
+            "id": "UnstableTrait.smithy.test#httpMalformedRequestTests",
+            "severity": "SUPPRESSED",
+            "shapeId": "aws.protocoltests.restjson#MalformedAcceptWithBody",
+            "message": "This shape applies a trait that is unstable: smithy.test#httpMalformedRequestTests",
+            "filename": "jar:file:/Users/chanyoo/.gradle/caches/modules-2/files-2.1/software.amazon.smithy/smithy-aws-protocol-tests/1.67.0/ec9ff28100ffc321cb78a23f84113d616f620356/smithy-aws-protocol-tests-1.67.0.jar!/META-INF/smithy/restJson1/malformedRequests/malformed-accept.smithy",
+            "line": 10,
+            "column": 31
+        },
+        {
+            "id": "UnstableTrait.smithy.test#httpMalformedRequestTests",
+            "severity": "SUPPRESSED",
+            "shapeId": "aws.protocoltests.restjson#MalformedBlob",
+            "message": "This shape applies a trait that is unstable: smithy.test#httpMalformedRequestTests",
+            "filename": "jar:file:/Users/chanyoo/.gradle/caches/modules-2/files-2.1/software.amazon.smithy/smithy-aws-protocol-tests/1.67.0/ec9ff28100ffc321cb78a23f84113d616f620356/smithy-aws-protocol-tests-1.67.0.jar!/META-INF/smithy/restJson1/malformedRequests/malformed-blob.smithy",
+            "line": 14,
+            "column": 21
+        },
+        {
+            "id": "UnstableTrait.smithy.test#httpMalformedRequestTests",
+            "severity": "SUPPRESSED",
+            "shapeId": "aws.protocoltests.restjson.validation#MalformedPattern",
+            "message": "This shape applies a trait that is unstable: smithy.test#httpMalformedRequestTests",
+            "filename": "jar:file:/Users/chanyoo/.gradle/caches/modules-2/files-2.1/software.amazon.smithy/smithy-aws-protocol-tests/1.67.0/ec9ff28100ffc321cb78a23f84113d616f620356/smithy-aws-protocol-tests-1.67.0.jar!/META-INF/smithy/restJson1/validation/malformed-pattern.smithy",
+            "line": 23,
+            "column": 24
+        },
+        {
+            "id": "UnstableTrait.smithy.test#httpMalformedRequestTests",
+            "severity": "SUPPRESSED",
+            "shapeId": "aws.protocoltests.restjson#MalformedLong",
+            "message": "This shape applies a trait that is unstable: smithy.test#httpMalformedRequestTests",
+            "filename": "jar:file:/Users/chanyoo/.gradle/caches/modules-2/files-2.1/software.amazon.smithy/smithy-aws-protocol-tests/1.67.0/ec9ff28100ffc321cb78a23f84113d616f620356/smithy-aws-protocol-tests-1.67.0.jar!/META-INF/smithy/restJson1/malformedRequests/malformed-long.smithy",
+            "line": 14,
+            "column": 21
+        },
+        {
+            "id": "UnstableTrait.smithy.test#httpMalformedRequestTests",
+            "severity": "SUPPRESSED",
+            "shapeId": "aws.protocoltests.restjson#MalformedTimestampQueryDefault",
+            "message": "This shape applies a trait that is unstable: smithy.test#httpMalformedRequestTests",
+            "filename": "jar:file:/Users/chanyoo/.gradle/caches/modules-2/files-2.1/software.amazon.smithy/smithy-aws-protocol-tests/1.67.0/ec9ff28100ffc321cb78a23f84113d616f620356/smithy-aws-protocol-tests-1.67.0.jar!/META-INF/smithy/restJson1/malformedRequests/malformed-timestamp-query.smithy",
+            "line": 26,
+            "column": 38
+        },
+        {
+            "id": "UnstableTrait.smithy.test#httpMalformedRequestTests",
+            "severity": "SUPPRESSED",
+            "shapeId": "aws.protocoltests.restjson#MalformedTimestampPathEpoch",
+            "message": "This shape applies a trait that is unstable: smithy.test#httpMalformedRequestTests",
+            "filename": "jar:file:/Users/chanyoo/.gradle/caches/modules-2/files-2.1/software.amazon.smithy/smithy-aws-protocol-tests/1.67.0/ec9ff28100ffc321cb78a23f84113d616f620356/smithy-aws-protocol-tests-1.67.0.jar!/META-INF/smithy/restJson1/malformedRequests/malformed-timestamp-path.smithy",
+            "line": 172,
+            "column": 35
+        },
+        {
+            "id": "UnstableTrait.smithy.test#httpMalformedRequestTests",
+            "severity": "SUPPRESSED",
+            "shapeId": "aws.protocoltests.restjson#MalformedList",
+            "message": "This shape applies a trait that is unstable: smithy.test#httpMalformedRequestTests",
+            "filename": "jar:file:/Users/chanyoo/.gradle/caches/modules-2/files-2.1/software.amazon.smithy/smithy-aws-protocol-tests/1.67.0/ec9ff28100ffc321cb78a23f84113d616f620356/smithy-aws-protocol-tests-1.67.0.jar!/META-INF/smithy/restJson1/malformedRequests/malformed-list.smithy",
+            "line": 14,
+            "column": 21
+        },
+        {
+            "id": "UnstableTrait.smithy.test#httpMalformedRequestTests",
+            "severity": "SUPPRESSED",
+            "shapeId": "aws.protocoltests.restjson#MalformedAcceptWithPayload",
+            "message": "This shape applies a trait that is unstable: smithy.test#httpMalformedRequestTests",
+            "filename": "jar:file:/Users/chanyoo/.gradle/caches/modules-2/files-2.1/software.amazon.smithy/smithy-aws-protocol-tests/1.67.0/ec9ff28100ffc321cb78a23f84113d616f620356/smithy-aws-protocol-tests-1.67.0.jar!/META-INF/smithy/restJson1/malformedRequests/malformed-accept.smithy",
+            "line": 34,
+            "column": 34
+        },
+        {
+            "id": "UnstableTrait.smithy.test#httpMalformedRequestTests",
+            "severity": "SUPPRESSED",
+            "shapeId": "aws.protocoltests.restjson#MalformedTimestampHeaderEpoch",
+            "message": "This shape applies a trait that is unstable: smithy.test#httpMalformedRequestTests",
+            "filename": "jar:file:/Users/chanyoo/.gradle/caches/modules-2/files-2.1/software.amazon.smithy/smithy-aws-protocol-tests/1.67.0/ec9ff28100ffc321cb78a23f84113d616f620356/smithy-aws-protocol-tests-1.67.0.jar!/META-INF/smithy/restJson1/malformedRequests/malformed-timestamp-header.smithy",
+            "line": 168,
+            "column": 37
+        },
+        {
+            "id": "UnstableTrait.smithy.test#httpMalformedRequestTests",
+            "severity": "SUPPRESSED",
+            "shapeId": "aws.protocoltests.restjson.validation#RecursiveStructures",
+            "message": "This shape applies a trait that is unstable: smithy.test#httpMalformedRequestTests",
+            "filename": "jar:file:/Users/chanyoo/.gradle/caches/modules-2/files-2.1/software.amazon.smithy/smithy-aws-protocol-tests/1.67.0/ec9ff28100ffc321cb78a23f84113d616f620356/smithy-aws-protocol-tests-1.67.0.jar!/META-INF/smithy/restJson1/validation/recursive-structures.smithy",
+            "line": 46,
+            "column": 27
+        },
+        {
+            "id": "UnstableTrait.smithy.test#httpMalformedRequestTests",
+            "severity": "SUPPRESSED",
+            "shapeId": "aws.protocoltests.restjson#MalformedBoolean",
+            "message": "This shape applies a trait that is unstable: smithy.test#httpMalformedRequestTests",
+            "filename": "jar:file:/Users/chanyoo/.gradle/caches/modules-2/files-2.1/software.amazon.smithy/smithy-aws-protocol-tests/1.67.0/ec9ff28100ffc321cb78a23f84113d616f620356/smithy-aws-protocol-tests-1.67.0.jar!/META-INF/smithy/restJson1/malformedRequests/malformed-boolean.smithy",
+            "line": 14,
+            "column": 24
+        },
+        {
+            "id": "UnstableTrait.smithy.test#httpMalformedRequestTests",
+            "severity": "SUPPRESSED",
+            "shapeId": "aws.protocoltests.restjson#MalformedTimestampQueryEpoch",
+            "message": "This shape applies a trait that is unstable: smithy.test#httpMalformedRequestTests",
+            "filename": "jar:file:/Users/chanyoo/.gradle/caches/modules-2/files-2.1/software.amazon.smithy/smithy-aws-protocol-tests/1.67.0/ec9ff28100ffc321cb78a23f84113d616f620356/smithy-aws-protocol-tests-1.67.0.jar!/META-INF/smithy/restJson1/malformedRequests/malformed-timestamp-query.smithy",
+            "line": 190,
+            "column": 36
+        },
+        {
+            "id": "UnstableTrait.smithy.test#httpMalformedRequestTests",
+            "severity": "SUPPRESSED",
+            "shapeId": "aws.protocoltests.restjson#MalformedFloat",
+            "message": "This shape applies a trait that is unstable: smithy.test#httpMalformedRequestTests",
+            "filename": "jar:file:/Users/chanyoo/.gradle/caches/modules-2/files-2.1/software.amazon.smithy/smithy-aws-protocol-tests/1.67.0/ec9ff28100ffc321cb78a23f84113d616f620356/smithy-aws-protocol-tests-1.67.0.jar!/META-INF/smithy/restJson1/malformedRequests/malformed-float.smithy",
+            "line": 14,
+            "column": 22
+        },
+        {
+            "id": "UnstableTrait.smithy.test#httpMalformedRequestTests",
+            "severity": "SUPPRESSED",
+            "shapeId": "aws.protocoltests.restjson#MalformedTimestampQueryHttpDate",
+            "message": "This shape applies a trait that is unstable: smithy.test#httpMalformedRequestTests",
+            "filename": "jar:file:/Users/chanyoo/.gradle/caches/modules-2/files-2.1/software.amazon.smithy/smithy-aws-protocol-tests/1.67.0/ec9ff28100ffc321cb78a23f84113d616f620356/smithy-aws-protocol-tests-1.67.0.jar!/META-INF/smithy/restJson1/malformedRequests/malformed-timestamp-query.smithy",
+            "line": 137,
+            "column": 39
+        },
+        {
+            "id": "UnstableTrait.smithy.test#httpMalformedRequestTests",
+            "severity": "SUPPRESSED",
+            "shapeId": "aws.protocoltests.restjson#MalformedTimestampBodyDateTime",
+            "message": "This shape applies a trait that is unstable: smithy.test#httpMalformedRequestTests",
+            "filename": "jar:file:/Users/chanyoo/.gradle/caches/modules-2/files-2.1/software.amazon.smithy/smithy-aws-protocol-tests/1.67.0/ec9ff28100ffc321cb78a23f84113d616f620356/smithy-aws-protocol-tests-1.67.0.jar!/META-INF/smithy/restJson1/malformedRequests/malformed-timestamp-body.smithy",
+            "line": 135,
+            "column": 38
+        },
+        {
+            "id": "UnstableTrait.smithy.test#httpMalformedRequestTests",
+            "severity": "SUPPRESSED",
+            "shapeId": "aws.protocoltests.restjson#MalformedTimestampPathHttpDate",
+            "message": "This shape applies a trait that is unstable: smithy.test#httpMalformedRequestTests",
+            "filename": "jar:file:/Users/chanyoo/.gradle/caches/modules-2/files-2.1/software.amazon.smithy/smithy-aws-protocol-tests/1.67.0/ec9ff28100ffc321cb78a23f84113d616f620356/smithy-aws-protocol-tests-1.67.0.jar!/META-INF/smithy/restJson1/malformedRequests/malformed-timestamp-path.smithy",
+            "line": 125,
+            "column": 38
+        },
+        {
+            "id": "UnstableTrait.smithy.test#httpMalformedRequestTests",
+            "severity": "SUPPRESSED",
+            "shapeId": "aws.protocoltests.restjson#HttpStringPayload",
+            "message": "This shape applies a trait that is unstable: smithy.test#httpMalformedRequestTests",
+            "filename": "jar:file:/Users/chanyoo/.gradle/caches/modules-2/files-2.1/software.amazon.smithy/smithy-aws-protocol-tests/1.67.0/ec9ff28100ffc321cb78a23f84113d616f620356/smithy-aws-protocol-tests-1.67.0.jar!/META-INF/smithy/restJson1/http-string-payload.smithy",
+            "line": 75,
             "column": 1
         },
         {
-            "id": "UnstableTrait.smithy.rules#staticContextParams",
+            "id": "UnstableTrait.smithy.test#httpMalformedRequestTests",
             "severity": "SUPPRESSED",
-            "shapeId": "aws.endpointtests.stringarray#EmptyStaticContextOperation",
-            "message": "This shape applies a trait that is unstable: smithy.rules#staticContextParams",
-            "filename": "/Users/chanyoo/Developer/aws-sdk-swift/codegen/protocol-test-codegen-local/model/endpoints-string-array.smithy",
-            "line": 146,
-            "column": 1
+            "shapeId": "aws.protocoltests.restjson#MalformedTimestampBodyHttpDate",
+            "message": "This shape applies a trait that is unstable: smithy.test#httpMalformedRequestTests",
+            "filename": "jar:file:/Users/chanyoo/.gradle/caches/modules-2/files-2.1/software.amazon.smithy/smithy-aws-protocol-tests/1.67.0/ec9ff28100ffc321cb78a23f84113d616f620356/smithy-aws-protocol-tests-1.67.0.jar!/META-INF/smithy/restJson1/malformedRequests/malformed-timestamp-body.smithy",
+            "line": 256,
+            "column": 38
         },
         {
             "id": "UnstableTrait.aws.protocols#httpChecksum",
             "severity": "SUPPRESSED",
             "shapeId": "com.amazonaws.sdk.benchmark#PutObject",
             "message": "This shape applies a trait that is unstable: aws.protocols#httpChecksum",
-            "filename": "/Users/chanyoo/Developer/aws-sdk-swift/codegen/protocol-test-codegen-local/model/aws-json-rpc-1-0-data-plane.json",
-            "line": 11408,
+            "filename": "/Users/chanyoo/Developer/aws-sdk-swift/codegen/protocol-test-codegen-local/model/smithy-rpc-v2-cbor-data-plane.json",
+            "line": 11378,
             "column": 47
         },
         {
@@ -1614,18 +1596,9 @@
             "severity": "SUPPRESSED",
             "shapeId": "com.amazonaws.sdk.benchmark#GetObject",
             "message": "This shape applies a trait that is unstable: aws.protocols#httpChecksum",
-            "filename": "/Users/chanyoo/Developer/aws-sdk-swift/codegen/protocol-test-codegen-local/model/aws-json-rpc-1-0-data-plane.json",
-            "line": 3553,
+            "filename": "/Users/chanyoo/Developer/aws-sdk-swift/codegen/protocol-test-codegen-local/model/smithy-rpc-v2-cbor-data-plane.json",
+            "line": 3523,
             "column": 47
-        },
-        {
-            "id": "UnstableTrait.smithy.api#httpChecksumRequired",
-            "severity": "SUPPRESSED",
-            "shapeId": "aws.protocoltests.restjson#HttpChecksumRequired",
-            "message": "This shape applies a trait that is unstable: smithy.api#httpChecksumRequired",
-            "filename": "jar:file:/Users/chanyoo/.gradle/caches/modules-2/files-2.1/software.amazon.smithy/smithy-aws-protocol-tests/1.67.0/ec9ff28100ffc321cb78a23f84113d616f620356/smithy-aws-protocol-tests-1.67.0.jar!/META-INF/smithy/restJson1/http-checksums.smithy",
-            "line": 12,
-            "column": 1
         },
         {
             "id": "UnstableTrait.smithy.rules#endpointRuleSet",
@@ -1655,12 +1628,39 @@
             "column": 1
         },
         {
+            "id": "UnstableTrait.smithy.rules#endpointTests",
+            "severity": "SUPPRESSED",
+            "shapeId": "aws.endpointtests.stringarray#EndpointStringArray",
+            "message": "This shape applies a trait that is unstable: smithy.rules#endpointTests",
+            "filename": "/Users/chanyoo/Developer/aws-sdk-swift/codegen/protocol-test-codegen-local/model/endpoints-string-array.smithy",
+            "line": 50,
+            "column": 1
+        },
+        {
+            "id": "UnstableTrait.smithy.rules#staticContextParams",
+            "severity": "SUPPRESSED",
+            "shapeId": "aws.endpointtests.stringarray#StaticContextOperation",
+            "message": "This shape applies a trait that is unstable: smithy.rules#staticContextParams",
+            "filename": "/Users/chanyoo/Developer/aws-sdk-swift/codegen/protocol-test-codegen-local/model/endpoints-string-array.smithy",
+            "line": 154,
+            "column": 1
+        },
+        {
+            "id": "UnstableTrait.smithy.rules#staticContextParams",
+            "severity": "SUPPRESSED",
+            "shapeId": "aws.endpointtests.stringarray#EmptyStaticContextOperation",
+            "message": "This shape applies a trait that is unstable: smithy.rules#staticContextParams",
+            "filename": "/Users/chanyoo/Developer/aws-sdk-swift/codegen/protocol-test-codegen-local/model/endpoints-string-array.smithy",
+            "line": 146,
+            "column": 1
+        },
+        {
             "id": "XmlFlattenedTrait",
             "severity": "SUPPRESSED",
-            "shapeId": "aws.protocoltests.restxml#XmlEmptyListsResponse$flattenedStructureList",
-            "message": "Member is `@xmlFlattened`, so `@xmlName` of target's member (`aws.protocoltests.restxml#StructureList$member`) has no effect. The flattened list elements will have the name of this member - `flattenedStructureList`. If this is unintended, you can add `@xmlName(\"item\")` to this member.",
-            "filename": "jar:file:/Users/chanyoo/.gradle/caches/modules-2/files-2.1/software.amazon.smithy/smithy-aws-protocol-tests/1.67.0/ec9ff28100ffc321cb78a23f84113d616f620356/smithy-aws-protocol-tests-1.67.0.jar!/META-INF/smithy/restXml/document-lists.smithy",
-            "line": 385,
+            "shapeId": "aws.protocoltests.query#XmlListsOutput$flattenedList",
+            "message": "Member is `@xmlFlattened`, so `@xmlName` of target's member (`aws.protocoltests.query#RenamedListMembers$member`) has no effect. The flattened list elements will have the name of this member - `flattenedList`. If this is unintended, you can add `@xmlName(\"item\")` to this member.",
+            "filename": "jar:file:/Users/chanyoo/.gradle/caches/modules-2/files-2.1/software.amazon.smithy/smithy-aws-protocol-tests/1.67.0/ec9ff28100ffc321cb78a23f84113d616f620356/smithy-aws-protocol-tests-1.67.0.jar!/META-INF/smithy/awsQuery/xml-lists.smithy",
+            "line": 192,
             "column": 5
         },
         {
@@ -1693,25 +1693,7 @@
         {
             "id": "XmlFlattenedTrait",
             "severity": "SUPPRESSED",
-            "shapeId": "aws.protocoltests.restxml#XmlListsInputOutput$flattenedList",
-            "message": "Member is `@xmlFlattened`, so `@xmlName` of target's member (`aws.protocoltests.restxml#RenamedListMembers$member`) has no effect. The flattened list elements will have the name of this member - `flattenedList`. If this is unintended, you can add `@xmlName(\"item\")` to this member.",
-            "filename": "jar:file:/Users/chanyoo/.gradle/caches/modules-2/files-2.1/software.amazon.smithy/smithy-aws-protocol-tests/1.67.0/ec9ff28100ffc321cb78a23f84113d616f620356/smithy-aws-protocol-tests-1.67.0.jar!/META-INF/smithy/restXml/document-lists.smithy",
-            "line": 359,
-            "column": 5
-        },
-        {
-            "id": "XmlFlattenedTrait",
-            "severity": "SUPPRESSED",
-            "shapeId": "aws.protocoltests.restxml#XmlListsRequest$flattenedList",
-            "message": "Member is `@xmlFlattened`, so `@xmlName` of target's member (`aws.protocoltests.restxml#RenamedListMembers$member`) has no effect. The flattened list elements will have the name of this member - `flattenedList`. If this is unintended, you can add `@xmlName(\"item\")` to this member.",
-            "filename": "jar:file:/Users/chanyoo/.gradle/caches/modules-2/files-2.1/software.amazon.smithy/smithy-aws-protocol-tests/1.67.0/ec9ff28100ffc321cb78a23f84113d616f620356/smithy-aws-protocol-tests-1.67.0.jar!/META-INF/smithy/restXml/document-lists.smithy",
-            "line": 359,
-            "column": 5
-        },
-        {
-            "id": "XmlFlattenedTrait",
-            "severity": "SUPPRESSED",
-            "shapeId": "aws.protocoltests.restxml#XmlListsInputOutput$flattenedStructureList",
+            "shapeId": "aws.protocoltests.restxml#XmlEmptyListsResponse$flattenedStructureList",
             "message": "Member is `@xmlFlattened`, so `@xmlName` of target's member (`aws.protocoltests.restxml#StructureList$member`) has no effect. The flattened list elements will have the name of this member - `flattenedStructureList`. If this is unintended, you can add `@xmlName(\"item\")` to this member.",
             "filename": "jar:file:/Users/chanyoo/.gradle/caches/modules-2/files-2.1/software.amazon.smithy/smithy-aws-protocol-tests/1.67.0/ec9ff28100ffc321cb78a23f84113d616f620356/smithy-aws-protocol-tests-1.67.0.jar!/META-INF/smithy/restXml/document-lists.smithy",
             "line": 385,
@@ -1720,16 +1702,7 @@
         {
             "id": "XmlFlattenedTrait",
             "severity": "SUPPRESSED",
-            "shapeId": "aws.protocoltests.restxml#XmlEmptyListsRequest$flattenedList",
-            "message": "Member is `@xmlFlattened`, so `@xmlName` of target's member (`aws.protocoltests.restxml#RenamedListMembers$member`) has no effect. The flattened list elements will have the name of this member - `flattenedList`. If this is unintended, you can add `@xmlName(\"item\")` to this member.",
-            "filename": "jar:file:/Users/chanyoo/.gradle/caches/modules-2/files-2.1/software.amazon.smithy/smithy-aws-protocol-tests/1.67.0/ec9ff28100ffc321cb78a23f84113d616f620356/smithy-aws-protocol-tests-1.67.0.jar!/META-INF/smithy/restXml/document-lists.smithy",
-            "line": 359,
-            "column": 5
-        },
-        {
-            "id": "XmlFlattenedTrait",
-            "severity": "SUPPRESSED",
-            "shapeId": "aws.protocoltests.restxml#XmlListsResponse$flattenedList",
+            "shapeId": "aws.protocoltests.restxml#XmlListsRequest$flattenedList",
             "message": "Member is `@xmlFlattened`, so `@xmlName` of target's member (`aws.protocoltests.restxml#RenamedListMembers$member`) has no effect. The flattened list elements will have the name of this member - `flattenedList`. If this is unintended, you can add `@xmlName(\"item\")` to this member.",
             "filename": "jar:file:/Users/chanyoo/.gradle/caches/modules-2/files-2.1/software.amazon.smithy/smithy-aws-protocol-tests/1.67.0/ec9ff28100ffc321cb78a23f84113d616f620356/smithy-aws-protocol-tests-1.67.0.jar!/META-INF/smithy/restXml/document-lists.smithy",
             "line": 359,
@@ -1747,6 +1720,24 @@
         {
             "id": "XmlFlattenedTrait",
             "severity": "SUPPRESSED",
+            "shapeId": "aws.protocoltests.restxml#XmlListsInputOutput$flattenedList",
+            "message": "Member is `@xmlFlattened`, so `@xmlName` of target's member (`aws.protocoltests.restxml#RenamedListMembers$member`) has no effect. The flattened list elements will have the name of this member - `flattenedList`. If this is unintended, you can add `@xmlName(\"item\")` to this member.",
+            "filename": "jar:file:/Users/chanyoo/.gradle/caches/modules-2/files-2.1/software.amazon.smithy/smithy-aws-protocol-tests/1.67.0/ec9ff28100ffc321cb78a23f84113d616f620356/smithy-aws-protocol-tests-1.67.0.jar!/META-INF/smithy/restXml/document-lists.smithy",
+            "line": 359,
+            "column": 5
+        },
+        {
+            "id": "XmlFlattenedTrait",
+            "severity": "SUPPRESSED",
+            "shapeId": "aws.protocoltests.restxml#XmlListsResponse$flattenedList",
+            "message": "Member is `@xmlFlattened`, so `@xmlName` of target's member (`aws.protocoltests.restxml#RenamedListMembers$member`) has no effect. The flattened list elements will have the name of this member - `flattenedList`. If this is unintended, you can add `@xmlName(\"item\")` to this member.",
+            "filename": "jar:file:/Users/chanyoo/.gradle/caches/modules-2/files-2.1/software.amazon.smithy/smithy-aws-protocol-tests/1.67.0/ec9ff28100ffc321cb78a23f84113d616f620356/smithy-aws-protocol-tests-1.67.0.jar!/META-INF/smithy/restXml/document-lists.smithy",
+            "line": 359,
+            "column": 5
+        },
+        {
+            "id": "XmlFlattenedTrait",
+            "severity": "SUPPRESSED",
             "shapeId": "aws.protocoltests.ec2#XmlListsOutput$flattenedList",
             "message": "Member is `@xmlFlattened`, so `@xmlName` of target's member (`aws.protocoltests.ec2#RenamedListMembers$member`) has no effect. The flattened list elements will have the name of this member - `flattenedList`. If this is unintended, you can add `@xmlName(\"item\")` to this member.",
             "filename": "jar:file:/Users/chanyoo/.gradle/caches/modules-2/files-2.1/software.amazon.smithy/smithy-aws-protocol-tests/1.67.0/ec9ff28100ffc321cb78a23f84113d616f620356/smithy-aws-protocol-tests-1.67.0.jar!/META-INF/smithy/ec2Query/xml-lists.smithy",
@@ -1756,10 +1747,19 @@
         {
             "id": "XmlFlattenedTrait",
             "severity": "SUPPRESSED",
-            "shapeId": "aws.protocoltests.query#XmlListsOutput$flattenedList",
-            "message": "Member is `@xmlFlattened`, so `@xmlName` of target's member (`aws.protocoltests.query#RenamedListMembers$member`) has no effect. The flattened list elements will have the name of this member - `flattenedList`. If this is unintended, you can add `@xmlName(\"item\")` to this member.",
-            "filename": "jar:file:/Users/chanyoo/.gradle/caches/modules-2/files-2.1/software.amazon.smithy/smithy-aws-protocol-tests/1.67.0/ec9ff28100ffc321cb78a23f84113d616f620356/smithy-aws-protocol-tests-1.67.0.jar!/META-INF/smithy/awsQuery/xml-lists.smithy",
-            "line": 192,
+            "shapeId": "aws.protocoltests.restxml#XmlEmptyListsRequest$flattenedList",
+            "message": "Member is `@xmlFlattened`, so `@xmlName` of target's member (`aws.protocoltests.restxml#RenamedListMembers$member`) has no effect. The flattened list elements will have the name of this member - `flattenedList`. If this is unintended, you can add `@xmlName(\"item\")` to this member.",
+            "filename": "jar:file:/Users/chanyoo/.gradle/caches/modules-2/files-2.1/software.amazon.smithy/smithy-aws-protocol-tests/1.67.0/ec9ff28100ffc321cb78a23f84113d616f620356/smithy-aws-protocol-tests-1.67.0.jar!/META-INF/smithy/restXml/document-lists.smithy",
+            "line": 359,
+            "column": 5
+        },
+        {
+            "id": "XmlFlattenedTrait",
+            "severity": "SUPPRESSED",
+            "shapeId": "aws.protocoltests.restxml#XmlListsInputOutput$flattenedStructureList",
+            "message": "Member is `@xmlFlattened`, so `@xmlName` of target's member (`aws.protocoltests.restxml#StructureList$member`) has no effect. The flattened list elements will have the name of this member - `flattenedStructureList`. If this is unintended, you can add `@xmlName(\"item\")` to this member.",
+            "filename": "jar:file:/Users/chanyoo/.gradle/caches/modules-2/files-2.1/software.amazon.smithy/smithy-aws-protocol-tests/1.67.0/ec9ff28100ffc321cb78a23f84113d616f620356/smithy-aws-protocol-tests-1.67.0.jar!/META-INF/smithy/restXml/document-lists.smithy",
+            "line": 385,
             "column": 5
         }
     ],
