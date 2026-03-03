@@ -1,0 +1,11 @@
+{
+    "service": "com.amazonaws.signin#Signin",
+    "module": "InternalAWSSignin",
+    "moduleVersion": "1.6.63",
+    "sdkId": "Signin",
+    "internalClient": true,
+    "operations": [
+        "com.amazonaws.signin#CreateOAuth2Token"
+    ],
+    "modelPath": "codegen/sdk-codegen/aws-models/signin.json"
+}
