@@ -4246,12 +4246,14 @@ public struct RebuildEnvironmentInput: Swift.Sendable {
 extension ElasticBeanstalkClientTypes {
 
     public enum EnvironmentInfoType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case analyze
         case bundle
         case tail
         case sdkUnknown(Swift.String)
 
         public static var allCases: [EnvironmentInfoType] {
             return [
+                .analyze,
                 .bundle,
                 .tail
             ]
@@ -4264,6 +4266,7 @@ extension ElasticBeanstalkClientTypes {
 
         public var rawValue: Swift.String {
             switch self {
+            case .analyze: return "analyze"
             case .bundle: return "bundle"
             case .tail: return "tail"
             case let .sdkUnknown(s): return s

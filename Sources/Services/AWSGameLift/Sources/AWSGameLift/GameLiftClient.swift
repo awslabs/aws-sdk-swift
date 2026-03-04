@@ -3995,7 +3995,7 @@ extension GameLiftClient {
 
     /// Performs the `DescribeFleetAttributes` operation on the `GameLift` service.
     ///
-    /// This API works with the following fleet types: EC2, Anywhere, Container Retrieves core fleet-wide properties for fleets in an Amazon Web Services Region. Properties include the computing hardware and deployment configuration for instances in the fleet. You can use this operation in the following ways:
+    /// This API works with the following fleet types: EC2, Anywhere Retrieves core fleet-wide properties for fleets in an Amazon Web Services Region. Properties include the computing hardware and deployment configuration for instances in the fleet. You can use this operation in the following ways:
     ///
     /// * To get attributes for specific fleets, provide a list of fleet IDs or fleet ARNs.
     ///
@@ -4991,7 +4991,7 @@ extension GameLiftClient {
 
     /// Performs the `DescribeGameSessionPlacement` operation on the `GameLift` service.
     ///
-    /// This API works with the following fleet types: EC2, Anywhere, Container Retrieves information, including current status, about a game session placement request. To get game session placement details, specify the placement ID. This operation is not designed to be continually called to track game session status. This practice can cause you to exceed your API limit, which results in errors. Instead, you must configure an Amazon Simple Notification Service (SNS) topic to receive notifications from FlexMatch or queues. Continuously polling with DescribeGameSessionPlacement should only be used for games in development with low game session usage.
+    /// This API works with the following fleet types: EC2, Anywhere, Container Retrieves information, including current status, about a game session placement request. To get game session placement details, specify the placement ID. This operation is not designed to be continually called to track game session status. This practice can cause you to exceed your API limit, which results in errors. Instead, you must configure an Amazon Simple Notification Service (SNS) topic to receive notifications from FlexMatch or queues. Continuously polling with DescribeGameSessionPlacement should only be used for games in development with low game session usage. For a reference implementation of event-based game session placement tracking, see [ Event-based game session placement guidance](https://github.com/amazon-gamelift/amazon-gamelift-toolkit/tree/main/event-based-session-placement) in the Amazon GameLift Toolkit.
     ///
     /// - Parameter input: [no documentation found] (Type: `DescribeGameSessionPlacementInput`)
     ///
@@ -5218,7 +5218,7 @@ extension GameLiftClient {
 
     /// Performs the `DescribeInstances` operation on the `GameLift` service.
     ///
-    /// This API works with the following fleet types: EC2 Retrieves information about the EC2 instances in an Amazon GameLift Servers managed fleet, including instance ID, connection data, and status. You can use this operation with a multi-location fleet to get location-specific instance information. As an alternative, use the operations [https://docs.aws.amazon.com/gamelift/latest/apireference/API_ListCompute](https://docs.aws.amazon.com/gamelift/latest/apireference/API_ListCompute) and [https://docs.aws.amazon.com/gamelift/latest/apireference/API_DescribeCompute](https://docs.aws.amazon.com/gamelift/latest/apireference/API_DescribeCompute) to retrieve information for compute resources, including EC2 and Anywhere fleets. You can call this operation in the following ways:
+    /// This API works with the following fleet types:EC2, Container Retrieves information about the EC2 instances in an Amazon GameLift Servers managed fleet, including instance ID, connection data, and status. You can use this operation with a multi-location fleet to get location-specific instance information. As an alternative, use the operations [https://docs.aws.amazon.com/gamelift/latest/apireference/API_ListCompute](https://docs.aws.amazon.com/gamelift/latest/apireference/API_ListCompute) and [https://docs.aws.amazon.com/gamelift/latest/apireference/API_DescribeCompute](https://docs.aws.amazon.com/gamelift/latest/apireference/API_DescribeCompute) to retrieve information for compute resources, including EC2 and Anywhere fleets. You can call this operation in the following ways:
     ///
     /// * To get information on all instances in a fleet's home Region, specify the fleet ID.
     ///
@@ -6262,6 +6262,81 @@ extension GameLiftClient {
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "GameLift")
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "GetInstanceAccess")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
+    }
+
+    /// Performs the `GetPlayerConnectionDetails` operation on the `GameLift` service.
+    ///
+    /// This API works with the following fleet types: EC2 (server SDK 5.x or later), Container Retrieves connection details for game clients to connect to game sessions. Player gateway benefits: DDoS protection with negligible impact to latency. To enable player gateway on your fleet, set PlayerGatewayMode to ENABLED or REQUIRED when calling [CreateFleet](https://docs.aws.amazon.com/gamelift/latest/apireference/API_CreateFleet.html) or [CreateContainerFleet](https://docs.aws.amazon.com/gamelift/latest/apireference/API_CreateContainerFleet.html). How to use: After creating a game session and adding players, call this operation with the game session ID and player IDs. When player gateway is enabled, the response includes connection endpoints and player gateway tokens that your game clients can use to connect to the game session through player gateway. To learn more about player gateway integration, see [DDoS protection with Amazon GameLift Servers player gateway](https://docs.aws.amazon.com/gameliftservers/latest/developerguide/ddos-protection-intro.html). When player gateway is disabled or in locations where player gateway is not supported, this operation returns game server connection information without player gateway tokens, so that your game clients directly connect to the game server endpoint.
+    ///
+    /// - Parameter input: [no documentation found] (Type: `GetPlayerConnectionDetailsInput`)
+    ///
+    /// - Returns: [no documentation found] (Type: `GetPlayerConnectionDetailsOutput`)
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InternalServiceException` : The service encountered an unrecoverable internal failure while processing the request. Clients can retry such requests immediately or after a waiting period.
+    /// - `InvalidGameSessionStatusException` : The requested operation would cause a conflict with the current state of a resource associated with the request and/or the game instance. Resolve the conflict before retrying.
+    /// - `InvalidRequestException` : One or more parameter values in the request are invalid. Correct the invalid parameter values before retrying.
+    /// - `LimitExceededException` : The requested operation would cause the resource to exceed the allowed service limit. Resolve the issue before retrying.
+    /// - `NotFoundException` : The requested resources was not found. The resource was either not created yet or deleted.
+    /// - `UnauthorizedException` : The client failed authentication. Clients should not retry such requests.
+    /// - `UnsupportedRegionException` : The requested operation is not supported in the Region specified.
+    public func getPlayerConnectionDetails(input: GetPlayerConnectionDetailsInput) async throws -> GetPlayerConnectionDetailsOutput {
+        let context = Smithy.ContextBuilder()
+                      .withMethod(value: .post)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "getPlayerConnectionDetails")
+                      .withUnsignedPayloadTrait(value: false)
+                      .withSmithyDefaultConfig(config)
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
+                      .withSigningName(value: "gamelift")
+                      .withSigningRegion(value: config.signingRegion)
+                      .build()
+        let builder = ClientRuntime.OrchestratorBuilder<GetPlayerConnectionDetailsInput, GetPlayerConnectionDetailsOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<GetPlayerConnectionDetailsInput, GetPlayerConnectionDetailsOutput>(GetPlayerConnectionDetailsInput.urlPathProvider(_:)))
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<GetPlayerConnectionDetailsInput, GetPlayerConnectionDetailsOutput>())
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GetPlayerConnectionDetailsInput, GetPlayerConnectionDetailsOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<GetPlayerConnectionDetailsOutput>(GetPlayerConnectionDetailsOutput.httpOutput(from:), GetPlayerConnectionDetailsOutputError.httpError(from:)))
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetPlayerConnectionDetailsInput, GetPlayerConnectionDetailsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
+        builder.applySigner(ClientRuntime.SignerMiddleware<GetPlayerConnectionDetailsOutput>())
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("GameLift", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<GetPlayerConnectionDetailsOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<GetPlayerConnectionDetailsInput, GetPlayerConnectionDetailsOutput>(overrides: ["X-Amz-Target": "GameLift.GetPlayerConnectionDetails"]))
+        builder.serialize(ClientRuntime.BodyMiddleware<GetPlayerConnectionDetailsInput, GetPlayerConnectionDetailsOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: GetPlayerConnectionDetailsInput.write(value:to:)))
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<GetPlayerConnectionDetailsInput, GetPlayerConnectionDetailsOutput>(contentType: "application/x-amz-json-1.1"))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<GetPlayerConnectionDetailsOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<GetPlayerConnectionDetailsInput, GetPlayerConnectionDetailsOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<GetPlayerConnectionDetailsInput, GetPlayerConnectionDetailsOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<GetPlayerConnectionDetailsInput, GetPlayerConnectionDetailsOutput>(serviceID: serviceName, version: GameLiftClient.version, config: config))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "GameLift")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "GetPlayerConnectionDetails")
         let op = builder.attributes(context)
             .telemetry(ClientRuntime.OrchestratorTelemetry(
                 telemetryProvider: config.telemetryProvider,
@@ -7715,7 +7790,14 @@ extension GameLiftClient {
     ///
     /// * gameSessionName -- Name assigned to a game session. Game session names do not need to be unique to a game session.
     ///
-    /// * gameSessionProperties -- A set of key-value pairs that can store custom data in a game session. For example: {"Key": "difficulty", "Value": "novice"}. The filter expression must specify the [https://docs.aws.amazon.com/gamelift/latest/apireference/API_GameProperty](https://docs.aws.amazon.com/gamelift/latest/apireference/API_GameProperty) -- a Key and a string Value to search for the game sessions. For example, to search for the above key-value pair, specify the following search filter: gameSessionProperties.difficulty = "novice". All game property values are searched as strings. For examples of searching game sessions, see the ones below, and also see [Search game sessions by game property](https://docs.aws.amazon.com/gamelift/latest/developerguide/gamelift-sdk-client-api.html#game-properties-search). Avoid using periods (".") in property keys if you plan to search for game sessions by properties. Property keys containing periods cannot be searched and will be filtered out from search results due to search index limitations.
+    /// * gameSessionProperties -- A set of key-value pairs that can store custom data in a game session. For example: {"Key": "difficulty", "Value": "novice"}. The filter expression must specify the [https://docs.aws.amazon.com/gamelift/latest/apireference/API_GameProperty](https://docs.aws.amazon.com/gamelift/latest/apireference/API_GameProperty) -- a Key and a string Value to search for the game sessions. For example, to search for the above key-value pair, specify the following search filter: gameSessionProperties.difficulty = "novice". All game property values are searched as strings. For examples of searching game sessions, see the ones below, and also see [Search game sessions by game property](https://docs.aws.amazon.com/gamelift/latest/developerguide/gamelift-sdk-client-api.html#game-properties-search).
+    ///
+    /// * Avoid using periods (".") in property keys if you plan to search for game sessions by properties. Property keys containing periods cannot be searched and will be filtered out from search results due to search index limitations.
+    ///
+    /// * If you use SearchGameSessions API, there is a limit of 500 game property keys across all game sessions and all fleets per region. If the limit is exceeded, there will potentially be game session entries missing from SearchGameSessions API results.
+    ///
+    ///
+    ///
     ///
     /// * maximumSessions -- Maximum number of player sessions allowed for a game session.
     ///

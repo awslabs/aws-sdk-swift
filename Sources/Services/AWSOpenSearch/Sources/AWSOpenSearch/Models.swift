@@ -2899,6 +2899,52 @@ extension OpenSearchClientTypes {
 
 extension OpenSearchClientTypes {
 
+    /// Specifies the deployment strategy for the domain. Valid values are Default and CapacityOptimized.
+    public enum DeploymentStrategy: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case capacityOptimized
+        case `default`
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [DeploymentStrategy] {
+            return [
+                .capacityOptimized,
+                .default
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .capacityOptimized: return "CapacityOptimized"
+            case .default: return "Default"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension OpenSearchClientTypes {
+
+    /// Specifies the deployment strategy options for the domain.
+    public struct DeploymentStrategyOptions: Swift.Sendable {
+        /// Specifies the deployment strategy for the domain. Valid values are Default and CapacityOptimized.
+        /// This member is required.
+        public var deploymentStrategy: OpenSearchClientTypes.DeploymentStrategy?
+
+        public init(
+            deploymentStrategy: OpenSearchClientTypes.DeploymentStrategy? = nil
+        ) {
+            self.deploymentStrategy = deploymentStrategy
+        }
+    }
+}
+
+extension OpenSearchClientTypes {
+
     public enum TLSSecurityPolicy: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case policyMinTls10201907
         case policyMinTls12201907
@@ -3377,6 +3423,8 @@ public struct CreateDomainInput: Swift.Sendable {
     public var clusterConfig: OpenSearchClientTypes.ClusterConfig?
     /// Key-value pairs to configure Amazon Cognito authentication. For more information, see [Configuring Amazon Cognito authentication for OpenSearch Dashboards](https://docs.aws.amazon.com/opensearch-service/latest/developerguide/cognito-auth.html).
     public var cognitoOptions: OpenSearchClientTypes.CognitoOptions?
+    /// Specifies the deployment strategy options for the domain.
+    public var deploymentStrategyOptions: OpenSearchClientTypes.DeploymentStrategyOptions?
     /// Additional options for the domain endpoint, such as whether to require HTTPS for all traffic.
     public var domainEndpointOptions: OpenSearchClientTypes.DomainEndpointOptions?
     /// Name of the OpenSearch Service domain to create. Domain names are unique across the domains owned by an account within an Amazon Web Services Region.
@@ -3415,6 +3463,7 @@ public struct CreateDomainInput: Swift.Sendable {
         autoTuneOptions: OpenSearchClientTypes.AutoTuneOptionsInput? = nil,
         clusterConfig: OpenSearchClientTypes.ClusterConfig? = nil,
         cognitoOptions: OpenSearchClientTypes.CognitoOptions? = nil,
+        deploymentStrategyOptions: OpenSearchClientTypes.DeploymentStrategyOptions? = nil,
         domainEndpointOptions: OpenSearchClientTypes.DomainEndpointOptions? = nil,
         domainName: Swift.String? = nil,
         ebsOptions: OpenSearchClientTypes.EBSOptions? = nil,
@@ -3437,6 +3486,7 @@ public struct CreateDomainInput: Swift.Sendable {
         self.autoTuneOptions = autoTuneOptions
         self.clusterConfig = clusterConfig
         self.cognitoOptions = cognitoOptions
+        self.deploymentStrategyOptions = deploymentStrategyOptions
         self.domainEndpointOptions = domainEndpointOptions
         self.domainName = domainName
         self.ebsOptions = ebsOptions
@@ -3833,6 +3883,8 @@ extension OpenSearchClientTypes {
         public var created: Swift.Bool?
         /// Deletion status of an OpenSearch Service domain. True if domain deletion is complete. False if domain deletion is still in progress. Once deletion is complete, the status of the domain is no longer returned.
         public var deleted: Swift.Bool?
+        /// The current status of the domain's deployment strategy options.
+        public var deploymentStrategyOptions: OpenSearchClientTypes.DeploymentStrategyOptions?
         /// Additional options for the domain endpoint, such as whether to require HTTPS for all traffic.
         public var domainEndpointOptions: OpenSearchClientTypes.DomainEndpointOptions?
         /// The dual stack hosted zone ID for the domain.
@@ -3898,6 +3950,7 @@ extension OpenSearchClientTypes {
             cognitoOptions: OpenSearchClientTypes.CognitoOptions? = nil,
             created: Swift.Bool? = nil,
             deleted: Swift.Bool? = nil,
+            deploymentStrategyOptions: OpenSearchClientTypes.DeploymentStrategyOptions? = nil,
             domainEndpointOptions: OpenSearchClientTypes.DomainEndpointOptions? = nil,
             domainEndpointV2HostedZoneId: Swift.String? = nil,
             domainId: Swift.String? = nil,
@@ -3933,6 +3986,7 @@ extension OpenSearchClientTypes {
             self.cognitoOptions = cognitoOptions
             self.created = created
             self.deleted = deleted
+            self.deploymentStrategyOptions = deploymentStrategyOptions
             self.domainEndpointOptions = domainEndpointOptions
             self.domainEndpointV2HostedZoneId = domainEndpointV2HostedZoneId
             self.domainId = domainId
@@ -5531,6 +5585,27 @@ extension OpenSearchClientTypes {
 
 extension OpenSearchClientTypes {
 
+    /// The status of deployment strategy options for the domain.
+    public struct DeploymentStrategyOptionsStatus: Swift.Sendable {
+        /// Deployment strategy options for the domain.
+        /// This member is required.
+        public var options: OpenSearchClientTypes.DeploymentStrategyOptions?
+        /// The current status of the deployment strategy options for the domain.
+        /// This member is required.
+        public var status: OpenSearchClientTypes.OptionStatus?
+
+        public init(
+            options: OpenSearchClientTypes.DeploymentStrategyOptions? = nil,
+            status: OpenSearchClientTypes.OptionStatus? = nil
+        ) {
+            self.options = options
+            self.status = status
+        }
+    }
+}
+
+extension OpenSearchClientTypes {
+
     /// The configured endpoint options for a domain and their current status.
     public struct DomainEndpointOptionsStatus: Swift.Sendable {
         /// Options to configure the endpoint for a domain.
@@ -5795,6 +5870,8 @@ extension OpenSearchClientTypes {
         public var clusterConfig: OpenSearchClientTypes.ClusterConfigStatus?
         /// Container for Amazon Cognito options for the domain.
         public var cognitoOptions: OpenSearchClientTypes.CognitoOptionsStatus?
+        /// Specifies DeploymentStrategyOptions for the domain.
+        public var deploymentStrategyOptions: OpenSearchClientTypes.DeploymentStrategyOptionsStatus?
         /// Additional options for the domain endpoint, such as whether to require HTTPS for all traffic.
         public var domainEndpointOptions: OpenSearchClientTypes.DomainEndpointOptionsStatus?
         /// Container for EBS options configured for the domain.
@@ -5831,6 +5908,7 @@ extension OpenSearchClientTypes {
             changeProgressDetails: OpenSearchClientTypes.ChangeProgressDetails? = nil,
             clusterConfig: OpenSearchClientTypes.ClusterConfigStatus? = nil,
             cognitoOptions: OpenSearchClientTypes.CognitoOptionsStatus? = nil,
+            deploymentStrategyOptions: OpenSearchClientTypes.DeploymentStrategyOptionsStatus? = nil,
             domainEndpointOptions: OpenSearchClientTypes.DomainEndpointOptionsStatus? = nil,
             ebsOptions: OpenSearchClientTypes.EBSOptionsStatus? = nil,
             encryptionAtRestOptions: OpenSearchClientTypes.EncryptionAtRestOptionsStatus? = nil,
@@ -5853,6 +5931,7 @@ extension OpenSearchClientTypes {
             self.changeProgressDetails = changeProgressDetails
             self.clusterConfig = clusterConfig
             self.cognitoOptions = cognitoOptions
+            self.deploymentStrategyOptions = deploymentStrategyOptions
             self.domainEndpointOptions = domainEndpointOptions
             self.ebsOptions = ebsOptions
             self.encryptionAtRestOptions = encryptionAtRestOptions
@@ -9080,6 +9159,8 @@ public struct UpdateDomainConfigInput: Swift.Sendable {
     public var clusterConfig: OpenSearchClientTypes.ClusterConfig?
     /// Key-value pairs to configure Amazon Cognito authentication for OpenSearch Dashboards.
     public var cognitoOptions: OpenSearchClientTypes.CognitoOptions?
+    /// Specifies the deployment strategy options for the domain.
+    public var deploymentStrategyOptions: OpenSearchClientTypes.DeploymentStrategyOptions?
     /// Additional options for the domain endpoint, such as whether to require HTTPS for all traffic.
     public var domainEndpointOptions: OpenSearchClientTypes.DomainEndpointOptions?
     /// The name of the domain that you're updating.
@@ -9122,6 +9203,7 @@ public struct UpdateDomainConfigInput: Swift.Sendable {
         autoTuneOptions: OpenSearchClientTypes.AutoTuneOptions? = nil,
         clusterConfig: OpenSearchClientTypes.ClusterConfig? = nil,
         cognitoOptions: OpenSearchClientTypes.CognitoOptions? = nil,
+        deploymentStrategyOptions: OpenSearchClientTypes.DeploymentStrategyOptions? = nil,
         domainEndpointOptions: OpenSearchClientTypes.DomainEndpointOptions? = nil,
         domainName: Swift.String? = nil,
         dryRun: Swift.Bool? = nil,
@@ -9144,6 +9226,7 @@ public struct UpdateDomainConfigInput: Swift.Sendable {
         self.autoTuneOptions = autoTuneOptions
         self.clusterConfig = clusterConfig
         self.cognitoOptions = cognitoOptions
+        self.deploymentStrategyOptions = deploymentStrategyOptions
         self.domainEndpointOptions = domainEndpointOptions
         self.domainName = domainName
         self.dryRun = dryRun
@@ -10711,6 +10794,7 @@ extension CreateDomainInput {
         try writer["AutoTuneOptions"].write(value.autoTuneOptions, with: OpenSearchClientTypes.AutoTuneOptionsInput.write(value:to:))
         try writer["ClusterConfig"].write(value.clusterConfig, with: OpenSearchClientTypes.ClusterConfig.write(value:to:))
         try writer["CognitoOptions"].write(value.cognitoOptions, with: OpenSearchClientTypes.CognitoOptions.write(value:to:))
+        try writer["DeploymentStrategyOptions"].write(value.deploymentStrategyOptions, with: OpenSearchClientTypes.DeploymentStrategyOptions.write(value:to:))
         try writer["DomainEndpointOptions"].write(value.domainEndpointOptions, with: OpenSearchClientTypes.DomainEndpointOptions.write(value:to:))
         try writer["DomainName"].write(value.domainName)
         try writer["EBSOptions"].write(value.ebsOptions, with: OpenSearchClientTypes.EBSOptions.write(value:to:))
@@ -10925,6 +11009,7 @@ extension UpdateDomainConfigInput {
         try writer["AutoTuneOptions"].write(value.autoTuneOptions, with: OpenSearchClientTypes.AutoTuneOptions.write(value:to:))
         try writer["ClusterConfig"].write(value.clusterConfig, with: OpenSearchClientTypes.ClusterConfig.write(value:to:))
         try writer["CognitoOptions"].write(value.cognitoOptions, with: OpenSearchClientTypes.CognitoOptions.write(value:to:))
+        try writer["DeploymentStrategyOptions"].write(value.deploymentStrategyOptions, with: OpenSearchClientTypes.DeploymentStrategyOptions.write(value:to:))
         try writer["DomainEndpointOptions"].write(value.domainEndpointOptions, with: OpenSearchClientTypes.DomainEndpointOptions.write(value:to:))
         try writer["DryRun"].write(value.dryRun)
         try writer["DryRunMode"].write(value.dryRunMode)
@@ -14272,6 +14357,32 @@ extension OpenSearchClientTypes.DataSourceType {
     }
 }
 
+extension OpenSearchClientTypes.DeploymentStrategyOptions {
+
+    static func write(value: OpenSearchClientTypes.DeploymentStrategyOptions?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["DeploymentStrategy"].write(value.deploymentStrategy)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> OpenSearchClientTypes.DeploymentStrategyOptions {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = OpenSearchClientTypes.DeploymentStrategyOptions()
+        value.deploymentStrategy = try reader["DeploymentStrategy"].readIfPresent() ?? .sdkUnknown("")
+        return value
+    }
+}
+
+extension OpenSearchClientTypes.DeploymentStrategyOptionsStatus {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> OpenSearchClientTypes.DeploymentStrategyOptionsStatus {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = OpenSearchClientTypes.DeploymentStrategyOptionsStatus()
+        value.options = try reader["Options"].readIfPresent(with: OpenSearchClientTypes.DeploymentStrategyOptions.read(from:))
+        value.status = try reader["Status"].readIfPresent(with: OpenSearchClientTypes.OptionStatus.read(from:))
+        return value
+    }
+}
+
 extension OpenSearchClientTypes.DescribePackagesFilter {
 
     static func write(value: OpenSearchClientTypes.DescribePackagesFilter?, to writer: SmithyJSON.Writer) throws {
@@ -14350,6 +14461,7 @@ extension OpenSearchClientTypes.DomainConfig {
         value.softwareUpdateOptions = try reader["SoftwareUpdateOptions"].readIfPresent(with: OpenSearchClientTypes.SoftwareUpdateOptionsStatus.read(from:))
         value.modifyingProperties = try reader["ModifyingProperties"].readListIfPresent(memberReadingClosure: OpenSearchClientTypes.ModifyingProperties.read(from:), memberNodeInfo: "member", isFlattened: false)
         value.aimlOptions = try reader["AIMLOptions"].readIfPresent(with: OpenSearchClientTypes.AIMLOptionsStatus.read(from:))
+        value.deploymentStrategyOptions = try reader["DeploymentStrategyOptions"].readIfPresent(with: OpenSearchClientTypes.DeploymentStrategyOptionsStatus.read(from:))
         return value
     }
 }
@@ -14507,6 +14619,7 @@ extension OpenSearchClientTypes.DomainStatus {
         value.domainProcessingStatus = try reader["DomainProcessingStatus"].readIfPresent()
         value.modifyingProperties = try reader["ModifyingProperties"].readListIfPresent(memberReadingClosure: OpenSearchClientTypes.ModifyingProperties.read(from:), memberNodeInfo: "member", isFlattened: false)
         value.aimlOptions = try reader["AIMLOptions"].readIfPresent(with: OpenSearchClientTypes.AIMLOptionsOutput.read(from:))
+        value.deploymentStrategyOptions = try reader["DeploymentStrategyOptions"].readIfPresent(with: OpenSearchClientTypes.DeploymentStrategyOptions.read(from:))
         return value
     }
 }

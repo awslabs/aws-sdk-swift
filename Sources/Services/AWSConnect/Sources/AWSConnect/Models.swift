@@ -64,6 +64,11 @@ public struct AssociatePhoneNumberContactFlowOutput: Swift.Sendable {
     public init() { }
 }
 
+public struct AssociateQueueEmailAddressesOutput: Swift.Sendable {
+
+    public init() { }
+}
+
 public struct AssociateQueueQuickConnectsOutput: Swift.Sendable {
 
     public init() { }
@@ -205,6 +210,11 @@ public struct DisassociateLexBotOutput: Swift.Sendable {
 }
 
 public struct DisassociatePhoneNumberContactFlowOutput: Swift.Sendable {
+
+    public init() { }
+}
+
+public struct DisassociateQueueEmailAddressesOutput: Swift.Sendable {
 
     public init() { }
 }
@@ -2955,6 +2965,48 @@ public struct AssociatePhoneNumberContactFlowInput: Swift.Sendable {
         self.contactFlowId = contactFlowId
         self.instanceId = instanceId
         self.phoneNumberId = phoneNumberId
+    }
+}
+
+extension ConnectClientTypes {
+
+    /// Configuration object that specifies an email address to be associated with a queue. This configuration contains the identifier of the email address that should be linked to the queue for routing email contacts.
+    public struct EmailAddressConfig: Swift.Sendable {
+        /// The identifier of the email address that should be associated with the queue. This email address must already exist in the Amazon Connect instance and will be used to route incoming email contacts to the specified queue.
+        /// This member is required.
+        public var emailAddressId: Swift.String?
+
+        public init(
+            emailAddressId: Swift.String? = nil
+        ) {
+            self.emailAddressId = emailAddressId
+        }
+    }
+}
+
+public struct AssociateQueueEmailAddressesInput: Swift.Sendable {
+    /// A unique, case-sensitive identifier that you provide to ensure the idempotency of the request. If not provided, the Amazon Web Services SDK populates this field. For more information about idempotency, see [Making retries safe with idempotent APIs](https://aws.amazon.com/builders-library/making-retries-safe-with-idempotent-APIs/).
+    public var clientToken: Swift.String?
+    /// Configuration list containing the email addresses to associate with the queue. Each configuration specifies an email address ID that should be linked to this queue for routing purposes.
+    /// This member is required.
+    public var emailAddressesConfig: [ConnectClientTypes.EmailAddressConfig]?
+    /// The identifier of the Amazon Connect instance. You can [find the instance ID](https://docs.aws.amazon.com/connect/latest/adminguide/find-instance-arn.html) in the Amazon Resource Name (ARN) of the instance.
+    /// This member is required.
+    public var instanceId: Swift.String?
+    /// The identifier for the queue.
+    /// This member is required.
+    public var queueId: Swift.String?
+
+    public init(
+        clientToken: Swift.String? = nil,
+        emailAddressesConfig: [ConnectClientTypes.EmailAddressConfig]? = nil,
+        instanceId: Swift.String? = nil,
+        queueId: Swift.String? = nil
+    ) {
+        self.clientToken = clientToken
+        self.emailAddressesConfig = emailAddressesConfig
+        self.instanceId = instanceId
+        self.queueId = queueId
     }
 }
 
@@ -8119,6 +8171,8 @@ extension ConnectClientTypes {
 public struct CreateQueueInput: Swift.Sendable {
     /// The description of the queue.
     public var description: Swift.String?
+    /// Configuration list containing the email addresses to associate with the queue during creation. Each configuration specifies an email address ID that agents can select when handling email contacts in this queue.
+    public var emailAddressesConfig: [ConnectClientTypes.EmailAddressConfig]?
     /// The identifier for the hours of operation.
     /// This member is required.
     public var hoursOfOperationId: Swift.String?
@@ -8141,6 +8195,7 @@ public struct CreateQueueInput: Swift.Sendable {
 
     public init(
         description: Swift.String? = nil,
+        emailAddressesConfig: [ConnectClientTypes.EmailAddressConfig]? = nil,
         hoursOfOperationId: Swift.String? = nil,
         instanceId: Swift.String? = nil,
         maxContacts: Swift.Int? = 0,
@@ -8151,6 +8206,7 @@ public struct CreateQueueInput: Swift.Sendable {
         tags: [Swift.String: Swift.String]? = nil
     ) {
         self.description = description
+        self.emailAddressesConfig = emailAddressesConfig
         self.hoursOfOperationId = hoursOfOperationId
         self.instanceId = instanceId
         self.maxContacts = maxContacts
@@ -17717,6 +17773,32 @@ public struct DisassociatePhoneNumberContactFlowInput: Swift.Sendable {
     }
 }
 
+public struct DisassociateQueueEmailAddressesInput: Swift.Sendable {
+    /// A unique, case-sensitive identifier that you provide to ensure the idempotency of the request. If not provided, the Amazon Web Services SDK populates this field. For more information about idempotency, see [Making retries safe with idempotent APIs](https://aws.amazon.com/builders-library/making-retries-safe-with-idempotent-APIs/).
+    public var clientToken: Swift.String?
+    /// List of email address identifiers to disassociate from the queue. These are the unique identifiers of email addresses that should no longer be routed to this queue.
+    /// This member is required.
+    public var emailAddressesId: [Swift.String]?
+    /// The identifier of the Amazon Connect instance. You can [find the instance ID](https://docs.aws.amazon.com/connect/latest/adminguide/find-instance-arn.html) in the Amazon Resource Name (ARN) of the instance.
+    /// This member is required.
+    public var instanceId: Swift.String?
+    /// The identifier for the queue.
+    /// This member is required.
+    public var queueId: Swift.String?
+
+    public init(
+        clientToken: Swift.String? = nil,
+        emailAddressesId: [Swift.String]? = nil,
+        instanceId: Swift.String? = nil,
+        queueId: Swift.String? = nil
+    ) {
+        self.clientToken = clientToken
+        self.emailAddressesId = emailAddressesId
+        self.instanceId = instanceId
+        self.queueId = queueId
+    }
+}
+
 public struct DisassociateQueueQuickConnectsInput: Swift.Sendable {
     /// The identifier of the Amazon Connect instance. You can [find the instance ID](https://docs.aws.amazon.com/connect/latest/adminguide/find-instance-arn.html) in the Amazon Resource Name (ARN) of the instance.
     /// This member is required.
@@ -22938,6 +23020,77 @@ public struct ListPromptsOutput: Swift.Sendable {
     ) {
         self.nextToken = nextToken
         self.promptSummaryList = promptSummaryList
+    }
+}
+
+public struct ListQueueEmailAddressesInput: Swift.Sendable {
+    /// The identifier of the Amazon Connect instance. You can [find the instance ID](https://docs.aws.amazon.com/connect/latest/adminguide/find-instance-arn.html) in the Amazon Resource Name (ARN) of the instance.
+    /// This member is required.
+    public var instanceId: Swift.String?
+    /// The maximum number of results to return per page.
+    public var maxResults: Swift.Int?
+    /// The token for the next set of results. Use the value returned in the previous response in the next request to retrieve the next set of results.
+    public var nextToken: Swift.String?
+    /// The identifier for the queue.
+    /// This member is required.
+    public var queueId: Swift.String?
+
+    public init(
+        instanceId: Swift.String? = nil,
+        maxResults: Swift.Int? = nil,
+        nextToken: Swift.String? = nil,
+        queueId: Swift.String? = nil
+    ) {
+        self.instanceId = instanceId
+        self.maxResults = maxResults
+        self.nextToken = nextToken
+        self.queueId = queueId
+    }
+}
+
+extension ConnectClientTypes {
+
+    /// Summary information about an email address associated with a queue. Contains the essential details needed to identify and manage the email address routing configuration.
+    public struct EmailAddressSummary: Swift.Sendable {
+        /// The Amazon Resource Name (ARN) of the email address associated with the queue.
+        public var arn: Swift.String?
+        /// The unique identifier of the email address associated with the queue.
+        public var id: Swift.String?
+        /// Indicates whether this email address is configured as the default outbound email address for the queue. When set to true, this email address is used as the default sender for outbound email contacts from this queue.
+        public var isDefaultOutboundEmail: Swift.Bool
+
+        public init(
+            arn: Swift.String? = nil,
+            id: Swift.String? = nil,
+            isDefaultOutboundEmail: Swift.Bool = false
+        ) {
+            self.arn = arn
+            self.id = id
+            self.isDefaultOutboundEmail = isDefaultOutboundEmail
+        }
+    }
+}
+
+public struct ListQueueEmailAddressesOutput: Swift.Sendable {
+    /// List of email address summary information for all email addresses associated with the queue. Each item contains the email address identifier, ARN, and configuration details.
+    public var emailAddressMetadataList: [ConnectClientTypes.EmailAddressSummary]?
+    /// The Amazon Web Services Region where this resource was last modified.
+    public var lastModifiedRegion: Swift.String?
+    /// The timestamp when this resource was last modified.
+    public var lastModifiedTime: Foundation.Date?
+    /// If there are additional results, this is the token for the next set of results.
+    public var nextToken: Swift.String?
+
+    public init(
+        emailAddressMetadataList: [ConnectClientTypes.EmailAddressSummary]? = nil,
+        lastModifiedRegion: Swift.String? = nil,
+        lastModifiedTime: Foundation.Date? = nil,
+        nextToken: Swift.String? = nil
+    ) {
+        self.emailAddressMetadataList = emailAddressMetadataList
+        self.lastModifiedRegion = lastModifiedRegion
+        self.lastModifiedTime = lastModifiedTime
+        self.nextToken = nextToken
     }
 }
 
@@ -35893,6 +36046,19 @@ extension AssociatePhoneNumberContactFlowInput {
     }
 }
 
+extension AssociateQueueEmailAddressesInput {
+
+    static func urlPathProvider(_ value: AssociateQueueEmailAddressesInput) -> Swift.String? {
+        guard let instanceId = value.instanceId else {
+            return nil
+        }
+        guard let queueId = value.queueId else {
+            return nil
+        }
+        return "/queues/\(instanceId.urlPercentEncoding())/\(queueId.urlPercentEncoding())/associate-email-addresses"
+    }
+}
+
 extension AssociateQueueQuickConnectsInput {
 
     static func urlPathProvider(_ value: AssociateQueueQuickConnectsInput) -> Swift.String? {
@@ -37763,6 +37929,19 @@ extension DisassociatePhoneNumberContactFlowInput {
     }
 }
 
+extension DisassociateQueueEmailAddressesInput {
+
+    static func urlPathProvider(_ value: DisassociateQueueEmailAddressesInput) -> Swift.String? {
+        guard let instanceId = value.instanceId else {
+            return nil
+        }
+        guard let queueId = value.queueId else {
+            return nil
+        }
+        return "/queues/\(instanceId.urlPercentEncoding())/\(queueId.urlPercentEncoding())/disassociate-email-addresses"
+    }
+}
+
 extension DisassociateQueueQuickConnectsInput {
 
     static func urlPathProvider(_ value: DisassociateQueueQuickConnectsInput) -> Swift.String? {
@@ -39146,6 +39325,35 @@ extension ListPromptsInput {
 extension ListPromptsInput {
 
     static func queryItemProvider(_ value: ListPromptsInput) throws -> [Smithy.URIQueryItem] {
+        var items = [Smithy.URIQueryItem]()
+        if let nextToken = value.nextToken {
+            let nextTokenQueryItem = Smithy.URIQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
+            items.append(nextTokenQueryItem)
+        }
+        if let maxResults = value.maxResults {
+            let maxResultsQueryItem = Smithy.URIQueryItem(name: "maxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
+            items.append(maxResultsQueryItem)
+        }
+        return items
+    }
+}
+
+extension ListQueueEmailAddressesInput {
+
+    static func urlPathProvider(_ value: ListQueueEmailAddressesInput) -> Swift.String? {
+        guard let instanceId = value.instanceId else {
+            return nil
+        }
+        guard let queueId = value.queueId else {
+            return nil
+        }
+        return "/queues/\(instanceId.urlPercentEncoding())/\(queueId.urlPercentEncoding())/email-addresses"
+    }
+}
+
+extension ListQueueEmailAddressesInput {
+
+    static func queryItemProvider(_ value: ListQueueEmailAddressesInput) throws -> [Smithy.URIQueryItem] {
         var items = [Smithy.URIQueryItem]()
         if let nextToken = value.nextToken {
             let nextTokenQueryItem = Smithy.URIQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
@@ -41497,6 +41705,15 @@ extension AssociatePhoneNumberContactFlowInput {
     }
 }
 
+extension AssociateQueueEmailAddressesInput {
+
+    static func write(value: AssociateQueueEmailAddressesInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["ClientToken"].write(value.clientToken)
+        try writer["EmailAddressesConfig"].writeList(value.emailAddressesConfig, memberWritingClosure: ConnectClientTypes.EmailAddressConfig.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+    }
+}
+
 extension AssociateQueueQuickConnectsInput {
 
     static func write(value: AssociateQueueQuickConnectsInput?, to writer: SmithyJSON.Writer) throws {
@@ -41921,6 +42138,7 @@ extension CreateQueueInput {
     static func write(value: CreateQueueInput?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
         try writer["Description"].write(value.description)
+        try writer["EmailAddressesConfig"].writeList(value.emailAddressesConfig, memberWritingClosure: ConnectClientTypes.EmailAddressConfig.write(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["HoursOfOperationId"].write(value.hoursOfOperationId)
         try writer["MaxContacts"].write(value.maxContacts)
         try writer["Name"].write(value.name)
@@ -42168,6 +42386,15 @@ extension DisassociateHoursOfOperationsInput {
     static func write(value: DisassociateHoursOfOperationsInput?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
         try writer["ParentHoursOfOperationIds"].writeList(value.parentHoursOfOperationIds, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+    }
+}
+
+extension DisassociateQueueEmailAddressesInput {
+
+    static func write(value: DisassociateQueueEmailAddressesInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["ClientToken"].write(value.clientToken)
+        try writer["EmailAddressesId"].writeList(value.emailAddressesId, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
     }
 }
 
@@ -43832,6 +44059,13 @@ extension AssociatePhoneNumberContactFlowOutput {
     }
 }
 
+extension AssociateQueueEmailAddressesOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> AssociateQueueEmailAddressesOutput {
+        return AssociateQueueEmailAddressesOutput()
+    }
+}
+
 extension AssociateQueueQuickConnectsOutput {
 
     static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> AssociateQueueQuickConnectsOutput {
@@ -45250,6 +45484,13 @@ extension DisassociatePhoneNumberContactFlowOutput {
     }
 }
 
+extension DisassociateQueueEmailAddressesOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> DisassociateQueueEmailAddressesOutput {
+        return DisassociateQueueEmailAddressesOutput()
+    }
+}
+
 extension DisassociateQueueQuickConnectsOutput {
 
     static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> DisassociateQueueQuickConnectsOutput {
@@ -46042,6 +46283,21 @@ extension ListPromptsOutput {
         var value = ListPromptsOutput()
         value.nextToken = try reader["NextToken"].readIfPresent()
         value.promptSummaryList = try reader["PromptSummaryList"].readListIfPresent(memberReadingClosure: ConnectClientTypes.PromptSummary.read(from:), memberNodeInfo: "member", isFlattened: false)
+        return value
+    }
+}
+
+extension ListQueueEmailAddressesOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> ListQueueEmailAddressesOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = ListQueueEmailAddressesOutput()
+        value.emailAddressMetadataList = try reader["EmailAddressMetadataList"].readListIfPresent(memberReadingClosure: ConnectClientTypes.EmailAddressSummary.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.lastModifiedRegion = try reader["LastModifiedRegion"].readIfPresent()
+        value.lastModifiedTime = try reader["LastModifiedTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.nextToken = try reader["NextToken"].readIfPresent()
         return value
     }
 }
@@ -47908,6 +48164,26 @@ enum AssociatePhoneNumberContactFlowOutputError {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
             case "InternalServiceException": return try InternalServiceException.makeError(baseError: baseError)
             case "InvalidParameterException": return try InvalidParameterException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum AssociateQueueEmailAddressesOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "InternalServiceException": return try InternalServiceException.makeError(baseError: baseError)
+            case "InvalidParameterException": return try InvalidParameterException.makeError(baseError: baseError)
+            case "InvalidRequestException": return try InvalidRequestException.makeError(baseError: baseError)
+            case "LimitExceededException": return try LimitExceededException.makeError(baseError: baseError)
             case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
             case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
             default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
@@ -50487,6 +50763,25 @@ enum DisassociatePhoneNumberContactFlowOutputError {
     }
 }
 
+enum DisassociateQueueEmailAddressesOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "InternalServiceException": return try InternalServiceException.makeError(baseError: baseError)
+            case "InvalidParameterException": return try InvalidParameterException.makeError(baseError: baseError)
+            case "InvalidRequestException": return try InvalidRequestException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
 enum DisassociateQueueQuickConnectsOutputError {
 
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
@@ -51603,6 +51898,25 @@ enum ListPromptsOutputError {
         let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
+            case "InternalServiceException": return try InternalServiceException.makeError(baseError: baseError)
+            case "InvalidParameterException": return try InvalidParameterException.makeError(baseError: baseError)
+            case "InvalidRequestException": return try InvalidRequestException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum ListQueueEmailAddressesOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
             case "InternalServiceException": return try InternalServiceException.makeError(baseError: baseError)
             case "InvalidParameterException": return try InvalidParameterException.makeError(baseError: baseError)
             case "InvalidRequestException": return try InvalidRequestException.makeError(baseError: baseError)
@@ -56673,6 +56987,14 @@ extension ConnectClientTypes.EffectiveOverrideHours {
     }
 }
 
+extension ConnectClientTypes.EmailAddressConfig {
+
+    static func write(value: ConnectClientTypes.EmailAddressConfig?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["EmailAddressId"].write(value.emailAddressId)
+    }
+}
+
 extension ConnectClientTypes.EmailAddressInfo {
 
     static func write(value: ConnectClientTypes.EmailAddressInfo?, to writer: SmithyJSON.Writer) throws {
@@ -56712,6 +57034,18 @@ extension ConnectClientTypes.EmailAddressSearchFilter {
     static func write(value: ConnectClientTypes.EmailAddressSearchFilter?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
         try writer["TagFilter"].write(value.tagFilter, with: ConnectClientTypes.ControlPlaneTagFilter.write(value:to:))
+    }
+}
+
+extension ConnectClientTypes.EmailAddressSummary {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> ConnectClientTypes.EmailAddressSummary {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = ConnectClientTypes.EmailAddressSummary()
+        value.id = try reader["Id"].readIfPresent()
+        value.arn = try reader["Arn"].readIfPresent()
+        value.isDefaultOutboundEmail = try reader["IsDefaultOutboundEmail"].readIfPresent() ?? false
+        return value
     }
 }
 
