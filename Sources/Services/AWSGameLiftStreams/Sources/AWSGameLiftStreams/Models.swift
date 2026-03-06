@@ -406,12 +406,14 @@ extension GameLiftStreamsClientTypes {
     public enum ApplicationStatusReason: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case accessDenied
         case internalError
+        case sourceModified
         case sdkUnknown(Swift.String)
 
         public static var allCases: [ApplicationStatusReason] {
             return [
                 .accessDenied,
-                .internalError
+                .internalError,
+                .sourceModified
             ]
         }
 
@@ -424,6 +426,7 @@ extension GameLiftStreamsClientTypes {
             switch self {
             case .accessDenied: return "accessDenied"
             case .internalError: return "internalError"
+            case .sourceModified: return "sourceModified"
             case let .sdkUnknown(s): return s
             }
         }
@@ -1092,11 +1095,15 @@ extension GameLiftStreamsClientTypes {
         case gen5nHigh
         case gen5nUltra
         case gen5nWin2022
+        case gen6ePro
+        case gen6eProWin2022
         case gen6nHigh
         case gen6nMedium
+        case gen6nMediumWin2022
         case gen6nPro
         case gen6nProWin2022
         case gen6nSmall
+        case gen6nSmallWin2022
         case gen6nUltra
         case gen6nUltraWin2022
         case sdkUnknown(Swift.String)
@@ -1109,11 +1116,15 @@ extension GameLiftStreamsClientTypes {
                 .gen5nHigh,
                 .gen5nUltra,
                 .gen5nWin2022,
+                .gen6ePro,
+                .gen6eProWin2022,
                 .gen6nHigh,
                 .gen6nMedium,
+                .gen6nMediumWin2022,
                 .gen6nPro,
                 .gen6nProWin2022,
                 .gen6nSmall,
+                .gen6nSmallWin2022,
                 .gen6nUltra,
                 .gen6nUltraWin2022
             ]
@@ -1132,11 +1143,15 @@ extension GameLiftStreamsClientTypes {
             case .gen5nHigh: return "gen5n_high"
             case .gen5nUltra: return "gen5n_ultra"
             case .gen5nWin2022: return "gen5n_win2022"
+            case .gen6ePro: return "gen6e_pro"
+            case .gen6eProWin2022: return "gen6e_pro_win2022"
             case .gen6nHigh: return "gen6n_high"
             case .gen6nMedium: return "gen6n_medium"
+            case .gen6nMediumWin2022: return "gen6n_medium_win2022"
             case .gen6nPro: return "gen6n_pro"
             case .gen6nProWin2022: return "gen6n_pro_win2022"
             case .gen6nSmall: return "gen6n_small"
+            case .gen6nSmallWin2022: return "gen6n_small_win2022"
             case .gen6nUltra: return "gen6n_ultra"
             case .gen6nUltraWin2022: return "gen6n_ultra_win2022"
             case let .sdkUnknown(s): return s
@@ -1244,6 +1259,32 @@ public struct CreateStreamGroupInput: Swift.Sendable {
     /// * Workload specifications: 1 vCPUs, 4 GB RAM, 2 GB VRAM
     ///
     /// * Tenancy: Supports up to 12 concurrent stream sessions
+    ///
+    ///
+    ///
+    ///
+    /// * gen6n_medium_win2022 (NVIDIA, medium) Supports applications with low 3D scene complexity. Uses NVIDIA L4 Tensor Core GPU.
+    ///
+    /// * Reference resolution: 1080p
+    ///
+    /// * Reference frame rate: 60 fps
+    ///
+    /// * Workload specifications: 8 vCPUs, 32 GB RAM, 6 GB VRAM
+    ///
+    /// * Tenancy: Supports 1 concurrent stream session
+    ///
+    ///
+    ///
+    ///
+    /// * gen6n_small_win2022 (NVIDIA, small) Supports applications with low 3D scene complexity. Uses NVIDIA L4 Tensor Core GPU.
+    ///
+    /// * Reference resolution: 1080p
+    ///
+    /// * Reference frame rate: 60 fps
+    ///
+    /// * Workload specifications: 2 vCPUs, 8 GB RAM, 3 GB VRAM
+    ///
+    /// * Tenancy: Supports 1 concurrent stream session
     ///
     ///
     ///
@@ -1575,6 +1616,32 @@ public struct CreateStreamGroupOutput: Swift.Sendable {
     /// * Workload specifications: 1 vCPUs, 4 GB RAM, 2 GB VRAM
     ///
     /// * Tenancy: Supports up to 12 concurrent stream sessions
+    ///
+    ///
+    ///
+    ///
+    /// * gen6n_medium_win2022 (NVIDIA, medium) Supports applications with low 3D scene complexity. Uses NVIDIA L4 Tensor Core GPU.
+    ///
+    /// * Reference resolution: 1080p
+    ///
+    /// * Reference frame rate: 60 fps
+    ///
+    /// * Workload specifications: 8 vCPUs, 32 GB RAM, 6 GB VRAM
+    ///
+    /// * Tenancy: Supports 1 concurrent stream session
+    ///
+    ///
+    ///
+    ///
+    /// * gen6n_small_win2022 (NVIDIA, small) Supports applications with low 3D scene complexity. Uses NVIDIA L4 Tensor Core GPU.
+    ///
+    /// * Reference resolution: 1080p
+    ///
+    /// * Reference frame rate: 60 fps
+    ///
+    /// * Workload specifications: 2 vCPUs, 8 GB RAM, 3 GB VRAM
+    ///
+    /// * Tenancy: Supports 1 concurrent stream session
     ///
     ///
     ///
@@ -2085,8 +2152,6 @@ public struct GetStreamSessionOutput: Swift.Sendable {
     ///
     /// * connectionTimeout: The stream session was terminated because the client failed to connect within the connection timeout period specified by ConnectionTimeoutSeconds.
     ///
-    /// * idleTimeout: The stream session was terminated because it exceeded the idle timeout period of 60 minutes with no user input activity.
-    ///
     /// * maxSessionLengthTimeout: The stream session was terminated because it exceeded the maximum session length timeout period specified by SessionLengthSeconds.
     ///
     /// * reconnectionTimeout: The stream session was terminated because the client failed to reconnect within the reconnection timeout period specified by ConnectionTimeoutSeconds after losing connection.
@@ -2238,8 +2303,6 @@ extension GameLiftStreamsClientTypes {
         /// * applicationExit: The streaming application exited or crashed. The stream session was terminated because the application is no longer running.
         ///
         /// * connectionTimeout: The stream session was terminated because the client failed to connect within the connection timeout period specified by ConnectionTimeoutSeconds.
-        ///
-        /// * idleTimeout: The stream session was terminated because it exceeded the idle timeout period of 60 minutes with no user input activity.
         ///
         /// * maxSessionLengthTimeout: The stream session was terminated because it exceeded the maximum session length timeout period specified by SessionLengthSeconds.
         ///
@@ -2505,8 +2568,6 @@ public struct StartStreamSessionOutput: Swift.Sendable {
     ///
     /// * connectionTimeout: The stream session was terminated because the client failed to connect within the connection timeout period specified by ConnectionTimeoutSeconds.
     ///
-    /// * idleTimeout: The stream session was terminated because it exceeded the idle timeout period of 60 minutes with no user input activity.
-    ///
     /// * maxSessionLengthTimeout: The stream session was terminated because it exceeded the maximum session length timeout period specified by SessionLengthSeconds.
     ///
     /// * reconnectionTimeout: The stream session was terminated because the client failed to reconnect within the reconnection timeout period specified by ConnectionTimeoutSeconds after losing connection.
@@ -2721,6 +2782,32 @@ public struct GetStreamGroupOutput: Swift.Sendable {
     /// * Workload specifications: 1 vCPUs, 4 GB RAM, 2 GB VRAM
     ///
     /// * Tenancy: Supports up to 12 concurrent stream sessions
+    ///
+    ///
+    ///
+    ///
+    /// * gen6n_medium_win2022 (NVIDIA, medium) Supports applications with low 3D scene complexity. Uses NVIDIA L4 Tensor Core GPU.
+    ///
+    /// * Reference resolution: 1080p
+    ///
+    /// * Reference frame rate: 60 fps
+    ///
+    /// * Workload specifications: 8 vCPUs, 32 GB RAM, 6 GB VRAM
+    ///
+    /// * Tenancy: Supports 1 concurrent stream session
+    ///
+    ///
+    ///
+    ///
+    /// * gen6n_small_win2022 (NVIDIA, small) Supports applications with low 3D scene complexity. Uses NVIDIA L4 Tensor Core GPU.
+    ///
+    /// * Reference resolution: 1080p
+    ///
+    /// * Reference frame rate: 60 fps
+    ///
+    /// * Workload specifications: 2 vCPUs, 8 GB RAM, 3 GB VRAM
+    ///
+    /// * Tenancy: Supports 1 concurrent stream session
     ///
     ///
     ///
@@ -2969,6 +3056,32 @@ extension GameLiftStreamsClientTypes {
         /// * Workload specifications: 1 vCPUs, 4 GB RAM, 2 GB VRAM
         ///
         /// * Tenancy: Supports up to 12 concurrent stream sessions
+        ///
+        ///
+        ///
+        ///
+        /// * gen6n_medium_win2022 (NVIDIA, medium) Supports applications with low 3D scene complexity. Uses NVIDIA L4 Tensor Core GPU.
+        ///
+        /// * Reference resolution: 1080p
+        ///
+        /// * Reference frame rate: 60 fps
+        ///
+        /// * Workload specifications: 8 vCPUs, 32 GB RAM, 6 GB VRAM
+        ///
+        /// * Tenancy: Supports 1 concurrent stream session
+        ///
+        ///
+        ///
+        ///
+        /// * gen6n_small_win2022 (NVIDIA, small) Supports applications with low 3D scene complexity. Uses NVIDIA L4 Tensor Core GPU.
+        ///
+        /// * Reference resolution: 1080p
+        ///
+        /// * Reference frame rate: 60 fps
+        ///
+        /// * Workload specifications: 2 vCPUs, 8 GB RAM, 3 GB VRAM
+        ///
+        /// * Tenancy: Supports 1 concurrent stream session
         ///
         ///
         ///
@@ -3251,6 +3364,32 @@ public struct UpdateStreamGroupOutput: Swift.Sendable {
     /// * Workload specifications: 1 vCPUs, 4 GB RAM, 2 GB VRAM
     ///
     /// * Tenancy: Supports up to 12 concurrent stream sessions
+    ///
+    ///
+    ///
+    ///
+    /// * gen6n_medium_win2022 (NVIDIA, medium) Supports applications with low 3D scene complexity. Uses NVIDIA L4 Tensor Core GPU.
+    ///
+    /// * Reference resolution: 1080p
+    ///
+    /// * Reference frame rate: 60 fps
+    ///
+    /// * Workload specifications: 8 vCPUs, 32 GB RAM, 6 GB VRAM
+    ///
+    /// * Tenancy: Supports 1 concurrent stream session
+    ///
+    ///
+    ///
+    ///
+    /// * gen6n_small_win2022 (NVIDIA, small) Supports applications with low 3D scene complexity. Uses NVIDIA L4 Tensor Core GPU.
+    ///
+    /// * Reference resolution: 1080p
+    ///
+    /// * Reference frame rate: 60 fps
+    ///
+    /// * Workload specifications: 2 vCPUs, 8 GB RAM, 3 GB VRAM
+    ///
+    /// * Tenancy: Supports 1 concurrent stream session
     ///
     ///
     ///
