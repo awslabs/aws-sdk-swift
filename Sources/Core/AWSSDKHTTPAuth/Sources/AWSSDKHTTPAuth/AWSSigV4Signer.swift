@@ -21,6 +21,7 @@ import class Smithy.Context
 import struct Smithy.SwiftLogger
 import class SmithyHTTPAPI.HTTPRequest
 import class SmithyHTTPAPI.HTTPRequestBuilder
+@_spi(SmithyHTTPClient) import SmithyHTTPClient
 import struct SmithyHTTPAuth.AWSSigningConfig
 import enum SmithyHTTPAuthAPI.AWSSignatureType
 import enum SmithyHTTPAuthAPI.AWSSignedBodyHeader
