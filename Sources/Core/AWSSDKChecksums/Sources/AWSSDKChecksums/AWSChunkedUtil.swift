@@ -5,13 +5,13 @@
 // SPDX-License-Identifier: Apache-2.0
 //
 
-import struct AwsCommonRuntimeKit.SigningConfig
+@_spi(SmithyChecksums) import class SmithyChecksums.ChunkedStream
+import class Smithy.Context
+import class SmithyHTTPAPI.HTTPRequestBuilder
 import enum Smithy.ByteStream
 import enum Smithy.ClientError
-import class Smithy.Context
-@_spi(SmithyChecksums) import class SmithyChecksums.ChunkedStream
+import struct AwsCommonRuntimeKit.SigningConfig
 import struct SmithyHTTPAPI.Headers
-import class SmithyHTTPAPI.HTTPRequestBuilder
 
 extension HTTPRequestBuilder {
 

@@ -5,34 +5,34 @@
 // SPDX-License-Identifier: Apache-2.0
 //
 
-import enum AwsCommonRuntimeKit.CommonRunTimeError
+import AWSSDKChecksums
+@_spi(SmithyHTTPClient) import SmithyHTTPClient
 import class AwsCommonRuntimeKit.HTTPRequestBase
 import class AwsCommonRuntimeKit.Signer
-import struct AwsCommonRuntimeKit.SigningConfig
-import AWSSDKChecksums
+import class Smithy.Context
+import class SmithyHTTPAPI.HTTPRequest
+import class SmithyHTTPAPI.HTTPRequestBuilder
+import enum AwsCommonRuntimeKit.CommonRunTimeError
+import enum Smithy.ClientError
+import enum SmithyHTTPAuthAPI.AWSSignatureType
+import enum SmithyHTTPAuthAPI.AWSSignedBodyHeader
+import enum SmithyHTTPAuthAPI.AWSSignedBodyValue
+import enum SmithyHTTPAuthAPI.SigningAlgorithm
+import enum SmithyHTTPAuthAPI.SigningPropertyKeys
+import protocol SmithyHTTPAuthAPI.Signer
+import protocol SmithyIdentity.AWSCredentialIdentityResolver
+import protocol SmithyIdentityAPI.Identity
 import struct AWSSDKIdentityAPI.S3ExpressIdentity
+import struct AwsCommonRuntimeKit.SigningConfig
 import struct Foundation.Date
 import struct Foundation.TimeInterval
 import struct Foundation.URL
 import struct Smithy.AttributeKey
 import struct Smithy.Attributes
-import enum Smithy.ClientError
-import class Smithy.Context
 import struct Smithy.SwiftLogger
-import class SmithyHTTPAPI.HTTPRequest
-import class SmithyHTTPAPI.HTTPRequestBuilder
-@_spi(SmithyHTTPClient) import SmithyHTTPClient
 import struct SmithyHTTPAuth.AWSSigningConfig
-import enum SmithyHTTPAuthAPI.AWSSignatureType
-import enum SmithyHTTPAuthAPI.AWSSignedBodyHeader
-import enum SmithyHTTPAuthAPI.AWSSignedBodyValue
-import protocol SmithyHTTPAuthAPI.Signer
-import enum SmithyHTTPAuthAPI.SigningAlgorithm
 import struct SmithyHTTPAuthAPI.SigningFlags
-import enum SmithyHTTPAuthAPI.SigningPropertyKeys
 import struct SmithyIdentity.AWSCredentialIdentity
-import protocol SmithyIdentity.AWSCredentialIdentityResolver
-import protocol SmithyIdentityAPI.Identity
 
 public final class AWSSigV4Signer: SmithyHTTPAuthAPI.Signer, Sendable {
 
