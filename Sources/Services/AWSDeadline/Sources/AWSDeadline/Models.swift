@@ -2863,6 +2863,8 @@ extension DeadlineClientTypes {
 public struct CreateFarmInput: Swift.Sendable {
     /// The unique token which the server uses to recognize retries of the same request.
     public var clientToken: Swift.String?
+    /// The cost scale factor to apply on the farm.
+    public var costScaleFactor: Swift.Float?
     /// The description of the farm. This field can store any content. Escape or encode this content before displaying it on a webpage or any other system that might interpret the content of this field.
     public var description: Swift.String?
     /// The display name of the farm. This field can store any content. Escape or encode this content before displaying it on a webpage or any other system that might interpret the content of this field.
@@ -2875,12 +2877,14 @@ public struct CreateFarmInput: Swift.Sendable {
 
     public init(
         clientToken: Swift.String? = nil,
+        costScaleFactor: Swift.Float? = nil,
         description: Swift.String? = nil,
         displayName: Swift.String? = nil,
         kmsKeyArn: Swift.String? = nil,
         tags: [Swift.String: Swift.String]? = nil
     ) {
         self.clientToken = clientToken
+        self.costScaleFactor = costScaleFactor
         self.description = description
         self.displayName = displayName
         self.kmsKeyArn = kmsKeyArn
@@ -2890,7 +2894,7 @@ public struct CreateFarmInput: Swift.Sendable {
 
 extension CreateFarmInput: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
-        "CreateFarmInput(clientToken: \(Swift.String(describing: clientToken)), displayName: \(Swift.String(describing: displayName)), kmsKeyArn: \(Swift.String(describing: kmsKeyArn)), tags: \(Swift.String(describing: tags)), description: \"CONTENT_REDACTED\")"}
+        "CreateFarmInput(clientToken: \(Swift.String(describing: clientToken)), costScaleFactor: \(Swift.String(describing: costScaleFactor)), displayName: \(Swift.String(describing: displayName)), kmsKeyArn: \(Swift.String(describing: kmsKeyArn)), tags: \(Swift.String(describing: tags)), description: \"CONTENT_REDACTED\")"}
 }
 
 public struct CreateFarmOutput: Swift.Sendable {
@@ -5556,6 +5560,9 @@ public struct GetFarmInput: Swift.Sendable {
 }
 
 public struct GetFarmOutput: Swift.Sendable {
+    /// The cost scale factor applied on the farm.
+    /// This member is required.
+    public var costScaleFactor: Swift.Float?
     /// The date and time the resource was created.
     /// This member is required.
     public var createdAt: Foundation.Date?
@@ -5578,6 +5585,7 @@ public struct GetFarmOutput: Swift.Sendable {
     public var updatedBy: Swift.String?
 
     public init(
+        costScaleFactor: Swift.Float? = 1.0,
         createdAt: Foundation.Date? = nil,
         createdBy: Swift.String? = nil,
         description: Swift.String? = nil,
@@ -5587,6 +5595,7 @@ public struct GetFarmOutput: Swift.Sendable {
         updatedAt: Foundation.Date? = nil,
         updatedBy: Swift.String? = nil
     ) {
+        self.costScaleFactor = costScaleFactor
         self.createdAt = createdAt
         self.createdBy = createdBy
         self.description = description
@@ -5600,7 +5609,7 @@ public struct GetFarmOutput: Swift.Sendable {
 
 extension GetFarmOutput: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
-        "GetFarmOutput(createdAt: \(Swift.String(describing: createdAt)), createdBy: \(Swift.String(describing: createdBy)), displayName: \(Swift.String(describing: displayName)), farmId: \(Swift.String(describing: farmId)), kmsKeyArn: \(Swift.String(describing: kmsKeyArn)), updatedAt: \(Swift.String(describing: updatedAt)), updatedBy: \(Swift.String(describing: updatedBy)), description: \"CONTENT_REDACTED\")"}
+        "GetFarmOutput(costScaleFactor: \(Swift.String(describing: costScaleFactor)), createdAt: \(Swift.String(describing: createdAt)), createdBy: \(Swift.String(describing: createdBy)), displayName: \(Swift.String(describing: displayName)), farmId: \(Swift.String(describing: farmId)), kmsKeyArn: \(Swift.String(describing: kmsKeyArn)), updatedAt: \(Swift.String(describing: updatedAt)), updatedBy: \(Swift.String(describing: updatedBy)), description: \"CONTENT_REDACTED\")"}
 }
 
 public struct GetLimitInput: Swift.Sendable {
@@ -9327,6 +9336,8 @@ public struct UpdateQueueEnvironmentOutput: Swift.Sendable {
 }
 
 public struct UpdateFarmInput: Swift.Sendable {
+    /// The cost scale factor of the farm to update.
+    public var costScaleFactor: Swift.Float?
     /// The description of the farm to update. This field can store any content. Escape or encode this content before displaying it on a webpage or any other system that might interpret the content of this field.
     public var description: Swift.String?
     /// The display name of the farm to update. This field can store any content. Escape or encode this content before displaying it on a webpage or any other system that might interpret the content of this field.
@@ -9336,10 +9347,12 @@ public struct UpdateFarmInput: Swift.Sendable {
     public var farmId: Swift.String?
 
     public init(
+        costScaleFactor: Swift.Float? = nil,
         description: Swift.String? = nil,
         displayName: Swift.String? = nil,
         farmId: Swift.String? = nil
     ) {
+        self.costScaleFactor = costScaleFactor
         self.description = description
         self.displayName = displayName
         self.farmId = farmId
@@ -9348,7 +9361,7 @@ public struct UpdateFarmInput: Swift.Sendable {
 
 extension UpdateFarmInput: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
-        "UpdateFarmInput(displayName: \(Swift.String(describing: displayName)), farmId: \(Swift.String(describing: farmId)), description: \"CONTENT_REDACTED\")"}
+        "UpdateFarmInput(costScaleFactor: \(Swift.String(describing: costScaleFactor)), displayName: \(Swift.String(describing: displayName)), farmId: \(Swift.String(describing: farmId)), description: \"CONTENT_REDACTED\")"}
 }
 
 public struct UpdateFarmOutput: Swift.Sendable {
@@ -14143,6 +14156,7 @@ extension CreateFarmInput {
 
     static func write(value: CreateFarmInput?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
+        try writer["costScaleFactor"].write(value.costScaleFactor)
         try writer["description"].write(value.description)
         try writer["displayName"].write(value.displayName)
         try writer["kmsKeyArn"].write(value.kmsKeyArn)
@@ -14373,6 +14387,7 @@ extension UpdateFarmInput {
 
     static func write(value: UpdateFarmInput?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
+        try writer["costScaleFactor"].write(value.costScaleFactor)
         try writer["description"].write(value.description)
         try writer["displayName"].write(value.displayName)
     }
@@ -14934,6 +14949,7 @@ extension GetFarmOutput {
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
         var value = GetFarmOutput()
+        value.costScaleFactor = try reader["costScaleFactor"].readIfPresent() ?? 1
         value.createdAt = try reader["createdAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
         value.createdBy = try reader["createdBy"].readIfPresent() ?? ""
         value.description = try reader["description"].readIfPresent()

@@ -9777,12 +9777,29 @@ public struct InvalidTestCaseException: ClientRuntime.ModeledError, AWSClientRun
 
 extension ConnectClientTypes {
 
+    /// Parameters for initiating a chat test.
+    public struct ChatEntryPointParameters: Swift.Sendable {
+        /// The flow identifier for the test.
+        public var flowId: Swift.String?
+
+        public init(
+            flowId: Swift.String? = nil
+        ) {
+            self.flowId = flowId
+        }
+    }
+}
+
+extension ConnectClientTypes {
+
     public enum TestCaseEntryPointType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case chat
         case voiceCall
         case sdkUnknown(Swift.String)
 
         public static var allCases: [TestCaseEntryPointType] {
             return [
+                .chat,
                 .voiceCall
             ]
         }
@@ -9794,6 +9811,7 @@ extension ConnectClientTypes {
 
         public var rawValue: Swift.String {
             switch self {
+            case .chat: return "CHAT"
             case .voiceCall: return "VOICE_CALL"
             case let .sdkUnknown(s): return s
             }
@@ -9828,15 +9846,19 @@ extension ConnectClientTypes {
 
     /// Defines the starting point for a test case.
     public struct TestCaseEntryPoint: Swift.Sendable {
+        /// Parameters for chat entry point.
+        public var chatEntryPointParameters: ConnectClientTypes.ChatEntryPointParameters?
         /// The type of entry point.
         public var type: ConnectClientTypes.TestCaseEntryPointType?
         /// Parameters for voice call entry point.
         public var voiceCallEntryPointParameters: ConnectClientTypes.VoiceCallEntryPointParameters?
 
         public init(
+            chatEntryPointParameters: ConnectClientTypes.ChatEntryPointParameters? = nil,
             type: ConnectClientTypes.TestCaseEntryPointType? = nil,
             voiceCallEntryPointParameters: ConnectClientTypes.VoiceCallEntryPointParameters? = nil
         ) {
+            self.chatEntryPointParameters = chatEntryPointParameters
             self.type = type
             self.voiceCallEntryPointParameters = voiceCallEntryPointParameters
         }
@@ -55953,6 +55975,21 @@ extension ConnectClientTypes.ChatContactMetrics {
     }
 }
 
+extension ConnectClientTypes.ChatEntryPointParameters {
+
+    static func write(value: ConnectClientTypes.ChatEntryPointParameters?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["FlowId"].write(value.flowId)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> ConnectClientTypes.ChatEntryPointParameters {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = ConnectClientTypes.ChatEntryPointParameters()
+        value.flowId = try reader["FlowId"].readIfPresent()
+        return value
+    }
+}
+
 extension ConnectClientTypes.ChatEvent {
 
     static func write(value: ConnectClientTypes.ChatEvent?, to writer: SmithyJSON.Writer) throws {
@@ -61734,6 +61771,7 @@ extension ConnectClientTypes.TestCaseEntryPoint {
 
     static func write(value: ConnectClientTypes.TestCaseEntryPoint?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
+        try writer["ChatEntryPointParameters"].write(value.chatEntryPointParameters, with: ConnectClientTypes.ChatEntryPointParameters.write(value:to:))
         try writer["Type"].write(value.type)
         try writer["VoiceCallEntryPointParameters"].write(value.voiceCallEntryPointParameters, with: ConnectClientTypes.VoiceCallEntryPointParameters.write(value:to:))
     }
@@ -61743,6 +61781,7 @@ extension ConnectClientTypes.TestCaseEntryPoint {
         var value = ConnectClientTypes.TestCaseEntryPoint()
         value.type = try reader["Type"].readIfPresent()
         value.voiceCallEntryPointParameters = try reader["VoiceCallEntryPointParameters"].readIfPresent(with: ConnectClientTypes.VoiceCallEntryPointParameters.read(from:))
+        value.chatEntryPointParameters = try reader["ChatEntryPointParameters"].readIfPresent(with: ConnectClientTypes.ChatEntryPointParameters.read(from:))
         return value
     }
 }

@@ -6051,6 +6051,128 @@ extension BedrockAgentCoreControlClientTypes {
     }
 }
 
+extension BedrockAgentCoreControlClientTypes {
+
+    public enum ContentLevel: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case fullContent
+        case metadataOnly
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [ContentLevel] {
+            return [
+                .fullContent,
+                .metadataOnly
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .fullContent: return "FULL_CONTENT"
+            case .metadataOnly: return "METADATA_ONLY"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension BedrockAgentCoreControlClientTypes {
+
+    public enum ContentType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case memoryRecords
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [ContentType] {
+            return [
+                .memoryRecords
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .memoryRecords: return "MEMORY_RECORDS"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension BedrockAgentCoreControlClientTypes {
+
+    /// Defines what content to stream and at what level of detail.
+    public struct ContentConfiguration: Swift.Sendable {
+        /// Level of detail for streamed content.
+        public var level: BedrockAgentCoreControlClientTypes.ContentLevel?
+        /// Type of content to stream.
+        /// This member is required.
+        public var type: BedrockAgentCoreControlClientTypes.ContentType?
+
+        public init(
+            level: BedrockAgentCoreControlClientTypes.ContentLevel? = .metadataOnly,
+            type: BedrockAgentCoreControlClientTypes.ContentType? = nil
+        ) {
+            self.level = level
+            self.type = type
+        }
+    }
+}
+
+extension BedrockAgentCoreControlClientTypes {
+
+    /// Configuration for Kinesis Data Stream delivery.
+    public struct KinesisResource: Swift.Sendable {
+        /// Content configurations for stream delivery.
+        /// This member is required.
+        public var contentConfigurations: [BedrockAgentCoreControlClientTypes.ContentConfiguration]?
+        /// ARN of the Kinesis Data Stream.
+        /// This member is required.
+        public var dataStreamArn: Swift.String?
+
+        public init(
+            contentConfigurations: [BedrockAgentCoreControlClientTypes.ContentConfiguration]? = nil,
+            dataStreamArn: Swift.String? = nil
+        ) {
+            self.contentConfigurations = contentConfigurations
+            self.dataStreamArn = dataStreamArn
+        }
+    }
+}
+
+extension BedrockAgentCoreControlClientTypes {
+
+    /// Supported stream delivery resource types.
+    public enum StreamDeliveryResource: Swift.Sendable {
+        /// Kinesis Data Stream configuration.
+        case kinesis(BedrockAgentCoreControlClientTypes.KinesisResource)
+        case sdkUnknown(Swift.String)
+    }
+}
+
+extension BedrockAgentCoreControlClientTypes {
+
+    /// Configuration for streaming memory record data to external resources.
+    public struct StreamDeliveryResources: Swift.Sendable {
+        /// List of stream delivery resource configurations.
+        /// This member is required.
+        public var resources: [BedrockAgentCoreControlClientTypes.StreamDeliveryResource]?
+
+        public init(
+            resources: [BedrockAgentCoreControlClientTypes.StreamDeliveryResource]? = nil
+        ) {
+            self.resources = resources
+        }
+    }
+}
+
 public struct CreateMemoryInput: Swift.Sendable {
     /// A unique, case-sensitive identifier to ensure that the operation completes no more than one time. If this token matches a previous request, Amazon Bedrock ignores the request but does not return an error.
     public var clientToken: Swift.String?
@@ -6068,6 +6190,8 @@ public struct CreateMemoryInput: Swift.Sendable {
     /// The name of the memory. The name must be unique within your account.
     /// This member is required.
     public var name: Swift.String?
+    /// Configuration for streaming memory record data to external resources.
+    public var streamDeliveryResources: BedrockAgentCoreControlClientTypes.StreamDeliveryResources?
     /// A map of tag keys and values to assign to an AgentCore Memory. Tags enable you to categorize your resources in different ways, for example, by purpose, owner, or environment.
     public var tags: [Swift.String: Swift.String]?
 
@@ -6079,6 +6203,7 @@ public struct CreateMemoryInput: Swift.Sendable {
         memoryExecutionRoleArn: Swift.String? = nil,
         memoryStrategies: [BedrockAgentCoreControlClientTypes.MemoryStrategyInput]? = nil,
         name: Swift.String? = nil,
+        streamDeliveryResources: BedrockAgentCoreControlClientTypes.StreamDeliveryResources? = nil,
         tags: [Swift.String: Swift.String]? = nil
     ) {
         self.clientToken = clientToken
@@ -6088,13 +6213,14 @@ public struct CreateMemoryInput: Swift.Sendable {
         self.memoryExecutionRoleArn = memoryExecutionRoleArn
         self.memoryStrategies = memoryStrategies
         self.name = name
+        self.streamDeliveryResources = streamDeliveryResources
         self.tags = tags
     }
 }
 
 extension CreateMemoryInput: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
-        "CreateMemoryInput(clientToken: \(Swift.String(describing: clientToken)), encryptionKeyArn: \(Swift.String(describing: encryptionKeyArn)), eventExpiryDuration: \(Swift.String(describing: eventExpiryDuration)), memoryExecutionRoleArn: \(Swift.String(describing: memoryExecutionRoleArn)), memoryStrategies: \(Swift.String(describing: memoryStrategies)), name: \(Swift.String(describing: name)), tags: \(Swift.String(describing: tags)), description: \"CONTENT_REDACTED\")"}
+        "CreateMemoryInput(clientToken: \(Swift.String(describing: clientToken)), encryptionKeyArn: \(Swift.String(describing: encryptionKeyArn)), eventExpiryDuration: \(Swift.String(describing: eventExpiryDuration)), memoryExecutionRoleArn: \(Swift.String(describing: memoryExecutionRoleArn)), memoryStrategies: \(Swift.String(describing: memoryStrategies)), name: \(Swift.String(describing: name)), streamDeliveryResources: \(Swift.String(describing: streamDeliveryResources)), tags: \(Swift.String(describing: tags)), description: \"CONTENT_REDACTED\")"}
 }
 
 extension BedrockAgentCoreControlClientTypes {
@@ -6768,6 +6894,8 @@ extension BedrockAgentCoreControlClientTypes {
         public var status: BedrockAgentCoreControlClientTypes.MemoryStatus?
         /// The list of memory strategies associated with this memory.
         public var strategies: [BedrockAgentCoreControlClientTypes.MemoryStrategy]?
+        /// Configuration for streaming memory record data to external resources.
+        public var streamDeliveryResources: BedrockAgentCoreControlClientTypes.StreamDeliveryResources?
         /// The timestamp when the memory was last updated.
         /// This member is required.
         public var updatedAt: Foundation.Date?
@@ -6784,6 +6912,7 @@ extension BedrockAgentCoreControlClientTypes {
             name: Swift.String? = nil,
             status: BedrockAgentCoreControlClientTypes.MemoryStatus? = nil,
             strategies: [BedrockAgentCoreControlClientTypes.MemoryStrategy]? = nil,
+            streamDeliveryResources: BedrockAgentCoreControlClientTypes.StreamDeliveryResources? = nil,
             updatedAt: Foundation.Date? = nil
         ) {
             self.arn = arn
@@ -6797,6 +6926,7 @@ extension BedrockAgentCoreControlClientTypes {
             self.name = name
             self.status = status
             self.strategies = strategies
+            self.streamDeliveryResources = streamDeliveryResources
             self.updatedAt = updatedAt
         }
     }
@@ -6804,7 +6934,7 @@ extension BedrockAgentCoreControlClientTypes {
 
 extension BedrockAgentCoreControlClientTypes.Memory: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
-        "Memory(arn: \(Swift.String(describing: arn)), createdAt: \(Swift.String(describing: createdAt)), encryptionKeyArn: \(Swift.String(describing: encryptionKeyArn)), eventExpiryDuration: \(Swift.String(describing: eventExpiryDuration)), failureReason: \(Swift.String(describing: failureReason)), id: \(Swift.String(describing: id)), memoryExecutionRoleArn: \(Swift.String(describing: memoryExecutionRoleArn)), name: \(Swift.String(describing: name)), status: \(Swift.String(describing: status)), strategies: \(Swift.String(describing: strategies)), updatedAt: \(Swift.String(describing: updatedAt)), description: \"CONTENT_REDACTED\")"}
+        "Memory(arn: \(Swift.String(describing: arn)), createdAt: \(Swift.String(describing: createdAt)), encryptionKeyArn: \(Swift.String(describing: encryptionKeyArn)), eventExpiryDuration: \(Swift.String(describing: eventExpiryDuration)), failureReason: \(Swift.String(describing: failureReason)), id: \(Swift.String(describing: id)), memoryExecutionRoleArn: \(Swift.String(describing: memoryExecutionRoleArn)), name: \(Swift.String(describing: name)), status: \(Swift.String(describing: status)), strategies: \(Swift.String(describing: strategies)), streamDeliveryResources: \(Swift.String(describing: streamDeliveryResources)), updatedAt: \(Swift.String(describing: updatedAt)), description: \"CONTENT_REDACTED\")"}
 }
 
 public struct CreateMemoryOutput: Swift.Sendable {
@@ -7198,6 +7328,8 @@ public struct UpdateMemoryInput: Swift.Sendable {
     public var memoryId: Swift.String?
     /// The memory strategies to add, modify, or delete.
     public var memoryStrategies: BedrockAgentCoreControlClientTypes.ModifyMemoryStrategies?
+    /// Configuration for streaming memory record data to external resources.
+    public var streamDeliveryResources: BedrockAgentCoreControlClientTypes.StreamDeliveryResources?
 
     public init(
         clientToken: Swift.String? = nil,
@@ -7205,7 +7337,8 @@ public struct UpdateMemoryInput: Swift.Sendable {
         eventExpiryDuration: Swift.Int? = nil,
         memoryExecutionRoleArn: Swift.String? = nil,
         memoryId: Swift.String? = nil,
-        memoryStrategies: BedrockAgentCoreControlClientTypes.ModifyMemoryStrategies? = nil
+        memoryStrategies: BedrockAgentCoreControlClientTypes.ModifyMemoryStrategies? = nil,
+        streamDeliveryResources: BedrockAgentCoreControlClientTypes.StreamDeliveryResources? = nil
     ) {
         self.clientToken = clientToken
         self.description = description
@@ -7213,12 +7346,13 @@ public struct UpdateMemoryInput: Swift.Sendable {
         self.memoryExecutionRoleArn = memoryExecutionRoleArn
         self.memoryId = memoryId
         self.memoryStrategies = memoryStrategies
+        self.streamDeliveryResources = streamDeliveryResources
     }
 }
 
 extension UpdateMemoryInput: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
-        "UpdateMemoryInput(clientToken: \(Swift.String(describing: clientToken)), eventExpiryDuration: \(Swift.String(describing: eventExpiryDuration)), memoryExecutionRoleArn: \(Swift.String(describing: memoryExecutionRoleArn)), memoryId: \(Swift.String(describing: memoryId)), memoryStrategies: \(Swift.String(describing: memoryStrategies)), description: \"CONTENT_REDACTED\")"}
+        "UpdateMemoryInput(clientToken: \(Swift.String(describing: clientToken)), eventExpiryDuration: \(Swift.String(describing: eventExpiryDuration)), memoryExecutionRoleArn: \(Swift.String(describing: memoryExecutionRoleArn)), memoryId: \(Swift.String(describing: memoryId)), memoryStrategies: \(Swift.String(describing: memoryStrategies)), streamDeliveryResources: \(Swift.String(describing: streamDeliveryResources)), description: \"CONTENT_REDACTED\")"}
 }
 
 public struct UpdateMemoryOutput: Swift.Sendable {
@@ -12373,6 +12507,7 @@ extension CreateMemoryInput {
         try writer["memoryExecutionRoleArn"].write(value.memoryExecutionRoleArn)
         try writer["memoryStrategies"].writeList(value.memoryStrategies, memberWritingClosure: BedrockAgentCoreControlClientTypes.MemoryStrategyInput.write(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["name"].write(value.name)
+        try writer["streamDeliveryResources"].write(value.streamDeliveryResources, with: BedrockAgentCoreControlClientTypes.StreamDeliveryResources.write(value:to:))
         try writer["tags"].writeMap(value.tags, valueWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
     }
 }
@@ -12661,6 +12796,7 @@ extension UpdateMemoryInput {
         try writer["eventExpiryDuration"].write(value.eventExpiryDuration)
         try writer["memoryExecutionRoleArn"].write(value.memoryExecutionRoleArn)
         try writer["memoryStrategies"].write(value.memoryStrategies, with: BedrockAgentCoreControlClientTypes.ModifyMemoryStrategies.write(value:to:))
+        try writer["streamDeliveryResources"].write(value.streamDeliveryResources, with: BedrockAgentCoreControlClientTypes.StreamDeliveryResources.write(value:to:))
     }
 }
 
@@ -16441,6 +16577,23 @@ extension BedrockAgentCoreControlClientTypes.Content {
     }
 }
 
+extension BedrockAgentCoreControlClientTypes.ContentConfiguration {
+
+    static func write(value: BedrockAgentCoreControlClientTypes.ContentConfiguration?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["level"].write(value.level)
+        try writer["type"].write(value.type)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> BedrockAgentCoreControlClientTypes.ContentConfiguration {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = BedrockAgentCoreControlClientTypes.ContentConfiguration()
+        value.type = try reader["type"].readIfPresent() ?? .sdkUnknown("")
+        value.level = try reader["level"].readIfPresent() ?? BedrockAgentCoreControlClientTypes.ContentLevel.metadataOnly
+        return value
+    }
+}
+
 extension BedrockAgentCoreControlClientTypes.CredentialProvider {
 
     static func write(value: BedrockAgentCoreControlClientTypes.CredentialProvider?, to writer: SmithyJSON.Writer) throws {
@@ -17244,6 +17397,23 @@ extension BedrockAgentCoreControlClientTypes.InvocationConfigurationInput {
     }
 }
 
+extension BedrockAgentCoreControlClientTypes.KinesisResource {
+
+    static func write(value: BedrockAgentCoreControlClientTypes.KinesisResource?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["contentConfigurations"].writeList(value.contentConfigurations, memberWritingClosure: BedrockAgentCoreControlClientTypes.ContentConfiguration.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["dataStreamArn"].write(value.dataStreamArn)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> BedrockAgentCoreControlClientTypes.KinesisResource {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = BedrockAgentCoreControlClientTypes.KinesisResource()
+        value.dataStreamArn = try reader["dataStreamArn"].readIfPresent() ?? ""
+        value.contentConfigurations = try reader["contentConfigurations"].readListIfPresent(memberReadingClosure: BedrockAgentCoreControlClientTypes.ContentConfiguration.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        return value
+    }
+}
+
 extension BedrockAgentCoreControlClientTypes.KmsConfiguration {
 
     static func write(value: BedrockAgentCoreControlClientTypes.KmsConfiguration?, to writer: SmithyJSON.Writer) throws {
@@ -17440,6 +17610,7 @@ extension BedrockAgentCoreControlClientTypes.Memory {
         value.createdAt = try reader["createdAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
         value.updatedAt = try reader["updatedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
         value.strategies = try reader["strategies"].readListIfPresent(memberReadingClosure: BedrockAgentCoreControlClientTypes.MemoryStrategy.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.streamDeliveryResources = try reader["streamDeliveryResources"].readIfPresent(with: BedrockAgentCoreControlClientTypes.StreamDeliveryResources.read(from:))
         return value
     }
 }
@@ -18360,6 +18531,45 @@ extension BedrockAgentCoreControlClientTypes.StrategyConfiguration {
         value.consolidation = try reader["consolidation"].readIfPresent(with: BedrockAgentCoreControlClientTypes.ConsolidationConfiguration.read(from:))
         value.reflection = try reader["reflection"].readIfPresent(with: BedrockAgentCoreControlClientTypes.ReflectionConfiguration.read(from:))
         value.selfManagedConfiguration = try reader["selfManagedConfiguration"].readIfPresent(with: BedrockAgentCoreControlClientTypes.SelfManagedConfiguration.read(from:))
+        return value
+    }
+}
+
+extension BedrockAgentCoreControlClientTypes.StreamDeliveryResource {
+
+    static func write(value: BedrockAgentCoreControlClientTypes.StreamDeliveryResource?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        switch value {
+            case let .kinesis(kinesis):
+                try writer["kinesis"].write(kinesis, with: BedrockAgentCoreControlClientTypes.KinesisResource.write(value:to:))
+            case let .sdkUnknown(sdkUnknown):
+                try writer["sdkUnknown"].write(sdkUnknown)
+        }
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> BedrockAgentCoreControlClientTypes.StreamDeliveryResource {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        let name = reader.children.filter { $0.hasContent && $0.nodeInfo.name != "__type" }.first?.nodeInfo.name
+        switch name {
+            case "kinesis":
+                return .kinesis(try reader["kinesis"].read(with: BedrockAgentCoreControlClientTypes.KinesisResource.read(from:)))
+            default:
+                return .sdkUnknown(name ?? "")
+        }
+    }
+}
+
+extension BedrockAgentCoreControlClientTypes.StreamDeliveryResources {
+
+    static func write(value: BedrockAgentCoreControlClientTypes.StreamDeliveryResources?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["resources"].writeList(value.resources, memberWritingClosure: BedrockAgentCoreControlClientTypes.StreamDeliveryResource.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> BedrockAgentCoreControlClientTypes.StreamDeliveryResources {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = BedrockAgentCoreControlClientTypes.StreamDeliveryResources()
+        value.resources = try reader["resources"].readListIfPresent(memberReadingClosure: BedrockAgentCoreControlClientTypes.StreamDeliveryResource.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
         return value
     }
 }

@@ -88,6 +88,27 @@ extension BedrockClientTypes {
 
 extension BedrockClientTypes {
 
+    /// Model-specific information for the enforced guardrail configuration.
+    public struct ModelEnforcement: Swift.Sendable {
+        /// Models to exclude from enforcement of the guardrail.
+        /// This member is required.
+        public var excludedModels: [Swift.String]?
+        /// Models to enforce the guardrail on.
+        /// This member is required.
+        public var includedModels: [Swift.String]?
+
+        public init(
+            excludedModels: [Swift.String]? = nil,
+            includedModels: [Swift.String]? = nil
+        ) {
+            self.excludedModels = excludedModels
+            self.includedModels = includedModels
+        }
+    }
+}
+
+extension BedrockClientTypes {
+
     /// Account-level enforced guardrail input configuration.
     public struct AccountEnforcedGuardrailInferenceInputConfiguration: Swift.Sendable {
         /// Identifier for the guardrail, could be the ID or the ARN.
@@ -99,15 +120,19 @@ extension BedrockClientTypes {
         /// Whether to honor or ignore input tags at runtime.
         /// This member is required.
         public var inputTags: BedrockClientTypes.InputTags?
+        /// Model-specific information for the enforced guardrail configuration. If not present, the configuration is enforced on all models
+        public var modelEnforcement: BedrockClientTypes.ModelEnforcement?
 
         public init(
             guardrailIdentifier: Swift.String? = nil,
             guardrailVersion: Swift.String? = nil,
-            inputTags: BedrockClientTypes.InputTags? = nil
+            inputTags: BedrockClientTypes.InputTags? = nil,
+            modelEnforcement: BedrockClientTypes.ModelEnforcement? = nil
         ) {
             self.guardrailIdentifier = guardrailIdentifier
             self.guardrailVersion = guardrailVersion
             self.inputTags = inputTags
+            self.modelEnforcement = modelEnforcement
         }
     }
 }
@@ -157,6 +182,8 @@ extension BedrockClientTypes {
         public var guardrailVersion: Swift.String?
         /// Whether to honor or ignore input tags at runtime.
         public var inputTags: BedrockClientTypes.InputTags?
+        /// Model-specific information for the enforced guardrail configuration.
+        public var modelEnforcement: BedrockClientTypes.ModelEnforcement?
         /// Configuration owner type.
         public var owner: BedrockClientTypes.ConfigurationOwner?
         /// Timestamp.
@@ -172,6 +199,7 @@ extension BedrockClientTypes {
             guardrailId: Swift.String? = nil,
             guardrailVersion: Swift.String? = nil,
             inputTags: BedrockClientTypes.InputTags? = nil,
+            modelEnforcement: BedrockClientTypes.ModelEnforcement? = nil,
             owner: BedrockClientTypes.ConfigurationOwner? = nil,
             updatedAt: Foundation.Date? = nil,
             updatedBy: Swift.String? = nil
@@ -183,6 +211,7 @@ extension BedrockClientTypes {
             self.guardrailId = guardrailId
             self.guardrailVersion = guardrailVersion
             self.inputTags = inputTags
+            self.modelEnforcement = modelEnforcement
             self.owner = owner
             self.updatedAt = updatedAt
             self.updatedBy = updatedBy
@@ -17378,6 +17407,7 @@ enum DeleteGuardrailOutputError {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
             case "ConflictException": return try ConflictException.makeError(baseError: baseError)
             case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
+            case "ResourceInUseException": return try ResourceInUseException.makeError(baseError: baseError)
             case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
             case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
             case "ValidationException": return try ValidationException.makeError(baseError: baseError)
@@ -18808,6 +18838,7 @@ extension BedrockClientTypes.AccountEnforcedGuardrailInferenceInputConfiguration
         try writer["guardrailIdentifier"].write(value.guardrailIdentifier)
         try writer["guardrailVersion"].write(value.guardrailVersion)
         try writer["inputTags"].write(value.inputTags)
+        try writer["modelEnforcement"].write(value.modelEnforcement, with: BedrockClientTypes.ModelEnforcement.write(value:to:))
     }
 }
 
@@ -18826,6 +18857,7 @@ extension BedrockClientTypes.AccountEnforcedGuardrailOutputConfiguration {
         value.updatedAt = try reader["updatedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
         value.updatedBy = try reader["updatedBy"].readIfPresent()
         value.owner = try reader["owner"].readIfPresent()
+        value.modelEnforcement = try reader["modelEnforcement"].readIfPresent(with: BedrockClientTypes.ModelEnforcement.read(from:))
         return value
     }
 }
@@ -21809,6 +21841,23 @@ extension BedrockClientTypes.ModelDataSource {
             default:
                 return .sdkUnknown(name ?? "")
         }
+    }
+}
+
+extension BedrockClientTypes.ModelEnforcement {
+
+    static func write(value: BedrockClientTypes.ModelEnforcement?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["excludedModels"].writeList(value.excludedModels, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["includedModels"].writeList(value.includedModels, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> BedrockClientTypes.ModelEnforcement {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = BedrockClientTypes.ModelEnforcement()
+        value.includedModels = try reader["includedModels"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        value.excludedModels = try reader["excludedModels"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        return value
     }
 }
 
