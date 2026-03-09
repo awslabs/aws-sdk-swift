@@ -22,8 +22,8 @@ import protocol ClientRuntime.HTTPError
 import protocol ClientRuntime.ModeledError
 @_spi(SmithyReadWrite) import protocol SmithyReadWrite.SmithyReader
 @_spi(SmithyReadWrite) import protocol SmithyReadWrite.SmithyWriter
-@_spi(SmithyReadWrite) import struct AWSClientRuntime.AWSQueryError
 @_spi(UnknownAWSHTTPServiceError) import struct AWSClientRuntime.UnknownAWSHTTPServiceError
+@_spi(SmithyReadWrite) import struct ClientRuntime.AWSQueryError
 @_spi(SmithyReadWrite) import struct SmithyReadWrite.WritingClosureBox
 
 
@@ -4246,12 +4246,14 @@ public struct RebuildEnvironmentInput: Swift.Sendable {
 extension ElasticBeanstalkClientTypes {
 
     public enum EnvironmentInfoType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case analyze
         case bundle
         case tail
         case sdkUnknown(Swift.String)
 
         public static var allCases: [EnvironmentInfoType] {
             return [
+                .analyze,
                 .bundle,
                 .tail
             ]
@@ -4264,6 +4266,7 @@ extension ElasticBeanstalkClientTypes {
 
         public var rawValue: Swift.String {
             switch self {
+            case .analyze: return "analyze"
             case .bundle: return "bundle"
             case .tail: return "tail"
             case let .sdkUnknown(s): return s
@@ -6568,7 +6571,7 @@ enum AbortEnvironmentUpdateOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "InsufficientPrivilegesException": return try InsufficientPrivilegesException.makeError(baseError: baseError)
@@ -6582,7 +6585,7 @@ enum ApplyEnvironmentManagedActionOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "ElasticBeanstalkServiceException": return try ElasticBeanstalkServiceException.makeError(baseError: baseError)
@@ -6597,7 +6600,7 @@ enum AssociateEnvironmentOperationsRoleOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "InsufficientPrivilegesException": return try InsufficientPrivilegesException.makeError(baseError: baseError)
@@ -6611,7 +6614,7 @@ enum CheckDNSAvailabilityOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
@@ -6624,7 +6627,7 @@ enum ComposeEnvironmentsOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "InsufficientPrivilegesException": return try InsufficientPrivilegesException.makeError(baseError: baseError)
@@ -6639,7 +6642,7 @@ enum CreateApplicationOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "TooManyApplicationsException": return try TooManyApplicationsException.makeError(baseError: baseError)
@@ -6653,7 +6656,7 @@ enum CreateApplicationVersionOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "CodeBuildNotInServiceRegionException": return try CodeBuildNotInServiceRegionException.makeError(baseError: baseError)
@@ -6671,7 +6674,7 @@ enum CreateConfigurationTemplateOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "InsufficientPrivilegesException": return try InsufficientPrivilegesException.makeError(baseError: baseError)
@@ -6687,7 +6690,7 @@ enum CreateEnvironmentOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "InsufficientPrivilegesException": return try InsufficientPrivilegesException.makeError(baseError: baseError)
@@ -6702,7 +6705,7 @@ enum CreatePlatformVersionOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "ElasticBeanstalkServiceException": return try ElasticBeanstalkServiceException.makeError(baseError: baseError)
@@ -6718,7 +6721,7 @@ enum CreateStorageLocationOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "InsufficientPrivilegesException": return try InsufficientPrivilegesException.makeError(baseError: baseError)
@@ -6734,7 +6737,7 @@ enum DeleteApplicationOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "OperationInProgressFailure": return try OperationInProgressException.makeError(baseError: baseError)
@@ -6748,7 +6751,7 @@ enum DeleteApplicationVersionOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "InsufficientPrivilegesException": return try InsufficientPrivilegesException.makeError(baseError: baseError)
@@ -6765,7 +6768,7 @@ enum DeleteConfigurationTemplateOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "OperationInProgressFailure": return try OperationInProgressException.makeError(baseError: baseError)
@@ -6779,7 +6782,7 @@ enum DeleteEnvironmentConfigurationOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
@@ -6792,7 +6795,7 @@ enum DeletePlatformVersionOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "ElasticBeanstalkServiceException": return try ElasticBeanstalkServiceException.makeError(baseError: baseError)
@@ -6809,7 +6812,7 @@ enum DescribeAccountAttributesOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "InsufficientPrivilegesException": return try InsufficientPrivilegesException.makeError(baseError: baseError)
@@ -6823,7 +6826,7 @@ enum DescribeApplicationsOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
@@ -6836,7 +6839,7 @@ enum DescribeApplicationVersionsOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
@@ -6849,7 +6852,7 @@ enum DescribeConfigurationOptionsOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "TooManyBucketsException": return try TooManyBucketsException.makeError(baseError: baseError)
@@ -6863,7 +6866,7 @@ enum DescribeConfigurationSettingsOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "TooManyBucketsException": return try TooManyBucketsException.makeError(baseError: baseError)
@@ -6877,7 +6880,7 @@ enum DescribeEnvironmentHealthOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "ElasticBeanstalkServiceException": return try ElasticBeanstalkServiceException.makeError(baseError: baseError)
@@ -6892,7 +6895,7 @@ enum DescribeEnvironmentManagedActionHistoryOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "ElasticBeanstalkServiceException": return try ElasticBeanstalkServiceException.makeError(baseError: baseError)
@@ -6906,7 +6909,7 @@ enum DescribeEnvironmentManagedActionsOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "ElasticBeanstalkServiceException": return try ElasticBeanstalkServiceException.makeError(baseError: baseError)
@@ -6920,7 +6923,7 @@ enum DescribeEnvironmentResourcesOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "InsufficientPrivilegesException": return try InsufficientPrivilegesException.makeError(baseError: baseError)
@@ -6934,7 +6937,7 @@ enum DescribeEnvironmentsOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
@@ -6947,7 +6950,7 @@ enum DescribeEventsOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
@@ -6960,7 +6963,7 @@ enum DescribeInstancesHealthOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "ElasticBeanstalkServiceException": return try ElasticBeanstalkServiceException.makeError(baseError: baseError)
@@ -6975,7 +6978,7 @@ enum DescribePlatformVersionOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "ElasticBeanstalkServiceException": return try ElasticBeanstalkServiceException.makeError(baseError: baseError)
@@ -6990,7 +6993,7 @@ enum DisassociateEnvironmentOperationsRoleOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "InsufficientPrivilegesException": return try InsufficientPrivilegesException.makeError(baseError: baseError)
@@ -7004,7 +7007,7 @@ enum ListAvailableSolutionStacksOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
@@ -7017,7 +7020,7 @@ enum ListPlatformBranchesOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
@@ -7030,7 +7033,7 @@ enum ListPlatformVersionsOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "ElasticBeanstalkServiceException": return try ElasticBeanstalkServiceException.makeError(baseError: baseError)
@@ -7045,7 +7048,7 @@ enum ListTagsForResourceOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "InsufficientPrivilegesException": return try InsufficientPrivilegesException.makeError(baseError: baseError)
@@ -7061,7 +7064,7 @@ enum RebuildEnvironmentOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "InsufficientPrivilegesException": return try InsufficientPrivilegesException.makeError(baseError: baseError)
@@ -7075,7 +7078,7 @@ enum RequestEnvironmentInfoOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
@@ -7088,7 +7091,7 @@ enum RestartAppServerOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
@@ -7101,7 +7104,7 @@ enum RetrieveEnvironmentInfoOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
@@ -7114,7 +7117,7 @@ enum SwapEnvironmentCNAMEsOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
@@ -7127,7 +7130,7 @@ enum TerminateEnvironmentOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "InsufficientPrivilegesException": return try InsufficientPrivilegesException.makeError(baseError: baseError)
@@ -7141,7 +7144,7 @@ enum UpdateApplicationOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
@@ -7154,7 +7157,7 @@ enum UpdateApplicationResourceLifecycleOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "InsufficientPrivilegesException": return try InsufficientPrivilegesException.makeError(baseError: baseError)
@@ -7168,7 +7171,7 @@ enum UpdateApplicationVersionOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
@@ -7181,7 +7184,7 @@ enum UpdateConfigurationTemplateOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "InsufficientPrivilegesException": return try InsufficientPrivilegesException.makeError(baseError: baseError)
@@ -7196,7 +7199,7 @@ enum UpdateEnvironmentOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "InsufficientPrivilegesException": return try InsufficientPrivilegesException.makeError(baseError: baseError)
@@ -7211,7 +7214,7 @@ enum UpdateTagsForResourceOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "InsufficientPrivilegesException": return try InsufficientPrivilegesException.makeError(baseError: baseError)
@@ -7229,7 +7232,7 @@ enum ValidateConfigurationSettingsOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "InsufficientPrivilegesException": return try InsufficientPrivilegesException.makeError(baseError: baseError)
@@ -7241,7 +7244,7 @@ enum ValidateConfigurationSettingsOutputError {
 
 extension InsufficientPrivilegesException {
 
-    static func makeError(baseError: AWSClientRuntime.AWSQueryError) throws -> InsufficientPrivilegesException {
+    static func makeError(baseError: ClientRuntime.AWSQueryError) throws -> InsufficientPrivilegesException {
         let reader = baseError.errorBodyReader
         var value = InsufficientPrivilegesException()
         value.properties.message = try reader["message"].readIfPresent()
@@ -7254,7 +7257,7 @@ extension InsufficientPrivilegesException {
 
 extension ElasticBeanstalkServiceException {
 
-    static func makeError(baseError: AWSClientRuntime.AWSQueryError) throws -> ElasticBeanstalkServiceException {
+    static func makeError(baseError: ClientRuntime.AWSQueryError) throws -> ElasticBeanstalkServiceException {
         let reader = baseError.errorBodyReader
         var value = ElasticBeanstalkServiceException()
         value.properties.message = try reader["message"].readIfPresent()
@@ -7267,7 +7270,7 @@ extension ElasticBeanstalkServiceException {
 
 extension ManagedActionInvalidStateException {
 
-    static func makeError(baseError: AWSClientRuntime.AWSQueryError) throws -> ManagedActionInvalidStateException {
+    static func makeError(baseError: ClientRuntime.AWSQueryError) throws -> ManagedActionInvalidStateException {
         let reader = baseError.errorBodyReader
         var value = ManagedActionInvalidStateException()
         value.properties.message = try reader["message"].readIfPresent()
@@ -7280,7 +7283,7 @@ extension ManagedActionInvalidStateException {
 
 extension TooManyEnvironmentsException {
 
-    static func makeError(baseError: AWSClientRuntime.AWSQueryError) throws -> TooManyEnvironmentsException {
+    static func makeError(baseError: ClientRuntime.AWSQueryError) throws -> TooManyEnvironmentsException {
         let reader = baseError.errorBodyReader
         var value = TooManyEnvironmentsException()
         value.properties.message = try reader["message"].readIfPresent()
@@ -7293,7 +7296,7 @@ extension TooManyEnvironmentsException {
 
 extension TooManyApplicationsException {
 
-    static func makeError(baseError: AWSClientRuntime.AWSQueryError) throws -> TooManyApplicationsException {
+    static func makeError(baseError: ClientRuntime.AWSQueryError) throws -> TooManyApplicationsException {
         let reader = baseError.errorBodyReader
         var value = TooManyApplicationsException()
         value.properties.message = try reader["message"].readIfPresent()
@@ -7306,7 +7309,7 @@ extension TooManyApplicationsException {
 
 extension CodeBuildNotInServiceRegionException {
 
-    static func makeError(baseError: AWSClientRuntime.AWSQueryError) throws -> CodeBuildNotInServiceRegionException {
+    static func makeError(baseError: ClientRuntime.AWSQueryError) throws -> CodeBuildNotInServiceRegionException {
         let reader = baseError.errorBodyReader
         var value = CodeBuildNotInServiceRegionException()
         value.properties.message = try reader["message"].readIfPresent()
@@ -7319,7 +7322,7 @@ extension CodeBuildNotInServiceRegionException {
 
 extension S3LocationNotInServiceRegionException {
 
-    static func makeError(baseError: AWSClientRuntime.AWSQueryError) throws -> S3LocationNotInServiceRegionException {
+    static func makeError(baseError: ClientRuntime.AWSQueryError) throws -> S3LocationNotInServiceRegionException {
         let reader = baseError.errorBodyReader
         var value = S3LocationNotInServiceRegionException()
         value.properties.message = try reader["message"].readIfPresent()
@@ -7332,7 +7335,7 @@ extension S3LocationNotInServiceRegionException {
 
 extension TooManyApplicationVersionsException {
 
-    static func makeError(baseError: AWSClientRuntime.AWSQueryError) throws -> TooManyApplicationVersionsException {
+    static func makeError(baseError: ClientRuntime.AWSQueryError) throws -> TooManyApplicationVersionsException {
         let reader = baseError.errorBodyReader
         var value = TooManyApplicationVersionsException()
         value.properties.message = try reader["message"].readIfPresent()
@@ -7345,7 +7348,7 @@ extension TooManyApplicationVersionsException {
 
 extension TooManyBucketsException {
 
-    static func makeError(baseError: AWSClientRuntime.AWSQueryError) throws -> TooManyBucketsException {
+    static func makeError(baseError: ClientRuntime.AWSQueryError) throws -> TooManyBucketsException {
         let reader = baseError.errorBodyReader
         var value = TooManyBucketsException()
         value.properties.message = try reader["message"].readIfPresent()
@@ -7358,7 +7361,7 @@ extension TooManyBucketsException {
 
 extension TooManyConfigurationTemplatesException {
 
-    static func makeError(baseError: AWSClientRuntime.AWSQueryError) throws -> TooManyConfigurationTemplatesException {
+    static func makeError(baseError: ClientRuntime.AWSQueryError) throws -> TooManyConfigurationTemplatesException {
         let reader = baseError.errorBodyReader
         var value = TooManyConfigurationTemplatesException()
         value.properties.message = try reader["message"].readIfPresent()
@@ -7371,7 +7374,7 @@ extension TooManyConfigurationTemplatesException {
 
 extension TooManyPlatformsException {
 
-    static func makeError(baseError: AWSClientRuntime.AWSQueryError) throws -> TooManyPlatformsException {
+    static func makeError(baseError: ClientRuntime.AWSQueryError) throws -> TooManyPlatformsException {
         let reader = baseError.errorBodyReader
         var value = TooManyPlatformsException()
         value.properties.message = try reader["message"].readIfPresent()
@@ -7384,7 +7387,7 @@ extension TooManyPlatformsException {
 
 extension S3SubscriptionRequiredException {
 
-    static func makeError(baseError: AWSClientRuntime.AWSQueryError) throws -> S3SubscriptionRequiredException {
+    static func makeError(baseError: ClientRuntime.AWSQueryError) throws -> S3SubscriptionRequiredException {
         let reader = baseError.errorBodyReader
         var value = S3SubscriptionRequiredException()
         value.properties.message = try reader["message"].readIfPresent()
@@ -7397,7 +7400,7 @@ extension S3SubscriptionRequiredException {
 
 extension OperationInProgressException {
 
-    static func makeError(baseError: AWSClientRuntime.AWSQueryError) throws -> OperationInProgressException {
+    static func makeError(baseError: ClientRuntime.AWSQueryError) throws -> OperationInProgressException {
         let reader = baseError.errorBodyReader
         var value = OperationInProgressException()
         value.properties.message = try reader["message"].readIfPresent()
@@ -7410,7 +7413,7 @@ extension OperationInProgressException {
 
 extension SourceBundleDeletionException {
 
-    static func makeError(baseError: AWSClientRuntime.AWSQueryError) throws -> SourceBundleDeletionException {
+    static func makeError(baseError: ClientRuntime.AWSQueryError) throws -> SourceBundleDeletionException {
         let reader = baseError.errorBodyReader
         var value = SourceBundleDeletionException()
         value.properties.message = try reader["message"].readIfPresent()
@@ -7423,7 +7426,7 @@ extension SourceBundleDeletionException {
 
 extension PlatformVersionStillReferencedException {
 
-    static func makeError(baseError: AWSClientRuntime.AWSQueryError) throws -> PlatformVersionStillReferencedException {
+    static func makeError(baseError: ClientRuntime.AWSQueryError) throws -> PlatformVersionStillReferencedException {
         let reader = baseError.errorBodyReader
         var value = PlatformVersionStillReferencedException()
         value.properties.message = try reader["message"].readIfPresent()
@@ -7436,7 +7439,7 @@ extension PlatformVersionStillReferencedException {
 
 extension InvalidRequestException {
 
-    static func makeError(baseError: AWSClientRuntime.AWSQueryError) throws -> InvalidRequestException {
+    static func makeError(baseError: ClientRuntime.AWSQueryError) throws -> InvalidRequestException {
         let reader = baseError.errorBodyReader
         var value = InvalidRequestException()
         value.properties.message = try reader["message"].readIfPresent()
@@ -7449,7 +7452,7 @@ extension InvalidRequestException {
 
 extension ResourceNotFoundException {
 
-    static func makeError(baseError: AWSClientRuntime.AWSQueryError) throws -> ResourceNotFoundException {
+    static func makeError(baseError: ClientRuntime.AWSQueryError) throws -> ResourceNotFoundException {
         let reader = baseError.errorBodyReader
         var value = ResourceNotFoundException()
         value.properties.message = try reader["message"].readIfPresent()
@@ -7462,7 +7465,7 @@ extension ResourceNotFoundException {
 
 extension ResourceTypeNotSupportedException {
 
-    static func makeError(baseError: AWSClientRuntime.AWSQueryError) throws -> ResourceTypeNotSupportedException {
+    static func makeError(baseError: ClientRuntime.AWSQueryError) throws -> ResourceTypeNotSupportedException {
         let reader = baseError.errorBodyReader
         var value = ResourceTypeNotSupportedException()
         value.properties.message = try reader["message"].readIfPresent()
@@ -7475,7 +7478,7 @@ extension ResourceTypeNotSupportedException {
 
 extension TooManyTagsException {
 
-    static func makeError(baseError: AWSClientRuntime.AWSQueryError) throws -> TooManyTagsException {
+    static func makeError(baseError: ClientRuntime.AWSQueryError) throws -> TooManyTagsException {
         let reader = baseError.errorBodyReader
         var value = TooManyTagsException()
         value.properties.message = try reader["message"].readIfPresent()

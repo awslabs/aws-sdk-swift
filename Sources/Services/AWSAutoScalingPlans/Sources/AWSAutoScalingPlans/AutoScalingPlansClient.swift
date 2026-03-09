@@ -49,7 +49,6 @@ import protocol SmithyIdentity.BearerTokenIdentityResolver
 @_spi(AWSEndpointResolverMiddleware) import struct AWSClientRuntime.AWSEndpointResolverMiddleware
 import struct AWSClientRuntime.AmzSdkInvocationIdMiddleware
 import struct AWSClientRuntime.UserAgentMiddleware
-import struct AWSClientRuntime.XAmzTargetMiddleware
 import struct AWSSDKHTTPAuth.SigV4AuthScheme
 import struct ClientRuntime.AuthSchemeMiddleware
 @_spi(SmithyReadWrite) import struct ClientRuntime.BodyMiddleware
@@ -57,6 +56,7 @@ import struct ClientRuntime.ContentLengthMiddleware
 import struct ClientRuntime.ContentTypeMiddleware
 @_spi(SmithyReadWrite) import struct ClientRuntime.DeserializeMiddleware
 import struct ClientRuntime.LoggerMiddleware
+import struct ClientRuntime.MutateHeadersMiddleware
 import struct ClientRuntime.SendableHttpInterceptorProviderBox
 import struct ClientRuntime.SendableInterceptorProviderBox
 import struct ClientRuntime.SignerMiddleware
@@ -662,7 +662,7 @@ extension AutoScalingPlansClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<CreateScalingPlanOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<CreateScalingPlanInput, CreateScalingPlanOutput>(xAmzTarget: "AnyScaleScalingPlannerFrontendService.CreateScalingPlan"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<CreateScalingPlanInput, CreateScalingPlanOutput>(overrides: ["X-Amz-Target": "AnyScaleScalingPlannerFrontendService.CreateScalingPlan"]))
         builder.serialize(ClientRuntime.BodyMiddleware<CreateScalingPlanInput, CreateScalingPlanOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: CreateScalingPlanInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<CreateScalingPlanInput, CreateScalingPlanOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<CreateScalingPlanOutput>())
@@ -734,7 +734,7 @@ extension AutoScalingPlansClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<DeleteScalingPlanOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<DeleteScalingPlanInput, DeleteScalingPlanOutput>(xAmzTarget: "AnyScaleScalingPlannerFrontendService.DeleteScalingPlan"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<DeleteScalingPlanInput, DeleteScalingPlanOutput>(overrides: ["X-Amz-Target": "AnyScaleScalingPlannerFrontendService.DeleteScalingPlan"]))
         builder.serialize(ClientRuntime.BodyMiddleware<DeleteScalingPlanInput, DeleteScalingPlanOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: DeleteScalingPlanInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DeleteScalingPlanInput, DeleteScalingPlanOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DeleteScalingPlanOutput>())
@@ -806,7 +806,7 @@ extension AutoScalingPlansClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<DescribeScalingPlanResourcesOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<DescribeScalingPlanResourcesInput, DescribeScalingPlanResourcesOutput>(xAmzTarget: "AnyScaleScalingPlannerFrontendService.DescribeScalingPlanResources"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<DescribeScalingPlanResourcesInput, DescribeScalingPlanResourcesOutput>(overrides: ["X-Amz-Target": "AnyScaleScalingPlannerFrontendService.DescribeScalingPlanResources"]))
         builder.serialize(ClientRuntime.BodyMiddleware<DescribeScalingPlanResourcesInput, DescribeScalingPlanResourcesOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: DescribeScalingPlanResourcesInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DescribeScalingPlanResourcesInput, DescribeScalingPlanResourcesOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DescribeScalingPlanResourcesOutput>())
@@ -878,7 +878,7 @@ extension AutoScalingPlansClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<DescribeScalingPlansOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<DescribeScalingPlansInput, DescribeScalingPlansOutput>(xAmzTarget: "AnyScaleScalingPlannerFrontendService.DescribeScalingPlans"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<DescribeScalingPlansInput, DescribeScalingPlansOutput>(overrides: ["X-Amz-Target": "AnyScaleScalingPlannerFrontendService.DescribeScalingPlans"]))
         builder.serialize(ClientRuntime.BodyMiddleware<DescribeScalingPlansInput, DescribeScalingPlansOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: DescribeScalingPlansInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DescribeScalingPlansInput, DescribeScalingPlansOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DescribeScalingPlansOutput>())
@@ -948,7 +948,7 @@ extension AutoScalingPlansClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<GetScalingPlanResourceForecastDataOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<GetScalingPlanResourceForecastDataInput, GetScalingPlanResourceForecastDataOutput>(xAmzTarget: "AnyScaleScalingPlannerFrontendService.GetScalingPlanResourceForecastData"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<GetScalingPlanResourceForecastDataInput, GetScalingPlanResourceForecastDataOutput>(overrides: ["X-Amz-Target": "AnyScaleScalingPlannerFrontendService.GetScalingPlanResourceForecastData"]))
         builder.serialize(ClientRuntime.BodyMiddleware<GetScalingPlanResourceForecastDataInput, GetScalingPlanResourceForecastDataOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: GetScalingPlanResourceForecastDataInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<GetScalingPlanResourceForecastDataInput, GetScalingPlanResourceForecastDataOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<GetScalingPlanResourceForecastDataOutput>())
@@ -1020,7 +1020,7 @@ extension AutoScalingPlansClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<UpdateScalingPlanOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<UpdateScalingPlanInput, UpdateScalingPlanOutput>(xAmzTarget: "AnyScaleScalingPlannerFrontendService.UpdateScalingPlan"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<UpdateScalingPlanInput, UpdateScalingPlanOutput>(overrides: ["X-Amz-Target": "AnyScaleScalingPlannerFrontendService.UpdateScalingPlan"]))
         builder.serialize(ClientRuntime.BodyMiddleware<UpdateScalingPlanInput, UpdateScalingPlanOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: UpdateScalingPlanInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<UpdateScalingPlanInput, UpdateScalingPlanOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<UpdateScalingPlanOutput>())

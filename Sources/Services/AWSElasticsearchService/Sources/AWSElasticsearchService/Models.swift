@@ -23,8 +23,8 @@ import protocol ClientRuntime.HTTPError
 import protocol ClientRuntime.ModeledError
 @_spi(SmithyReadWrite) import protocol SmithyReadWrite.SmithyReader
 @_spi(SmithyReadWrite) import protocol SmithyReadWrite.SmithyWriter
-@_spi(SmithyReadWrite) import struct AWSClientRuntime.RestJSONError
 @_spi(UnknownAWSHTTPServiceError) import struct AWSClientRuntime.UnknownAWSHTTPServiceError
+@_spi(SmithyReadWrite) import struct ClientRuntime.RestJSONError
 import struct Smithy.URIQueryItem
 @_spi(SmithyReadWrite) import struct SmithyReadWrite.ReadingClosureBox
 @_spi(SmithyTimestamps) import struct SmithyTimestamps.TimestampFormatter
@@ -1390,6 +1390,52 @@ extension ElasticsearchClientTypes {
 
 extension ElasticsearchClientTypes {
 
+    /// Specifies the deployment strategy for the domain. Valid values are Default and CapacityOptimized.
+    public enum DeploymentStrategy: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case capacityOptimized
+        case `default`
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [DeploymentStrategy] {
+            return [
+                .capacityOptimized,
+                .default
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .capacityOptimized: return "CapacityOptimized"
+            case .default: return "Default"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension ElasticsearchClientTypes {
+
+    /// Specifies the deployment strategy options for the domain.
+    public struct DeploymentStrategyOptions: Swift.Sendable {
+        /// Specifies the deployment strategy for the domain. Valid values are Default and CapacityOptimized.
+        /// This member is required.
+        public var deploymentStrategy: ElasticsearchClientTypes.DeploymentStrategy?
+
+        public init(
+            deploymentStrategy: ElasticsearchClientTypes.DeploymentStrategy? = nil
+        ) {
+            self.deploymentStrategy = deploymentStrategy
+        }
+    }
+}
+
+extension ElasticsearchClientTypes {
+
     public enum TLSSecurityPolicy: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case policyMinTls10201907
         case policyMinTls12201907
@@ -1994,6 +2040,8 @@ public struct CreateElasticsearchDomainInput: Swift.Sendable {
     public var autoTuneOptions: ElasticsearchClientTypes.AutoTuneOptionsInput?
     /// Options to specify the Cognito user and identity pools for Kibana authentication. For more information, see [Amazon Cognito Authentication for Kibana](http://docs.aws.amazon.com/elasticsearch-service/latest/developerguide/es-cognito-auth.html).
     public var cognitoOptions: ElasticsearchClientTypes.CognitoOptions?
+    /// Specifies the deployment strategy options.
+    public var deploymentStrategyOptions: ElasticsearchClientTypes.DeploymentStrategyOptions?
     /// Options to specify configuration that will be applied to the domain endpoint.
     public var domainEndpointOptions: ElasticsearchClientTypes.DomainEndpointOptions?
     /// The name of the Elasticsearch domain that you are creating. Domain names are unique across the domains owned by an account within an AWS region. Domain names must start with a lowercase letter and can contain the following characters: a-z (lowercase), 0-9, and - (hyphen).
@@ -2024,6 +2072,7 @@ public struct CreateElasticsearchDomainInput: Swift.Sendable {
         advancedSecurityOptions: ElasticsearchClientTypes.AdvancedSecurityOptionsInput? = nil,
         autoTuneOptions: ElasticsearchClientTypes.AutoTuneOptionsInput? = nil,
         cognitoOptions: ElasticsearchClientTypes.CognitoOptions? = nil,
+        deploymentStrategyOptions: ElasticsearchClientTypes.DeploymentStrategyOptions? = nil,
         domainEndpointOptions: ElasticsearchClientTypes.DomainEndpointOptions? = nil,
         domainName: Swift.String? = nil,
         ebsOptions: ElasticsearchClientTypes.EBSOptions? = nil,
@@ -2041,6 +2090,7 @@ public struct CreateElasticsearchDomainInput: Swift.Sendable {
         self.advancedSecurityOptions = advancedSecurityOptions
         self.autoTuneOptions = autoTuneOptions
         self.cognitoOptions = cognitoOptions
+        self.deploymentStrategyOptions = deploymentStrategyOptions
         self.domainEndpointOptions = domainEndpointOptions
         self.domainName = domainName
         self.ebsOptions = ebsOptions
@@ -2390,6 +2440,8 @@ extension ElasticsearchClientTypes {
         public var created: Swift.Bool?
         /// The domain deletion status. True if a delete request has been received for the domain but resource cleanup is still in progress. False if the domain has not been deleted. Once domain deletion is complete, the status of the domain is no longer returned.
         public var deleted: Swift.Bool?
+        /// The current status of the Elasticsearch domain's deployment strategy options.
+        public var deploymentStrategyOptions: ElasticsearchClientTypes.DeploymentStrategyOptions?
         /// The current status of the Elasticsearch domain's endpoint options.
         public var domainEndpointOptions: ElasticsearchClientTypes.DomainEndpointOptions?
         /// The unique identifier for the specified Elasticsearch domain.
@@ -2439,6 +2491,7 @@ extension ElasticsearchClientTypes {
             cognitoOptions: ElasticsearchClientTypes.CognitoOptions? = nil,
             created: Swift.Bool? = nil,
             deleted: Swift.Bool? = nil,
+            deploymentStrategyOptions: ElasticsearchClientTypes.DeploymentStrategyOptions? = nil,
             domainEndpointOptions: ElasticsearchClientTypes.DomainEndpointOptions? = nil,
             domainId: Swift.String? = nil,
             domainName: Swift.String? = nil,
@@ -2467,6 +2520,7 @@ extension ElasticsearchClientTypes {
             self.cognitoOptions = cognitoOptions
             self.created = created
             self.deleted = deleted
+            self.deploymentStrategyOptions = deploymentStrategyOptions
             self.domainEndpointOptions = domainEndpointOptions
             self.domainId = domainId
             self.domainName = domainName
@@ -3600,6 +3654,27 @@ extension ElasticsearchClientTypes {
 
 extension ElasticsearchClientTypes {
 
+    /// Specifies the status of deployment strategy options for the specified Elasticsearch domain.
+    public struct DeploymentStrategyOptionsStatus: Swift.Sendable {
+        /// Specifies deployment strategy options for the specified Elasticsearch domain.
+        /// This member is required.
+        public var options: ElasticsearchClientTypes.DeploymentStrategyOptions?
+        /// Specifies the status of the deployment strategy options for the specified Elasticsearch domain.
+        /// This member is required.
+        public var status: ElasticsearchClientTypes.OptionStatus?
+
+        public init(
+            options: ElasticsearchClientTypes.DeploymentStrategyOptions? = nil,
+            status: ElasticsearchClientTypes.OptionStatus? = nil
+        ) {
+            self.options = options
+            self.status = status
+        }
+    }
+}
+
+extension ElasticsearchClientTypes {
+
     /// The configured endpoint options for the domain and their current status.
     public struct DomainEndpointOptionsStatus: Swift.Sendable {
         /// Options to configure endpoint for the Elasticsearch domain.
@@ -3801,6 +3876,8 @@ extension ElasticsearchClientTypes {
         public var changeProgressDetails: ElasticsearchClientTypes.ChangeProgressDetails?
         /// The CognitoOptions for the specified domain. For more information, see [Amazon Cognito Authentication for Kibana](http://docs.aws.amazon.com/elasticsearch-service/latest/developerguide/es-cognito-auth.html).
         public var cognitoOptions: ElasticsearchClientTypes.CognitoOptionsStatus?
+        /// Specifies DeploymentStrategyOptions for the domain.
+        public var deploymentStrategyOptions: ElasticsearchClientTypes.DeploymentStrategyOptionsStatus?
         /// Specifies the DomainEndpointOptions for the Elasticsearch domain.
         public var domainEndpointOptions: ElasticsearchClientTypes.DomainEndpointOptionsStatus?
         /// Specifies the EBSOptions for the Elasticsearch domain.
@@ -3829,6 +3906,7 @@ extension ElasticsearchClientTypes {
             autoTuneOptions: ElasticsearchClientTypes.AutoTuneOptionsStatus? = nil,
             changeProgressDetails: ElasticsearchClientTypes.ChangeProgressDetails? = nil,
             cognitoOptions: ElasticsearchClientTypes.CognitoOptionsStatus? = nil,
+            deploymentStrategyOptions: ElasticsearchClientTypes.DeploymentStrategyOptionsStatus? = nil,
             domainEndpointOptions: ElasticsearchClientTypes.DomainEndpointOptionsStatus? = nil,
             ebsOptions: ElasticsearchClientTypes.EBSOptionsStatus? = nil,
             elasticsearchClusterConfig: ElasticsearchClientTypes.ElasticsearchClusterConfigStatus? = nil,
@@ -3846,6 +3924,7 @@ extension ElasticsearchClientTypes {
             self.autoTuneOptions = autoTuneOptions
             self.changeProgressDetails = changeProgressDetails
             self.cognitoOptions = cognitoOptions
+            self.deploymentStrategyOptions = deploymentStrategyOptions
             self.domainEndpointOptions = domainEndpointOptions
             self.ebsOptions = ebsOptions
             self.elasticsearchClusterConfig = elasticsearchClusterConfig
@@ -5457,6 +5536,8 @@ public struct UpdateElasticsearchDomainConfigInput: Swift.Sendable {
     public var autoTuneOptions: ElasticsearchClientTypes.AutoTuneOptions?
     /// Options to specify the Cognito user and identity pools for Kibana authentication. For more information, see [Amazon Cognito Authentication for Kibana](http://docs.aws.amazon.com/elasticsearch-service/latest/developerguide/es-cognito-auth.html).
     public var cognitoOptions: ElasticsearchClientTypes.CognitoOptions?
+    /// Specifies the deployment strategy options.
+    public var deploymentStrategyOptions: ElasticsearchClientTypes.DeploymentStrategyOptions?
     /// Options to specify configuration that will be applied to the domain endpoint.
     public var domainEndpointOptions: ElasticsearchClientTypes.DomainEndpointOptions?
     /// The name of the Elasticsearch domain that you are updating.
@@ -5485,6 +5566,7 @@ public struct UpdateElasticsearchDomainConfigInput: Swift.Sendable {
         advancedSecurityOptions: ElasticsearchClientTypes.AdvancedSecurityOptionsInput? = nil,
         autoTuneOptions: ElasticsearchClientTypes.AutoTuneOptions? = nil,
         cognitoOptions: ElasticsearchClientTypes.CognitoOptions? = nil,
+        deploymentStrategyOptions: ElasticsearchClientTypes.DeploymentStrategyOptions? = nil,
         domainEndpointOptions: ElasticsearchClientTypes.DomainEndpointOptions? = nil,
         domainName: Swift.String? = nil,
         dryRun: Swift.Bool? = nil,
@@ -5501,6 +5583,7 @@ public struct UpdateElasticsearchDomainConfigInput: Swift.Sendable {
         self.advancedSecurityOptions = advancedSecurityOptions
         self.autoTuneOptions = autoTuneOptions
         self.cognitoOptions = cognitoOptions
+        self.deploymentStrategyOptions = deploymentStrategyOptions
         self.domainEndpointOptions = domainEndpointOptions
         self.domainName = domainName
         self.dryRun = dryRun
@@ -6404,6 +6487,7 @@ extension CreateElasticsearchDomainInput {
         try writer["AdvancedSecurityOptions"].write(value.advancedSecurityOptions, with: ElasticsearchClientTypes.AdvancedSecurityOptionsInput.write(value:to:))
         try writer["AutoTuneOptions"].write(value.autoTuneOptions, with: ElasticsearchClientTypes.AutoTuneOptionsInput.write(value:to:))
         try writer["CognitoOptions"].write(value.cognitoOptions, with: ElasticsearchClientTypes.CognitoOptions.write(value:to:))
+        try writer["DeploymentStrategyOptions"].write(value.deploymentStrategyOptions, with: ElasticsearchClientTypes.DeploymentStrategyOptions.write(value:to:))
         try writer["DomainEndpointOptions"].write(value.domainEndpointOptions, with: ElasticsearchClientTypes.DomainEndpointOptions.write(value:to:))
         try writer["DomainName"].write(value.domainName)
         try writer["EBSOptions"].write(value.ebsOptions, with: ElasticsearchClientTypes.EBSOptions.write(value:to:))
@@ -6539,6 +6623,7 @@ extension UpdateElasticsearchDomainConfigInput {
         try writer["AdvancedSecurityOptions"].write(value.advancedSecurityOptions, with: ElasticsearchClientTypes.AdvancedSecurityOptionsInput.write(value:to:))
         try writer["AutoTuneOptions"].write(value.autoTuneOptions, with: ElasticsearchClientTypes.AutoTuneOptions.write(value:to:))
         try writer["CognitoOptions"].write(value.cognitoOptions, with: ElasticsearchClientTypes.CognitoOptions.write(value:to:))
+        try writer["DeploymentStrategyOptions"].write(value.deploymentStrategyOptions, with: ElasticsearchClientTypes.DeploymentStrategyOptions.write(value:to:))
         try writer["DomainEndpointOptions"].write(value.domainEndpointOptions, with: ElasticsearchClientTypes.DomainEndpointOptions.write(value:to:))
         try writer["DryRun"].write(value.dryRun)
         try writer["EBSOptions"].write(value.ebsOptions, with: ElasticsearchClientTypes.EBSOptions.write(value:to:))
@@ -7208,7 +7293,7 @@ enum AcceptInboundCrossClusterSearchConnectionOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "DisabledOperationException": return try DisabledOperationException.makeError(baseError: baseError)
@@ -7224,7 +7309,7 @@ enum AddTagsOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "BaseException": return try BaseException.makeError(baseError: baseError)
@@ -7241,7 +7326,7 @@ enum AssociatePackageOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
@@ -7260,7 +7345,7 @@ enum AuthorizeVpcEndpointAccessOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "BaseException": return try BaseException.makeError(baseError: baseError)
@@ -7279,7 +7364,7 @@ enum CancelDomainConfigChangeOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "BaseException": return try BaseException.makeError(baseError: baseError)
@@ -7297,7 +7382,7 @@ enum CancelElasticsearchServiceSoftwareUpdateOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "BaseException": return try BaseException.makeError(baseError: baseError)
@@ -7314,7 +7399,7 @@ enum CreateElasticsearchDomainOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "BaseException": return try BaseException.makeError(baseError: baseError)
@@ -7334,7 +7419,7 @@ enum CreateOutboundCrossClusterSearchConnectionOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "DisabledOperationException": return try DisabledOperationException.makeError(baseError: baseError)
@@ -7351,7 +7436,7 @@ enum CreatePackageOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
@@ -7371,7 +7456,7 @@ enum CreateVpcEndpointOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "BaseException": return try BaseException.makeError(baseError: baseError)
@@ -7390,7 +7475,7 @@ enum DeleteElasticsearchDomainOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "BaseException": return try BaseException.makeError(baseError: baseError)
@@ -7407,7 +7492,7 @@ enum DeleteElasticsearchServiceRoleOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "BaseException": return try BaseException.makeError(baseError: baseError)
@@ -7423,7 +7508,7 @@ enum DeleteInboundCrossClusterSearchConnectionOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "DisabledOperationException": return try DisabledOperationException.makeError(baseError: baseError)
@@ -7438,7 +7523,7 @@ enum DeleteOutboundCrossClusterSearchConnectionOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "DisabledOperationException": return try DisabledOperationException.makeError(baseError: baseError)
@@ -7453,7 +7538,7 @@ enum DeletePackageOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
@@ -7472,7 +7557,7 @@ enum DeleteVpcEndpointOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "BaseException": return try BaseException.makeError(baseError: baseError)
@@ -7489,7 +7574,7 @@ enum DescribeDomainAutoTunesOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "BaseException": return try BaseException.makeError(baseError: baseError)
@@ -7506,7 +7591,7 @@ enum DescribeDomainChangeProgressOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "BaseException": return try BaseException.makeError(baseError: baseError)
@@ -7523,7 +7608,7 @@ enum DescribeElasticsearchDomainOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "BaseException": return try BaseException.makeError(baseError: baseError)
@@ -7540,7 +7625,7 @@ enum DescribeElasticsearchDomainConfigOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "BaseException": return try BaseException.makeError(baseError: baseError)
@@ -7557,7 +7642,7 @@ enum DescribeElasticsearchDomainsOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "BaseException": return try BaseException.makeError(baseError: baseError)
@@ -7573,7 +7658,7 @@ enum DescribeElasticsearchInstanceTypeLimitsOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "BaseException": return try BaseException.makeError(baseError: baseError)
@@ -7592,7 +7677,7 @@ enum DescribeInboundCrossClusterSearchConnectionsOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "DisabledOperationException": return try DisabledOperationException.makeError(baseError: baseError)
@@ -7607,7 +7692,7 @@ enum DescribeOutboundCrossClusterSearchConnectionsOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "DisabledOperationException": return try DisabledOperationException.makeError(baseError: baseError)
@@ -7622,7 +7707,7 @@ enum DescribePackagesOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
@@ -7640,7 +7725,7 @@ enum DescribeReservedElasticsearchInstanceOfferingsOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "DisabledOperationException": return try DisabledOperationException.makeError(baseError: baseError)
@@ -7657,7 +7742,7 @@ enum DescribeReservedElasticsearchInstancesOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "DisabledOperationException": return try DisabledOperationException.makeError(baseError: baseError)
@@ -7674,7 +7759,7 @@ enum DescribeVpcEndpointsOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "BaseException": return try BaseException.makeError(baseError: baseError)
@@ -7691,7 +7776,7 @@ enum DissociatePackageOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
@@ -7710,7 +7795,7 @@ enum GetCompatibleElasticsearchVersionsOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "BaseException": return try BaseException.makeError(baseError: baseError)
@@ -7728,7 +7813,7 @@ enum GetPackageVersionHistoryOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
@@ -7746,7 +7831,7 @@ enum GetUpgradeHistoryOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "BaseException": return try BaseException.makeError(baseError: baseError)
@@ -7764,7 +7849,7 @@ enum GetUpgradeStatusOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "BaseException": return try BaseException.makeError(baseError: baseError)
@@ -7782,7 +7867,7 @@ enum ListDomainNamesOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "BaseException": return try BaseException.makeError(baseError: baseError)
@@ -7797,7 +7882,7 @@ enum ListDomainsForPackageOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
@@ -7815,7 +7900,7 @@ enum ListElasticsearchInstanceTypesOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "BaseException": return try BaseException.makeError(baseError: baseError)
@@ -7832,7 +7917,7 @@ enum ListElasticsearchVersionsOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "BaseException": return try BaseException.makeError(baseError: baseError)
@@ -7849,7 +7934,7 @@ enum ListPackagesForDomainOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
@@ -7867,7 +7952,7 @@ enum ListTagsOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "BaseException": return try BaseException.makeError(baseError: baseError)
@@ -7884,7 +7969,7 @@ enum ListVpcEndpointAccessOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "BaseException": return try BaseException.makeError(baseError: baseError)
@@ -7901,7 +7986,7 @@ enum ListVpcEndpointsOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "BaseException": return try BaseException.makeError(baseError: baseError)
@@ -7917,7 +8002,7 @@ enum ListVpcEndpointsForDomainOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "BaseException": return try BaseException.makeError(baseError: baseError)
@@ -7934,7 +8019,7 @@ enum PurchaseReservedElasticsearchInstanceOfferingOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "DisabledOperationException": return try DisabledOperationException.makeError(baseError: baseError)
@@ -7953,7 +8038,7 @@ enum RejectInboundCrossClusterSearchConnectionOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "DisabledOperationException": return try DisabledOperationException.makeError(baseError: baseError)
@@ -7968,7 +8053,7 @@ enum RemoveTagsOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "BaseException": return try BaseException.makeError(baseError: baseError)
@@ -7984,7 +8069,7 @@ enum RevokeVpcEndpointAccessOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "BaseException": return try BaseException.makeError(baseError: baseError)
@@ -8002,7 +8087,7 @@ enum StartElasticsearchServiceSoftwareUpdateOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "BaseException": return try BaseException.makeError(baseError: baseError)
@@ -8019,7 +8104,7 @@ enum UpdateElasticsearchDomainConfigOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "BaseException": return try BaseException.makeError(baseError: baseError)
@@ -8038,7 +8123,7 @@ enum UpdatePackageOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
@@ -8057,7 +8142,7 @@ enum UpdateVpcEndpointOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "BaseException": return try BaseException.makeError(baseError: baseError)
@@ -8076,7 +8161,7 @@ enum UpgradeElasticsearchDomainOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "BaseException": return try BaseException.makeError(baseError: baseError)
@@ -8092,7 +8177,7 @@ enum UpgradeElasticsearchDomainOutputError {
 
 extension DisabledOperationException {
 
-    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> DisabledOperationException {
+    static func makeError(baseError: ClientRuntime.RestJSONError) throws -> DisabledOperationException {
         let reader = baseError.errorBodyReader
         var value = DisabledOperationException()
         value.properties.message = try reader["message"].readIfPresent()
@@ -8105,7 +8190,7 @@ extension DisabledOperationException {
 
 extension LimitExceededException {
 
-    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> LimitExceededException {
+    static func makeError(baseError: ClientRuntime.RestJSONError) throws -> LimitExceededException {
         let reader = baseError.errorBodyReader
         var value = LimitExceededException()
         value.properties.message = try reader["message"].readIfPresent()
@@ -8118,7 +8203,7 @@ extension LimitExceededException {
 
 extension ResourceNotFoundException {
 
-    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> ResourceNotFoundException {
+    static func makeError(baseError: ClientRuntime.RestJSONError) throws -> ResourceNotFoundException {
         let reader = baseError.errorBodyReader
         var value = ResourceNotFoundException()
         value.properties.message = try reader["message"].readIfPresent()
@@ -8131,7 +8216,7 @@ extension ResourceNotFoundException {
 
 extension BaseException {
 
-    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> BaseException {
+    static func makeError(baseError: ClientRuntime.RestJSONError) throws -> BaseException {
         let reader = baseError.errorBodyReader
         var value = BaseException()
         value.properties.message = try reader["message"].readIfPresent()
@@ -8144,7 +8229,7 @@ extension BaseException {
 
 extension InternalException {
 
-    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> InternalException {
+    static func makeError(baseError: ClientRuntime.RestJSONError) throws -> InternalException {
         let reader = baseError.errorBodyReader
         var value = InternalException()
         value.properties.message = try reader["message"].readIfPresent()
@@ -8157,7 +8242,7 @@ extension InternalException {
 
 extension ValidationException {
 
-    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> ValidationException {
+    static func makeError(baseError: ClientRuntime.RestJSONError) throws -> ValidationException {
         let reader = baseError.errorBodyReader
         var value = ValidationException()
         value.properties.message = try reader["message"].readIfPresent()
@@ -8170,7 +8255,7 @@ extension ValidationException {
 
 extension AccessDeniedException {
 
-    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> AccessDeniedException {
+    static func makeError(baseError: ClientRuntime.RestJSONError) throws -> AccessDeniedException {
         let reader = baseError.errorBodyReader
         var value = AccessDeniedException()
         value.properties.message = try reader["message"].readIfPresent()
@@ -8183,7 +8268,7 @@ extension AccessDeniedException {
 
 extension ConflictException {
 
-    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> ConflictException {
+    static func makeError(baseError: ClientRuntime.RestJSONError) throws -> ConflictException {
         let reader = baseError.errorBodyReader
         var value = ConflictException()
         value.properties.message = try reader["message"].readIfPresent()
@@ -8196,7 +8281,7 @@ extension ConflictException {
 
 extension InvalidTypeException {
 
-    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> InvalidTypeException {
+    static func makeError(baseError: ClientRuntime.RestJSONError) throws -> InvalidTypeException {
         let reader = baseError.errorBodyReader
         var value = InvalidTypeException()
         value.properties.message = try reader["message"].readIfPresent()
@@ -8209,7 +8294,7 @@ extension InvalidTypeException {
 
 extension ResourceAlreadyExistsException {
 
-    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> ResourceAlreadyExistsException {
+    static func makeError(baseError: ClientRuntime.RestJSONError) throws -> ResourceAlreadyExistsException {
         let reader = baseError.errorBodyReader
         var value = ResourceAlreadyExistsException()
         value.properties.message = try reader["message"].readIfPresent()
@@ -8222,7 +8307,7 @@ extension ResourceAlreadyExistsException {
 
 extension InvalidPaginationTokenException {
 
-    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> InvalidPaginationTokenException {
+    static func makeError(baseError: ClientRuntime.RestJSONError) throws -> InvalidPaginationTokenException {
         let reader = baseError.errorBodyReader
         var value = InvalidPaginationTokenException()
         value.properties.message = try reader["message"].readIfPresent()
@@ -8536,6 +8621,32 @@ extension ElasticsearchClientTypes.CompatibleVersionsMap {
     }
 }
 
+extension ElasticsearchClientTypes.DeploymentStrategyOptions {
+
+    static func write(value: ElasticsearchClientTypes.DeploymentStrategyOptions?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["DeploymentStrategy"].write(value.deploymentStrategy)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> ElasticsearchClientTypes.DeploymentStrategyOptions {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = ElasticsearchClientTypes.DeploymentStrategyOptions()
+        value.deploymentStrategy = try reader["DeploymentStrategy"].readIfPresent() ?? .sdkUnknown("")
+        return value
+    }
+}
+
+extension ElasticsearchClientTypes.DeploymentStrategyOptionsStatus {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> ElasticsearchClientTypes.DeploymentStrategyOptionsStatus {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = ElasticsearchClientTypes.DeploymentStrategyOptionsStatus()
+        value.options = try reader["Options"].readIfPresent(with: ElasticsearchClientTypes.DeploymentStrategyOptions.read(from:))
+        value.status = try reader["Status"].readIfPresent(with: ElasticsearchClientTypes.OptionStatus.read(from:))
+        return value
+    }
+}
+
 extension ElasticsearchClientTypes.DescribePackagesFilter {
 
     static func write(value: ElasticsearchClientTypes.DescribePackagesFilter?, to writer: SmithyJSON.Writer) throws {
@@ -8756,6 +8867,7 @@ extension ElasticsearchClientTypes.ElasticsearchDomainConfig {
         value.autoTuneOptions = try reader["AutoTuneOptions"].readIfPresent(with: ElasticsearchClientTypes.AutoTuneOptionsStatus.read(from:))
         value.changeProgressDetails = try reader["ChangeProgressDetails"].readIfPresent(with: ElasticsearchClientTypes.ChangeProgressDetails.read(from:))
         value.modifyingProperties = try reader["ModifyingProperties"].readListIfPresent(memberReadingClosure: ElasticsearchClientTypes.ModifyingProperties.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.deploymentStrategyOptions = try reader["DeploymentStrategyOptions"].readIfPresent(with: ElasticsearchClientTypes.DeploymentStrategyOptionsStatus.read(from:))
         return value
     }
 }
@@ -8792,6 +8904,7 @@ extension ElasticsearchClientTypes.ElasticsearchDomainStatus {
         value.changeProgressDetails = try reader["ChangeProgressDetails"].readIfPresent(with: ElasticsearchClientTypes.ChangeProgressDetails.read(from:))
         value.domainProcessingStatus = try reader["DomainProcessingStatus"].readIfPresent()
         value.modifyingProperties = try reader["ModifyingProperties"].readListIfPresent(memberReadingClosure: ElasticsearchClientTypes.ModifyingProperties.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.deploymentStrategyOptions = try reader["DeploymentStrategyOptions"].readIfPresent(with: ElasticsearchClientTypes.DeploymentStrategyOptions.read(from:))
         return value
     }
 }

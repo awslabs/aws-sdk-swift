@@ -49,7 +49,6 @@ import protocol SmithyIdentity.BearerTokenIdentityResolver
 @_spi(AWSEndpointResolverMiddleware) import struct AWSClientRuntime.AWSEndpointResolverMiddleware
 import struct AWSClientRuntime.AmzSdkInvocationIdMiddleware
 import struct AWSClientRuntime.UserAgentMiddleware
-import struct AWSClientRuntime.XAmzTargetMiddleware
 import struct AWSSDKHTTPAuth.SigV4AuthScheme
 import struct ClientRuntime.AuthSchemeMiddleware
 @_spi(SmithyReadWrite) import struct ClientRuntime.BodyMiddleware
@@ -58,6 +57,7 @@ import struct ClientRuntime.ContentTypeMiddleware
 @_spi(SmithyReadWrite) import struct ClientRuntime.DeserializeMiddleware
 import struct ClientRuntime.IdempotencyTokenMiddleware
 import struct ClientRuntime.LoggerMiddleware
+import struct ClientRuntime.MutateHeadersMiddleware
 import struct ClientRuntime.SendableHttpInterceptorProviderBox
 import struct ClientRuntime.SendableInterceptorProviderBox
 import struct ClientRuntime.SignerMiddleware
@@ -682,7 +682,7 @@ extension RedshiftDataClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<BatchExecuteStatementOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<BatchExecuteStatementInput, BatchExecuteStatementOutput>(xAmzTarget: "RedshiftData.BatchExecuteStatement"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<BatchExecuteStatementInput, BatchExecuteStatementOutput>(overrides: ["X-Amz-Target": "RedshiftData.BatchExecuteStatement"]))
         builder.serialize(ClientRuntime.BodyMiddleware<BatchExecuteStatementInput, BatchExecuteStatementOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: BatchExecuteStatementInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<BatchExecuteStatementInput, BatchExecuteStatementOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<BatchExecuteStatementOutput>())
@@ -755,7 +755,7 @@ extension RedshiftDataClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<CancelStatementOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<CancelStatementInput, CancelStatementOutput>(xAmzTarget: "RedshiftData.CancelStatement"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<CancelStatementInput, CancelStatementOutput>(overrides: ["X-Amz-Target": "RedshiftData.CancelStatement"]))
         builder.serialize(ClientRuntime.BodyMiddleware<CancelStatementInput, CancelStatementOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: CancelStatementInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<CancelStatementInput, CancelStatementOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<CancelStatementOutput>())
@@ -826,7 +826,7 @@ extension RedshiftDataClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<DescribeStatementOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<DescribeStatementInput, DescribeStatementOutput>(xAmzTarget: "RedshiftData.DescribeStatement"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<DescribeStatementInput, DescribeStatementOutput>(overrides: ["X-Amz-Target": "RedshiftData.DescribeStatement"]))
         builder.serialize(ClientRuntime.BodyMiddleware<DescribeStatementInput, DescribeStatementOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: DescribeStatementInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DescribeStatementInput, DescribeStatementOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DescribeStatementOutput>())
@@ -915,7 +915,7 @@ extension RedshiftDataClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<DescribeTableOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<DescribeTableInput, DescribeTableOutput>(xAmzTarget: "RedshiftData.DescribeTable"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<DescribeTableInput, DescribeTableOutput>(overrides: ["X-Amz-Target": "RedshiftData.DescribeTable"]))
         builder.serialize(ClientRuntime.BodyMiddleware<DescribeTableInput, DescribeTableOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: DescribeTableInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DescribeTableInput, DescribeTableOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DescribeTableOutput>())
@@ -1006,7 +1006,7 @@ extension RedshiftDataClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<ExecuteStatementOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<ExecuteStatementInput, ExecuteStatementOutput>(xAmzTarget: "RedshiftData.ExecuteStatement"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<ExecuteStatementInput, ExecuteStatementOutput>(overrides: ["X-Amz-Target": "RedshiftData.ExecuteStatement"]))
         builder.serialize(ClientRuntime.BodyMiddleware<ExecuteStatementInput, ExecuteStatementOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: ExecuteStatementInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<ExecuteStatementInput, ExecuteStatementOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ExecuteStatementOutput>())
@@ -1077,7 +1077,7 @@ extension RedshiftDataClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<GetStatementResultOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<GetStatementResultInput, GetStatementResultOutput>(xAmzTarget: "RedshiftData.GetStatementResult"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<GetStatementResultInput, GetStatementResultOutput>(overrides: ["X-Amz-Target": "RedshiftData.GetStatementResult"]))
         builder.serialize(ClientRuntime.BodyMiddleware<GetStatementResultInput, GetStatementResultOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: GetStatementResultInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<GetStatementResultInput, GetStatementResultOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<GetStatementResultOutput>())
@@ -1148,7 +1148,7 @@ extension RedshiftDataClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<GetStatementResultV2Output, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<GetStatementResultV2Input, GetStatementResultV2Output>(xAmzTarget: "RedshiftData.GetStatementResultV2"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<GetStatementResultV2Input, GetStatementResultV2Output>(overrides: ["X-Amz-Target": "RedshiftData.GetStatementResultV2"]))
         builder.serialize(ClientRuntime.BodyMiddleware<GetStatementResultV2Input, GetStatementResultV2Output, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: GetStatementResultV2Input.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<GetStatementResultV2Input, GetStatementResultV2Output>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<GetStatementResultV2Output>())
@@ -1237,7 +1237,7 @@ extension RedshiftDataClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<ListDatabasesOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<ListDatabasesInput, ListDatabasesOutput>(xAmzTarget: "RedshiftData.ListDatabases"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<ListDatabasesInput, ListDatabasesOutput>(overrides: ["X-Amz-Target": "RedshiftData.ListDatabases"]))
         builder.serialize(ClientRuntime.BodyMiddleware<ListDatabasesInput, ListDatabasesOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: ListDatabasesInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<ListDatabasesInput, ListDatabasesOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ListDatabasesOutput>())
@@ -1326,7 +1326,7 @@ extension RedshiftDataClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<ListSchemasOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<ListSchemasInput, ListSchemasOutput>(xAmzTarget: "RedshiftData.ListSchemas"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<ListSchemasInput, ListSchemasOutput>(overrides: ["X-Amz-Target": "RedshiftData.ListSchemas"]))
         builder.serialize(ClientRuntime.BodyMiddleware<ListSchemasInput, ListSchemasOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: ListSchemasInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<ListSchemasInput, ListSchemasOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ListSchemasOutput>())
@@ -1397,7 +1397,7 @@ extension RedshiftDataClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<ListStatementsOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<ListStatementsInput, ListStatementsOutput>(xAmzTarget: "RedshiftData.ListStatements"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<ListStatementsInput, ListStatementsOutput>(overrides: ["X-Amz-Target": "RedshiftData.ListStatements"]))
         builder.serialize(ClientRuntime.BodyMiddleware<ListStatementsInput, ListStatementsOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: ListStatementsInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<ListStatementsInput, ListStatementsOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ListStatementsOutput>())
@@ -1486,7 +1486,7 @@ extension RedshiftDataClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<ListTablesOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<ListTablesInput, ListTablesOutput>(xAmzTarget: "RedshiftData.ListTables"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<ListTablesInput, ListTablesOutput>(overrides: ["X-Amz-Target": "RedshiftData.ListTables"]))
         builder.serialize(ClientRuntime.BodyMiddleware<ListTablesInput, ListTablesOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: ListTablesInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<ListTablesInput, ListTablesOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ListTablesOutput>())

@@ -49,7 +49,6 @@ import protocol SmithyIdentity.BearerTokenIdentityResolver
 @_spi(AWSEndpointResolverMiddleware) import struct AWSClientRuntime.AWSEndpointResolverMiddleware
 import struct AWSClientRuntime.AmzSdkInvocationIdMiddleware
 import struct AWSClientRuntime.UserAgentMiddleware
-import struct AWSClientRuntime.XAmzTargetMiddleware
 import struct AWSSDKHTTPAuth.SigV4AuthScheme
 import struct ClientRuntime.AuthSchemeMiddleware
 @_spi(SmithyReadWrite) import struct ClientRuntime.BodyMiddleware
@@ -58,6 +57,7 @@ import struct ClientRuntime.ContentTypeMiddleware
 @_spi(SmithyReadWrite) import struct ClientRuntime.DeserializeMiddleware
 import struct ClientRuntime.IdempotencyTokenMiddleware
 import struct ClientRuntime.LoggerMiddleware
+import struct ClientRuntime.MutateHeadersMiddleware
 import struct ClientRuntime.SendableHttpInterceptorProviderBox
 import struct ClientRuntime.SendableInterceptorProviderBox
 import struct ClientRuntime.SignerMiddleware
@@ -664,7 +664,7 @@ extension ApplicationDiscoveryClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<AssociateConfigurationItemsToApplicationOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<AssociateConfigurationItemsToApplicationInput, AssociateConfigurationItemsToApplicationOutput>(xAmzTarget: "AWSPoseidonService_V2015_11_01.AssociateConfigurationItemsToApplication"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<AssociateConfigurationItemsToApplicationInput, AssociateConfigurationItemsToApplicationOutput>(overrides: ["X-Amz-Target": "AWSPoseidonService_V2015_11_01.AssociateConfigurationItemsToApplication"]))
         builder.serialize(ClientRuntime.BodyMiddleware<AssociateConfigurationItemsToApplicationInput, AssociateConfigurationItemsToApplicationOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: AssociateConfigurationItemsToApplicationInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<AssociateConfigurationItemsToApplicationInput, AssociateConfigurationItemsToApplicationOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<AssociateConfigurationItemsToApplicationOutput>())
@@ -736,7 +736,7 @@ extension ApplicationDiscoveryClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<BatchDeleteAgentsOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<BatchDeleteAgentsInput, BatchDeleteAgentsOutput>(xAmzTarget: "AWSPoseidonService_V2015_11_01.BatchDeleteAgents"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<BatchDeleteAgentsInput, BatchDeleteAgentsOutput>(overrides: ["X-Amz-Target": "AWSPoseidonService_V2015_11_01.BatchDeleteAgents"]))
         builder.serialize(ClientRuntime.BodyMiddleware<BatchDeleteAgentsInput, BatchDeleteAgentsOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: BatchDeleteAgentsInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<BatchDeleteAgentsInput, BatchDeleteAgentsOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<BatchDeleteAgentsOutput>())
@@ -809,7 +809,7 @@ extension ApplicationDiscoveryClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<BatchDeleteImportDataOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<BatchDeleteImportDataInput, BatchDeleteImportDataOutput>(xAmzTarget: "AWSPoseidonService_V2015_11_01.BatchDeleteImportData"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<BatchDeleteImportDataInput, BatchDeleteImportDataOutput>(overrides: ["X-Amz-Target": "AWSPoseidonService_V2015_11_01.BatchDeleteImportData"]))
         builder.serialize(ClientRuntime.BodyMiddleware<BatchDeleteImportDataInput, BatchDeleteImportDataOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: BatchDeleteImportDataInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<BatchDeleteImportDataInput, BatchDeleteImportDataOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<BatchDeleteImportDataOutput>())
@@ -882,7 +882,7 @@ extension ApplicationDiscoveryClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<CreateApplicationOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<CreateApplicationInput, CreateApplicationOutput>(xAmzTarget: "AWSPoseidonService_V2015_11_01.CreateApplication"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<CreateApplicationInput, CreateApplicationOutput>(overrides: ["X-Amz-Target": "AWSPoseidonService_V2015_11_01.CreateApplication"]))
         builder.serialize(ClientRuntime.BodyMiddleware<CreateApplicationInput, CreateApplicationOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: CreateApplicationInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<CreateApplicationInput, CreateApplicationOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<CreateApplicationOutput>())
@@ -956,7 +956,7 @@ extension ApplicationDiscoveryClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<CreateTagsOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<CreateTagsInput, CreateTagsOutput>(xAmzTarget: "AWSPoseidonService_V2015_11_01.CreateTags"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<CreateTagsInput, CreateTagsOutput>(overrides: ["X-Amz-Target": "AWSPoseidonService_V2015_11_01.CreateTags"]))
         builder.serialize(ClientRuntime.BodyMiddleware<CreateTagsInput, CreateTagsOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: CreateTagsInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<CreateTagsInput, CreateTagsOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<CreateTagsOutput>())
@@ -1029,7 +1029,7 @@ extension ApplicationDiscoveryClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<DeleteApplicationsOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<DeleteApplicationsInput, DeleteApplicationsOutput>(xAmzTarget: "AWSPoseidonService_V2015_11_01.DeleteApplications"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<DeleteApplicationsInput, DeleteApplicationsOutput>(overrides: ["X-Amz-Target": "AWSPoseidonService_V2015_11_01.DeleteApplications"]))
         builder.serialize(ClientRuntime.BodyMiddleware<DeleteApplicationsInput, DeleteApplicationsOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: DeleteApplicationsInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DeleteApplicationsInput, DeleteApplicationsOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DeleteApplicationsOutput>())
@@ -1103,7 +1103,7 @@ extension ApplicationDiscoveryClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<DeleteTagsOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<DeleteTagsInput, DeleteTagsOutput>(xAmzTarget: "AWSPoseidonService_V2015_11_01.DeleteTags"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<DeleteTagsInput, DeleteTagsOutput>(overrides: ["X-Amz-Target": "AWSPoseidonService_V2015_11_01.DeleteTags"]))
         builder.serialize(ClientRuntime.BodyMiddleware<DeleteTagsInput, DeleteTagsOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: DeleteTagsInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DeleteTagsInput, DeleteTagsOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DeleteTagsOutput>())
@@ -1176,7 +1176,7 @@ extension ApplicationDiscoveryClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<DescribeAgentsOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<DescribeAgentsInput, DescribeAgentsOutput>(xAmzTarget: "AWSPoseidonService_V2015_11_01.DescribeAgents"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<DescribeAgentsInput, DescribeAgentsOutput>(overrides: ["X-Amz-Target": "AWSPoseidonService_V2015_11_01.DescribeAgents"]))
         builder.serialize(ClientRuntime.BodyMiddleware<DescribeAgentsInput, DescribeAgentsOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: DescribeAgentsInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DescribeAgentsInput, DescribeAgentsOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DescribeAgentsOutput>())
@@ -1248,7 +1248,7 @@ extension ApplicationDiscoveryClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<DescribeBatchDeleteConfigurationTaskOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<DescribeBatchDeleteConfigurationTaskInput, DescribeBatchDeleteConfigurationTaskOutput>(xAmzTarget: "AWSPoseidonService_V2015_11_01.DescribeBatchDeleteConfigurationTask"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<DescribeBatchDeleteConfigurationTaskInput, DescribeBatchDeleteConfigurationTaskOutput>(overrides: ["X-Amz-Target": "AWSPoseidonService_V2015_11_01.DescribeBatchDeleteConfigurationTask"]))
         builder.serialize(ClientRuntime.BodyMiddleware<DescribeBatchDeleteConfigurationTaskInput, DescribeBatchDeleteConfigurationTaskOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: DescribeBatchDeleteConfigurationTaskInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DescribeBatchDeleteConfigurationTaskInput, DescribeBatchDeleteConfigurationTaskOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DescribeBatchDeleteConfigurationTaskOutput>())
@@ -1332,7 +1332,7 @@ extension ApplicationDiscoveryClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<DescribeConfigurationsOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<DescribeConfigurationsInput, DescribeConfigurationsOutput>(xAmzTarget: "AWSPoseidonService_V2015_11_01.DescribeConfigurations"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<DescribeConfigurationsInput, DescribeConfigurationsOutput>(overrides: ["X-Amz-Target": "AWSPoseidonService_V2015_11_01.DescribeConfigurations"]))
         builder.serialize(ClientRuntime.BodyMiddleware<DescribeConfigurationsInput, DescribeConfigurationsOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: DescribeConfigurationsInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DescribeConfigurationsInput, DescribeConfigurationsOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DescribeConfigurationsOutput>())
@@ -1407,7 +1407,7 @@ extension ApplicationDiscoveryClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<DescribeContinuousExportsOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<DescribeContinuousExportsInput, DescribeContinuousExportsOutput>(xAmzTarget: "AWSPoseidonService_V2015_11_01.DescribeContinuousExports"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<DescribeContinuousExportsInput, DescribeContinuousExportsOutput>(overrides: ["X-Amz-Target": "AWSPoseidonService_V2015_11_01.DescribeContinuousExports"]))
         builder.serialize(ClientRuntime.BodyMiddleware<DescribeContinuousExportsInput, DescribeContinuousExportsOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: DescribeContinuousExportsInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DescribeContinuousExportsInput, DescribeContinuousExportsOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DescribeContinuousExportsOutput>())
@@ -1482,7 +1482,7 @@ extension ApplicationDiscoveryClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<DescribeExportConfigurationsOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<DescribeExportConfigurationsInput, DescribeExportConfigurationsOutput>(xAmzTarget: "AWSPoseidonService_V2015_11_01.DescribeExportConfigurations"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<DescribeExportConfigurationsInput, DescribeExportConfigurationsOutput>(overrides: ["X-Amz-Target": "AWSPoseidonService_V2015_11_01.DescribeExportConfigurations"]))
         builder.serialize(ClientRuntime.BodyMiddleware<DescribeExportConfigurationsInput, DescribeExportConfigurationsOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: DescribeExportConfigurationsInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DescribeExportConfigurationsInput, DescribeExportConfigurationsOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DescribeExportConfigurationsOutput>())
@@ -1555,7 +1555,7 @@ extension ApplicationDiscoveryClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<DescribeExportTasksOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<DescribeExportTasksInput, DescribeExportTasksOutput>(xAmzTarget: "AWSPoseidonService_V2015_11_01.DescribeExportTasks"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<DescribeExportTasksInput, DescribeExportTasksOutput>(overrides: ["X-Amz-Target": "AWSPoseidonService_V2015_11_01.DescribeExportTasks"]))
         builder.serialize(ClientRuntime.BodyMiddleware<DescribeExportTasksInput, DescribeExportTasksOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: DescribeExportTasksInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DescribeExportTasksInput, DescribeExportTasksOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DescribeExportTasksOutput>())
@@ -1628,7 +1628,7 @@ extension ApplicationDiscoveryClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<DescribeImportTasksOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<DescribeImportTasksInput, DescribeImportTasksOutput>(xAmzTarget: "AWSPoseidonService_V2015_11_01.DescribeImportTasks"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<DescribeImportTasksInput, DescribeImportTasksOutput>(overrides: ["X-Amz-Target": "AWSPoseidonService_V2015_11_01.DescribeImportTasks"]))
         builder.serialize(ClientRuntime.BodyMiddleware<DescribeImportTasksInput, DescribeImportTasksOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: DescribeImportTasksInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DescribeImportTasksInput, DescribeImportTasksOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DescribeImportTasksOutput>())
@@ -1711,7 +1711,7 @@ extension ApplicationDiscoveryClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<DescribeTagsOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<DescribeTagsInput, DescribeTagsOutput>(xAmzTarget: "AWSPoseidonService_V2015_11_01.DescribeTags"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<DescribeTagsInput, DescribeTagsOutput>(overrides: ["X-Amz-Target": "AWSPoseidonService_V2015_11_01.DescribeTags"]))
         builder.serialize(ClientRuntime.BodyMiddleware<DescribeTagsInput, DescribeTagsOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: DescribeTagsInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DescribeTagsInput, DescribeTagsOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DescribeTagsOutput>())
@@ -1784,7 +1784,7 @@ extension ApplicationDiscoveryClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<DisassociateConfigurationItemsFromApplicationOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<DisassociateConfigurationItemsFromApplicationInput, DisassociateConfigurationItemsFromApplicationOutput>(xAmzTarget: "AWSPoseidonService_V2015_11_01.DisassociateConfigurationItemsFromApplication"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<DisassociateConfigurationItemsFromApplicationInput, DisassociateConfigurationItemsFromApplicationOutput>(overrides: ["X-Amz-Target": "AWSPoseidonService_V2015_11_01.DisassociateConfigurationItemsFromApplication"]))
         builder.serialize(ClientRuntime.BodyMiddleware<DisassociateConfigurationItemsFromApplicationInput, DisassociateConfigurationItemsFromApplicationOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: DisassociateConfigurationItemsFromApplicationInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DisassociateConfigurationItemsFromApplicationInput, DisassociateConfigurationItemsFromApplicationOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DisassociateConfigurationItemsFromApplicationOutput>())
@@ -1859,7 +1859,7 @@ extension ApplicationDiscoveryClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<ExportConfigurationsOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<ExportConfigurationsInput, ExportConfigurationsOutput>(xAmzTarget: "AWSPoseidonService_V2015_11_01.ExportConfigurations"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<ExportConfigurationsInput, ExportConfigurationsOutput>(overrides: ["X-Amz-Target": "AWSPoseidonService_V2015_11_01.ExportConfigurations"]))
         builder.serialize(ClientRuntime.BodyMiddleware<ExportConfigurationsInput, ExportConfigurationsOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: ExportConfigurationsInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<ExportConfigurationsInput, ExportConfigurationsOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ExportConfigurationsOutput>())
@@ -1932,7 +1932,7 @@ extension ApplicationDiscoveryClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<GetDiscoverySummaryOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<GetDiscoverySummaryInput, GetDiscoverySummaryOutput>(xAmzTarget: "AWSPoseidonService_V2015_11_01.GetDiscoverySummary"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<GetDiscoverySummaryInput, GetDiscoverySummaryOutput>(overrides: ["X-Amz-Target": "AWSPoseidonService_V2015_11_01.GetDiscoverySummary"]))
         builder.serialize(ClientRuntime.BodyMiddleware<GetDiscoverySummaryInput, GetDiscoverySummaryOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: GetDiscoverySummaryInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<GetDiscoverySummaryInput, GetDiscoverySummaryOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<GetDiscoverySummaryOutput>())
@@ -2006,7 +2006,7 @@ extension ApplicationDiscoveryClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<ListConfigurationsOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<ListConfigurationsInput, ListConfigurationsOutput>(xAmzTarget: "AWSPoseidonService_V2015_11_01.ListConfigurations"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<ListConfigurationsInput, ListConfigurationsOutput>(overrides: ["X-Amz-Target": "AWSPoseidonService_V2015_11_01.ListConfigurations"]))
         builder.serialize(ClientRuntime.BodyMiddleware<ListConfigurationsInput, ListConfigurationsOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: ListConfigurationsInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<ListConfigurationsInput, ListConfigurationsOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ListConfigurationsOutput>())
@@ -2079,7 +2079,7 @@ extension ApplicationDiscoveryClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<ListServerNeighborsOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<ListServerNeighborsInput, ListServerNeighborsOutput>(xAmzTarget: "AWSPoseidonService_V2015_11_01.ListServerNeighbors"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<ListServerNeighborsInput, ListServerNeighborsOutput>(overrides: ["X-Amz-Target": "AWSPoseidonService_V2015_11_01.ListServerNeighbors"]))
         builder.serialize(ClientRuntime.BodyMiddleware<ListServerNeighborsInput, ListServerNeighborsOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: ListServerNeighborsInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<ListServerNeighborsInput, ListServerNeighborsOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ListServerNeighborsOutput>())
@@ -2154,7 +2154,7 @@ extension ApplicationDiscoveryClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<StartBatchDeleteConfigurationTaskOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<StartBatchDeleteConfigurationTaskInput, StartBatchDeleteConfigurationTaskOutput>(xAmzTarget: "AWSPoseidonService_V2015_11_01.StartBatchDeleteConfigurationTask"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<StartBatchDeleteConfigurationTaskInput, StartBatchDeleteConfigurationTaskOutput>(overrides: ["X-Amz-Target": "AWSPoseidonService_V2015_11_01.StartBatchDeleteConfigurationTask"]))
         builder.serialize(ClientRuntime.BodyMiddleware<StartBatchDeleteConfigurationTaskInput, StartBatchDeleteConfigurationTaskOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: StartBatchDeleteConfigurationTaskInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<StartBatchDeleteConfigurationTaskInput, StartBatchDeleteConfigurationTaskOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<StartBatchDeleteConfigurationTaskOutput>())
@@ -2230,7 +2230,7 @@ extension ApplicationDiscoveryClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<StartContinuousExportOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<StartContinuousExportInput, StartContinuousExportOutput>(xAmzTarget: "AWSPoseidonService_V2015_11_01.StartContinuousExport"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<StartContinuousExportInput, StartContinuousExportOutput>(overrides: ["X-Amz-Target": "AWSPoseidonService_V2015_11_01.StartContinuousExport"]))
         builder.serialize(ClientRuntime.BodyMiddleware<StartContinuousExportInput, StartContinuousExportOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: StartContinuousExportInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<StartContinuousExportInput, StartContinuousExportOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<StartContinuousExportOutput>())
@@ -2303,7 +2303,7 @@ extension ApplicationDiscoveryClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<StartDataCollectionByAgentIdsOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<StartDataCollectionByAgentIdsInput, StartDataCollectionByAgentIdsOutput>(xAmzTarget: "AWSPoseidonService_V2015_11_01.StartDataCollectionByAgentIds"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<StartDataCollectionByAgentIdsInput, StartDataCollectionByAgentIdsOutput>(overrides: ["X-Amz-Target": "AWSPoseidonService_V2015_11_01.StartDataCollectionByAgentIds"]))
         builder.serialize(ClientRuntime.BodyMiddleware<StartDataCollectionByAgentIdsInput, StartDataCollectionByAgentIdsOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: StartDataCollectionByAgentIdsInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<StartDataCollectionByAgentIdsInput, StartDataCollectionByAgentIdsOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<StartDataCollectionByAgentIdsOutput>())
@@ -2377,7 +2377,7 @@ extension ApplicationDiscoveryClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<StartExportTaskOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<StartExportTaskInput, StartExportTaskOutput>(xAmzTarget: "AWSPoseidonService_V2015_11_01.StartExportTask"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<StartExportTaskInput, StartExportTaskOutput>(overrides: ["X-Amz-Target": "AWSPoseidonService_V2015_11_01.StartExportTask"]))
         builder.serialize(ClientRuntime.BodyMiddleware<StartExportTaskInput, StartExportTaskOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: StartExportTaskInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<StartExportTaskInput, StartExportTaskOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<StartExportTaskOutput>())
@@ -2463,7 +2463,7 @@ extension ApplicationDiscoveryClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<StartImportTaskOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<StartImportTaskInput, StartImportTaskOutput>(xAmzTarget: "AWSPoseidonService_V2015_11_01.StartImportTask"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<StartImportTaskInput, StartImportTaskOutput>(overrides: ["X-Amz-Target": "AWSPoseidonService_V2015_11_01.StartImportTask"]))
         builder.serialize(ClientRuntime.BodyMiddleware<StartImportTaskInput, StartImportTaskOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: StartImportTaskInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<StartImportTaskInput, StartImportTaskOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<StartImportTaskOutput>())
@@ -2539,7 +2539,7 @@ extension ApplicationDiscoveryClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<StopContinuousExportOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<StopContinuousExportInput, StopContinuousExportOutput>(xAmzTarget: "AWSPoseidonService_V2015_11_01.StopContinuousExport"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<StopContinuousExportInput, StopContinuousExportOutput>(overrides: ["X-Amz-Target": "AWSPoseidonService_V2015_11_01.StopContinuousExport"]))
         builder.serialize(ClientRuntime.BodyMiddleware<StopContinuousExportInput, StopContinuousExportOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: StopContinuousExportInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<StopContinuousExportInput, StopContinuousExportOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<StopContinuousExportOutput>())
@@ -2612,7 +2612,7 @@ extension ApplicationDiscoveryClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<StopDataCollectionByAgentIdsOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<StopDataCollectionByAgentIdsInput, StopDataCollectionByAgentIdsOutput>(xAmzTarget: "AWSPoseidonService_V2015_11_01.StopDataCollectionByAgentIds"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<StopDataCollectionByAgentIdsInput, StopDataCollectionByAgentIdsOutput>(overrides: ["X-Amz-Target": "AWSPoseidonService_V2015_11_01.StopDataCollectionByAgentIds"]))
         builder.serialize(ClientRuntime.BodyMiddleware<StopDataCollectionByAgentIdsInput, StopDataCollectionByAgentIdsOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: StopDataCollectionByAgentIdsInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<StopDataCollectionByAgentIdsInput, StopDataCollectionByAgentIdsOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<StopDataCollectionByAgentIdsOutput>())
@@ -2685,7 +2685,7 @@ extension ApplicationDiscoveryClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<UpdateApplicationOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<UpdateApplicationInput, UpdateApplicationOutput>(xAmzTarget: "AWSPoseidonService_V2015_11_01.UpdateApplication"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<UpdateApplicationInput, UpdateApplicationOutput>(overrides: ["X-Amz-Target": "AWSPoseidonService_V2015_11_01.UpdateApplication"]))
         builder.serialize(ClientRuntime.BodyMiddleware<UpdateApplicationInput, UpdateApplicationOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: UpdateApplicationInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<UpdateApplicationInput, UpdateApplicationOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<UpdateApplicationOutput>())

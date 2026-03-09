@@ -22,8 +22,8 @@ import protocol ClientRuntime.HTTPError
 import protocol ClientRuntime.ModeledError
 @_spi(SmithyReadWrite) import protocol SmithyReadWrite.SmithyReader
 @_spi(SmithyReadWrite) import protocol SmithyReadWrite.SmithyWriter
-@_spi(SmithyReadWrite) import struct AWSClientRuntime.AWSJSONError
 @_spi(UnknownAWSHTTPServiceError) import struct AWSClientRuntime.UnknownAWSHTTPServiceError
+@_spi(SmithyReadWrite) import struct ClientRuntime.AWSJSONError
 @_spi(SmithyReadWrite) import struct SmithyReadWrite.ReadingClosureBox
 @_spi(SmithyReadWrite) import struct SmithyReadWrite.WritingClosureBox
 @_spi(SmithyTimestamps) import struct SmithyTimestamps.TimestampFormatter
@@ -11710,7 +11710,7 @@ enum AssociateFileSystemAliasesOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "BadRequest": return try BadRequest.makeError(baseError: baseError)
@@ -11726,7 +11726,7 @@ enum CancelDataRepositoryTaskOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "BadRequest": return try BadRequest.makeError(baseError: baseError)
@@ -11744,7 +11744,7 @@ enum CopyBackupOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "BackupNotFound": return try BackupNotFound.makeError(baseError: baseError)
@@ -11768,7 +11768,7 @@ enum CopySnapshotAndUpdateVolumeOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "BadRequest": return try BadRequest.makeError(baseError: baseError)
@@ -11785,7 +11785,7 @@ enum CreateAndAttachS3AccessPointOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AccessPointAlreadyOwnedByYou": return try AccessPointAlreadyOwnedByYou.makeError(baseError: baseError)
@@ -11807,7 +11807,7 @@ enum CreateBackupOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "BackupInProgress": return try BackupInProgress.makeError(baseError: baseError)
@@ -11828,7 +11828,7 @@ enum CreateDataRepositoryAssociationOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "BadRequest": return try BadRequest.makeError(baseError: baseError)
@@ -11847,7 +11847,7 @@ enum CreateDataRepositoryTaskOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "BadRequest": return try BadRequest.makeError(baseError: baseError)
@@ -11867,7 +11867,7 @@ enum CreateFileCacheOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "BadRequest": return try BadRequest.makeError(baseError: baseError)
@@ -11887,7 +11887,7 @@ enum CreateFileSystemOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "ActiveDirectoryError": return try ActiveDirectoryError.makeError(baseError: baseError)
@@ -11910,7 +11910,7 @@ enum CreateFileSystemFromBackupOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "ActiveDirectoryError": return try ActiveDirectoryError.makeError(baseError: baseError)
@@ -11932,7 +11932,7 @@ enum CreateSnapshotOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "BadRequest": return try BadRequest.makeError(baseError: baseError)
@@ -11949,7 +11949,7 @@ enum CreateStorageVirtualMachineOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "ActiveDirectoryError": return try ActiveDirectoryError.makeError(baseError: baseError)
@@ -11969,7 +11969,7 @@ enum CreateVolumeOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "BadRequest": return try BadRequest.makeError(baseError: baseError)
@@ -11990,7 +11990,7 @@ enum CreateVolumeFromBackupOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "BackupNotFound": return try BackupNotFound.makeError(baseError: baseError)
@@ -12011,7 +12011,7 @@ enum DeleteBackupOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "BackupBeingCopied": return try BackupBeingCopied.makeError(baseError: baseError)
@@ -12031,7 +12031,7 @@ enum DeleteDataRepositoryAssociationOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "BadRequest": return try BadRequest.makeError(baseError: baseError)
@@ -12049,7 +12049,7 @@ enum DeleteFileCacheOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "BadRequest": return try BadRequest.makeError(baseError: baseError)
@@ -12067,7 +12067,7 @@ enum DeleteFileSystemOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "BadRequest": return try BadRequest.makeError(baseError: baseError)
@@ -12085,7 +12085,7 @@ enum DeleteSnapshotOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "BadRequest": return try BadRequest.makeError(baseError: baseError)
@@ -12101,7 +12101,7 @@ enum DeleteStorageVirtualMachineOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "BadRequest": return try BadRequest.makeError(baseError: baseError)
@@ -12118,7 +12118,7 @@ enum DeleteVolumeOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "BadRequest": return try BadRequest.makeError(baseError: baseError)
@@ -12136,7 +12136,7 @@ enum DescribeBackupsOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "BackupNotFound": return try BackupNotFound.makeError(baseError: baseError)
@@ -12154,7 +12154,7 @@ enum DescribeDataRepositoryAssociationsOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "BadRequest": return try BadRequest.makeError(baseError: baseError)
@@ -12172,7 +12172,7 @@ enum DescribeDataRepositoryTasksOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "BadRequest": return try BadRequest.makeError(baseError: baseError)
@@ -12189,7 +12189,7 @@ enum DescribeFileCachesOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "BadRequest": return try BadRequest.makeError(baseError: baseError)
@@ -12205,7 +12205,7 @@ enum DescribeFileSystemAliasesOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "BadRequest": return try BadRequest.makeError(baseError: baseError)
@@ -12221,7 +12221,7 @@ enum DescribeFileSystemsOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "BadRequest": return try BadRequest.makeError(baseError: baseError)
@@ -12237,7 +12237,7 @@ enum DescribeS3AccessPointAttachmentsOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "BadRequest": return try BadRequest.makeError(baseError: baseError)
@@ -12254,7 +12254,7 @@ enum DescribeSharedVpcConfigurationOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "BadRequest": return try BadRequest.makeError(baseError: baseError)
@@ -12269,7 +12269,7 @@ enum DescribeSnapshotsOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "BadRequest": return try BadRequest.makeError(baseError: baseError)
@@ -12285,7 +12285,7 @@ enum DescribeStorageVirtualMachinesOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "BadRequest": return try BadRequest.makeError(baseError: baseError)
@@ -12301,7 +12301,7 @@ enum DescribeVolumesOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "BadRequest": return try BadRequest.makeError(baseError: baseError)
@@ -12317,7 +12317,7 @@ enum DetachAndDeleteS3AccessPointOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "BadRequest": return try BadRequest.makeError(baseError: baseError)
@@ -12335,7 +12335,7 @@ enum DisassociateFileSystemAliasesOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "BadRequest": return try BadRequest.makeError(baseError: baseError)
@@ -12351,7 +12351,7 @@ enum ListTagsForResourceOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "BadRequest": return try BadRequest.makeError(baseError: baseError)
@@ -12369,7 +12369,7 @@ enum ReleaseFileSystemNfsV3LocksOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "BadRequest": return try BadRequest.makeError(baseError: baseError)
@@ -12387,7 +12387,7 @@ enum RestoreVolumeFromSnapshotOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "BadRequest": return try BadRequest.makeError(baseError: baseError)
@@ -12403,7 +12403,7 @@ enum StartMisconfiguredStateRecoveryOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "BadRequest": return try BadRequest.makeError(baseError: baseError)
@@ -12419,7 +12419,7 @@ enum TagResourceOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "BadRequest": return try BadRequest.makeError(baseError: baseError)
@@ -12437,7 +12437,7 @@ enum UntagResourceOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "BadRequest": return try BadRequest.makeError(baseError: baseError)
@@ -12455,7 +12455,7 @@ enum UpdateDataRepositoryAssociationOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "BadRequest": return try BadRequest.makeError(baseError: baseError)
@@ -12473,7 +12473,7 @@ enum UpdateFileCacheOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "BadRequest": return try BadRequest.makeError(baseError: baseError)
@@ -12493,7 +12493,7 @@ enum UpdateFileSystemOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "BadRequest": return try BadRequest.makeError(baseError: baseError)
@@ -12514,7 +12514,7 @@ enum UpdateSharedVpcConfigurationOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "BadRequest": return try BadRequest.makeError(baseError: baseError)
@@ -12530,7 +12530,7 @@ enum UpdateSnapshotOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "BadRequest": return try BadRequest.makeError(baseError: baseError)
@@ -12546,7 +12546,7 @@ enum UpdateStorageVirtualMachineOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "BadRequest": return try BadRequest.makeError(baseError: baseError)
@@ -12564,7 +12564,7 @@ enum UpdateVolumeOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "BadRequest": return try BadRequest.makeError(baseError: baseError)
@@ -12579,7 +12579,7 @@ enum UpdateVolumeOutputError {
 
 extension BadRequest {
 
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> BadRequest {
+    static func makeError(baseError: ClientRuntime.AWSJSONError) throws -> BadRequest {
         let reader = baseError.errorBodyReader
         var value = BadRequest()
         value.properties.message = try reader["Message"].readIfPresent()
@@ -12592,7 +12592,7 @@ extension BadRequest {
 
 extension FileSystemNotFound {
 
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> FileSystemNotFound {
+    static func makeError(baseError: ClientRuntime.AWSJSONError) throws -> FileSystemNotFound {
         let reader = baseError.errorBodyReader
         var value = FileSystemNotFound()
         value.properties.message = try reader["Message"].readIfPresent()
@@ -12605,7 +12605,7 @@ extension FileSystemNotFound {
 
 extension InternalServerError {
 
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> InternalServerError {
+    static func makeError(baseError: ClientRuntime.AWSJSONError) throws -> InternalServerError {
         let reader = baseError.errorBodyReader
         var value = InternalServerError()
         value.properties.message = try reader["Message"].readIfPresent()
@@ -12618,7 +12618,7 @@ extension InternalServerError {
 
 extension DataRepositoryTaskEnded {
 
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> DataRepositoryTaskEnded {
+    static func makeError(baseError: ClientRuntime.AWSJSONError) throws -> DataRepositoryTaskEnded {
         let reader = baseError.errorBodyReader
         var value = DataRepositoryTaskEnded()
         value.properties.message = try reader["Message"].readIfPresent()
@@ -12631,7 +12631,7 @@ extension DataRepositoryTaskEnded {
 
 extension DataRepositoryTaskNotFound {
 
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> DataRepositoryTaskNotFound {
+    static func makeError(baseError: ClientRuntime.AWSJSONError) throws -> DataRepositoryTaskNotFound {
         let reader = baseError.errorBodyReader
         var value = DataRepositoryTaskNotFound()
         value.properties.message = try reader["Message"].readIfPresent()
@@ -12644,7 +12644,7 @@ extension DataRepositoryTaskNotFound {
 
 extension UnsupportedOperation {
 
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> UnsupportedOperation {
+    static func makeError(baseError: ClientRuntime.AWSJSONError) throws -> UnsupportedOperation {
         let reader = baseError.errorBodyReader
         var value = UnsupportedOperation()
         value.properties.message = try reader["Message"].readIfPresent()
@@ -12657,7 +12657,7 @@ extension UnsupportedOperation {
 
 extension BackupNotFound {
 
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> BackupNotFound {
+    static func makeError(baseError: ClientRuntime.AWSJSONError) throws -> BackupNotFound {
         let reader = baseError.errorBodyReader
         var value = BackupNotFound()
         value.properties.message = try reader["Message"].readIfPresent()
@@ -12670,7 +12670,7 @@ extension BackupNotFound {
 
 extension IncompatibleParameterError {
 
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> IncompatibleParameterError {
+    static func makeError(baseError: ClientRuntime.AWSJSONError) throws -> IncompatibleParameterError {
         let reader = baseError.errorBodyReader
         var value = IncompatibleParameterError()
         value.properties.message = try reader["Message"].readIfPresent()
@@ -12684,7 +12684,7 @@ extension IncompatibleParameterError {
 
 extension IncompatibleRegionForMultiAZ {
 
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> IncompatibleRegionForMultiAZ {
+    static func makeError(baseError: ClientRuntime.AWSJSONError) throws -> IncompatibleRegionForMultiAZ {
         let reader = baseError.errorBodyReader
         var value = IncompatibleRegionForMultiAZ()
         value.properties.message = try reader["Message"].readIfPresent()
@@ -12697,7 +12697,7 @@ extension IncompatibleRegionForMultiAZ {
 
 extension InvalidDestinationKmsKey {
 
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> InvalidDestinationKmsKey {
+    static func makeError(baseError: ClientRuntime.AWSJSONError) throws -> InvalidDestinationKmsKey {
         let reader = baseError.errorBodyReader
         var value = InvalidDestinationKmsKey()
         value.properties.message = try reader["Message"].readIfPresent()
@@ -12710,7 +12710,7 @@ extension InvalidDestinationKmsKey {
 
 extension InvalidRegion {
 
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> InvalidRegion {
+    static func makeError(baseError: ClientRuntime.AWSJSONError) throws -> InvalidRegion {
         let reader = baseError.errorBodyReader
         var value = InvalidRegion()
         value.properties.message = try reader["Message"].readIfPresent()
@@ -12723,7 +12723,7 @@ extension InvalidRegion {
 
 extension InvalidSourceKmsKey {
 
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> InvalidSourceKmsKey {
+    static func makeError(baseError: ClientRuntime.AWSJSONError) throws -> InvalidSourceKmsKey {
         let reader = baseError.errorBodyReader
         var value = InvalidSourceKmsKey()
         value.properties.message = try reader["Message"].readIfPresent()
@@ -12736,7 +12736,7 @@ extension InvalidSourceKmsKey {
 
 extension ServiceLimitExceeded {
 
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> ServiceLimitExceeded {
+    static func makeError(baseError: ClientRuntime.AWSJSONError) throws -> ServiceLimitExceeded {
         let reader = baseError.errorBodyReader
         var value = ServiceLimitExceeded()
         value.properties.limit = try reader["Limit"].readIfPresent() ?? .sdkUnknown("")
@@ -12750,7 +12750,7 @@ extension ServiceLimitExceeded {
 
 extension SourceBackupUnavailable {
 
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> SourceBackupUnavailable {
+    static func makeError(baseError: ClientRuntime.AWSJSONError) throws -> SourceBackupUnavailable {
         let reader = baseError.errorBodyReader
         var value = SourceBackupUnavailable()
         value.properties.backupId = try reader["BackupId"].readIfPresent()
@@ -12764,7 +12764,7 @@ extension SourceBackupUnavailable {
 
 extension AccessPointAlreadyOwnedByYou {
 
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> AccessPointAlreadyOwnedByYou {
+    static func makeError(baseError: ClientRuntime.AWSJSONError) throws -> AccessPointAlreadyOwnedByYou {
         let reader = baseError.errorBodyReader
         var value = AccessPointAlreadyOwnedByYou()
         value.properties.errorCode = try reader["ErrorCode"].readIfPresent()
@@ -12778,7 +12778,7 @@ extension AccessPointAlreadyOwnedByYou {
 
 extension InvalidAccessPoint {
 
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> InvalidAccessPoint {
+    static func makeError(baseError: ClientRuntime.AWSJSONError) throws -> InvalidAccessPoint {
         let reader = baseError.errorBodyReader
         var value = InvalidAccessPoint()
         value.properties.errorCode = try reader["ErrorCode"].readIfPresent()
@@ -12792,7 +12792,7 @@ extension InvalidAccessPoint {
 
 extension InvalidRequest {
 
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> InvalidRequest {
+    static func makeError(baseError: ClientRuntime.AWSJSONError) throws -> InvalidRequest {
         let reader = baseError.errorBodyReader
         var value = InvalidRequest()
         value.properties.errorCode = try reader["ErrorCode"].readIfPresent()
@@ -12806,7 +12806,7 @@ extension InvalidRequest {
 
 extension TooManyAccessPoints {
 
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> TooManyAccessPoints {
+    static func makeError(baseError: ClientRuntime.AWSJSONError) throws -> TooManyAccessPoints {
         let reader = baseError.errorBodyReader
         var value = TooManyAccessPoints()
         value.properties.errorCode = try reader["ErrorCode"].readIfPresent()
@@ -12820,7 +12820,7 @@ extension TooManyAccessPoints {
 
 extension VolumeNotFound {
 
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> VolumeNotFound {
+    static func makeError(baseError: ClientRuntime.AWSJSONError) throws -> VolumeNotFound {
         let reader = baseError.errorBodyReader
         var value = VolumeNotFound()
         value.properties.message = try reader["Message"].readIfPresent()
@@ -12833,7 +12833,7 @@ extension VolumeNotFound {
 
 extension BackupInProgress {
 
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> BackupInProgress {
+    static func makeError(baseError: ClientRuntime.AWSJSONError) throws -> BackupInProgress {
         let reader = baseError.errorBodyReader
         var value = BackupInProgress()
         value.properties.message = try reader["Message"].readIfPresent()
@@ -12846,7 +12846,7 @@ extension BackupInProgress {
 
 extension DataRepositoryTaskExecuting {
 
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> DataRepositoryTaskExecuting {
+    static func makeError(baseError: ClientRuntime.AWSJSONError) throws -> DataRepositoryTaskExecuting {
         let reader = baseError.errorBodyReader
         var value = DataRepositoryTaskExecuting()
         value.properties.message = try reader["Message"].readIfPresent()
@@ -12859,7 +12859,7 @@ extension DataRepositoryTaskExecuting {
 
 extension InvalidNetworkSettings {
 
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> InvalidNetworkSettings {
+    static func makeError(baseError: ClientRuntime.AWSJSONError) throws -> InvalidNetworkSettings {
         let reader = baseError.errorBodyReader
         var value = InvalidNetworkSettings()
         value.properties.invalidRouteTableId = try reader["InvalidRouteTableId"].readIfPresent()
@@ -12875,7 +12875,7 @@ extension InvalidNetworkSettings {
 
 extension InvalidPerUnitStorageThroughput {
 
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> InvalidPerUnitStorageThroughput {
+    static func makeError(baseError: ClientRuntime.AWSJSONError) throws -> InvalidPerUnitStorageThroughput {
         let reader = baseError.errorBodyReader
         var value = InvalidPerUnitStorageThroughput()
         value.properties.message = try reader["Message"].readIfPresent()
@@ -12888,7 +12888,7 @@ extension InvalidPerUnitStorageThroughput {
 
 extension MissingFileCacheConfiguration {
 
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> MissingFileCacheConfiguration {
+    static func makeError(baseError: ClientRuntime.AWSJSONError) throws -> MissingFileCacheConfiguration {
         let reader = baseError.errorBodyReader
         var value = MissingFileCacheConfiguration()
         value.properties.message = try reader["Message"].readIfPresent()
@@ -12901,7 +12901,7 @@ extension MissingFileCacheConfiguration {
 
 extension ActiveDirectoryError {
 
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> ActiveDirectoryError {
+    static func makeError(baseError: ClientRuntime.AWSJSONError) throws -> ActiveDirectoryError {
         let reader = baseError.errorBodyReader
         var value = ActiveDirectoryError()
         value.properties.activeDirectoryId = try reader["ActiveDirectoryId"].readIfPresent() ?? ""
@@ -12916,7 +12916,7 @@ extension ActiveDirectoryError {
 
 extension InvalidExportPath {
 
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> InvalidExportPath {
+    static func makeError(baseError: ClientRuntime.AWSJSONError) throws -> InvalidExportPath {
         let reader = baseError.errorBodyReader
         var value = InvalidExportPath()
         value.properties.message = try reader["Message"].readIfPresent()
@@ -12929,7 +12929,7 @@ extension InvalidExportPath {
 
 extension InvalidImportPath {
 
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> InvalidImportPath {
+    static func makeError(baseError: ClientRuntime.AWSJSONError) throws -> InvalidImportPath {
         let reader = baseError.errorBodyReader
         var value = InvalidImportPath()
         value.properties.message = try reader["Message"].readIfPresent()
@@ -12942,7 +12942,7 @@ extension InvalidImportPath {
 
 extension MissingFileSystemConfiguration {
 
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> MissingFileSystemConfiguration {
+    static func makeError(baseError: ClientRuntime.AWSJSONError) throws -> MissingFileSystemConfiguration {
         let reader = baseError.errorBodyReader
         var value = MissingFileSystemConfiguration()
         value.properties.message = try reader["Message"].readIfPresent()
@@ -12955,7 +12955,7 @@ extension MissingFileSystemConfiguration {
 
 extension MissingVolumeConfiguration {
 
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> MissingVolumeConfiguration {
+    static func makeError(baseError: ClientRuntime.AWSJSONError) throws -> MissingVolumeConfiguration {
         let reader = baseError.errorBodyReader
         var value = MissingVolumeConfiguration()
         value.properties.message = try reader["Message"].readIfPresent()
@@ -12968,7 +12968,7 @@ extension MissingVolumeConfiguration {
 
 extension StorageVirtualMachineNotFound {
 
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> StorageVirtualMachineNotFound {
+    static func makeError(baseError: ClientRuntime.AWSJSONError) throws -> StorageVirtualMachineNotFound {
         let reader = baseError.errorBodyReader
         var value = StorageVirtualMachineNotFound()
         value.properties.message = try reader["Message"].readIfPresent()
@@ -12981,7 +12981,7 @@ extension StorageVirtualMachineNotFound {
 
 extension BackupBeingCopied {
 
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> BackupBeingCopied {
+    static func makeError(baseError: ClientRuntime.AWSJSONError) throws -> BackupBeingCopied {
         let reader = baseError.errorBodyReader
         var value = BackupBeingCopied()
         value.properties.backupId = try reader["BackupId"].readIfPresent()
@@ -12995,7 +12995,7 @@ extension BackupBeingCopied {
 
 extension BackupRestoring {
 
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> BackupRestoring {
+    static func makeError(baseError: ClientRuntime.AWSJSONError) throws -> BackupRestoring {
         let reader = baseError.errorBodyReader
         var value = BackupRestoring()
         value.properties.fileSystemId = try reader["FileSystemId"].readIfPresent()
@@ -13009,7 +13009,7 @@ extension BackupRestoring {
 
 extension DataRepositoryAssociationNotFound {
 
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> DataRepositoryAssociationNotFound {
+    static func makeError(baseError: ClientRuntime.AWSJSONError) throws -> DataRepositoryAssociationNotFound {
         let reader = baseError.errorBodyReader
         var value = DataRepositoryAssociationNotFound()
         value.properties.message = try reader["Message"].readIfPresent()
@@ -13022,7 +13022,7 @@ extension DataRepositoryAssociationNotFound {
 
 extension FileCacheNotFound {
 
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> FileCacheNotFound {
+    static func makeError(baseError: ClientRuntime.AWSJSONError) throws -> FileCacheNotFound {
         let reader = baseError.errorBodyReader
         var value = FileCacheNotFound()
         value.properties.message = try reader["Message"].readIfPresent()
@@ -13035,7 +13035,7 @@ extension FileCacheNotFound {
 
 extension SnapshotNotFound {
 
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> SnapshotNotFound {
+    static func makeError(baseError: ClientRuntime.AWSJSONError) throws -> SnapshotNotFound {
         let reader = baseError.errorBodyReader
         var value = SnapshotNotFound()
         value.properties.message = try reader["Message"].readIfPresent()
@@ -13048,7 +13048,7 @@ extension SnapshotNotFound {
 
 extension InvalidDataRepositoryType {
 
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> InvalidDataRepositoryType {
+    static func makeError(baseError: ClientRuntime.AWSJSONError) throws -> InvalidDataRepositoryType {
         let reader = baseError.errorBodyReader
         var value = InvalidDataRepositoryType()
         value.properties.message = try reader["Message"].readIfPresent()
@@ -13061,7 +13061,7 @@ extension InvalidDataRepositoryType {
 
 extension S3AccessPointAttachmentNotFound {
 
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> S3AccessPointAttachmentNotFound {
+    static func makeError(baseError: ClientRuntime.AWSJSONError) throws -> S3AccessPointAttachmentNotFound {
         let reader = baseError.errorBodyReader
         var value = S3AccessPointAttachmentNotFound()
         value.properties.message = try reader["Message"].readIfPresent()
@@ -13074,7 +13074,7 @@ extension S3AccessPointAttachmentNotFound {
 
 extension NotServiceResourceError {
 
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> NotServiceResourceError {
+    static func makeError(baseError: ClientRuntime.AWSJSONError) throws -> NotServiceResourceError {
         let reader = baseError.errorBodyReader
         var value = NotServiceResourceError()
         value.properties.message = try reader["Message"].readIfPresent()
@@ -13088,7 +13088,7 @@ extension NotServiceResourceError {
 
 extension ResourceDoesNotSupportTagging {
 
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> ResourceDoesNotSupportTagging {
+    static func makeError(baseError: ClientRuntime.AWSJSONError) throws -> ResourceDoesNotSupportTagging {
         let reader = baseError.errorBodyReader
         var value = ResourceDoesNotSupportTagging()
         value.properties.message = try reader["Message"].readIfPresent()
@@ -13102,7 +13102,7 @@ extension ResourceDoesNotSupportTagging {
 
 extension ResourceNotFound {
 
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> ResourceNotFound {
+    static func makeError(baseError: ClientRuntime.AWSJSONError) throws -> ResourceNotFound {
         let reader = baseError.errorBodyReader
         var value = ResourceNotFound()
         value.properties.message = try reader["Message"].readIfPresent()

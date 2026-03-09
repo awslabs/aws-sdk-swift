@@ -10925,6 +10925,79 @@ extension DataZoneClient {
         return try await op.execute(input: input)
     }
 
+    /// Performs the `QueryGraph` operation on the `DataZone` service.
+    ///
+    /// Queries entities in the graph store.
+    ///
+    /// - Parameter input: [no documentation found] (Type: `QueryGraphInput`)
+    ///
+    /// - Returns: [no documentation found] (Type: `QueryGraphOutput`)
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You do not have sufficient access to perform this action.
+    /// - `InternalServerException` : The request has failed because of an unknown error, exception or failure.
+    /// - `ThrottlingException` : The request was denied due to request throttling.
+    /// - `UnauthorizedException` : You do not have permission to perform this action.
+    /// - `ValidationException` : The input fails to satisfy the constraints specified by the Amazon Web Services service.
+    public func queryGraph(input: QueryGraphInput) async throws -> QueryGraphOutput {
+        let context = Smithy.ContextBuilder()
+                      .withMethod(value: .post)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "queryGraph")
+                      .withUnsignedPayloadTrait(value: false)
+                      .withSmithyDefaultConfig(config)
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
+                      .withSigningName(value: "datazone")
+                      .withSigningRegion(value: config.signingRegion)
+                      .build()
+        let builder = ClientRuntime.OrchestratorBuilder<QueryGraphInput, QueryGraphOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<QueryGraphInput, QueryGraphOutput>(QueryGraphInput.urlPathProvider(_:)))
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<QueryGraphInput, QueryGraphOutput>())
+        builder.serialize(ClientRuntime.QueryItemMiddleware<QueryGraphInput, QueryGraphOutput>(QueryGraphInput.queryItemProvider(_:)))
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<QueryGraphInput, QueryGraphOutput>(contentType: "application/json"))
+        builder.serialize(ClientRuntime.BodyMiddleware<QueryGraphInput, QueryGraphOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: QueryGraphInput.write(value:to:)))
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<QueryGraphInput, QueryGraphOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<QueryGraphOutput>(QueryGraphOutput.httpOutput(from:), QueryGraphOutputError.httpError(from:)))
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<QueryGraphInput, QueryGraphOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
+        builder.applySigner(ClientRuntime.SignerMiddleware<QueryGraphOutput>())
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("DataZone", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(endpoint: configuredEndpoint, region: config.region, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<QueryGraphOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<QueryGraphOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<QueryGraphInput, QueryGraphOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<QueryGraphInput, QueryGraphOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<QueryGraphInput, QueryGraphOutput>(serviceID: serviceName, version: DataZoneClient.version, config: config))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "DataZone")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "QueryGraph")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
+    }
+
     /// Performs the `RejectPredictions` operation on the `DataZone` service.
     ///
     /// Rejects automatically generated business-friendly metadata for your Amazon DataZone assets.

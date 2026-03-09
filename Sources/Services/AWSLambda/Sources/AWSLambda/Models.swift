@@ -28,8 +28,8 @@ import protocol ClientRuntime.HTTPError
 import protocol ClientRuntime.ModeledError
 @_spi(SmithyReadWrite) import protocol SmithyReadWrite.SmithyReader
 @_spi(SmithyReadWrite) import protocol SmithyReadWrite.SmithyWriter
-@_spi(SmithyReadWrite) import struct AWSClientRuntime.RestJSONError
 @_spi(UnknownAWSHTTPServiceError) import struct AWSClientRuntime.UnknownAWSHTTPServiceError
+@_spi(SmithyReadWrite) import struct ClientRuntime.RestJSONError
 import struct Smithy.URIQueryItem
 import struct SmithyEventStreams.DefaultMessageDecoderStream
 import struct SmithyEventStreamsAPI.Message
@@ -15052,7 +15052,7 @@ enum AddLayerVersionPermissionOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "InvalidParameterValueException": return try InvalidParameterValueException.makeError(baseError: baseError)
@@ -15072,7 +15072,7 @@ enum AddPermissionOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "InvalidParameterValueException": return try InvalidParameterValueException.makeError(baseError: baseError)
@@ -15092,7 +15092,7 @@ enum CheckpointDurableExecutionOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "InvalidParameterValueException": return try InvalidParameterValueException.makeError(baseError: baseError)
@@ -15108,7 +15108,7 @@ enum CreateAliasOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "InvalidParameterValueException": return try InvalidParameterValueException.makeError(baseError: baseError)
@@ -15126,7 +15126,7 @@ enum CreateCapacityProviderOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "CapacityProviderLimitExceededException": return try CapacityProviderLimitExceededException.makeError(baseError: baseError)
@@ -15144,7 +15144,7 @@ enum CreateCodeSigningConfigOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "InvalidParameterValueException": return try InvalidParameterValueException.makeError(baseError: baseError)
@@ -15159,7 +15159,7 @@ enum CreateEventSourceMappingOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "InvalidParameterValueException": return try InvalidParameterValueException.makeError(baseError: baseError)
@@ -15177,7 +15177,7 @@ enum CreateFunctionOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "CodeSigningConfigNotFoundException": return try CodeSigningConfigNotFoundException.makeError(baseError: baseError)
@@ -15200,7 +15200,7 @@ enum CreateFunctionUrlConfigOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "InvalidParameterValueException": return try InvalidParameterValueException.makeError(baseError: baseError)
@@ -15218,7 +15218,7 @@ enum DeleteAliasOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "InvalidParameterValueException": return try InvalidParameterValueException.makeError(baseError: baseError)
@@ -15235,7 +15235,7 @@ enum DeleteCapacityProviderOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "InvalidParameterValueException": return try InvalidParameterValueException.makeError(baseError: baseError)
@@ -15253,7 +15253,7 @@ enum DeleteCodeSigningConfigOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "InvalidParameterValueException": return try InvalidParameterValueException.makeError(baseError: baseError)
@@ -15270,7 +15270,7 @@ enum DeleteEventSourceMappingOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "InvalidParameterValueException": return try InvalidParameterValueException.makeError(baseError: baseError)
@@ -15289,7 +15289,7 @@ enum DeleteFunctionOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "InvalidParameterValueException": return try InvalidParameterValueException.makeError(baseError: baseError)
@@ -15307,7 +15307,7 @@ enum DeleteFunctionCodeSigningConfigOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "CodeSigningConfigNotFoundException": return try CodeSigningConfigNotFoundException.makeError(baseError: baseError)
@@ -15326,7 +15326,7 @@ enum DeleteFunctionConcurrencyOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "InvalidParameterValueException": return try InvalidParameterValueException.makeError(baseError: baseError)
@@ -15344,7 +15344,7 @@ enum DeleteFunctionEventInvokeConfigOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "InvalidParameterValueException": return try InvalidParameterValueException.makeError(baseError: baseError)
@@ -15362,7 +15362,7 @@ enum DeleteFunctionUrlConfigOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "ResourceConflictException": return try ResourceConflictException.makeError(baseError: baseError)
@@ -15379,7 +15379,7 @@ enum DeleteLayerVersionOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "ServiceException": return try ServiceException.makeError(baseError: baseError)
@@ -15394,7 +15394,7 @@ enum DeleteProvisionedConcurrencyConfigOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "InvalidParameterValueException": return try InvalidParameterValueException.makeError(baseError: baseError)
@@ -15412,7 +15412,7 @@ enum GetAccountSettingsOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "ServiceException": return try ServiceException.makeError(baseError: baseError)
@@ -15427,7 +15427,7 @@ enum GetAliasOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "InvalidParameterValueException": return try InvalidParameterValueException.makeError(baseError: baseError)
@@ -15444,7 +15444,7 @@ enum GetCapacityProviderOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "InvalidParameterValueException": return try InvalidParameterValueException.makeError(baseError: baseError)
@@ -15461,7 +15461,7 @@ enum GetCodeSigningConfigOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "InvalidParameterValueException": return try InvalidParameterValueException.makeError(baseError: baseError)
@@ -15477,7 +15477,7 @@ enum GetDurableExecutionOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "InvalidParameterValueException": return try InvalidParameterValueException.makeError(baseError: baseError)
@@ -15494,7 +15494,7 @@ enum GetDurableExecutionHistoryOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "InvalidParameterValueException": return try InvalidParameterValueException.makeError(baseError: baseError)
@@ -15511,7 +15511,7 @@ enum GetDurableExecutionStateOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "InvalidParameterValueException": return try InvalidParameterValueException.makeError(baseError: baseError)
@@ -15527,7 +15527,7 @@ enum GetEventSourceMappingOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "InvalidParameterValueException": return try InvalidParameterValueException.makeError(baseError: baseError)
@@ -15544,7 +15544,7 @@ enum GetFunctionOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "InvalidParameterValueException": return try InvalidParameterValueException.makeError(baseError: baseError)
@@ -15561,7 +15561,7 @@ enum GetFunctionCodeSigningConfigOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "InvalidParameterValueException": return try InvalidParameterValueException.makeError(baseError: baseError)
@@ -15578,7 +15578,7 @@ enum GetFunctionConcurrencyOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "InvalidParameterValueException": return try InvalidParameterValueException.makeError(baseError: baseError)
@@ -15595,7 +15595,7 @@ enum GetFunctionConfigurationOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "InvalidParameterValueException": return try InvalidParameterValueException.makeError(baseError: baseError)
@@ -15612,7 +15612,7 @@ enum GetFunctionEventInvokeConfigOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "InvalidParameterValueException": return try InvalidParameterValueException.makeError(baseError: baseError)
@@ -15629,7 +15629,7 @@ enum GetFunctionRecursionConfigOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "InvalidParameterValueException": return try InvalidParameterValueException.makeError(baseError: baseError)
@@ -15646,7 +15646,7 @@ enum GetFunctionScalingConfigOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "InvalidParameterValueException": return try InvalidParameterValueException.makeError(baseError: baseError)
@@ -15663,7 +15663,7 @@ enum GetFunctionUrlConfigOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "InvalidParameterValueException": return try InvalidParameterValueException.makeError(baseError: baseError)
@@ -15680,7 +15680,7 @@ enum GetLayerVersionOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "InvalidParameterValueException": return try InvalidParameterValueException.makeError(baseError: baseError)
@@ -15697,7 +15697,7 @@ enum GetLayerVersionByArnOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "InvalidParameterValueException": return try InvalidParameterValueException.makeError(baseError: baseError)
@@ -15714,7 +15714,7 @@ enum GetLayerVersionPolicyOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "InvalidParameterValueException": return try InvalidParameterValueException.makeError(baseError: baseError)
@@ -15731,7 +15731,7 @@ enum GetPolicyOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "InvalidParameterValueException": return try InvalidParameterValueException.makeError(baseError: baseError)
@@ -15748,7 +15748,7 @@ enum GetProvisionedConcurrencyConfigOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "InvalidParameterValueException": return try InvalidParameterValueException.makeError(baseError: baseError)
@@ -15766,7 +15766,7 @@ enum GetRuntimeManagementConfigOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "InvalidParameterValueException": return try InvalidParameterValueException.makeError(baseError: baseError)
@@ -15783,7 +15783,7 @@ enum InvokeOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "DurableExecutionAlreadyStartedException": return try DurableExecutionAlreadyStartedException.makeError(baseError: baseError)
@@ -15829,7 +15829,7 @@ enum InvokeAsyncOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "InvalidRequestContentException": return try InvalidRequestContentException.makeError(baseError: baseError)
@@ -15847,7 +15847,7 @@ enum InvokeWithResponseStreamOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "EC2AccessDeniedException": return try EC2AccessDeniedException.makeError(baseError: baseError)
@@ -15892,7 +15892,7 @@ enum ListAliasesOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "InvalidParameterValueException": return try InvalidParameterValueException.makeError(baseError: baseError)
@@ -15909,7 +15909,7 @@ enum ListCapacityProvidersOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "InvalidParameterValueException": return try InvalidParameterValueException.makeError(baseError: baseError)
@@ -15925,7 +15925,7 @@ enum ListCodeSigningConfigsOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "InvalidParameterValueException": return try InvalidParameterValueException.makeError(baseError: baseError)
@@ -15940,7 +15940,7 @@ enum ListDurableExecutionsByFunctionOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "InvalidParameterValueException": return try InvalidParameterValueException.makeError(baseError: baseError)
@@ -15957,7 +15957,7 @@ enum ListEventSourceMappingsOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "InvalidParameterValueException": return try InvalidParameterValueException.makeError(baseError: baseError)
@@ -15974,7 +15974,7 @@ enum ListFunctionEventInvokeConfigsOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "InvalidParameterValueException": return try InvalidParameterValueException.makeError(baseError: baseError)
@@ -15991,7 +15991,7 @@ enum ListFunctionsOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "InvalidParameterValueException": return try InvalidParameterValueException.makeError(baseError: baseError)
@@ -16007,7 +16007,7 @@ enum ListFunctionsByCodeSigningConfigOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "InvalidParameterValueException": return try InvalidParameterValueException.makeError(baseError: baseError)
@@ -16023,7 +16023,7 @@ enum ListFunctionUrlConfigsOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "InvalidParameterValueException": return try InvalidParameterValueException.makeError(baseError: baseError)
@@ -16040,7 +16040,7 @@ enum ListFunctionVersionsByCapacityProviderOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "InvalidParameterValueException": return try InvalidParameterValueException.makeError(baseError: baseError)
@@ -16057,7 +16057,7 @@ enum ListLayersOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "InvalidParameterValueException": return try InvalidParameterValueException.makeError(baseError: baseError)
@@ -16073,7 +16073,7 @@ enum ListLayerVersionsOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "InvalidParameterValueException": return try InvalidParameterValueException.makeError(baseError: baseError)
@@ -16090,7 +16090,7 @@ enum ListProvisionedConcurrencyConfigsOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "InvalidParameterValueException": return try InvalidParameterValueException.makeError(baseError: baseError)
@@ -16107,7 +16107,7 @@ enum ListTagsOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "InvalidParameterValueException": return try InvalidParameterValueException.makeError(baseError: baseError)
@@ -16124,7 +16124,7 @@ enum ListVersionsByFunctionOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "InvalidParameterValueException": return try InvalidParameterValueException.makeError(baseError: baseError)
@@ -16141,7 +16141,7 @@ enum PublishLayerVersionOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "CodeStorageExceededException": return try CodeStorageExceededException.makeError(baseError: baseError)
@@ -16159,7 +16159,7 @@ enum PublishVersionOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "CodeStorageExceededException": return try CodeStorageExceededException.makeError(baseError: baseError)
@@ -16180,7 +16180,7 @@ enum PutFunctionCodeSigningConfigOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "CodeSigningConfigNotFoundException": return try CodeSigningConfigNotFoundException.makeError(baseError: baseError)
@@ -16199,7 +16199,7 @@ enum PutFunctionConcurrencyOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "InvalidParameterValueException": return try InvalidParameterValueException.makeError(baseError: baseError)
@@ -16217,7 +16217,7 @@ enum PutFunctionEventInvokeConfigOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "InvalidParameterValueException": return try InvalidParameterValueException.makeError(baseError: baseError)
@@ -16235,7 +16235,7 @@ enum PutFunctionRecursionConfigOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "InvalidParameterValueException": return try InvalidParameterValueException.makeError(baseError: baseError)
@@ -16253,7 +16253,7 @@ enum PutFunctionScalingConfigOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "InvalidParameterValueException": return try InvalidParameterValueException.makeError(baseError: baseError)
@@ -16271,7 +16271,7 @@ enum PutProvisionedConcurrencyConfigOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "InvalidParameterValueException": return try InvalidParameterValueException.makeError(baseError: baseError)
@@ -16289,7 +16289,7 @@ enum PutRuntimeManagementConfigOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "InvalidParameterValueException": return try InvalidParameterValueException.makeError(baseError: baseError)
@@ -16307,7 +16307,7 @@ enum RemoveLayerVersionPermissionOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "InvalidParameterValueException": return try InvalidParameterValueException.makeError(baseError: baseError)
@@ -16325,7 +16325,7 @@ enum RemovePermissionOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "InvalidParameterValueException": return try InvalidParameterValueException.makeError(baseError: baseError)
@@ -16343,7 +16343,7 @@ enum SendDurableExecutionCallbackFailureOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "CallbackTimeoutException": return try CallbackTimeoutException.makeError(baseError: baseError)
@@ -16360,7 +16360,7 @@ enum SendDurableExecutionCallbackHeartbeatOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "CallbackTimeoutException": return try CallbackTimeoutException.makeError(baseError: baseError)
@@ -16377,7 +16377,7 @@ enum SendDurableExecutionCallbackSuccessOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "CallbackTimeoutException": return try CallbackTimeoutException.makeError(baseError: baseError)
@@ -16394,7 +16394,7 @@ enum StopDurableExecutionOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "InvalidParameterValueException": return try InvalidParameterValueException.makeError(baseError: baseError)
@@ -16411,7 +16411,7 @@ enum TagResourceOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "InvalidParameterValueException": return try InvalidParameterValueException.makeError(baseError: baseError)
@@ -16429,7 +16429,7 @@ enum UntagResourceOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "InvalidParameterValueException": return try InvalidParameterValueException.makeError(baseError: baseError)
@@ -16447,7 +16447,7 @@ enum UpdateAliasOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "InvalidParameterValueException": return try InvalidParameterValueException.makeError(baseError: baseError)
@@ -16466,7 +16466,7 @@ enum UpdateCapacityProviderOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "InvalidParameterValueException": return try InvalidParameterValueException.makeError(baseError: baseError)
@@ -16484,7 +16484,7 @@ enum UpdateCodeSigningConfigOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "InvalidParameterValueException": return try InvalidParameterValueException.makeError(baseError: baseError)
@@ -16500,7 +16500,7 @@ enum UpdateEventSourceMappingOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "InvalidParameterValueException": return try InvalidParameterValueException.makeError(baseError: baseError)
@@ -16519,7 +16519,7 @@ enum UpdateFunctionCodeOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "CodeSigningConfigNotFoundException": return try CodeSigningConfigNotFoundException.makeError(baseError: baseError)
@@ -16542,7 +16542,7 @@ enum UpdateFunctionConfigurationOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "CodeSigningConfigNotFoundException": return try CodeSigningConfigNotFoundException.makeError(baseError: baseError)
@@ -16564,7 +16564,7 @@ enum UpdateFunctionEventInvokeConfigOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "InvalidParameterValueException": return try InvalidParameterValueException.makeError(baseError: baseError)
@@ -16582,7 +16582,7 @@ enum UpdateFunctionUrlConfigOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "InvalidParameterValueException": return try InvalidParameterValueException.makeError(baseError: baseError)
@@ -16597,7 +16597,7 @@ enum UpdateFunctionUrlConfigOutputError {
 
 extension InvalidParameterValueException {
 
-    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> InvalidParameterValueException {
+    static func makeError(baseError: ClientRuntime.RestJSONError) throws -> InvalidParameterValueException {
         let reader = baseError.errorBodyReader
         var value = InvalidParameterValueException()
         value.properties.type = try reader["Type"].readIfPresent()
@@ -16611,7 +16611,7 @@ extension InvalidParameterValueException {
 
 extension PolicyLengthExceededException {
 
-    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> PolicyLengthExceededException {
+    static func makeError(baseError: ClientRuntime.RestJSONError) throws -> PolicyLengthExceededException {
         let reader = baseError.errorBodyReader
         var value = PolicyLengthExceededException()
         value.properties.type = try reader["Type"].readIfPresent()
@@ -16625,7 +16625,7 @@ extension PolicyLengthExceededException {
 
 extension PreconditionFailedException {
 
-    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> PreconditionFailedException {
+    static func makeError(baseError: ClientRuntime.RestJSONError) throws -> PreconditionFailedException {
         let reader = baseError.errorBodyReader
         var value = PreconditionFailedException()
         value.properties.type = try reader["Type"].readIfPresent()
@@ -16639,7 +16639,7 @@ extension PreconditionFailedException {
 
 extension ResourceConflictException {
 
-    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> ResourceConflictException {
+    static func makeError(baseError: ClientRuntime.RestJSONError) throws -> ResourceConflictException {
         let reader = baseError.errorBodyReader
         var value = ResourceConflictException()
         value.properties.type = try reader["Type"].readIfPresent()
@@ -16653,7 +16653,7 @@ extension ResourceConflictException {
 
 extension ResourceNotFoundException {
 
-    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> ResourceNotFoundException {
+    static func makeError(baseError: ClientRuntime.RestJSONError) throws -> ResourceNotFoundException {
         let reader = baseError.errorBodyReader
         var value = ResourceNotFoundException()
         value.properties.message = try reader["Message"].readIfPresent()
@@ -16667,7 +16667,7 @@ extension ResourceNotFoundException {
 
 extension ServiceException {
 
-    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> ServiceException {
+    static func makeError(baseError: ClientRuntime.RestJSONError) throws -> ServiceException {
         let reader = baseError.errorBodyReader
         var value = ServiceException()
         value.properties.message = try reader["Message"].readIfPresent()
@@ -16681,7 +16681,7 @@ extension ServiceException {
 
 extension TooManyRequestsException {
 
-    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> TooManyRequestsException {
+    static func makeError(baseError: ClientRuntime.RestJSONError) throws -> TooManyRequestsException {
         let reader = baseError.errorBodyReader
         let httpResponse = baseError.httpResponse
         var value = TooManyRequestsException()
@@ -16700,7 +16700,7 @@ extension TooManyRequestsException {
 
 extension CapacityProviderLimitExceededException {
 
-    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> CapacityProviderLimitExceededException {
+    static func makeError(baseError: ClientRuntime.RestJSONError) throws -> CapacityProviderLimitExceededException {
         let reader = baseError.errorBodyReader
         var value = CapacityProviderLimitExceededException()
         value.properties.type = try reader["Type"].readIfPresent()
@@ -16714,7 +16714,7 @@ extension CapacityProviderLimitExceededException {
 
 extension CodeSigningConfigNotFoundException {
 
-    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> CodeSigningConfigNotFoundException {
+    static func makeError(baseError: ClientRuntime.RestJSONError) throws -> CodeSigningConfigNotFoundException {
         let reader = baseError.errorBodyReader
         var value = CodeSigningConfigNotFoundException()
         value.properties.message = try reader["Message"].readIfPresent()
@@ -16728,7 +16728,7 @@ extension CodeSigningConfigNotFoundException {
 
 extension CodeStorageExceededException {
 
-    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> CodeStorageExceededException {
+    static func makeError(baseError: ClientRuntime.RestJSONError) throws -> CodeStorageExceededException {
         let reader = baseError.errorBodyReader
         var value = CodeStorageExceededException()
         value.properties.type = try reader["Type"].readIfPresent()
@@ -16742,7 +16742,7 @@ extension CodeStorageExceededException {
 
 extension CodeVerificationFailedException {
 
-    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> CodeVerificationFailedException {
+    static func makeError(baseError: ClientRuntime.RestJSONError) throws -> CodeVerificationFailedException {
         let reader = baseError.errorBodyReader
         var value = CodeVerificationFailedException()
         value.properties.message = try reader["Message"].readIfPresent()
@@ -16756,7 +16756,7 @@ extension CodeVerificationFailedException {
 
 extension FunctionVersionsPerCapacityProviderLimitExceededException {
 
-    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> FunctionVersionsPerCapacityProviderLimitExceededException {
+    static func makeError(baseError: ClientRuntime.RestJSONError) throws -> FunctionVersionsPerCapacityProviderLimitExceededException {
         let reader = baseError.errorBodyReader
         var value = FunctionVersionsPerCapacityProviderLimitExceededException()
         value.properties.type = try reader["Type"].readIfPresent()
@@ -16770,7 +16770,7 @@ extension FunctionVersionsPerCapacityProviderLimitExceededException {
 
 extension InvalidCodeSignatureException {
 
-    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> InvalidCodeSignatureException {
+    static func makeError(baseError: ClientRuntime.RestJSONError) throws -> InvalidCodeSignatureException {
         let reader = baseError.errorBodyReader
         var value = InvalidCodeSignatureException()
         value.properties.message = try reader["Message"].readIfPresent()
@@ -16784,7 +16784,7 @@ extension InvalidCodeSignatureException {
 
 extension ResourceInUseException {
 
-    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> ResourceInUseException {
+    static func makeError(baseError: ClientRuntime.RestJSONError) throws -> ResourceInUseException {
         let reader = baseError.errorBodyReader
         var value = ResourceInUseException()
         value.properties.message = try reader["Message"].readIfPresent()
@@ -16798,7 +16798,7 @@ extension ResourceInUseException {
 
 extension ProvisionedConcurrencyConfigNotFoundException {
 
-    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> ProvisionedConcurrencyConfigNotFoundException {
+    static func makeError(baseError: ClientRuntime.RestJSONError) throws -> ProvisionedConcurrencyConfigNotFoundException {
         let reader = baseError.errorBodyReader
         var value = ProvisionedConcurrencyConfigNotFoundException()
         value.properties.type = try reader["Type"].readIfPresent()
@@ -16812,7 +16812,7 @@ extension ProvisionedConcurrencyConfigNotFoundException {
 
 extension DurableExecutionAlreadyStartedException {
 
-    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> DurableExecutionAlreadyStartedException {
+    static func makeError(baseError: ClientRuntime.RestJSONError) throws -> DurableExecutionAlreadyStartedException {
         let reader = baseError.errorBodyReader
         var value = DurableExecutionAlreadyStartedException()
         value.properties.message = try reader["Message"].readIfPresent()
@@ -16826,7 +16826,7 @@ extension DurableExecutionAlreadyStartedException {
 
 extension EC2AccessDeniedException {
 
-    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> EC2AccessDeniedException {
+    static func makeError(baseError: ClientRuntime.RestJSONError) throws -> EC2AccessDeniedException {
         let reader = baseError.errorBodyReader
         var value = EC2AccessDeniedException()
         value.properties.message = try reader["Message"].readIfPresent()
@@ -16840,7 +16840,7 @@ extension EC2AccessDeniedException {
 
 extension EC2ThrottledException {
 
-    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> EC2ThrottledException {
+    static func makeError(baseError: ClientRuntime.RestJSONError) throws -> EC2ThrottledException {
         let reader = baseError.errorBodyReader
         var value = EC2ThrottledException()
         value.properties.message = try reader["Message"].readIfPresent()
@@ -16854,7 +16854,7 @@ extension EC2ThrottledException {
 
 extension EC2UnexpectedException {
 
-    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> EC2UnexpectedException {
+    static func makeError(baseError: ClientRuntime.RestJSONError) throws -> EC2UnexpectedException {
         let reader = baseError.errorBodyReader
         var value = EC2UnexpectedException()
         value.properties.ec2ErrorCode = try reader["EC2ErrorCode"].readIfPresent()
@@ -16869,7 +16869,7 @@ extension EC2UnexpectedException {
 
 extension EFSIOException {
 
-    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> EFSIOException {
+    static func makeError(baseError: ClientRuntime.RestJSONError) throws -> EFSIOException {
         let reader = baseError.errorBodyReader
         var value = EFSIOException()
         value.properties.message = try reader["Message"].readIfPresent()
@@ -16883,7 +16883,7 @@ extension EFSIOException {
 
 extension EFSMountConnectivityException {
 
-    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> EFSMountConnectivityException {
+    static func makeError(baseError: ClientRuntime.RestJSONError) throws -> EFSMountConnectivityException {
         let reader = baseError.errorBodyReader
         var value = EFSMountConnectivityException()
         value.properties.message = try reader["Message"].readIfPresent()
@@ -16897,7 +16897,7 @@ extension EFSMountConnectivityException {
 
 extension EFSMountFailureException {
 
-    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> EFSMountFailureException {
+    static func makeError(baseError: ClientRuntime.RestJSONError) throws -> EFSMountFailureException {
         let reader = baseError.errorBodyReader
         var value = EFSMountFailureException()
         value.properties.message = try reader["Message"].readIfPresent()
@@ -16911,7 +16911,7 @@ extension EFSMountFailureException {
 
 extension EFSMountTimeoutException {
 
-    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> EFSMountTimeoutException {
+    static func makeError(baseError: ClientRuntime.RestJSONError) throws -> EFSMountTimeoutException {
         let reader = baseError.errorBodyReader
         var value = EFSMountTimeoutException()
         value.properties.message = try reader["Message"].readIfPresent()
@@ -16925,7 +16925,7 @@ extension EFSMountTimeoutException {
 
 extension ENILimitReachedException {
 
-    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> ENILimitReachedException {
+    static func makeError(baseError: ClientRuntime.RestJSONError) throws -> ENILimitReachedException {
         let reader = baseError.errorBodyReader
         var value = ENILimitReachedException()
         value.properties.message = try reader["Message"].readIfPresent()
@@ -16939,7 +16939,7 @@ extension ENILimitReachedException {
 
 extension InvalidRequestContentException {
 
-    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> InvalidRequestContentException {
+    static func makeError(baseError: ClientRuntime.RestJSONError) throws -> InvalidRequestContentException {
         let reader = baseError.errorBodyReader
         var value = InvalidRequestContentException()
         value.properties.type = try reader["Type"].readIfPresent()
@@ -16953,7 +16953,7 @@ extension InvalidRequestContentException {
 
 extension InvalidRuntimeException {
 
-    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> InvalidRuntimeException {
+    static func makeError(baseError: ClientRuntime.RestJSONError) throws -> InvalidRuntimeException {
         let reader = baseError.errorBodyReader
         var value = InvalidRuntimeException()
         value.properties.message = try reader["Message"].readIfPresent()
@@ -16967,7 +16967,7 @@ extension InvalidRuntimeException {
 
 extension InvalidSecurityGroupIDException {
 
-    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> InvalidSecurityGroupIDException {
+    static func makeError(baseError: ClientRuntime.RestJSONError) throws -> InvalidSecurityGroupIDException {
         let reader = baseError.errorBodyReader
         var value = InvalidSecurityGroupIDException()
         value.properties.message = try reader["Message"].readIfPresent()
@@ -16981,7 +16981,7 @@ extension InvalidSecurityGroupIDException {
 
 extension InvalidSubnetIDException {
 
-    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> InvalidSubnetIDException {
+    static func makeError(baseError: ClientRuntime.RestJSONError) throws -> InvalidSubnetIDException {
         let reader = baseError.errorBodyReader
         var value = InvalidSubnetIDException()
         value.properties.message = try reader["Message"].readIfPresent()
@@ -16995,7 +16995,7 @@ extension InvalidSubnetIDException {
 
 extension InvalidZipFileException {
 
-    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> InvalidZipFileException {
+    static func makeError(baseError: ClientRuntime.RestJSONError) throws -> InvalidZipFileException {
         let reader = baseError.errorBodyReader
         var value = InvalidZipFileException()
         value.properties.message = try reader["Message"].readIfPresent()
@@ -17009,7 +17009,7 @@ extension InvalidZipFileException {
 
 extension KMSAccessDeniedException {
 
-    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> KMSAccessDeniedException {
+    static func makeError(baseError: ClientRuntime.RestJSONError) throws -> KMSAccessDeniedException {
         let reader = baseError.errorBodyReader
         var value = KMSAccessDeniedException()
         value.properties.message = try reader["Message"].readIfPresent()
@@ -17023,7 +17023,7 @@ extension KMSAccessDeniedException {
 
 extension KMSDisabledException {
 
-    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> KMSDisabledException {
+    static func makeError(baseError: ClientRuntime.RestJSONError) throws -> KMSDisabledException {
         let reader = baseError.errorBodyReader
         var value = KMSDisabledException()
         value.properties.message = try reader["Message"].readIfPresent()
@@ -17037,7 +17037,7 @@ extension KMSDisabledException {
 
 extension KMSInvalidStateException {
 
-    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> KMSInvalidStateException {
+    static func makeError(baseError: ClientRuntime.RestJSONError) throws -> KMSInvalidStateException {
         let reader = baseError.errorBodyReader
         var value = KMSInvalidStateException()
         value.properties.message = try reader["Message"].readIfPresent()
@@ -17051,7 +17051,7 @@ extension KMSInvalidStateException {
 
 extension KMSNotFoundException {
 
-    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> KMSNotFoundException {
+    static func makeError(baseError: ClientRuntime.RestJSONError) throws -> KMSNotFoundException {
         let reader = baseError.errorBodyReader
         var value = KMSNotFoundException()
         value.properties.message = try reader["Message"].readIfPresent()
@@ -17065,7 +17065,7 @@ extension KMSNotFoundException {
 
 extension NoPublishedVersionException {
 
-    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> NoPublishedVersionException {
+    static func makeError(baseError: ClientRuntime.RestJSONError) throws -> NoPublishedVersionException {
         let reader = baseError.errorBodyReader
         var value = NoPublishedVersionException()
         value.properties.message = try reader["Message"].readIfPresent()
@@ -17079,7 +17079,7 @@ extension NoPublishedVersionException {
 
 extension RecursiveInvocationException {
 
-    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> RecursiveInvocationException {
+    static func makeError(baseError: ClientRuntime.RestJSONError) throws -> RecursiveInvocationException {
         let reader = baseError.errorBodyReader
         var value = RecursiveInvocationException()
         value.properties.message = try reader["Message"].readIfPresent()
@@ -17093,7 +17093,7 @@ extension RecursiveInvocationException {
 
 extension RequestTooLargeException {
 
-    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> RequestTooLargeException {
+    static func makeError(baseError: ClientRuntime.RestJSONError) throws -> RequestTooLargeException {
         let reader = baseError.errorBodyReader
         var value = RequestTooLargeException()
         value.properties.type = try reader["Type"].readIfPresent()
@@ -17107,7 +17107,7 @@ extension RequestTooLargeException {
 
 extension ResourceNotReadyException {
 
-    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> ResourceNotReadyException {
+    static func makeError(baseError: ClientRuntime.RestJSONError) throws -> ResourceNotReadyException {
         let reader = baseError.errorBodyReader
         var value = ResourceNotReadyException()
         value.properties.type = try reader["Type"].readIfPresent()
@@ -17121,7 +17121,7 @@ extension ResourceNotReadyException {
 
 extension SerializedRequestEntityTooLargeException {
 
-    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> SerializedRequestEntityTooLargeException {
+    static func makeError(baseError: ClientRuntime.RestJSONError) throws -> SerializedRequestEntityTooLargeException {
         let reader = baseError.errorBodyReader
         var value = SerializedRequestEntityTooLargeException()
         value.properties.type = try reader["Type"].readIfPresent()
@@ -17135,7 +17135,7 @@ extension SerializedRequestEntityTooLargeException {
 
 extension SnapStartException {
 
-    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> SnapStartException {
+    static func makeError(baseError: ClientRuntime.RestJSONError) throws -> SnapStartException {
         let reader = baseError.errorBodyReader
         var value = SnapStartException()
         value.properties.message = try reader["Message"].readIfPresent()
@@ -17149,7 +17149,7 @@ extension SnapStartException {
 
 extension SnapStartNotReadyException {
 
-    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> SnapStartNotReadyException {
+    static func makeError(baseError: ClientRuntime.RestJSONError) throws -> SnapStartNotReadyException {
         let reader = baseError.errorBodyReader
         var value = SnapStartNotReadyException()
         value.properties.message = try reader["Message"].readIfPresent()
@@ -17163,7 +17163,7 @@ extension SnapStartNotReadyException {
 
 extension SnapStartTimeoutException {
 
-    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> SnapStartTimeoutException {
+    static func makeError(baseError: ClientRuntime.RestJSONError) throws -> SnapStartTimeoutException {
         let reader = baseError.errorBodyReader
         var value = SnapStartTimeoutException()
         value.properties.message = try reader["Message"].readIfPresent()
@@ -17177,7 +17177,7 @@ extension SnapStartTimeoutException {
 
 extension SubnetIPAddressLimitReachedException {
 
-    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> SubnetIPAddressLimitReachedException {
+    static func makeError(baseError: ClientRuntime.RestJSONError) throws -> SubnetIPAddressLimitReachedException {
         let reader = baseError.errorBodyReader
         var value = SubnetIPAddressLimitReachedException()
         value.properties.message = try reader["Message"].readIfPresent()
@@ -17191,7 +17191,7 @@ extension SubnetIPAddressLimitReachedException {
 
 extension UnsupportedMediaTypeException {
 
-    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> UnsupportedMediaTypeException {
+    static func makeError(baseError: ClientRuntime.RestJSONError) throws -> UnsupportedMediaTypeException {
         let reader = baseError.errorBodyReader
         var value = UnsupportedMediaTypeException()
         value.properties.type = try reader["Type"].readIfPresent()
@@ -17205,7 +17205,7 @@ extension UnsupportedMediaTypeException {
 
 extension CallbackTimeoutException {
 
-    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> CallbackTimeoutException {
+    static func makeError(baseError: ClientRuntime.RestJSONError) throws -> CallbackTimeoutException {
         let reader = baseError.errorBodyReader
         var value = CallbackTimeoutException()
         value.properties.message = try reader["Message"].readIfPresent()

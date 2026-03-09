@@ -48,7 +48,6 @@ import protocol SmithyIdentity.BearerTokenIdentityResolver
 @_spi(AWSEndpointResolverMiddleware) import struct AWSClientRuntime.AWSEndpointResolverMiddleware
 import struct AWSClientRuntime.AmzSdkInvocationIdMiddleware
 import struct AWSClientRuntime.UserAgentMiddleware
-import struct AWSClientRuntime.XAmzTargetMiddleware
 import struct AWSSDKHTTPAuth.SigV4AuthScheme
 import struct ClientRuntime.AuthSchemeMiddleware
 @_spi(SmithyReadWrite) import struct ClientRuntime.BodyMiddleware
@@ -56,6 +55,7 @@ import struct ClientRuntime.ContentLengthMiddleware
 import struct ClientRuntime.ContentTypeMiddleware
 @_spi(SmithyReadWrite) import struct ClientRuntime.DeserializeMiddleware
 import struct ClientRuntime.LoggerMiddleware
+import struct ClientRuntime.MutateHeadersMiddleware
 import struct ClientRuntime.SendableHttpInterceptorProviderBox
 import struct ClientRuntime.SendableInterceptorProviderBox
 import struct ClientRuntime.SignerMiddleware
@@ -664,7 +664,7 @@ extension TimestreamInfluxDBClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<CreateDbClusterOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<CreateDbClusterInput, CreateDbClusterOutput>(xAmzTarget: "AmazonTimestreamInfluxDB.CreateDbCluster"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<CreateDbClusterInput, CreateDbClusterOutput>(overrides: ["X-Amz-Target": "AmazonTimestreamInfluxDB.CreateDbCluster"]))
         builder.serialize(ClientRuntime.BodyMiddleware<CreateDbClusterInput, CreateDbClusterOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: CreateDbClusterInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<CreateDbClusterInput, CreateDbClusterOutput>(contentType: "application/x-amz-json-1.0"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<CreateDbClusterOutput>())
@@ -739,7 +739,7 @@ extension TimestreamInfluxDBClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<CreateDbInstanceOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<CreateDbInstanceInput, CreateDbInstanceOutput>(xAmzTarget: "AmazonTimestreamInfluxDB.CreateDbInstance"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<CreateDbInstanceInput, CreateDbInstanceOutput>(overrides: ["X-Amz-Target": "AmazonTimestreamInfluxDB.CreateDbInstance"]))
         builder.serialize(ClientRuntime.BodyMiddleware<CreateDbInstanceInput, CreateDbInstanceOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: CreateDbInstanceInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<CreateDbInstanceInput, CreateDbInstanceOutput>(contentType: "application/x-amz-json-1.0"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<CreateDbInstanceOutput>())
@@ -814,7 +814,7 @@ extension TimestreamInfluxDBClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<CreateDbParameterGroupOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<CreateDbParameterGroupInput, CreateDbParameterGroupOutput>(xAmzTarget: "AmazonTimestreamInfluxDB.CreateDbParameterGroup"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<CreateDbParameterGroupInput, CreateDbParameterGroupOutput>(overrides: ["X-Amz-Target": "AmazonTimestreamInfluxDB.CreateDbParameterGroup"]))
         builder.serialize(ClientRuntime.BodyMiddleware<CreateDbParameterGroupInput, CreateDbParameterGroupOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: CreateDbParameterGroupInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<CreateDbParameterGroupInput, CreateDbParameterGroupOutput>(contentType: "application/x-amz-json-1.0"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<CreateDbParameterGroupOutput>())
@@ -888,7 +888,7 @@ extension TimestreamInfluxDBClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<DeleteDbClusterOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<DeleteDbClusterInput, DeleteDbClusterOutput>(xAmzTarget: "AmazonTimestreamInfluxDB.DeleteDbCluster"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<DeleteDbClusterInput, DeleteDbClusterOutput>(overrides: ["X-Amz-Target": "AmazonTimestreamInfluxDB.DeleteDbCluster"]))
         builder.serialize(ClientRuntime.BodyMiddleware<DeleteDbClusterInput, DeleteDbClusterOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: DeleteDbClusterInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DeleteDbClusterInput, DeleteDbClusterOutput>(contentType: "application/x-amz-json-1.0"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DeleteDbClusterOutput>())
@@ -962,7 +962,7 @@ extension TimestreamInfluxDBClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<DeleteDbInstanceOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<DeleteDbInstanceInput, DeleteDbInstanceOutput>(xAmzTarget: "AmazonTimestreamInfluxDB.DeleteDbInstance"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<DeleteDbInstanceInput, DeleteDbInstanceOutput>(overrides: ["X-Amz-Target": "AmazonTimestreamInfluxDB.DeleteDbInstance"]))
         builder.serialize(ClientRuntime.BodyMiddleware<DeleteDbInstanceInput, DeleteDbInstanceOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: DeleteDbInstanceInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DeleteDbInstanceInput, DeleteDbInstanceOutput>(contentType: "application/x-amz-json-1.0"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DeleteDbInstanceOutput>())
@@ -1035,7 +1035,7 @@ extension TimestreamInfluxDBClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<GetDbClusterOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<GetDbClusterInput, GetDbClusterOutput>(xAmzTarget: "AmazonTimestreamInfluxDB.GetDbCluster"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<GetDbClusterInput, GetDbClusterOutput>(overrides: ["X-Amz-Target": "AmazonTimestreamInfluxDB.GetDbCluster"]))
         builder.serialize(ClientRuntime.BodyMiddleware<GetDbClusterInput, GetDbClusterOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: GetDbClusterInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<GetDbClusterInput, GetDbClusterOutput>(contentType: "application/x-amz-json-1.0"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<GetDbClusterOutput>())
@@ -1108,7 +1108,7 @@ extension TimestreamInfluxDBClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<GetDbInstanceOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<GetDbInstanceInput, GetDbInstanceOutput>(xAmzTarget: "AmazonTimestreamInfluxDB.GetDbInstance"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<GetDbInstanceInput, GetDbInstanceOutput>(overrides: ["X-Amz-Target": "AmazonTimestreamInfluxDB.GetDbInstance"]))
         builder.serialize(ClientRuntime.BodyMiddleware<GetDbInstanceInput, GetDbInstanceOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: GetDbInstanceInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<GetDbInstanceInput, GetDbInstanceOutput>(contentType: "application/x-amz-json-1.0"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<GetDbInstanceOutput>())
@@ -1181,7 +1181,7 @@ extension TimestreamInfluxDBClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<GetDbParameterGroupOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<GetDbParameterGroupInput, GetDbParameterGroupOutput>(xAmzTarget: "AmazonTimestreamInfluxDB.GetDbParameterGroup"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<GetDbParameterGroupInput, GetDbParameterGroupOutput>(overrides: ["X-Amz-Target": "AmazonTimestreamInfluxDB.GetDbParameterGroup"]))
         builder.serialize(ClientRuntime.BodyMiddleware<GetDbParameterGroupInput, GetDbParameterGroupOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: GetDbParameterGroupInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<GetDbParameterGroupInput, GetDbParameterGroupOutput>(contentType: "application/x-amz-json-1.0"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<GetDbParameterGroupOutput>())
@@ -1254,7 +1254,7 @@ extension TimestreamInfluxDBClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<ListDbClustersOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<ListDbClustersInput, ListDbClustersOutput>(xAmzTarget: "AmazonTimestreamInfluxDB.ListDbClusters"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<ListDbClustersInput, ListDbClustersOutput>(overrides: ["X-Amz-Target": "AmazonTimestreamInfluxDB.ListDbClusters"]))
         builder.serialize(ClientRuntime.BodyMiddleware<ListDbClustersInput, ListDbClustersOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: ListDbClustersInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<ListDbClustersInput, ListDbClustersOutput>(contentType: "application/x-amz-json-1.0"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ListDbClustersOutput>())
@@ -1327,7 +1327,7 @@ extension TimestreamInfluxDBClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<ListDbInstancesOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<ListDbInstancesInput, ListDbInstancesOutput>(xAmzTarget: "AmazonTimestreamInfluxDB.ListDbInstances"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<ListDbInstancesInput, ListDbInstancesOutput>(overrides: ["X-Amz-Target": "AmazonTimestreamInfluxDB.ListDbInstances"]))
         builder.serialize(ClientRuntime.BodyMiddleware<ListDbInstancesInput, ListDbInstancesOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: ListDbInstancesInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<ListDbInstancesInput, ListDbInstancesOutput>(contentType: "application/x-amz-json-1.0"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ListDbInstancesOutput>())
@@ -1400,7 +1400,7 @@ extension TimestreamInfluxDBClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<ListDbInstancesForClusterOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<ListDbInstancesForClusterInput, ListDbInstancesForClusterOutput>(xAmzTarget: "AmazonTimestreamInfluxDB.ListDbInstancesForCluster"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<ListDbInstancesForClusterInput, ListDbInstancesForClusterOutput>(overrides: ["X-Amz-Target": "AmazonTimestreamInfluxDB.ListDbInstancesForCluster"]))
         builder.serialize(ClientRuntime.BodyMiddleware<ListDbInstancesForClusterInput, ListDbInstancesForClusterOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: ListDbInstancesForClusterInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<ListDbInstancesForClusterInput, ListDbInstancesForClusterOutput>(contentType: "application/x-amz-json-1.0"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ListDbInstancesForClusterOutput>())
@@ -1473,7 +1473,7 @@ extension TimestreamInfluxDBClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<ListDbParameterGroupsOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<ListDbParameterGroupsInput, ListDbParameterGroupsOutput>(xAmzTarget: "AmazonTimestreamInfluxDB.ListDbParameterGroups"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<ListDbParameterGroupsInput, ListDbParameterGroupsOutput>(overrides: ["X-Amz-Target": "AmazonTimestreamInfluxDB.ListDbParameterGroups"]))
         builder.serialize(ClientRuntime.BodyMiddleware<ListDbParameterGroupsInput, ListDbParameterGroupsOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: ListDbParameterGroupsInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<ListDbParameterGroupsInput, ListDbParameterGroupsOutput>(contentType: "application/x-amz-json-1.0"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ListDbParameterGroupsOutput>())
@@ -1542,7 +1542,7 @@ extension TimestreamInfluxDBClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<ListTagsForResourceOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<ListTagsForResourceInput, ListTagsForResourceOutput>(xAmzTarget: "AmazonTimestreamInfluxDB.ListTagsForResource"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<ListTagsForResourceInput, ListTagsForResourceOutput>(overrides: ["X-Amz-Target": "AmazonTimestreamInfluxDB.ListTagsForResource"]))
         builder.serialize(ClientRuntime.BodyMiddleware<ListTagsForResourceInput, ListTagsForResourceOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: ListTagsForResourceInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<ListTagsForResourceInput, ListTagsForResourceOutput>(contentType: "application/x-amz-json-1.0"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ListTagsForResourceOutput>())
@@ -1616,7 +1616,7 @@ extension TimestreamInfluxDBClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<RebootDbClusterOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<RebootDbClusterInput, RebootDbClusterOutput>(xAmzTarget: "AmazonTimestreamInfluxDB.RebootDbCluster"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<RebootDbClusterInput, RebootDbClusterOutput>(overrides: ["X-Amz-Target": "AmazonTimestreamInfluxDB.RebootDbCluster"]))
         builder.serialize(ClientRuntime.BodyMiddleware<RebootDbClusterInput, RebootDbClusterOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: RebootDbClusterInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<RebootDbClusterInput, RebootDbClusterOutput>(contentType: "application/x-amz-json-1.0"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<RebootDbClusterOutput>())
@@ -1690,7 +1690,7 @@ extension TimestreamInfluxDBClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<RebootDbInstanceOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<RebootDbInstanceInput, RebootDbInstanceOutput>(xAmzTarget: "AmazonTimestreamInfluxDB.RebootDbInstance"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<RebootDbInstanceInput, RebootDbInstanceOutput>(overrides: ["X-Amz-Target": "AmazonTimestreamInfluxDB.RebootDbInstance"]))
         builder.serialize(ClientRuntime.BodyMiddleware<RebootDbInstanceInput, RebootDbInstanceOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: RebootDbInstanceInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<RebootDbInstanceInput, RebootDbInstanceOutput>(contentType: "application/x-amz-json-1.0"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<RebootDbInstanceOutput>())
@@ -1760,7 +1760,7 @@ extension TimestreamInfluxDBClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<TagResourceOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<TagResourceInput, TagResourceOutput>(xAmzTarget: "AmazonTimestreamInfluxDB.TagResource"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<TagResourceInput, TagResourceOutput>(overrides: ["X-Amz-Target": "AmazonTimestreamInfluxDB.TagResource"]))
         builder.serialize(ClientRuntime.BodyMiddleware<TagResourceInput, TagResourceOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: TagResourceInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<TagResourceInput, TagResourceOutput>(contentType: "application/x-amz-json-1.0"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<TagResourceOutput>())
@@ -1829,7 +1829,7 @@ extension TimestreamInfluxDBClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<UntagResourceOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<UntagResourceInput, UntagResourceOutput>(xAmzTarget: "AmazonTimestreamInfluxDB.UntagResource"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<UntagResourceInput, UntagResourceOutput>(overrides: ["X-Amz-Target": "AmazonTimestreamInfluxDB.UntagResource"]))
         builder.serialize(ClientRuntime.BodyMiddleware<UntagResourceInput, UntagResourceOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: UntagResourceInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<UntagResourceInput, UntagResourceOutput>(contentType: "application/x-amz-json-1.0"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<UntagResourceOutput>())
@@ -1903,7 +1903,7 @@ extension TimestreamInfluxDBClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<UpdateDbClusterOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<UpdateDbClusterInput, UpdateDbClusterOutput>(xAmzTarget: "AmazonTimestreamInfluxDB.UpdateDbCluster"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<UpdateDbClusterInput, UpdateDbClusterOutput>(overrides: ["X-Amz-Target": "AmazonTimestreamInfluxDB.UpdateDbCluster"]))
         builder.serialize(ClientRuntime.BodyMiddleware<UpdateDbClusterInput, UpdateDbClusterOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: UpdateDbClusterInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<UpdateDbClusterInput, UpdateDbClusterOutput>(contentType: "application/x-amz-json-1.0"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<UpdateDbClusterOutput>())
@@ -1977,7 +1977,7 @@ extension TimestreamInfluxDBClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<UpdateDbInstanceOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<UpdateDbInstanceInput, UpdateDbInstanceOutput>(xAmzTarget: "AmazonTimestreamInfluxDB.UpdateDbInstance"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<UpdateDbInstanceInput, UpdateDbInstanceOutput>(overrides: ["X-Amz-Target": "AmazonTimestreamInfluxDB.UpdateDbInstance"]))
         builder.serialize(ClientRuntime.BodyMiddleware<UpdateDbInstanceInput, UpdateDbInstanceOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: UpdateDbInstanceInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<UpdateDbInstanceInput, UpdateDbInstanceOutput>(contentType: "application/x-amz-json-1.0"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<UpdateDbInstanceOutput>())

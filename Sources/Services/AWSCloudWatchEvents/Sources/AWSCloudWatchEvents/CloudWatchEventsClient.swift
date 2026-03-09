@@ -49,7 +49,6 @@ import protocol SmithyIdentity.BearerTokenIdentityResolver
 @_spi(AWSEndpointResolverMiddleware) import struct AWSClientRuntime.AWSEndpointResolverMiddleware
 import struct AWSClientRuntime.AmzSdkInvocationIdMiddleware
 import struct AWSClientRuntime.UserAgentMiddleware
-import struct AWSClientRuntime.XAmzTargetMiddleware
 import struct AWSSDKHTTPAuth.SigV4AuthScheme
 import struct ClientRuntime.AuthSchemeMiddleware
 @_spi(SmithyReadWrite) import struct ClientRuntime.BodyMiddleware
@@ -57,6 +56,7 @@ import struct ClientRuntime.ContentLengthMiddleware
 import struct ClientRuntime.ContentTypeMiddleware
 @_spi(SmithyReadWrite) import struct ClientRuntime.DeserializeMiddleware
 import struct ClientRuntime.LoggerMiddleware
+import struct ClientRuntime.MutateHeadersMiddleware
 import struct ClientRuntime.SendableHttpInterceptorProviderBox
 import struct ClientRuntime.SendableInterceptorProviderBox
 import struct ClientRuntime.SignerMiddleware
@@ -663,7 +663,7 @@ extension CloudWatchEventsClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<ActivateEventSourceOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<ActivateEventSourceInput, ActivateEventSourceOutput>(xAmzTarget: "AWSEvents.ActivateEventSource"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<ActivateEventSourceInput, ActivateEventSourceOutput>(overrides: ["X-Amz-Target": "AWSEvents.ActivateEventSource"]))
         builder.serialize(ClientRuntime.BodyMiddleware<ActivateEventSourceInput, ActivateEventSourceOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: ActivateEventSourceInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<ActivateEventSourceInput, ActivateEventSourceOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ActivateEventSourceOutput>())
@@ -735,7 +735,7 @@ extension CloudWatchEventsClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<CancelReplayOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<CancelReplayInput, CancelReplayOutput>(xAmzTarget: "AWSEvents.CancelReplay"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<CancelReplayInput, CancelReplayOutput>(overrides: ["X-Amz-Target": "AWSEvents.CancelReplay"]))
         builder.serialize(ClientRuntime.BodyMiddleware<CancelReplayInput, CancelReplayOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: CancelReplayInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<CancelReplayInput, CancelReplayOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<CancelReplayOutput>())
@@ -807,7 +807,7 @@ extension CloudWatchEventsClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<CreateApiDestinationOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<CreateApiDestinationInput, CreateApiDestinationOutput>(xAmzTarget: "AWSEvents.CreateApiDestination"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<CreateApiDestinationInput, CreateApiDestinationOutput>(overrides: ["X-Amz-Target": "AWSEvents.CreateApiDestination"]))
         builder.serialize(ClientRuntime.BodyMiddleware<CreateApiDestinationInput, CreateApiDestinationOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: CreateApiDestinationInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<CreateApiDestinationInput, CreateApiDestinationOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<CreateApiDestinationOutput>())
@@ -881,7 +881,7 @@ extension CloudWatchEventsClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<CreateArchiveOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<CreateArchiveInput, CreateArchiveOutput>(xAmzTarget: "AWSEvents.CreateArchive"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<CreateArchiveInput, CreateArchiveOutput>(overrides: ["X-Amz-Target": "AWSEvents.CreateArchive"]))
         builder.serialize(ClientRuntime.BodyMiddleware<CreateArchiveInput, CreateArchiveOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: CreateArchiveInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<CreateArchiveInput, CreateArchiveOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<CreateArchiveOutput>())
@@ -952,7 +952,7 @@ extension CloudWatchEventsClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<CreateConnectionOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<CreateConnectionInput, CreateConnectionOutput>(xAmzTarget: "AWSEvents.CreateConnection"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<CreateConnectionInput, CreateConnectionOutput>(overrides: ["X-Amz-Target": "AWSEvents.CreateConnection"]))
         builder.serialize(ClientRuntime.BodyMiddleware<CreateConnectionInput, CreateConnectionOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: CreateConnectionInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<CreateConnectionInput, CreateConnectionOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<CreateConnectionOutput>())
@@ -1027,7 +1027,7 @@ extension CloudWatchEventsClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<CreateEventBusOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<CreateEventBusInput, CreateEventBusOutput>(xAmzTarget: "AWSEvents.CreateEventBus"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<CreateEventBusInput, CreateEventBusOutput>(overrides: ["X-Amz-Target": "AWSEvents.CreateEventBus"]))
         builder.serialize(ClientRuntime.BodyMiddleware<CreateEventBusInput, CreateEventBusOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: CreateEventBusInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<CreateEventBusInput, CreateEventBusOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<CreateEventBusOutput>())
@@ -1100,7 +1100,7 @@ extension CloudWatchEventsClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<CreatePartnerEventSourceOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<CreatePartnerEventSourceInput, CreatePartnerEventSourceOutput>(xAmzTarget: "AWSEvents.CreatePartnerEventSource"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<CreatePartnerEventSourceInput, CreatePartnerEventSourceOutput>(overrides: ["X-Amz-Target": "AWSEvents.CreatePartnerEventSource"]))
         builder.serialize(ClientRuntime.BodyMiddleware<CreatePartnerEventSourceInput, CreatePartnerEventSourceOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: CreatePartnerEventSourceInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<CreatePartnerEventSourceInput, CreatePartnerEventSourceOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<CreatePartnerEventSourceOutput>())
@@ -1173,7 +1173,7 @@ extension CloudWatchEventsClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<DeactivateEventSourceOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<DeactivateEventSourceInput, DeactivateEventSourceOutput>(xAmzTarget: "AWSEvents.DeactivateEventSource"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<DeactivateEventSourceInput, DeactivateEventSourceOutput>(overrides: ["X-Amz-Target": "AWSEvents.DeactivateEventSource"]))
         builder.serialize(ClientRuntime.BodyMiddleware<DeactivateEventSourceInput, DeactivateEventSourceOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: DeactivateEventSourceInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DeactivateEventSourceInput, DeactivateEventSourceOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DeactivateEventSourceOutput>())
@@ -1244,7 +1244,7 @@ extension CloudWatchEventsClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<DeauthorizeConnectionOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<DeauthorizeConnectionInput, DeauthorizeConnectionOutput>(xAmzTarget: "AWSEvents.DeauthorizeConnection"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<DeauthorizeConnectionInput, DeauthorizeConnectionOutput>(overrides: ["X-Amz-Target": "AWSEvents.DeauthorizeConnection"]))
         builder.serialize(ClientRuntime.BodyMiddleware<DeauthorizeConnectionInput, DeauthorizeConnectionOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: DeauthorizeConnectionInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DeauthorizeConnectionInput, DeauthorizeConnectionOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DeauthorizeConnectionOutput>())
@@ -1315,7 +1315,7 @@ extension CloudWatchEventsClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<DeleteApiDestinationOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<DeleteApiDestinationInput, DeleteApiDestinationOutput>(xAmzTarget: "AWSEvents.DeleteApiDestination"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<DeleteApiDestinationInput, DeleteApiDestinationOutput>(overrides: ["X-Amz-Target": "AWSEvents.DeleteApiDestination"]))
         builder.serialize(ClientRuntime.BodyMiddleware<DeleteApiDestinationInput, DeleteApiDestinationOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: DeleteApiDestinationInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DeleteApiDestinationInput, DeleteApiDestinationOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DeleteApiDestinationOutput>())
@@ -1386,7 +1386,7 @@ extension CloudWatchEventsClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<DeleteArchiveOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<DeleteArchiveInput, DeleteArchiveOutput>(xAmzTarget: "AWSEvents.DeleteArchive"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<DeleteArchiveInput, DeleteArchiveOutput>(overrides: ["X-Amz-Target": "AWSEvents.DeleteArchive"]))
         builder.serialize(ClientRuntime.BodyMiddleware<DeleteArchiveInput, DeleteArchiveOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: DeleteArchiveInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DeleteArchiveInput, DeleteArchiveOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DeleteArchiveOutput>())
@@ -1457,7 +1457,7 @@ extension CloudWatchEventsClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<DeleteConnectionOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<DeleteConnectionInput, DeleteConnectionOutput>(xAmzTarget: "AWSEvents.DeleteConnection"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<DeleteConnectionInput, DeleteConnectionOutput>(overrides: ["X-Amz-Target": "AWSEvents.DeleteConnection"]))
         builder.serialize(ClientRuntime.BodyMiddleware<DeleteConnectionInput, DeleteConnectionOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: DeleteConnectionInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DeleteConnectionInput, DeleteConnectionOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DeleteConnectionOutput>())
@@ -1527,7 +1527,7 @@ extension CloudWatchEventsClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<DeleteEventBusOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<DeleteEventBusInput, DeleteEventBusOutput>(xAmzTarget: "AWSEvents.DeleteEventBus"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<DeleteEventBusInput, DeleteEventBusOutput>(overrides: ["X-Amz-Target": "AWSEvents.DeleteEventBus"]))
         builder.serialize(ClientRuntime.BodyMiddleware<DeleteEventBusInput, DeleteEventBusOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: DeleteEventBusInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DeleteEventBusInput, DeleteEventBusOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DeleteEventBusOutput>())
@@ -1598,7 +1598,7 @@ extension CloudWatchEventsClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<DeletePartnerEventSourceOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<DeletePartnerEventSourceInput, DeletePartnerEventSourceOutput>(xAmzTarget: "AWSEvents.DeletePartnerEventSource"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<DeletePartnerEventSourceInput, DeletePartnerEventSourceOutput>(overrides: ["X-Amz-Target": "AWSEvents.DeletePartnerEventSource"]))
         builder.serialize(ClientRuntime.BodyMiddleware<DeletePartnerEventSourceInput, DeletePartnerEventSourceOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: DeletePartnerEventSourceInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DeletePartnerEventSourceInput, DeletePartnerEventSourceOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DeletePartnerEventSourceOutput>())
@@ -1670,7 +1670,7 @@ extension CloudWatchEventsClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<DeleteRuleOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<DeleteRuleInput, DeleteRuleOutput>(xAmzTarget: "AWSEvents.DeleteRule"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<DeleteRuleInput, DeleteRuleOutput>(overrides: ["X-Amz-Target": "AWSEvents.DeleteRule"]))
         builder.serialize(ClientRuntime.BodyMiddleware<DeleteRuleInput, DeleteRuleOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: DeleteRuleInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DeleteRuleInput, DeleteRuleOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DeleteRuleOutput>())
@@ -1740,7 +1740,7 @@ extension CloudWatchEventsClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<DescribeApiDestinationOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<DescribeApiDestinationInput, DescribeApiDestinationOutput>(xAmzTarget: "AWSEvents.DescribeApiDestination"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<DescribeApiDestinationInput, DescribeApiDestinationOutput>(overrides: ["X-Amz-Target": "AWSEvents.DescribeApiDestination"]))
         builder.serialize(ClientRuntime.BodyMiddleware<DescribeApiDestinationInput, DescribeApiDestinationOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: DescribeApiDestinationInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DescribeApiDestinationInput, DescribeApiDestinationOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DescribeApiDestinationOutput>())
@@ -1811,7 +1811,7 @@ extension CloudWatchEventsClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<DescribeArchiveOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<DescribeArchiveInput, DescribeArchiveOutput>(xAmzTarget: "AWSEvents.DescribeArchive"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<DescribeArchiveInput, DescribeArchiveOutput>(overrides: ["X-Amz-Target": "AWSEvents.DescribeArchive"]))
         builder.serialize(ClientRuntime.BodyMiddleware<DescribeArchiveInput, DescribeArchiveOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: DescribeArchiveInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DescribeArchiveInput, DescribeArchiveOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DescribeArchiveOutput>())
@@ -1881,7 +1881,7 @@ extension CloudWatchEventsClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<DescribeConnectionOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<DescribeConnectionInput, DescribeConnectionOutput>(xAmzTarget: "AWSEvents.DescribeConnection"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<DescribeConnectionInput, DescribeConnectionOutput>(overrides: ["X-Amz-Target": "AWSEvents.DescribeConnection"]))
         builder.serialize(ClientRuntime.BodyMiddleware<DescribeConnectionInput, DescribeConnectionOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: DescribeConnectionInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DescribeConnectionInput, DescribeConnectionOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DescribeConnectionOutput>())
@@ -1951,7 +1951,7 @@ extension CloudWatchEventsClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<DescribeEventBusOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<DescribeEventBusInput, DescribeEventBusOutput>(xAmzTarget: "AWSEvents.DescribeEventBus"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<DescribeEventBusInput, DescribeEventBusOutput>(overrides: ["X-Amz-Target": "AWSEvents.DescribeEventBus"]))
         builder.serialize(ClientRuntime.BodyMiddleware<DescribeEventBusInput, DescribeEventBusOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: DescribeEventBusInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DescribeEventBusInput, DescribeEventBusOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DescribeEventBusOutput>())
@@ -2022,7 +2022,7 @@ extension CloudWatchEventsClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<DescribeEventSourceOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<DescribeEventSourceInput, DescribeEventSourceOutput>(xAmzTarget: "AWSEvents.DescribeEventSource"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<DescribeEventSourceInput, DescribeEventSourceOutput>(overrides: ["X-Amz-Target": "AWSEvents.DescribeEventSource"]))
         builder.serialize(ClientRuntime.BodyMiddleware<DescribeEventSourceInput, DescribeEventSourceOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: DescribeEventSourceInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DescribeEventSourceInput, DescribeEventSourceOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DescribeEventSourceOutput>())
@@ -2093,7 +2093,7 @@ extension CloudWatchEventsClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<DescribePartnerEventSourceOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<DescribePartnerEventSourceInput, DescribePartnerEventSourceOutput>(xAmzTarget: "AWSEvents.DescribePartnerEventSource"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<DescribePartnerEventSourceInput, DescribePartnerEventSourceOutput>(overrides: ["X-Amz-Target": "AWSEvents.DescribePartnerEventSource"]))
         builder.serialize(ClientRuntime.BodyMiddleware<DescribePartnerEventSourceInput, DescribePartnerEventSourceOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: DescribePartnerEventSourceInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DescribePartnerEventSourceInput, DescribePartnerEventSourceOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DescribePartnerEventSourceOutput>())
@@ -2163,7 +2163,7 @@ extension CloudWatchEventsClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<DescribeReplayOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<DescribeReplayInput, DescribeReplayOutput>(xAmzTarget: "AWSEvents.DescribeReplay"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<DescribeReplayInput, DescribeReplayOutput>(overrides: ["X-Amz-Target": "AWSEvents.DescribeReplay"]))
         builder.serialize(ClientRuntime.BodyMiddleware<DescribeReplayInput, DescribeReplayOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: DescribeReplayInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DescribeReplayInput, DescribeReplayOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DescribeReplayOutput>())
@@ -2233,7 +2233,7 @@ extension CloudWatchEventsClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<DescribeRuleOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<DescribeRuleInput, DescribeRuleOutput>(xAmzTarget: "AWSEvents.DescribeRule"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<DescribeRuleInput, DescribeRuleOutput>(overrides: ["X-Amz-Target": "AWSEvents.DescribeRule"]))
         builder.serialize(ClientRuntime.BodyMiddleware<DescribeRuleInput, DescribeRuleOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: DescribeRuleInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DescribeRuleInput, DescribeRuleOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DescribeRuleOutput>())
@@ -2305,7 +2305,7 @@ extension CloudWatchEventsClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<DisableRuleOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<DisableRuleInput, DisableRuleOutput>(xAmzTarget: "AWSEvents.DisableRule"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<DisableRuleInput, DisableRuleOutput>(overrides: ["X-Amz-Target": "AWSEvents.DisableRule"]))
         builder.serialize(ClientRuntime.BodyMiddleware<DisableRuleInput, DisableRuleOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: DisableRuleInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DisableRuleInput, DisableRuleOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DisableRuleOutput>())
@@ -2377,7 +2377,7 @@ extension CloudWatchEventsClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<EnableRuleOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<EnableRuleInput, EnableRuleOutput>(xAmzTarget: "AWSEvents.EnableRule"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<EnableRuleInput, EnableRuleOutput>(overrides: ["X-Amz-Target": "AWSEvents.EnableRule"]))
         builder.serialize(ClientRuntime.BodyMiddleware<EnableRuleInput, EnableRuleOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: EnableRuleInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<EnableRuleInput, EnableRuleOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<EnableRuleOutput>())
@@ -2446,7 +2446,7 @@ extension CloudWatchEventsClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<ListApiDestinationsOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<ListApiDestinationsInput, ListApiDestinationsOutput>(xAmzTarget: "AWSEvents.ListApiDestinations"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<ListApiDestinationsInput, ListApiDestinationsOutput>(overrides: ["X-Amz-Target": "AWSEvents.ListApiDestinations"]))
         builder.serialize(ClientRuntime.BodyMiddleware<ListApiDestinationsInput, ListApiDestinationsOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: ListApiDestinationsInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<ListApiDestinationsInput, ListApiDestinationsOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ListApiDestinationsOutput>())
@@ -2516,7 +2516,7 @@ extension CloudWatchEventsClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<ListArchivesOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<ListArchivesInput, ListArchivesOutput>(xAmzTarget: "AWSEvents.ListArchives"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<ListArchivesInput, ListArchivesOutput>(overrides: ["X-Amz-Target": "AWSEvents.ListArchives"]))
         builder.serialize(ClientRuntime.BodyMiddleware<ListArchivesInput, ListArchivesOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: ListArchivesInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<ListArchivesInput, ListArchivesOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ListArchivesOutput>())
@@ -2585,7 +2585,7 @@ extension CloudWatchEventsClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<ListConnectionsOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<ListConnectionsInput, ListConnectionsOutput>(xAmzTarget: "AWSEvents.ListConnections"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<ListConnectionsInput, ListConnectionsOutput>(overrides: ["X-Amz-Target": "AWSEvents.ListConnections"]))
         builder.serialize(ClientRuntime.BodyMiddleware<ListConnectionsInput, ListConnectionsOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: ListConnectionsInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<ListConnectionsInput, ListConnectionsOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ListConnectionsOutput>())
@@ -2654,7 +2654,7 @@ extension CloudWatchEventsClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<ListEventBusesOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<ListEventBusesInput, ListEventBusesOutput>(xAmzTarget: "AWSEvents.ListEventBuses"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<ListEventBusesInput, ListEventBusesOutput>(overrides: ["X-Amz-Target": "AWSEvents.ListEventBuses"]))
         builder.serialize(ClientRuntime.BodyMiddleware<ListEventBusesInput, ListEventBusesOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: ListEventBusesInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<ListEventBusesInput, ListEventBusesOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ListEventBusesOutput>())
@@ -2724,7 +2724,7 @@ extension CloudWatchEventsClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<ListEventSourcesOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<ListEventSourcesInput, ListEventSourcesOutput>(xAmzTarget: "AWSEvents.ListEventSources"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<ListEventSourcesInput, ListEventSourcesOutput>(overrides: ["X-Amz-Target": "AWSEvents.ListEventSources"]))
         builder.serialize(ClientRuntime.BodyMiddleware<ListEventSourcesInput, ListEventSourcesOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: ListEventSourcesInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<ListEventSourcesInput, ListEventSourcesOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ListEventSourcesOutput>())
@@ -2795,7 +2795,7 @@ extension CloudWatchEventsClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<ListPartnerEventSourceAccountsOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<ListPartnerEventSourceAccountsInput, ListPartnerEventSourceAccountsOutput>(xAmzTarget: "AWSEvents.ListPartnerEventSourceAccounts"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<ListPartnerEventSourceAccountsInput, ListPartnerEventSourceAccountsOutput>(overrides: ["X-Amz-Target": "AWSEvents.ListPartnerEventSourceAccounts"]))
         builder.serialize(ClientRuntime.BodyMiddleware<ListPartnerEventSourceAccountsInput, ListPartnerEventSourceAccountsOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: ListPartnerEventSourceAccountsInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<ListPartnerEventSourceAccountsInput, ListPartnerEventSourceAccountsOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ListPartnerEventSourceAccountsOutput>())
@@ -2865,7 +2865,7 @@ extension CloudWatchEventsClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<ListPartnerEventSourcesOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<ListPartnerEventSourcesInput, ListPartnerEventSourcesOutput>(xAmzTarget: "AWSEvents.ListPartnerEventSources"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<ListPartnerEventSourcesInput, ListPartnerEventSourcesOutput>(overrides: ["X-Amz-Target": "AWSEvents.ListPartnerEventSources"]))
         builder.serialize(ClientRuntime.BodyMiddleware<ListPartnerEventSourcesInput, ListPartnerEventSourcesOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: ListPartnerEventSourcesInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<ListPartnerEventSourcesInput, ListPartnerEventSourcesOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ListPartnerEventSourcesOutput>())
@@ -2934,7 +2934,7 @@ extension CloudWatchEventsClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<ListReplaysOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<ListReplaysInput, ListReplaysOutput>(xAmzTarget: "AWSEvents.ListReplays"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<ListReplaysInput, ListReplaysOutput>(overrides: ["X-Amz-Target": "AWSEvents.ListReplays"]))
         builder.serialize(ClientRuntime.BodyMiddleware<ListReplaysInput, ListReplaysOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: ListReplaysInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<ListReplaysInput, ListReplaysOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ListReplaysOutput>())
@@ -3004,7 +3004,7 @@ extension CloudWatchEventsClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<ListRuleNamesByTargetOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<ListRuleNamesByTargetInput, ListRuleNamesByTargetOutput>(xAmzTarget: "AWSEvents.ListRuleNamesByTarget"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<ListRuleNamesByTargetInput, ListRuleNamesByTargetOutput>(overrides: ["X-Amz-Target": "AWSEvents.ListRuleNamesByTarget"]))
         builder.serialize(ClientRuntime.BodyMiddleware<ListRuleNamesByTargetInput, ListRuleNamesByTargetOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: ListRuleNamesByTargetInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<ListRuleNamesByTargetInput, ListRuleNamesByTargetOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ListRuleNamesByTargetOutput>())
@@ -3074,7 +3074,7 @@ extension CloudWatchEventsClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<ListRulesOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<ListRulesInput, ListRulesOutput>(xAmzTarget: "AWSEvents.ListRules"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<ListRulesInput, ListRulesOutput>(overrides: ["X-Amz-Target": "AWSEvents.ListRules"]))
         builder.serialize(ClientRuntime.BodyMiddleware<ListRulesInput, ListRulesOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: ListRulesInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<ListRulesInput, ListRulesOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ListRulesOutput>())
@@ -3144,7 +3144,7 @@ extension CloudWatchEventsClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<ListTagsForResourceOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<ListTagsForResourceInput, ListTagsForResourceOutput>(xAmzTarget: "AWSEvents.ListTagsForResource"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<ListTagsForResourceInput, ListTagsForResourceOutput>(overrides: ["X-Amz-Target": "AWSEvents.ListTagsForResource"]))
         builder.serialize(ClientRuntime.BodyMiddleware<ListTagsForResourceInput, ListTagsForResourceOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: ListTagsForResourceInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<ListTagsForResourceInput, ListTagsForResourceOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ListTagsForResourceOutput>())
@@ -3214,7 +3214,7 @@ extension CloudWatchEventsClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<ListTargetsByRuleOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<ListTargetsByRuleInput, ListTargetsByRuleOutput>(xAmzTarget: "AWSEvents.ListTargetsByRule"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<ListTargetsByRuleInput, ListTargetsByRuleOutput>(overrides: ["X-Amz-Target": "AWSEvents.ListTargetsByRule"]))
         builder.serialize(ClientRuntime.BodyMiddleware<ListTargetsByRuleInput, ListTargetsByRuleOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: ListTargetsByRuleInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<ListTargetsByRuleInput, ListTargetsByRuleOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ListTargetsByRuleOutput>())
@@ -3283,7 +3283,7 @@ extension CloudWatchEventsClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<PutEventsOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<PutEventsInput, PutEventsOutput>(xAmzTarget: "AWSEvents.PutEvents"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<PutEventsInput, PutEventsOutput>(overrides: ["X-Amz-Target": "AWSEvents.PutEvents"]))
         builder.serialize(ClientRuntime.BodyMiddleware<PutEventsInput, PutEventsOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: PutEventsInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<PutEventsInput, PutEventsOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<PutEventsOutput>())
@@ -3353,7 +3353,7 @@ extension CloudWatchEventsClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<PutPartnerEventsOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<PutPartnerEventsInput, PutPartnerEventsOutput>(xAmzTarget: "AWSEvents.PutPartnerEvents"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<PutPartnerEventsInput, PutPartnerEventsOutput>(overrides: ["X-Amz-Target": "AWSEvents.PutPartnerEvents"]))
         builder.serialize(ClientRuntime.BodyMiddleware<PutPartnerEventsInput, PutPartnerEventsOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: PutPartnerEventsInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<PutPartnerEventsInput, PutPartnerEventsOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<PutPartnerEventsOutput>())
@@ -3426,7 +3426,7 @@ extension CloudWatchEventsClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<PutPermissionOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<PutPermissionInput, PutPermissionOutput>(xAmzTarget: "AWSEvents.PutPermission"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<PutPermissionInput, PutPermissionOutput>(overrides: ["X-Amz-Target": "AWSEvents.PutPermission"]))
         builder.serialize(ClientRuntime.BodyMiddleware<PutPermissionInput, PutPermissionOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: PutPermissionInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<PutPermissionInput, PutPermissionOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<PutPermissionOutput>())
@@ -3500,7 +3500,7 @@ extension CloudWatchEventsClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<PutRuleOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<PutRuleInput, PutRuleOutput>(xAmzTarget: "AWSEvents.PutRule"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<PutRuleInput, PutRuleOutput>(overrides: ["X-Amz-Target": "AWSEvents.PutRule"]))
         builder.serialize(ClientRuntime.BodyMiddleware<PutRuleInput, PutRuleOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: PutRuleInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<PutRuleInput, PutRuleOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<PutRuleOutput>())
@@ -3635,7 +3635,7 @@ extension CloudWatchEventsClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<PutTargetsOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<PutTargetsInput, PutTargetsOutput>(xAmzTarget: "AWSEvents.PutTargets"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<PutTargetsInput, PutTargetsOutput>(overrides: ["X-Amz-Target": "AWSEvents.PutTargets"]))
         builder.serialize(ClientRuntime.BodyMiddleware<PutTargetsInput, PutTargetsOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: PutTargetsInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<PutTargetsInput, PutTargetsOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<PutTargetsOutput>())
@@ -3707,7 +3707,7 @@ extension CloudWatchEventsClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<RemovePermissionOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<RemovePermissionInput, RemovePermissionOutput>(xAmzTarget: "AWSEvents.RemovePermission"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<RemovePermissionInput, RemovePermissionOutput>(overrides: ["X-Amz-Target": "AWSEvents.RemovePermission"]))
         builder.serialize(ClientRuntime.BodyMiddleware<RemovePermissionInput, RemovePermissionOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: RemovePermissionInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<RemovePermissionInput, RemovePermissionOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<RemovePermissionOutput>())
@@ -3779,7 +3779,7 @@ extension CloudWatchEventsClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<RemoveTargetsOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<RemoveTargetsInput, RemoveTargetsOutput>(xAmzTarget: "AWSEvents.RemoveTargets"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<RemoveTargetsInput, RemoveTargetsOutput>(overrides: ["X-Amz-Target": "AWSEvents.RemoveTargets"]))
         builder.serialize(ClientRuntime.BodyMiddleware<RemoveTargetsInput, RemoveTargetsOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: RemoveTargetsInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<RemoveTargetsInput, RemoveTargetsOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<RemoveTargetsOutput>())
@@ -3852,7 +3852,7 @@ extension CloudWatchEventsClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<StartReplayOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<StartReplayInput, StartReplayOutput>(xAmzTarget: "AWSEvents.StartReplay"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<StartReplayInput, StartReplayOutput>(overrides: ["X-Amz-Target": "AWSEvents.StartReplay"]))
         builder.serialize(ClientRuntime.BodyMiddleware<StartReplayInput, StartReplayOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: StartReplayInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<StartReplayInput, StartReplayOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<StartReplayOutput>())
@@ -3924,7 +3924,7 @@ extension CloudWatchEventsClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<TagResourceOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<TagResourceInput, TagResourceOutput>(xAmzTarget: "AWSEvents.TagResource"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<TagResourceInput, TagResourceOutput>(overrides: ["X-Amz-Target": "AWSEvents.TagResource"]))
         builder.serialize(ClientRuntime.BodyMiddleware<TagResourceInput, TagResourceOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: TagResourceInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<TagResourceInput, TagResourceOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<TagResourceOutput>())
@@ -3994,7 +3994,7 @@ extension CloudWatchEventsClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<TestEventPatternOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<TestEventPatternInput, TestEventPatternOutput>(xAmzTarget: "AWSEvents.TestEventPattern"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<TestEventPatternInput, TestEventPatternOutput>(overrides: ["X-Amz-Target": "AWSEvents.TestEventPattern"]))
         builder.serialize(ClientRuntime.BodyMiddleware<TestEventPatternInput, TestEventPatternOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: TestEventPatternInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<TestEventPatternInput, TestEventPatternOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<TestEventPatternOutput>())
@@ -4066,7 +4066,7 @@ extension CloudWatchEventsClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<UntagResourceOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<UntagResourceInput, UntagResourceOutput>(xAmzTarget: "AWSEvents.UntagResource"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<UntagResourceInput, UntagResourceOutput>(overrides: ["X-Amz-Target": "AWSEvents.UntagResource"]))
         builder.serialize(ClientRuntime.BodyMiddleware<UntagResourceInput, UntagResourceOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: UntagResourceInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<UntagResourceInput, UntagResourceOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<UntagResourceOutput>())
@@ -4138,7 +4138,7 @@ extension CloudWatchEventsClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<UpdateApiDestinationOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<UpdateApiDestinationInput, UpdateApiDestinationOutput>(xAmzTarget: "AWSEvents.UpdateApiDestination"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<UpdateApiDestinationInput, UpdateApiDestinationOutput>(overrides: ["X-Amz-Target": "AWSEvents.UpdateApiDestination"]))
         builder.serialize(ClientRuntime.BodyMiddleware<UpdateApiDestinationInput, UpdateApiDestinationOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: UpdateApiDestinationInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<UpdateApiDestinationInput, UpdateApiDestinationOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<UpdateApiDestinationOutput>())
@@ -4211,7 +4211,7 @@ extension CloudWatchEventsClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<UpdateArchiveOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<UpdateArchiveInput, UpdateArchiveOutput>(xAmzTarget: "AWSEvents.UpdateArchive"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<UpdateArchiveInput, UpdateArchiveOutput>(overrides: ["X-Amz-Target": "AWSEvents.UpdateArchive"]))
         builder.serialize(ClientRuntime.BodyMiddleware<UpdateArchiveInput, UpdateArchiveOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: UpdateArchiveInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<UpdateArchiveInput, UpdateArchiveOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<UpdateArchiveOutput>())
@@ -4283,7 +4283,7 @@ extension CloudWatchEventsClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<UpdateConnectionOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<UpdateConnectionInput, UpdateConnectionOutput>(xAmzTarget: "AWSEvents.UpdateConnection"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<UpdateConnectionInput, UpdateConnectionOutput>(overrides: ["X-Amz-Target": "AWSEvents.UpdateConnection"]))
         builder.serialize(ClientRuntime.BodyMiddleware<UpdateConnectionInput, UpdateConnectionOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: UpdateConnectionInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<UpdateConnectionInput, UpdateConnectionOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<UpdateConnectionOutput>())

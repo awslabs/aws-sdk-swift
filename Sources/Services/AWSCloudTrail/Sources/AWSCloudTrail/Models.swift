@@ -25,8 +25,8 @@ import protocol ClientRuntime.HTTPError
 import protocol ClientRuntime.ModeledError
 @_spi(SmithyReadWrite) import protocol SmithyReadWrite.SmithyReader
 @_spi(SmithyReadWrite) import protocol SmithyReadWrite.SmithyWriter
-@_spi(SmithyReadWrite) import struct AWSClientRuntime.AWSJSONError
 @_spi(UnknownAWSHTTPServiceError) import struct AWSClientRuntime.UnknownAWSHTTPServiceError
+@_spi(SmithyReadWrite) import struct ClientRuntime.AWSJSONError
 @_spi(SmithyReadWrite) import struct SmithyReadWrite.ReadingClosureBox
 @_spi(SmithyReadWrite) import struct SmithyReadWrite.WritingClosureBox
 
@@ -8586,7 +8586,7 @@ enum AddTagsOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "ChannelARNInvalid": return try ChannelARNInvalidException.makeError(baseError: baseError)
@@ -8615,7 +8615,7 @@ enum CancelQueryOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "ConflictException": return try ConflictException.makeError(baseError: baseError)
@@ -8638,7 +8638,7 @@ enum CreateChannelOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "ChannelAlreadyExists": return try ChannelAlreadyExistsException.makeError(baseError: baseError)
@@ -8663,7 +8663,7 @@ enum CreateDashboardOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "ConflictException": return try ConflictException.makeError(baseError: baseError)
@@ -8684,7 +8684,7 @@ enum CreateEventDataStoreOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "CloudTrailAccessNotEnabled": return try CloudTrailAccessNotEnabledException.makeError(baseError: baseError)
@@ -8716,7 +8716,7 @@ enum CreateTrailOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "CloudTrailAccessNotEnabled": return try CloudTrailAccessNotEnabledException.makeError(baseError: baseError)
@@ -8762,7 +8762,7 @@ enum DeleteChannelOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "ChannelARNInvalid": return try ChannelARNInvalidException.makeError(baseError: baseError)
@@ -8779,7 +8779,7 @@ enum DeleteDashboardOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "ConflictException": return try ConflictException.makeError(baseError: baseError)
@@ -8795,7 +8795,7 @@ enum DeleteEventDataStoreOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "ChannelExistsForEDS": return try ChannelExistsForEDSException.makeError(baseError: baseError)
@@ -8822,7 +8822,7 @@ enum DeleteResourcePolicyOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "ConflictException": return try ConflictException.makeError(baseError: baseError)
@@ -8842,7 +8842,7 @@ enum DeleteTrailOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "CloudTrailARNInvalid": return try CloudTrailARNInvalidException.makeError(baseError: baseError)
@@ -8866,7 +8866,7 @@ enum DeregisterOrganizationDelegatedAdminOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AccountNotFound": return try AccountNotFoundException.makeError(baseError: baseError)
@@ -8890,7 +8890,7 @@ enum DescribeQueryOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "EventDataStoreARNInvalid": return try EventDataStoreARNInvalidException.makeError(baseError: baseError)
@@ -8911,7 +8911,7 @@ enum DescribeTrailsOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "CloudTrailARNInvalid": return try CloudTrailARNInvalidException.makeError(baseError: baseError)
@@ -8929,7 +8929,7 @@ enum DisableFederationOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "ResourceAccessDenied": return try AccessDeniedException.makeError(baseError: baseError)
@@ -8956,7 +8956,7 @@ enum EnableFederationOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "ResourceAccessDenied": return try AccessDeniedException.makeError(baseError: baseError)
@@ -8984,7 +8984,7 @@ enum GenerateQueryOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "EventDataStoreARNInvalid": return try EventDataStoreARNInvalidException.makeError(baseError: baseError)
@@ -9005,7 +9005,7 @@ enum GetChannelOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "ChannelARNInvalid": return try ChannelARNInvalidException.makeError(baseError: baseError)
@@ -9022,7 +9022,7 @@ enum GetDashboardOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "ResourceNotFound": return try ResourceNotFoundException.makeError(baseError: baseError)
@@ -9037,7 +9037,7 @@ enum GetEventConfigurationOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "CloudTrailARNInvalid": return try CloudTrailARNInvalidException.makeError(baseError: baseError)
@@ -9062,7 +9062,7 @@ enum GetEventDataStoreOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "EventDataStoreARNInvalid": return try EventDataStoreARNInvalidException.makeError(baseError: baseError)
@@ -9081,7 +9081,7 @@ enum GetEventSelectorsOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "CloudTrailARNInvalid": return try CloudTrailARNInvalidException.makeError(baseError: baseError)
@@ -9100,7 +9100,7 @@ enum GetImportOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "ImportNotFound": return try ImportNotFoundException.makeError(baseError: baseError)
@@ -9117,7 +9117,7 @@ enum GetInsightSelectorsOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "CloudTrailARNInvalid": return try CloudTrailARNInvalidException.makeError(baseError: baseError)
@@ -9140,7 +9140,7 @@ enum GetQueryResultsOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "EventDataStoreARNInvalid": return try EventDataStoreARNInvalidException.makeError(baseError: baseError)
@@ -9164,7 +9164,7 @@ enum GetResourcePolicyOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "OperationNotPermitted": return try OperationNotPermittedException.makeError(baseError: baseError)
@@ -9183,7 +9183,7 @@ enum GetTrailOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "CloudTrailARNInvalid": return try CloudTrailARNInvalidException.makeError(baseError: baseError)
@@ -9201,7 +9201,7 @@ enum GetTrailStatusOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "CloudTrailARNInvalid": return try CloudTrailARNInvalidException.makeError(baseError: baseError)
@@ -9219,7 +9219,7 @@ enum ListChannelsOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "InvalidNextToken": return try InvalidNextTokenException.makeError(baseError: baseError)
@@ -9235,7 +9235,7 @@ enum ListDashboardsOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "UnsupportedOperation": return try UnsupportedOperationException.makeError(baseError: baseError)
@@ -9249,7 +9249,7 @@ enum ListEventDataStoresOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "InvalidMaxResults": return try InvalidMaxResultsException.makeError(baseError: baseError)
@@ -9267,7 +9267,7 @@ enum ListImportFailuresOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "InvalidNextToken": return try InvalidNextTokenException.makeError(baseError: baseError)
@@ -9284,7 +9284,7 @@ enum ListImportsOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "EventDataStoreARNInvalid": return try EventDataStoreARNInvalidException.makeError(baseError: baseError)
@@ -9302,7 +9302,7 @@ enum ListInsightsDataOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "InvalidParameter": return try InvalidParameterException.makeError(baseError: baseError)
@@ -9318,7 +9318,7 @@ enum ListInsightsMetricDataOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "InvalidParameter": return try InvalidParameterException.makeError(baseError: baseError)
@@ -9335,7 +9335,7 @@ enum ListPublicKeysOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "InvalidTimeRange": return try InvalidTimeRangeException.makeError(baseError: baseError)
@@ -9352,7 +9352,7 @@ enum ListQueriesOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "EventDataStoreARNInvalid": return try EventDataStoreARNInvalidException.makeError(baseError: baseError)
@@ -9376,7 +9376,7 @@ enum ListTagsOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "ChannelARNInvalid": return try ChannelARNInvalidException.makeError(baseError: baseError)
@@ -9401,7 +9401,7 @@ enum ListTrailsOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "OperationNotPermitted": return try OperationNotPermittedException.makeError(baseError: baseError)
@@ -9416,7 +9416,7 @@ enum LookupEventsOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "InvalidEventCategory": return try InvalidEventCategoryException.makeError(baseError: baseError)
@@ -9436,7 +9436,7 @@ enum PutEventConfigurationOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "CloudTrailARNInvalid": return try CloudTrailARNInvalidException.makeError(baseError: baseError)
@@ -9468,7 +9468,7 @@ enum PutEventSelectorsOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "CloudTrailARNInvalid": return try CloudTrailARNInvalidException.makeError(baseError: baseError)
@@ -9493,7 +9493,7 @@ enum PutInsightSelectorsOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "CloudTrailARNInvalid": return try CloudTrailARNInvalidException.makeError(baseError: baseError)
@@ -9522,7 +9522,7 @@ enum PutResourcePolicyOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "ConflictException": return try ConflictException.makeError(baseError: baseError)
@@ -9542,7 +9542,7 @@ enum RegisterOrganizationDelegatedAdminOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AccountNotFound": return try AccountNotFoundException.makeError(baseError: baseError)
@@ -9569,7 +9569,7 @@ enum RemoveTagsOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "ChannelARNInvalid": return try ChannelARNInvalidException.makeError(baseError: baseError)
@@ -9597,7 +9597,7 @@ enum RestoreEventDataStoreOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "CloudTrailAccessNotEnabled": return try CloudTrailAccessNotEnabledException.makeError(baseError: baseError)
@@ -9623,7 +9623,7 @@ enum SearchSampleQueriesOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "InvalidParameter": return try InvalidParameterException.makeError(baseError: baseError)
@@ -9639,7 +9639,7 @@ enum StartDashboardRefreshOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "EventDataStoreNotFound": return try EventDataStoreNotFoundException.makeError(baseError: baseError)
@@ -9657,7 +9657,7 @@ enum StartEventDataStoreIngestionOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "ConflictException": return try ConflictException.makeError(baseError: baseError)
@@ -9681,7 +9681,7 @@ enum StartImportOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AccountHasOngoingImport": return try AccountHasOngoingImportException.makeError(baseError: baseError)
@@ -9706,7 +9706,7 @@ enum StartLoggingOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "CloudTrailARNInvalid": return try CloudTrailARNInvalidException.makeError(baseError: baseError)
@@ -9730,7 +9730,7 @@ enum StartQueryOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "EventDataStoreARNInvalid": return try EventDataStoreARNInvalidException.makeError(baseError: baseError)
@@ -9757,7 +9757,7 @@ enum StopEventDataStoreIngestionOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "ConflictException": return try ConflictException.makeError(baseError: baseError)
@@ -9781,7 +9781,7 @@ enum StopImportOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "ImportNotFound": return try ImportNotFoundException.makeError(baseError: baseError)
@@ -9798,7 +9798,7 @@ enum StopLoggingOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "CloudTrailARNInvalid": return try CloudTrailARNInvalidException.makeError(baseError: baseError)
@@ -9822,7 +9822,7 @@ enum UpdateChannelOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "ChannelAlreadyExists": return try ChannelAlreadyExistsException.makeError(baseError: baseError)
@@ -9845,7 +9845,7 @@ enum UpdateDashboardOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "ConflictException": return try ConflictException.makeError(baseError: baseError)
@@ -9866,7 +9866,7 @@ enum UpdateEventDataStoreOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "CloudTrailAccessNotEnabled": return try CloudTrailAccessNotEnabledException.makeError(baseError: baseError)
@@ -9901,7 +9901,7 @@ enum UpdateTrailOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "CloudTrailAccessNotEnabled": return try CloudTrailAccessNotEnabledException.makeError(baseError: baseError)
@@ -9944,7 +9944,7 @@ enum UpdateTrailOutputError {
 
 extension ChannelARNInvalidException {
 
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> ChannelARNInvalidException {
+    static func makeError(baseError: ClientRuntime.AWSJSONError) throws -> ChannelARNInvalidException {
         let reader = baseError.errorBodyReader
         var value = ChannelARNInvalidException()
         value.properties.message = try reader["Message"].readIfPresent()
@@ -9957,7 +9957,7 @@ extension ChannelARNInvalidException {
 
 extension ChannelNotFoundException {
 
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> ChannelNotFoundException {
+    static func makeError(baseError: ClientRuntime.AWSJSONError) throws -> ChannelNotFoundException {
         let reader = baseError.errorBodyReader
         var value = ChannelNotFoundException()
         value.properties.message = try reader["Message"].readIfPresent()
@@ -9970,7 +9970,7 @@ extension ChannelNotFoundException {
 
 extension CloudTrailARNInvalidException {
 
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> CloudTrailARNInvalidException {
+    static func makeError(baseError: ClientRuntime.AWSJSONError) throws -> CloudTrailARNInvalidException {
         let reader = baseError.errorBodyReader
         var value = CloudTrailARNInvalidException()
         value.properties.message = try reader["Message"].readIfPresent()
@@ -9983,7 +9983,7 @@ extension CloudTrailARNInvalidException {
 
 extension ConflictException {
 
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> ConflictException {
+    static func makeError(baseError: ClientRuntime.AWSJSONError) throws -> ConflictException {
         let reader = baseError.errorBodyReader
         var value = ConflictException()
         value.properties.message = try reader["Message"].readIfPresent()
@@ -9996,7 +9996,7 @@ extension ConflictException {
 
 extension EventDataStoreARNInvalidException {
 
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> EventDataStoreARNInvalidException {
+    static func makeError(baseError: ClientRuntime.AWSJSONError) throws -> EventDataStoreARNInvalidException {
         let reader = baseError.errorBodyReader
         var value = EventDataStoreARNInvalidException()
         value.properties.message = try reader["Message"].readIfPresent()
@@ -10009,7 +10009,7 @@ extension EventDataStoreARNInvalidException {
 
 extension EventDataStoreNotFoundException {
 
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> EventDataStoreNotFoundException {
+    static func makeError(baseError: ClientRuntime.AWSJSONError) throws -> EventDataStoreNotFoundException {
         let reader = baseError.errorBodyReader
         var value = EventDataStoreNotFoundException()
         value.properties.message = try reader["Message"].readIfPresent()
@@ -10022,7 +10022,7 @@ extension EventDataStoreNotFoundException {
 
 extension InactiveEventDataStoreException {
 
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> InactiveEventDataStoreException {
+    static func makeError(baseError: ClientRuntime.AWSJSONError) throws -> InactiveEventDataStoreException {
         let reader = baseError.errorBodyReader
         var value = InactiveEventDataStoreException()
         value.properties.message = try reader["Message"].readIfPresent()
@@ -10035,7 +10035,7 @@ extension InactiveEventDataStoreException {
 
 extension InvalidTagParameterException {
 
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> InvalidTagParameterException {
+    static func makeError(baseError: ClientRuntime.AWSJSONError) throws -> InvalidTagParameterException {
         let reader = baseError.errorBodyReader
         var value = InvalidTagParameterException()
         value.properties.message = try reader["Message"].readIfPresent()
@@ -10048,7 +10048,7 @@ extension InvalidTagParameterException {
 
 extension InvalidTrailNameException {
 
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> InvalidTrailNameException {
+    static func makeError(baseError: ClientRuntime.AWSJSONError) throws -> InvalidTrailNameException {
         let reader = baseError.errorBodyReader
         var value = InvalidTrailNameException()
         value.properties.message = try reader["Message"].readIfPresent()
@@ -10061,7 +10061,7 @@ extension InvalidTrailNameException {
 
 extension NoManagementAccountSLRExistsException {
 
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> NoManagementAccountSLRExistsException {
+    static func makeError(baseError: ClientRuntime.AWSJSONError) throws -> NoManagementAccountSLRExistsException {
         let reader = baseError.errorBodyReader
         var value = NoManagementAccountSLRExistsException()
         value.properties.message = try reader["Message"].readIfPresent()
@@ -10074,7 +10074,7 @@ extension NoManagementAccountSLRExistsException {
 
 extension NotOrganizationMasterAccountException {
 
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> NotOrganizationMasterAccountException {
+    static func makeError(baseError: ClientRuntime.AWSJSONError) throws -> NotOrganizationMasterAccountException {
         let reader = baseError.errorBodyReader
         var value = NotOrganizationMasterAccountException()
         value.properties.message = try reader["Message"].readIfPresent()
@@ -10087,7 +10087,7 @@ extension NotOrganizationMasterAccountException {
 
 extension OperationNotPermittedException {
 
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> OperationNotPermittedException {
+    static func makeError(baseError: ClientRuntime.AWSJSONError) throws -> OperationNotPermittedException {
         let reader = baseError.errorBodyReader
         var value = OperationNotPermittedException()
         value.properties.message = try reader["Message"].readIfPresent()
@@ -10100,7 +10100,7 @@ extension OperationNotPermittedException {
 
 extension ResourceNotFoundException {
 
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> ResourceNotFoundException {
+    static func makeError(baseError: ClientRuntime.AWSJSONError) throws -> ResourceNotFoundException {
         let reader = baseError.errorBodyReader
         var value = ResourceNotFoundException()
         value.properties.message = try reader["Message"].readIfPresent()
@@ -10113,7 +10113,7 @@ extension ResourceNotFoundException {
 
 extension ResourceTypeNotSupportedException {
 
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> ResourceTypeNotSupportedException {
+    static func makeError(baseError: ClientRuntime.AWSJSONError) throws -> ResourceTypeNotSupportedException {
         let reader = baseError.errorBodyReader
         var value = ResourceTypeNotSupportedException()
         value.properties.message = try reader["Message"].readIfPresent()
@@ -10126,7 +10126,7 @@ extension ResourceTypeNotSupportedException {
 
 extension TagsLimitExceededException {
 
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> TagsLimitExceededException {
+    static func makeError(baseError: ClientRuntime.AWSJSONError) throws -> TagsLimitExceededException {
         let reader = baseError.errorBodyReader
         var value = TagsLimitExceededException()
         value.properties.message = try reader["Message"].readIfPresent()
@@ -10139,7 +10139,7 @@ extension TagsLimitExceededException {
 
 extension UnsupportedOperationException {
 
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> UnsupportedOperationException {
+    static func makeError(baseError: ClientRuntime.AWSJSONError) throws -> UnsupportedOperationException {
         let reader = baseError.errorBodyReader
         var value = UnsupportedOperationException()
         value.properties.message = try reader["Message"].readIfPresent()
@@ -10152,7 +10152,7 @@ extension UnsupportedOperationException {
 
 extension InactiveQueryException {
 
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> InactiveQueryException {
+    static func makeError(baseError: ClientRuntime.AWSJSONError) throws -> InactiveQueryException {
         let reader = baseError.errorBodyReader
         var value = InactiveQueryException()
         value.properties.message = try reader["Message"].readIfPresent()
@@ -10165,7 +10165,7 @@ extension InactiveQueryException {
 
 extension InvalidParameterException {
 
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> InvalidParameterException {
+    static func makeError(baseError: ClientRuntime.AWSJSONError) throws -> InvalidParameterException {
         let reader = baseError.errorBodyReader
         var value = InvalidParameterException()
         value.properties.message = try reader["Message"].readIfPresent()
@@ -10178,7 +10178,7 @@ extension InvalidParameterException {
 
 extension QueryIdNotFoundException {
 
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> QueryIdNotFoundException {
+    static func makeError(baseError: ClientRuntime.AWSJSONError) throws -> QueryIdNotFoundException {
         let reader = baseError.errorBodyReader
         var value = QueryIdNotFoundException()
         value.properties.message = try reader["Message"].readIfPresent()
@@ -10191,7 +10191,7 @@ extension QueryIdNotFoundException {
 
 extension ChannelAlreadyExistsException {
 
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> ChannelAlreadyExistsException {
+    static func makeError(baseError: ClientRuntime.AWSJSONError) throws -> ChannelAlreadyExistsException {
         let reader = baseError.errorBodyReader
         var value = ChannelAlreadyExistsException()
         value.properties.message = try reader["Message"].readIfPresent()
@@ -10204,7 +10204,7 @@ extension ChannelAlreadyExistsException {
 
 extension ChannelMaxLimitExceededException {
 
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> ChannelMaxLimitExceededException {
+    static func makeError(baseError: ClientRuntime.AWSJSONError) throws -> ChannelMaxLimitExceededException {
         let reader = baseError.errorBodyReader
         var value = ChannelMaxLimitExceededException()
         value.properties.message = try reader["Message"].readIfPresent()
@@ -10217,7 +10217,7 @@ extension ChannelMaxLimitExceededException {
 
 extension InvalidEventDataStoreCategoryException {
 
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> InvalidEventDataStoreCategoryException {
+    static func makeError(baseError: ClientRuntime.AWSJSONError) throws -> InvalidEventDataStoreCategoryException {
         let reader = baseError.errorBodyReader
         var value = InvalidEventDataStoreCategoryException()
         value.properties.message = try reader["Message"].readIfPresent()
@@ -10230,7 +10230,7 @@ extension InvalidEventDataStoreCategoryException {
 
 extension InvalidSourceException {
 
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> InvalidSourceException {
+    static func makeError(baseError: ClientRuntime.AWSJSONError) throws -> InvalidSourceException {
         let reader = baseError.errorBodyReader
         var value = InvalidSourceException()
         value.properties.message = try reader["Message"].readIfPresent()
@@ -10243,7 +10243,7 @@ extension InvalidSourceException {
 
 extension InsufficientEncryptionPolicyException {
 
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> InsufficientEncryptionPolicyException {
+    static func makeError(baseError: ClientRuntime.AWSJSONError) throws -> InsufficientEncryptionPolicyException {
         let reader = baseError.errorBodyReader
         var value = InsufficientEncryptionPolicyException()
         value.properties.message = try reader["Message"].readIfPresent()
@@ -10256,7 +10256,7 @@ extension InsufficientEncryptionPolicyException {
 
 extension InvalidQueryStatementException {
 
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> InvalidQueryStatementException {
+    static func makeError(baseError: ClientRuntime.AWSJSONError) throws -> InvalidQueryStatementException {
         let reader = baseError.errorBodyReader
         var value = InvalidQueryStatementException()
         value.properties.message = try reader["Message"].readIfPresent()
@@ -10269,7 +10269,7 @@ extension InvalidQueryStatementException {
 
 extension ServiceQuotaExceededException {
 
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> ServiceQuotaExceededException {
+    static func makeError(baseError: ClientRuntime.AWSJSONError) throws -> ServiceQuotaExceededException {
         let reader = baseError.errorBodyReader
         var value = ServiceQuotaExceededException()
         value.properties.message = try reader["Message"].readIfPresent()
@@ -10282,7 +10282,7 @@ extension ServiceQuotaExceededException {
 
 extension CloudTrailAccessNotEnabledException {
 
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> CloudTrailAccessNotEnabledException {
+    static func makeError(baseError: ClientRuntime.AWSJSONError) throws -> CloudTrailAccessNotEnabledException {
         let reader = baseError.errorBodyReader
         var value = CloudTrailAccessNotEnabledException()
         value.properties.message = try reader["Message"].readIfPresent()
@@ -10295,7 +10295,7 @@ extension CloudTrailAccessNotEnabledException {
 
 extension EventDataStoreAlreadyExistsException {
 
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> EventDataStoreAlreadyExistsException {
+    static func makeError(baseError: ClientRuntime.AWSJSONError) throws -> EventDataStoreAlreadyExistsException {
         let reader = baseError.errorBodyReader
         var value = EventDataStoreAlreadyExistsException()
         value.properties.message = try reader["Message"].readIfPresent()
@@ -10308,7 +10308,7 @@ extension EventDataStoreAlreadyExistsException {
 
 extension EventDataStoreMaxLimitExceededException {
 
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> EventDataStoreMaxLimitExceededException {
+    static func makeError(baseError: ClientRuntime.AWSJSONError) throws -> EventDataStoreMaxLimitExceededException {
         let reader = baseError.errorBodyReader
         var value = EventDataStoreMaxLimitExceededException()
         value.properties.message = try reader["Message"].readIfPresent()
@@ -10321,7 +10321,7 @@ extension EventDataStoreMaxLimitExceededException {
 
 extension InsufficientDependencyServiceAccessPermissionException {
 
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> InsufficientDependencyServiceAccessPermissionException {
+    static func makeError(baseError: ClientRuntime.AWSJSONError) throws -> InsufficientDependencyServiceAccessPermissionException {
         let reader = baseError.errorBodyReader
         var value = InsufficientDependencyServiceAccessPermissionException()
         value.properties.message = try reader["Message"].readIfPresent()
@@ -10334,7 +10334,7 @@ extension InsufficientDependencyServiceAccessPermissionException {
 
 extension InvalidEventSelectorsException {
 
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> InvalidEventSelectorsException {
+    static func makeError(baseError: ClientRuntime.AWSJSONError) throws -> InvalidEventSelectorsException {
         let reader = baseError.errorBodyReader
         var value = InvalidEventSelectorsException()
         value.properties.message = try reader["Message"].readIfPresent()
@@ -10347,7 +10347,7 @@ extension InvalidEventSelectorsException {
 
 extension InvalidKmsKeyIdException {
 
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> InvalidKmsKeyIdException {
+    static func makeError(baseError: ClientRuntime.AWSJSONError) throws -> InvalidKmsKeyIdException {
         let reader = baseError.errorBodyReader
         var value = InvalidKmsKeyIdException()
         value.properties.message = try reader["Message"].readIfPresent()
@@ -10360,7 +10360,7 @@ extension InvalidKmsKeyIdException {
 
 extension KmsException {
 
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> KmsException {
+    static func makeError(baseError: ClientRuntime.AWSJSONError) throws -> KmsException {
         let reader = baseError.errorBodyReader
         var value = KmsException()
         value.properties.message = try reader["Message"].readIfPresent()
@@ -10373,7 +10373,7 @@ extension KmsException {
 
 extension KmsKeyNotFoundException {
 
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> KmsKeyNotFoundException {
+    static func makeError(baseError: ClientRuntime.AWSJSONError) throws -> KmsKeyNotFoundException {
         let reader = baseError.errorBodyReader
         var value = KmsKeyNotFoundException()
         value.properties.message = try reader["Message"].readIfPresent()
@@ -10386,7 +10386,7 @@ extension KmsKeyNotFoundException {
 
 extension OrganizationNotInAllFeaturesModeException {
 
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> OrganizationNotInAllFeaturesModeException {
+    static func makeError(baseError: ClientRuntime.AWSJSONError) throws -> OrganizationNotInAllFeaturesModeException {
         let reader = baseError.errorBodyReader
         var value = OrganizationNotInAllFeaturesModeException()
         value.properties.message = try reader["Message"].readIfPresent()
@@ -10399,7 +10399,7 @@ extension OrganizationNotInAllFeaturesModeException {
 
 extension OrganizationsNotInUseException {
 
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> OrganizationsNotInUseException {
+    static func makeError(baseError: ClientRuntime.AWSJSONError) throws -> OrganizationsNotInUseException {
         let reader = baseError.errorBodyReader
         var value = OrganizationsNotInUseException()
         value.properties.message = try reader["Message"].readIfPresent()
@@ -10412,7 +10412,7 @@ extension OrganizationsNotInUseException {
 
 extension ThrottlingException {
 
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> ThrottlingException {
+    static func makeError(baseError: ClientRuntime.AWSJSONError) throws -> ThrottlingException {
         let reader = baseError.errorBodyReader
         var value = ThrottlingException()
         value.properties.message = try reader["Message"].readIfPresent()
@@ -10425,7 +10425,7 @@ extension ThrottlingException {
 
 extension CloudTrailInvalidClientTokenIdException {
 
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> CloudTrailInvalidClientTokenIdException {
+    static func makeError(baseError: ClientRuntime.AWSJSONError) throws -> CloudTrailInvalidClientTokenIdException {
         let reader = baseError.errorBodyReader
         var value = CloudTrailInvalidClientTokenIdException()
         value.properties.message = try reader["Message"].readIfPresent()
@@ -10438,7 +10438,7 @@ extension CloudTrailInvalidClientTokenIdException {
 
 extension CloudWatchLogsDeliveryUnavailableException {
 
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> CloudWatchLogsDeliveryUnavailableException {
+    static func makeError(baseError: ClientRuntime.AWSJSONError) throws -> CloudWatchLogsDeliveryUnavailableException {
         let reader = baseError.errorBodyReader
         var value = CloudWatchLogsDeliveryUnavailableException()
         value.properties.message = try reader["Message"].readIfPresent()
@@ -10451,7 +10451,7 @@ extension CloudWatchLogsDeliveryUnavailableException {
 
 extension InsufficientS3BucketPolicyException {
 
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> InsufficientS3BucketPolicyException {
+    static func makeError(baseError: ClientRuntime.AWSJSONError) throws -> InsufficientS3BucketPolicyException {
         let reader = baseError.errorBodyReader
         var value = InsufficientS3BucketPolicyException()
         value.properties.message = try reader["Message"].readIfPresent()
@@ -10464,7 +10464,7 @@ extension InsufficientS3BucketPolicyException {
 
 extension InsufficientSnsTopicPolicyException {
 
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> InsufficientSnsTopicPolicyException {
+    static func makeError(baseError: ClientRuntime.AWSJSONError) throws -> InsufficientSnsTopicPolicyException {
         let reader = baseError.errorBodyReader
         var value = InsufficientSnsTopicPolicyException()
         value.properties.message = try reader["Message"].readIfPresent()
@@ -10477,7 +10477,7 @@ extension InsufficientSnsTopicPolicyException {
 
 extension InvalidCloudWatchLogsLogGroupArnException {
 
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> InvalidCloudWatchLogsLogGroupArnException {
+    static func makeError(baseError: ClientRuntime.AWSJSONError) throws -> InvalidCloudWatchLogsLogGroupArnException {
         let reader = baseError.errorBodyReader
         var value = InvalidCloudWatchLogsLogGroupArnException()
         value.properties.message = try reader["Message"].readIfPresent()
@@ -10490,7 +10490,7 @@ extension InvalidCloudWatchLogsLogGroupArnException {
 
 extension InvalidCloudWatchLogsRoleArnException {
 
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> InvalidCloudWatchLogsRoleArnException {
+    static func makeError(baseError: ClientRuntime.AWSJSONError) throws -> InvalidCloudWatchLogsRoleArnException {
         let reader = baseError.errorBodyReader
         var value = InvalidCloudWatchLogsRoleArnException()
         value.properties.message = try reader["Message"].readIfPresent()
@@ -10503,7 +10503,7 @@ extension InvalidCloudWatchLogsRoleArnException {
 
 extension InvalidParameterCombinationException {
 
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> InvalidParameterCombinationException {
+    static func makeError(baseError: ClientRuntime.AWSJSONError) throws -> InvalidParameterCombinationException {
         let reader = baseError.errorBodyReader
         var value = InvalidParameterCombinationException()
         value.properties.message = try reader["Message"].readIfPresent()
@@ -10516,7 +10516,7 @@ extension InvalidParameterCombinationException {
 
 extension InvalidS3BucketNameException {
 
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> InvalidS3BucketNameException {
+    static func makeError(baseError: ClientRuntime.AWSJSONError) throws -> InvalidS3BucketNameException {
         let reader = baseError.errorBodyReader
         var value = InvalidS3BucketNameException()
         value.properties.message = try reader["Message"].readIfPresent()
@@ -10529,7 +10529,7 @@ extension InvalidS3BucketNameException {
 
 extension InvalidS3PrefixException {
 
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> InvalidS3PrefixException {
+    static func makeError(baseError: ClientRuntime.AWSJSONError) throws -> InvalidS3PrefixException {
         let reader = baseError.errorBodyReader
         var value = InvalidS3PrefixException()
         value.properties.message = try reader["Message"].readIfPresent()
@@ -10542,7 +10542,7 @@ extension InvalidS3PrefixException {
 
 extension InvalidSnsTopicNameException {
 
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> InvalidSnsTopicNameException {
+    static func makeError(baseError: ClientRuntime.AWSJSONError) throws -> InvalidSnsTopicNameException {
         let reader = baseError.errorBodyReader
         var value = InvalidSnsTopicNameException()
         value.properties.message = try reader["Message"].readIfPresent()
@@ -10555,7 +10555,7 @@ extension InvalidSnsTopicNameException {
 
 extension KmsKeyDisabledException {
 
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> KmsKeyDisabledException {
+    static func makeError(baseError: ClientRuntime.AWSJSONError) throws -> KmsKeyDisabledException {
         let reader = baseError.errorBodyReader
         var value = KmsKeyDisabledException()
         value.properties.message = try reader["Message"].readIfPresent()
@@ -10568,7 +10568,7 @@ extension KmsKeyDisabledException {
 
 extension MaximumNumberOfTrailsExceededException {
 
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> MaximumNumberOfTrailsExceededException {
+    static func makeError(baseError: ClientRuntime.AWSJSONError) throws -> MaximumNumberOfTrailsExceededException {
         let reader = baseError.errorBodyReader
         var value = MaximumNumberOfTrailsExceededException()
         value.properties.message = try reader["Message"].readIfPresent()
@@ -10581,7 +10581,7 @@ extension MaximumNumberOfTrailsExceededException {
 
 extension S3BucketDoesNotExistException {
 
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> S3BucketDoesNotExistException {
+    static func makeError(baseError: ClientRuntime.AWSJSONError) throws -> S3BucketDoesNotExistException {
         let reader = baseError.errorBodyReader
         var value = S3BucketDoesNotExistException()
         value.properties.message = try reader["Message"].readIfPresent()
@@ -10594,7 +10594,7 @@ extension S3BucketDoesNotExistException {
 
 extension TrailAlreadyExistsException {
 
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> TrailAlreadyExistsException {
+    static func makeError(baseError: ClientRuntime.AWSJSONError) throws -> TrailAlreadyExistsException {
         let reader = baseError.errorBodyReader
         var value = TrailAlreadyExistsException()
         value.properties.message = try reader["Message"].readIfPresent()
@@ -10607,7 +10607,7 @@ extension TrailAlreadyExistsException {
 
 extension TrailNotProvidedException {
 
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> TrailNotProvidedException {
+    static func makeError(baseError: ClientRuntime.AWSJSONError) throws -> TrailNotProvidedException {
         let reader = baseError.errorBodyReader
         var value = TrailNotProvidedException()
         value.properties.message = try reader["Message"].readIfPresent()
@@ -10620,7 +10620,7 @@ extension TrailNotProvidedException {
 
 extension ChannelExistsForEDSException {
 
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> ChannelExistsForEDSException {
+    static func makeError(baseError: ClientRuntime.AWSJSONError) throws -> ChannelExistsForEDSException {
         let reader = baseError.errorBodyReader
         var value = ChannelExistsForEDSException()
         value.properties.message = try reader["Message"].readIfPresent()
@@ -10633,7 +10633,7 @@ extension ChannelExistsForEDSException {
 
 extension EventDataStoreFederationEnabledException {
 
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> EventDataStoreFederationEnabledException {
+    static func makeError(baseError: ClientRuntime.AWSJSONError) throws -> EventDataStoreFederationEnabledException {
         let reader = baseError.errorBodyReader
         var value = EventDataStoreFederationEnabledException()
         value.properties.message = try reader["Message"].readIfPresent()
@@ -10646,7 +10646,7 @@ extension EventDataStoreFederationEnabledException {
 
 extension EventDataStoreHasOngoingImportException {
 
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> EventDataStoreHasOngoingImportException {
+    static func makeError(baseError: ClientRuntime.AWSJSONError) throws -> EventDataStoreHasOngoingImportException {
         let reader = baseError.errorBodyReader
         var value = EventDataStoreHasOngoingImportException()
         value.properties.message = try reader["Message"].readIfPresent()
@@ -10659,7 +10659,7 @@ extension EventDataStoreHasOngoingImportException {
 
 extension EventDataStoreTerminationProtectedException {
 
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> EventDataStoreTerminationProtectedException {
+    static func makeError(baseError: ClientRuntime.AWSJSONError) throws -> EventDataStoreTerminationProtectedException {
         let reader = baseError.errorBodyReader
         var value = EventDataStoreTerminationProtectedException()
         value.properties.message = try reader["Message"].readIfPresent()
@@ -10672,7 +10672,7 @@ extension EventDataStoreTerminationProtectedException {
 
 extension ResourceARNNotValidException {
 
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> ResourceARNNotValidException {
+    static func makeError(baseError: ClientRuntime.AWSJSONError) throws -> ResourceARNNotValidException {
         let reader = baseError.errorBodyReader
         var value = ResourceARNNotValidException()
         value.properties.message = try reader["Message"].readIfPresent()
@@ -10685,7 +10685,7 @@ extension ResourceARNNotValidException {
 
 extension ResourcePolicyNotFoundException {
 
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> ResourcePolicyNotFoundException {
+    static func makeError(baseError: ClientRuntime.AWSJSONError) throws -> ResourcePolicyNotFoundException {
         let reader = baseError.errorBodyReader
         var value = ResourcePolicyNotFoundException()
         value.properties.message = try reader["Message"].readIfPresent()
@@ -10698,7 +10698,7 @@ extension ResourcePolicyNotFoundException {
 
 extension InvalidHomeRegionException {
 
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> InvalidHomeRegionException {
+    static func makeError(baseError: ClientRuntime.AWSJSONError) throws -> InvalidHomeRegionException {
         let reader = baseError.errorBodyReader
         var value = InvalidHomeRegionException()
         value.properties.message = try reader["Message"].readIfPresent()
@@ -10711,7 +10711,7 @@ extension InvalidHomeRegionException {
 
 extension TrailNotFoundException {
 
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> TrailNotFoundException {
+    static func makeError(baseError: ClientRuntime.AWSJSONError) throws -> TrailNotFoundException {
         let reader = baseError.errorBodyReader
         var value = TrailNotFoundException()
         value.properties.message = try reader["Message"].readIfPresent()
@@ -10724,7 +10724,7 @@ extension TrailNotFoundException {
 
 extension AccountNotFoundException {
 
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> AccountNotFoundException {
+    static func makeError(baseError: ClientRuntime.AWSJSONError) throws -> AccountNotFoundException {
         let reader = baseError.errorBodyReader
         var value = AccountNotFoundException()
         value.properties.message = try reader["Message"].readIfPresent()
@@ -10737,7 +10737,7 @@ extension AccountNotFoundException {
 
 extension AccountNotRegisteredException {
 
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> AccountNotRegisteredException {
+    static func makeError(baseError: ClientRuntime.AWSJSONError) throws -> AccountNotRegisteredException {
         let reader = baseError.errorBodyReader
         var value = AccountNotRegisteredException()
         value.properties.message = try reader["Message"].readIfPresent()
@@ -10750,7 +10750,7 @@ extension AccountNotRegisteredException {
 
 extension NotOrganizationManagementAccountException {
 
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> NotOrganizationManagementAccountException {
+    static func makeError(baseError: ClientRuntime.AWSJSONError) throws -> NotOrganizationManagementAccountException {
         let reader = baseError.errorBodyReader
         var value = NotOrganizationManagementAccountException()
         value.properties.message = try reader["Message"].readIfPresent()
@@ -10763,7 +10763,7 @@ extension NotOrganizationManagementAccountException {
 
 extension AccessDeniedException {
 
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> AccessDeniedException {
+    static func makeError(baseError: ClientRuntime.AWSJSONError) throws -> AccessDeniedException {
         let reader = baseError.errorBodyReader
         var value = AccessDeniedException()
         value.properties.message = try reader["Message"].readIfPresent()
@@ -10776,7 +10776,7 @@ extension AccessDeniedException {
 
 extension ConcurrentModificationException {
 
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> ConcurrentModificationException {
+    static func makeError(baseError: ClientRuntime.AWSJSONError) throws -> ConcurrentModificationException {
         let reader = baseError.errorBodyReader
         var value = ConcurrentModificationException()
         value.properties.message = try reader["Message"].readIfPresent()
@@ -10789,7 +10789,7 @@ extension ConcurrentModificationException {
 
 extension GenerateResponseException {
 
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> GenerateResponseException {
+    static func makeError(baseError: ClientRuntime.AWSJSONError) throws -> GenerateResponseException {
         let reader = baseError.errorBodyReader
         var value = GenerateResponseException()
         value.properties.message = try reader["Message"].readIfPresent()
@@ -10802,7 +10802,7 @@ extension GenerateResponseException {
 
 extension InvalidEventDataStoreStatusException {
 
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> InvalidEventDataStoreStatusException {
+    static func makeError(baseError: ClientRuntime.AWSJSONError) throws -> InvalidEventDataStoreStatusException {
         let reader = baseError.errorBodyReader
         var value = InvalidEventDataStoreStatusException()
         value.properties.message = try reader["Message"].readIfPresent()
@@ -10815,7 +10815,7 @@ extension InvalidEventDataStoreStatusException {
 
 extension ImportNotFoundException {
 
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> ImportNotFoundException {
+    static func makeError(baseError: ClientRuntime.AWSJSONError) throws -> ImportNotFoundException {
         let reader = baseError.errorBodyReader
         var value = ImportNotFoundException()
         value.properties.message = try reader["Message"].readIfPresent()
@@ -10828,7 +10828,7 @@ extension ImportNotFoundException {
 
 extension InsightNotEnabledException {
 
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> InsightNotEnabledException {
+    static func makeError(baseError: ClientRuntime.AWSJSONError) throws -> InsightNotEnabledException {
         let reader = baseError.errorBodyReader
         var value = InsightNotEnabledException()
         value.properties.message = try reader["Message"].readIfPresent()
@@ -10841,7 +10841,7 @@ extension InsightNotEnabledException {
 
 extension InvalidMaxResultsException {
 
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> InvalidMaxResultsException {
+    static func makeError(baseError: ClientRuntime.AWSJSONError) throws -> InvalidMaxResultsException {
         let reader = baseError.errorBodyReader
         var value = InvalidMaxResultsException()
         value.properties.message = try reader["Message"].readIfPresent()
@@ -10854,7 +10854,7 @@ extension InvalidMaxResultsException {
 
 extension InvalidNextTokenException {
 
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> InvalidNextTokenException {
+    static func makeError(baseError: ClientRuntime.AWSJSONError) throws -> InvalidNextTokenException {
         let reader = baseError.errorBodyReader
         var value = InvalidNextTokenException()
         value.properties.message = try reader["Message"].readIfPresent()
@@ -10867,7 +10867,7 @@ extension InvalidNextTokenException {
 
 extension InvalidTimeRangeException {
 
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> InvalidTimeRangeException {
+    static func makeError(baseError: ClientRuntime.AWSJSONError) throws -> InvalidTimeRangeException {
         let reader = baseError.errorBodyReader
         var value = InvalidTimeRangeException()
         value.properties.message = try reader["Message"].readIfPresent()
@@ -10880,7 +10880,7 @@ extension InvalidTimeRangeException {
 
 extension InvalidTokenException {
 
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> InvalidTokenException {
+    static func makeError(baseError: ClientRuntime.AWSJSONError) throws -> InvalidTokenException {
         let reader = baseError.errorBodyReader
         var value = InvalidTokenException()
         value.properties.message = try reader["Message"].readIfPresent()
@@ -10893,7 +10893,7 @@ extension InvalidTokenException {
 
 extension InvalidDateRangeException {
 
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> InvalidDateRangeException {
+    static func makeError(baseError: ClientRuntime.AWSJSONError) throws -> InvalidDateRangeException {
         let reader = baseError.errorBodyReader
         var value = InvalidDateRangeException()
         value.properties.message = try reader["Message"].readIfPresent()
@@ -10906,7 +10906,7 @@ extension InvalidDateRangeException {
 
 extension InvalidQueryStatusException {
 
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> InvalidQueryStatusException {
+    static func makeError(baseError: ClientRuntime.AWSJSONError) throws -> InvalidQueryStatusException {
         let reader = baseError.errorBodyReader
         var value = InvalidQueryStatusException()
         value.properties.message = try reader["Message"].readIfPresent()
@@ -10919,7 +10919,7 @@ extension InvalidQueryStatusException {
 
 extension InvalidEventCategoryException {
 
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> InvalidEventCategoryException {
+    static func makeError(baseError: ClientRuntime.AWSJSONError) throws -> InvalidEventCategoryException {
         let reader = baseError.errorBodyReader
         var value = InvalidEventCategoryException()
         value.properties.message = try reader["Message"].readIfPresent()
@@ -10932,7 +10932,7 @@ extension InvalidEventCategoryException {
 
 extension InvalidLookupAttributesException {
 
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> InvalidLookupAttributesException {
+    static func makeError(baseError: ClientRuntime.AWSJSONError) throws -> InvalidLookupAttributesException {
         let reader = baseError.errorBodyReader
         var value = InvalidLookupAttributesException()
         value.properties.message = try reader["Message"].readIfPresent()
@@ -10945,7 +10945,7 @@ extension InvalidLookupAttributesException {
 
 extension InsufficientIAMAccessPermissionException {
 
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> InsufficientIAMAccessPermissionException {
+    static func makeError(baseError: ClientRuntime.AWSJSONError) throws -> InsufficientIAMAccessPermissionException {
         let reader = baseError.errorBodyReader
         var value = InsufficientIAMAccessPermissionException()
         value.properties.message = try reader["Message"].readIfPresent()
@@ -10958,7 +10958,7 @@ extension InsufficientIAMAccessPermissionException {
 
 extension InvalidInsightSelectorsException {
 
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> InvalidInsightSelectorsException {
+    static func makeError(baseError: ClientRuntime.AWSJSONError) throws -> InvalidInsightSelectorsException {
         let reader = baseError.errorBodyReader
         var value = InvalidInsightSelectorsException()
         value.properties.message = try reader["Message"].readIfPresent()
@@ -10971,7 +10971,7 @@ extension InvalidInsightSelectorsException {
 
 extension ResourcePolicyNotValidException {
 
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> ResourcePolicyNotValidException {
+    static func makeError(baseError: ClientRuntime.AWSJSONError) throws -> ResourcePolicyNotValidException {
         let reader = baseError.errorBodyReader
         var value = ResourcePolicyNotValidException()
         value.properties.message = try reader["Message"].readIfPresent()
@@ -10984,7 +10984,7 @@ extension ResourcePolicyNotValidException {
 
 extension AccountRegisteredException {
 
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> AccountRegisteredException {
+    static func makeError(baseError: ClientRuntime.AWSJSONError) throws -> AccountRegisteredException {
         let reader = baseError.errorBodyReader
         var value = AccountRegisteredException()
         value.properties.message = try reader["Message"].readIfPresent()
@@ -10997,7 +10997,7 @@ extension AccountRegisteredException {
 
 extension CannotDelegateManagementAccountException {
 
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> CannotDelegateManagementAccountException {
+    static func makeError(baseError: ClientRuntime.AWSJSONError) throws -> CannotDelegateManagementAccountException {
         let reader = baseError.errorBodyReader
         var value = CannotDelegateManagementAccountException()
         value.properties.message = try reader["Message"].readIfPresent()
@@ -11010,7 +11010,7 @@ extension CannotDelegateManagementAccountException {
 
 extension DelegatedAdminAccountLimitExceededException {
 
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> DelegatedAdminAccountLimitExceededException {
+    static func makeError(baseError: ClientRuntime.AWSJSONError) throws -> DelegatedAdminAccountLimitExceededException {
         let reader = baseError.errorBodyReader
         var value = DelegatedAdminAccountLimitExceededException()
         value.properties.message = try reader["Message"].readIfPresent()
@@ -11023,7 +11023,7 @@ extension DelegatedAdminAccountLimitExceededException {
 
 extension AccountHasOngoingImportException {
 
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> AccountHasOngoingImportException {
+    static func makeError(baseError: ClientRuntime.AWSJSONError) throws -> AccountHasOngoingImportException {
         let reader = baseError.errorBodyReader
         var value = AccountHasOngoingImportException()
         value.properties.message = try reader["Message"].readIfPresent()
@@ -11036,7 +11036,7 @@ extension AccountHasOngoingImportException {
 
 extension InvalidImportSourceException {
 
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> InvalidImportSourceException {
+    static func makeError(baseError: ClientRuntime.AWSJSONError) throws -> InvalidImportSourceException {
         let reader = baseError.errorBodyReader
         var value = InvalidImportSourceException()
         value.properties.message = try reader["Message"].readIfPresent()
@@ -11049,7 +11049,7 @@ extension InvalidImportSourceException {
 
 extension MaxConcurrentQueriesException {
 
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> MaxConcurrentQueriesException {
+    static func makeError(baseError: ClientRuntime.AWSJSONError) throws -> MaxConcurrentQueriesException {
         let reader = baseError.errorBodyReader
         var value = MaxConcurrentQueriesException()
         value.properties.message = try reader["Message"].readIfPresent()

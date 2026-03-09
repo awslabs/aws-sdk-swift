@@ -49,7 +49,6 @@ import protocol SmithyIdentity.BearerTokenIdentityResolver
 @_spi(AWSEndpointResolverMiddleware) import struct AWSClientRuntime.AWSEndpointResolverMiddleware
 import struct AWSClientRuntime.AmzSdkInvocationIdMiddleware
 import struct AWSClientRuntime.UserAgentMiddleware
-import struct AWSClientRuntime.XAmzTargetMiddleware
 import struct AWSSDKHTTPAuth.SigV4AuthScheme
 import struct ClientRuntime.AuthSchemeMiddleware
 @_spi(SmithyReadWrite) import struct ClientRuntime.BodyMiddleware
@@ -57,6 +56,7 @@ import struct ClientRuntime.ContentLengthMiddleware
 import struct ClientRuntime.ContentTypeMiddleware
 @_spi(SmithyReadWrite) import struct ClientRuntime.DeserializeMiddleware
 import struct ClientRuntime.LoggerMiddleware
+import struct ClientRuntime.MutateHeadersMiddleware
 import struct ClientRuntime.SendableHttpInterceptorProviderBox
 import struct ClientRuntime.SendableInterceptorProviderBox
 import struct ClientRuntime.SignerMiddleware
@@ -665,7 +665,7 @@ extension PartnerCentralBenefitsClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<AmendBenefitApplicationOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<AmendBenefitApplicationInput, AmendBenefitApplicationOutput>(xAmzTarget: "PartnerCentralBenefitsService.AmendBenefitApplication"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<AmendBenefitApplicationInput, AmendBenefitApplicationOutput>(overrides: ["X-Amz-Target": "PartnerCentralBenefitsService.AmendBenefitApplication"]))
         builder.serialize(ClientRuntime.BodyMiddleware<AmendBenefitApplicationInput, AmendBenefitApplicationOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: AmendBenefitApplicationInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<AmendBenefitApplicationInput, AmendBenefitApplicationOutput>(contentType: "application/x-amz-json-1.0"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<AmendBenefitApplicationOutput>())
@@ -739,7 +739,7 @@ extension PartnerCentralBenefitsClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<AssociateBenefitApplicationResourceOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<AssociateBenefitApplicationResourceInput, AssociateBenefitApplicationResourceOutput>(xAmzTarget: "PartnerCentralBenefitsService.AssociateBenefitApplicationResource"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<AssociateBenefitApplicationResourceInput, AssociateBenefitApplicationResourceOutput>(overrides: ["X-Amz-Target": "PartnerCentralBenefitsService.AssociateBenefitApplicationResource"]))
         builder.serialize(ClientRuntime.BodyMiddleware<AssociateBenefitApplicationResourceInput, AssociateBenefitApplicationResourceOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: AssociateBenefitApplicationResourceInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<AssociateBenefitApplicationResourceInput, AssociateBenefitApplicationResourceOutput>(contentType: "application/x-amz-json-1.0"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<AssociateBenefitApplicationResourceOutput>())
@@ -813,7 +813,7 @@ extension PartnerCentralBenefitsClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<CancelBenefitApplicationOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<CancelBenefitApplicationInput, CancelBenefitApplicationOutput>(xAmzTarget: "PartnerCentralBenefitsService.CancelBenefitApplication"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<CancelBenefitApplicationInput, CancelBenefitApplicationOutput>(overrides: ["X-Amz-Target": "PartnerCentralBenefitsService.CancelBenefitApplication"]))
         builder.serialize(ClientRuntime.BodyMiddleware<CancelBenefitApplicationInput, CancelBenefitApplicationOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: CancelBenefitApplicationInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<CancelBenefitApplicationInput, CancelBenefitApplicationOutput>(contentType: "application/x-amz-json-1.0"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<CancelBenefitApplicationOutput>())
@@ -887,7 +887,7 @@ extension PartnerCentralBenefitsClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<CreateBenefitApplicationOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<CreateBenefitApplicationInput, CreateBenefitApplicationOutput>(xAmzTarget: "PartnerCentralBenefitsService.CreateBenefitApplication"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<CreateBenefitApplicationInput, CreateBenefitApplicationOutput>(overrides: ["X-Amz-Target": "PartnerCentralBenefitsService.CreateBenefitApplication"]))
         builder.serialize(ClientRuntime.BodyMiddleware<CreateBenefitApplicationInput, CreateBenefitApplicationOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: CreateBenefitApplicationInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<CreateBenefitApplicationInput, CreateBenefitApplicationOutput>(contentType: "application/x-amz-json-1.0"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<CreateBenefitApplicationOutput>())
@@ -961,7 +961,7 @@ extension PartnerCentralBenefitsClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<DisassociateBenefitApplicationResourceOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<DisassociateBenefitApplicationResourceInput, DisassociateBenefitApplicationResourceOutput>(xAmzTarget: "PartnerCentralBenefitsService.DisassociateBenefitApplicationResource"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<DisassociateBenefitApplicationResourceInput, DisassociateBenefitApplicationResourceOutput>(overrides: ["X-Amz-Target": "PartnerCentralBenefitsService.DisassociateBenefitApplicationResource"]))
         builder.serialize(ClientRuntime.BodyMiddleware<DisassociateBenefitApplicationResourceInput, DisassociateBenefitApplicationResourceOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: DisassociateBenefitApplicationResourceInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DisassociateBenefitApplicationResourceInput, DisassociateBenefitApplicationResourceOutput>(contentType: "application/x-amz-json-1.0"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DisassociateBenefitApplicationResourceOutput>())
@@ -1034,7 +1034,7 @@ extension PartnerCentralBenefitsClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<GetBenefitOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<GetBenefitInput, GetBenefitOutput>(xAmzTarget: "PartnerCentralBenefitsService.GetBenefit"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<GetBenefitInput, GetBenefitOutput>(overrides: ["X-Amz-Target": "PartnerCentralBenefitsService.GetBenefit"]))
         builder.serialize(ClientRuntime.BodyMiddleware<GetBenefitInput, GetBenefitOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: GetBenefitInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<GetBenefitInput, GetBenefitOutput>(contentType: "application/x-amz-json-1.0"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<GetBenefitOutput>())
@@ -1107,7 +1107,7 @@ extension PartnerCentralBenefitsClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<GetBenefitAllocationOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<GetBenefitAllocationInput, GetBenefitAllocationOutput>(xAmzTarget: "PartnerCentralBenefitsService.GetBenefitAllocation"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<GetBenefitAllocationInput, GetBenefitAllocationOutput>(overrides: ["X-Amz-Target": "PartnerCentralBenefitsService.GetBenefitAllocation"]))
         builder.serialize(ClientRuntime.BodyMiddleware<GetBenefitAllocationInput, GetBenefitAllocationOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: GetBenefitAllocationInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<GetBenefitAllocationInput, GetBenefitAllocationOutput>(contentType: "application/x-amz-json-1.0"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<GetBenefitAllocationOutput>())
@@ -1181,7 +1181,7 @@ extension PartnerCentralBenefitsClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<GetBenefitApplicationOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<GetBenefitApplicationInput, GetBenefitApplicationOutput>(xAmzTarget: "PartnerCentralBenefitsService.GetBenefitApplication"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<GetBenefitApplicationInput, GetBenefitApplicationOutput>(overrides: ["X-Amz-Target": "PartnerCentralBenefitsService.GetBenefitApplication"]))
         builder.serialize(ClientRuntime.BodyMiddleware<GetBenefitApplicationInput, GetBenefitApplicationOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: GetBenefitApplicationInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<GetBenefitApplicationInput, GetBenefitApplicationOutput>(contentType: "application/x-amz-json-1.0"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<GetBenefitApplicationOutput>())
@@ -1254,7 +1254,7 @@ extension PartnerCentralBenefitsClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<ListBenefitAllocationsOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<ListBenefitAllocationsInput, ListBenefitAllocationsOutput>(xAmzTarget: "PartnerCentralBenefitsService.ListBenefitAllocations"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<ListBenefitAllocationsInput, ListBenefitAllocationsOutput>(overrides: ["X-Amz-Target": "PartnerCentralBenefitsService.ListBenefitAllocations"]))
         builder.serialize(ClientRuntime.BodyMiddleware<ListBenefitAllocationsInput, ListBenefitAllocationsOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: ListBenefitAllocationsInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<ListBenefitAllocationsInput, ListBenefitAllocationsOutput>(contentType: "application/x-amz-json-1.0"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ListBenefitAllocationsOutput>())
@@ -1327,7 +1327,7 @@ extension PartnerCentralBenefitsClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<ListBenefitApplicationsOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<ListBenefitApplicationsInput, ListBenefitApplicationsOutput>(xAmzTarget: "PartnerCentralBenefitsService.ListBenefitApplications"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<ListBenefitApplicationsInput, ListBenefitApplicationsOutput>(overrides: ["X-Amz-Target": "PartnerCentralBenefitsService.ListBenefitApplications"]))
         builder.serialize(ClientRuntime.BodyMiddleware<ListBenefitApplicationsInput, ListBenefitApplicationsOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: ListBenefitApplicationsInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<ListBenefitApplicationsInput, ListBenefitApplicationsOutput>(contentType: "application/x-amz-json-1.0"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ListBenefitApplicationsOutput>())
@@ -1400,7 +1400,7 @@ extension PartnerCentralBenefitsClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<ListBenefitsOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<ListBenefitsInput, ListBenefitsOutput>(xAmzTarget: "PartnerCentralBenefitsService.ListBenefits"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<ListBenefitsInput, ListBenefitsOutput>(overrides: ["X-Amz-Target": "PartnerCentralBenefitsService.ListBenefits"]))
         builder.serialize(ClientRuntime.BodyMiddleware<ListBenefitsInput, ListBenefitsOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: ListBenefitsInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<ListBenefitsInput, ListBenefitsOutput>(contentType: "application/x-amz-json-1.0"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ListBenefitsOutput>())
@@ -1473,7 +1473,7 @@ extension PartnerCentralBenefitsClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<ListTagsForResourceOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<ListTagsForResourceInput, ListTagsForResourceOutput>(xAmzTarget: "PartnerCentralBenefitsService.ListTagsForResource"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<ListTagsForResourceInput, ListTagsForResourceOutput>(overrides: ["X-Amz-Target": "PartnerCentralBenefitsService.ListTagsForResource"]))
         builder.serialize(ClientRuntime.BodyMiddleware<ListTagsForResourceInput, ListTagsForResourceOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: ListTagsForResourceInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<ListTagsForResourceInput, ListTagsForResourceOutput>(contentType: "application/x-amz-json-1.0"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ListTagsForResourceOutput>())
@@ -1547,7 +1547,7 @@ extension PartnerCentralBenefitsClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<RecallBenefitApplicationOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<RecallBenefitApplicationInput, RecallBenefitApplicationOutput>(xAmzTarget: "PartnerCentralBenefitsService.RecallBenefitApplication"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<RecallBenefitApplicationInput, RecallBenefitApplicationOutput>(overrides: ["X-Amz-Target": "PartnerCentralBenefitsService.RecallBenefitApplication"]))
         builder.serialize(ClientRuntime.BodyMiddleware<RecallBenefitApplicationInput, RecallBenefitApplicationOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: RecallBenefitApplicationInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<RecallBenefitApplicationInput, RecallBenefitApplicationOutput>(contentType: "application/x-amz-json-1.0"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<RecallBenefitApplicationOutput>())
@@ -1621,7 +1621,7 @@ extension PartnerCentralBenefitsClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<SubmitBenefitApplicationOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<SubmitBenefitApplicationInput, SubmitBenefitApplicationOutput>(xAmzTarget: "PartnerCentralBenefitsService.SubmitBenefitApplication"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<SubmitBenefitApplicationInput, SubmitBenefitApplicationOutput>(overrides: ["X-Amz-Target": "PartnerCentralBenefitsService.SubmitBenefitApplication"]))
         builder.serialize(ClientRuntime.BodyMiddleware<SubmitBenefitApplicationInput, SubmitBenefitApplicationOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: SubmitBenefitApplicationInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<SubmitBenefitApplicationInput, SubmitBenefitApplicationOutput>(contentType: "application/x-amz-json-1.0"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<SubmitBenefitApplicationOutput>())
@@ -1696,7 +1696,7 @@ extension PartnerCentralBenefitsClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<TagResourceOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<TagResourceInput, TagResourceOutput>(xAmzTarget: "PartnerCentralBenefitsService.TagResource"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<TagResourceInput, TagResourceOutput>(overrides: ["X-Amz-Target": "PartnerCentralBenefitsService.TagResource"]))
         builder.serialize(ClientRuntime.BodyMiddleware<TagResourceInput, TagResourceOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: TagResourceInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<TagResourceInput, TagResourceOutput>(contentType: "application/x-amz-json-1.0"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<TagResourceOutput>())
@@ -1771,7 +1771,7 @@ extension PartnerCentralBenefitsClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<UntagResourceOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<UntagResourceInput, UntagResourceOutput>(xAmzTarget: "PartnerCentralBenefitsService.UntagResource"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<UntagResourceInput, UntagResourceOutput>(overrides: ["X-Amz-Target": "PartnerCentralBenefitsService.UntagResource"]))
         builder.serialize(ClientRuntime.BodyMiddleware<UntagResourceInput, UntagResourceOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: UntagResourceInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<UntagResourceInput, UntagResourceOutput>(contentType: "application/x-amz-json-1.0"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<UntagResourceOutput>())
@@ -1845,7 +1845,7 @@ extension PartnerCentralBenefitsClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<UpdateBenefitApplicationOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<UpdateBenefitApplicationInput, UpdateBenefitApplicationOutput>(xAmzTarget: "PartnerCentralBenefitsService.UpdateBenefitApplication"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<UpdateBenefitApplicationInput, UpdateBenefitApplicationOutput>(overrides: ["X-Amz-Target": "PartnerCentralBenefitsService.UpdateBenefitApplication"]))
         builder.serialize(ClientRuntime.BodyMiddleware<UpdateBenefitApplicationInput, UpdateBenefitApplicationOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: UpdateBenefitApplicationInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<UpdateBenefitApplicationInput, UpdateBenefitApplicationOutput>(contentType: "application/x-amz-json-1.0"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<UpdateBenefitApplicationOutput>())

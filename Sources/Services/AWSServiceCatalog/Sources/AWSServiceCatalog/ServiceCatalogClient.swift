@@ -48,7 +48,6 @@ import protocol SmithyIdentity.BearerTokenIdentityResolver
 @_spi(AWSEndpointResolverMiddleware) import struct AWSClientRuntime.AWSEndpointResolverMiddleware
 import struct AWSClientRuntime.AmzSdkInvocationIdMiddleware
 import struct AWSClientRuntime.UserAgentMiddleware
-import struct AWSClientRuntime.XAmzTargetMiddleware
 import struct AWSSDKHTTPAuth.SigV4AuthScheme
 import struct ClientRuntime.AuthSchemeMiddleware
 @_spi(SmithyReadWrite) import struct ClientRuntime.BodyMiddleware
@@ -57,6 +56,7 @@ import struct ClientRuntime.ContentTypeMiddleware
 @_spi(SmithyReadWrite) import struct ClientRuntime.DeserializeMiddleware
 import struct ClientRuntime.IdempotencyTokenMiddleware
 import struct ClientRuntime.LoggerMiddleware
+import struct ClientRuntime.MutateHeadersMiddleware
 import struct ClientRuntime.SendableHttpInterceptorProviderBox
 import struct ClientRuntime.SendableInterceptorProviderBox
 import struct ClientRuntime.SignerMiddleware
@@ -661,7 +661,7 @@ extension ServiceCatalogClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<AcceptPortfolioShareOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<AcceptPortfolioShareInput, AcceptPortfolioShareOutput>(xAmzTarget: "AWS242ServiceCatalogService.AcceptPortfolioShare"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<AcceptPortfolioShareInput, AcceptPortfolioShareOutput>(overrides: ["X-Amz-Target": "AWS242ServiceCatalogService.AcceptPortfolioShare"]))
         builder.serialize(ClientRuntime.BodyMiddleware<AcceptPortfolioShareInput, AcceptPortfolioShareOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: AcceptPortfolioShareInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<AcceptPortfolioShareInput, AcceptPortfolioShareOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<AcceptPortfolioShareOutput>())
@@ -733,7 +733,7 @@ extension ServiceCatalogClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<AssociateBudgetWithResourceOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<AssociateBudgetWithResourceInput, AssociateBudgetWithResourceOutput>(xAmzTarget: "AWS242ServiceCatalogService.AssociateBudgetWithResource"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<AssociateBudgetWithResourceInput, AssociateBudgetWithResourceOutput>(overrides: ["X-Amz-Target": "AWS242ServiceCatalogService.AssociateBudgetWithResource"]))
         builder.serialize(ClientRuntime.BodyMiddleware<AssociateBudgetWithResourceInput, AssociateBudgetWithResourceOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: AssociateBudgetWithResourceInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<AssociateBudgetWithResourceInput, AssociateBudgetWithResourceOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<AssociateBudgetWithResourceOutput>())
@@ -804,7 +804,7 @@ extension ServiceCatalogClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<AssociatePrincipalWithPortfolioOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<AssociatePrincipalWithPortfolioInput, AssociatePrincipalWithPortfolioOutput>(xAmzTarget: "AWS242ServiceCatalogService.AssociatePrincipalWithPortfolio"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<AssociatePrincipalWithPortfolioInput, AssociatePrincipalWithPortfolioOutput>(overrides: ["X-Amz-Target": "AWS242ServiceCatalogService.AssociatePrincipalWithPortfolio"]))
         builder.serialize(ClientRuntime.BodyMiddleware<AssociatePrincipalWithPortfolioInput, AssociatePrincipalWithPortfolioOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: AssociatePrincipalWithPortfolioInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<AssociatePrincipalWithPortfolioInput, AssociatePrincipalWithPortfolioOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<AssociatePrincipalWithPortfolioOutput>())
@@ -875,7 +875,7 @@ extension ServiceCatalogClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<AssociateProductWithPortfolioOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<AssociateProductWithPortfolioInput, AssociateProductWithPortfolioOutput>(xAmzTarget: "AWS242ServiceCatalogService.AssociateProductWithPortfolio"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<AssociateProductWithPortfolioInput, AssociateProductWithPortfolioOutput>(overrides: ["X-Amz-Target": "AWS242ServiceCatalogService.AssociateProductWithPortfolio"]))
         builder.serialize(ClientRuntime.BodyMiddleware<AssociateProductWithPortfolioInput, AssociateProductWithPortfolioOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: AssociateProductWithPortfolioInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<AssociateProductWithPortfolioInput, AssociateProductWithPortfolioOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<AssociateProductWithPortfolioOutput>())
@@ -948,7 +948,7 @@ extension ServiceCatalogClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<AssociateServiceActionWithProvisioningArtifactOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<AssociateServiceActionWithProvisioningArtifactInput, AssociateServiceActionWithProvisioningArtifactOutput>(xAmzTarget: "AWS242ServiceCatalogService.AssociateServiceActionWithProvisioningArtifact"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<AssociateServiceActionWithProvisioningArtifactInput, AssociateServiceActionWithProvisioningArtifactOutput>(overrides: ["X-Amz-Target": "AWS242ServiceCatalogService.AssociateServiceActionWithProvisioningArtifact"]))
         builder.serialize(ClientRuntime.BodyMiddleware<AssociateServiceActionWithProvisioningArtifactInput, AssociateServiceActionWithProvisioningArtifactOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: AssociateServiceActionWithProvisioningArtifactInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<AssociateServiceActionWithProvisioningArtifactInput, AssociateServiceActionWithProvisioningArtifactOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<AssociateServiceActionWithProvisioningArtifactOutput>())
@@ -1022,7 +1022,7 @@ extension ServiceCatalogClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<AssociateTagOptionWithResourceOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<AssociateTagOptionWithResourceInput, AssociateTagOptionWithResourceOutput>(xAmzTarget: "AWS242ServiceCatalogService.AssociateTagOptionWithResource"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<AssociateTagOptionWithResourceInput, AssociateTagOptionWithResourceOutput>(overrides: ["X-Amz-Target": "AWS242ServiceCatalogService.AssociateTagOptionWithResource"]))
         builder.serialize(ClientRuntime.BodyMiddleware<AssociateTagOptionWithResourceInput, AssociateTagOptionWithResourceOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: AssociateTagOptionWithResourceInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<AssociateTagOptionWithResourceInput, AssociateTagOptionWithResourceOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<AssociateTagOptionWithResourceOutput>())
@@ -1091,7 +1091,7 @@ extension ServiceCatalogClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<BatchAssociateServiceActionWithProvisioningArtifactOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<BatchAssociateServiceActionWithProvisioningArtifactInput, BatchAssociateServiceActionWithProvisioningArtifactOutput>(xAmzTarget: "AWS242ServiceCatalogService.BatchAssociateServiceActionWithProvisioningArtifact"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<BatchAssociateServiceActionWithProvisioningArtifactInput, BatchAssociateServiceActionWithProvisioningArtifactOutput>(overrides: ["X-Amz-Target": "AWS242ServiceCatalogService.BatchAssociateServiceActionWithProvisioningArtifact"]))
         builder.serialize(ClientRuntime.BodyMiddleware<BatchAssociateServiceActionWithProvisioningArtifactInput, BatchAssociateServiceActionWithProvisioningArtifactOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: BatchAssociateServiceActionWithProvisioningArtifactInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<BatchAssociateServiceActionWithProvisioningArtifactInput, BatchAssociateServiceActionWithProvisioningArtifactOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<BatchAssociateServiceActionWithProvisioningArtifactOutput>())
@@ -1160,7 +1160,7 @@ extension ServiceCatalogClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<BatchDisassociateServiceActionFromProvisioningArtifactOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<BatchDisassociateServiceActionFromProvisioningArtifactInput, BatchDisassociateServiceActionFromProvisioningArtifactOutput>(xAmzTarget: "AWS242ServiceCatalogService.BatchDisassociateServiceActionFromProvisioningArtifact"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<BatchDisassociateServiceActionFromProvisioningArtifactInput, BatchDisassociateServiceActionFromProvisioningArtifactOutput>(overrides: ["X-Amz-Target": "AWS242ServiceCatalogService.BatchDisassociateServiceActionFromProvisioningArtifact"]))
         builder.serialize(ClientRuntime.BodyMiddleware<BatchDisassociateServiceActionFromProvisioningArtifactInput, BatchDisassociateServiceActionFromProvisioningArtifactOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: BatchDisassociateServiceActionFromProvisioningArtifactInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<BatchDisassociateServiceActionFromProvisioningArtifactInput, BatchDisassociateServiceActionFromProvisioningArtifactOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<BatchDisassociateServiceActionFromProvisioningArtifactOutput>())
@@ -1231,7 +1231,7 @@ extension ServiceCatalogClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<CopyProductOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<CopyProductInput, CopyProductOutput>(xAmzTarget: "AWS242ServiceCatalogService.CopyProduct"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<CopyProductInput, CopyProductOutput>(overrides: ["X-Amz-Target": "AWS242ServiceCatalogService.CopyProduct"]))
         builder.serialize(ClientRuntime.BodyMiddleware<CopyProductInput, CopyProductOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: CopyProductInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<CopyProductInput, CopyProductOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<CopyProductOutput>())
@@ -1304,7 +1304,7 @@ extension ServiceCatalogClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<CreateConstraintOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<CreateConstraintInput, CreateConstraintOutput>(xAmzTarget: "AWS242ServiceCatalogService.CreateConstraint"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<CreateConstraintInput, CreateConstraintOutput>(overrides: ["X-Amz-Target": "AWS242ServiceCatalogService.CreateConstraint"]))
         builder.serialize(ClientRuntime.BodyMiddleware<CreateConstraintInput, CreateConstraintOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: CreateConstraintInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<CreateConstraintInput, CreateConstraintOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<CreateConstraintOutput>())
@@ -1376,7 +1376,7 @@ extension ServiceCatalogClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<CreatePortfolioOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<CreatePortfolioInput, CreatePortfolioOutput>(xAmzTarget: "AWS242ServiceCatalogService.CreatePortfolio"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<CreatePortfolioInput, CreatePortfolioOutput>(overrides: ["X-Amz-Target": "AWS242ServiceCatalogService.CreatePortfolio"]))
         builder.serialize(ClientRuntime.BodyMiddleware<CreatePortfolioInput, CreatePortfolioOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: CreatePortfolioInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<CreatePortfolioInput, CreatePortfolioOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<CreatePortfolioOutput>())
@@ -1449,7 +1449,7 @@ extension ServiceCatalogClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<CreatePortfolioShareOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<CreatePortfolioShareInput, CreatePortfolioShareOutput>(xAmzTarget: "AWS242ServiceCatalogService.CreatePortfolioShare"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<CreatePortfolioShareInput, CreatePortfolioShareOutput>(overrides: ["X-Amz-Target": "AWS242ServiceCatalogService.CreatePortfolioShare"]))
         builder.serialize(ClientRuntime.BodyMiddleware<CreatePortfolioShareInput, CreatePortfolioShareOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: CreatePortfolioShareInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<CreatePortfolioShareInput, CreatePortfolioShareOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<CreatePortfolioShareOutput>())
@@ -1521,7 +1521,7 @@ extension ServiceCatalogClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<CreateProductOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<CreateProductInput, CreateProductOutput>(xAmzTarget: "AWS242ServiceCatalogService.CreateProduct"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<CreateProductInput, CreateProductOutput>(overrides: ["X-Amz-Target": "AWS242ServiceCatalogService.CreateProduct"]))
         builder.serialize(ClientRuntime.BodyMiddleware<CreateProductInput, CreateProductOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: CreateProductInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<CreateProductInput, CreateProductOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<CreateProductOutput>())
@@ -1593,7 +1593,7 @@ extension ServiceCatalogClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<CreateProvisionedProductPlanOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<CreateProvisionedProductPlanInput, CreateProvisionedProductPlanOutput>(xAmzTarget: "AWS242ServiceCatalogService.CreateProvisionedProductPlan"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<CreateProvisionedProductPlanInput, CreateProvisionedProductPlanOutput>(overrides: ["X-Amz-Target": "AWS242ServiceCatalogService.CreateProvisionedProductPlan"]))
         builder.serialize(ClientRuntime.BodyMiddleware<CreateProvisionedProductPlanInput, CreateProvisionedProductPlanOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: CreateProvisionedProductPlanInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<CreateProvisionedProductPlanInput, CreateProvisionedProductPlanOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<CreateProvisionedProductPlanOutput>())
@@ -1665,7 +1665,7 @@ extension ServiceCatalogClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<CreateProvisioningArtifactOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<CreateProvisioningArtifactInput, CreateProvisioningArtifactOutput>(xAmzTarget: "AWS242ServiceCatalogService.CreateProvisioningArtifact"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<CreateProvisioningArtifactInput, CreateProvisioningArtifactOutput>(overrides: ["X-Amz-Target": "AWS242ServiceCatalogService.CreateProvisioningArtifact"]))
         builder.serialize(ClientRuntime.BodyMiddleware<CreateProvisioningArtifactInput, CreateProvisioningArtifactOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: CreateProvisioningArtifactInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<CreateProvisioningArtifactInput, CreateProvisioningArtifactOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<CreateProvisioningArtifactOutput>())
@@ -1736,7 +1736,7 @@ extension ServiceCatalogClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<CreateServiceActionOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<CreateServiceActionInput, CreateServiceActionOutput>(xAmzTarget: "AWS242ServiceCatalogService.CreateServiceAction"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<CreateServiceActionInput, CreateServiceActionOutput>(overrides: ["X-Amz-Target": "AWS242ServiceCatalogService.CreateServiceAction"]))
         builder.serialize(ClientRuntime.BodyMiddleware<CreateServiceActionInput, CreateServiceActionOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: CreateServiceActionInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<CreateServiceActionInput, CreateServiceActionOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<CreateServiceActionOutput>())
@@ -1807,7 +1807,7 @@ extension ServiceCatalogClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<CreateTagOptionOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<CreateTagOptionInput, CreateTagOptionOutput>(xAmzTarget: "AWS242ServiceCatalogService.CreateTagOption"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<CreateTagOptionInput, CreateTagOptionOutput>(overrides: ["X-Amz-Target": "AWS242ServiceCatalogService.CreateTagOption"]))
         builder.serialize(ClientRuntime.BodyMiddleware<CreateTagOptionInput, CreateTagOptionOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: CreateTagOptionInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<CreateTagOptionInput, CreateTagOptionOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<CreateTagOptionOutput>())
@@ -1877,7 +1877,7 @@ extension ServiceCatalogClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<DeleteConstraintOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<DeleteConstraintInput, DeleteConstraintOutput>(xAmzTarget: "AWS242ServiceCatalogService.DeleteConstraint"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<DeleteConstraintInput, DeleteConstraintOutput>(overrides: ["X-Amz-Target": "AWS242ServiceCatalogService.DeleteConstraint"]))
         builder.serialize(ClientRuntime.BodyMiddleware<DeleteConstraintInput, DeleteConstraintOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: DeleteConstraintInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DeleteConstraintInput, DeleteConstraintOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DeleteConstraintOutput>())
@@ -1949,7 +1949,7 @@ extension ServiceCatalogClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<DeletePortfolioOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<DeletePortfolioInput, DeletePortfolioOutput>(xAmzTarget: "AWS242ServiceCatalogService.DeletePortfolio"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<DeletePortfolioInput, DeletePortfolioOutput>(overrides: ["X-Amz-Target": "AWS242ServiceCatalogService.DeletePortfolio"]))
         builder.serialize(ClientRuntime.BodyMiddleware<DeletePortfolioInput, DeletePortfolioOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: DeletePortfolioInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DeletePortfolioInput, DeletePortfolioOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DeletePortfolioOutput>())
@@ -2021,7 +2021,7 @@ extension ServiceCatalogClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<DeletePortfolioShareOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<DeletePortfolioShareInput, DeletePortfolioShareOutput>(xAmzTarget: "AWS242ServiceCatalogService.DeletePortfolioShare"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<DeletePortfolioShareInput, DeletePortfolioShareOutput>(overrides: ["X-Amz-Target": "AWS242ServiceCatalogService.DeletePortfolioShare"]))
         builder.serialize(ClientRuntime.BodyMiddleware<DeletePortfolioShareInput, DeletePortfolioShareOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: DeletePortfolioShareInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DeletePortfolioShareInput, DeletePortfolioShareOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DeletePortfolioShareOutput>())
@@ -2093,7 +2093,7 @@ extension ServiceCatalogClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<DeleteProductOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<DeleteProductInput, DeleteProductOutput>(xAmzTarget: "AWS242ServiceCatalogService.DeleteProduct"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<DeleteProductInput, DeleteProductOutput>(overrides: ["X-Amz-Target": "AWS242ServiceCatalogService.DeleteProduct"]))
         builder.serialize(ClientRuntime.BodyMiddleware<DeleteProductInput, DeleteProductOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: DeleteProductInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DeleteProductInput, DeleteProductOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DeleteProductOutput>())
@@ -2163,7 +2163,7 @@ extension ServiceCatalogClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<DeleteProvisionedProductPlanOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<DeleteProvisionedProductPlanInput, DeleteProvisionedProductPlanOutput>(xAmzTarget: "AWS242ServiceCatalogService.DeleteProvisionedProductPlan"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<DeleteProvisionedProductPlanInput, DeleteProvisionedProductPlanOutput>(overrides: ["X-Amz-Target": "AWS242ServiceCatalogService.DeleteProvisionedProductPlan"]))
         builder.serialize(ClientRuntime.BodyMiddleware<DeleteProvisionedProductPlanInput, DeleteProvisionedProductPlanOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: DeleteProvisionedProductPlanInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DeleteProvisionedProductPlanInput, DeleteProvisionedProductPlanOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DeleteProvisionedProductPlanOutput>())
@@ -2234,7 +2234,7 @@ extension ServiceCatalogClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<DeleteProvisioningArtifactOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<DeleteProvisioningArtifactInput, DeleteProvisioningArtifactOutput>(xAmzTarget: "AWS242ServiceCatalogService.DeleteProvisioningArtifact"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<DeleteProvisioningArtifactInput, DeleteProvisioningArtifactOutput>(overrides: ["X-Amz-Target": "AWS242ServiceCatalogService.DeleteProvisioningArtifact"]))
         builder.serialize(ClientRuntime.BodyMiddleware<DeleteProvisioningArtifactInput, DeleteProvisioningArtifactOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: DeleteProvisioningArtifactInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DeleteProvisioningArtifactInput, DeleteProvisioningArtifactOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DeleteProvisioningArtifactOutput>())
@@ -2306,7 +2306,7 @@ extension ServiceCatalogClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<DeleteServiceActionOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<DeleteServiceActionInput, DeleteServiceActionOutput>(xAmzTarget: "AWS242ServiceCatalogService.DeleteServiceAction"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<DeleteServiceActionInput, DeleteServiceActionOutput>(overrides: ["X-Amz-Target": "AWS242ServiceCatalogService.DeleteServiceAction"]))
         builder.serialize(ClientRuntime.BodyMiddleware<DeleteServiceActionInput, DeleteServiceActionOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: DeleteServiceActionInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DeleteServiceActionInput, DeleteServiceActionOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DeleteServiceActionOutput>())
@@ -2377,7 +2377,7 @@ extension ServiceCatalogClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<DeleteTagOptionOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<DeleteTagOptionInput, DeleteTagOptionOutput>(xAmzTarget: "AWS242ServiceCatalogService.DeleteTagOption"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<DeleteTagOptionInput, DeleteTagOptionOutput>(overrides: ["X-Amz-Target": "AWS242ServiceCatalogService.DeleteTagOption"]))
         builder.serialize(ClientRuntime.BodyMiddleware<DeleteTagOptionInput, DeleteTagOptionOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: DeleteTagOptionInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DeleteTagOptionInput, DeleteTagOptionOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DeleteTagOptionOutput>())
@@ -2446,7 +2446,7 @@ extension ServiceCatalogClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<DescribeConstraintOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<DescribeConstraintInput, DescribeConstraintOutput>(xAmzTarget: "AWS242ServiceCatalogService.DescribeConstraint"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<DescribeConstraintInput, DescribeConstraintOutput>(overrides: ["X-Amz-Target": "AWS242ServiceCatalogService.DescribeConstraint"]))
         builder.serialize(ClientRuntime.BodyMiddleware<DescribeConstraintInput, DescribeConstraintOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: DescribeConstraintInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DescribeConstraintInput, DescribeConstraintOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DescribeConstraintOutput>())
@@ -2515,7 +2515,7 @@ extension ServiceCatalogClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<DescribeCopyProductStatusOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<DescribeCopyProductStatusInput, DescribeCopyProductStatusOutput>(xAmzTarget: "AWS242ServiceCatalogService.DescribeCopyProductStatus"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<DescribeCopyProductStatusInput, DescribeCopyProductStatusOutput>(overrides: ["X-Amz-Target": "AWS242ServiceCatalogService.DescribeCopyProductStatus"]))
         builder.serialize(ClientRuntime.BodyMiddleware<DescribeCopyProductStatusInput, DescribeCopyProductStatusOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: DescribeCopyProductStatusInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DescribeCopyProductStatusInput, DescribeCopyProductStatusOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DescribeCopyProductStatusOutput>())
@@ -2584,7 +2584,7 @@ extension ServiceCatalogClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<DescribePortfolioOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<DescribePortfolioInput, DescribePortfolioOutput>(xAmzTarget: "AWS242ServiceCatalogService.DescribePortfolio"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<DescribePortfolioInput, DescribePortfolioOutput>(overrides: ["X-Amz-Target": "AWS242ServiceCatalogService.DescribePortfolio"]))
         builder.serialize(ClientRuntime.BodyMiddleware<DescribePortfolioInput, DescribePortfolioOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: DescribePortfolioInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DescribePortfolioInput, DescribePortfolioOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DescribePortfolioOutput>())
@@ -2655,7 +2655,7 @@ extension ServiceCatalogClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<DescribePortfolioShareStatusOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<DescribePortfolioShareStatusInput, DescribePortfolioShareStatusOutput>(xAmzTarget: "AWS242ServiceCatalogService.DescribePortfolioShareStatus"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<DescribePortfolioShareStatusInput, DescribePortfolioShareStatusOutput>(overrides: ["X-Amz-Target": "AWS242ServiceCatalogService.DescribePortfolioShareStatus"]))
         builder.serialize(ClientRuntime.BodyMiddleware<DescribePortfolioShareStatusInput, DescribePortfolioShareStatusOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: DescribePortfolioShareStatusInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DescribePortfolioShareStatusInput, DescribePortfolioShareStatusOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DescribePortfolioShareStatusOutput>())
@@ -2725,7 +2725,7 @@ extension ServiceCatalogClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<DescribePortfolioSharesOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<DescribePortfolioSharesInput, DescribePortfolioSharesOutput>(xAmzTarget: "AWS242ServiceCatalogService.DescribePortfolioShares"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<DescribePortfolioSharesInput, DescribePortfolioSharesOutput>(overrides: ["X-Amz-Target": "AWS242ServiceCatalogService.DescribePortfolioShares"]))
         builder.serialize(ClientRuntime.BodyMiddleware<DescribePortfolioSharesInput, DescribePortfolioSharesOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: DescribePortfolioSharesInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DescribePortfolioSharesInput, DescribePortfolioSharesOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DescribePortfolioSharesOutput>())
@@ -2795,7 +2795,7 @@ extension ServiceCatalogClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<DescribeProductOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<DescribeProductInput, DescribeProductOutput>(xAmzTarget: "AWS242ServiceCatalogService.DescribeProduct"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<DescribeProductInput, DescribeProductOutput>(overrides: ["X-Amz-Target": "AWS242ServiceCatalogService.DescribeProduct"]))
         builder.serialize(ClientRuntime.BodyMiddleware<DescribeProductInput, DescribeProductOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: DescribeProductInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DescribeProductInput, DescribeProductOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DescribeProductOutput>())
@@ -2865,7 +2865,7 @@ extension ServiceCatalogClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<DescribeProductAsAdminOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<DescribeProductAsAdminInput, DescribeProductAsAdminOutput>(xAmzTarget: "AWS242ServiceCatalogService.DescribeProductAsAdmin"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<DescribeProductAsAdminInput, DescribeProductAsAdminOutput>(overrides: ["X-Amz-Target": "AWS242ServiceCatalogService.DescribeProductAsAdmin"]))
         builder.serialize(ClientRuntime.BodyMiddleware<DescribeProductAsAdminInput, DescribeProductAsAdminOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: DescribeProductAsAdminInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DescribeProductAsAdminInput, DescribeProductAsAdminOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DescribeProductAsAdminOutput>())
@@ -2935,7 +2935,7 @@ extension ServiceCatalogClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<DescribeProductViewOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<DescribeProductViewInput, DescribeProductViewOutput>(xAmzTarget: "AWS242ServiceCatalogService.DescribeProductView"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<DescribeProductViewInput, DescribeProductViewOutput>(overrides: ["X-Amz-Target": "AWS242ServiceCatalogService.DescribeProductView"]))
         builder.serialize(ClientRuntime.BodyMiddleware<DescribeProductViewInput, DescribeProductViewOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: DescribeProductViewInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DescribeProductViewInput, DescribeProductViewOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DescribeProductViewOutput>())
@@ -3005,7 +3005,7 @@ extension ServiceCatalogClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<DescribeProvisionedProductOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<DescribeProvisionedProductInput, DescribeProvisionedProductOutput>(xAmzTarget: "AWS242ServiceCatalogService.DescribeProvisionedProduct"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<DescribeProvisionedProductInput, DescribeProvisionedProductOutput>(overrides: ["X-Amz-Target": "AWS242ServiceCatalogService.DescribeProvisionedProduct"]))
         builder.serialize(ClientRuntime.BodyMiddleware<DescribeProvisionedProductInput, DescribeProvisionedProductOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: DescribeProvisionedProductInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DescribeProvisionedProductInput, DescribeProvisionedProductOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DescribeProvisionedProductOutput>())
@@ -3075,7 +3075,7 @@ extension ServiceCatalogClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<DescribeProvisionedProductPlanOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<DescribeProvisionedProductPlanInput, DescribeProvisionedProductPlanOutput>(xAmzTarget: "AWS242ServiceCatalogService.DescribeProvisionedProductPlan"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<DescribeProvisionedProductPlanInput, DescribeProvisionedProductPlanOutput>(overrides: ["X-Amz-Target": "AWS242ServiceCatalogService.DescribeProvisionedProductPlan"]))
         builder.serialize(ClientRuntime.BodyMiddleware<DescribeProvisionedProductPlanInput, DescribeProvisionedProductPlanOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: DescribeProvisionedProductPlanInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DescribeProvisionedProductPlanInput, DescribeProvisionedProductPlanOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DescribeProvisionedProductPlanOutput>())
@@ -3145,7 +3145,7 @@ extension ServiceCatalogClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<DescribeProvisioningArtifactOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<DescribeProvisioningArtifactInput, DescribeProvisioningArtifactOutput>(xAmzTarget: "AWS242ServiceCatalogService.DescribeProvisioningArtifact"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<DescribeProvisioningArtifactInput, DescribeProvisioningArtifactOutput>(overrides: ["X-Amz-Target": "AWS242ServiceCatalogService.DescribeProvisioningArtifact"]))
         builder.serialize(ClientRuntime.BodyMiddleware<DescribeProvisioningArtifactInput, DescribeProvisioningArtifactOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: DescribeProvisioningArtifactInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DescribeProvisioningArtifactInput, DescribeProvisioningArtifactOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DescribeProvisioningArtifactOutput>())
@@ -3215,7 +3215,7 @@ extension ServiceCatalogClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<DescribeProvisioningParametersOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<DescribeProvisioningParametersInput, DescribeProvisioningParametersOutput>(xAmzTarget: "AWS242ServiceCatalogService.DescribeProvisioningParameters"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<DescribeProvisioningParametersInput, DescribeProvisioningParametersOutput>(overrides: ["X-Amz-Target": "AWS242ServiceCatalogService.DescribeProvisioningParameters"]))
         builder.serialize(ClientRuntime.BodyMiddleware<DescribeProvisioningParametersInput, DescribeProvisioningParametersOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: DescribeProvisioningParametersInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DescribeProvisioningParametersInput, DescribeProvisioningParametersOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DescribeProvisioningParametersOutput>())
@@ -3284,7 +3284,7 @@ extension ServiceCatalogClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<DescribeRecordOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<DescribeRecordInput, DescribeRecordOutput>(xAmzTarget: "AWS242ServiceCatalogService.DescribeRecord"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<DescribeRecordInput, DescribeRecordOutput>(overrides: ["X-Amz-Target": "AWS242ServiceCatalogService.DescribeRecord"]))
         builder.serialize(ClientRuntime.BodyMiddleware<DescribeRecordInput, DescribeRecordOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: DescribeRecordInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DescribeRecordInput, DescribeRecordOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DescribeRecordOutput>())
@@ -3353,7 +3353,7 @@ extension ServiceCatalogClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<DescribeServiceActionOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<DescribeServiceActionInput, DescribeServiceActionOutput>(xAmzTarget: "AWS242ServiceCatalogService.DescribeServiceAction"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<DescribeServiceActionInput, DescribeServiceActionOutput>(overrides: ["X-Amz-Target": "AWS242ServiceCatalogService.DescribeServiceAction"]))
         builder.serialize(ClientRuntime.BodyMiddleware<DescribeServiceActionInput, DescribeServiceActionOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: DescribeServiceActionInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DescribeServiceActionInput, DescribeServiceActionOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DescribeServiceActionOutput>())
@@ -3423,7 +3423,7 @@ extension ServiceCatalogClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<DescribeServiceActionExecutionParametersOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<DescribeServiceActionExecutionParametersInput, DescribeServiceActionExecutionParametersOutput>(xAmzTarget: "AWS242ServiceCatalogService.DescribeServiceActionExecutionParameters"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<DescribeServiceActionExecutionParametersInput, DescribeServiceActionExecutionParametersOutput>(overrides: ["X-Amz-Target": "AWS242ServiceCatalogService.DescribeServiceActionExecutionParameters"]))
         builder.serialize(ClientRuntime.BodyMiddleware<DescribeServiceActionExecutionParametersInput, DescribeServiceActionExecutionParametersOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: DescribeServiceActionExecutionParametersInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DescribeServiceActionExecutionParametersInput, DescribeServiceActionExecutionParametersOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DescribeServiceActionExecutionParametersOutput>())
@@ -3493,7 +3493,7 @@ extension ServiceCatalogClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<DescribeTagOptionOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<DescribeTagOptionInput, DescribeTagOptionOutput>(xAmzTarget: "AWS242ServiceCatalogService.DescribeTagOption"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<DescribeTagOptionInput, DescribeTagOptionOutput>(overrides: ["X-Amz-Target": "AWS242ServiceCatalogService.DescribeTagOption"]))
         builder.serialize(ClientRuntime.BodyMiddleware<DescribeTagOptionInput, DescribeTagOptionOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: DescribeTagOptionInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DescribeTagOptionInput, DescribeTagOptionOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DescribeTagOptionOutput>())
@@ -3564,7 +3564,7 @@ extension ServiceCatalogClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<DisableAWSOrganizationsAccessOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<DisableAWSOrganizationsAccessInput, DisableAWSOrganizationsAccessOutput>(xAmzTarget: "AWS242ServiceCatalogService.DisableAWSOrganizationsAccess"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<DisableAWSOrganizationsAccessInput, DisableAWSOrganizationsAccessOutput>(overrides: ["X-Amz-Target": "AWS242ServiceCatalogService.DisableAWSOrganizationsAccess"]))
         builder.serialize(ClientRuntime.BodyMiddleware<DisableAWSOrganizationsAccessInput, DisableAWSOrganizationsAccessOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: DisableAWSOrganizationsAccessInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DisableAWSOrganizationsAccessInput, DisableAWSOrganizationsAccessOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DisableAWSOrganizationsAccessOutput>())
@@ -3633,7 +3633,7 @@ extension ServiceCatalogClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<DisassociateBudgetFromResourceOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<DisassociateBudgetFromResourceInput, DisassociateBudgetFromResourceOutput>(xAmzTarget: "AWS242ServiceCatalogService.DisassociateBudgetFromResource"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<DisassociateBudgetFromResourceInput, DisassociateBudgetFromResourceOutput>(overrides: ["X-Amz-Target": "AWS242ServiceCatalogService.DisassociateBudgetFromResource"]))
         builder.serialize(ClientRuntime.BodyMiddleware<DisassociateBudgetFromResourceInput, DisassociateBudgetFromResourceOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: DisassociateBudgetFromResourceInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DisassociateBudgetFromResourceInput, DisassociateBudgetFromResourceOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DisassociateBudgetFromResourceOutput>())
@@ -3703,7 +3703,7 @@ extension ServiceCatalogClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<DisassociatePrincipalFromPortfolioOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<DisassociatePrincipalFromPortfolioInput, DisassociatePrincipalFromPortfolioOutput>(xAmzTarget: "AWS242ServiceCatalogService.DisassociatePrincipalFromPortfolio"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<DisassociatePrincipalFromPortfolioInput, DisassociatePrincipalFromPortfolioOutput>(overrides: ["X-Amz-Target": "AWS242ServiceCatalogService.DisassociatePrincipalFromPortfolio"]))
         builder.serialize(ClientRuntime.BodyMiddleware<DisassociatePrincipalFromPortfolioInput, DisassociatePrincipalFromPortfolioOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: DisassociatePrincipalFromPortfolioInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DisassociatePrincipalFromPortfolioInput, DisassociatePrincipalFromPortfolioOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DisassociatePrincipalFromPortfolioOutput>())
@@ -3774,7 +3774,7 @@ extension ServiceCatalogClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<DisassociateProductFromPortfolioOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<DisassociateProductFromPortfolioInput, DisassociateProductFromPortfolioOutput>(xAmzTarget: "AWS242ServiceCatalogService.DisassociateProductFromPortfolio"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<DisassociateProductFromPortfolioInput, DisassociateProductFromPortfolioOutput>(overrides: ["X-Amz-Target": "AWS242ServiceCatalogService.DisassociateProductFromPortfolio"]))
         builder.serialize(ClientRuntime.BodyMiddleware<DisassociateProductFromPortfolioInput, DisassociateProductFromPortfolioOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: DisassociateProductFromPortfolioInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DisassociateProductFromPortfolioInput, DisassociateProductFromPortfolioOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DisassociateProductFromPortfolioOutput>())
@@ -3845,7 +3845,7 @@ extension ServiceCatalogClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<DisassociateServiceActionFromProvisioningArtifactOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<DisassociateServiceActionFromProvisioningArtifactInput, DisassociateServiceActionFromProvisioningArtifactOutput>(xAmzTarget: "AWS242ServiceCatalogService.DisassociateServiceActionFromProvisioningArtifact"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<DisassociateServiceActionFromProvisioningArtifactInput, DisassociateServiceActionFromProvisioningArtifactOutput>(overrides: ["X-Amz-Target": "AWS242ServiceCatalogService.DisassociateServiceActionFromProvisioningArtifact"]))
         builder.serialize(ClientRuntime.BodyMiddleware<DisassociateServiceActionFromProvisioningArtifactInput, DisassociateServiceActionFromProvisioningArtifactOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: DisassociateServiceActionFromProvisioningArtifactInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DisassociateServiceActionFromProvisioningArtifactInput, DisassociateServiceActionFromProvisioningArtifactOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DisassociateServiceActionFromProvisioningArtifactOutput>())
@@ -3915,7 +3915,7 @@ extension ServiceCatalogClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<DisassociateTagOptionFromResourceOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<DisassociateTagOptionFromResourceInput, DisassociateTagOptionFromResourceOutput>(xAmzTarget: "AWS242ServiceCatalogService.DisassociateTagOptionFromResource"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<DisassociateTagOptionFromResourceInput, DisassociateTagOptionFromResourceOutput>(overrides: ["X-Amz-Target": "AWS242ServiceCatalogService.DisassociateTagOptionFromResource"]))
         builder.serialize(ClientRuntime.BodyMiddleware<DisassociateTagOptionFromResourceInput, DisassociateTagOptionFromResourceOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: DisassociateTagOptionFromResourceInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DisassociateTagOptionFromResourceInput, DisassociateTagOptionFromResourceOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DisassociateTagOptionFromResourceOutput>())
@@ -3986,7 +3986,7 @@ extension ServiceCatalogClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<EnableAWSOrganizationsAccessOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<EnableAWSOrganizationsAccessInput, EnableAWSOrganizationsAccessOutput>(xAmzTarget: "AWS242ServiceCatalogService.EnableAWSOrganizationsAccess"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<EnableAWSOrganizationsAccessInput, EnableAWSOrganizationsAccessOutput>(overrides: ["X-Amz-Target": "AWS242ServiceCatalogService.EnableAWSOrganizationsAccess"]))
         builder.serialize(ClientRuntime.BodyMiddleware<EnableAWSOrganizationsAccessInput, EnableAWSOrganizationsAccessOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: EnableAWSOrganizationsAccessInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<EnableAWSOrganizationsAccessInput, EnableAWSOrganizationsAccessOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<EnableAWSOrganizationsAccessOutput>())
@@ -4058,7 +4058,7 @@ extension ServiceCatalogClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<ExecuteProvisionedProductPlanOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<ExecuteProvisionedProductPlanInput, ExecuteProvisionedProductPlanOutput>(xAmzTarget: "AWS242ServiceCatalogService.ExecuteProvisionedProductPlan"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<ExecuteProvisionedProductPlanInput, ExecuteProvisionedProductPlanOutput>(overrides: ["X-Amz-Target": "AWS242ServiceCatalogService.ExecuteProvisionedProductPlan"]))
         builder.serialize(ClientRuntime.BodyMiddleware<ExecuteProvisionedProductPlanInput, ExecuteProvisionedProductPlanOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: ExecuteProvisionedProductPlanInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<ExecuteProvisionedProductPlanInput, ExecuteProvisionedProductPlanOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ExecuteProvisionedProductPlanOutput>())
@@ -4130,7 +4130,7 @@ extension ServiceCatalogClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<ExecuteProvisionedProductServiceActionOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<ExecuteProvisionedProductServiceActionInput, ExecuteProvisionedProductServiceActionOutput>(xAmzTarget: "AWS242ServiceCatalogService.ExecuteProvisionedProductServiceAction"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<ExecuteProvisionedProductServiceActionInput, ExecuteProvisionedProductServiceActionOutput>(overrides: ["X-Amz-Target": "AWS242ServiceCatalogService.ExecuteProvisionedProductServiceAction"]))
         builder.serialize(ClientRuntime.BodyMiddleware<ExecuteProvisionedProductServiceActionInput, ExecuteProvisionedProductServiceActionOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: ExecuteProvisionedProductServiceActionInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<ExecuteProvisionedProductServiceActionInput, ExecuteProvisionedProductServiceActionOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ExecuteProvisionedProductServiceActionOutput>())
@@ -4200,7 +4200,7 @@ extension ServiceCatalogClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<GetAWSOrganizationsAccessStatusOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<GetAWSOrganizationsAccessStatusInput, GetAWSOrganizationsAccessStatusOutput>(xAmzTarget: "AWS242ServiceCatalogService.GetAWSOrganizationsAccessStatus"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<GetAWSOrganizationsAccessStatusInput, GetAWSOrganizationsAccessStatusOutput>(overrides: ["X-Amz-Target": "AWS242ServiceCatalogService.GetAWSOrganizationsAccessStatus"]))
         builder.serialize(ClientRuntime.BodyMiddleware<GetAWSOrganizationsAccessStatusInput, GetAWSOrganizationsAccessStatusOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: GetAWSOrganizationsAccessStatusInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<GetAWSOrganizationsAccessStatusInput, GetAWSOrganizationsAccessStatusOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<GetAWSOrganizationsAccessStatusOutput>())
@@ -4270,7 +4270,7 @@ extension ServiceCatalogClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<GetProvisionedProductOutputsOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<GetProvisionedProductOutputsInput, GetProvisionedProductOutputsOutput>(xAmzTarget: "AWS242ServiceCatalogService.GetProvisionedProductOutputs"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<GetProvisionedProductOutputsInput, GetProvisionedProductOutputsOutput>(overrides: ["X-Amz-Target": "AWS242ServiceCatalogService.GetProvisionedProductOutputs"]))
         builder.serialize(ClientRuntime.BodyMiddleware<GetProvisionedProductOutputsInput, GetProvisionedProductOutputsOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: GetProvisionedProductOutputsInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<GetProvisionedProductOutputsInput, GetProvisionedProductOutputsOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<GetProvisionedProductOutputsOutput>())
@@ -4343,7 +4343,7 @@ extension ServiceCatalogClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<ImportAsProvisionedProductOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<ImportAsProvisionedProductInput, ImportAsProvisionedProductOutput>(xAmzTarget: "AWS242ServiceCatalogService.ImportAsProvisionedProduct"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<ImportAsProvisionedProductInput, ImportAsProvisionedProductOutput>(overrides: ["X-Amz-Target": "AWS242ServiceCatalogService.ImportAsProvisionedProduct"]))
         builder.serialize(ClientRuntime.BodyMiddleware<ImportAsProvisionedProductInput, ImportAsProvisionedProductOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: ImportAsProvisionedProductInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<ImportAsProvisionedProductInput, ImportAsProvisionedProductOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ImportAsProvisionedProductOutput>())
@@ -4413,7 +4413,7 @@ extension ServiceCatalogClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<ListAcceptedPortfolioSharesOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<ListAcceptedPortfolioSharesInput, ListAcceptedPortfolioSharesOutput>(xAmzTarget: "AWS242ServiceCatalogService.ListAcceptedPortfolioShares"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<ListAcceptedPortfolioSharesInput, ListAcceptedPortfolioSharesOutput>(overrides: ["X-Amz-Target": "AWS242ServiceCatalogService.ListAcceptedPortfolioShares"]))
         builder.serialize(ClientRuntime.BodyMiddleware<ListAcceptedPortfolioSharesInput, ListAcceptedPortfolioSharesOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: ListAcceptedPortfolioSharesInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<ListAcceptedPortfolioSharesInput, ListAcceptedPortfolioSharesOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ListAcceptedPortfolioSharesOutput>())
@@ -4483,7 +4483,7 @@ extension ServiceCatalogClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<ListBudgetsForResourceOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<ListBudgetsForResourceInput, ListBudgetsForResourceOutput>(xAmzTarget: "AWS242ServiceCatalogService.ListBudgetsForResource"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<ListBudgetsForResourceInput, ListBudgetsForResourceOutput>(overrides: ["X-Amz-Target": "AWS242ServiceCatalogService.ListBudgetsForResource"]))
         builder.serialize(ClientRuntime.BodyMiddleware<ListBudgetsForResourceInput, ListBudgetsForResourceOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: ListBudgetsForResourceInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<ListBudgetsForResourceInput, ListBudgetsForResourceOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ListBudgetsForResourceOutput>())
@@ -4553,7 +4553,7 @@ extension ServiceCatalogClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<ListConstraintsForPortfolioOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<ListConstraintsForPortfolioInput, ListConstraintsForPortfolioOutput>(xAmzTarget: "AWS242ServiceCatalogService.ListConstraintsForPortfolio"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<ListConstraintsForPortfolioInput, ListConstraintsForPortfolioOutput>(overrides: ["X-Amz-Target": "AWS242ServiceCatalogService.ListConstraintsForPortfolio"]))
         builder.serialize(ClientRuntime.BodyMiddleware<ListConstraintsForPortfolioInput, ListConstraintsForPortfolioOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: ListConstraintsForPortfolioInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<ListConstraintsForPortfolioInput, ListConstraintsForPortfolioOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ListConstraintsForPortfolioOutput>())
@@ -4623,7 +4623,7 @@ extension ServiceCatalogClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<ListLaunchPathsOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<ListLaunchPathsInput, ListLaunchPathsOutput>(xAmzTarget: "AWS242ServiceCatalogService.ListLaunchPaths"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<ListLaunchPathsInput, ListLaunchPathsOutput>(overrides: ["X-Amz-Target": "AWS242ServiceCatalogService.ListLaunchPaths"]))
         builder.serialize(ClientRuntime.BodyMiddleware<ListLaunchPathsInput, ListLaunchPathsOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: ListLaunchPathsInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<ListLaunchPathsInput, ListLaunchPathsOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ListLaunchPathsOutput>())
@@ -4694,7 +4694,7 @@ extension ServiceCatalogClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<ListOrganizationPortfolioAccessOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<ListOrganizationPortfolioAccessInput, ListOrganizationPortfolioAccessOutput>(xAmzTarget: "AWS242ServiceCatalogService.ListOrganizationPortfolioAccess"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<ListOrganizationPortfolioAccessInput, ListOrganizationPortfolioAccessOutput>(overrides: ["X-Amz-Target": "AWS242ServiceCatalogService.ListOrganizationPortfolioAccess"]))
         builder.serialize(ClientRuntime.BodyMiddleware<ListOrganizationPortfolioAccessInput, ListOrganizationPortfolioAccessOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: ListOrganizationPortfolioAccessInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<ListOrganizationPortfolioAccessInput, ListOrganizationPortfolioAccessOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ListOrganizationPortfolioAccessOutput>())
@@ -4764,7 +4764,7 @@ extension ServiceCatalogClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<ListPortfolioAccessOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<ListPortfolioAccessInput, ListPortfolioAccessOutput>(xAmzTarget: "AWS242ServiceCatalogService.ListPortfolioAccess"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<ListPortfolioAccessInput, ListPortfolioAccessOutput>(overrides: ["X-Amz-Target": "AWS242ServiceCatalogService.ListPortfolioAccess"]))
         builder.serialize(ClientRuntime.BodyMiddleware<ListPortfolioAccessInput, ListPortfolioAccessOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: ListPortfolioAccessInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<ListPortfolioAccessInput, ListPortfolioAccessOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ListPortfolioAccessOutput>())
@@ -4833,7 +4833,7 @@ extension ServiceCatalogClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<ListPortfoliosOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<ListPortfoliosInput, ListPortfoliosOutput>(xAmzTarget: "AWS242ServiceCatalogService.ListPortfolios"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<ListPortfoliosInput, ListPortfoliosOutput>(overrides: ["X-Amz-Target": "AWS242ServiceCatalogService.ListPortfolios"]))
         builder.serialize(ClientRuntime.BodyMiddleware<ListPortfoliosInput, ListPortfoliosOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: ListPortfoliosInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<ListPortfoliosInput, ListPortfoliosOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ListPortfoliosOutput>())
@@ -4903,7 +4903,7 @@ extension ServiceCatalogClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<ListPortfoliosForProductOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<ListPortfoliosForProductInput, ListPortfoliosForProductOutput>(xAmzTarget: "AWS242ServiceCatalogService.ListPortfoliosForProduct"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<ListPortfoliosForProductInput, ListPortfoliosForProductOutput>(overrides: ["X-Amz-Target": "AWS242ServiceCatalogService.ListPortfoliosForProduct"]))
         builder.serialize(ClientRuntime.BodyMiddleware<ListPortfoliosForProductInput, ListPortfoliosForProductOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: ListPortfoliosForProductInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<ListPortfoliosForProductInput, ListPortfoliosForProductOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ListPortfoliosForProductOutput>())
@@ -4973,7 +4973,7 @@ extension ServiceCatalogClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<ListPrincipalsForPortfolioOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<ListPrincipalsForPortfolioInput, ListPrincipalsForPortfolioOutput>(xAmzTarget: "AWS242ServiceCatalogService.ListPrincipalsForPortfolio"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<ListPrincipalsForPortfolioInput, ListPrincipalsForPortfolioOutput>(overrides: ["X-Amz-Target": "AWS242ServiceCatalogService.ListPrincipalsForPortfolio"]))
         builder.serialize(ClientRuntime.BodyMiddleware<ListPrincipalsForPortfolioInput, ListPrincipalsForPortfolioOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: ListPrincipalsForPortfolioInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<ListPrincipalsForPortfolioInput, ListPrincipalsForPortfolioOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ListPrincipalsForPortfolioOutput>())
@@ -5043,7 +5043,7 @@ extension ServiceCatalogClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<ListProvisionedProductPlansOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<ListProvisionedProductPlansInput, ListProvisionedProductPlansOutput>(xAmzTarget: "AWS242ServiceCatalogService.ListProvisionedProductPlans"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<ListProvisionedProductPlansInput, ListProvisionedProductPlansOutput>(overrides: ["X-Amz-Target": "AWS242ServiceCatalogService.ListProvisionedProductPlans"]))
         builder.serialize(ClientRuntime.BodyMiddleware<ListProvisionedProductPlansInput, ListProvisionedProductPlansOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: ListProvisionedProductPlansInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<ListProvisionedProductPlansInput, ListProvisionedProductPlansOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ListProvisionedProductPlansOutput>())
@@ -5113,7 +5113,7 @@ extension ServiceCatalogClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<ListProvisioningArtifactsOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<ListProvisioningArtifactsInput, ListProvisioningArtifactsOutput>(xAmzTarget: "AWS242ServiceCatalogService.ListProvisioningArtifacts"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<ListProvisioningArtifactsInput, ListProvisioningArtifactsOutput>(overrides: ["X-Amz-Target": "AWS242ServiceCatalogService.ListProvisioningArtifacts"]))
         builder.serialize(ClientRuntime.BodyMiddleware<ListProvisioningArtifactsInput, ListProvisioningArtifactsOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: ListProvisioningArtifactsInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<ListProvisioningArtifactsInput, ListProvisioningArtifactsOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ListProvisioningArtifactsOutput>())
@@ -5183,7 +5183,7 @@ extension ServiceCatalogClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<ListProvisioningArtifactsForServiceActionOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<ListProvisioningArtifactsForServiceActionInput, ListProvisioningArtifactsForServiceActionOutput>(xAmzTarget: "AWS242ServiceCatalogService.ListProvisioningArtifactsForServiceAction"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<ListProvisioningArtifactsForServiceActionInput, ListProvisioningArtifactsForServiceActionOutput>(overrides: ["X-Amz-Target": "AWS242ServiceCatalogService.ListProvisioningArtifactsForServiceAction"]))
         builder.serialize(ClientRuntime.BodyMiddleware<ListProvisioningArtifactsForServiceActionInput, ListProvisioningArtifactsForServiceActionOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: ListProvisioningArtifactsForServiceActionInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<ListProvisioningArtifactsForServiceActionInput, ListProvisioningArtifactsForServiceActionOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ListProvisioningArtifactsForServiceActionOutput>())
@@ -5252,7 +5252,7 @@ extension ServiceCatalogClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<ListRecordHistoryOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<ListRecordHistoryInput, ListRecordHistoryOutput>(xAmzTarget: "AWS242ServiceCatalogService.ListRecordHistory"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<ListRecordHistoryInput, ListRecordHistoryOutput>(overrides: ["X-Amz-Target": "AWS242ServiceCatalogService.ListRecordHistory"]))
         builder.serialize(ClientRuntime.BodyMiddleware<ListRecordHistoryInput, ListRecordHistoryOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: ListRecordHistoryInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<ListRecordHistoryInput, ListRecordHistoryOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ListRecordHistoryOutput>())
@@ -5323,7 +5323,7 @@ extension ServiceCatalogClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<ListResourcesForTagOptionOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<ListResourcesForTagOptionInput, ListResourcesForTagOptionOutput>(xAmzTarget: "AWS242ServiceCatalogService.ListResourcesForTagOption"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<ListResourcesForTagOptionInput, ListResourcesForTagOptionOutput>(overrides: ["X-Amz-Target": "AWS242ServiceCatalogService.ListResourcesForTagOption"]))
         builder.serialize(ClientRuntime.BodyMiddleware<ListResourcesForTagOptionInput, ListResourcesForTagOptionOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: ListResourcesForTagOptionInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<ListResourcesForTagOptionInput, ListResourcesForTagOptionOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ListResourcesForTagOptionOutput>())
@@ -5392,7 +5392,7 @@ extension ServiceCatalogClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<ListServiceActionsOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<ListServiceActionsInput, ListServiceActionsOutput>(xAmzTarget: "AWS242ServiceCatalogService.ListServiceActions"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<ListServiceActionsInput, ListServiceActionsOutput>(overrides: ["X-Amz-Target": "AWS242ServiceCatalogService.ListServiceActions"]))
         builder.serialize(ClientRuntime.BodyMiddleware<ListServiceActionsInput, ListServiceActionsOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: ListServiceActionsInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<ListServiceActionsInput, ListServiceActionsOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ListServiceActionsOutput>())
@@ -5462,7 +5462,7 @@ extension ServiceCatalogClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<ListServiceActionsForProvisioningArtifactOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<ListServiceActionsForProvisioningArtifactInput, ListServiceActionsForProvisioningArtifactOutput>(xAmzTarget: "AWS242ServiceCatalogService.ListServiceActionsForProvisioningArtifact"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<ListServiceActionsForProvisioningArtifactInput, ListServiceActionsForProvisioningArtifactOutput>(overrides: ["X-Amz-Target": "AWS242ServiceCatalogService.ListServiceActionsForProvisioningArtifact"]))
         builder.serialize(ClientRuntime.BodyMiddleware<ListServiceActionsForProvisioningArtifactInput, ListServiceActionsForProvisioningArtifactOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: ListServiceActionsForProvisioningArtifactInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<ListServiceActionsForProvisioningArtifactInput, ListServiceActionsForProvisioningArtifactOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ListServiceActionsForProvisioningArtifactOutput>())
@@ -5532,7 +5532,7 @@ extension ServiceCatalogClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<ListStackInstancesForProvisionedProductOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<ListStackInstancesForProvisionedProductInput, ListStackInstancesForProvisionedProductOutput>(xAmzTarget: "AWS242ServiceCatalogService.ListStackInstancesForProvisionedProduct"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<ListStackInstancesForProvisionedProductInput, ListStackInstancesForProvisionedProductOutput>(overrides: ["X-Amz-Target": "AWS242ServiceCatalogService.ListStackInstancesForProvisionedProduct"]))
         builder.serialize(ClientRuntime.BodyMiddleware<ListStackInstancesForProvisionedProductInput, ListStackInstancesForProvisionedProductOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: ListStackInstancesForProvisionedProductInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<ListStackInstancesForProvisionedProductInput, ListStackInstancesForProvisionedProductOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ListStackInstancesForProvisionedProductOutput>())
@@ -5602,7 +5602,7 @@ extension ServiceCatalogClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<ListTagOptionsOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<ListTagOptionsInput, ListTagOptionsOutput>(xAmzTarget: "AWS242ServiceCatalogService.ListTagOptions"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<ListTagOptionsInput, ListTagOptionsOutput>(overrides: ["X-Amz-Target": "AWS242ServiceCatalogService.ListTagOptions"]))
         builder.serialize(ClientRuntime.BodyMiddleware<ListTagOptionsInput, ListTagOptionsOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: ListTagOptionsInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<ListTagOptionsInput, ListTagOptionsOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ListTagOptionsOutput>())
@@ -5673,7 +5673,7 @@ extension ServiceCatalogClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<NotifyProvisionProductEngineWorkflowResultOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<NotifyProvisionProductEngineWorkflowResultInput, NotifyProvisionProductEngineWorkflowResultOutput>(xAmzTarget: "AWS242ServiceCatalogService.NotifyProvisionProductEngineWorkflowResult"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<NotifyProvisionProductEngineWorkflowResultInput, NotifyProvisionProductEngineWorkflowResultOutput>(overrides: ["X-Amz-Target": "AWS242ServiceCatalogService.NotifyProvisionProductEngineWorkflowResult"]))
         builder.serialize(ClientRuntime.BodyMiddleware<NotifyProvisionProductEngineWorkflowResultInput, NotifyProvisionProductEngineWorkflowResultOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: NotifyProvisionProductEngineWorkflowResultInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<NotifyProvisionProductEngineWorkflowResultInput, NotifyProvisionProductEngineWorkflowResultOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<NotifyProvisionProductEngineWorkflowResultOutput>())
@@ -5744,7 +5744,7 @@ extension ServiceCatalogClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<NotifyTerminateProvisionedProductEngineWorkflowResultOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<NotifyTerminateProvisionedProductEngineWorkflowResultInput, NotifyTerminateProvisionedProductEngineWorkflowResultOutput>(xAmzTarget: "AWS242ServiceCatalogService.NotifyTerminateProvisionedProductEngineWorkflowResult"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<NotifyTerminateProvisionedProductEngineWorkflowResultInput, NotifyTerminateProvisionedProductEngineWorkflowResultOutput>(overrides: ["X-Amz-Target": "AWS242ServiceCatalogService.NotifyTerminateProvisionedProductEngineWorkflowResult"]))
         builder.serialize(ClientRuntime.BodyMiddleware<NotifyTerminateProvisionedProductEngineWorkflowResultInput, NotifyTerminateProvisionedProductEngineWorkflowResultOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: NotifyTerminateProvisionedProductEngineWorkflowResultInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<NotifyTerminateProvisionedProductEngineWorkflowResultInput, NotifyTerminateProvisionedProductEngineWorkflowResultOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<NotifyTerminateProvisionedProductEngineWorkflowResultOutput>())
@@ -5815,7 +5815,7 @@ extension ServiceCatalogClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<NotifyUpdateProvisionedProductEngineWorkflowResultOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<NotifyUpdateProvisionedProductEngineWorkflowResultInput, NotifyUpdateProvisionedProductEngineWorkflowResultOutput>(xAmzTarget: "AWS242ServiceCatalogService.NotifyUpdateProvisionedProductEngineWorkflowResult"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<NotifyUpdateProvisionedProductEngineWorkflowResultInput, NotifyUpdateProvisionedProductEngineWorkflowResultOutput>(overrides: ["X-Amz-Target": "AWS242ServiceCatalogService.NotifyUpdateProvisionedProductEngineWorkflowResult"]))
         builder.serialize(ClientRuntime.BodyMiddleware<NotifyUpdateProvisionedProductEngineWorkflowResultInput, NotifyUpdateProvisionedProductEngineWorkflowResultOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: NotifyUpdateProvisionedProductEngineWorkflowResultInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<NotifyUpdateProvisionedProductEngineWorkflowResultInput, NotifyUpdateProvisionedProductEngineWorkflowResultOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<NotifyUpdateProvisionedProductEngineWorkflowResultOutput>())
@@ -5887,7 +5887,7 @@ extension ServiceCatalogClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<ProvisionProductOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<ProvisionProductInput, ProvisionProductOutput>(xAmzTarget: "AWS242ServiceCatalogService.ProvisionProduct"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<ProvisionProductInput, ProvisionProductOutput>(overrides: ["X-Amz-Target": "AWS242ServiceCatalogService.ProvisionProduct"]))
         builder.serialize(ClientRuntime.BodyMiddleware<ProvisionProductInput, ProvisionProductOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: ProvisionProductInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<ProvisionProductInput, ProvisionProductOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ProvisionProductOutput>())
@@ -5956,7 +5956,7 @@ extension ServiceCatalogClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<RejectPortfolioShareOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<RejectPortfolioShareInput, RejectPortfolioShareOutput>(xAmzTarget: "AWS242ServiceCatalogService.RejectPortfolioShare"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<RejectPortfolioShareInput, RejectPortfolioShareOutput>(overrides: ["X-Amz-Target": "AWS242ServiceCatalogService.RejectPortfolioShare"]))
         builder.serialize(ClientRuntime.BodyMiddleware<RejectPortfolioShareInput, RejectPortfolioShareOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: RejectPortfolioShareInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<RejectPortfolioShareInput, RejectPortfolioShareOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<RejectPortfolioShareOutput>())
@@ -6025,7 +6025,7 @@ extension ServiceCatalogClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<ScanProvisionedProductsOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<ScanProvisionedProductsInput, ScanProvisionedProductsOutput>(xAmzTarget: "AWS242ServiceCatalogService.ScanProvisionedProducts"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<ScanProvisionedProductsInput, ScanProvisionedProductsOutput>(overrides: ["X-Amz-Target": "AWS242ServiceCatalogService.ScanProvisionedProducts"]))
         builder.serialize(ClientRuntime.BodyMiddleware<ScanProvisionedProductsInput, ScanProvisionedProductsOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: ScanProvisionedProductsInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<ScanProvisionedProductsInput, ScanProvisionedProductsOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ScanProvisionedProductsOutput>())
@@ -6094,7 +6094,7 @@ extension ServiceCatalogClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<SearchProductsOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<SearchProductsInput, SearchProductsOutput>(xAmzTarget: "AWS242ServiceCatalogService.SearchProducts"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<SearchProductsInput, SearchProductsOutput>(overrides: ["X-Amz-Target": "AWS242ServiceCatalogService.SearchProducts"]))
         builder.serialize(ClientRuntime.BodyMiddleware<SearchProductsInput, SearchProductsOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: SearchProductsInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<SearchProductsInput, SearchProductsOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<SearchProductsOutput>())
@@ -6164,7 +6164,7 @@ extension ServiceCatalogClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<SearchProductsAsAdminOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<SearchProductsAsAdminInput, SearchProductsAsAdminOutput>(xAmzTarget: "AWS242ServiceCatalogService.SearchProductsAsAdmin"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<SearchProductsAsAdminInput, SearchProductsAsAdminOutput>(overrides: ["X-Amz-Target": "AWS242ServiceCatalogService.SearchProductsAsAdmin"]))
         builder.serialize(ClientRuntime.BodyMiddleware<SearchProductsAsAdminInput, SearchProductsAsAdminOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: SearchProductsAsAdminInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<SearchProductsAsAdminInput, SearchProductsAsAdminOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<SearchProductsAsAdminOutput>())
@@ -6233,7 +6233,7 @@ extension ServiceCatalogClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<SearchProvisionedProductsOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<SearchProvisionedProductsInput, SearchProvisionedProductsOutput>(xAmzTarget: "AWS242ServiceCatalogService.SearchProvisionedProducts"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<SearchProvisionedProductsInput, SearchProvisionedProductsOutput>(overrides: ["X-Amz-Target": "AWS242ServiceCatalogService.SearchProvisionedProducts"]))
         builder.serialize(ClientRuntime.BodyMiddleware<SearchProvisionedProductsInput, SearchProvisionedProductsOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: SearchProvisionedProductsInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<SearchProvisionedProductsInput, SearchProvisionedProductsOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<SearchProvisionedProductsOutput>())
@@ -6303,7 +6303,7 @@ extension ServiceCatalogClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<TerminateProvisionedProductOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<TerminateProvisionedProductInput, TerminateProvisionedProductOutput>(xAmzTarget: "AWS242ServiceCatalogService.TerminateProvisionedProduct"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<TerminateProvisionedProductInput, TerminateProvisionedProductOutput>(overrides: ["X-Amz-Target": "AWS242ServiceCatalogService.TerminateProvisionedProduct"]))
         builder.serialize(ClientRuntime.BodyMiddleware<TerminateProvisionedProductInput, TerminateProvisionedProductOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: TerminateProvisionedProductInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<TerminateProvisionedProductInput, TerminateProvisionedProductOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<TerminateProvisionedProductOutput>())
@@ -6373,7 +6373,7 @@ extension ServiceCatalogClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<UpdateConstraintOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<UpdateConstraintInput, UpdateConstraintOutput>(xAmzTarget: "AWS242ServiceCatalogService.UpdateConstraint"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<UpdateConstraintInput, UpdateConstraintOutput>(overrides: ["X-Amz-Target": "AWS242ServiceCatalogService.UpdateConstraint"]))
         builder.serialize(ClientRuntime.BodyMiddleware<UpdateConstraintInput, UpdateConstraintOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: UpdateConstraintInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<UpdateConstraintInput, UpdateConstraintOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<UpdateConstraintOutput>())
@@ -6445,7 +6445,7 @@ extension ServiceCatalogClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<UpdatePortfolioOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<UpdatePortfolioInput, UpdatePortfolioOutput>(xAmzTarget: "AWS242ServiceCatalogService.UpdatePortfolio"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<UpdatePortfolioInput, UpdatePortfolioOutput>(overrides: ["X-Amz-Target": "AWS242ServiceCatalogService.UpdatePortfolio"]))
         builder.serialize(ClientRuntime.BodyMiddleware<UpdatePortfolioInput, UpdatePortfolioOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: UpdatePortfolioInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<UpdatePortfolioInput, UpdatePortfolioOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<UpdatePortfolioOutput>())
@@ -6517,7 +6517,7 @@ extension ServiceCatalogClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<UpdatePortfolioShareOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<UpdatePortfolioShareInput, UpdatePortfolioShareOutput>(xAmzTarget: "AWS242ServiceCatalogService.UpdatePortfolioShare"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<UpdatePortfolioShareInput, UpdatePortfolioShareOutput>(overrides: ["X-Amz-Target": "AWS242ServiceCatalogService.UpdatePortfolioShare"]))
         builder.serialize(ClientRuntime.BodyMiddleware<UpdatePortfolioShareInput, UpdatePortfolioShareOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: UpdatePortfolioShareInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<UpdatePortfolioShareInput, UpdatePortfolioShareOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<UpdatePortfolioShareOutput>())
@@ -6588,7 +6588,7 @@ extension ServiceCatalogClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<UpdateProductOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<UpdateProductInput, UpdateProductOutput>(xAmzTarget: "AWS242ServiceCatalogService.UpdateProduct"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<UpdateProductInput, UpdateProductOutput>(overrides: ["X-Amz-Target": "AWS242ServiceCatalogService.UpdateProduct"]))
         builder.serialize(ClientRuntime.BodyMiddleware<UpdateProductInput, UpdateProductOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: UpdateProductInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<UpdateProductInput, UpdateProductOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<UpdateProductOutput>())
@@ -6659,7 +6659,7 @@ extension ServiceCatalogClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<UpdateProvisionedProductOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<UpdateProvisionedProductInput, UpdateProvisionedProductOutput>(xAmzTarget: "AWS242ServiceCatalogService.UpdateProvisionedProduct"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<UpdateProvisionedProductInput, UpdateProvisionedProductOutput>(overrides: ["X-Amz-Target": "AWS242ServiceCatalogService.UpdateProvisionedProduct"]))
         builder.serialize(ClientRuntime.BodyMiddleware<UpdateProvisionedProductInput, UpdateProvisionedProductOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: UpdateProvisionedProductInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<UpdateProvisionedProductInput, UpdateProvisionedProductOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<UpdateProvisionedProductOutput>())
@@ -6731,7 +6731,7 @@ extension ServiceCatalogClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<UpdateProvisionedProductPropertiesOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<UpdateProvisionedProductPropertiesInput, UpdateProvisionedProductPropertiesOutput>(xAmzTarget: "AWS242ServiceCatalogService.UpdateProvisionedProductProperties"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<UpdateProvisionedProductPropertiesInput, UpdateProvisionedProductPropertiesOutput>(overrides: ["X-Amz-Target": "AWS242ServiceCatalogService.UpdateProvisionedProductProperties"]))
         builder.serialize(ClientRuntime.BodyMiddleware<UpdateProvisionedProductPropertiesInput, UpdateProvisionedProductPropertiesOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: UpdateProvisionedProductPropertiesInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<UpdateProvisionedProductPropertiesInput, UpdateProvisionedProductPropertiesOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<UpdateProvisionedProductPropertiesOutput>())
@@ -6801,7 +6801,7 @@ extension ServiceCatalogClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<UpdateProvisioningArtifactOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<UpdateProvisioningArtifactInput, UpdateProvisioningArtifactOutput>(xAmzTarget: "AWS242ServiceCatalogService.UpdateProvisioningArtifact"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<UpdateProvisioningArtifactInput, UpdateProvisioningArtifactOutput>(overrides: ["X-Amz-Target": "AWS242ServiceCatalogService.UpdateProvisioningArtifact"]))
         builder.serialize(ClientRuntime.BodyMiddleware<UpdateProvisioningArtifactInput, UpdateProvisioningArtifactOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: UpdateProvisioningArtifactInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<UpdateProvisioningArtifactInput, UpdateProvisioningArtifactOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<UpdateProvisioningArtifactOutput>())
@@ -6871,7 +6871,7 @@ extension ServiceCatalogClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<UpdateServiceActionOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<UpdateServiceActionInput, UpdateServiceActionOutput>(xAmzTarget: "AWS242ServiceCatalogService.UpdateServiceAction"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<UpdateServiceActionInput, UpdateServiceActionOutput>(overrides: ["X-Amz-Target": "AWS242ServiceCatalogService.UpdateServiceAction"]))
         builder.serialize(ClientRuntime.BodyMiddleware<UpdateServiceActionInput, UpdateServiceActionOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: UpdateServiceActionInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<UpdateServiceActionInput, UpdateServiceActionOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<UpdateServiceActionOutput>())
@@ -6943,7 +6943,7 @@ extension ServiceCatalogClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<UpdateTagOptionOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<UpdateTagOptionInput, UpdateTagOptionOutput>(xAmzTarget: "AWS242ServiceCatalogService.UpdateTagOption"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<UpdateTagOptionInput, UpdateTagOptionOutput>(overrides: ["X-Amz-Target": "AWS242ServiceCatalogService.UpdateTagOption"]))
         builder.serialize(ClientRuntime.BodyMiddleware<UpdateTagOptionInput, UpdateTagOptionOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: UpdateTagOptionInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<UpdateTagOptionInput, UpdateTagOptionOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<UpdateTagOptionOutput>())

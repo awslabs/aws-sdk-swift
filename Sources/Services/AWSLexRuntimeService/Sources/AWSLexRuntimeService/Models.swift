@@ -22,8 +22,8 @@ import protocol ClientRuntime.HTTPError
 import protocol ClientRuntime.ModeledError
 @_spi(SmithyReadWrite) import protocol SmithyReadWrite.SmithyReader
 @_spi(SmithyReadWrite) import protocol SmithyReadWrite.SmithyWriter
-@_spi(SmithyReadWrite) import struct AWSClientRuntime.RestJSONError
 @_spi(UnknownAWSHTTPServiceError) import struct AWSClientRuntime.UnknownAWSHTTPServiceError
+@_spi(SmithyReadWrite) import struct ClientRuntime.RestJSONError
 import struct Smithy.URIQueryItem
 import struct SmithyHTTPAPI.Header
 import struct SmithyHTTPAPI.Headers
@@ -1761,7 +1761,7 @@ enum DeleteSessionOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "BadRequestException": return try BadRequestException.makeError(baseError: baseError)
@@ -1779,7 +1779,7 @@ enum GetSessionOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "BadRequestException": return try BadRequestException.makeError(baseError: baseError)
@@ -1796,7 +1796,7 @@ enum PostContentOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "BadGatewayException": return try BadGatewayException.makeError(baseError: baseError)
@@ -1820,7 +1820,7 @@ enum PostTextOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "BadGatewayException": return try BadGatewayException.makeError(baseError: baseError)
@@ -1841,7 +1841,7 @@ enum PutSessionOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "BadGatewayException": return try BadGatewayException.makeError(baseError: baseError)
@@ -1859,7 +1859,7 @@ enum PutSessionOutputError {
 
 extension BadRequestException {
 
-    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> BadRequestException {
+    static func makeError(baseError: ClientRuntime.RestJSONError) throws -> BadRequestException {
         let reader = baseError.errorBodyReader
         var value = BadRequestException()
         value.properties.message = try reader["message"].readIfPresent()
@@ -1872,7 +1872,7 @@ extension BadRequestException {
 
 extension ConflictException {
 
-    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> ConflictException {
+    static func makeError(baseError: ClientRuntime.RestJSONError) throws -> ConflictException {
         let reader = baseError.errorBodyReader
         var value = ConflictException()
         value.properties.message = try reader["message"].readIfPresent()
@@ -1885,7 +1885,7 @@ extension ConflictException {
 
 extension InternalFailureException {
 
-    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> InternalFailureException {
+    static func makeError(baseError: ClientRuntime.RestJSONError) throws -> InternalFailureException {
         let reader = baseError.errorBodyReader
         var value = InternalFailureException()
         value.properties.message = try reader["message"].readIfPresent()
@@ -1898,7 +1898,7 @@ extension InternalFailureException {
 
 extension LimitExceededException {
 
-    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> LimitExceededException {
+    static func makeError(baseError: ClientRuntime.RestJSONError) throws -> LimitExceededException {
         let reader = baseError.errorBodyReader
         let httpResponse = baseError.httpResponse
         var value = LimitExceededException()
@@ -1915,7 +1915,7 @@ extension LimitExceededException {
 
 extension NotFoundException {
 
-    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> NotFoundException {
+    static func makeError(baseError: ClientRuntime.RestJSONError) throws -> NotFoundException {
         let reader = baseError.errorBodyReader
         var value = NotFoundException()
         value.properties.message = try reader["message"].readIfPresent()
@@ -1928,7 +1928,7 @@ extension NotFoundException {
 
 extension BadGatewayException {
 
-    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> BadGatewayException {
+    static func makeError(baseError: ClientRuntime.RestJSONError) throws -> BadGatewayException {
         let reader = baseError.errorBodyReader
         var value = BadGatewayException()
         value.properties.message = try reader["Message"].readIfPresent()
@@ -1941,7 +1941,7 @@ extension BadGatewayException {
 
 extension DependencyFailedException {
 
-    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> DependencyFailedException {
+    static func makeError(baseError: ClientRuntime.RestJSONError) throws -> DependencyFailedException {
         let reader = baseError.errorBodyReader
         var value = DependencyFailedException()
         value.properties.message = try reader["Message"].readIfPresent()
@@ -1954,7 +1954,7 @@ extension DependencyFailedException {
 
 extension LoopDetectedException {
 
-    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> LoopDetectedException {
+    static func makeError(baseError: ClientRuntime.RestJSONError) throws -> LoopDetectedException {
         let reader = baseError.errorBodyReader
         var value = LoopDetectedException()
         value.properties.message = try reader["Message"].readIfPresent()
@@ -1967,7 +1967,7 @@ extension LoopDetectedException {
 
 extension NotAcceptableException {
 
-    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> NotAcceptableException {
+    static func makeError(baseError: ClientRuntime.RestJSONError) throws -> NotAcceptableException {
         let reader = baseError.errorBodyReader
         var value = NotAcceptableException()
         value.properties.message = try reader["message"].readIfPresent()
@@ -1980,7 +1980,7 @@ extension NotAcceptableException {
 
 extension RequestTimeoutException {
 
-    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> RequestTimeoutException {
+    static func makeError(baseError: ClientRuntime.RestJSONError) throws -> RequestTimeoutException {
         let reader = baseError.errorBodyReader
         var value = RequestTimeoutException()
         value.properties.message = try reader["message"].readIfPresent()
@@ -1993,7 +1993,7 @@ extension RequestTimeoutException {
 
 extension UnsupportedMediaTypeException {
 
-    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> UnsupportedMediaTypeException {
+    static func makeError(baseError: ClientRuntime.RestJSONError) throws -> UnsupportedMediaTypeException {
         let reader = baseError.errorBodyReader
         var value = UnsupportedMediaTypeException()
         value.properties.message = try reader["message"].readIfPresent()

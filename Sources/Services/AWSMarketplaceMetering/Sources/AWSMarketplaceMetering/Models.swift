@@ -20,8 +20,8 @@ import protocol ClientRuntime.HTTPError
 import protocol ClientRuntime.ModeledError
 @_spi(SmithyReadWrite) import protocol SmithyReadWrite.SmithyReader
 @_spi(SmithyReadWrite) import protocol SmithyReadWrite.SmithyWriter
-@_spi(SmithyReadWrite) import struct AWSClientRuntime.AWSJSONError
 @_spi(UnknownAWSHTTPServiceError) import struct AWSClientRuntime.UnknownAWSHTTPServiceError
+@_spi(SmithyReadWrite) import struct ClientRuntime.AWSJSONError
 @_spi(SmithyTimestamps) import struct SmithyTimestamps.TimestampFormatter
 
 /// The API is disabled in the Region.
@@ -895,7 +895,7 @@ enum BatchMeterUsageOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "DisabledApiException": return try DisabledApiException.makeError(baseError: baseError)
@@ -918,7 +918,7 @@ enum MeterUsageOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "CustomerNotEntitledException": return try CustomerNotEntitledException.makeError(baseError: baseError)
@@ -942,7 +942,7 @@ enum RegisterUsageOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "CustomerNotEntitledException": return try CustomerNotEntitledException.makeError(baseError: baseError)
@@ -963,7 +963,7 @@ enum ResolveCustomerOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "DisabledApiException": return try DisabledApiException.makeError(baseError: baseError)
@@ -978,7 +978,7 @@ enum ResolveCustomerOutputError {
 
 extension DisabledApiException {
 
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> DisabledApiException {
+    static func makeError(baseError: ClientRuntime.AWSJSONError) throws -> DisabledApiException {
         let reader = baseError.errorBodyReader
         var value = DisabledApiException()
         value.properties.message = try reader["message"].readIfPresent()
@@ -991,7 +991,7 @@ extension DisabledApiException {
 
 extension InternalServiceErrorException {
 
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> InternalServiceErrorException {
+    static func makeError(baseError: ClientRuntime.AWSJSONError) throws -> InternalServiceErrorException {
         let reader = baseError.errorBodyReader
         var value = InternalServiceErrorException()
         value.properties.message = try reader["message"].readIfPresent()
@@ -1004,7 +1004,7 @@ extension InternalServiceErrorException {
 
 extension InvalidCustomerIdentifierException {
 
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> InvalidCustomerIdentifierException {
+    static func makeError(baseError: ClientRuntime.AWSJSONError) throws -> InvalidCustomerIdentifierException {
         let reader = baseError.errorBodyReader
         var value = InvalidCustomerIdentifierException()
         value.properties.message = try reader["message"].readIfPresent()
@@ -1017,7 +1017,7 @@ extension InvalidCustomerIdentifierException {
 
 extension InvalidLicenseException {
 
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> InvalidLicenseException {
+    static func makeError(baseError: ClientRuntime.AWSJSONError) throws -> InvalidLicenseException {
         let reader = baseError.errorBodyReader
         var value = InvalidLicenseException()
         value.properties.message = try reader["message"].readIfPresent()
@@ -1030,7 +1030,7 @@ extension InvalidLicenseException {
 
 extension InvalidProductCodeException {
 
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> InvalidProductCodeException {
+    static func makeError(baseError: ClientRuntime.AWSJSONError) throws -> InvalidProductCodeException {
         let reader = baseError.errorBodyReader
         var value = InvalidProductCodeException()
         value.properties.message = try reader["message"].readIfPresent()
@@ -1043,7 +1043,7 @@ extension InvalidProductCodeException {
 
 extension InvalidTagException {
 
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> InvalidTagException {
+    static func makeError(baseError: ClientRuntime.AWSJSONError) throws -> InvalidTagException {
         let reader = baseError.errorBodyReader
         var value = InvalidTagException()
         value.properties.message = try reader["message"].readIfPresent()
@@ -1056,7 +1056,7 @@ extension InvalidTagException {
 
 extension InvalidUsageAllocationsException {
 
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> InvalidUsageAllocationsException {
+    static func makeError(baseError: ClientRuntime.AWSJSONError) throws -> InvalidUsageAllocationsException {
         let reader = baseError.errorBodyReader
         var value = InvalidUsageAllocationsException()
         value.properties.message = try reader["message"].readIfPresent()
@@ -1069,7 +1069,7 @@ extension InvalidUsageAllocationsException {
 
 extension InvalidUsageDimensionException {
 
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> InvalidUsageDimensionException {
+    static func makeError(baseError: ClientRuntime.AWSJSONError) throws -> InvalidUsageDimensionException {
         let reader = baseError.errorBodyReader
         var value = InvalidUsageDimensionException()
         value.properties.message = try reader["message"].readIfPresent()
@@ -1082,7 +1082,7 @@ extension InvalidUsageDimensionException {
 
 extension ThrottlingException {
 
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> ThrottlingException {
+    static func makeError(baseError: ClientRuntime.AWSJSONError) throws -> ThrottlingException {
         let reader = baseError.errorBodyReader
         var value = ThrottlingException()
         value.properties.message = try reader["message"].readIfPresent()
@@ -1095,7 +1095,7 @@ extension ThrottlingException {
 
 extension TimestampOutOfBoundsException {
 
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> TimestampOutOfBoundsException {
+    static func makeError(baseError: ClientRuntime.AWSJSONError) throws -> TimestampOutOfBoundsException {
         let reader = baseError.errorBodyReader
         var value = TimestampOutOfBoundsException()
         value.properties.message = try reader["message"].readIfPresent()
@@ -1108,7 +1108,7 @@ extension TimestampOutOfBoundsException {
 
 extension CustomerNotEntitledException {
 
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> CustomerNotEntitledException {
+    static func makeError(baseError: ClientRuntime.AWSJSONError) throws -> CustomerNotEntitledException {
         let reader = baseError.errorBodyReader
         var value = CustomerNotEntitledException()
         value.properties.message = try reader["message"].readIfPresent()
@@ -1121,7 +1121,7 @@ extension CustomerNotEntitledException {
 
 extension DuplicateRequestException {
 
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> DuplicateRequestException {
+    static func makeError(baseError: ClientRuntime.AWSJSONError) throws -> DuplicateRequestException {
         let reader = baseError.errorBodyReader
         var value = DuplicateRequestException()
         value.properties.message = try reader["message"].readIfPresent()
@@ -1134,7 +1134,7 @@ extension DuplicateRequestException {
 
 extension IdempotencyConflictException {
 
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> IdempotencyConflictException {
+    static func makeError(baseError: ClientRuntime.AWSJSONError) throws -> IdempotencyConflictException {
         let reader = baseError.errorBodyReader
         var value = IdempotencyConflictException()
         value.properties.message = try reader["message"].readIfPresent()
@@ -1147,7 +1147,7 @@ extension IdempotencyConflictException {
 
 extension InvalidEndpointRegionException {
 
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> InvalidEndpointRegionException {
+    static func makeError(baseError: ClientRuntime.AWSJSONError) throws -> InvalidEndpointRegionException {
         let reader = baseError.errorBodyReader
         var value = InvalidEndpointRegionException()
         value.properties.message = try reader["message"].readIfPresent()
@@ -1160,7 +1160,7 @@ extension InvalidEndpointRegionException {
 
 extension InvalidPublicKeyVersionException {
 
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> InvalidPublicKeyVersionException {
+    static func makeError(baseError: ClientRuntime.AWSJSONError) throws -> InvalidPublicKeyVersionException {
         let reader = baseError.errorBodyReader
         var value = InvalidPublicKeyVersionException()
         value.properties.message = try reader["message"].readIfPresent()
@@ -1173,7 +1173,7 @@ extension InvalidPublicKeyVersionException {
 
 extension InvalidRegionException {
 
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> InvalidRegionException {
+    static func makeError(baseError: ClientRuntime.AWSJSONError) throws -> InvalidRegionException {
         let reader = baseError.errorBodyReader
         var value = InvalidRegionException()
         value.properties.message = try reader["message"].readIfPresent()
@@ -1186,7 +1186,7 @@ extension InvalidRegionException {
 
 extension PlatformNotSupportedException {
 
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> PlatformNotSupportedException {
+    static func makeError(baseError: ClientRuntime.AWSJSONError) throws -> PlatformNotSupportedException {
         let reader = baseError.errorBodyReader
         var value = PlatformNotSupportedException()
         value.properties.message = try reader["message"].readIfPresent()
@@ -1199,7 +1199,7 @@ extension PlatformNotSupportedException {
 
 extension ExpiredTokenException {
 
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> ExpiredTokenException {
+    static func makeError(baseError: ClientRuntime.AWSJSONError) throws -> ExpiredTokenException {
         let reader = baseError.errorBodyReader
         var value = ExpiredTokenException()
         value.properties.message = try reader["message"].readIfPresent()
@@ -1212,7 +1212,7 @@ extension ExpiredTokenException {
 
 extension InvalidTokenException {
 
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> InvalidTokenException {
+    static func makeError(baseError: ClientRuntime.AWSJSONError) throws -> InvalidTokenException {
         let reader = baseError.errorBodyReader
         var value = InvalidTokenException()
         value.properties.message = try reader["message"].readIfPresent()

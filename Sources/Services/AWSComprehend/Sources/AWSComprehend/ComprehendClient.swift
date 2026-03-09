@@ -49,7 +49,6 @@ import protocol SmithyIdentity.BearerTokenIdentityResolver
 @_spi(AWSEndpointResolverMiddleware) import struct AWSClientRuntime.AWSEndpointResolverMiddleware
 import struct AWSClientRuntime.AmzSdkInvocationIdMiddleware
 import struct AWSClientRuntime.UserAgentMiddleware
-import struct AWSClientRuntime.XAmzTargetMiddleware
 import struct AWSSDKHTTPAuth.SigV4AuthScheme
 import struct ClientRuntime.AuthSchemeMiddleware
 @_spi(SmithyReadWrite) import struct ClientRuntime.BodyMiddleware
@@ -58,6 +57,7 @@ import struct ClientRuntime.ContentTypeMiddleware
 @_spi(SmithyReadWrite) import struct ClientRuntime.DeserializeMiddleware
 import struct ClientRuntime.IdempotencyTokenMiddleware
 import struct ClientRuntime.LoggerMiddleware
+import struct ClientRuntime.MutateHeadersMiddleware
 import struct ClientRuntime.SendableHttpInterceptorProviderBox
 import struct ClientRuntime.SendableInterceptorProviderBox
 import struct ClientRuntime.SignerMiddleware
@@ -663,7 +663,7 @@ extension ComprehendClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<BatchDetectDominantLanguageOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<BatchDetectDominantLanguageInput, BatchDetectDominantLanguageOutput>(xAmzTarget: "Comprehend_20171127.BatchDetectDominantLanguage"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<BatchDetectDominantLanguageInput, BatchDetectDominantLanguageOutput>(overrides: ["X-Amz-Target": "Comprehend_20171127.BatchDetectDominantLanguage"]))
         builder.serialize(ClientRuntime.BodyMiddleware<BatchDetectDominantLanguageInput, BatchDetectDominantLanguageOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: BatchDetectDominantLanguageInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<BatchDetectDominantLanguageInput, BatchDetectDominantLanguageOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<BatchDetectDominantLanguageOutput>())
@@ -736,7 +736,7 @@ extension ComprehendClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<BatchDetectEntitiesOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<BatchDetectEntitiesInput, BatchDetectEntitiesOutput>(xAmzTarget: "Comprehend_20171127.BatchDetectEntities"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<BatchDetectEntitiesInput, BatchDetectEntitiesOutput>(overrides: ["X-Amz-Target": "Comprehend_20171127.BatchDetectEntities"]))
         builder.serialize(ClientRuntime.BodyMiddleware<BatchDetectEntitiesInput, BatchDetectEntitiesOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: BatchDetectEntitiesInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<BatchDetectEntitiesInput, BatchDetectEntitiesOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<BatchDetectEntitiesOutput>())
@@ -809,7 +809,7 @@ extension ComprehendClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<BatchDetectKeyPhrasesOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<BatchDetectKeyPhrasesInput, BatchDetectKeyPhrasesOutput>(xAmzTarget: "Comprehend_20171127.BatchDetectKeyPhrases"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<BatchDetectKeyPhrasesInput, BatchDetectKeyPhrasesOutput>(overrides: ["X-Amz-Target": "Comprehend_20171127.BatchDetectKeyPhrases"]))
         builder.serialize(ClientRuntime.BodyMiddleware<BatchDetectKeyPhrasesInput, BatchDetectKeyPhrasesOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: BatchDetectKeyPhrasesInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<BatchDetectKeyPhrasesInput, BatchDetectKeyPhrasesOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<BatchDetectKeyPhrasesOutput>())
@@ -882,7 +882,7 @@ extension ComprehendClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<BatchDetectSentimentOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<BatchDetectSentimentInput, BatchDetectSentimentOutput>(xAmzTarget: "Comprehend_20171127.BatchDetectSentiment"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<BatchDetectSentimentInput, BatchDetectSentimentOutput>(overrides: ["X-Amz-Target": "Comprehend_20171127.BatchDetectSentiment"]))
         builder.serialize(ClientRuntime.BodyMiddleware<BatchDetectSentimentInput, BatchDetectSentimentOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: BatchDetectSentimentInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<BatchDetectSentimentInput, BatchDetectSentimentOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<BatchDetectSentimentOutput>())
@@ -955,7 +955,7 @@ extension ComprehendClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<BatchDetectSyntaxOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<BatchDetectSyntaxInput, BatchDetectSyntaxOutput>(xAmzTarget: "Comprehend_20171127.BatchDetectSyntax"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<BatchDetectSyntaxInput, BatchDetectSyntaxOutput>(overrides: ["X-Amz-Target": "Comprehend_20171127.BatchDetectSyntax"]))
         builder.serialize(ClientRuntime.BodyMiddleware<BatchDetectSyntaxInput, BatchDetectSyntaxOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: BatchDetectSyntaxInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<BatchDetectSyntaxInput, BatchDetectSyntaxOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<BatchDetectSyntaxOutput>())
@@ -1028,7 +1028,7 @@ extension ComprehendClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<BatchDetectTargetedSentimentOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<BatchDetectTargetedSentimentInput, BatchDetectTargetedSentimentOutput>(xAmzTarget: "Comprehend_20171127.BatchDetectTargetedSentiment"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<BatchDetectTargetedSentimentInput, BatchDetectTargetedSentimentOutput>(overrides: ["X-Amz-Target": "Comprehend_20171127.BatchDetectTargetedSentiment"]))
         builder.serialize(ClientRuntime.BodyMiddleware<BatchDetectTargetedSentimentInput, BatchDetectTargetedSentimentOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: BatchDetectTargetedSentimentInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<BatchDetectTargetedSentimentInput, BatchDetectTargetedSentimentOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<BatchDetectTargetedSentimentOutput>())
@@ -1107,7 +1107,7 @@ extension ComprehendClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<ClassifyDocumentOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<ClassifyDocumentInput, ClassifyDocumentOutput>(xAmzTarget: "Comprehend_20171127.ClassifyDocument"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<ClassifyDocumentInput, ClassifyDocumentOutput>(overrides: ["X-Amz-Target": "Comprehend_20171127.ClassifyDocument"]))
         builder.serialize(ClientRuntime.BodyMiddleware<ClassifyDocumentInput, ClassifyDocumentOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: ClassifyDocumentInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<ClassifyDocumentInput, ClassifyDocumentOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ClassifyDocumentOutput>())
@@ -1179,7 +1179,7 @@ extension ComprehendClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<ContainsPiiEntitiesOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<ContainsPiiEntitiesInput, ContainsPiiEntitiesOutput>(xAmzTarget: "Comprehend_20171127.ContainsPiiEntities"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<ContainsPiiEntitiesInput, ContainsPiiEntitiesOutput>(overrides: ["X-Amz-Target": "Comprehend_20171127.ContainsPiiEntities"]))
         builder.serialize(ClientRuntime.BodyMiddleware<ContainsPiiEntitiesInput, ContainsPiiEntitiesOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: ContainsPiiEntitiesInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<ContainsPiiEntitiesInput, ContainsPiiEntitiesOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ContainsPiiEntitiesOutput>())
@@ -1255,7 +1255,7 @@ extension ComprehendClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<CreateDatasetOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<CreateDatasetInput, CreateDatasetOutput>(xAmzTarget: "Comprehend_20171127.CreateDataset"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<CreateDatasetInput, CreateDatasetOutput>(overrides: ["X-Amz-Target": "Comprehend_20171127.CreateDataset"]))
         builder.serialize(ClientRuntime.BodyMiddleware<CreateDatasetInput, CreateDatasetOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: CreateDatasetInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<CreateDatasetInput, CreateDatasetOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<CreateDatasetOutput>())
@@ -1332,7 +1332,7 @@ extension ComprehendClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<CreateDocumentClassifierOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<CreateDocumentClassifierInput, CreateDocumentClassifierOutput>(xAmzTarget: "Comprehend_20171127.CreateDocumentClassifier"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<CreateDocumentClassifierInput, CreateDocumentClassifierOutput>(overrides: ["X-Amz-Target": "Comprehend_20171127.CreateDocumentClassifier"]))
         builder.serialize(ClientRuntime.BodyMiddleware<CreateDocumentClassifierInput, CreateDocumentClassifierOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: CreateDocumentClassifierInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<CreateDocumentClassifierInput, CreateDocumentClassifierOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<CreateDocumentClassifierOutput>())
@@ -1409,7 +1409,7 @@ extension ComprehendClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<CreateEndpointOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<CreateEndpointInput, CreateEndpointOutput>(xAmzTarget: "Comprehend_20171127.CreateEndpoint"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<CreateEndpointInput, CreateEndpointOutput>(overrides: ["X-Amz-Target": "Comprehend_20171127.CreateEndpoint"]))
         builder.serialize(ClientRuntime.BodyMiddleware<CreateEndpointInput, CreateEndpointOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: CreateEndpointInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<CreateEndpointInput, CreateEndpointOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<CreateEndpointOutput>())
@@ -1486,7 +1486,7 @@ extension ComprehendClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<CreateEntityRecognizerOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<CreateEntityRecognizerInput, CreateEntityRecognizerOutput>(xAmzTarget: "Comprehend_20171127.CreateEntityRecognizer"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<CreateEntityRecognizerInput, CreateEntityRecognizerOutput>(overrides: ["X-Amz-Target": "Comprehend_20171127.CreateEntityRecognizer"]))
         builder.serialize(ClientRuntime.BodyMiddleware<CreateEntityRecognizerInput, CreateEntityRecognizerOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: CreateEntityRecognizerInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<CreateEntityRecognizerInput, CreateEntityRecognizerOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<CreateEntityRecognizerOutput>())
@@ -1565,7 +1565,7 @@ extension ComprehendClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<CreateFlywheelOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<CreateFlywheelInput, CreateFlywheelOutput>(xAmzTarget: "Comprehend_20171127.CreateFlywheel"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<CreateFlywheelInput, CreateFlywheelOutput>(overrides: ["X-Amz-Target": "Comprehend_20171127.CreateFlywheel"]))
         builder.serialize(ClientRuntime.BodyMiddleware<CreateFlywheelInput, CreateFlywheelOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: CreateFlywheelInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<CreateFlywheelInput, CreateFlywheelOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<CreateFlywheelOutput>())
@@ -1639,7 +1639,7 @@ extension ComprehendClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<DeleteDocumentClassifierOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<DeleteDocumentClassifierInput, DeleteDocumentClassifierOutput>(xAmzTarget: "Comprehend_20171127.DeleteDocumentClassifier"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<DeleteDocumentClassifierInput, DeleteDocumentClassifierOutput>(overrides: ["X-Amz-Target": "Comprehend_20171127.DeleteDocumentClassifier"]))
         builder.serialize(ClientRuntime.BodyMiddleware<DeleteDocumentClassifierInput, DeleteDocumentClassifierOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: DeleteDocumentClassifierInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DeleteDocumentClassifierInput, DeleteDocumentClassifierOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DeleteDocumentClassifierOutput>())
@@ -1712,7 +1712,7 @@ extension ComprehendClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<DeleteEndpointOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<DeleteEndpointInput, DeleteEndpointOutput>(xAmzTarget: "Comprehend_20171127.DeleteEndpoint"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<DeleteEndpointInput, DeleteEndpointOutput>(overrides: ["X-Amz-Target": "Comprehend_20171127.DeleteEndpoint"]))
         builder.serialize(ClientRuntime.BodyMiddleware<DeleteEndpointInput, DeleteEndpointOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: DeleteEndpointInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DeleteEndpointInput, DeleteEndpointOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DeleteEndpointOutput>())
@@ -1786,7 +1786,7 @@ extension ComprehendClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<DeleteEntityRecognizerOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<DeleteEntityRecognizerInput, DeleteEntityRecognizerOutput>(xAmzTarget: "Comprehend_20171127.DeleteEntityRecognizer"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<DeleteEntityRecognizerInput, DeleteEntityRecognizerOutput>(overrides: ["X-Amz-Target": "Comprehend_20171127.DeleteEntityRecognizer"]))
         builder.serialize(ClientRuntime.BodyMiddleware<DeleteEntityRecognizerInput, DeleteEntityRecognizerOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: DeleteEntityRecognizerInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DeleteEntityRecognizerInput, DeleteEntityRecognizerOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DeleteEntityRecognizerOutput>())
@@ -1860,7 +1860,7 @@ extension ComprehendClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<DeleteFlywheelOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<DeleteFlywheelInput, DeleteFlywheelOutput>(xAmzTarget: "Comprehend_20171127.DeleteFlywheel"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<DeleteFlywheelInput, DeleteFlywheelOutput>(overrides: ["X-Amz-Target": "Comprehend_20171127.DeleteFlywheel"]))
         builder.serialize(ClientRuntime.BodyMiddleware<DeleteFlywheelInput, DeleteFlywheelOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: DeleteFlywheelInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DeleteFlywheelInput, DeleteFlywheelOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DeleteFlywheelOutput>())
@@ -1931,7 +1931,7 @@ extension ComprehendClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<DeleteResourcePolicyOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<DeleteResourcePolicyInput, DeleteResourcePolicyOutput>(xAmzTarget: "Comprehend_20171127.DeleteResourcePolicy"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<DeleteResourcePolicyInput, DeleteResourcePolicyOutput>(overrides: ["X-Amz-Target": "Comprehend_20171127.DeleteResourcePolicy"]))
         builder.serialize(ClientRuntime.BodyMiddleware<DeleteResourcePolicyInput, DeleteResourcePolicyOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: DeleteResourcePolicyInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DeleteResourcePolicyInput, DeleteResourcePolicyOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DeleteResourcePolicyOutput>())
@@ -2003,7 +2003,7 @@ extension ComprehendClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<DescribeDatasetOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<DescribeDatasetInput, DescribeDatasetOutput>(xAmzTarget: "Comprehend_20171127.DescribeDataset"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<DescribeDatasetInput, DescribeDatasetOutput>(overrides: ["X-Amz-Target": "Comprehend_20171127.DescribeDataset"]))
         builder.serialize(ClientRuntime.BodyMiddleware<DescribeDatasetInput, DescribeDatasetOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: DescribeDatasetInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DescribeDatasetInput, DescribeDatasetOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DescribeDatasetOutput>())
@@ -2075,7 +2075,7 @@ extension ComprehendClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<DescribeDocumentClassificationJobOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<DescribeDocumentClassificationJobInput, DescribeDocumentClassificationJobOutput>(xAmzTarget: "Comprehend_20171127.DescribeDocumentClassificationJob"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<DescribeDocumentClassificationJobInput, DescribeDocumentClassificationJobOutput>(overrides: ["X-Amz-Target": "Comprehend_20171127.DescribeDocumentClassificationJob"]))
         builder.serialize(ClientRuntime.BodyMiddleware<DescribeDocumentClassificationJobInput, DescribeDocumentClassificationJobOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: DescribeDocumentClassificationJobInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DescribeDocumentClassificationJobInput, DescribeDocumentClassificationJobOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DescribeDocumentClassificationJobOutput>())
@@ -2147,7 +2147,7 @@ extension ComprehendClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<DescribeDocumentClassifierOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<DescribeDocumentClassifierInput, DescribeDocumentClassifierOutput>(xAmzTarget: "Comprehend_20171127.DescribeDocumentClassifier"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<DescribeDocumentClassifierInput, DescribeDocumentClassifierOutput>(overrides: ["X-Amz-Target": "Comprehend_20171127.DescribeDocumentClassifier"]))
         builder.serialize(ClientRuntime.BodyMiddleware<DescribeDocumentClassifierInput, DescribeDocumentClassifierOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: DescribeDocumentClassifierInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DescribeDocumentClassifierInput, DescribeDocumentClassifierOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DescribeDocumentClassifierOutput>())
@@ -2219,7 +2219,7 @@ extension ComprehendClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<DescribeDominantLanguageDetectionJobOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<DescribeDominantLanguageDetectionJobInput, DescribeDominantLanguageDetectionJobOutput>(xAmzTarget: "Comprehend_20171127.DescribeDominantLanguageDetectionJob"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<DescribeDominantLanguageDetectionJobInput, DescribeDominantLanguageDetectionJobOutput>(overrides: ["X-Amz-Target": "Comprehend_20171127.DescribeDominantLanguageDetectionJob"]))
         builder.serialize(ClientRuntime.BodyMiddleware<DescribeDominantLanguageDetectionJobInput, DescribeDominantLanguageDetectionJobOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: DescribeDominantLanguageDetectionJobInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DescribeDominantLanguageDetectionJobInput, DescribeDominantLanguageDetectionJobOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DescribeDominantLanguageDetectionJobOutput>())
@@ -2291,7 +2291,7 @@ extension ComprehendClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<DescribeEndpointOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<DescribeEndpointInput, DescribeEndpointOutput>(xAmzTarget: "Comprehend_20171127.DescribeEndpoint"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<DescribeEndpointInput, DescribeEndpointOutput>(overrides: ["X-Amz-Target": "Comprehend_20171127.DescribeEndpoint"]))
         builder.serialize(ClientRuntime.BodyMiddleware<DescribeEndpointInput, DescribeEndpointOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: DescribeEndpointInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DescribeEndpointInput, DescribeEndpointOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DescribeEndpointOutput>())
@@ -2363,7 +2363,7 @@ extension ComprehendClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<DescribeEntitiesDetectionJobOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<DescribeEntitiesDetectionJobInput, DescribeEntitiesDetectionJobOutput>(xAmzTarget: "Comprehend_20171127.DescribeEntitiesDetectionJob"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<DescribeEntitiesDetectionJobInput, DescribeEntitiesDetectionJobOutput>(overrides: ["X-Amz-Target": "Comprehend_20171127.DescribeEntitiesDetectionJob"]))
         builder.serialize(ClientRuntime.BodyMiddleware<DescribeEntitiesDetectionJobInput, DescribeEntitiesDetectionJobOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: DescribeEntitiesDetectionJobInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DescribeEntitiesDetectionJobInput, DescribeEntitiesDetectionJobOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DescribeEntitiesDetectionJobOutput>())
@@ -2435,7 +2435,7 @@ extension ComprehendClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<DescribeEntityRecognizerOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<DescribeEntityRecognizerInput, DescribeEntityRecognizerOutput>(xAmzTarget: "Comprehend_20171127.DescribeEntityRecognizer"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<DescribeEntityRecognizerInput, DescribeEntityRecognizerOutput>(overrides: ["X-Amz-Target": "Comprehend_20171127.DescribeEntityRecognizer"]))
         builder.serialize(ClientRuntime.BodyMiddleware<DescribeEntityRecognizerInput, DescribeEntityRecognizerOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: DescribeEntityRecognizerInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DescribeEntityRecognizerInput, DescribeEntityRecognizerOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DescribeEntityRecognizerOutput>())
@@ -2507,7 +2507,7 @@ extension ComprehendClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<DescribeEventsDetectionJobOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<DescribeEventsDetectionJobInput, DescribeEventsDetectionJobOutput>(xAmzTarget: "Comprehend_20171127.DescribeEventsDetectionJob"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<DescribeEventsDetectionJobInput, DescribeEventsDetectionJobOutput>(overrides: ["X-Amz-Target": "Comprehend_20171127.DescribeEventsDetectionJob"]))
         builder.serialize(ClientRuntime.BodyMiddleware<DescribeEventsDetectionJobInput, DescribeEventsDetectionJobOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: DescribeEventsDetectionJobInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DescribeEventsDetectionJobInput, DescribeEventsDetectionJobOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DescribeEventsDetectionJobOutput>())
@@ -2579,7 +2579,7 @@ extension ComprehendClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<DescribeFlywheelOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<DescribeFlywheelInput, DescribeFlywheelOutput>(xAmzTarget: "Comprehend_20171127.DescribeFlywheel"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<DescribeFlywheelInput, DescribeFlywheelOutput>(overrides: ["X-Amz-Target": "Comprehend_20171127.DescribeFlywheel"]))
         builder.serialize(ClientRuntime.BodyMiddleware<DescribeFlywheelInput, DescribeFlywheelOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: DescribeFlywheelInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DescribeFlywheelInput, DescribeFlywheelOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DescribeFlywheelOutput>())
@@ -2651,7 +2651,7 @@ extension ComprehendClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<DescribeFlywheelIterationOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<DescribeFlywheelIterationInput, DescribeFlywheelIterationOutput>(xAmzTarget: "Comprehend_20171127.DescribeFlywheelIteration"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<DescribeFlywheelIterationInput, DescribeFlywheelIterationOutput>(overrides: ["X-Amz-Target": "Comprehend_20171127.DescribeFlywheelIteration"]))
         builder.serialize(ClientRuntime.BodyMiddleware<DescribeFlywheelIterationInput, DescribeFlywheelIterationOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: DescribeFlywheelIterationInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DescribeFlywheelIterationInput, DescribeFlywheelIterationOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DescribeFlywheelIterationOutput>())
@@ -2723,7 +2723,7 @@ extension ComprehendClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<DescribeKeyPhrasesDetectionJobOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<DescribeKeyPhrasesDetectionJobInput, DescribeKeyPhrasesDetectionJobOutput>(xAmzTarget: "Comprehend_20171127.DescribeKeyPhrasesDetectionJob"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<DescribeKeyPhrasesDetectionJobInput, DescribeKeyPhrasesDetectionJobOutput>(overrides: ["X-Amz-Target": "Comprehend_20171127.DescribeKeyPhrasesDetectionJob"]))
         builder.serialize(ClientRuntime.BodyMiddleware<DescribeKeyPhrasesDetectionJobInput, DescribeKeyPhrasesDetectionJobOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: DescribeKeyPhrasesDetectionJobInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DescribeKeyPhrasesDetectionJobInput, DescribeKeyPhrasesDetectionJobOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DescribeKeyPhrasesDetectionJobOutput>())
@@ -2795,7 +2795,7 @@ extension ComprehendClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<DescribePiiEntitiesDetectionJobOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<DescribePiiEntitiesDetectionJobInput, DescribePiiEntitiesDetectionJobOutput>(xAmzTarget: "Comprehend_20171127.DescribePiiEntitiesDetectionJob"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<DescribePiiEntitiesDetectionJobInput, DescribePiiEntitiesDetectionJobOutput>(overrides: ["X-Amz-Target": "Comprehend_20171127.DescribePiiEntitiesDetectionJob"]))
         builder.serialize(ClientRuntime.BodyMiddleware<DescribePiiEntitiesDetectionJobInput, DescribePiiEntitiesDetectionJobOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: DescribePiiEntitiesDetectionJobInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DescribePiiEntitiesDetectionJobInput, DescribePiiEntitiesDetectionJobOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DescribePiiEntitiesDetectionJobOutput>())
@@ -2866,7 +2866,7 @@ extension ComprehendClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<DescribeResourcePolicyOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<DescribeResourcePolicyInput, DescribeResourcePolicyOutput>(xAmzTarget: "Comprehend_20171127.DescribeResourcePolicy"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<DescribeResourcePolicyInput, DescribeResourcePolicyOutput>(overrides: ["X-Amz-Target": "Comprehend_20171127.DescribeResourcePolicy"]))
         builder.serialize(ClientRuntime.BodyMiddleware<DescribeResourcePolicyInput, DescribeResourcePolicyOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: DescribeResourcePolicyInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DescribeResourcePolicyInput, DescribeResourcePolicyOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DescribeResourcePolicyOutput>())
@@ -2938,7 +2938,7 @@ extension ComprehendClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<DescribeSentimentDetectionJobOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<DescribeSentimentDetectionJobInput, DescribeSentimentDetectionJobOutput>(xAmzTarget: "Comprehend_20171127.DescribeSentimentDetectionJob"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<DescribeSentimentDetectionJobInput, DescribeSentimentDetectionJobOutput>(overrides: ["X-Amz-Target": "Comprehend_20171127.DescribeSentimentDetectionJob"]))
         builder.serialize(ClientRuntime.BodyMiddleware<DescribeSentimentDetectionJobInput, DescribeSentimentDetectionJobOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: DescribeSentimentDetectionJobInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DescribeSentimentDetectionJobInput, DescribeSentimentDetectionJobOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DescribeSentimentDetectionJobOutput>())
@@ -3010,7 +3010,7 @@ extension ComprehendClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<DescribeTargetedSentimentDetectionJobOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<DescribeTargetedSentimentDetectionJobInput, DescribeTargetedSentimentDetectionJobOutput>(xAmzTarget: "Comprehend_20171127.DescribeTargetedSentimentDetectionJob"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<DescribeTargetedSentimentDetectionJobInput, DescribeTargetedSentimentDetectionJobOutput>(overrides: ["X-Amz-Target": "Comprehend_20171127.DescribeTargetedSentimentDetectionJob"]))
         builder.serialize(ClientRuntime.BodyMiddleware<DescribeTargetedSentimentDetectionJobInput, DescribeTargetedSentimentDetectionJobOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: DescribeTargetedSentimentDetectionJobInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DescribeTargetedSentimentDetectionJobInput, DescribeTargetedSentimentDetectionJobOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DescribeTargetedSentimentDetectionJobOutput>())
@@ -3082,7 +3082,7 @@ extension ComprehendClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<DescribeTopicsDetectionJobOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<DescribeTopicsDetectionJobInput, DescribeTopicsDetectionJobOutput>(xAmzTarget: "Comprehend_20171127.DescribeTopicsDetectionJob"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<DescribeTopicsDetectionJobInput, DescribeTopicsDetectionJobOutput>(overrides: ["X-Amz-Target": "Comprehend_20171127.DescribeTopicsDetectionJob"]))
         builder.serialize(ClientRuntime.BodyMiddleware<DescribeTopicsDetectionJobInput, DescribeTopicsDetectionJobOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: DescribeTopicsDetectionJobInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DescribeTopicsDetectionJobInput, DescribeTopicsDetectionJobOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DescribeTopicsDetectionJobOutput>())
@@ -3153,7 +3153,7 @@ extension ComprehendClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<DetectDominantLanguageOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<DetectDominantLanguageInput, DetectDominantLanguageOutput>(xAmzTarget: "Comprehend_20171127.DetectDominantLanguage"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<DetectDominantLanguageInput, DetectDominantLanguageOutput>(overrides: ["X-Amz-Target": "Comprehend_20171127.DetectDominantLanguage"]))
         builder.serialize(ClientRuntime.BodyMiddleware<DetectDominantLanguageInput, DetectDominantLanguageOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: DetectDominantLanguageInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DetectDominantLanguageInput, DetectDominantLanguageOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DetectDominantLanguageOutput>())
@@ -3226,7 +3226,7 @@ extension ComprehendClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<DetectEntitiesOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<DetectEntitiesInput, DetectEntitiesOutput>(xAmzTarget: "Comprehend_20171127.DetectEntities"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<DetectEntitiesInput, DetectEntitiesOutput>(overrides: ["X-Amz-Target": "Comprehend_20171127.DetectEntities"]))
         builder.serialize(ClientRuntime.BodyMiddleware<DetectEntitiesInput, DetectEntitiesOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: DetectEntitiesInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DetectEntitiesInput, DetectEntitiesOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DetectEntitiesOutput>())
@@ -3298,7 +3298,7 @@ extension ComprehendClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<DetectKeyPhrasesOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<DetectKeyPhrasesInput, DetectKeyPhrasesOutput>(xAmzTarget: "Comprehend_20171127.DetectKeyPhrases"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<DetectKeyPhrasesInput, DetectKeyPhrasesOutput>(overrides: ["X-Amz-Target": "Comprehend_20171127.DetectKeyPhrases"]))
         builder.serialize(ClientRuntime.BodyMiddleware<DetectKeyPhrasesInput, DetectKeyPhrasesOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: DetectKeyPhrasesInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DetectKeyPhrasesInput, DetectKeyPhrasesOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DetectKeyPhrasesOutput>())
@@ -3370,7 +3370,7 @@ extension ComprehendClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<DetectPiiEntitiesOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<DetectPiiEntitiesInput, DetectPiiEntitiesOutput>(xAmzTarget: "Comprehend_20171127.DetectPiiEntities"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<DetectPiiEntitiesInput, DetectPiiEntitiesOutput>(overrides: ["X-Amz-Target": "Comprehend_20171127.DetectPiiEntities"]))
         builder.serialize(ClientRuntime.BodyMiddleware<DetectPiiEntitiesInput, DetectPiiEntitiesOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: DetectPiiEntitiesInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DetectPiiEntitiesInput, DetectPiiEntitiesOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DetectPiiEntitiesOutput>())
@@ -3442,7 +3442,7 @@ extension ComprehendClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<DetectSentimentOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<DetectSentimentInput, DetectSentimentOutput>(xAmzTarget: "Comprehend_20171127.DetectSentiment"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<DetectSentimentInput, DetectSentimentOutput>(overrides: ["X-Amz-Target": "Comprehend_20171127.DetectSentiment"]))
         builder.serialize(ClientRuntime.BodyMiddleware<DetectSentimentInput, DetectSentimentOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: DetectSentimentInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DetectSentimentInput, DetectSentimentOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DetectSentimentOutput>())
@@ -3514,7 +3514,7 @@ extension ComprehendClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<DetectSyntaxOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<DetectSyntaxInput, DetectSyntaxOutput>(xAmzTarget: "Comprehend_20171127.DetectSyntax"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<DetectSyntaxInput, DetectSyntaxOutput>(overrides: ["X-Amz-Target": "Comprehend_20171127.DetectSyntax"]))
         builder.serialize(ClientRuntime.BodyMiddleware<DetectSyntaxInput, DetectSyntaxOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: DetectSyntaxInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DetectSyntaxInput, DetectSyntaxOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DetectSyntaxOutput>())
@@ -3586,7 +3586,7 @@ extension ComprehendClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<DetectTargetedSentimentOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<DetectTargetedSentimentInput, DetectTargetedSentimentOutput>(xAmzTarget: "Comprehend_20171127.DetectTargetedSentiment"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<DetectTargetedSentimentInput, DetectTargetedSentimentOutput>(overrides: ["X-Amz-Target": "Comprehend_20171127.DetectTargetedSentiment"]))
         builder.serialize(ClientRuntime.BodyMiddleware<DetectTargetedSentimentInput, DetectTargetedSentimentOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: DetectTargetedSentimentInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DetectTargetedSentimentInput, DetectTargetedSentimentOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DetectTargetedSentimentOutput>())
@@ -3658,7 +3658,7 @@ extension ComprehendClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<DetectToxicContentOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<DetectToxicContentInput, DetectToxicContentOutput>(xAmzTarget: "Comprehend_20171127.DetectToxicContent"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<DetectToxicContentInput, DetectToxicContentOutput>(overrides: ["X-Amz-Target": "Comprehend_20171127.DetectToxicContent"]))
         builder.serialize(ClientRuntime.BodyMiddleware<DetectToxicContentInput, DetectToxicContentOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: DetectToxicContentInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DetectToxicContentInput, DetectToxicContentOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DetectToxicContentOutput>())
@@ -3735,7 +3735,7 @@ extension ComprehendClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<ImportModelOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<ImportModelInput, ImportModelOutput>(xAmzTarget: "Comprehend_20171127.ImportModel"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<ImportModelInput, ImportModelOutput>(overrides: ["X-Amz-Target": "Comprehend_20171127.ImportModel"]))
         builder.serialize(ClientRuntime.BodyMiddleware<ImportModelInput, ImportModelOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: ImportModelInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<ImportModelInput, ImportModelOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ImportModelOutput>())
@@ -3808,7 +3808,7 @@ extension ComprehendClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<ListDatasetsOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<ListDatasetsInput, ListDatasetsOutput>(xAmzTarget: "Comprehend_20171127.ListDatasets"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<ListDatasetsInput, ListDatasetsOutput>(overrides: ["X-Amz-Target": "Comprehend_20171127.ListDatasets"]))
         builder.serialize(ClientRuntime.BodyMiddleware<ListDatasetsInput, ListDatasetsOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: ListDatasetsInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<ListDatasetsInput, ListDatasetsOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ListDatasetsOutput>())
@@ -3880,7 +3880,7 @@ extension ComprehendClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<ListDocumentClassificationJobsOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<ListDocumentClassificationJobsInput, ListDocumentClassificationJobsOutput>(xAmzTarget: "Comprehend_20171127.ListDocumentClassificationJobs"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<ListDocumentClassificationJobsInput, ListDocumentClassificationJobsOutput>(overrides: ["X-Amz-Target": "Comprehend_20171127.ListDocumentClassificationJobs"]))
         builder.serialize(ClientRuntime.BodyMiddleware<ListDocumentClassificationJobsInput, ListDocumentClassificationJobsOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: ListDocumentClassificationJobsInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<ListDocumentClassificationJobsInput, ListDocumentClassificationJobsOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ListDocumentClassificationJobsOutput>())
@@ -3951,7 +3951,7 @@ extension ComprehendClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<ListDocumentClassifierSummariesOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<ListDocumentClassifierSummariesInput, ListDocumentClassifierSummariesOutput>(xAmzTarget: "Comprehend_20171127.ListDocumentClassifierSummaries"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<ListDocumentClassifierSummariesInput, ListDocumentClassifierSummariesOutput>(overrides: ["X-Amz-Target": "Comprehend_20171127.ListDocumentClassifierSummaries"]))
         builder.serialize(ClientRuntime.BodyMiddleware<ListDocumentClassifierSummariesInput, ListDocumentClassifierSummariesOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: ListDocumentClassifierSummariesInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<ListDocumentClassifierSummariesInput, ListDocumentClassifierSummariesOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ListDocumentClassifierSummariesOutput>())
@@ -4023,7 +4023,7 @@ extension ComprehendClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<ListDocumentClassifiersOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<ListDocumentClassifiersInput, ListDocumentClassifiersOutput>(xAmzTarget: "Comprehend_20171127.ListDocumentClassifiers"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<ListDocumentClassifiersInput, ListDocumentClassifiersOutput>(overrides: ["X-Amz-Target": "Comprehend_20171127.ListDocumentClassifiers"]))
         builder.serialize(ClientRuntime.BodyMiddleware<ListDocumentClassifiersInput, ListDocumentClassifiersOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: ListDocumentClassifiersInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<ListDocumentClassifiersInput, ListDocumentClassifiersOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ListDocumentClassifiersOutput>())
@@ -4095,7 +4095,7 @@ extension ComprehendClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<ListDominantLanguageDetectionJobsOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<ListDominantLanguageDetectionJobsInput, ListDominantLanguageDetectionJobsOutput>(xAmzTarget: "Comprehend_20171127.ListDominantLanguageDetectionJobs"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<ListDominantLanguageDetectionJobsInput, ListDominantLanguageDetectionJobsOutput>(overrides: ["X-Amz-Target": "Comprehend_20171127.ListDominantLanguageDetectionJobs"]))
         builder.serialize(ClientRuntime.BodyMiddleware<ListDominantLanguageDetectionJobsInput, ListDominantLanguageDetectionJobsOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: ListDominantLanguageDetectionJobsInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<ListDominantLanguageDetectionJobsInput, ListDominantLanguageDetectionJobsOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ListDominantLanguageDetectionJobsOutput>())
@@ -4166,7 +4166,7 @@ extension ComprehendClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<ListEndpointsOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<ListEndpointsInput, ListEndpointsOutput>(xAmzTarget: "Comprehend_20171127.ListEndpoints"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<ListEndpointsInput, ListEndpointsOutput>(overrides: ["X-Amz-Target": "Comprehend_20171127.ListEndpoints"]))
         builder.serialize(ClientRuntime.BodyMiddleware<ListEndpointsInput, ListEndpointsOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: ListEndpointsInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<ListEndpointsInput, ListEndpointsOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ListEndpointsOutput>())
@@ -4238,7 +4238,7 @@ extension ComprehendClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<ListEntitiesDetectionJobsOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<ListEntitiesDetectionJobsInput, ListEntitiesDetectionJobsOutput>(xAmzTarget: "Comprehend_20171127.ListEntitiesDetectionJobs"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<ListEntitiesDetectionJobsInput, ListEntitiesDetectionJobsOutput>(overrides: ["X-Amz-Target": "Comprehend_20171127.ListEntitiesDetectionJobs"]))
         builder.serialize(ClientRuntime.BodyMiddleware<ListEntitiesDetectionJobsInput, ListEntitiesDetectionJobsOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: ListEntitiesDetectionJobsInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<ListEntitiesDetectionJobsInput, ListEntitiesDetectionJobsOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ListEntitiesDetectionJobsOutput>())
@@ -4309,7 +4309,7 @@ extension ComprehendClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<ListEntityRecognizerSummariesOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<ListEntityRecognizerSummariesInput, ListEntityRecognizerSummariesOutput>(xAmzTarget: "Comprehend_20171127.ListEntityRecognizerSummaries"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<ListEntityRecognizerSummariesInput, ListEntityRecognizerSummariesOutput>(overrides: ["X-Amz-Target": "Comprehend_20171127.ListEntityRecognizerSummaries"]))
         builder.serialize(ClientRuntime.BodyMiddleware<ListEntityRecognizerSummariesInput, ListEntityRecognizerSummariesOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: ListEntityRecognizerSummariesInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<ListEntityRecognizerSummariesInput, ListEntityRecognizerSummariesOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ListEntityRecognizerSummariesOutput>())
@@ -4381,7 +4381,7 @@ extension ComprehendClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<ListEntityRecognizersOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<ListEntityRecognizersInput, ListEntityRecognizersOutput>(xAmzTarget: "Comprehend_20171127.ListEntityRecognizers"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<ListEntityRecognizersInput, ListEntityRecognizersOutput>(overrides: ["X-Amz-Target": "Comprehend_20171127.ListEntityRecognizers"]))
         builder.serialize(ClientRuntime.BodyMiddleware<ListEntityRecognizersInput, ListEntityRecognizersOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: ListEntityRecognizersInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<ListEntityRecognizersInput, ListEntityRecognizersOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ListEntityRecognizersOutput>())
@@ -4453,7 +4453,7 @@ extension ComprehendClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<ListEventsDetectionJobsOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<ListEventsDetectionJobsInput, ListEventsDetectionJobsOutput>(xAmzTarget: "Comprehend_20171127.ListEventsDetectionJobs"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<ListEventsDetectionJobsInput, ListEventsDetectionJobsOutput>(overrides: ["X-Amz-Target": "Comprehend_20171127.ListEventsDetectionJobs"]))
         builder.serialize(ClientRuntime.BodyMiddleware<ListEventsDetectionJobsInput, ListEventsDetectionJobsOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: ListEventsDetectionJobsInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<ListEventsDetectionJobsInput, ListEventsDetectionJobsOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ListEventsDetectionJobsOutput>())
@@ -4526,7 +4526,7 @@ extension ComprehendClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<ListFlywheelIterationHistoryOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<ListFlywheelIterationHistoryInput, ListFlywheelIterationHistoryOutput>(xAmzTarget: "Comprehend_20171127.ListFlywheelIterationHistory"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<ListFlywheelIterationHistoryInput, ListFlywheelIterationHistoryOutput>(overrides: ["X-Amz-Target": "Comprehend_20171127.ListFlywheelIterationHistory"]))
         builder.serialize(ClientRuntime.BodyMiddleware<ListFlywheelIterationHistoryInput, ListFlywheelIterationHistoryOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: ListFlywheelIterationHistoryInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<ListFlywheelIterationHistoryInput, ListFlywheelIterationHistoryOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ListFlywheelIterationHistoryOutput>())
@@ -4598,7 +4598,7 @@ extension ComprehendClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<ListFlywheelsOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<ListFlywheelsInput, ListFlywheelsOutput>(xAmzTarget: "Comprehend_20171127.ListFlywheels"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<ListFlywheelsInput, ListFlywheelsOutput>(overrides: ["X-Amz-Target": "Comprehend_20171127.ListFlywheels"]))
         builder.serialize(ClientRuntime.BodyMiddleware<ListFlywheelsInput, ListFlywheelsOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: ListFlywheelsInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<ListFlywheelsInput, ListFlywheelsOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ListFlywheelsOutput>())
@@ -4670,7 +4670,7 @@ extension ComprehendClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<ListKeyPhrasesDetectionJobsOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<ListKeyPhrasesDetectionJobsInput, ListKeyPhrasesDetectionJobsOutput>(xAmzTarget: "Comprehend_20171127.ListKeyPhrasesDetectionJobs"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<ListKeyPhrasesDetectionJobsInput, ListKeyPhrasesDetectionJobsOutput>(overrides: ["X-Amz-Target": "Comprehend_20171127.ListKeyPhrasesDetectionJobs"]))
         builder.serialize(ClientRuntime.BodyMiddleware<ListKeyPhrasesDetectionJobsInput, ListKeyPhrasesDetectionJobsOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: ListKeyPhrasesDetectionJobsInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<ListKeyPhrasesDetectionJobsInput, ListKeyPhrasesDetectionJobsOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ListKeyPhrasesDetectionJobsOutput>())
@@ -4742,7 +4742,7 @@ extension ComprehendClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<ListPiiEntitiesDetectionJobsOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<ListPiiEntitiesDetectionJobsInput, ListPiiEntitiesDetectionJobsOutput>(xAmzTarget: "Comprehend_20171127.ListPiiEntitiesDetectionJobs"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<ListPiiEntitiesDetectionJobsInput, ListPiiEntitiesDetectionJobsOutput>(overrides: ["X-Amz-Target": "Comprehend_20171127.ListPiiEntitiesDetectionJobs"]))
         builder.serialize(ClientRuntime.BodyMiddleware<ListPiiEntitiesDetectionJobsInput, ListPiiEntitiesDetectionJobsOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: ListPiiEntitiesDetectionJobsInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<ListPiiEntitiesDetectionJobsInput, ListPiiEntitiesDetectionJobsOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ListPiiEntitiesDetectionJobsOutput>())
@@ -4814,7 +4814,7 @@ extension ComprehendClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<ListSentimentDetectionJobsOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<ListSentimentDetectionJobsInput, ListSentimentDetectionJobsOutput>(xAmzTarget: "Comprehend_20171127.ListSentimentDetectionJobs"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<ListSentimentDetectionJobsInput, ListSentimentDetectionJobsOutput>(overrides: ["X-Amz-Target": "Comprehend_20171127.ListSentimentDetectionJobs"]))
         builder.serialize(ClientRuntime.BodyMiddleware<ListSentimentDetectionJobsInput, ListSentimentDetectionJobsOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: ListSentimentDetectionJobsInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<ListSentimentDetectionJobsInput, ListSentimentDetectionJobsOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ListSentimentDetectionJobsOutput>())
@@ -4885,7 +4885,7 @@ extension ComprehendClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<ListTagsForResourceOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<ListTagsForResourceInput, ListTagsForResourceOutput>(xAmzTarget: "Comprehend_20171127.ListTagsForResource"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<ListTagsForResourceInput, ListTagsForResourceOutput>(overrides: ["X-Amz-Target": "Comprehend_20171127.ListTagsForResource"]))
         builder.serialize(ClientRuntime.BodyMiddleware<ListTagsForResourceInput, ListTagsForResourceOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: ListTagsForResourceInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<ListTagsForResourceInput, ListTagsForResourceOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ListTagsForResourceOutput>())
@@ -4957,7 +4957,7 @@ extension ComprehendClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<ListTargetedSentimentDetectionJobsOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<ListTargetedSentimentDetectionJobsInput, ListTargetedSentimentDetectionJobsOutput>(xAmzTarget: "Comprehend_20171127.ListTargetedSentimentDetectionJobs"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<ListTargetedSentimentDetectionJobsInput, ListTargetedSentimentDetectionJobsOutput>(overrides: ["X-Amz-Target": "Comprehend_20171127.ListTargetedSentimentDetectionJobs"]))
         builder.serialize(ClientRuntime.BodyMiddleware<ListTargetedSentimentDetectionJobsInput, ListTargetedSentimentDetectionJobsOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: ListTargetedSentimentDetectionJobsInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<ListTargetedSentimentDetectionJobsInput, ListTargetedSentimentDetectionJobsOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ListTargetedSentimentDetectionJobsOutput>())
@@ -5029,7 +5029,7 @@ extension ComprehendClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<ListTopicsDetectionJobsOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<ListTopicsDetectionJobsInput, ListTopicsDetectionJobsOutput>(xAmzTarget: "Comprehend_20171127.ListTopicsDetectionJobs"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<ListTopicsDetectionJobsInput, ListTopicsDetectionJobsOutput>(overrides: ["X-Amz-Target": "Comprehend_20171127.ListTopicsDetectionJobs"]))
         builder.serialize(ClientRuntime.BodyMiddleware<ListTopicsDetectionJobsInput, ListTopicsDetectionJobsOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: ListTopicsDetectionJobsInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<ListTopicsDetectionJobsInput, ListTopicsDetectionJobsOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ListTopicsDetectionJobsOutput>())
@@ -5100,7 +5100,7 @@ extension ComprehendClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<PutResourcePolicyOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<PutResourcePolicyInput, PutResourcePolicyOutput>(xAmzTarget: "Comprehend_20171127.PutResourcePolicy"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<PutResourcePolicyInput, PutResourcePolicyOutput>(overrides: ["X-Amz-Target": "Comprehend_20171127.PutResourcePolicy"]))
         builder.serialize(ClientRuntime.BodyMiddleware<PutResourcePolicyInput, PutResourcePolicyOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: PutResourcePolicyInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<PutResourcePolicyInput, PutResourcePolicyOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<PutResourcePolicyOutput>())
@@ -5177,7 +5177,7 @@ extension ComprehendClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<StartDocumentClassificationJobOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<StartDocumentClassificationJobInput, StartDocumentClassificationJobOutput>(xAmzTarget: "Comprehend_20171127.StartDocumentClassificationJob"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<StartDocumentClassificationJobInput, StartDocumentClassificationJobOutput>(overrides: ["X-Amz-Target": "Comprehend_20171127.StartDocumentClassificationJob"]))
         builder.serialize(ClientRuntime.BodyMiddleware<StartDocumentClassificationJobInput, StartDocumentClassificationJobOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: StartDocumentClassificationJobInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<StartDocumentClassificationJobInput, StartDocumentClassificationJobOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<StartDocumentClassificationJobOutput>())
@@ -5252,7 +5252,7 @@ extension ComprehendClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<StartDominantLanguageDetectionJobOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<StartDominantLanguageDetectionJobInput, StartDominantLanguageDetectionJobOutput>(xAmzTarget: "Comprehend_20171127.StartDominantLanguageDetectionJob"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<StartDominantLanguageDetectionJobInput, StartDominantLanguageDetectionJobOutput>(overrides: ["X-Amz-Target": "Comprehend_20171127.StartDominantLanguageDetectionJob"]))
         builder.serialize(ClientRuntime.BodyMiddleware<StartDominantLanguageDetectionJobInput, StartDominantLanguageDetectionJobOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: StartDominantLanguageDetectionJobInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<StartDominantLanguageDetectionJobInput, StartDominantLanguageDetectionJobOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<StartDominantLanguageDetectionJobOutput>())
@@ -5329,7 +5329,7 @@ extension ComprehendClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<StartEntitiesDetectionJobOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<StartEntitiesDetectionJobInput, StartEntitiesDetectionJobOutput>(xAmzTarget: "Comprehend_20171127.StartEntitiesDetectionJob"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<StartEntitiesDetectionJobInput, StartEntitiesDetectionJobOutput>(overrides: ["X-Amz-Target": "Comprehend_20171127.StartEntitiesDetectionJob"]))
         builder.serialize(ClientRuntime.BodyMiddleware<StartEntitiesDetectionJobInput, StartEntitiesDetectionJobOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: StartEntitiesDetectionJobInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<StartEntitiesDetectionJobInput, StartEntitiesDetectionJobOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<StartEntitiesDetectionJobOutput>())
@@ -5404,7 +5404,7 @@ extension ComprehendClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<StartEventsDetectionJobOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<StartEventsDetectionJobInput, StartEventsDetectionJobOutput>(xAmzTarget: "Comprehend_20171127.StartEventsDetectionJob"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<StartEventsDetectionJobInput, StartEventsDetectionJobOutput>(overrides: ["X-Amz-Target": "Comprehend_20171127.StartEventsDetectionJob"]))
         builder.serialize(ClientRuntime.BodyMiddleware<StartEventsDetectionJobInput, StartEventsDetectionJobOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: StartEventsDetectionJobInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<StartEventsDetectionJobInput, StartEventsDetectionJobOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<StartEventsDetectionJobOutput>())
@@ -5477,7 +5477,7 @@ extension ComprehendClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<StartFlywheelIterationOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<StartFlywheelIterationInput, StartFlywheelIterationOutput>(xAmzTarget: "Comprehend_20171127.StartFlywheelIteration"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<StartFlywheelIterationInput, StartFlywheelIterationOutput>(overrides: ["X-Amz-Target": "Comprehend_20171127.StartFlywheelIteration"]))
         builder.serialize(ClientRuntime.BodyMiddleware<StartFlywheelIterationInput, StartFlywheelIterationOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: StartFlywheelIterationInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<StartFlywheelIterationInput, StartFlywheelIterationOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<StartFlywheelIterationOutput>())
@@ -5552,7 +5552,7 @@ extension ComprehendClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<StartKeyPhrasesDetectionJobOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<StartKeyPhrasesDetectionJobInput, StartKeyPhrasesDetectionJobOutput>(xAmzTarget: "Comprehend_20171127.StartKeyPhrasesDetectionJob"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<StartKeyPhrasesDetectionJobInput, StartKeyPhrasesDetectionJobOutput>(overrides: ["X-Amz-Target": "Comprehend_20171127.StartKeyPhrasesDetectionJob"]))
         builder.serialize(ClientRuntime.BodyMiddleware<StartKeyPhrasesDetectionJobInput, StartKeyPhrasesDetectionJobOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: StartKeyPhrasesDetectionJobInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<StartKeyPhrasesDetectionJobInput, StartKeyPhrasesDetectionJobOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<StartKeyPhrasesDetectionJobOutput>())
@@ -5627,7 +5627,7 @@ extension ComprehendClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<StartPiiEntitiesDetectionJobOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<StartPiiEntitiesDetectionJobInput, StartPiiEntitiesDetectionJobOutput>(xAmzTarget: "Comprehend_20171127.StartPiiEntitiesDetectionJob"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<StartPiiEntitiesDetectionJobInput, StartPiiEntitiesDetectionJobOutput>(overrides: ["X-Amz-Target": "Comprehend_20171127.StartPiiEntitiesDetectionJob"]))
         builder.serialize(ClientRuntime.BodyMiddleware<StartPiiEntitiesDetectionJobInput, StartPiiEntitiesDetectionJobOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: StartPiiEntitiesDetectionJobInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<StartPiiEntitiesDetectionJobInput, StartPiiEntitiesDetectionJobOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<StartPiiEntitiesDetectionJobOutput>())
@@ -5702,7 +5702,7 @@ extension ComprehendClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<StartSentimentDetectionJobOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<StartSentimentDetectionJobInput, StartSentimentDetectionJobOutput>(xAmzTarget: "Comprehend_20171127.StartSentimentDetectionJob"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<StartSentimentDetectionJobInput, StartSentimentDetectionJobOutput>(overrides: ["X-Amz-Target": "Comprehend_20171127.StartSentimentDetectionJob"]))
         builder.serialize(ClientRuntime.BodyMiddleware<StartSentimentDetectionJobInput, StartSentimentDetectionJobOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: StartSentimentDetectionJobInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<StartSentimentDetectionJobInput, StartSentimentDetectionJobOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<StartSentimentDetectionJobOutput>())
@@ -5777,7 +5777,7 @@ extension ComprehendClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<StartTargetedSentimentDetectionJobOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<StartTargetedSentimentDetectionJobInput, StartTargetedSentimentDetectionJobOutput>(xAmzTarget: "Comprehend_20171127.StartTargetedSentimentDetectionJob"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<StartTargetedSentimentDetectionJobInput, StartTargetedSentimentDetectionJobOutput>(overrides: ["X-Amz-Target": "Comprehend_20171127.StartTargetedSentimentDetectionJob"]))
         builder.serialize(ClientRuntime.BodyMiddleware<StartTargetedSentimentDetectionJobInput, StartTargetedSentimentDetectionJobOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: StartTargetedSentimentDetectionJobInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<StartTargetedSentimentDetectionJobInput, StartTargetedSentimentDetectionJobOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<StartTargetedSentimentDetectionJobOutput>())
@@ -5852,7 +5852,7 @@ extension ComprehendClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<StartTopicsDetectionJobOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<StartTopicsDetectionJobInput, StartTopicsDetectionJobOutput>(xAmzTarget: "Comprehend_20171127.StartTopicsDetectionJob"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<StartTopicsDetectionJobInput, StartTopicsDetectionJobOutput>(overrides: ["X-Amz-Target": "Comprehend_20171127.StartTopicsDetectionJob"]))
         builder.serialize(ClientRuntime.BodyMiddleware<StartTopicsDetectionJobInput, StartTopicsDetectionJobOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: StartTopicsDetectionJobInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<StartTopicsDetectionJobInput, StartTopicsDetectionJobOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<StartTopicsDetectionJobOutput>())
@@ -5923,7 +5923,7 @@ extension ComprehendClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<StopDominantLanguageDetectionJobOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<StopDominantLanguageDetectionJobInput, StopDominantLanguageDetectionJobOutput>(xAmzTarget: "Comprehend_20171127.StopDominantLanguageDetectionJob"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<StopDominantLanguageDetectionJobInput, StopDominantLanguageDetectionJobOutput>(overrides: ["X-Amz-Target": "Comprehend_20171127.StopDominantLanguageDetectionJob"]))
         builder.serialize(ClientRuntime.BodyMiddleware<StopDominantLanguageDetectionJobInput, StopDominantLanguageDetectionJobOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: StopDominantLanguageDetectionJobInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<StopDominantLanguageDetectionJobInput, StopDominantLanguageDetectionJobOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<StopDominantLanguageDetectionJobOutput>())
@@ -5994,7 +5994,7 @@ extension ComprehendClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<StopEntitiesDetectionJobOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<StopEntitiesDetectionJobInput, StopEntitiesDetectionJobOutput>(xAmzTarget: "Comprehend_20171127.StopEntitiesDetectionJob"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<StopEntitiesDetectionJobInput, StopEntitiesDetectionJobOutput>(overrides: ["X-Amz-Target": "Comprehend_20171127.StopEntitiesDetectionJob"]))
         builder.serialize(ClientRuntime.BodyMiddleware<StopEntitiesDetectionJobInput, StopEntitiesDetectionJobOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: StopEntitiesDetectionJobInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<StopEntitiesDetectionJobInput, StopEntitiesDetectionJobOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<StopEntitiesDetectionJobOutput>())
@@ -6065,7 +6065,7 @@ extension ComprehendClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<StopEventsDetectionJobOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<StopEventsDetectionJobInput, StopEventsDetectionJobOutput>(xAmzTarget: "Comprehend_20171127.StopEventsDetectionJob"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<StopEventsDetectionJobInput, StopEventsDetectionJobOutput>(overrides: ["X-Amz-Target": "Comprehend_20171127.StopEventsDetectionJob"]))
         builder.serialize(ClientRuntime.BodyMiddleware<StopEventsDetectionJobInput, StopEventsDetectionJobOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: StopEventsDetectionJobInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<StopEventsDetectionJobInput, StopEventsDetectionJobOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<StopEventsDetectionJobOutput>())
@@ -6136,7 +6136,7 @@ extension ComprehendClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<StopKeyPhrasesDetectionJobOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<StopKeyPhrasesDetectionJobInput, StopKeyPhrasesDetectionJobOutput>(xAmzTarget: "Comprehend_20171127.StopKeyPhrasesDetectionJob"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<StopKeyPhrasesDetectionJobInput, StopKeyPhrasesDetectionJobOutput>(overrides: ["X-Amz-Target": "Comprehend_20171127.StopKeyPhrasesDetectionJob"]))
         builder.serialize(ClientRuntime.BodyMiddleware<StopKeyPhrasesDetectionJobInput, StopKeyPhrasesDetectionJobOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: StopKeyPhrasesDetectionJobInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<StopKeyPhrasesDetectionJobInput, StopKeyPhrasesDetectionJobOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<StopKeyPhrasesDetectionJobOutput>())
@@ -6207,7 +6207,7 @@ extension ComprehendClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<StopPiiEntitiesDetectionJobOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<StopPiiEntitiesDetectionJobInput, StopPiiEntitiesDetectionJobOutput>(xAmzTarget: "Comprehend_20171127.StopPiiEntitiesDetectionJob"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<StopPiiEntitiesDetectionJobInput, StopPiiEntitiesDetectionJobOutput>(overrides: ["X-Amz-Target": "Comprehend_20171127.StopPiiEntitiesDetectionJob"]))
         builder.serialize(ClientRuntime.BodyMiddleware<StopPiiEntitiesDetectionJobInput, StopPiiEntitiesDetectionJobOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: StopPiiEntitiesDetectionJobInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<StopPiiEntitiesDetectionJobInput, StopPiiEntitiesDetectionJobOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<StopPiiEntitiesDetectionJobOutput>())
@@ -6278,7 +6278,7 @@ extension ComprehendClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<StopSentimentDetectionJobOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<StopSentimentDetectionJobInput, StopSentimentDetectionJobOutput>(xAmzTarget: "Comprehend_20171127.StopSentimentDetectionJob"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<StopSentimentDetectionJobInput, StopSentimentDetectionJobOutput>(overrides: ["X-Amz-Target": "Comprehend_20171127.StopSentimentDetectionJob"]))
         builder.serialize(ClientRuntime.BodyMiddleware<StopSentimentDetectionJobInput, StopSentimentDetectionJobOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: StopSentimentDetectionJobInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<StopSentimentDetectionJobInput, StopSentimentDetectionJobOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<StopSentimentDetectionJobOutput>())
@@ -6349,7 +6349,7 @@ extension ComprehendClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<StopTargetedSentimentDetectionJobOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<StopTargetedSentimentDetectionJobInput, StopTargetedSentimentDetectionJobOutput>(xAmzTarget: "Comprehend_20171127.StopTargetedSentimentDetectionJob"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<StopTargetedSentimentDetectionJobInput, StopTargetedSentimentDetectionJobOutput>(overrides: ["X-Amz-Target": "Comprehend_20171127.StopTargetedSentimentDetectionJob"]))
         builder.serialize(ClientRuntime.BodyMiddleware<StopTargetedSentimentDetectionJobInput, StopTargetedSentimentDetectionJobOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: StopTargetedSentimentDetectionJobInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<StopTargetedSentimentDetectionJobInput, StopTargetedSentimentDetectionJobOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<StopTargetedSentimentDetectionJobOutput>())
@@ -6421,7 +6421,7 @@ extension ComprehendClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<StopTrainingDocumentClassifierOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<StopTrainingDocumentClassifierInput, StopTrainingDocumentClassifierOutput>(xAmzTarget: "Comprehend_20171127.StopTrainingDocumentClassifier"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<StopTrainingDocumentClassifierInput, StopTrainingDocumentClassifierOutput>(overrides: ["X-Amz-Target": "Comprehend_20171127.StopTrainingDocumentClassifier"]))
         builder.serialize(ClientRuntime.BodyMiddleware<StopTrainingDocumentClassifierInput, StopTrainingDocumentClassifierOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: StopTrainingDocumentClassifierInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<StopTrainingDocumentClassifierInput, StopTrainingDocumentClassifierOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<StopTrainingDocumentClassifierOutput>())
@@ -6493,7 +6493,7 @@ extension ComprehendClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<StopTrainingEntityRecognizerOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<StopTrainingEntityRecognizerInput, StopTrainingEntityRecognizerOutput>(xAmzTarget: "Comprehend_20171127.StopTrainingEntityRecognizer"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<StopTrainingEntityRecognizerInput, StopTrainingEntityRecognizerOutput>(overrides: ["X-Amz-Target": "Comprehend_20171127.StopTrainingEntityRecognizer"]))
         builder.serialize(ClientRuntime.BodyMiddleware<StopTrainingEntityRecognizerInput, StopTrainingEntityRecognizerOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: StopTrainingEntityRecognizerInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<StopTrainingEntityRecognizerInput, StopTrainingEntityRecognizerOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<StopTrainingEntityRecognizerOutput>())
@@ -6566,7 +6566,7 @@ extension ComprehendClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<TagResourceOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<TagResourceInput, TagResourceOutput>(xAmzTarget: "Comprehend_20171127.TagResource"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<TagResourceInput, TagResourceOutput>(overrides: ["X-Amz-Target": "Comprehend_20171127.TagResource"]))
         builder.serialize(ClientRuntime.BodyMiddleware<TagResourceInput, TagResourceOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: TagResourceInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<TagResourceInput, TagResourceOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<TagResourceOutput>())
@@ -6639,7 +6639,7 @@ extension ComprehendClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<UntagResourceOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<UntagResourceInput, UntagResourceOutput>(xAmzTarget: "Comprehend_20171127.UntagResource"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<UntagResourceInput, UntagResourceOutput>(overrides: ["X-Amz-Target": "Comprehend_20171127.UntagResource"]))
         builder.serialize(ClientRuntime.BodyMiddleware<UntagResourceInput, UntagResourceOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: UntagResourceInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<UntagResourceInput, UntagResourceOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<UntagResourceOutput>())
@@ -6714,7 +6714,7 @@ extension ComprehendClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<UpdateEndpointOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<UpdateEndpointInput, UpdateEndpointOutput>(xAmzTarget: "Comprehend_20171127.UpdateEndpoint"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<UpdateEndpointInput, UpdateEndpointOutput>(overrides: ["X-Amz-Target": "Comprehend_20171127.UpdateEndpoint"]))
         builder.serialize(ClientRuntime.BodyMiddleware<UpdateEndpointInput, UpdateEndpointOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: UpdateEndpointInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<UpdateEndpointInput, UpdateEndpointOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<UpdateEndpointOutput>())
@@ -6787,7 +6787,7 @@ extension ComprehendClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<UpdateFlywheelOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<UpdateFlywheelInput, UpdateFlywheelOutput>(xAmzTarget: "Comprehend_20171127.UpdateFlywheel"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<UpdateFlywheelInput, UpdateFlywheelOutput>(overrides: ["X-Amz-Target": "Comprehend_20171127.UpdateFlywheel"]))
         builder.serialize(ClientRuntime.BodyMiddleware<UpdateFlywheelInput, UpdateFlywheelOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: UpdateFlywheelInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<UpdateFlywheelInput, UpdateFlywheelOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<UpdateFlywheelOutput>())

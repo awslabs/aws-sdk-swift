@@ -49,7 +49,6 @@ import protocol SmithyIdentity.BearerTokenIdentityResolver
 @_spi(AWSEndpointResolverMiddleware) import struct AWSClientRuntime.AWSEndpointResolverMiddleware
 import struct AWSClientRuntime.AmzSdkInvocationIdMiddleware
 import struct AWSClientRuntime.UserAgentMiddleware
-import struct AWSClientRuntime.XAmzTargetMiddleware
 import struct AWSSDKHTTPAuth.SigV4AuthScheme
 import struct ClientRuntime.AuthSchemeMiddleware
 @_spi(SmithyReadWrite) import struct ClientRuntime.BodyMiddleware
@@ -57,6 +56,7 @@ import struct ClientRuntime.ContentLengthMiddleware
 import struct ClientRuntime.ContentTypeMiddleware
 @_spi(SmithyReadWrite) import struct ClientRuntime.DeserializeMiddleware
 import struct ClientRuntime.LoggerMiddleware
+import struct ClientRuntime.MutateHeadersMiddleware
 import struct ClientRuntime.SendableHttpInterceptorProviderBox
 import struct ClientRuntime.SendableInterceptorProviderBox
 import struct ClientRuntime.SignerMiddleware
@@ -661,7 +661,7 @@ extension PIClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<CreatePerformanceAnalysisReportOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<CreatePerformanceAnalysisReportInput, CreatePerformanceAnalysisReportOutput>(xAmzTarget: "PerformanceInsightsv20180227.CreatePerformanceAnalysisReport"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<CreatePerformanceAnalysisReportInput, CreatePerformanceAnalysisReportOutput>(overrides: ["X-Amz-Target": "PerformanceInsightsv20180227.CreatePerformanceAnalysisReport"]))
         builder.serialize(ClientRuntime.BodyMiddleware<CreatePerformanceAnalysisReportInput, CreatePerformanceAnalysisReportOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: CreatePerformanceAnalysisReportInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<CreatePerformanceAnalysisReportInput, CreatePerformanceAnalysisReportOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<CreatePerformanceAnalysisReportOutput>())
@@ -732,7 +732,7 @@ extension PIClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<DeletePerformanceAnalysisReportOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<DeletePerformanceAnalysisReportInput, DeletePerformanceAnalysisReportOutput>(xAmzTarget: "PerformanceInsightsv20180227.DeletePerformanceAnalysisReport"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<DeletePerformanceAnalysisReportInput, DeletePerformanceAnalysisReportOutput>(overrides: ["X-Amz-Target": "PerformanceInsightsv20180227.DeletePerformanceAnalysisReport"]))
         builder.serialize(ClientRuntime.BodyMiddleware<DeletePerformanceAnalysisReportInput, DeletePerformanceAnalysisReportOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: DeletePerformanceAnalysisReportInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DeletePerformanceAnalysisReportInput, DeletePerformanceAnalysisReportOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DeletePerformanceAnalysisReportOutput>())
@@ -803,7 +803,7 @@ extension PIClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<DescribeDimensionKeysOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<DescribeDimensionKeysInput, DescribeDimensionKeysOutput>(xAmzTarget: "PerformanceInsightsv20180227.DescribeDimensionKeys"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<DescribeDimensionKeysInput, DescribeDimensionKeysOutput>(overrides: ["X-Amz-Target": "PerformanceInsightsv20180227.DescribeDimensionKeys"]))
         builder.serialize(ClientRuntime.BodyMiddleware<DescribeDimensionKeysInput, DescribeDimensionKeysOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: DescribeDimensionKeysInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DescribeDimensionKeysInput, DescribeDimensionKeysOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DescribeDimensionKeysOutput>())
@@ -874,7 +874,7 @@ extension PIClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<GetDimensionKeyDetailsOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<GetDimensionKeyDetailsInput, GetDimensionKeyDetailsOutput>(xAmzTarget: "PerformanceInsightsv20180227.GetDimensionKeyDetails"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<GetDimensionKeyDetailsInput, GetDimensionKeyDetailsOutput>(overrides: ["X-Amz-Target": "PerformanceInsightsv20180227.GetDimensionKeyDetails"]))
         builder.serialize(ClientRuntime.BodyMiddleware<GetDimensionKeyDetailsInput, GetDimensionKeyDetailsOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: GetDimensionKeyDetailsInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<GetDimensionKeyDetailsInput, GetDimensionKeyDetailsOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<GetDimensionKeyDetailsOutput>())
@@ -945,7 +945,7 @@ extension PIClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<GetPerformanceAnalysisReportOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<GetPerformanceAnalysisReportInput, GetPerformanceAnalysisReportOutput>(xAmzTarget: "PerformanceInsightsv20180227.GetPerformanceAnalysisReport"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<GetPerformanceAnalysisReportInput, GetPerformanceAnalysisReportOutput>(overrides: ["X-Amz-Target": "PerformanceInsightsv20180227.GetPerformanceAnalysisReport"]))
         builder.serialize(ClientRuntime.BodyMiddleware<GetPerformanceAnalysisReportInput, GetPerformanceAnalysisReportOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: GetPerformanceAnalysisReportInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<GetPerformanceAnalysisReportInput, GetPerformanceAnalysisReportOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<GetPerformanceAnalysisReportOutput>())
@@ -1016,7 +1016,7 @@ extension PIClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<GetResourceMetadataOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<GetResourceMetadataInput, GetResourceMetadataOutput>(xAmzTarget: "PerformanceInsightsv20180227.GetResourceMetadata"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<GetResourceMetadataInput, GetResourceMetadataOutput>(overrides: ["X-Amz-Target": "PerformanceInsightsv20180227.GetResourceMetadata"]))
         builder.serialize(ClientRuntime.BodyMiddleware<GetResourceMetadataInput, GetResourceMetadataOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: GetResourceMetadataInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<GetResourceMetadataInput, GetResourceMetadataOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<GetResourceMetadataOutput>())
@@ -1087,7 +1087,7 @@ extension PIClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<GetResourceMetricsOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<GetResourceMetricsInput, GetResourceMetricsOutput>(xAmzTarget: "PerformanceInsightsv20180227.GetResourceMetrics"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<GetResourceMetricsInput, GetResourceMetricsOutput>(overrides: ["X-Amz-Target": "PerformanceInsightsv20180227.GetResourceMetrics"]))
         builder.serialize(ClientRuntime.BodyMiddleware<GetResourceMetricsInput, GetResourceMetricsOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: GetResourceMetricsInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<GetResourceMetricsInput, GetResourceMetricsOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<GetResourceMetricsOutput>())
@@ -1158,7 +1158,7 @@ extension PIClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<ListAvailableResourceDimensionsOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<ListAvailableResourceDimensionsInput, ListAvailableResourceDimensionsOutput>(xAmzTarget: "PerformanceInsightsv20180227.ListAvailableResourceDimensions"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<ListAvailableResourceDimensionsInput, ListAvailableResourceDimensionsOutput>(overrides: ["X-Amz-Target": "PerformanceInsightsv20180227.ListAvailableResourceDimensions"]))
         builder.serialize(ClientRuntime.BodyMiddleware<ListAvailableResourceDimensionsInput, ListAvailableResourceDimensionsOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: ListAvailableResourceDimensionsInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<ListAvailableResourceDimensionsInput, ListAvailableResourceDimensionsOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ListAvailableResourceDimensionsOutput>())
@@ -1229,7 +1229,7 @@ extension PIClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<ListAvailableResourceMetricsOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<ListAvailableResourceMetricsInput, ListAvailableResourceMetricsOutput>(xAmzTarget: "PerformanceInsightsv20180227.ListAvailableResourceMetrics"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<ListAvailableResourceMetricsInput, ListAvailableResourceMetricsOutput>(overrides: ["X-Amz-Target": "PerformanceInsightsv20180227.ListAvailableResourceMetrics"]))
         builder.serialize(ClientRuntime.BodyMiddleware<ListAvailableResourceMetricsInput, ListAvailableResourceMetricsOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: ListAvailableResourceMetricsInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<ListAvailableResourceMetricsInput, ListAvailableResourceMetricsOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ListAvailableResourceMetricsOutput>())
@@ -1300,7 +1300,7 @@ extension PIClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<ListPerformanceAnalysisReportsOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<ListPerformanceAnalysisReportsInput, ListPerformanceAnalysisReportsOutput>(xAmzTarget: "PerformanceInsightsv20180227.ListPerformanceAnalysisReports"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<ListPerformanceAnalysisReportsInput, ListPerformanceAnalysisReportsOutput>(overrides: ["X-Amz-Target": "PerformanceInsightsv20180227.ListPerformanceAnalysisReports"]))
         builder.serialize(ClientRuntime.BodyMiddleware<ListPerformanceAnalysisReportsInput, ListPerformanceAnalysisReportsOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: ListPerformanceAnalysisReportsInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<ListPerformanceAnalysisReportsInput, ListPerformanceAnalysisReportsOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ListPerformanceAnalysisReportsOutput>())
@@ -1371,7 +1371,7 @@ extension PIClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<ListTagsForResourceOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<ListTagsForResourceInput, ListTagsForResourceOutput>(xAmzTarget: "PerformanceInsightsv20180227.ListTagsForResource"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<ListTagsForResourceInput, ListTagsForResourceOutput>(overrides: ["X-Amz-Target": "PerformanceInsightsv20180227.ListTagsForResource"]))
         builder.serialize(ClientRuntime.BodyMiddleware<ListTagsForResourceInput, ListTagsForResourceOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: ListTagsForResourceInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<ListTagsForResourceInput, ListTagsForResourceOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ListTagsForResourceOutput>())
@@ -1442,7 +1442,7 @@ extension PIClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<TagResourceOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<TagResourceInput, TagResourceOutput>(xAmzTarget: "PerformanceInsightsv20180227.TagResource"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<TagResourceInput, TagResourceOutput>(overrides: ["X-Amz-Target": "PerformanceInsightsv20180227.TagResource"]))
         builder.serialize(ClientRuntime.BodyMiddleware<TagResourceInput, TagResourceOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: TagResourceInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<TagResourceInput, TagResourceOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<TagResourceOutput>())
@@ -1513,7 +1513,7 @@ extension PIClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<UntagResourceOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<UntagResourceInput, UntagResourceOutput>(xAmzTarget: "PerformanceInsightsv20180227.UntagResource"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<UntagResourceInput, UntagResourceOutput>(overrides: ["X-Amz-Target": "PerformanceInsightsv20180227.UntagResource"]))
         builder.serialize(ClientRuntime.BodyMiddleware<UntagResourceInput, UntagResourceOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: UntagResourceInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<UntagResourceInput, UntagResourceOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<UntagResourceOutput>())

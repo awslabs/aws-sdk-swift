@@ -17,8 +17,8 @@ import protocol ClientRuntime.HTTPError
 import protocol ClientRuntime.ModeledError
 @_spi(SmithyReadWrite) import protocol SmithyReadWrite.SmithyReader
 @_spi(SmithyReadWrite) import protocol SmithyReadWrite.SmithyWriter
-@_spi(SmithyReadWrite) import struct AWSClientRuntime.AWSJSONError
 @_spi(UnknownAWSHTTPServiceError) import struct AWSClientRuntime.UnknownAWSHTTPServiceError
+@_spi(SmithyReadWrite) import struct ClientRuntime.AWSJSONError
 
 /// Either your AWS credentials are not valid or you do not have access to the EC2 instance.
 public struct AuthException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
@@ -439,7 +439,7 @@ enum SendSerialConsoleSSHPublicKeyOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "Forbidden": return try AuthException.makeError(baseError: baseError)
@@ -464,7 +464,7 @@ enum SendSSHPublicKeyOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "Forbidden": return try AuthException.makeError(baseError: baseError)
@@ -481,7 +481,7 @@ enum SendSSHPublicKeyOutputError {
 
 extension AuthException {
 
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> AuthException {
+    static func makeError(baseError: ClientRuntime.AWSJSONError) throws -> AuthException {
         let reader = baseError.errorBodyReader
         var value = AuthException()
         value.properties.message = try reader["Message"].readIfPresent()
@@ -494,7 +494,7 @@ extension AuthException {
 
 extension EC2InstanceNotFoundException {
 
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> EC2InstanceNotFoundException {
+    static func makeError(baseError: ClientRuntime.AWSJSONError) throws -> EC2InstanceNotFoundException {
         let reader = baseError.errorBodyReader
         var value = EC2InstanceNotFoundException()
         value.properties.message = try reader["Message"].readIfPresent()
@@ -507,7 +507,7 @@ extension EC2InstanceNotFoundException {
 
 extension EC2InstanceStateInvalidException {
 
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> EC2InstanceStateInvalidException {
+    static func makeError(baseError: ClientRuntime.AWSJSONError) throws -> EC2InstanceStateInvalidException {
         let reader = baseError.errorBodyReader
         var value = EC2InstanceStateInvalidException()
         value.properties.message = try reader["Message"].readIfPresent()
@@ -520,7 +520,7 @@ extension EC2InstanceStateInvalidException {
 
 extension EC2InstanceTypeInvalidException {
 
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> EC2InstanceTypeInvalidException {
+    static func makeError(baseError: ClientRuntime.AWSJSONError) throws -> EC2InstanceTypeInvalidException {
         let reader = baseError.errorBodyReader
         var value = EC2InstanceTypeInvalidException()
         value.properties.message = try reader["Message"].readIfPresent()
@@ -533,7 +533,7 @@ extension EC2InstanceTypeInvalidException {
 
 extension EC2InstanceUnavailableException {
 
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> EC2InstanceUnavailableException {
+    static func makeError(baseError: ClientRuntime.AWSJSONError) throws -> EC2InstanceUnavailableException {
         let reader = baseError.errorBodyReader
         var value = EC2InstanceUnavailableException()
         value.properties.message = try reader["Message"].readIfPresent()
@@ -546,7 +546,7 @@ extension EC2InstanceUnavailableException {
 
 extension InvalidArgsException {
 
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> InvalidArgsException {
+    static func makeError(baseError: ClientRuntime.AWSJSONError) throws -> InvalidArgsException {
         let reader = baseError.errorBodyReader
         var value = InvalidArgsException()
         value.properties.message = try reader["Message"].readIfPresent()
@@ -559,7 +559,7 @@ extension InvalidArgsException {
 
 extension SerialConsoleAccessDisabledException {
 
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> SerialConsoleAccessDisabledException {
+    static func makeError(baseError: ClientRuntime.AWSJSONError) throws -> SerialConsoleAccessDisabledException {
         let reader = baseError.errorBodyReader
         var value = SerialConsoleAccessDisabledException()
         value.properties.message = try reader["Message"].readIfPresent()
@@ -572,7 +572,7 @@ extension SerialConsoleAccessDisabledException {
 
 extension SerialConsoleSessionLimitExceededException {
 
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> SerialConsoleSessionLimitExceededException {
+    static func makeError(baseError: ClientRuntime.AWSJSONError) throws -> SerialConsoleSessionLimitExceededException {
         let reader = baseError.errorBodyReader
         var value = SerialConsoleSessionLimitExceededException()
         value.properties.message = try reader["Message"].readIfPresent()
@@ -585,7 +585,7 @@ extension SerialConsoleSessionLimitExceededException {
 
 extension SerialConsoleSessionUnavailableException {
 
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> SerialConsoleSessionUnavailableException {
+    static func makeError(baseError: ClientRuntime.AWSJSONError) throws -> SerialConsoleSessionUnavailableException {
         let reader = baseError.errorBodyReader
         var value = SerialConsoleSessionUnavailableException()
         value.properties.message = try reader["Message"].readIfPresent()
@@ -598,7 +598,7 @@ extension SerialConsoleSessionUnavailableException {
 
 extension SerialConsoleSessionUnsupportedException {
 
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> SerialConsoleSessionUnsupportedException {
+    static func makeError(baseError: ClientRuntime.AWSJSONError) throws -> SerialConsoleSessionUnsupportedException {
         let reader = baseError.errorBodyReader
         var value = SerialConsoleSessionUnsupportedException()
         value.properties.message = try reader["Message"].readIfPresent()
@@ -611,7 +611,7 @@ extension SerialConsoleSessionUnsupportedException {
 
 extension ServiceException {
 
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> ServiceException {
+    static func makeError(baseError: ClientRuntime.AWSJSONError) throws -> ServiceException {
         let reader = baseError.errorBodyReader
         var value = ServiceException()
         value.properties.message = try reader["Message"].readIfPresent()
@@ -624,7 +624,7 @@ extension ServiceException {
 
 extension ThrottlingException {
 
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> ThrottlingException {
+    static func makeError(baseError: ClientRuntime.AWSJSONError) throws -> ThrottlingException {
         let reader = baseError.errorBodyReader
         var value = ThrottlingException()
         value.properties.message = try reader["Message"].readIfPresent()

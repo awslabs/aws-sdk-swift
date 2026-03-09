@@ -49,7 +49,6 @@ import protocol SmithyIdentity.BearerTokenIdentityResolver
 @_spi(AWSEndpointResolverMiddleware) import struct AWSClientRuntime.AWSEndpointResolverMiddleware
 import struct AWSClientRuntime.AmzSdkInvocationIdMiddleware
 import struct AWSClientRuntime.UserAgentMiddleware
-import struct AWSClientRuntime.XAmzTargetMiddleware
 import struct AWSSDKHTTPAuth.SigV4AuthScheme
 import struct ClientRuntime.AuthSchemeMiddleware
 @_spi(SmithyReadWrite) import struct ClientRuntime.BodyMiddleware
@@ -57,6 +56,7 @@ import struct ClientRuntime.ContentLengthMiddleware
 import struct ClientRuntime.ContentTypeMiddleware
 @_spi(SmithyReadWrite) import struct ClientRuntime.DeserializeMiddleware
 import struct ClientRuntime.LoggerMiddleware
+import struct ClientRuntime.MutateHeadersMiddleware
 import struct ClientRuntime.SendableHttpInterceptorProviderBox
 import struct ClientRuntime.SendableInterceptorProviderBox
 import struct ClientRuntime.SignerMiddleware
@@ -668,7 +668,7 @@ extension NetworkFirewallClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<AcceptNetworkFirewallTransitGatewayAttachmentOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<AcceptNetworkFirewallTransitGatewayAttachmentInput, AcceptNetworkFirewallTransitGatewayAttachmentOutput>(xAmzTarget: "NetworkFirewall_20201112.AcceptNetworkFirewallTransitGatewayAttachment"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<AcceptNetworkFirewallTransitGatewayAttachmentInput, AcceptNetworkFirewallTransitGatewayAttachmentOutput>(overrides: ["X-Amz-Target": "NetworkFirewall_20201112.AcceptNetworkFirewallTransitGatewayAttachment"]))
         builder.serialize(ClientRuntime.BodyMiddleware<AcceptNetworkFirewallTransitGatewayAttachmentInput, AcceptNetworkFirewallTransitGatewayAttachmentOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: AcceptNetworkFirewallTransitGatewayAttachmentInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<AcceptNetworkFirewallTransitGatewayAttachmentInput, AcceptNetworkFirewallTransitGatewayAttachmentOutput>(contentType: "application/x-amz-json-1.0"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<AcceptNetworkFirewallTransitGatewayAttachmentOutput>())
@@ -749,7 +749,7 @@ extension NetworkFirewallClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<AssociateAvailabilityZonesOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<AssociateAvailabilityZonesInput, AssociateAvailabilityZonesOutput>(xAmzTarget: "NetworkFirewall_20201112.AssociateAvailabilityZones"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<AssociateAvailabilityZonesInput, AssociateAvailabilityZonesOutput>(overrides: ["X-Amz-Target": "NetworkFirewall_20201112.AssociateAvailabilityZones"]))
         builder.serialize(ClientRuntime.BodyMiddleware<AssociateAvailabilityZonesInput, AssociateAvailabilityZonesOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: AssociateAvailabilityZonesInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<AssociateAvailabilityZonesInput, AssociateAvailabilityZonesOutput>(contentType: "application/x-amz-json-1.0"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<AssociateAvailabilityZonesOutput>())
@@ -829,7 +829,7 @@ extension NetworkFirewallClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<AssociateFirewallPolicyOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<AssociateFirewallPolicyInput, AssociateFirewallPolicyOutput>(xAmzTarget: "NetworkFirewall_20201112.AssociateFirewallPolicy"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<AssociateFirewallPolicyInput, AssociateFirewallPolicyOutput>(overrides: ["X-Amz-Target": "NetworkFirewall_20201112.AssociateFirewallPolicy"]))
         builder.serialize(ClientRuntime.BodyMiddleware<AssociateFirewallPolicyInput, AssociateFirewallPolicyOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: AssociateFirewallPolicyInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<AssociateFirewallPolicyInput, AssociateFirewallPolicyOutput>(contentType: "application/x-amz-json-1.0"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<AssociateFirewallPolicyOutput>())
@@ -910,7 +910,7 @@ extension NetworkFirewallClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<AssociateSubnetsOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<AssociateSubnetsInput, AssociateSubnetsOutput>(xAmzTarget: "NetworkFirewall_20201112.AssociateSubnets"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<AssociateSubnetsInput, AssociateSubnetsOutput>(overrides: ["X-Amz-Target": "NetworkFirewall_20201112.AssociateSubnets"]))
         builder.serialize(ClientRuntime.BodyMiddleware<AssociateSubnetsInput, AssociateSubnetsOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: AssociateSubnetsInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<AssociateSubnetsInput, AssociateSubnetsOutput>(contentType: "application/x-amz-json-1.0"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<AssociateSubnetsOutput>())
@@ -988,7 +988,7 @@ extension NetworkFirewallClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<AttachRuleGroupsToProxyConfigurationOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<AttachRuleGroupsToProxyConfigurationInput, AttachRuleGroupsToProxyConfigurationOutput>(xAmzTarget: "NetworkFirewall_20201112.AttachRuleGroupsToProxyConfiguration"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<AttachRuleGroupsToProxyConfigurationInput, AttachRuleGroupsToProxyConfigurationOutput>(overrides: ["X-Amz-Target": "NetworkFirewall_20201112.AttachRuleGroupsToProxyConfiguration"]))
         builder.serialize(ClientRuntime.BodyMiddleware<AttachRuleGroupsToProxyConfigurationInput, AttachRuleGroupsToProxyConfigurationOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: AttachRuleGroupsToProxyConfigurationInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<AttachRuleGroupsToProxyConfigurationInput, AttachRuleGroupsToProxyConfigurationOutput>(contentType: "application/x-amz-json-1.0"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<AttachRuleGroupsToProxyConfigurationOutput>())
@@ -1068,7 +1068,7 @@ extension NetworkFirewallClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<CreateFirewallOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<CreateFirewallInput, CreateFirewallOutput>(xAmzTarget: "NetworkFirewall_20201112.CreateFirewall"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<CreateFirewallInput, CreateFirewallOutput>(overrides: ["X-Amz-Target": "NetworkFirewall_20201112.CreateFirewall"]))
         builder.serialize(ClientRuntime.BodyMiddleware<CreateFirewallInput, CreateFirewallOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: CreateFirewallInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<CreateFirewallInput, CreateFirewallOutput>(contentType: "application/x-amz-json-1.0"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<CreateFirewallOutput>())
@@ -1147,7 +1147,7 @@ extension NetworkFirewallClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<CreateFirewallPolicyOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<CreateFirewallPolicyInput, CreateFirewallPolicyOutput>(xAmzTarget: "NetworkFirewall_20201112.CreateFirewallPolicy"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<CreateFirewallPolicyInput, CreateFirewallPolicyOutput>(overrides: ["X-Amz-Target": "NetworkFirewall_20201112.CreateFirewallPolicy"]))
         builder.serialize(ClientRuntime.BodyMiddleware<CreateFirewallPolicyInput, CreateFirewallPolicyOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: CreateFirewallPolicyInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<CreateFirewallPolicyInput, CreateFirewallPolicyOutput>(contentType: "application/x-amz-json-1.0"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<CreateFirewallPolicyOutput>())
@@ -1227,7 +1227,7 @@ extension NetworkFirewallClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<CreateProxyOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<CreateProxyInput, CreateProxyOutput>(xAmzTarget: "NetworkFirewall_20201112.CreateProxy"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<CreateProxyInput, CreateProxyOutput>(overrides: ["X-Amz-Target": "NetworkFirewall_20201112.CreateProxy"]))
         builder.serialize(ClientRuntime.BodyMiddleware<CreateProxyInput, CreateProxyOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: CreateProxyInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<CreateProxyInput, CreateProxyOutput>(contentType: "application/x-amz-json-1.0"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<CreateProxyOutput>())
@@ -1306,7 +1306,7 @@ extension NetworkFirewallClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<CreateProxyConfigurationOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<CreateProxyConfigurationInput, CreateProxyConfigurationOutput>(xAmzTarget: "NetworkFirewall_20201112.CreateProxyConfiguration"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<CreateProxyConfigurationInput, CreateProxyConfigurationOutput>(overrides: ["X-Amz-Target": "NetworkFirewall_20201112.CreateProxyConfiguration"]))
         builder.serialize(ClientRuntime.BodyMiddleware<CreateProxyConfigurationInput, CreateProxyConfigurationOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: CreateProxyConfigurationInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<CreateProxyConfigurationInput, CreateProxyConfigurationOutput>(contentType: "application/x-amz-json-1.0"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<CreateProxyConfigurationOutput>())
@@ -1384,7 +1384,7 @@ extension NetworkFirewallClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<CreateProxyRuleGroupOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<CreateProxyRuleGroupInput, CreateProxyRuleGroupOutput>(xAmzTarget: "NetworkFirewall_20201112.CreateProxyRuleGroup"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<CreateProxyRuleGroupInput, CreateProxyRuleGroupOutput>(overrides: ["X-Amz-Target": "NetworkFirewall_20201112.CreateProxyRuleGroup"]))
         builder.serialize(ClientRuntime.BodyMiddleware<CreateProxyRuleGroupInput, CreateProxyRuleGroupOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: CreateProxyRuleGroupInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<CreateProxyRuleGroupInput, CreateProxyRuleGroupOutput>(contentType: "application/x-amz-json-1.0"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<CreateProxyRuleGroupOutput>())
@@ -1461,7 +1461,7 @@ extension NetworkFirewallClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<CreateProxyRulesOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<CreateProxyRulesInput, CreateProxyRulesOutput>(xAmzTarget: "NetworkFirewall_20201112.CreateProxyRules"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<CreateProxyRulesInput, CreateProxyRulesOutput>(overrides: ["X-Amz-Target": "NetworkFirewall_20201112.CreateProxyRules"]))
         builder.serialize(ClientRuntime.BodyMiddleware<CreateProxyRulesInput, CreateProxyRulesOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: CreateProxyRulesInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<CreateProxyRulesInput, CreateProxyRulesOutput>(contentType: "application/x-amz-json-1.0"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<CreateProxyRulesOutput>())
@@ -1540,7 +1540,7 @@ extension NetworkFirewallClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<CreateRuleGroupOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<CreateRuleGroupInput, CreateRuleGroupOutput>(xAmzTarget: "NetworkFirewall_20201112.CreateRuleGroup"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<CreateRuleGroupInput, CreateRuleGroupOutput>(overrides: ["X-Amz-Target": "NetworkFirewall_20201112.CreateRuleGroup"]))
         builder.serialize(ClientRuntime.BodyMiddleware<CreateRuleGroupInput, CreateRuleGroupOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: CreateRuleGroupInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<CreateRuleGroupInput, CreateRuleGroupOutput>(contentType: "application/x-amz-json-1.0"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<CreateRuleGroupOutput>())
@@ -1619,7 +1619,7 @@ extension NetworkFirewallClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<CreateTLSInspectionConfigurationOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<CreateTLSInspectionConfigurationInput, CreateTLSInspectionConfigurationOutput>(xAmzTarget: "NetworkFirewall_20201112.CreateTLSInspectionConfiguration"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<CreateTLSInspectionConfigurationInput, CreateTLSInspectionConfigurationOutput>(overrides: ["X-Amz-Target": "NetworkFirewall_20201112.CreateTLSInspectionConfiguration"]))
         builder.serialize(ClientRuntime.BodyMiddleware<CreateTLSInspectionConfigurationInput, CreateTLSInspectionConfigurationOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: CreateTLSInspectionConfigurationInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<CreateTLSInspectionConfigurationInput, CreateTLSInspectionConfigurationOutput>(contentType: "application/x-amz-json-1.0"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<CreateTLSInspectionConfigurationOutput>())
@@ -1700,7 +1700,7 @@ extension NetworkFirewallClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<CreateVpcEndpointAssociationOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<CreateVpcEndpointAssociationInput, CreateVpcEndpointAssociationOutput>(xAmzTarget: "NetworkFirewall_20201112.CreateVpcEndpointAssociation"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<CreateVpcEndpointAssociationInput, CreateVpcEndpointAssociationOutput>(overrides: ["X-Amz-Target": "NetworkFirewall_20201112.CreateVpcEndpointAssociation"]))
         builder.serialize(ClientRuntime.BodyMiddleware<CreateVpcEndpointAssociationInput, CreateVpcEndpointAssociationOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: CreateVpcEndpointAssociationInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<CreateVpcEndpointAssociationInput, CreateVpcEndpointAssociationOutput>(contentType: "application/x-amz-json-1.0"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<CreateVpcEndpointAssociationOutput>())
@@ -1780,7 +1780,7 @@ extension NetworkFirewallClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<DeleteFirewallOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<DeleteFirewallInput, DeleteFirewallOutput>(xAmzTarget: "NetworkFirewall_20201112.DeleteFirewall"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<DeleteFirewallInput, DeleteFirewallOutput>(overrides: ["X-Amz-Target": "NetworkFirewall_20201112.DeleteFirewall"]))
         builder.serialize(ClientRuntime.BodyMiddleware<DeleteFirewallInput, DeleteFirewallOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: DeleteFirewallInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DeleteFirewallInput, DeleteFirewallOutput>(contentType: "application/x-amz-json-1.0"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DeleteFirewallOutput>())
@@ -1860,7 +1860,7 @@ extension NetworkFirewallClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<DeleteFirewallPolicyOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<DeleteFirewallPolicyInput, DeleteFirewallPolicyOutput>(xAmzTarget: "NetworkFirewall_20201112.DeleteFirewallPolicy"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<DeleteFirewallPolicyInput, DeleteFirewallPolicyOutput>(overrides: ["X-Amz-Target": "NetworkFirewall_20201112.DeleteFirewallPolicy"]))
         builder.serialize(ClientRuntime.BodyMiddleware<DeleteFirewallPolicyInput, DeleteFirewallPolicyOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: DeleteFirewallPolicyInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DeleteFirewallPolicyInput, DeleteFirewallPolicyOutput>(contentType: "application/x-amz-json-1.0"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DeleteFirewallPolicyOutput>())
@@ -1938,7 +1938,7 @@ extension NetworkFirewallClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<DeleteNetworkFirewallTransitGatewayAttachmentOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<DeleteNetworkFirewallTransitGatewayAttachmentInput, DeleteNetworkFirewallTransitGatewayAttachmentOutput>(xAmzTarget: "NetworkFirewall_20201112.DeleteNetworkFirewallTransitGatewayAttachment"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<DeleteNetworkFirewallTransitGatewayAttachmentInput, DeleteNetworkFirewallTransitGatewayAttachmentOutput>(overrides: ["X-Amz-Target": "NetworkFirewall_20201112.DeleteNetworkFirewallTransitGatewayAttachment"]))
         builder.serialize(ClientRuntime.BodyMiddleware<DeleteNetworkFirewallTransitGatewayAttachmentInput, DeleteNetworkFirewallTransitGatewayAttachmentOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: DeleteNetworkFirewallTransitGatewayAttachmentInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DeleteNetworkFirewallTransitGatewayAttachmentInput, DeleteNetworkFirewallTransitGatewayAttachmentOutput>(contentType: "application/x-amz-json-1.0"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DeleteNetworkFirewallTransitGatewayAttachmentOutput>())
@@ -2017,7 +2017,7 @@ extension NetworkFirewallClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<DeleteProxyOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<DeleteProxyInput, DeleteProxyOutput>(xAmzTarget: "NetworkFirewall_20201112.DeleteProxy"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<DeleteProxyInput, DeleteProxyOutput>(overrides: ["X-Amz-Target": "NetworkFirewall_20201112.DeleteProxy"]))
         builder.serialize(ClientRuntime.BodyMiddleware<DeleteProxyInput, DeleteProxyOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: DeleteProxyInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DeleteProxyInput, DeleteProxyOutput>(contentType: "application/x-amz-json-1.0"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DeleteProxyOutput>())
@@ -2095,7 +2095,7 @@ extension NetworkFirewallClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<DeleteProxyConfigurationOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<DeleteProxyConfigurationInput, DeleteProxyConfigurationOutput>(xAmzTarget: "NetworkFirewall_20201112.DeleteProxyConfiguration"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<DeleteProxyConfigurationInput, DeleteProxyConfigurationOutput>(overrides: ["X-Amz-Target": "NetworkFirewall_20201112.DeleteProxyConfiguration"]))
         builder.serialize(ClientRuntime.BodyMiddleware<DeleteProxyConfigurationInput, DeleteProxyConfigurationOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: DeleteProxyConfigurationInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DeleteProxyConfigurationInput, DeleteProxyConfigurationOutput>(contentType: "application/x-amz-json-1.0"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DeleteProxyConfigurationOutput>())
@@ -2173,7 +2173,7 @@ extension NetworkFirewallClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<DeleteProxyRuleGroupOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<DeleteProxyRuleGroupInput, DeleteProxyRuleGroupOutput>(xAmzTarget: "NetworkFirewall_20201112.DeleteProxyRuleGroup"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<DeleteProxyRuleGroupInput, DeleteProxyRuleGroupOutput>(overrides: ["X-Amz-Target": "NetworkFirewall_20201112.DeleteProxyRuleGroup"]))
         builder.serialize(ClientRuntime.BodyMiddleware<DeleteProxyRuleGroupInput, DeleteProxyRuleGroupOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: DeleteProxyRuleGroupInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DeleteProxyRuleGroupInput, DeleteProxyRuleGroupOutput>(contentType: "application/x-amz-json-1.0"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DeleteProxyRuleGroupOutput>())
@@ -2251,7 +2251,7 @@ extension NetworkFirewallClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<DeleteProxyRulesOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<DeleteProxyRulesInput, DeleteProxyRulesOutput>(xAmzTarget: "NetworkFirewall_20201112.DeleteProxyRules"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<DeleteProxyRulesInput, DeleteProxyRulesOutput>(overrides: ["X-Amz-Target": "NetworkFirewall_20201112.DeleteProxyRules"]))
         builder.serialize(ClientRuntime.BodyMiddleware<DeleteProxyRulesInput, DeleteProxyRulesOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: DeleteProxyRulesInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DeleteProxyRulesInput, DeleteProxyRulesOutput>(contentType: "application/x-amz-json-1.0"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DeleteProxyRulesOutput>())
@@ -2330,7 +2330,7 @@ extension NetworkFirewallClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<DeleteResourcePolicyOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<DeleteResourcePolicyInput, DeleteResourcePolicyOutput>(xAmzTarget: "NetworkFirewall_20201112.DeleteResourcePolicy"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<DeleteResourcePolicyInput, DeleteResourcePolicyOutput>(overrides: ["X-Amz-Target": "NetworkFirewall_20201112.DeleteResourcePolicy"]))
         builder.serialize(ClientRuntime.BodyMiddleware<DeleteResourcePolicyInput, DeleteResourcePolicyOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: DeleteResourcePolicyInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DeleteResourcePolicyInput, DeleteResourcePolicyOutput>(contentType: "application/x-amz-json-1.0"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DeleteResourcePolicyOutput>())
@@ -2410,7 +2410,7 @@ extension NetworkFirewallClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<DeleteRuleGroupOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<DeleteRuleGroupInput, DeleteRuleGroupOutput>(xAmzTarget: "NetworkFirewall_20201112.DeleteRuleGroup"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<DeleteRuleGroupInput, DeleteRuleGroupOutput>(overrides: ["X-Amz-Target": "NetworkFirewall_20201112.DeleteRuleGroup"]))
         builder.serialize(ClientRuntime.BodyMiddleware<DeleteRuleGroupInput, DeleteRuleGroupOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: DeleteRuleGroupInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DeleteRuleGroupInput, DeleteRuleGroupOutput>(contentType: "application/x-amz-json-1.0"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DeleteRuleGroupOutput>())
@@ -2489,7 +2489,7 @@ extension NetworkFirewallClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<DeleteTLSInspectionConfigurationOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<DeleteTLSInspectionConfigurationInput, DeleteTLSInspectionConfigurationOutput>(xAmzTarget: "NetworkFirewall_20201112.DeleteTLSInspectionConfiguration"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<DeleteTLSInspectionConfigurationInput, DeleteTLSInspectionConfigurationOutput>(overrides: ["X-Amz-Target": "NetworkFirewall_20201112.DeleteTLSInspectionConfiguration"]))
         builder.serialize(ClientRuntime.BodyMiddleware<DeleteTLSInspectionConfigurationInput, DeleteTLSInspectionConfigurationOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: DeleteTLSInspectionConfigurationInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DeleteTLSInspectionConfigurationInput, DeleteTLSInspectionConfigurationOutput>(contentType: "application/x-amz-json-1.0"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DeleteTLSInspectionConfigurationOutput>())
@@ -2568,7 +2568,7 @@ extension NetworkFirewallClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<DeleteVpcEndpointAssociationOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<DeleteVpcEndpointAssociationInput, DeleteVpcEndpointAssociationOutput>(xAmzTarget: "NetworkFirewall_20201112.DeleteVpcEndpointAssociation"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<DeleteVpcEndpointAssociationInput, DeleteVpcEndpointAssociationOutput>(overrides: ["X-Amz-Target": "NetworkFirewall_20201112.DeleteVpcEndpointAssociation"]))
         builder.serialize(ClientRuntime.BodyMiddleware<DeleteVpcEndpointAssociationInput, DeleteVpcEndpointAssociationOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: DeleteVpcEndpointAssociationInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DeleteVpcEndpointAssociationInput, DeleteVpcEndpointAssociationOutput>(contentType: "application/x-amz-json-1.0"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DeleteVpcEndpointAssociationOutput>())
@@ -2646,7 +2646,7 @@ extension NetworkFirewallClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<DescribeFirewallOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<DescribeFirewallInput, DescribeFirewallOutput>(xAmzTarget: "NetworkFirewall_20201112.DescribeFirewall"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<DescribeFirewallInput, DescribeFirewallOutput>(overrides: ["X-Amz-Target": "NetworkFirewall_20201112.DescribeFirewall"]))
         builder.serialize(ClientRuntime.BodyMiddleware<DescribeFirewallInput, DescribeFirewallOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: DescribeFirewallInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DescribeFirewallInput, DescribeFirewallOutput>(contentType: "application/x-amz-json-1.0"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DescribeFirewallOutput>())
@@ -2724,7 +2724,7 @@ extension NetworkFirewallClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<DescribeFirewallMetadataOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<DescribeFirewallMetadataInput, DescribeFirewallMetadataOutput>(xAmzTarget: "NetworkFirewall_20201112.DescribeFirewallMetadata"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<DescribeFirewallMetadataInput, DescribeFirewallMetadataOutput>(overrides: ["X-Amz-Target": "NetworkFirewall_20201112.DescribeFirewallMetadata"]))
         builder.serialize(ClientRuntime.BodyMiddleware<DescribeFirewallMetadataInput, DescribeFirewallMetadataOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: DescribeFirewallMetadataInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DescribeFirewallMetadataInput, DescribeFirewallMetadataOutput>(contentType: "application/x-amz-json-1.0"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DescribeFirewallMetadataOutput>())
@@ -2802,7 +2802,7 @@ extension NetworkFirewallClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<DescribeFirewallPolicyOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<DescribeFirewallPolicyInput, DescribeFirewallPolicyOutput>(xAmzTarget: "NetworkFirewall_20201112.DescribeFirewallPolicy"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<DescribeFirewallPolicyInput, DescribeFirewallPolicyOutput>(overrides: ["X-Amz-Target": "NetworkFirewall_20201112.DescribeFirewallPolicy"]))
         builder.serialize(ClientRuntime.BodyMiddleware<DescribeFirewallPolicyInput, DescribeFirewallPolicyOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: DescribeFirewallPolicyInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DescribeFirewallPolicyInput, DescribeFirewallPolicyOutput>(contentType: "application/x-amz-json-1.0"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DescribeFirewallPolicyOutput>())
@@ -2880,7 +2880,7 @@ extension NetworkFirewallClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<DescribeFlowOperationOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<DescribeFlowOperationInput, DescribeFlowOperationOutput>(xAmzTarget: "NetworkFirewall_20201112.DescribeFlowOperation"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<DescribeFlowOperationInput, DescribeFlowOperationOutput>(overrides: ["X-Amz-Target": "NetworkFirewall_20201112.DescribeFlowOperation"]))
         builder.serialize(ClientRuntime.BodyMiddleware<DescribeFlowOperationInput, DescribeFlowOperationOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: DescribeFlowOperationInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DescribeFlowOperationInput, DescribeFlowOperationOutput>(contentType: "application/x-amz-json-1.0"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DescribeFlowOperationOutput>())
@@ -2958,7 +2958,7 @@ extension NetworkFirewallClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<DescribeLoggingConfigurationOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<DescribeLoggingConfigurationInput, DescribeLoggingConfigurationOutput>(xAmzTarget: "NetworkFirewall_20201112.DescribeLoggingConfiguration"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<DescribeLoggingConfigurationInput, DescribeLoggingConfigurationOutput>(overrides: ["X-Amz-Target": "NetworkFirewall_20201112.DescribeLoggingConfiguration"]))
         builder.serialize(ClientRuntime.BodyMiddleware<DescribeLoggingConfigurationInput, DescribeLoggingConfigurationOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: DescribeLoggingConfigurationInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DescribeLoggingConfigurationInput, DescribeLoggingConfigurationOutput>(contentType: "application/x-amz-json-1.0"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DescribeLoggingConfigurationOutput>())
@@ -3036,7 +3036,7 @@ extension NetworkFirewallClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<DescribeProxyOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<DescribeProxyInput, DescribeProxyOutput>(xAmzTarget: "NetworkFirewall_20201112.DescribeProxy"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<DescribeProxyInput, DescribeProxyOutput>(overrides: ["X-Amz-Target": "NetworkFirewall_20201112.DescribeProxy"]))
         builder.serialize(ClientRuntime.BodyMiddleware<DescribeProxyInput, DescribeProxyOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: DescribeProxyInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DescribeProxyInput, DescribeProxyOutput>(contentType: "application/x-amz-json-1.0"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DescribeProxyOutput>())
@@ -3114,7 +3114,7 @@ extension NetworkFirewallClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<DescribeProxyConfigurationOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<DescribeProxyConfigurationInput, DescribeProxyConfigurationOutput>(xAmzTarget: "NetworkFirewall_20201112.DescribeProxyConfiguration"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<DescribeProxyConfigurationInput, DescribeProxyConfigurationOutput>(overrides: ["X-Amz-Target": "NetworkFirewall_20201112.DescribeProxyConfiguration"]))
         builder.serialize(ClientRuntime.BodyMiddleware<DescribeProxyConfigurationInput, DescribeProxyConfigurationOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: DescribeProxyConfigurationInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DescribeProxyConfigurationInput, DescribeProxyConfigurationOutput>(contentType: "application/x-amz-json-1.0"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DescribeProxyConfigurationOutput>())
@@ -3192,7 +3192,7 @@ extension NetworkFirewallClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<DescribeProxyRuleOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<DescribeProxyRuleInput, DescribeProxyRuleOutput>(xAmzTarget: "NetworkFirewall_20201112.DescribeProxyRule"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<DescribeProxyRuleInput, DescribeProxyRuleOutput>(overrides: ["X-Amz-Target": "NetworkFirewall_20201112.DescribeProxyRule"]))
         builder.serialize(ClientRuntime.BodyMiddleware<DescribeProxyRuleInput, DescribeProxyRuleOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: DescribeProxyRuleInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DescribeProxyRuleInput, DescribeProxyRuleOutput>(contentType: "application/x-amz-json-1.0"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DescribeProxyRuleOutput>())
@@ -3270,7 +3270,7 @@ extension NetworkFirewallClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<DescribeProxyRuleGroupOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<DescribeProxyRuleGroupInput, DescribeProxyRuleGroupOutput>(xAmzTarget: "NetworkFirewall_20201112.DescribeProxyRuleGroup"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<DescribeProxyRuleGroupInput, DescribeProxyRuleGroupOutput>(overrides: ["X-Amz-Target": "NetworkFirewall_20201112.DescribeProxyRuleGroup"]))
         builder.serialize(ClientRuntime.BodyMiddleware<DescribeProxyRuleGroupInput, DescribeProxyRuleGroupOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: DescribeProxyRuleGroupInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DescribeProxyRuleGroupInput, DescribeProxyRuleGroupOutput>(contentType: "application/x-amz-json-1.0"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DescribeProxyRuleGroupOutput>())
@@ -3348,7 +3348,7 @@ extension NetworkFirewallClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<DescribeResourcePolicyOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<DescribeResourcePolicyInput, DescribeResourcePolicyOutput>(xAmzTarget: "NetworkFirewall_20201112.DescribeResourcePolicy"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<DescribeResourcePolicyInput, DescribeResourcePolicyOutput>(overrides: ["X-Amz-Target": "NetworkFirewall_20201112.DescribeResourcePolicy"]))
         builder.serialize(ClientRuntime.BodyMiddleware<DescribeResourcePolicyInput, DescribeResourcePolicyOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: DescribeResourcePolicyInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DescribeResourcePolicyInput, DescribeResourcePolicyOutput>(contentType: "application/x-amz-json-1.0"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DescribeResourcePolicyOutput>())
@@ -3426,7 +3426,7 @@ extension NetworkFirewallClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<DescribeRuleGroupOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<DescribeRuleGroupInput, DescribeRuleGroupOutput>(xAmzTarget: "NetworkFirewall_20201112.DescribeRuleGroup"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<DescribeRuleGroupInput, DescribeRuleGroupOutput>(overrides: ["X-Amz-Target": "NetworkFirewall_20201112.DescribeRuleGroup"]))
         builder.serialize(ClientRuntime.BodyMiddleware<DescribeRuleGroupInput, DescribeRuleGroupOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: DescribeRuleGroupInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DescribeRuleGroupInput, DescribeRuleGroupOutput>(contentType: "application/x-amz-json-1.0"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DescribeRuleGroupOutput>())
@@ -3504,7 +3504,7 @@ extension NetworkFirewallClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<DescribeRuleGroupMetadataOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<DescribeRuleGroupMetadataInput, DescribeRuleGroupMetadataOutput>(xAmzTarget: "NetworkFirewall_20201112.DescribeRuleGroupMetadata"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<DescribeRuleGroupMetadataInput, DescribeRuleGroupMetadataOutput>(overrides: ["X-Amz-Target": "NetworkFirewall_20201112.DescribeRuleGroupMetadata"]))
         builder.serialize(ClientRuntime.BodyMiddleware<DescribeRuleGroupMetadataInput, DescribeRuleGroupMetadataOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: DescribeRuleGroupMetadataInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DescribeRuleGroupMetadataInput, DescribeRuleGroupMetadataOutput>(contentType: "application/x-amz-json-1.0"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DescribeRuleGroupMetadataOutput>())
@@ -3582,7 +3582,7 @@ extension NetworkFirewallClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<DescribeRuleGroupSummaryOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<DescribeRuleGroupSummaryInput, DescribeRuleGroupSummaryOutput>(xAmzTarget: "NetworkFirewall_20201112.DescribeRuleGroupSummary"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<DescribeRuleGroupSummaryInput, DescribeRuleGroupSummaryOutput>(overrides: ["X-Amz-Target": "NetworkFirewall_20201112.DescribeRuleGroupSummary"]))
         builder.serialize(ClientRuntime.BodyMiddleware<DescribeRuleGroupSummaryInput, DescribeRuleGroupSummaryOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: DescribeRuleGroupSummaryInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DescribeRuleGroupSummaryInput, DescribeRuleGroupSummaryOutput>(contentType: "application/x-amz-json-1.0"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DescribeRuleGroupSummaryOutput>())
@@ -3660,7 +3660,7 @@ extension NetworkFirewallClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<DescribeTLSInspectionConfigurationOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<DescribeTLSInspectionConfigurationInput, DescribeTLSInspectionConfigurationOutput>(xAmzTarget: "NetworkFirewall_20201112.DescribeTLSInspectionConfiguration"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<DescribeTLSInspectionConfigurationInput, DescribeTLSInspectionConfigurationOutput>(overrides: ["X-Amz-Target": "NetworkFirewall_20201112.DescribeTLSInspectionConfiguration"]))
         builder.serialize(ClientRuntime.BodyMiddleware<DescribeTLSInspectionConfigurationInput, DescribeTLSInspectionConfigurationOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: DescribeTLSInspectionConfigurationInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DescribeTLSInspectionConfigurationInput, DescribeTLSInspectionConfigurationOutput>(contentType: "application/x-amz-json-1.0"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DescribeTLSInspectionConfigurationOutput>())
@@ -3738,7 +3738,7 @@ extension NetworkFirewallClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<DescribeVpcEndpointAssociationOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<DescribeVpcEndpointAssociationInput, DescribeVpcEndpointAssociationOutput>(xAmzTarget: "NetworkFirewall_20201112.DescribeVpcEndpointAssociation"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<DescribeVpcEndpointAssociationInput, DescribeVpcEndpointAssociationOutput>(overrides: ["X-Amz-Target": "NetworkFirewall_20201112.DescribeVpcEndpointAssociation"]))
         builder.serialize(ClientRuntime.BodyMiddleware<DescribeVpcEndpointAssociationInput, DescribeVpcEndpointAssociationOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: DescribeVpcEndpointAssociationInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DescribeVpcEndpointAssociationInput, DescribeVpcEndpointAssociationOutput>(contentType: "application/x-amz-json-1.0"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DescribeVpcEndpointAssociationOutput>())
@@ -3816,7 +3816,7 @@ extension NetworkFirewallClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<DetachRuleGroupsFromProxyConfigurationOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<DetachRuleGroupsFromProxyConfigurationInput, DetachRuleGroupsFromProxyConfigurationOutput>(xAmzTarget: "NetworkFirewall_20201112.DetachRuleGroupsFromProxyConfiguration"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<DetachRuleGroupsFromProxyConfigurationInput, DetachRuleGroupsFromProxyConfigurationOutput>(overrides: ["X-Amz-Target": "NetworkFirewall_20201112.DetachRuleGroupsFromProxyConfiguration"]))
         builder.serialize(ClientRuntime.BodyMiddleware<DetachRuleGroupsFromProxyConfigurationInput, DetachRuleGroupsFromProxyConfigurationOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: DetachRuleGroupsFromProxyConfigurationInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DetachRuleGroupsFromProxyConfigurationInput, DetachRuleGroupsFromProxyConfigurationOutput>(contentType: "application/x-amz-json-1.0"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DetachRuleGroupsFromProxyConfigurationOutput>())
@@ -3896,7 +3896,7 @@ extension NetworkFirewallClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<DisassociateAvailabilityZonesOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<DisassociateAvailabilityZonesInput, DisassociateAvailabilityZonesOutput>(xAmzTarget: "NetworkFirewall_20201112.DisassociateAvailabilityZones"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<DisassociateAvailabilityZonesInput, DisassociateAvailabilityZonesOutput>(overrides: ["X-Amz-Target": "NetworkFirewall_20201112.DisassociateAvailabilityZones"]))
         builder.serialize(ClientRuntime.BodyMiddleware<DisassociateAvailabilityZonesInput, DisassociateAvailabilityZonesOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: DisassociateAvailabilityZonesInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DisassociateAvailabilityZonesInput, DisassociateAvailabilityZonesOutput>(contentType: "application/x-amz-json-1.0"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DisassociateAvailabilityZonesOutput>())
@@ -3976,7 +3976,7 @@ extension NetworkFirewallClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<DisassociateSubnetsOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<DisassociateSubnetsInput, DisassociateSubnetsOutput>(xAmzTarget: "NetworkFirewall_20201112.DisassociateSubnets"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<DisassociateSubnetsInput, DisassociateSubnetsOutput>(overrides: ["X-Amz-Target": "NetworkFirewall_20201112.DisassociateSubnets"]))
         builder.serialize(ClientRuntime.BodyMiddleware<DisassociateSubnetsInput, DisassociateSubnetsOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: DisassociateSubnetsInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DisassociateSubnetsInput, DisassociateSubnetsOutput>(contentType: "application/x-amz-json-1.0"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DisassociateSubnetsOutput>())
@@ -4054,7 +4054,7 @@ extension NetworkFirewallClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<GetAnalysisReportResultsOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<GetAnalysisReportResultsInput, GetAnalysisReportResultsOutput>(xAmzTarget: "NetworkFirewall_20201112.GetAnalysisReportResults"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<GetAnalysisReportResultsInput, GetAnalysisReportResultsOutput>(overrides: ["X-Amz-Target": "NetworkFirewall_20201112.GetAnalysisReportResults"]))
         builder.serialize(ClientRuntime.BodyMiddleware<GetAnalysisReportResultsInput, GetAnalysisReportResultsOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: GetAnalysisReportResultsInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<GetAnalysisReportResultsInput, GetAnalysisReportResultsOutput>(contentType: "application/x-amz-json-1.0"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<GetAnalysisReportResultsOutput>())
@@ -4132,7 +4132,7 @@ extension NetworkFirewallClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<ListAnalysisReportsOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<ListAnalysisReportsInput, ListAnalysisReportsOutput>(xAmzTarget: "NetworkFirewall_20201112.ListAnalysisReports"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<ListAnalysisReportsInput, ListAnalysisReportsOutput>(overrides: ["X-Amz-Target": "NetworkFirewall_20201112.ListAnalysisReports"]))
         builder.serialize(ClientRuntime.BodyMiddleware<ListAnalysisReportsInput, ListAnalysisReportsOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: ListAnalysisReportsInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<ListAnalysisReportsInput, ListAnalysisReportsOutput>(contentType: "application/x-amz-json-1.0"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ListAnalysisReportsOutput>())
@@ -4209,7 +4209,7 @@ extension NetworkFirewallClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<ListFirewallPoliciesOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<ListFirewallPoliciesInput, ListFirewallPoliciesOutput>(xAmzTarget: "NetworkFirewall_20201112.ListFirewallPolicies"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<ListFirewallPoliciesInput, ListFirewallPoliciesOutput>(overrides: ["X-Amz-Target": "NetworkFirewall_20201112.ListFirewallPolicies"]))
         builder.serialize(ClientRuntime.BodyMiddleware<ListFirewallPoliciesInput, ListFirewallPoliciesOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: ListFirewallPoliciesInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<ListFirewallPoliciesInput, ListFirewallPoliciesOutput>(contentType: "application/x-amz-json-1.0"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ListFirewallPoliciesOutput>())
@@ -4286,7 +4286,7 @@ extension NetworkFirewallClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<ListFirewallsOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<ListFirewallsInput, ListFirewallsOutput>(xAmzTarget: "NetworkFirewall_20201112.ListFirewalls"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<ListFirewallsInput, ListFirewallsOutput>(overrides: ["X-Amz-Target": "NetworkFirewall_20201112.ListFirewalls"]))
         builder.serialize(ClientRuntime.BodyMiddleware<ListFirewallsInput, ListFirewallsOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: ListFirewallsInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<ListFirewallsInput, ListFirewallsOutput>(contentType: "application/x-amz-json-1.0"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ListFirewallsOutput>())
@@ -4364,7 +4364,7 @@ extension NetworkFirewallClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<ListFlowOperationResultsOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<ListFlowOperationResultsInput, ListFlowOperationResultsOutput>(xAmzTarget: "NetworkFirewall_20201112.ListFlowOperationResults"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<ListFlowOperationResultsInput, ListFlowOperationResultsOutput>(overrides: ["X-Amz-Target": "NetworkFirewall_20201112.ListFlowOperationResults"]))
         builder.serialize(ClientRuntime.BodyMiddleware<ListFlowOperationResultsInput, ListFlowOperationResultsOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: ListFlowOperationResultsInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<ListFlowOperationResultsInput, ListFlowOperationResultsOutput>(contentType: "application/x-amz-json-1.0"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ListFlowOperationResultsOutput>())
@@ -4442,7 +4442,7 @@ extension NetworkFirewallClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<ListFlowOperationsOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<ListFlowOperationsInput, ListFlowOperationsOutput>(xAmzTarget: "NetworkFirewall_20201112.ListFlowOperations"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<ListFlowOperationsInput, ListFlowOperationsOutput>(overrides: ["X-Amz-Target": "NetworkFirewall_20201112.ListFlowOperations"]))
         builder.serialize(ClientRuntime.BodyMiddleware<ListFlowOperationsInput, ListFlowOperationsOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: ListFlowOperationsInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<ListFlowOperationsInput, ListFlowOperationsOutput>(contentType: "application/x-amz-json-1.0"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ListFlowOperationsOutput>())
@@ -4519,7 +4519,7 @@ extension NetworkFirewallClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<ListProxiesOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<ListProxiesInput, ListProxiesOutput>(xAmzTarget: "NetworkFirewall_20201112.ListProxies"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<ListProxiesInput, ListProxiesOutput>(overrides: ["X-Amz-Target": "NetworkFirewall_20201112.ListProxies"]))
         builder.serialize(ClientRuntime.BodyMiddleware<ListProxiesInput, ListProxiesOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: ListProxiesInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<ListProxiesInput, ListProxiesOutput>(contentType: "application/x-amz-json-1.0"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ListProxiesOutput>())
@@ -4597,7 +4597,7 @@ extension NetworkFirewallClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<ListProxyConfigurationsOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<ListProxyConfigurationsInput, ListProxyConfigurationsOutput>(xAmzTarget: "NetworkFirewall_20201112.ListProxyConfigurations"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<ListProxyConfigurationsInput, ListProxyConfigurationsOutput>(overrides: ["X-Amz-Target": "NetworkFirewall_20201112.ListProxyConfigurations"]))
         builder.serialize(ClientRuntime.BodyMiddleware<ListProxyConfigurationsInput, ListProxyConfigurationsOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: ListProxyConfigurationsInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<ListProxyConfigurationsInput, ListProxyConfigurationsOutput>(contentType: "application/x-amz-json-1.0"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ListProxyConfigurationsOutput>())
@@ -4675,7 +4675,7 @@ extension NetworkFirewallClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<ListProxyRuleGroupsOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<ListProxyRuleGroupsInput, ListProxyRuleGroupsOutput>(xAmzTarget: "NetworkFirewall_20201112.ListProxyRuleGroups"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<ListProxyRuleGroupsInput, ListProxyRuleGroupsOutput>(overrides: ["X-Amz-Target": "NetworkFirewall_20201112.ListProxyRuleGroups"]))
         builder.serialize(ClientRuntime.BodyMiddleware<ListProxyRuleGroupsInput, ListProxyRuleGroupsOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: ListProxyRuleGroupsInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<ListProxyRuleGroupsInput, ListProxyRuleGroupsOutput>(contentType: "application/x-amz-json-1.0"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ListProxyRuleGroupsOutput>())
@@ -4752,7 +4752,7 @@ extension NetworkFirewallClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<ListRuleGroupsOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<ListRuleGroupsInput, ListRuleGroupsOutput>(xAmzTarget: "NetworkFirewall_20201112.ListRuleGroups"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<ListRuleGroupsInput, ListRuleGroupsOutput>(overrides: ["X-Amz-Target": "NetworkFirewall_20201112.ListRuleGroups"]))
         builder.serialize(ClientRuntime.BodyMiddleware<ListRuleGroupsInput, ListRuleGroupsOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: ListRuleGroupsInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<ListRuleGroupsInput, ListRuleGroupsOutput>(contentType: "application/x-amz-json-1.0"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ListRuleGroupsOutput>())
@@ -4829,7 +4829,7 @@ extension NetworkFirewallClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<ListTLSInspectionConfigurationsOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<ListTLSInspectionConfigurationsInput, ListTLSInspectionConfigurationsOutput>(xAmzTarget: "NetworkFirewall_20201112.ListTLSInspectionConfigurations"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<ListTLSInspectionConfigurationsInput, ListTLSInspectionConfigurationsOutput>(overrides: ["X-Amz-Target": "NetworkFirewall_20201112.ListTLSInspectionConfigurations"]))
         builder.serialize(ClientRuntime.BodyMiddleware<ListTLSInspectionConfigurationsInput, ListTLSInspectionConfigurationsOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: ListTLSInspectionConfigurationsInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<ListTLSInspectionConfigurationsInput, ListTLSInspectionConfigurationsOutput>(contentType: "application/x-amz-json-1.0"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ListTLSInspectionConfigurationsOutput>())
@@ -4907,7 +4907,7 @@ extension NetworkFirewallClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<ListTagsForResourceOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<ListTagsForResourceInput, ListTagsForResourceOutput>(xAmzTarget: "NetworkFirewall_20201112.ListTagsForResource"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<ListTagsForResourceInput, ListTagsForResourceOutput>(overrides: ["X-Amz-Target": "NetworkFirewall_20201112.ListTagsForResource"]))
         builder.serialize(ClientRuntime.BodyMiddleware<ListTagsForResourceInput, ListTagsForResourceOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: ListTagsForResourceInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<ListTagsForResourceInput, ListTagsForResourceOutput>(contentType: "application/x-amz-json-1.0"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ListTagsForResourceOutput>())
@@ -4984,7 +4984,7 @@ extension NetworkFirewallClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<ListVpcEndpointAssociationsOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<ListVpcEndpointAssociationsInput, ListVpcEndpointAssociationsOutput>(xAmzTarget: "NetworkFirewall_20201112.ListVpcEndpointAssociations"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<ListVpcEndpointAssociationsInput, ListVpcEndpointAssociationsOutput>(overrides: ["X-Amz-Target": "NetworkFirewall_20201112.ListVpcEndpointAssociations"]))
         builder.serialize(ClientRuntime.BodyMiddleware<ListVpcEndpointAssociationsInput, ListVpcEndpointAssociationsOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: ListVpcEndpointAssociationsInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<ListVpcEndpointAssociationsInput, ListVpcEndpointAssociationsOutput>(contentType: "application/x-amz-json-1.0"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ListVpcEndpointAssociationsOutput>())
@@ -5070,7 +5070,7 @@ extension NetworkFirewallClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<PutResourcePolicyOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<PutResourcePolicyInput, PutResourcePolicyOutput>(xAmzTarget: "NetworkFirewall_20201112.PutResourcePolicy"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<PutResourcePolicyInput, PutResourcePolicyOutput>(overrides: ["X-Amz-Target": "NetworkFirewall_20201112.PutResourcePolicy"]))
         builder.serialize(ClientRuntime.BodyMiddleware<PutResourcePolicyInput, PutResourcePolicyOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: PutResourcePolicyInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<PutResourcePolicyInput, PutResourcePolicyOutput>(contentType: "application/x-amz-json-1.0"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<PutResourcePolicyOutput>())
@@ -5148,7 +5148,7 @@ extension NetworkFirewallClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<RejectNetworkFirewallTransitGatewayAttachmentOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<RejectNetworkFirewallTransitGatewayAttachmentInput, RejectNetworkFirewallTransitGatewayAttachmentOutput>(xAmzTarget: "NetworkFirewall_20201112.RejectNetworkFirewallTransitGatewayAttachment"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<RejectNetworkFirewallTransitGatewayAttachmentInput, RejectNetworkFirewallTransitGatewayAttachmentOutput>(overrides: ["X-Amz-Target": "NetworkFirewall_20201112.RejectNetworkFirewallTransitGatewayAttachment"]))
         builder.serialize(ClientRuntime.BodyMiddleware<RejectNetworkFirewallTransitGatewayAttachmentInput, RejectNetworkFirewallTransitGatewayAttachmentOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: RejectNetworkFirewallTransitGatewayAttachmentInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<RejectNetworkFirewallTransitGatewayAttachmentInput, RejectNetworkFirewallTransitGatewayAttachmentOutput>(contentType: "application/x-amz-json-1.0"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<RejectNetworkFirewallTransitGatewayAttachmentOutput>())
@@ -5226,7 +5226,7 @@ extension NetworkFirewallClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<StartAnalysisReportOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<StartAnalysisReportInput, StartAnalysisReportOutput>(xAmzTarget: "NetworkFirewall_20201112.StartAnalysisReport"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<StartAnalysisReportInput, StartAnalysisReportOutput>(overrides: ["X-Amz-Target": "NetworkFirewall_20201112.StartAnalysisReport"]))
         builder.serialize(ClientRuntime.BodyMiddleware<StartAnalysisReportInput, StartAnalysisReportOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: StartAnalysisReportInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<StartAnalysisReportInput, StartAnalysisReportOutput>(contentType: "application/x-amz-json-1.0"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<StartAnalysisReportOutput>())
@@ -5304,7 +5304,7 @@ extension NetworkFirewallClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<StartFlowCaptureOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<StartFlowCaptureInput, StartFlowCaptureOutput>(xAmzTarget: "NetworkFirewall_20201112.StartFlowCapture"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<StartFlowCaptureInput, StartFlowCaptureOutput>(overrides: ["X-Amz-Target": "NetworkFirewall_20201112.StartFlowCapture"]))
         builder.serialize(ClientRuntime.BodyMiddleware<StartFlowCaptureInput, StartFlowCaptureOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: StartFlowCaptureInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<StartFlowCaptureInput, StartFlowCaptureOutput>(contentType: "application/x-amz-json-1.0"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<StartFlowCaptureOutput>())
@@ -5382,7 +5382,7 @@ extension NetworkFirewallClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<StartFlowFlushOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<StartFlowFlushInput, StartFlowFlushOutput>(xAmzTarget: "NetworkFirewall_20201112.StartFlowFlush"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<StartFlowFlushInput, StartFlowFlushOutput>(overrides: ["X-Amz-Target": "NetworkFirewall_20201112.StartFlowFlush"]))
         builder.serialize(ClientRuntime.BodyMiddleware<StartFlowFlushInput, StartFlowFlushOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: StartFlowFlushInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<StartFlowFlushInput, StartFlowFlushOutput>(contentType: "application/x-amz-json-1.0"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<StartFlowFlushOutput>())
@@ -5460,7 +5460,7 @@ extension NetworkFirewallClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<TagResourceOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<TagResourceInput, TagResourceOutput>(xAmzTarget: "NetworkFirewall_20201112.TagResource"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<TagResourceInput, TagResourceOutput>(overrides: ["X-Amz-Target": "NetworkFirewall_20201112.TagResource"]))
         builder.serialize(ClientRuntime.BodyMiddleware<TagResourceInput, TagResourceOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: TagResourceInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<TagResourceInput, TagResourceOutput>(contentType: "application/x-amz-json-1.0"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<TagResourceOutput>())
@@ -5538,7 +5538,7 @@ extension NetworkFirewallClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<UntagResourceOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<UntagResourceInput, UntagResourceOutput>(xAmzTarget: "NetworkFirewall_20201112.UntagResource"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<UntagResourceInput, UntagResourceOutput>(overrides: ["X-Amz-Target": "NetworkFirewall_20201112.UntagResource"]))
         builder.serialize(ClientRuntime.BodyMiddleware<UntagResourceInput, UntagResourceOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: UntagResourceInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<UntagResourceInput, UntagResourceOutput>(contentType: "application/x-amz-json-1.0"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<UntagResourceOutput>())
@@ -5618,7 +5618,7 @@ extension NetworkFirewallClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<UpdateAvailabilityZoneChangeProtectionOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<UpdateAvailabilityZoneChangeProtectionInput, UpdateAvailabilityZoneChangeProtectionOutput>(xAmzTarget: "NetworkFirewall_20201112.UpdateAvailabilityZoneChangeProtection"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<UpdateAvailabilityZoneChangeProtectionInput, UpdateAvailabilityZoneChangeProtectionOutput>(overrides: ["X-Amz-Target": "NetworkFirewall_20201112.UpdateAvailabilityZoneChangeProtection"]))
         builder.serialize(ClientRuntime.BodyMiddleware<UpdateAvailabilityZoneChangeProtectionInput, UpdateAvailabilityZoneChangeProtectionOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: UpdateAvailabilityZoneChangeProtectionInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<UpdateAvailabilityZoneChangeProtectionInput, UpdateAvailabilityZoneChangeProtectionOutput>(contentType: "application/x-amz-json-1.0"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<UpdateAvailabilityZoneChangeProtectionOutput>())
@@ -5697,7 +5697,7 @@ extension NetworkFirewallClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<UpdateFirewallAnalysisSettingsOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<UpdateFirewallAnalysisSettingsInput, UpdateFirewallAnalysisSettingsOutput>(xAmzTarget: "NetworkFirewall_20201112.UpdateFirewallAnalysisSettings"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<UpdateFirewallAnalysisSettingsInput, UpdateFirewallAnalysisSettingsOutput>(overrides: ["X-Amz-Target": "NetworkFirewall_20201112.UpdateFirewallAnalysisSettings"]))
         builder.serialize(ClientRuntime.BodyMiddleware<UpdateFirewallAnalysisSettingsInput, UpdateFirewallAnalysisSettingsOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: UpdateFirewallAnalysisSettingsInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<UpdateFirewallAnalysisSettingsInput, UpdateFirewallAnalysisSettingsOutput>(contentType: "application/x-amz-json-1.0"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<UpdateFirewallAnalysisSettingsOutput>())
@@ -5777,7 +5777,7 @@ extension NetworkFirewallClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<UpdateFirewallDeleteProtectionOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<UpdateFirewallDeleteProtectionInput, UpdateFirewallDeleteProtectionOutput>(xAmzTarget: "NetworkFirewall_20201112.UpdateFirewallDeleteProtection"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<UpdateFirewallDeleteProtectionInput, UpdateFirewallDeleteProtectionOutput>(overrides: ["X-Amz-Target": "NetworkFirewall_20201112.UpdateFirewallDeleteProtection"]))
         builder.serialize(ClientRuntime.BodyMiddleware<UpdateFirewallDeleteProtectionInput, UpdateFirewallDeleteProtectionOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: UpdateFirewallDeleteProtectionInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<UpdateFirewallDeleteProtectionInput, UpdateFirewallDeleteProtectionOutput>(contentType: "application/x-amz-json-1.0"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<UpdateFirewallDeleteProtectionOutput>())
@@ -5856,7 +5856,7 @@ extension NetworkFirewallClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<UpdateFirewallDescriptionOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<UpdateFirewallDescriptionInput, UpdateFirewallDescriptionOutput>(xAmzTarget: "NetworkFirewall_20201112.UpdateFirewallDescription"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<UpdateFirewallDescriptionInput, UpdateFirewallDescriptionOutput>(overrides: ["X-Amz-Target": "NetworkFirewall_20201112.UpdateFirewallDescription"]))
         builder.serialize(ClientRuntime.BodyMiddleware<UpdateFirewallDescriptionInput, UpdateFirewallDescriptionOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: UpdateFirewallDescriptionInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<UpdateFirewallDescriptionInput, UpdateFirewallDescriptionOutput>(contentType: "application/x-amz-json-1.0"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<UpdateFirewallDescriptionOutput>())
@@ -5936,7 +5936,7 @@ extension NetworkFirewallClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<UpdateFirewallEncryptionConfigurationOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<UpdateFirewallEncryptionConfigurationInput, UpdateFirewallEncryptionConfigurationOutput>(xAmzTarget: "NetworkFirewall_20201112.UpdateFirewallEncryptionConfiguration"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<UpdateFirewallEncryptionConfigurationInput, UpdateFirewallEncryptionConfigurationOutput>(overrides: ["X-Amz-Target": "NetworkFirewall_20201112.UpdateFirewallEncryptionConfiguration"]))
         builder.serialize(ClientRuntime.BodyMiddleware<UpdateFirewallEncryptionConfigurationInput, UpdateFirewallEncryptionConfigurationOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: UpdateFirewallEncryptionConfigurationInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<UpdateFirewallEncryptionConfigurationInput, UpdateFirewallEncryptionConfigurationOutput>(contentType: "application/x-amz-json-1.0"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<UpdateFirewallEncryptionConfigurationOutput>())
@@ -6015,7 +6015,7 @@ extension NetworkFirewallClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<UpdateFirewallPolicyOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<UpdateFirewallPolicyInput, UpdateFirewallPolicyOutput>(xAmzTarget: "NetworkFirewall_20201112.UpdateFirewallPolicy"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<UpdateFirewallPolicyInput, UpdateFirewallPolicyOutput>(overrides: ["X-Amz-Target": "NetworkFirewall_20201112.UpdateFirewallPolicy"]))
         builder.serialize(ClientRuntime.BodyMiddleware<UpdateFirewallPolicyInput, UpdateFirewallPolicyOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: UpdateFirewallPolicyInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<UpdateFirewallPolicyInput, UpdateFirewallPolicyOutput>(contentType: "application/x-amz-json-1.0"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<UpdateFirewallPolicyOutput>())
@@ -6095,7 +6095,7 @@ extension NetworkFirewallClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<UpdateFirewallPolicyChangeProtectionOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<UpdateFirewallPolicyChangeProtectionInput, UpdateFirewallPolicyChangeProtectionOutput>(xAmzTarget: "NetworkFirewall_20201112.UpdateFirewallPolicyChangeProtection"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<UpdateFirewallPolicyChangeProtectionInput, UpdateFirewallPolicyChangeProtectionOutput>(overrides: ["X-Amz-Target": "NetworkFirewall_20201112.UpdateFirewallPolicyChangeProtection"]))
         builder.serialize(ClientRuntime.BodyMiddleware<UpdateFirewallPolicyChangeProtectionInput, UpdateFirewallPolicyChangeProtectionOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: UpdateFirewallPolicyChangeProtectionInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<UpdateFirewallPolicyChangeProtectionInput, UpdateFirewallPolicyChangeProtectionOutput>(contentType: "application/x-amz-json-1.0"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<UpdateFirewallPolicyChangeProtectionOutput>())
@@ -6184,7 +6184,7 @@ extension NetworkFirewallClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<UpdateLoggingConfigurationOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<UpdateLoggingConfigurationInput, UpdateLoggingConfigurationOutput>(xAmzTarget: "NetworkFirewall_20201112.UpdateLoggingConfiguration"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<UpdateLoggingConfigurationInput, UpdateLoggingConfigurationOutput>(overrides: ["X-Amz-Target": "NetworkFirewall_20201112.UpdateLoggingConfiguration"]))
         builder.serialize(ClientRuntime.BodyMiddleware<UpdateLoggingConfigurationInput, UpdateLoggingConfigurationOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: UpdateLoggingConfigurationInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<UpdateLoggingConfigurationInput, UpdateLoggingConfigurationOutput>(contentType: "application/x-amz-json-1.0"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<UpdateLoggingConfigurationOutput>())
@@ -6263,7 +6263,7 @@ extension NetworkFirewallClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<UpdateProxyOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<UpdateProxyInput, UpdateProxyOutput>(xAmzTarget: "NetworkFirewall_20201112.UpdateProxy"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<UpdateProxyInput, UpdateProxyOutput>(overrides: ["X-Amz-Target": "NetworkFirewall_20201112.UpdateProxy"]))
         builder.serialize(ClientRuntime.BodyMiddleware<UpdateProxyInput, UpdateProxyOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: UpdateProxyInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<UpdateProxyInput, UpdateProxyOutput>(contentType: "application/x-amz-json-1.0"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<UpdateProxyOutput>())
@@ -6341,7 +6341,7 @@ extension NetworkFirewallClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<UpdateProxyConfigurationOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<UpdateProxyConfigurationInput, UpdateProxyConfigurationOutput>(xAmzTarget: "NetworkFirewall_20201112.UpdateProxyConfiguration"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<UpdateProxyConfigurationInput, UpdateProxyConfigurationOutput>(overrides: ["X-Amz-Target": "NetworkFirewall_20201112.UpdateProxyConfiguration"]))
         builder.serialize(ClientRuntime.BodyMiddleware<UpdateProxyConfigurationInput, UpdateProxyConfigurationOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: UpdateProxyConfigurationInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<UpdateProxyConfigurationInput, UpdateProxyConfigurationOutput>(contentType: "application/x-amz-json-1.0"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<UpdateProxyConfigurationOutput>())
@@ -6419,7 +6419,7 @@ extension NetworkFirewallClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<UpdateProxyRuleOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<UpdateProxyRuleInput, UpdateProxyRuleOutput>(xAmzTarget: "NetworkFirewall_20201112.UpdateProxyRule"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<UpdateProxyRuleInput, UpdateProxyRuleOutput>(overrides: ["X-Amz-Target": "NetworkFirewall_20201112.UpdateProxyRule"]))
         builder.serialize(ClientRuntime.BodyMiddleware<UpdateProxyRuleInput, UpdateProxyRuleOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: UpdateProxyRuleInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<UpdateProxyRuleInput, UpdateProxyRuleOutput>(contentType: "application/x-amz-json-1.0"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<UpdateProxyRuleOutput>())
@@ -6497,7 +6497,7 @@ extension NetworkFirewallClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<UpdateProxyRuleGroupPrioritiesOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<UpdateProxyRuleGroupPrioritiesInput, UpdateProxyRuleGroupPrioritiesOutput>(xAmzTarget: "NetworkFirewall_20201112.UpdateProxyRuleGroupPriorities"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<UpdateProxyRuleGroupPrioritiesInput, UpdateProxyRuleGroupPrioritiesOutput>(overrides: ["X-Amz-Target": "NetworkFirewall_20201112.UpdateProxyRuleGroupPriorities"]))
         builder.serialize(ClientRuntime.BodyMiddleware<UpdateProxyRuleGroupPrioritiesInput, UpdateProxyRuleGroupPrioritiesOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: UpdateProxyRuleGroupPrioritiesInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<UpdateProxyRuleGroupPrioritiesInput, UpdateProxyRuleGroupPrioritiesOutput>(contentType: "application/x-amz-json-1.0"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<UpdateProxyRuleGroupPrioritiesOutput>())
@@ -6575,7 +6575,7 @@ extension NetworkFirewallClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<UpdateProxyRulePrioritiesOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<UpdateProxyRulePrioritiesInput, UpdateProxyRulePrioritiesOutput>(xAmzTarget: "NetworkFirewall_20201112.UpdateProxyRulePriorities"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<UpdateProxyRulePrioritiesInput, UpdateProxyRulePrioritiesOutput>(overrides: ["X-Amz-Target": "NetworkFirewall_20201112.UpdateProxyRulePriorities"]))
         builder.serialize(ClientRuntime.BodyMiddleware<UpdateProxyRulePrioritiesInput, UpdateProxyRulePrioritiesOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: UpdateProxyRulePrioritiesInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<UpdateProxyRulePrioritiesInput, UpdateProxyRulePrioritiesOutput>(contentType: "application/x-amz-json-1.0"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<UpdateProxyRulePrioritiesOutput>())
@@ -6654,7 +6654,7 @@ extension NetworkFirewallClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<UpdateRuleGroupOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<UpdateRuleGroupInput, UpdateRuleGroupOutput>(xAmzTarget: "NetworkFirewall_20201112.UpdateRuleGroup"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<UpdateRuleGroupInput, UpdateRuleGroupOutput>(overrides: ["X-Amz-Target": "NetworkFirewall_20201112.UpdateRuleGroup"]))
         builder.serialize(ClientRuntime.BodyMiddleware<UpdateRuleGroupInput, UpdateRuleGroupOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: UpdateRuleGroupInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<UpdateRuleGroupInput, UpdateRuleGroupOutput>(contentType: "application/x-amz-json-1.0"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<UpdateRuleGroupOutput>())
@@ -6734,7 +6734,7 @@ extension NetworkFirewallClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<UpdateSubnetChangeProtectionOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<UpdateSubnetChangeProtectionInput, UpdateSubnetChangeProtectionOutput>(xAmzTarget: "NetworkFirewall_20201112.UpdateSubnetChangeProtection"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<UpdateSubnetChangeProtectionInput, UpdateSubnetChangeProtectionOutput>(overrides: ["X-Amz-Target": "NetworkFirewall_20201112.UpdateSubnetChangeProtection"]))
         builder.serialize(ClientRuntime.BodyMiddleware<UpdateSubnetChangeProtectionInput, UpdateSubnetChangeProtectionOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: UpdateSubnetChangeProtectionInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<UpdateSubnetChangeProtectionInput, UpdateSubnetChangeProtectionOutput>(contentType: "application/x-amz-json-1.0"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<UpdateSubnetChangeProtectionOutput>())
@@ -6813,7 +6813,7 @@ extension NetworkFirewallClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<UpdateTLSInspectionConfigurationOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<UpdateTLSInspectionConfigurationInput, UpdateTLSInspectionConfigurationOutput>(xAmzTarget: "NetworkFirewall_20201112.UpdateTLSInspectionConfiguration"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<UpdateTLSInspectionConfigurationInput, UpdateTLSInspectionConfigurationOutput>(overrides: ["X-Amz-Target": "NetworkFirewall_20201112.UpdateTLSInspectionConfiguration"]))
         builder.serialize(ClientRuntime.BodyMiddleware<UpdateTLSInspectionConfigurationInput, UpdateTLSInspectionConfigurationOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: UpdateTLSInspectionConfigurationInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<UpdateTLSInspectionConfigurationInput, UpdateTLSInspectionConfigurationOutput>(contentType: "application/x-amz-json-1.0"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<UpdateTLSInspectionConfigurationOutput>())

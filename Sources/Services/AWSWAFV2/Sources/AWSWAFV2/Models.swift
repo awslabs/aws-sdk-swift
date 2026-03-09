@@ -23,8 +23,8 @@ import protocol ClientRuntime.HTTPError
 import protocol ClientRuntime.ModeledError
 @_spi(SmithyReadWrite) import protocol SmithyReadWrite.SmithyReader
 @_spi(SmithyReadWrite) import protocol SmithyReadWrite.SmithyWriter
-@_spi(SmithyReadWrite) import struct AWSClientRuntime.AWSJSONError
 @_spi(UnknownAWSHTTPServiceError) import struct AWSClientRuntime.UnknownAWSHTTPServiceError
+@_spi(SmithyReadWrite) import struct ClientRuntime.AWSJSONError
 @_spi(SmithyReadWrite) import struct SmithyReadWrite.ReadingClosureBox
 @_spi(SmithyReadWrite) import struct SmithyReadWrite.WritingClosureBox
 @_spi(SmithyTimestamps) import struct SmithyTimestamps.TimestampFormatter
@@ -10403,7 +10403,7 @@ enum AssociateWebACLOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "WAFFeatureNotIncludedInPricingPlanException": return try WAFFeatureNotIncludedInPricingPlanException.makeError(baseError: baseError)
@@ -10423,7 +10423,7 @@ enum CheckCapacityOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "WAFExpiredManagedRuleGroupVersionException": return try WAFExpiredManagedRuleGroupVersionException.makeError(baseError: baseError)
@@ -10445,7 +10445,7 @@ enum CreateAPIKeyOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "WAFInternalErrorException": return try WAFInternalErrorException.makeError(baseError: baseError)
@@ -10462,7 +10462,7 @@ enum CreateIPSetOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "WAFDuplicateItemException": return try WAFDuplicateItemException.makeError(baseError: baseError)
@@ -10483,7 +10483,7 @@ enum CreateRegexPatternSetOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "WAFDuplicateItemException": return try WAFDuplicateItemException.makeError(baseError: baseError)
@@ -10504,7 +10504,7 @@ enum CreateRuleGroupOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "WAFDuplicateItemException": return try WAFDuplicateItemException.makeError(baseError: baseError)
@@ -10528,7 +10528,7 @@ enum CreateWebACLOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "WAFConfigurationWarningException": return try WAFConfigurationWarningException.makeError(baseError: baseError)
@@ -10555,7 +10555,7 @@ enum DeleteAPIKeyOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "WAFInternalErrorException": return try WAFInternalErrorException.makeError(baseError: baseError)
@@ -10573,7 +10573,7 @@ enum DeleteFirewallManagerRuleGroupsOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "WAFInternalErrorException": return try WAFInternalErrorException.makeError(baseError: baseError)
@@ -10591,7 +10591,7 @@ enum DeleteIPSetOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "WAFAssociatedItemException": return try WAFAssociatedItemException.makeError(baseError: baseError)
@@ -10612,7 +10612,7 @@ enum DeleteLoggingConfigurationOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "WAFInternalErrorException": return try WAFInternalErrorException.makeError(baseError: baseError)
@@ -10630,7 +10630,7 @@ enum DeletePermissionPolicyOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "WAFInternalErrorException": return try WAFInternalErrorException.makeError(baseError: baseError)
@@ -10646,7 +10646,7 @@ enum DeleteRegexPatternSetOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "WAFAssociatedItemException": return try WAFAssociatedItemException.makeError(baseError: baseError)
@@ -10667,7 +10667,7 @@ enum DeleteRuleGroupOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "WAFAssociatedItemException": return try WAFAssociatedItemException.makeError(baseError: baseError)
@@ -10688,7 +10688,7 @@ enum DeleteWebACLOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "WAFAssociatedItemException": return try WAFAssociatedItemException.makeError(baseError: baseError)
@@ -10709,7 +10709,7 @@ enum DescribeAllManagedProductsOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "WAFInternalErrorException": return try WAFInternalErrorException.makeError(baseError: baseError)
@@ -10725,7 +10725,7 @@ enum DescribeManagedProductsByVendorOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "WAFInternalErrorException": return try WAFInternalErrorException.makeError(baseError: baseError)
@@ -10741,7 +10741,7 @@ enum DescribeManagedRuleGroupOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "WAFExpiredManagedRuleGroupVersionException": return try WAFExpiredManagedRuleGroupVersionException.makeError(baseError: baseError)
@@ -10760,7 +10760,7 @@ enum DisassociateWebACLOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "WAFInternalErrorException": return try WAFInternalErrorException.makeError(baseError: baseError)
@@ -10777,7 +10777,7 @@ enum GenerateMobileSdkReleaseUrlOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "WAFInternalErrorException": return try WAFInternalErrorException.makeError(baseError: baseError)
@@ -10794,7 +10794,7 @@ enum GetDecryptedAPIKeyOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "WAFInternalErrorException": return try WAFInternalErrorException.makeError(baseError: baseError)
@@ -10812,7 +10812,7 @@ enum GetIPSetOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "WAFInternalErrorException": return try WAFInternalErrorException.makeError(baseError: baseError)
@@ -10829,7 +10829,7 @@ enum GetLoggingConfigurationOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "WAFInternalErrorException": return try WAFInternalErrorException.makeError(baseError: baseError)
@@ -10846,7 +10846,7 @@ enum GetManagedRuleSetOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "WAFInternalErrorException": return try WAFInternalErrorException.makeError(baseError: baseError)
@@ -10863,7 +10863,7 @@ enum GetMobileSdkReleaseOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "WAFInternalErrorException": return try WAFInternalErrorException.makeError(baseError: baseError)
@@ -10880,7 +10880,7 @@ enum GetPermissionPolicyOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "WAFInternalErrorException": return try WAFInternalErrorException.makeError(baseError: baseError)
@@ -10896,7 +10896,7 @@ enum GetRateBasedStatementManagedKeysOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "WAFInternalErrorException": return try WAFInternalErrorException.makeError(baseError: baseError)
@@ -10914,7 +10914,7 @@ enum GetRegexPatternSetOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "WAFInternalErrorException": return try WAFInternalErrorException.makeError(baseError: baseError)
@@ -10931,7 +10931,7 @@ enum GetRuleGroupOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "WAFInternalErrorException": return try WAFInternalErrorException.makeError(baseError: baseError)
@@ -10948,7 +10948,7 @@ enum GetSampledRequestsOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "WAFInternalErrorException": return try WAFInternalErrorException.makeError(baseError: baseError)
@@ -10964,7 +10964,7 @@ enum GetTopPathStatisticsByTrafficOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "WAFFeatureNotIncludedInPricingPlanException": return try WAFFeatureNotIncludedInPricingPlanException.makeError(baseError: baseError)
@@ -10982,7 +10982,7 @@ enum GetWebACLOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "WAFInternalErrorException": return try WAFInternalErrorException.makeError(baseError: baseError)
@@ -10999,7 +10999,7 @@ enum GetWebACLForResourceOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "WAFInternalErrorException": return try WAFInternalErrorException.makeError(baseError: baseError)
@@ -11017,7 +11017,7 @@ enum ListAPIKeysOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "WAFInternalErrorException": return try WAFInternalErrorException.makeError(baseError: baseError)
@@ -11034,7 +11034,7 @@ enum ListAvailableManagedRuleGroupsOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "WAFInternalErrorException": return try WAFInternalErrorException.makeError(baseError: baseError)
@@ -11050,7 +11050,7 @@ enum ListAvailableManagedRuleGroupVersionsOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "WAFInternalErrorException": return try WAFInternalErrorException.makeError(baseError: baseError)
@@ -11067,7 +11067,7 @@ enum ListIPSetsOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "WAFInternalErrorException": return try WAFInternalErrorException.makeError(baseError: baseError)
@@ -11083,7 +11083,7 @@ enum ListLoggingConfigurationsOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "WAFInternalErrorException": return try WAFInternalErrorException.makeError(baseError: baseError)
@@ -11099,7 +11099,7 @@ enum ListManagedRuleSetsOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "WAFInternalErrorException": return try WAFInternalErrorException.makeError(baseError: baseError)
@@ -11115,7 +11115,7 @@ enum ListMobileSdkReleasesOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "WAFInternalErrorException": return try WAFInternalErrorException.makeError(baseError: baseError)
@@ -11131,7 +11131,7 @@ enum ListRegexPatternSetsOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "WAFInternalErrorException": return try WAFInternalErrorException.makeError(baseError: baseError)
@@ -11147,7 +11147,7 @@ enum ListResourcesForWebACLOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "WAFInternalErrorException": return try WAFInternalErrorException.makeError(baseError: baseError)
@@ -11164,7 +11164,7 @@ enum ListRuleGroupsOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "WAFInternalErrorException": return try WAFInternalErrorException.makeError(baseError: baseError)
@@ -11180,7 +11180,7 @@ enum ListTagsForResourceOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "WAFInternalErrorException": return try WAFInternalErrorException.makeError(baseError: baseError)
@@ -11199,7 +11199,7 @@ enum ListWebACLsOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "WAFInternalErrorException": return try WAFInternalErrorException.makeError(baseError: baseError)
@@ -11215,7 +11215,7 @@ enum PutLoggingConfigurationOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "WAFFeatureNotIncludedInPricingPlanException": return try WAFFeatureNotIncludedInPricingPlanException.makeError(baseError: baseError)
@@ -11237,7 +11237,7 @@ enum PutManagedRuleSetVersionsOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "WAFInternalErrorException": return try WAFInternalErrorException.makeError(baseError: baseError)
@@ -11255,7 +11255,7 @@ enum PutPermissionPolicyOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "WAFInternalErrorException": return try WAFInternalErrorException.makeError(baseError: baseError)
@@ -11272,7 +11272,7 @@ enum TagResourceOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "WAFInternalErrorException": return try WAFInternalErrorException.makeError(baseError: baseError)
@@ -11292,7 +11292,7 @@ enum UntagResourceOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "WAFInternalErrorException": return try WAFInternalErrorException.makeError(baseError: baseError)
@@ -11311,7 +11311,7 @@ enum UpdateIPSetOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "WAFDuplicateItemException": return try WAFDuplicateItemException.makeError(baseError: baseError)
@@ -11331,7 +11331,7 @@ enum UpdateManagedRuleSetVersionExpiryDateOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "WAFInternalErrorException": return try WAFInternalErrorException.makeError(baseError: baseError)
@@ -11349,7 +11349,7 @@ enum UpdateRegexPatternSetOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "WAFDuplicateItemException": return try WAFDuplicateItemException.makeError(baseError: baseError)
@@ -11369,7 +11369,7 @@ enum UpdateRuleGroupOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "WAFConfigurationWarningException": return try WAFConfigurationWarningException.makeError(baseError: baseError)
@@ -11392,7 +11392,7 @@ enum UpdateWebACLOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "WAFConfigurationWarningException": return try WAFConfigurationWarningException.makeError(baseError: baseError)
@@ -11415,7 +11415,7 @@ enum UpdateWebACLOutputError {
 
 extension WAFFeatureNotIncludedInPricingPlanException {
 
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> WAFFeatureNotIncludedInPricingPlanException {
+    static func makeError(baseError: ClientRuntime.AWSJSONError) throws -> WAFFeatureNotIncludedInPricingPlanException {
         let reader = baseError.errorBodyReader
         var value = WAFFeatureNotIncludedInPricingPlanException()
         value.properties.disallowedFeatures = try reader["DisallowedFeatures"].readListIfPresent(memberReadingClosure: WAFV2ClientTypes.DisallowedFeature.read(from:), memberNodeInfo: "member", isFlattened: false)
@@ -11429,7 +11429,7 @@ extension WAFFeatureNotIncludedInPricingPlanException {
 
 extension WAFInternalErrorException {
 
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> WAFInternalErrorException {
+    static func makeError(baseError: ClientRuntime.AWSJSONError) throws -> WAFInternalErrorException {
         let reader = baseError.errorBodyReader
         var value = WAFInternalErrorException()
         value.properties.message = try reader["Message"].readIfPresent()
@@ -11442,7 +11442,7 @@ extension WAFInternalErrorException {
 
 extension WAFInvalidOperationException {
 
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> WAFInvalidOperationException {
+    static func makeError(baseError: ClientRuntime.AWSJSONError) throws -> WAFInvalidOperationException {
         let reader = baseError.errorBodyReader
         var value = WAFInvalidOperationException()
         value.properties.message = try reader["Message"].readIfPresent()
@@ -11455,7 +11455,7 @@ extension WAFInvalidOperationException {
 
 extension WAFInvalidParameterException {
 
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> WAFInvalidParameterException {
+    static func makeError(baseError: ClientRuntime.AWSJSONError) throws -> WAFInvalidParameterException {
         let reader = baseError.errorBodyReader
         var value = WAFInvalidParameterException()
         value.properties.field = try reader["Field"].readIfPresent()
@@ -11471,7 +11471,7 @@ extension WAFInvalidParameterException {
 
 extension WAFLimitsExceededException {
 
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> WAFLimitsExceededException {
+    static func makeError(baseError: ClientRuntime.AWSJSONError) throws -> WAFLimitsExceededException {
         let reader = baseError.errorBodyReader
         var value = WAFLimitsExceededException()
         value.properties.message = try reader["Message"].readIfPresent()
@@ -11485,7 +11485,7 @@ extension WAFLimitsExceededException {
 
 extension WAFNonexistentItemException {
 
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> WAFNonexistentItemException {
+    static func makeError(baseError: ClientRuntime.AWSJSONError) throws -> WAFNonexistentItemException {
         let reader = baseError.errorBodyReader
         var value = WAFNonexistentItemException()
         value.properties.message = try reader["Message"].readIfPresent()
@@ -11498,7 +11498,7 @@ extension WAFNonexistentItemException {
 
 extension WAFUnavailableEntityException {
 
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> WAFUnavailableEntityException {
+    static func makeError(baseError: ClientRuntime.AWSJSONError) throws -> WAFUnavailableEntityException {
         let reader = baseError.errorBodyReader
         var value = WAFUnavailableEntityException()
         value.properties.message = try reader["Message"].readIfPresent()
@@ -11511,7 +11511,7 @@ extension WAFUnavailableEntityException {
 
 extension WAFExpiredManagedRuleGroupVersionException {
 
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> WAFExpiredManagedRuleGroupVersionException {
+    static func makeError(baseError: ClientRuntime.AWSJSONError) throws -> WAFExpiredManagedRuleGroupVersionException {
         let reader = baseError.errorBodyReader
         var value = WAFExpiredManagedRuleGroupVersionException()
         value.properties.message = try reader["Message"].readIfPresent()
@@ -11524,7 +11524,7 @@ extension WAFExpiredManagedRuleGroupVersionException {
 
 extension WAFInvalidResourceException {
 
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> WAFInvalidResourceException {
+    static func makeError(baseError: ClientRuntime.AWSJSONError) throws -> WAFInvalidResourceException {
         let reader = baseError.errorBodyReader
         var value = WAFInvalidResourceException()
         value.properties.message = try reader["Message"].readIfPresent()
@@ -11537,7 +11537,7 @@ extension WAFInvalidResourceException {
 
 extension WAFSubscriptionNotFoundException {
 
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> WAFSubscriptionNotFoundException {
+    static func makeError(baseError: ClientRuntime.AWSJSONError) throws -> WAFSubscriptionNotFoundException {
         let reader = baseError.errorBodyReader
         var value = WAFSubscriptionNotFoundException()
         value.properties.message = try reader["Message"].readIfPresent()
@@ -11550,7 +11550,7 @@ extension WAFSubscriptionNotFoundException {
 
 extension WAFDuplicateItemException {
 
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> WAFDuplicateItemException {
+    static func makeError(baseError: ClientRuntime.AWSJSONError) throws -> WAFDuplicateItemException {
         let reader = baseError.errorBodyReader
         var value = WAFDuplicateItemException()
         value.properties.message = try reader["Message"].readIfPresent()
@@ -11563,7 +11563,7 @@ extension WAFDuplicateItemException {
 
 extension WAFOptimisticLockException {
 
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> WAFOptimisticLockException {
+    static func makeError(baseError: ClientRuntime.AWSJSONError) throws -> WAFOptimisticLockException {
         let reader = baseError.errorBodyReader
         var value = WAFOptimisticLockException()
         value.properties.message = try reader["Message"].readIfPresent()
@@ -11576,7 +11576,7 @@ extension WAFOptimisticLockException {
 
 extension WAFTagOperationException {
 
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> WAFTagOperationException {
+    static func makeError(baseError: ClientRuntime.AWSJSONError) throws -> WAFTagOperationException {
         let reader = baseError.errorBodyReader
         var value = WAFTagOperationException()
         value.properties.message = try reader["Message"].readIfPresent()
@@ -11589,7 +11589,7 @@ extension WAFTagOperationException {
 
 extension WAFTagOperationInternalErrorException {
 
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> WAFTagOperationInternalErrorException {
+    static func makeError(baseError: ClientRuntime.AWSJSONError) throws -> WAFTagOperationInternalErrorException {
         let reader = baseError.errorBodyReader
         var value = WAFTagOperationInternalErrorException()
         value.properties.message = try reader["Message"].readIfPresent()
@@ -11602,7 +11602,7 @@ extension WAFTagOperationInternalErrorException {
 
 extension WAFConfigurationWarningException {
 
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> WAFConfigurationWarningException {
+    static func makeError(baseError: ClientRuntime.AWSJSONError) throws -> WAFConfigurationWarningException {
         let reader = baseError.errorBodyReader
         var value = WAFConfigurationWarningException()
         value.properties.message = try reader["Message"].readIfPresent()
@@ -11615,7 +11615,7 @@ extension WAFConfigurationWarningException {
 
 extension WAFAssociatedItemException {
 
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> WAFAssociatedItemException {
+    static func makeError(baseError: ClientRuntime.AWSJSONError) throws -> WAFAssociatedItemException {
         let reader = baseError.errorBodyReader
         var value = WAFAssociatedItemException()
         value.properties.message = try reader["Message"].readIfPresent()
@@ -11628,7 +11628,7 @@ extension WAFAssociatedItemException {
 
 extension WAFUnsupportedAggregateKeyTypeException {
 
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> WAFUnsupportedAggregateKeyTypeException {
+    static func makeError(baseError: ClientRuntime.AWSJSONError) throws -> WAFUnsupportedAggregateKeyTypeException {
         let reader = baseError.errorBodyReader
         var value = WAFUnsupportedAggregateKeyTypeException()
         value.properties.message = try reader["Message"].readIfPresent()
@@ -11641,7 +11641,7 @@ extension WAFUnsupportedAggregateKeyTypeException {
 
 extension WAFLogDestinationPermissionIssueException {
 
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> WAFLogDestinationPermissionIssueException {
+    static func makeError(baseError: ClientRuntime.AWSJSONError) throws -> WAFLogDestinationPermissionIssueException {
         let reader = baseError.errorBodyReader
         var value = WAFLogDestinationPermissionIssueException()
         value.properties.message = try reader["Message"].readIfPresent()
@@ -11654,7 +11654,7 @@ extension WAFLogDestinationPermissionIssueException {
 
 extension WAFServiceLinkedRoleErrorException {
 
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> WAFServiceLinkedRoleErrorException {
+    static func makeError(baseError: ClientRuntime.AWSJSONError) throws -> WAFServiceLinkedRoleErrorException {
         let reader = baseError.errorBodyReader
         var value = WAFServiceLinkedRoleErrorException()
         value.properties.message = try reader["message"].readIfPresent()
@@ -11667,7 +11667,7 @@ extension WAFServiceLinkedRoleErrorException {
 
 extension WAFInvalidPermissionPolicyException {
 
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> WAFInvalidPermissionPolicyException {
+    static func makeError(baseError: ClientRuntime.AWSJSONError) throws -> WAFInvalidPermissionPolicyException {
         let reader = baseError.errorBodyReader
         var value = WAFInvalidPermissionPolicyException()
         value.properties.message = try reader["Message"].readIfPresent()

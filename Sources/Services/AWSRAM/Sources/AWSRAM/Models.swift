@@ -23,8 +23,8 @@ import protocol ClientRuntime.HTTPError
 import protocol ClientRuntime.ModeledError
 @_spi(SmithyReadWrite) import protocol SmithyReadWrite.SmithyReader
 @_spi(SmithyReadWrite) import protocol SmithyReadWrite.SmithyWriter
-@_spi(SmithyReadWrite) import struct AWSClientRuntime.RestJSONError
 @_spi(UnknownAWSHTTPServiceError) import struct AWSClientRuntime.UnknownAWSHTTPServiceError
+@_spi(SmithyReadWrite) import struct ClientRuntime.RestJSONError
 import struct Smithy.URIQueryItem
 
 /// The operation failed because the client token input parameter matched one that was used with a previous call to the operation, but at least one of the other input parameters is different from the previous call.
@@ -1275,6 +1275,21 @@ public struct TagPolicyViolationException: ClientRuntime.ModeledError, AWSClient
     }
 }
 
+extension RAMClientTypes {
+
+    /// The configuration of the resource share
+    public struct ResourceShareConfiguration: Swift.Sendable {
+        /// Specifies whether the consumer account retains access to the resource share after leaving the organization.
+        public var retainSharingOnAccountLeaveOrganization: Swift.Bool?
+
+        public init(
+            retainSharingOnAccountLeaveOrganization: Swift.Bool? = nil
+        ) {
+            self.retainSharingOnAccountLeaveOrganization = retainSharingOnAccountLeaveOrganization
+        }
+    }
+}
+
 public struct CreateResourceShareInput: Swift.Sendable {
     /// Specifies whether principals outside your organization in Organizations can be associated with a resource share. A value of true lets you share with individual Amazon Web Services accounts that are not in your organization. A value of false only has meaning if your account is a member of an Amazon Web Services Organization. The default value is true.
     public var allowExternalPrincipals: Swift.Bool?
@@ -1304,6 +1319,8 @@ public struct CreateResourceShareInput: Swift.Sendable {
     public var principals: [Swift.String]?
     /// Specifies a list of one or more ARNs of the resources to associate with the resource share.
     public var resourceArns: [Swift.String]?
+    /// Specifies the configuration of this resource share.
+    public var resourceShareConfiguration: RAMClientTypes.ResourceShareConfiguration?
     /// Specifies source constraints (accounts, ARNs, organization IDs, or organization paths) that limit when service principals can access resources in this resource share. When a service principal attempts to access a shared resource, validation is performed to ensure the request originates from one of the specified sources. This helps prevent confused deputy attacks by applying constraints on where service principals can access resources from.
     public var sources: [Swift.String]?
     /// Specifies one or more tags to attach to the resource share itself. It doesn't attach the tags to the resources associated with the resource share.
@@ -1316,6 +1333,7 @@ public struct CreateResourceShareInput: Swift.Sendable {
         permissionArns: [Swift.String]? = nil,
         principals: [Swift.String]? = nil,
         resourceArns: [Swift.String]? = nil,
+        resourceShareConfiguration: RAMClientTypes.ResourceShareConfiguration? = nil,
         sources: [Swift.String]? = nil,
         tags: [RAMClientTypes.Tag]? = nil
     ) {
@@ -1325,6 +1343,7 @@ public struct CreateResourceShareInput: Swift.Sendable {
         self.permissionArns = permissionArns
         self.principals = principals
         self.resourceArns = resourceArns
+        self.resourceShareConfiguration = resourceShareConfiguration
         self.sources = sources
         self.tags = tags
     }
@@ -1428,6 +1447,8 @@ extension RAMClientTypes {
         public var owningAccountId: Swift.String?
         /// The [Amazon Resource Name (ARN)](https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html) of the resource share
         public var resourceShareArn: Swift.String?
+        /// The configuration of the resource share
+        public var resourceShareConfiguration: RAMClientTypes.ResourceShareConfiguration?
         /// The current status of the resource share.
         public var status: RAMClientTypes.ResourceShareStatus?
         /// A message about the status of the resource share.
@@ -1443,6 +1464,7 @@ extension RAMClientTypes {
             name: Swift.String? = nil,
             owningAccountId: Swift.String? = nil,
             resourceShareArn: Swift.String? = nil,
+            resourceShareConfiguration: RAMClientTypes.ResourceShareConfiguration? = nil,
             status: RAMClientTypes.ResourceShareStatus? = nil,
             statusMessage: Swift.String? = nil,
             tags: [RAMClientTypes.Tag]? = nil
@@ -1454,6 +1476,7 @@ extension RAMClientTypes {
             self.name = name
             self.owningAccountId = owningAccountId
             self.resourceShareArn = resourceShareArn
+            self.resourceShareConfiguration = resourceShareConfiguration
             self.status = status
             self.statusMessage = statusMessage
             self.tags = tags
@@ -3654,6 +3677,7 @@ extension CreateResourceShareInput {
         try writer["permissionArns"].writeList(value.permissionArns, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["principals"].writeList(value.principals, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["resourceArns"].writeList(value.resourceArns, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["resourceShareConfiguration"].write(value.resourceShareConfiguration, with: RAMClientTypes.ResourceShareConfiguration.write(value:to:))
         try writer["sources"].writeList(value.sources, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["tags"].writeList(value.tags, memberWritingClosure: RAMClientTypes.Tag.write(value:to:), memberNodeInfo: "member", isFlattened: false)
     }
@@ -4380,7 +4404,7 @@ enum AcceptResourceShareInvitationOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "IdempotentParameterMismatch": return try IdempotentParameterMismatchException.makeError(baseError: baseError)
@@ -4403,7 +4427,7 @@ enum AssociateResourceShareOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "IdempotentParameterMismatch": return try IdempotentParameterMismatchException.makeError(baseError: baseError)
@@ -4427,7 +4451,7 @@ enum AssociateResourceSharePermissionOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "InvalidClientToken": return try InvalidClientTokenException.makeError(baseError: baseError)
@@ -4447,7 +4471,7 @@ enum CreatePermissionOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "IdempotentParameterMismatch": return try IdempotentParameterMismatchException.makeError(baseError: baseError)
@@ -4470,7 +4494,7 @@ enum CreatePermissionVersionOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "IdempotentParameterMismatch": return try IdempotentParameterMismatchException.makeError(baseError: baseError)
@@ -4493,7 +4517,7 @@ enum CreateResourceShareOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "IdempotentParameterMismatch": return try IdempotentParameterMismatchException.makeError(baseError: baseError)
@@ -4519,7 +4543,7 @@ enum DeletePermissionOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "IdempotentParameterMismatch": return try IdempotentParameterMismatchException.makeError(baseError: baseError)
@@ -4539,7 +4563,7 @@ enum DeletePermissionVersionOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "IdempotentParameterMismatch": return try IdempotentParameterMismatchException.makeError(baseError: baseError)
@@ -4560,7 +4584,7 @@ enum DeleteResourceShareOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "IdempotentParameterMismatch": return try IdempotentParameterMismatchException.makeError(baseError: baseError)
@@ -4583,7 +4607,7 @@ enum DisassociateResourceShareOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "IdempotentParameterMismatch": return try IdempotentParameterMismatchException.makeError(baseError: baseError)
@@ -4607,7 +4631,7 @@ enum DisassociateResourceSharePermissionOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "InvalidClientToken": return try InvalidClientTokenException.makeError(baseError: baseError)
@@ -4628,7 +4652,7 @@ enum EnableSharingWithAwsOrganizationOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "OperationNotPermitted": return try OperationNotPermittedException.makeError(baseError: baseError)
@@ -4644,7 +4668,7 @@ enum GetPermissionOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "InvalidParameter": return try InvalidParameterException.makeError(baseError: baseError)
@@ -4663,7 +4687,7 @@ enum GetResourcePoliciesOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "InvalidNextToken": return try InvalidNextTokenException.makeError(baseError: baseError)
@@ -4682,7 +4706,7 @@ enum GetResourceShareAssociationsOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "InvalidNextToken": return try InvalidNextTokenException.makeError(baseError: baseError)
@@ -4702,7 +4726,7 @@ enum GetResourceShareInvitationsOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "InvalidMaxResults": return try InvalidMaxResultsException.makeError(baseError: baseError)
@@ -4723,7 +4747,7 @@ enum GetResourceSharesOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "InvalidNextToken": return try InvalidNextTokenException.makeError(baseError: baseError)
@@ -4742,7 +4766,7 @@ enum ListPendingInvitationResourcesOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "InvalidNextToken": return try InvalidNextTokenException.makeError(baseError: baseError)
@@ -4764,7 +4788,7 @@ enum ListPermissionAssociationsOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "InvalidNextToken": return try InvalidNextTokenException.makeError(baseError: baseError)
@@ -4782,7 +4806,7 @@ enum ListPermissionsOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "InvalidNextToken": return try InvalidNextTokenException.makeError(baseError: baseError)
@@ -4800,7 +4824,7 @@ enum ListPermissionVersionsOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "InvalidNextToken": return try InvalidNextTokenException.makeError(baseError: baseError)
@@ -4820,7 +4844,7 @@ enum ListPrincipalsOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "InvalidNextToken": return try InvalidNextTokenException.makeError(baseError: baseError)
@@ -4839,7 +4863,7 @@ enum ListReplacePermissionAssociationsWorkOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "InvalidNextToken": return try InvalidNextTokenException.makeError(baseError: baseError)
@@ -4856,7 +4880,7 @@ enum ListResourcesOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "InvalidNextToken": return try InvalidNextTokenException.makeError(baseError: baseError)
@@ -4876,7 +4900,7 @@ enum ListResourceSharePermissionsOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "InvalidNextToken": return try InvalidNextTokenException.makeError(baseError: baseError)
@@ -4896,7 +4920,7 @@ enum ListResourceTypesOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "InvalidNextToken": return try InvalidNextTokenException.makeError(baseError: baseError)
@@ -4913,7 +4937,7 @@ enum ListSourceAssociationsOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "InvalidNextToken": return try InvalidNextTokenException.makeError(baseError: baseError)
@@ -4932,7 +4956,7 @@ enum PromotePermissionCreatedFromPolicyOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "InvalidParameter": return try InvalidParameterException.makeError(baseError: baseError)
@@ -4953,7 +4977,7 @@ enum PromoteResourceShareCreatedFromPolicyOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "InvalidParameter": return try InvalidParameterException.makeError(baseError: baseError)
@@ -4976,7 +5000,7 @@ enum RejectResourceShareInvitationOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "IdempotentParameterMismatch": return try IdempotentParameterMismatchException.makeError(baseError: baseError)
@@ -4999,7 +5023,7 @@ enum ReplacePermissionAssociationsOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "IdempotentParameterMismatch": return try IdempotentParameterMismatchException.makeError(baseError: baseError)
@@ -5020,7 +5044,7 @@ enum SetDefaultPermissionVersionOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "IdempotentParameterMismatch": return try IdempotentParameterMismatchException.makeError(baseError: baseError)
@@ -5040,7 +5064,7 @@ enum TagResourceOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "InvalidParameter": return try InvalidParameterException.makeError(baseError: baseError)
@@ -5061,7 +5085,7 @@ enum UntagResourceOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "InvalidParameter": return try InvalidParameterException.makeError(baseError: baseError)
@@ -5079,7 +5103,7 @@ enum UpdateResourceShareOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "IdempotentParameterMismatch": return try IdempotentParameterMismatchException.makeError(baseError: baseError)
@@ -5098,7 +5122,7 @@ enum UpdateResourceShareOutputError {
 
 extension IdempotentParameterMismatchException {
 
-    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> IdempotentParameterMismatchException {
+    static func makeError(baseError: ClientRuntime.RestJSONError) throws -> IdempotentParameterMismatchException {
         let reader = baseError.errorBodyReader
         var value = IdempotentParameterMismatchException()
         value.properties.message = try reader["message"].readIfPresent() ?? ""
@@ -5111,7 +5135,7 @@ extension IdempotentParameterMismatchException {
 
 extension InvalidClientTokenException {
 
-    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> InvalidClientTokenException {
+    static func makeError(baseError: ClientRuntime.RestJSONError) throws -> InvalidClientTokenException {
         let reader = baseError.errorBodyReader
         var value = InvalidClientTokenException()
         value.properties.message = try reader["message"].readIfPresent() ?? ""
@@ -5124,7 +5148,7 @@ extension InvalidClientTokenException {
 
 extension MalformedArnException {
 
-    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> MalformedArnException {
+    static func makeError(baseError: ClientRuntime.RestJSONError) throws -> MalformedArnException {
         let reader = baseError.errorBodyReader
         var value = MalformedArnException()
         value.properties.message = try reader["message"].readIfPresent() ?? ""
@@ -5137,7 +5161,7 @@ extension MalformedArnException {
 
 extension OperationNotPermittedException {
 
-    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> OperationNotPermittedException {
+    static func makeError(baseError: ClientRuntime.RestJSONError) throws -> OperationNotPermittedException {
         let reader = baseError.errorBodyReader
         var value = OperationNotPermittedException()
         value.properties.message = try reader["message"].readIfPresent() ?? ""
@@ -5150,7 +5174,7 @@ extension OperationNotPermittedException {
 
 extension ResourceShareInvitationAlreadyAcceptedException {
 
-    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> ResourceShareInvitationAlreadyAcceptedException {
+    static func makeError(baseError: ClientRuntime.RestJSONError) throws -> ResourceShareInvitationAlreadyAcceptedException {
         let reader = baseError.errorBodyReader
         var value = ResourceShareInvitationAlreadyAcceptedException()
         value.properties.message = try reader["message"].readIfPresent() ?? ""
@@ -5163,7 +5187,7 @@ extension ResourceShareInvitationAlreadyAcceptedException {
 
 extension ResourceShareInvitationAlreadyRejectedException {
 
-    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> ResourceShareInvitationAlreadyRejectedException {
+    static func makeError(baseError: ClientRuntime.RestJSONError) throws -> ResourceShareInvitationAlreadyRejectedException {
         let reader = baseError.errorBodyReader
         var value = ResourceShareInvitationAlreadyRejectedException()
         value.properties.message = try reader["message"].readIfPresent() ?? ""
@@ -5176,7 +5200,7 @@ extension ResourceShareInvitationAlreadyRejectedException {
 
 extension ResourceShareInvitationArnNotFoundException {
 
-    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> ResourceShareInvitationArnNotFoundException {
+    static func makeError(baseError: ClientRuntime.RestJSONError) throws -> ResourceShareInvitationArnNotFoundException {
         let reader = baseError.errorBodyReader
         var value = ResourceShareInvitationArnNotFoundException()
         value.properties.message = try reader["message"].readIfPresent() ?? ""
@@ -5189,7 +5213,7 @@ extension ResourceShareInvitationArnNotFoundException {
 
 extension ResourceShareInvitationExpiredException {
 
-    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> ResourceShareInvitationExpiredException {
+    static func makeError(baseError: ClientRuntime.RestJSONError) throws -> ResourceShareInvitationExpiredException {
         let reader = baseError.errorBodyReader
         var value = ResourceShareInvitationExpiredException()
         value.properties.message = try reader["message"].readIfPresent() ?? ""
@@ -5202,7 +5226,7 @@ extension ResourceShareInvitationExpiredException {
 
 extension ServerInternalException {
 
-    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> ServerInternalException {
+    static func makeError(baseError: ClientRuntime.RestJSONError) throws -> ServerInternalException {
         let reader = baseError.errorBodyReader
         var value = ServerInternalException()
         value.properties.message = try reader["message"].readIfPresent() ?? ""
@@ -5215,7 +5239,7 @@ extension ServerInternalException {
 
 extension ServiceUnavailableException {
 
-    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> ServiceUnavailableException {
+    static func makeError(baseError: ClientRuntime.RestJSONError) throws -> ServiceUnavailableException {
         let reader = baseError.errorBodyReader
         var value = ServiceUnavailableException()
         value.properties.message = try reader["message"].readIfPresent() ?? ""
@@ -5228,7 +5252,7 @@ extension ServiceUnavailableException {
 
 extension InvalidParameterException {
 
-    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> InvalidParameterException {
+    static func makeError(baseError: ClientRuntime.RestJSONError) throws -> InvalidParameterException {
         let reader = baseError.errorBodyReader
         var value = InvalidParameterException()
         value.properties.message = try reader["message"].readIfPresent() ?? ""
@@ -5241,7 +5265,7 @@ extension InvalidParameterException {
 
 extension InvalidStateTransitionException {
 
-    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> InvalidStateTransitionException {
+    static func makeError(baseError: ClientRuntime.RestJSONError) throws -> InvalidStateTransitionException {
         let reader = baseError.errorBodyReader
         var value = InvalidStateTransitionException()
         value.properties.message = try reader["message"].readIfPresent() ?? ""
@@ -5254,7 +5278,7 @@ extension InvalidStateTransitionException {
 
 extension ResourceShareLimitExceededException {
 
-    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> ResourceShareLimitExceededException {
+    static func makeError(baseError: ClientRuntime.RestJSONError) throws -> ResourceShareLimitExceededException {
         let reader = baseError.errorBodyReader
         var value = ResourceShareLimitExceededException()
         value.properties.message = try reader["message"].readIfPresent() ?? ""
@@ -5267,7 +5291,7 @@ extension ResourceShareLimitExceededException {
 
 extension ThrottlingException {
 
-    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> ThrottlingException {
+    static func makeError(baseError: ClientRuntime.RestJSONError) throws -> ThrottlingException {
         let reader = baseError.errorBodyReader
         var value = ThrottlingException()
         value.properties.message = try reader["message"].readIfPresent() ?? ""
@@ -5280,7 +5304,7 @@ extension ThrottlingException {
 
 extension UnknownResourceException {
 
-    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> UnknownResourceException {
+    static func makeError(baseError: ClientRuntime.RestJSONError) throws -> UnknownResourceException {
         let reader = baseError.errorBodyReader
         var value = UnknownResourceException()
         value.properties.message = try reader["message"].readIfPresent() ?? ""
@@ -5293,7 +5317,7 @@ extension UnknownResourceException {
 
 extension InvalidPolicyException {
 
-    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> InvalidPolicyException {
+    static func makeError(baseError: ClientRuntime.RestJSONError) throws -> InvalidPolicyException {
         let reader = baseError.errorBodyReader
         var value = InvalidPolicyException()
         value.properties.message = try reader["message"].readIfPresent() ?? ""
@@ -5306,7 +5330,7 @@ extension InvalidPolicyException {
 
 extension MalformedPolicyTemplateException {
 
-    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> MalformedPolicyTemplateException {
+    static func makeError(baseError: ClientRuntime.RestJSONError) throws -> MalformedPolicyTemplateException {
         let reader = baseError.errorBodyReader
         var value = MalformedPolicyTemplateException()
         value.properties.message = try reader["message"].readIfPresent() ?? ""
@@ -5319,7 +5343,7 @@ extension MalformedPolicyTemplateException {
 
 extension PermissionAlreadyExistsException {
 
-    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> PermissionAlreadyExistsException {
+    static func makeError(baseError: ClientRuntime.RestJSONError) throws -> PermissionAlreadyExistsException {
         let reader = baseError.errorBodyReader
         var value = PermissionAlreadyExistsException()
         value.properties.message = try reader["message"].readIfPresent() ?? ""
@@ -5332,7 +5356,7 @@ extension PermissionAlreadyExistsException {
 
 extension PermissionLimitExceededException {
 
-    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> PermissionLimitExceededException {
+    static func makeError(baseError: ClientRuntime.RestJSONError) throws -> PermissionLimitExceededException {
         let reader = baseError.errorBodyReader
         var value = PermissionLimitExceededException()
         value.properties.message = try reader["message"].readIfPresent() ?? ""
@@ -5345,7 +5369,7 @@ extension PermissionLimitExceededException {
 
 extension PermissionVersionsLimitExceededException {
 
-    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> PermissionVersionsLimitExceededException {
+    static func makeError(baseError: ClientRuntime.RestJSONError) throws -> PermissionVersionsLimitExceededException {
         let reader = baseError.errorBodyReader
         var value = PermissionVersionsLimitExceededException()
         value.properties.message = try reader["message"].readIfPresent() ?? ""
@@ -5358,7 +5382,7 @@ extension PermissionVersionsLimitExceededException {
 
 extension TagLimitExceededException {
 
-    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> TagLimitExceededException {
+    static func makeError(baseError: ClientRuntime.RestJSONError) throws -> TagLimitExceededException {
         let reader = baseError.errorBodyReader
         var value = TagLimitExceededException()
         value.properties.message = try reader["message"].readIfPresent() ?? ""
@@ -5371,7 +5395,7 @@ extension TagLimitExceededException {
 
 extension TagPolicyViolationException {
 
-    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> TagPolicyViolationException {
+    static func makeError(baseError: ClientRuntime.RestJSONError) throws -> TagPolicyViolationException {
         let reader = baseError.errorBodyReader
         var value = TagPolicyViolationException()
         value.properties.message = try reader["message"].readIfPresent() ?? ""
@@ -5384,7 +5408,7 @@ extension TagPolicyViolationException {
 
 extension InvalidNextTokenException {
 
-    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> InvalidNextTokenException {
+    static func makeError(baseError: ClientRuntime.RestJSONError) throws -> InvalidNextTokenException {
         let reader = baseError.errorBodyReader
         var value = InvalidNextTokenException()
         value.properties.message = try reader["message"].readIfPresent() ?? ""
@@ -5397,7 +5421,7 @@ extension InvalidNextTokenException {
 
 extension ResourceArnNotFoundException {
 
-    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> ResourceArnNotFoundException {
+    static func makeError(baseError: ClientRuntime.RestJSONError) throws -> ResourceArnNotFoundException {
         let reader = baseError.errorBodyReader
         var value = ResourceArnNotFoundException()
         value.properties.message = try reader["message"].readIfPresent() ?? ""
@@ -5410,7 +5434,7 @@ extension ResourceArnNotFoundException {
 
 extension InvalidMaxResultsException {
 
-    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> InvalidMaxResultsException {
+    static func makeError(baseError: ClientRuntime.RestJSONError) throws -> InvalidMaxResultsException {
         let reader = baseError.errorBodyReader
         var value = InvalidMaxResultsException()
         value.properties.message = try reader["message"].readIfPresent() ?? ""
@@ -5423,7 +5447,7 @@ extension InvalidMaxResultsException {
 
 extension MissingRequiredParameterException {
 
-    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> MissingRequiredParameterException {
+    static func makeError(baseError: ClientRuntime.RestJSONError) throws -> MissingRequiredParameterException {
         let reader = baseError.errorBodyReader
         var value = MissingRequiredParameterException()
         value.properties.message = try reader["message"].readIfPresent() ?? ""
@@ -5436,7 +5460,7 @@ extension MissingRequiredParameterException {
 
 extension InvalidResourceTypeException {
 
-    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> InvalidResourceTypeException {
+    static func makeError(baseError: ClientRuntime.RestJSONError) throws -> InvalidResourceTypeException {
         let reader = baseError.errorBodyReader
         var value = InvalidResourceTypeException()
         value.properties.message = try reader["message"].readIfPresent() ?? ""
@@ -5449,7 +5473,7 @@ extension InvalidResourceTypeException {
 
 extension UnmatchedPolicyPermissionException {
 
-    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> UnmatchedPolicyPermissionException {
+    static func makeError(baseError: ClientRuntime.RestJSONError) throws -> UnmatchedPolicyPermissionException {
         let reader = baseError.errorBodyReader
         var value = UnmatchedPolicyPermissionException()
         value.properties.message = try reader["message"].readIfPresent() ?? ""
@@ -5558,6 +5582,7 @@ extension RAMClientTypes.ResourceShare {
         value.creationTime = try reader["creationTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
         value.lastUpdatedTime = try reader["lastUpdatedTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
         value.featureSet = try reader["featureSet"].readIfPresent()
+        value.resourceShareConfiguration = try reader["resourceShareConfiguration"].readIfPresent(with: RAMClientTypes.ResourceShareConfiguration.read(from:))
         return value
     }
 }
@@ -5576,6 +5601,21 @@ extension RAMClientTypes.ResourceShareAssociation {
         value.creationTime = try reader["creationTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
         value.lastUpdatedTime = try reader["lastUpdatedTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
         value.external = try reader["external"].readIfPresent()
+        return value
+    }
+}
+
+extension RAMClientTypes.ResourceShareConfiguration {
+
+    static func write(value: RAMClientTypes.ResourceShareConfiguration?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["retainSharingOnAccountLeaveOrganization"].write(value.retainSharingOnAccountLeaveOrganization)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> RAMClientTypes.ResourceShareConfiguration {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = RAMClientTypes.ResourceShareConfiguration()
+        value.retainSharingOnAccountLeaveOrganization = try reader["retainSharingOnAccountLeaveOrganization"].readIfPresent()
         return value
     }
 }

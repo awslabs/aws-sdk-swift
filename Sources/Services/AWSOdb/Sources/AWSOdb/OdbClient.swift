@@ -48,7 +48,6 @@ import protocol SmithyIdentity.BearerTokenIdentityResolver
 @_spi(AWSEndpointResolverMiddleware) import struct AWSClientRuntime.AWSEndpointResolverMiddleware
 import struct AWSClientRuntime.AmzSdkInvocationIdMiddleware
 import struct AWSClientRuntime.UserAgentMiddleware
-import struct AWSClientRuntime.XAmzTargetMiddleware
 import struct AWSSDKHTTPAuth.SigV4AuthScheme
 import struct ClientRuntime.AuthSchemeMiddleware
 @_spi(SmithyReadWrite) import struct ClientRuntime.BodyMiddleware
@@ -57,6 +56,7 @@ import struct ClientRuntime.ContentTypeMiddleware
 @_spi(SmithyReadWrite) import struct ClientRuntime.DeserializeMiddleware
 import struct ClientRuntime.IdempotencyTokenMiddleware
 import struct ClientRuntime.LoggerMiddleware
+import struct ClientRuntime.MutateHeadersMiddleware
 import struct ClientRuntime.SendableHttpInterceptorProviderBox
 import struct ClientRuntime.SendableInterceptorProviderBox
 import struct ClientRuntime.SignerMiddleware
@@ -663,7 +663,7 @@ extension OdbClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<AcceptMarketplaceRegistrationOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<AcceptMarketplaceRegistrationInput, AcceptMarketplaceRegistrationOutput>(xAmzTarget: "Odb.AcceptMarketplaceRegistration"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<AcceptMarketplaceRegistrationInput, AcceptMarketplaceRegistrationOutput>(overrides: ["X-Amz-Target": "Odb.AcceptMarketplaceRegistration"]))
         builder.serialize(ClientRuntime.BodyMiddleware<AcceptMarketplaceRegistrationInput, AcceptMarketplaceRegistrationOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: AcceptMarketplaceRegistrationInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<AcceptMarketplaceRegistrationInput, AcceptMarketplaceRegistrationOutput>(contentType: "application/x-amz-json-1.0"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<AcceptMarketplaceRegistrationOutput>())
@@ -737,7 +737,7 @@ extension OdbClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<AssociateIamRoleToResourceOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<AssociateIamRoleToResourceInput, AssociateIamRoleToResourceOutput>(xAmzTarget: "Odb.AssociateIamRoleToResource"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<AssociateIamRoleToResourceInput, AssociateIamRoleToResourceOutput>(overrides: ["X-Amz-Target": "Odb.AssociateIamRoleToResource"]))
         builder.serialize(ClientRuntime.BodyMiddleware<AssociateIamRoleToResourceInput, AssociateIamRoleToResourceOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: AssociateIamRoleToResourceInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<AssociateIamRoleToResourceInput, AssociateIamRoleToResourceOutput>(contentType: "application/x-amz-json-1.0"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<AssociateIamRoleToResourceOutput>())
@@ -813,7 +813,7 @@ extension OdbClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<CreateCloudAutonomousVmClusterOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<CreateCloudAutonomousVmClusterInput, CreateCloudAutonomousVmClusterOutput>(xAmzTarget: "Odb.CreateCloudAutonomousVmCluster"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<CreateCloudAutonomousVmClusterInput, CreateCloudAutonomousVmClusterOutput>(overrides: ["X-Amz-Target": "Odb.CreateCloudAutonomousVmCluster"]))
         builder.serialize(ClientRuntime.BodyMiddleware<CreateCloudAutonomousVmClusterInput, CreateCloudAutonomousVmClusterOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: CreateCloudAutonomousVmClusterInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<CreateCloudAutonomousVmClusterInput, CreateCloudAutonomousVmClusterOutput>(contentType: "application/x-amz-json-1.0"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<CreateCloudAutonomousVmClusterOutput>())
@@ -888,7 +888,7 @@ extension OdbClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<CreateCloudExadataInfrastructureOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<CreateCloudExadataInfrastructureInput, CreateCloudExadataInfrastructureOutput>(xAmzTarget: "Odb.CreateCloudExadataInfrastructure"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<CreateCloudExadataInfrastructureInput, CreateCloudExadataInfrastructureOutput>(overrides: ["X-Amz-Target": "Odb.CreateCloudExadataInfrastructure"]))
         builder.serialize(ClientRuntime.BodyMiddleware<CreateCloudExadataInfrastructureInput, CreateCloudExadataInfrastructureOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: CreateCloudExadataInfrastructureInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<CreateCloudExadataInfrastructureInput, CreateCloudExadataInfrastructureOutput>(contentType: "application/x-amz-json-1.0"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<CreateCloudExadataInfrastructureOutput>())
@@ -964,7 +964,7 @@ extension OdbClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<CreateCloudVmClusterOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<CreateCloudVmClusterInput, CreateCloudVmClusterOutput>(xAmzTarget: "Odb.CreateCloudVmCluster"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<CreateCloudVmClusterInput, CreateCloudVmClusterOutput>(overrides: ["X-Amz-Target": "Odb.CreateCloudVmCluster"]))
         builder.serialize(ClientRuntime.BodyMiddleware<CreateCloudVmClusterInput, CreateCloudVmClusterOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: CreateCloudVmClusterInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<CreateCloudVmClusterInput, CreateCloudVmClusterOutput>(contentType: "application/x-amz-json-1.0"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<CreateCloudVmClusterOutput>())
@@ -1039,7 +1039,7 @@ extension OdbClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<CreateOdbNetworkOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<CreateOdbNetworkInput, CreateOdbNetworkOutput>(xAmzTarget: "Odb.CreateOdbNetwork"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<CreateOdbNetworkInput, CreateOdbNetworkOutput>(overrides: ["X-Amz-Target": "Odb.CreateOdbNetwork"]))
         builder.serialize(ClientRuntime.BodyMiddleware<CreateOdbNetworkInput, CreateOdbNetworkOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: CreateOdbNetworkInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<CreateOdbNetworkInput, CreateOdbNetworkOutput>(contentType: "application/x-amz-json-1.0"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<CreateOdbNetworkOutput>())
@@ -1114,7 +1114,7 @@ extension OdbClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<CreateOdbPeeringConnectionOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<CreateOdbPeeringConnectionInput, CreateOdbPeeringConnectionOutput>(xAmzTarget: "Odb.CreateOdbPeeringConnection"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<CreateOdbPeeringConnectionInput, CreateOdbPeeringConnectionOutput>(overrides: ["X-Amz-Target": "Odb.CreateOdbPeeringConnection"]))
         builder.serialize(ClientRuntime.BodyMiddleware<CreateOdbPeeringConnectionInput, CreateOdbPeeringConnectionOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: CreateOdbPeeringConnectionInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<CreateOdbPeeringConnectionInput, CreateOdbPeeringConnectionOutput>(contentType: "application/x-amz-json-1.0"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<CreateOdbPeeringConnectionOutput>())
@@ -1187,7 +1187,7 @@ extension OdbClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<DeleteCloudAutonomousVmClusterOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<DeleteCloudAutonomousVmClusterInput, DeleteCloudAutonomousVmClusterOutput>(xAmzTarget: "Odb.DeleteCloudAutonomousVmCluster"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<DeleteCloudAutonomousVmClusterInput, DeleteCloudAutonomousVmClusterOutput>(overrides: ["X-Amz-Target": "Odb.DeleteCloudAutonomousVmCluster"]))
         builder.serialize(ClientRuntime.BodyMiddleware<DeleteCloudAutonomousVmClusterInput, DeleteCloudAutonomousVmClusterOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: DeleteCloudAutonomousVmClusterInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DeleteCloudAutonomousVmClusterInput, DeleteCloudAutonomousVmClusterOutput>(contentType: "application/x-amz-json-1.0"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DeleteCloudAutonomousVmClusterOutput>())
@@ -1261,7 +1261,7 @@ extension OdbClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<DeleteCloudExadataInfrastructureOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<DeleteCloudExadataInfrastructureInput, DeleteCloudExadataInfrastructureOutput>(xAmzTarget: "Odb.DeleteCloudExadataInfrastructure"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<DeleteCloudExadataInfrastructureInput, DeleteCloudExadataInfrastructureOutput>(overrides: ["X-Amz-Target": "Odb.DeleteCloudExadataInfrastructure"]))
         builder.serialize(ClientRuntime.BodyMiddleware<DeleteCloudExadataInfrastructureInput, DeleteCloudExadataInfrastructureOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: DeleteCloudExadataInfrastructureInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DeleteCloudExadataInfrastructureInput, DeleteCloudExadataInfrastructureOutput>(contentType: "application/x-amz-json-1.0"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DeleteCloudExadataInfrastructureOutput>())
@@ -1334,7 +1334,7 @@ extension OdbClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<DeleteCloudVmClusterOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<DeleteCloudVmClusterInput, DeleteCloudVmClusterOutput>(xAmzTarget: "Odb.DeleteCloudVmCluster"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<DeleteCloudVmClusterInput, DeleteCloudVmClusterOutput>(overrides: ["X-Amz-Target": "Odb.DeleteCloudVmCluster"]))
         builder.serialize(ClientRuntime.BodyMiddleware<DeleteCloudVmClusterInput, DeleteCloudVmClusterOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: DeleteCloudVmClusterInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DeleteCloudVmClusterInput, DeleteCloudVmClusterOutput>(contentType: "application/x-amz-json-1.0"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DeleteCloudVmClusterOutput>())
@@ -1407,7 +1407,7 @@ extension OdbClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<DeleteOdbNetworkOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<DeleteOdbNetworkInput, DeleteOdbNetworkOutput>(xAmzTarget: "Odb.DeleteOdbNetwork"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<DeleteOdbNetworkInput, DeleteOdbNetworkOutput>(overrides: ["X-Amz-Target": "Odb.DeleteOdbNetwork"]))
         builder.serialize(ClientRuntime.BodyMiddleware<DeleteOdbNetworkInput, DeleteOdbNetworkOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: DeleteOdbNetworkInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DeleteOdbNetworkInput, DeleteOdbNetworkOutput>(contentType: "application/x-amz-json-1.0"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DeleteOdbNetworkOutput>())
@@ -1480,7 +1480,7 @@ extension OdbClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<DeleteOdbPeeringConnectionOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<DeleteOdbPeeringConnectionInput, DeleteOdbPeeringConnectionOutput>(xAmzTarget: "Odb.DeleteOdbPeeringConnection"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<DeleteOdbPeeringConnectionInput, DeleteOdbPeeringConnectionOutput>(overrides: ["X-Amz-Target": "Odb.DeleteOdbPeeringConnection"]))
         builder.serialize(ClientRuntime.BodyMiddleware<DeleteOdbPeeringConnectionInput, DeleteOdbPeeringConnectionOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: DeleteOdbPeeringConnectionInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DeleteOdbPeeringConnectionInput, DeleteOdbPeeringConnectionOutput>(contentType: "application/x-amz-json-1.0"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DeleteOdbPeeringConnectionOutput>())
@@ -1554,7 +1554,7 @@ extension OdbClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<DisassociateIamRoleFromResourceOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<DisassociateIamRoleFromResourceInput, DisassociateIamRoleFromResourceOutput>(xAmzTarget: "Odb.DisassociateIamRoleFromResource"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<DisassociateIamRoleFromResourceInput, DisassociateIamRoleFromResourceOutput>(overrides: ["X-Amz-Target": "Odb.DisassociateIamRoleFromResource"]))
         builder.serialize(ClientRuntime.BodyMiddleware<DisassociateIamRoleFromResourceInput, DisassociateIamRoleFromResourceOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: DisassociateIamRoleFromResourceInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DisassociateIamRoleFromResourceInput, DisassociateIamRoleFromResourceOutput>(contentType: "application/x-amz-json-1.0"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DisassociateIamRoleFromResourceOutput>())
@@ -1627,7 +1627,7 @@ extension OdbClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<GetCloudAutonomousVmClusterOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<GetCloudAutonomousVmClusterInput, GetCloudAutonomousVmClusterOutput>(xAmzTarget: "Odb.GetCloudAutonomousVmCluster"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<GetCloudAutonomousVmClusterInput, GetCloudAutonomousVmClusterOutput>(overrides: ["X-Amz-Target": "Odb.GetCloudAutonomousVmCluster"]))
         builder.serialize(ClientRuntime.BodyMiddleware<GetCloudAutonomousVmClusterInput, GetCloudAutonomousVmClusterOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: GetCloudAutonomousVmClusterInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<GetCloudAutonomousVmClusterInput, GetCloudAutonomousVmClusterOutput>(contentType: "application/x-amz-json-1.0"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<GetCloudAutonomousVmClusterOutput>())
@@ -1700,7 +1700,7 @@ extension OdbClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<GetCloudExadataInfrastructureOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<GetCloudExadataInfrastructureInput, GetCloudExadataInfrastructureOutput>(xAmzTarget: "Odb.GetCloudExadataInfrastructure"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<GetCloudExadataInfrastructureInput, GetCloudExadataInfrastructureOutput>(overrides: ["X-Amz-Target": "Odb.GetCloudExadataInfrastructure"]))
         builder.serialize(ClientRuntime.BodyMiddleware<GetCloudExadataInfrastructureInput, GetCloudExadataInfrastructureOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: GetCloudExadataInfrastructureInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<GetCloudExadataInfrastructureInput, GetCloudExadataInfrastructureOutput>(contentType: "application/x-amz-json-1.0"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<GetCloudExadataInfrastructureOutput>())
@@ -1773,7 +1773,7 @@ extension OdbClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<GetCloudExadataInfrastructureUnallocatedResourcesOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<GetCloudExadataInfrastructureUnallocatedResourcesInput, GetCloudExadataInfrastructureUnallocatedResourcesOutput>(xAmzTarget: "Odb.GetCloudExadataInfrastructureUnallocatedResources"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<GetCloudExadataInfrastructureUnallocatedResourcesInput, GetCloudExadataInfrastructureUnallocatedResourcesOutput>(overrides: ["X-Amz-Target": "Odb.GetCloudExadataInfrastructureUnallocatedResources"]))
         builder.serialize(ClientRuntime.BodyMiddleware<GetCloudExadataInfrastructureUnallocatedResourcesInput, GetCloudExadataInfrastructureUnallocatedResourcesOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: GetCloudExadataInfrastructureUnallocatedResourcesInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<GetCloudExadataInfrastructureUnallocatedResourcesInput, GetCloudExadataInfrastructureUnallocatedResourcesOutput>(contentType: "application/x-amz-json-1.0"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<GetCloudExadataInfrastructureUnallocatedResourcesOutput>())
@@ -1846,7 +1846,7 @@ extension OdbClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<GetCloudVmClusterOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<GetCloudVmClusterInput, GetCloudVmClusterOutput>(xAmzTarget: "Odb.GetCloudVmCluster"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<GetCloudVmClusterInput, GetCloudVmClusterOutput>(overrides: ["X-Amz-Target": "Odb.GetCloudVmCluster"]))
         builder.serialize(ClientRuntime.BodyMiddleware<GetCloudVmClusterInput, GetCloudVmClusterOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: GetCloudVmClusterInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<GetCloudVmClusterInput, GetCloudVmClusterOutput>(contentType: "application/x-amz-json-1.0"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<GetCloudVmClusterOutput>())
@@ -1919,7 +1919,7 @@ extension OdbClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<GetDbNodeOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<GetDbNodeInput, GetDbNodeOutput>(xAmzTarget: "Odb.GetDbNode"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<GetDbNodeInput, GetDbNodeOutput>(overrides: ["X-Amz-Target": "Odb.GetDbNode"]))
         builder.serialize(ClientRuntime.BodyMiddleware<GetDbNodeInput, GetDbNodeOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: GetDbNodeInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<GetDbNodeInput, GetDbNodeOutput>(contentType: "application/x-amz-json-1.0"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<GetDbNodeOutput>())
@@ -1992,7 +1992,7 @@ extension OdbClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<GetDbServerOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<GetDbServerInput, GetDbServerOutput>(xAmzTarget: "Odb.GetDbServer"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<GetDbServerInput, GetDbServerOutput>(overrides: ["X-Amz-Target": "Odb.GetDbServer"]))
         builder.serialize(ClientRuntime.BodyMiddleware<GetDbServerInput, GetDbServerOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: GetDbServerInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<GetDbServerInput, GetDbServerOutput>(contentType: "application/x-amz-json-1.0"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<GetDbServerOutput>())
@@ -2064,7 +2064,7 @@ extension OdbClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<GetOciOnboardingStatusOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<GetOciOnboardingStatusInput, GetOciOnboardingStatusOutput>(xAmzTarget: "Odb.GetOciOnboardingStatus"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<GetOciOnboardingStatusInput, GetOciOnboardingStatusOutput>(overrides: ["X-Amz-Target": "Odb.GetOciOnboardingStatus"]))
         builder.serialize(ClientRuntime.BodyMiddleware<GetOciOnboardingStatusInput, GetOciOnboardingStatusOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: GetOciOnboardingStatusInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<GetOciOnboardingStatusInput, GetOciOnboardingStatusOutput>(contentType: "application/x-amz-json-1.0"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<GetOciOnboardingStatusOutput>())
@@ -2137,7 +2137,7 @@ extension OdbClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<GetOdbNetworkOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<GetOdbNetworkInput, GetOdbNetworkOutput>(xAmzTarget: "Odb.GetOdbNetwork"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<GetOdbNetworkInput, GetOdbNetworkOutput>(overrides: ["X-Amz-Target": "Odb.GetOdbNetwork"]))
         builder.serialize(ClientRuntime.BodyMiddleware<GetOdbNetworkInput, GetOdbNetworkOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: GetOdbNetworkInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<GetOdbNetworkInput, GetOdbNetworkOutput>(contentType: "application/x-amz-json-1.0"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<GetOdbNetworkOutput>())
@@ -2210,7 +2210,7 @@ extension OdbClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<GetOdbPeeringConnectionOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<GetOdbPeeringConnectionInput, GetOdbPeeringConnectionOutput>(xAmzTarget: "Odb.GetOdbPeeringConnection"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<GetOdbPeeringConnectionInput, GetOdbPeeringConnectionOutput>(overrides: ["X-Amz-Target": "Odb.GetOdbPeeringConnection"]))
         builder.serialize(ClientRuntime.BodyMiddleware<GetOdbPeeringConnectionInput, GetOdbPeeringConnectionOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: GetOdbPeeringConnectionInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<GetOdbPeeringConnectionInput, GetOdbPeeringConnectionOutput>(contentType: "application/x-amz-json-1.0"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<GetOdbPeeringConnectionOutput>())
@@ -2282,7 +2282,7 @@ extension OdbClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<InitializeServiceOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<InitializeServiceInput, InitializeServiceOutput>(xAmzTarget: "Odb.InitializeService"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<InitializeServiceInput, InitializeServiceOutput>(overrides: ["X-Amz-Target": "Odb.InitializeService"]))
         builder.serialize(ClientRuntime.BodyMiddleware<InitializeServiceInput, InitializeServiceOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: InitializeServiceInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<InitializeServiceInput, InitializeServiceOutput>(contentType: "application/x-amz-json-1.0"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<InitializeServiceOutput>())
@@ -2355,7 +2355,7 @@ extension OdbClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<ListAutonomousVirtualMachinesOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<ListAutonomousVirtualMachinesInput, ListAutonomousVirtualMachinesOutput>(xAmzTarget: "Odb.ListAutonomousVirtualMachines"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<ListAutonomousVirtualMachinesInput, ListAutonomousVirtualMachinesOutput>(overrides: ["X-Amz-Target": "Odb.ListAutonomousVirtualMachines"]))
         builder.serialize(ClientRuntime.BodyMiddleware<ListAutonomousVirtualMachinesInput, ListAutonomousVirtualMachinesOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: ListAutonomousVirtualMachinesInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<ListAutonomousVirtualMachinesInput, ListAutonomousVirtualMachinesOutput>(contentType: "application/x-amz-json-1.0"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ListAutonomousVirtualMachinesOutput>())
@@ -2428,7 +2428,7 @@ extension OdbClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<ListCloudAutonomousVmClustersOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<ListCloudAutonomousVmClustersInput, ListCloudAutonomousVmClustersOutput>(xAmzTarget: "Odb.ListCloudAutonomousVmClusters"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<ListCloudAutonomousVmClustersInput, ListCloudAutonomousVmClustersOutput>(overrides: ["X-Amz-Target": "Odb.ListCloudAutonomousVmClusters"]))
         builder.serialize(ClientRuntime.BodyMiddleware<ListCloudAutonomousVmClustersInput, ListCloudAutonomousVmClustersOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: ListCloudAutonomousVmClustersInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<ListCloudAutonomousVmClustersInput, ListCloudAutonomousVmClustersOutput>(contentType: "application/x-amz-json-1.0"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ListCloudAutonomousVmClustersOutput>())
@@ -2500,7 +2500,7 @@ extension OdbClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<ListCloudExadataInfrastructuresOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<ListCloudExadataInfrastructuresInput, ListCloudExadataInfrastructuresOutput>(xAmzTarget: "Odb.ListCloudExadataInfrastructures"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<ListCloudExadataInfrastructuresInput, ListCloudExadataInfrastructuresOutput>(overrides: ["X-Amz-Target": "Odb.ListCloudExadataInfrastructures"]))
         builder.serialize(ClientRuntime.BodyMiddleware<ListCloudExadataInfrastructuresInput, ListCloudExadataInfrastructuresOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: ListCloudExadataInfrastructuresInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<ListCloudExadataInfrastructuresInput, ListCloudExadataInfrastructuresOutput>(contentType: "application/x-amz-json-1.0"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ListCloudExadataInfrastructuresOutput>())
@@ -2573,7 +2573,7 @@ extension OdbClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<ListCloudVmClustersOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<ListCloudVmClustersInput, ListCloudVmClustersOutput>(xAmzTarget: "Odb.ListCloudVmClusters"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<ListCloudVmClustersInput, ListCloudVmClustersOutput>(overrides: ["X-Amz-Target": "Odb.ListCloudVmClusters"]))
         builder.serialize(ClientRuntime.BodyMiddleware<ListCloudVmClustersInput, ListCloudVmClustersOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: ListCloudVmClustersInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<ListCloudVmClustersInput, ListCloudVmClustersOutput>(contentType: "application/x-amz-json-1.0"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ListCloudVmClustersOutput>())
@@ -2646,7 +2646,7 @@ extension OdbClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<ListDbNodesOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<ListDbNodesInput, ListDbNodesOutput>(xAmzTarget: "Odb.ListDbNodes"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<ListDbNodesInput, ListDbNodesOutput>(overrides: ["X-Amz-Target": "Odb.ListDbNodes"]))
         builder.serialize(ClientRuntime.BodyMiddleware<ListDbNodesInput, ListDbNodesOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: ListDbNodesInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<ListDbNodesInput, ListDbNodesOutput>(contentType: "application/x-amz-json-1.0"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ListDbNodesOutput>())
@@ -2719,7 +2719,7 @@ extension OdbClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<ListDbServersOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<ListDbServersInput, ListDbServersOutput>(xAmzTarget: "Odb.ListDbServers"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<ListDbServersInput, ListDbServersOutput>(overrides: ["X-Amz-Target": "Odb.ListDbServers"]))
         builder.serialize(ClientRuntime.BodyMiddleware<ListDbServersInput, ListDbServersOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: ListDbServersInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<ListDbServersInput, ListDbServersOutput>(contentType: "application/x-amz-json-1.0"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ListDbServersOutput>())
@@ -2791,7 +2791,7 @@ extension OdbClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<ListDbSystemShapesOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<ListDbSystemShapesInput, ListDbSystemShapesOutput>(xAmzTarget: "Odb.ListDbSystemShapes"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<ListDbSystemShapesInput, ListDbSystemShapesOutput>(overrides: ["X-Amz-Target": "Odb.ListDbSystemShapes"]))
         builder.serialize(ClientRuntime.BodyMiddleware<ListDbSystemShapesInput, ListDbSystemShapesOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: ListDbSystemShapesInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<ListDbSystemShapesInput, ListDbSystemShapesOutput>(contentType: "application/x-amz-json-1.0"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ListDbSystemShapesOutput>())
@@ -2863,7 +2863,7 @@ extension OdbClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<ListGiVersionsOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<ListGiVersionsInput, ListGiVersionsOutput>(xAmzTarget: "Odb.ListGiVersions"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<ListGiVersionsInput, ListGiVersionsOutput>(overrides: ["X-Amz-Target": "Odb.ListGiVersions"]))
         builder.serialize(ClientRuntime.BodyMiddleware<ListGiVersionsInput, ListGiVersionsOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: ListGiVersionsInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<ListGiVersionsInput, ListGiVersionsOutput>(contentType: "application/x-amz-json-1.0"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ListGiVersionsOutput>())
@@ -2935,7 +2935,7 @@ extension OdbClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<ListOdbNetworksOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<ListOdbNetworksInput, ListOdbNetworksOutput>(xAmzTarget: "Odb.ListOdbNetworks"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<ListOdbNetworksInput, ListOdbNetworksOutput>(overrides: ["X-Amz-Target": "Odb.ListOdbNetworks"]))
         builder.serialize(ClientRuntime.BodyMiddleware<ListOdbNetworksInput, ListOdbNetworksOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: ListOdbNetworksInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<ListOdbNetworksInput, ListOdbNetworksOutput>(contentType: "application/x-amz-json-1.0"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ListOdbNetworksOutput>())
@@ -3008,7 +3008,7 @@ extension OdbClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<ListOdbPeeringConnectionsOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<ListOdbPeeringConnectionsInput, ListOdbPeeringConnectionsOutput>(xAmzTarget: "Odb.ListOdbPeeringConnections"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<ListOdbPeeringConnectionsInput, ListOdbPeeringConnectionsOutput>(overrides: ["X-Amz-Target": "Odb.ListOdbPeeringConnections"]))
         builder.serialize(ClientRuntime.BodyMiddleware<ListOdbPeeringConnectionsInput, ListOdbPeeringConnectionsOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: ListOdbPeeringConnectionsInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<ListOdbPeeringConnectionsInput, ListOdbPeeringConnectionsOutput>(contentType: "application/x-amz-json-1.0"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ListOdbPeeringConnectionsOutput>())
@@ -3081,7 +3081,7 @@ extension OdbClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<ListSystemVersionsOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<ListSystemVersionsInput, ListSystemVersionsOutput>(xAmzTarget: "Odb.ListSystemVersions"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<ListSystemVersionsInput, ListSystemVersionsOutput>(overrides: ["X-Amz-Target": "Odb.ListSystemVersions"]))
         builder.serialize(ClientRuntime.BodyMiddleware<ListSystemVersionsInput, ListSystemVersionsOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: ListSystemVersionsInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<ListSystemVersionsInput, ListSystemVersionsOutput>(contentType: "application/x-amz-json-1.0"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ListSystemVersionsOutput>())
@@ -3150,7 +3150,7 @@ extension OdbClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<ListTagsForResourceOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<ListTagsForResourceInput, ListTagsForResourceOutput>(xAmzTarget: "Odb.ListTagsForResource"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<ListTagsForResourceInput, ListTagsForResourceOutput>(overrides: ["X-Amz-Target": "Odb.ListTagsForResource"]))
         builder.serialize(ClientRuntime.BodyMiddleware<ListTagsForResourceInput, ListTagsForResourceOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: ListTagsForResourceInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<ListTagsForResourceInput, ListTagsForResourceOutput>(contentType: "application/x-amz-json-1.0"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ListTagsForResourceOutput>())
@@ -3223,7 +3223,7 @@ extension OdbClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<RebootDbNodeOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<RebootDbNodeInput, RebootDbNodeOutput>(xAmzTarget: "Odb.RebootDbNode"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<RebootDbNodeInput, RebootDbNodeOutput>(overrides: ["X-Amz-Target": "Odb.RebootDbNode"]))
         builder.serialize(ClientRuntime.BodyMiddleware<RebootDbNodeInput, RebootDbNodeOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: RebootDbNodeInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<RebootDbNodeInput, RebootDbNodeOutput>(contentType: "application/x-amz-json-1.0"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<RebootDbNodeOutput>())
@@ -3296,7 +3296,7 @@ extension OdbClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<StartDbNodeOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<StartDbNodeInput, StartDbNodeOutput>(xAmzTarget: "Odb.StartDbNode"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<StartDbNodeInput, StartDbNodeOutput>(overrides: ["X-Amz-Target": "Odb.StartDbNode"]))
         builder.serialize(ClientRuntime.BodyMiddleware<StartDbNodeInput, StartDbNodeOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: StartDbNodeInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<StartDbNodeInput, StartDbNodeOutput>(contentType: "application/x-amz-json-1.0"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<StartDbNodeOutput>())
@@ -3369,7 +3369,7 @@ extension OdbClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<StopDbNodeOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<StopDbNodeInput, StopDbNodeOutput>(xAmzTarget: "Odb.StopDbNode"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<StopDbNodeInput, StopDbNodeOutput>(overrides: ["X-Amz-Target": "Odb.StopDbNode"]))
         builder.serialize(ClientRuntime.BodyMiddleware<StopDbNodeInput, StopDbNodeOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: StopDbNodeInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<StopDbNodeInput, StopDbNodeOutput>(contentType: "application/x-amz-json-1.0"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<StopDbNodeOutput>())
@@ -3439,7 +3439,7 @@ extension OdbClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<TagResourceOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<TagResourceInput, TagResourceOutput>(xAmzTarget: "Odb.TagResource"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<TagResourceInput, TagResourceOutput>(overrides: ["X-Amz-Target": "Odb.TagResource"]))
         builder.serialize(ClientRuntime.BodyMiddleware<TagResourceInput, TagResourceOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: TagResourceInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<TagResourceInput, TagResourceOutput>(contentType: "application/x-amz-json-1.0"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<TagResourceOutput>())
@@ -3508,7 +3508,7 @@ extension OdbClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<UntagResourceOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<UntagResourceInput, UntagResourceOutput>(xAmzTarget: "Odb.UntagResource"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<UntagResourceInput, UntagResourceOutput>(overrides: ["X-Amz-Target": "Odb.UntagResource"]))
         builder.serialize(ClientRuntime.BodyMiddleware<UntagResourceInput, UntagResourceOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: UntagResourceInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<UntagResourceInput, UntagResourceOutput>(contentType: "application/x-amz-json-1.0"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<UntagResourceOutput>())
@@ -3582,7 +3582,7 @@ extension OdbClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<UpdateCloudExadataInfrastructureOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<UpdateCloudExadataInfrastructureInput, UpdateCloudExadataInfrastructureOutput>(xAmzTarget: "Odb.UpdateCloudExadataInfrastructure"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<UpdateCloudExadataInfrastructureInput, UpdateCloudExadataInfrastructureOutput>(overrides: ["X-Amz-Target": "Odb.UpdateCloudExadataInfrastructure"]))
         builder.serialize(ClientRuntime.BodyMiddleware<UpdateCloudExadataInfrastructureInput, UpdateCloudExadataInfrastructureOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: UpdateCloudExadataInfrastructureInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<UpdateCloudExadataInfrastructureInput, UpdateCloudExadataInfrastructureOutput>(contentType: "application/x-amz-json-1.0"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<UpdateCloudExadataInfrastructureOutput>())
@@ -3656,7 +3656,7 @@ extension OdbClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<UpdateOdbNetworkOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<UpdateOdbNetworkInput, UpdateOdbNetworkOutput>(xAmzTarget: "Odb.UpdateOdbNetwork"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<UpdateOdbNetworkInput, UpdateOdbNetworkOutput>(overrides: ["X-Amz-Target": "Odb.UpdateOdbNetwork"]))
         builder.serialize(ClientRuntime.BodyMiddleware<UpdateOdbNetworkInput, UpdateOdbNetworkOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: UpdateOdbNetworkInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<UpdateOdbNetworkInput, UpdateOdbNetworkOutput>(contentType: "application/x-amz-json-1.0"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<UpdateOdbNetworkOutput>())
@@ -3730,7 +3730,7 @@ extension OdbClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<UpdateOdbPeeringConnectionOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<UpdateOdbPeeringConnectionInput, UpdateOdbPeeringConnectionOutput>(xAmzTarget: "Odb.UpdateOdbPeeringConnection"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<UpdateOdbPeeringConnectionInput, UpdateOdbPeeringConnectionOutput>(overrides: ["X-Amz-Target": "Odb.UpdateOdbPeeringConnection"]))
         builder.serialize(ClientRuntime.BodyMiddleware<UpdateOdbPeeringConnectionInput, UpdateOdbPeeringConnectionOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: UpdateOdbPeeringConnectionInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<UpdateOdbPeeringConnectionInput, UpdateOdbPeeringConnectionOutput>(contentType: "application/x-amz-json-1.0"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<UpdateOdbPeeringConnectionOutput>())

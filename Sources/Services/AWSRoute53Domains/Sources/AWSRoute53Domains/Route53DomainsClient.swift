@@ -49,7 +49,6 @@ import protocol SmithyIdentity.BearerTokenIdentityResolver
 @_spi(AWSEndpointResolverMiddleware) import struct AWSClientRuntime.AWSEndpointResolverMiddleware
 import struct AWSClientRuntime.AmzSdkInvocationIdMiddleware
 import struct AWSClientRuntime.UserAgentMiddleware
-import struct AWSClientRuntime.XAmzTargetMiddleware
 import struct AWSSDKHTTPAuth.SigV4AuthScheme
 import struct ClientRuntime.AuthSchemeMiddleware
 @_spi(SmithyReadWrite) import struct ClientRuntime.BodyMiddleware
@@ -57,6 +56,7 @@ import struct ClientRuntime.ContentLengthMiddleware
 import struct ClientRuntime.ContentTypeMiddleware
 @_spi(SmithyReadWrite) import struct ClientRuntime.DeserializeMiddleware
 import struct ClientRuntime.LoggerMiddleware
+import struct ClientRuntime.MutateHeadersMiddleware
 import struct ClientRuntime.SendableHttpInterceptorProviderBox
 import struct ClientRuntime.SendableInterceptorProviderBox
 import struct ClientRuntime.SignerMiddleware
@@ -662,7 +662,7 @@ extension Route53DomainsClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<AcceptDomainTransferFromAnotherAwsAccountOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<AcceptDomainTransferFromAnotherAwsAccountInput, AcceptDomainTransferFromAnotherAwsAccountOutput>(xAmzTarget: "Route53Domains_v20140515.AcceptDomainTransferFromAnotherAwsAccount"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<AcceptDomainTransferFromAnotherAwsAccountInput, AcceptDomainTransferFromAnotherAwsAccountOutput>(overrides: ["X-Amz-Target": "Route53Domains_v20140515.AcceptDomainTransferFromAnotherAwsAccount"]))
         builder.serialize(ClientRuntime.BodyMiddleware<AcceptDomainTransferFromAnotherAwsAccountInput, AcceptDomainTransferFromAnotherAwsAccountOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: AcceptDomainTransferFromAnotherAwsAccountInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<AcceptDomainTransferFromAnotherAwsAccountInput, AcceptDomainTransferFromAnotherAwsAccountOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<AcceptDomainTransferFromAnotherAwsAccountOutput>())
@@ -736,7 +736,7 @@ extension Route53DomainsClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<AssociateDelegationSignerToDomainOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<AssociateDelegationSignerToDomainInput, AssociateDelegationSignerToDomainOutput>(xAmzTarget: "Route53Domains_v20140515.AssociateDelegationSignerToDomain"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<AssociateDelegationSignerToDomainInput, AssociateDelegationSignerToDomainOutput>(overrides: ["X-Amz-Target": "Route53Domains_v20140515.AssociateDelegationSignerToDomain"]))
         builder.serialize(ClientRuntime.BodyMiddleware<AssociateDelegationSignerToDomainInput, AssociateDelegationSignerToDomainOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: AssociateDelegationSignerToDomainInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<AssociateDelegationSignerToDomainInput, AssociateDelegationSignerToDomainOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<AssociateDelegationSignerToDomainOutput>())
@@ -807,7 +807,7 @@ extension Route53DomainsClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<CancelDomainTransferToAnotherAwsAccountOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<CancelDomainTransferToAnotherAwsAccountInput, CancelDomainTransferToAnotherAwsAccountOutput>(xAmzTarget: "Route53Domains_v20140515.CancelDomainTransferToAnotherAwsAccount"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<CancelDomainTransferToAnotherAwsAccountInput, CancelDomainTransferToAnotherAwsAccountOutput>(overrides: ["X-Amz-Target": "Route53Domains_v20140515.CancelDomainTransferToAnotherAwsAccount"]))
         builder.serialize(ClientRuntime.BodyMiddleware<CancelDomainTransferToAnotherAwsAccountInput, CancelDomainTransferToAnotherAwsAccountOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: CancelDomainTransferToAnotherAwsAccountInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<CancelDomainTransferToAnotherAwsAccountInput, CancelDomainTransferToAnotherAwsAccountOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<CancelDomainTransferToAnotherAwsAccountOutput>())
@@ -877,7 +877,7 @@ extension Route53DomainsClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<CheckDomainAvailabilityOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<CheckDomainAvailabilityInput, CheckDomainAvailabilityOutput>(xAmzTarget: "Route53Domains_v20140515.CheckDomainAvailability"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<CheckDomainAvailabilityInput, CheckDomainAvailabilityOutput>(overrides: ["X-Amz-Target": "Route53Domains_v20140515.CheckDomainAvailability"]))
         builder.serialize(ClientRuntime.BodyMiddleware<CheckDomainAvailabilityInput, CheckDomainAvailabilityOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: CheckDomainAvailabilityInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<CheckDomainAvailabilityInput, CheckDomainAvailabilityOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<CheckDomainAvailabilityOutput>())
@@ -947,7 +947,7 @@ extension Route53DomainsClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<CheckDomainTransferabilityOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<CheckDomainTransferabilityInput, CheckDomainTransferabilityOutput>(xAmzTarget: "Route53Domains_v20140515.CheckDomainTransferability"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<CheckDomainTransferabilityInput, CheckDomainTransferabilityOutput>(overrides: ["X-Amz-Target": "Route53Domains_v20140515.CheckDomainTransferability"]))
         builder.serialize(ClientRuntime.BodyMiddleware<CheckDomainTransferabilityInput, CheckDomainTransferabilityOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: CheckDomainTransferabilityInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<CheckDomainTransferabilityInput, CheckDomainTransferabilityOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<CheckDomainTransferabilityOutput>())
@@ -1025,7 +1025,7 @@ extension Route53DomainsClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<DeleteDomainOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<DeleteDomainInput, DeleteDomainOutput>(xAmzTarget: "Route53Domains_v20140515.DeleteDomain"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<DeleteDomainInput, DeleteDomainOutput>(overrides: ["X-Amz-Target": "Route53Domains_v20140515.DeleteDomain"]))
         builder.serialize(ClientRuntime.BodyMiddleware<DeleteDomainInput, DeleteDomainOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: DeleteDomainInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DeleteDomainInput, DeleteDomainOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DeleteDomainOutput>())
@@ -1096,7 +1096,7 @@ extension Route53DomainsClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<DeleteTagsForDomainOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<DeleteTagsForDomainInput, DeleteTagsForDomainOutput>(xAmzTarget: "Route53Domains_v20140515.DeleteTagsForDomain"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<DeleteTagsForDomainInput, DeleteTagsForDomainOutput>(overrides: ["X-Amz-Target": "Route53Domains_v20140515.DeleteTagsForDomain"]))
         builder.serialize(ClientRuntime.BodyMiddleware<DeleteTagsForDomainInput, DeleteTagsForDomainOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: DeleteTagsForDomainInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DeleteTagsForDomainInput, DeleteTagsForDomainOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DeleteTagsForDomainOutput>())
@@ -1166,7 +1166,7 @@ extension Route53DomainsClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<DisableDomainAutoRenewOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<DisableDomainAutoRenewInput, DisableDomainAutoRenewOutput>(xAmzTarget: "Route53Domains_v20140515.DisableDomainAutoRenew"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<DisableDomainAutoRenewInput, DisableDomainAutoRenewOutput>(overrides: ["X-Amz-Target": "Route53Domains_v20140515.DisableDomainAutoRenew"]))
         builder.serialize(ClientRuntime.BodyMiddleware<DisableDomainAutoRenewInput, DisableDomainAutoRenewOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: DisableDomainAutoRenewInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DisableDomainAutoRenewInput, DisableDomainAutoRenewOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DisableDomainAutoRenewOutput>())
@@ -1239,7 +1239,7 @@ extension Route53DomainsClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<DisableDomainTransferLockOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<DisableDomainTransferLockInput, DisableDomainTransferLockOutput>(xAmzTarget: "Route53Domains_v20140515.DisableDomainTransferLock"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<DisableDomainTransferLockInput, DisableDomainTransferLockOutput>(overrides: ["X-Amz-Target": "Route53Domains_v20140515.DisableDomainTransferLock"]))
         builder.serialize(ClientRuntime.BodyMiddleware<DisableDomainTransferLockInput, DisableDomainTransferLockOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: DisableDomainTransferLockInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DisableDomainTransferLockInput, DisableDomainTransferLockOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DisableDomainTransferLockOutput>())
@@ -1312,7 +1312,7 @@ extension Route53DomainsClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<DisassociateDelegationSignerFromDomainOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<DisassociateDelegationSignerFromDomainInput, DisassociateDelegationSignerFromDomainOutput>(xAmzTarget: "Route53Domains_v20140515.DisassociateDelegationSignerFromDomain"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<DisassociateDelegationSignerFromDomainInput, DisassociateDelegationSignerFromDomainOutput>(overrides: ["X-Amz-Target": "Route53Domains_v20140515.DisassociateDelegationSignerFromDomain"]))
         builder.serialize(ClientRuntime.BodyMiddleware<DisassociateDelegationSignerFromDomainInput, DisassociateDelegationSignerFromDomainOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: DisassociateDelegationSignerFromDomainInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DisassociateDelegationSignerFromDomainInput, DisassociateDelegationSignerFromDomainOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DisassociateDelegationSignerFromDomainOutput>())
@@ -1383,7 +1383,7 @@ extension Route53DomainsClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<EnableDomainAutoRenewOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<EnableDomainAutoRenewInput, EnableDomainAutoRenewOutput>(xAmzTarget: "Route53Domains_v20140515.EnableDomainAutoRenew"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<EnableDomainAutoRenewInput, EnableDomainAutoRenewOutput>(overrides: ["X-Amz-Target": "Route53Domains_v20140515.EnableDomainAutoRenew"]))
         builder.serialize(ClientRuntime.BodyMiddleware<EnableDomainAutoRenewInput, EnableDomainAutoRenewOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: EnableDomainAutoRenewInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<EnableDomainAutoRenewInput, EnableDomainAutoRenewOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<EnableDomainAutoRenewOutput>())
@@ -1456,7 +1456,7 @@ extension Route53DomainsClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<EnableDomainTransferLockOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<EnableDomainTransferLockInput, EnableDomainTransferLockOutput>(xAmzTarget: "Route53Domains_v20140515.EnableDomainTransferLock"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<EnableDomainTransferLockInput, EnableDomainTransferLockOutput>(overrides: ["X-Amz-Target": "Route53Domains_v20140515.EnableDomainTransferLock"]))
         builder.serialize(ClientRuntime.BodyMiddleware<EnableDomainTransferLockInput, EnableDomainTransferLockOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: EnableDomainTransferLockInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<EnableDomainTransferLockInput, EnableDomainTransferLockOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<EnableDomainTransferLockOutput>())
@@ -1527,7 +1527,7 @@ extension Route53DomainsClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<GetContactReachabilityStatusOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<GetContactReachabilityStatusInput, GetContactReachabilityStatusOutput>(xAmzTarget: "Route53Domains_v20140515.GetContactReachabilityStatus"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<GetContactReachabilityStatusInput, GetContactReachabilityStatusOutput>(overrides: ["X-Amz-Target": "Route53Domains_v20140515.GetContactReachabilityStatus"]))
         builder.serialize(ClientRuntime.BodyMiddleware<GetContactReachabilityStatusInput, GetContactReachabilityStatusOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: GetContactReachabilityStatusInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<GetContactReachabilityStatusInput, GetContactReachabilityStatusOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<GetContactReachabilityStatusOutput>())
@@ -1597,7 +1597,7 @@ extension Route53DomainsClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<GetDomainDetailOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<GetDomainDetailInput, GetDomainDetailOutput>(xAmzTarget: "Route53Domains_v20140515.GetDomainDetail"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<GetDomainDetailInput, GetDomainDetailOutput>(overrides: ["X-Amz-Target": "Route53Domains_v20140515.GetDomainDetail"]))
         builder.serialize(ClientRuntime.BodyMiddleware<GetDomainDetailInput, GetDomainDetailOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: GetDomainDetailInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<GetDomainDetailInput, GetDomainDetailOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<GetDomainDetailOutput>())
@@ -1667,7 +1667,7 @@ extension Route53DomainsClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<GetDomainSuggestionsOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<GetDomainSuggestionsInput, GetDomainSuggestionsOutput>(xAmzTarget: "Route53Domains_v20140515.GetDomainSuggestions"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<GetDomainSuggestionsInput, GetDomainSuggestionsOutput>(overrides: ["X-Amz-Target": "Route53Domains_v20140515.GetDomainSuggestions"]))
         builder.serialize(ClientRuntime.BodyMiddleware<GetDomainSuggestionsInput, GetDomainSuggestionsOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: GetDomainSuggestionsInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<GetDomainSuggestionsInput, GetDomainSuggestionsOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<GetDomainSuggestionsOutput>())
@@ -1736,7 +1736,7 @@ extension Route53DomainsClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<GetOperationDetailOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<GetOperationDetailInput, GetOperationDetailOutput>(xAmzTarget: "Route53Domains_v20140515.GetOperationDetail"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<GetOperationDetailInput, GetOperationDetailOutput>(overrides: ["X-Amz-Target": "Route53Domains_v20140515.GetOperationDetail"]))
         builder.serialize(ClientRuntime.BodyMiddleware<GetOperationDetailInput, GetOperationDetailOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: GetOperationDetailInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<GetOperationDetailInput, GetOperationDetailOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<GetOperationDetailOutput>())
@@ -1805,7 +1805,7 @@ extension Route53DomainsClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<ListDomainsOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<ListDomainsInput, ListDomainsOutput>(xAmzTarget: "Route53Domains_v20140515.ListDomains"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<ListDomainsInput, ListDomainsOutput>(overrides: ["X-Amz-Target": "Route53Domains_v20140515.ListDomains"]))
         builder.serialize(ClientRuntime.BodyMiddleware<ListDomainsInput, ListDomainsOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: ListDomainsInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<ListDomainsInput, ListDomainsOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ListDomainsOutput>())
@@ -1874,7 +1874,7 @@ extension Route53DomainsClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<ListOperationsOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<ListOperationsInput, ListOperationsOutput>(xAmzTarget: "Route53Domains_v20140515.ListOperations"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<ListOperationsInput, ListOperationsOutput>(overrides: ["X-Amz-Target": "Route53Domains_v20140515.ListOperations"]))
         builder.serialize(ClientRuntime.BodyMiddleware<ListOperationsInput, ListOperationsOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: ListOperationsInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<ListOperationsInput, ListOperationsOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ListOperationsOutput>())
@@ -1954,7 +1954,7 @@ extension Route53DomainsClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<ListPricesOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<ListPricesInput, ListPricesOutput>(xAmzTarget: "Route53Domains_v20140515.ListPrices"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<ListPricesInput, ListPricesOutput>(overrides: ["X-Amz-Target": "Route53Domains_v20140515.ListPrices"]))
         builder.serialize(ClientRuntime.BodyMiddleware<ListPricesInput, ListPricesOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: ListPricesInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<ListPricesInput, ListPricesOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ListPricesOutput>())
@@ -2025,7 +2025,7 @@ extension Route53DomainsClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<ListTagsForDomainOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<ListTagsForDomainInput, ListTagsForDomainOutput>(xAmzTarget: "Route53Domains_v20140515.ListTagsForDomain"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<ListTagsForDomainInput, ListTagsForDomainOutput>(overrides: ["X-Amz-Target": "Route53Domains_v20140515.ListTagsForDomain"]))
         builder.serialize(ClientRuntime.BodyMiddleware<ListTagsForDomainInput, ListTagsForDomainOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: ListTagsForDomainInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<ListTagsForDomainInput, ListTagsForDomainOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ListTagsForDomainOutput>())
@@ -2098,7 +2098,7 @@ extension Route53DomainsClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<PushDomainOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<PushDomainInput, PushDomainOutput>(xAmzTarget: "Route53Domains_v20140515.PushDomain"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<PushDomainInput, PushDomainOutput>(overrides: ["X-Amz-Target": "Route53Domains_v20140515.PushDomain"]))
         builder.serialize(ClientRuntime.BodyMiddleware<PushDomainInput, PushDomainOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: PushDomainInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<PushDomainInput, PushDomainOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<PushDomainOutput>())
@@ -2182,7 +2182,7 @@ extension Route53DomainsClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<RegisterDomainOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<RegisterDomainInput, RegisterDomainOutput>(xAmzTarget: "Route53Domains_v20140515.RegisterDomain"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<RegisterDomainInput, RegisterDomainOutput>(overrides: ["X-Amz-Target": "Route53Domains_v20140515.RegisterDomain"]))
         builder.serialize(ClientRuntime.BodyMiddleware<RegisterDomainInput, RegisterDomainOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: RegisterDomainInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<RegisterDomainInput, RegisterDomainOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<RegisterDomainOutput>())
@@ -2253,7 +2253,7 @@ extension Route53DomainsClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<RejectDomainTransferFromAnotherAwsAccountOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<RejectDomainTransferFromAnotherAwsAccountInput, RejectDomainTransferFromAnotherAwsAccountOutput>(xAmzTarget: "Route53Domains_v20140515.RejectDomainTransferFromAnotherAwsAccount"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<RejectDomainTransferFromAnotherAwsAccountInput, RejectDomainTransferFromAnotherAwsAccountOutput>(overrides: ["X-Amz-Target": "Route53Domains_v20140515.RejectDomainTransferFromAnotherAwsAccount"]))
         builder.serialize(ClientRuntime.BodyMiddleware<RejectDomainTransferFromAnotherAwsAccountInput, RejectDomainTransferFromAnotherAwsAccountOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: RejectDomainTransferFromAnotherAwsAccountInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<RejectDomainTransferFromAnotherAwsAccountInput, RejectDomainTransferFromAnotherAwsAccountOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<RejectDomainTransferFromAnotherAwsAccountOutput>())
@@ -2326,7 +2326,7 @@ extension Route53DomainsClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<RenewDomainOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<RenewDomainInput, RenewDomainOutput>(xAmzTarget: "Route53Domains_v20140515.RenewDomain"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<RenewDomainInput, RenewDomainOutput>(overrides: ["X-Amz-Target": "Route53Domains_v20140515.RenewDomain"]))
         builder.serialize(ClientRuntime.BodyMiddleware<RenewDomainInput, RenewDomainOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: RenewDomainInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<RenewDomainInput, RenewDomainOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<RenewDomainOutput>())
@@ -2397,7 +2397,7 @@ extension Route53DomainsClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<ResendContactReachabilityEmailOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<ResendContactReachabilityEmailInput, ResendContactReachabilityEmailOutput>(xAmzTarget: "Route53Domains_v20140515.ResendContactReachabilityEmail"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<ResendContactReachabilityEmailInput, ResendContactReachabilityEmailOutput>(overrides: ["X-Amz-Target": "Route53Domains_v20140515.ResendContactReachabilityEmail"]))
         builder.serialize(ClientRuntime.BodyMiddleware<ResendContactReachabilityEmailInput, ResendContactReachabilityEmailOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: ResendContactReachabilityEmailInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<ResendContactReachabilityEmailInput, ResendContactReachabilityEmailOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ResendContactReachabilityEmailOutput>())
@@ -2466,7 +2466,7 @@ extension Route53DomainsClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<ResendOperationAuthorizationOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<ResendOperationAuthorizationInput, ResendOperationAuthorizationOutput>(xAmzTarget: "Route53Domains_v20140515.ResendOperationAuthorization"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<ResendOperationAuthorizationInput, ResendOperationAuthorizationOutput>(overrides: ["X-Amz-Target": "Route53Domains_v20140515.ResendOperationAuthorization"]))
         builder.serialize(ClientRuntime.BodyMiddleware<ResendOperationAuthorizationInput, ResendOperationAuthorizationOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: ResendOperationAuthorizationInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<ResendOperationAuthorizationInput, ResendOperationAuthorizationOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ResendOperationAuthorizationOutput>())
@@ -2536,7 +2536,7 @@ extension Route53DomainsClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<RetrieveDomainAuthCodeOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<RetrieveDomainAuthCodeInput, RetrieveDomainAuthCodeOutput>(xAmzTarget: "Route53Domains_v20140515.RetrieveDomainAuthCode"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<RetrieveDomainAuthCodeInput, RetrieveDomainAuthCodeOutput>(overrides: ["X-Amz-Target": "Route53Domains_v20140515.RetrieveDomainAuthCode"]))
         builder.serialize(ClientRuntime.BodyMiddleware<RetrieveDomainAuthCodeInput, RetrieveDomainAuthCodeOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: RetrieveDomainAuthCodeInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<RetrieveDomainAuthCodeInput, RetrieveDomainAuthCodeOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<RetrieveDomainAuthCodeOutput>())
@@ -2619,7 +2619,7 @@ extension Route53DomainsClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<TransferDomainOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<TransferDomainInput, TransferDomainOutput>(xAmzTarget: "Route53Domains_v20140515.TransferDomain"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<TransferDomainInput, TransferDomainOutput>(overrides: ["X-Amz-Target": "Route53Domains_v20140515.TransferDomain"]))
         builder.serialize(ClientRuntime.BodyMiddleware<TransferDomainInput, TransferDomainOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: TransferDomainInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<TransferDomainInput, TransferDomainOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<TransferDomainOutput>())
@@ -2700,7 +2700,7 @@ extension Route53DomainsClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<TransferDomainToAnotherAwsAccountOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<TransferDomainToAnotherAwsAccountInput, TransferDomainToAnotherAwsAccountOutput>(xAmzTarget: "Route53Domains_v20140515.TransferDomainToAnotherAwsAccount"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<TransferDomainToAnotherAwsAccountInput, TransferDomainToAnotherAwsAccountOutput>(overrides: ["X-Amz-Target": "Route53Domains_v20140515.TransferDomainToAnotherAwsAccount"]))
         builder.serialize(ClientRuntime.BodyMiddleware<TransferDomainToAnotherAwsAccountInput, TransferDomainToAnotherAwsAccountOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: TransferDomainToAnotherAwsAccountInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<TransferDomainToAnotherAwsAccountInput, TransferDomainToAnotherAwsAccountOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<TransferDomainToAnotherAwsAccountOutput>())
@@ -2773,7 +2773,7 @@ extension Route53DomainsClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<UpdateDomainContactOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<UpdateDomainContactInput, UpdateDomainContactOutput>(xAmzTarget: "Route53Domains_v20140515.UpdateDomainContact"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<UpdateDomainContactInput, UpdateDomainContactOutput>(overrides: ["X-Amz-Target": "Route53Domains_v20140515.UpdateDomainContact"]))
         builder.serialize(ClientRuntime.BodyMiddleware<UpdateDomainContactInput, UpdateDomainContactOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: UpdateDomainContactInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<UpdateDomainContactInput, UpdateDomainContactOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<UpdateDomainContactOutput>())
@@ -2846,7 +2846,7 @@ extension Route53DomainsClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<UpdateDomainContactPrivacyOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<UpdateDomainContactPrivacyInput, UpdateDomainContactPrivacyOutput>(xAmzTarget: "Route53Domains_v20140515.UpdateDomainContactPrivacy"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<UpdateDomainContactPrivacyInput, UpdateDomainContactPrivacyOutput>(overrides: ["X-Amz-Target": "Route53Domains_v20140515.UpdateDomainContactPrivacy"]))
         builder.serialize(ClientRuntime.BodyMiddleware<UpdateDomainContactPrivacyInput, UpdateDomainContactPrivacyOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: UpdateDomainContactPrivacyInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<UpdateDomainContactPrivacyInput, UpdateDomainContactPrivacyOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<UpdateDomainContactPrivacyOutput>())
@@ -2919,7 +2919,7 @@ extension Route53DomainsClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<UpdateDomainNameserversOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<UpdateDomainNameserversInput, UpdateDomainNameserversOutput>(xAmzTarget: "Route53Domains_v20140515.UpdateDomainNameservers"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<UpdateDomainNameserversInput, UpdateDomainNameserversOutput>(overrides: ["X-Amz-Target": "Route53Domains_v20140515.UpdateDomainNameservers"]))
         builder.serialize(ClientRuntime.BodyMiddleware<UpdateDomainNameserversInput, UpdateDomainNameserversOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: UpdateDomainNameserversInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<UpdateDomainNameserversInput, UpdateDomainNameserversOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<UpdateDomainNameserversOutput>())
@@ -2990,7 +2990,7 @@ extension Route53DomainsClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<UpdateTagsForDomainOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<UpdateTagsForDomainInput, UpdateTagsForDomainOutput>(xAmzTarget: "Route53Domains_v20140515.UpdateTagsForDomain"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<UpdateTagsForDomainInput, UpdateTagsForDomainOutput>(overrides: ["X-Amz-Target": "Route53Domains_v20140515.UpdateTagsForDomain"]))
         builder.serialize(ClientRuntime.BodyMiddleware<UpdateTagsForDomainInput, UpdateTagsForDomainOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: UpdateTagsForDomainInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<UpdateTagsForDomainInput, UpdateTagsForDomainOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<UpdateTagsForDomainOutput>())
@@ -3059,7 +3059,7 @@ extension Route53DomainsClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<ViewBillingOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<ViewBillingInput, ViewBillingOutput>(xAmzTarget: "Route53Domains_v20140515.ViewBilling"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<ViewBillingInput, ViewBillingOutput>(overrides: ["X-Amz-Target": "Route53Domains_v20140515.ViewBilling"]))
         builder.serialize(ClientRuntime.BodyMiddleware<ViewBillingInput, ViewBillingOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: ViewBillingInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<ViewBillingInput, ViewBillingOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ViewBillingOutput>())
