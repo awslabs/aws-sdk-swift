@@ -135,6 +135,11 @@ public struct DisassociateKmsKeyOutput: Swift.Sendable {
     public init() { }
 }
 
+public struct PutBearerTokenAuthenticationOutput: Swift.Sendable {
+
+    public init() { }
+}
+
 public struct PutDestinationPolicyOutput: Swift.Sendable {
 
     public init() { }
@@ -3336,6 +3341,8 @@ extension CloudWatchLogsClientTypes {
     public struct LogGroup: Swift.Sendable {
         /// The Amazon Resource Name (ARN) of the log group. This version of the ARN includes a trailing :* after the log group name. Use this version to refer to the ARN in IAM policies when specifying permissions for most API actions. The exception is when specifying permissions for [TagResource](https://docs.aws.amazon.com/AmazonCloudWatchLogs/latest/APIReference/API_TagResource.html), [UntagResource](https://docs.aws.amazon.com/AmazonCloudWatchLogs/latest/APIReference/API_UntagResource.html), and [ListTagsForResource](https://docs.aws.amazon.com/AmazonCloudWatchLogs/latest/APIReference/API_ListTagsForResource.html). The permissions for those three actions require the ARN version that doesn't include a trailing :*.
         public var arn: Swift.String?
+        /// Indicates whether bearer token authentication is enabled for this log group. When enabled, bearer token authentication is allowed on operations until it is explicitly disabled.
+        public var bearerTokenAuthenticationEnabled: Swift.Bool?
         /// The creation time of the log group, expressed as the number of milliseconds after Jan 1, 1970 00:00:00 UTC.
         public var creationTime: Swift.Int?
         /// Displays whether this log group has a protection policy, or whether it had one in the past. For more information, see [PutDataProtectionPolicy](https://docs.aws.amazon.com/AmazonCloudWatchLogs/latest/APIReference/API_PutDataProtectionPolicy.html).
@@ -3376,6 +3383,7 @@ extension CloudWatchLogsClientTypes {
 
         public init(
             arn: Swift.String? = nil,
+            bearerTokenAuthenticationEnabled: Swift.Bool? = nil,
             creationTime: Swift.Int? = nil,
             dataProtectionStatus: CloudWatchLogsClientTypes.DataProtectionStatus? = nil,
             deletionProtectionEnabled: Swift.Bool? = nil,
@@ -3389,6 +3397,7 @@ extension CloudWatchLogsClientTypes {
             storedBytes: Swift.Int? = nil
         ) {
             self.arn = arn
+            self.bearerTokenAuthenticationEnabled = bearerTokenAuthenticationEnabled
             self.creationTime = creationTime
             self.dataProtectionStatus = dataProtectionStatus
             self.deletionProtectionEnabled = deletionProtectionEnabled
@@ -5676,9 +5685,9 @@ public struct GetTransformerInput: Swift.Sendable {
 
 extension CloudWatchLogsClientTypes {
 
-    /// This processor uses pattern matching to parse and structure unstructured data. This processor can also extract fields from log messages. For more information about this processor including examples, see [grok](https://docs.aws.amazon.com/AmazonCloudWatch/latest/logs/CloudWatch-Logs-Transformation-Processors.html#CloudWatch-Logs-Transformation-Grok) in the CloudWatch Logs User Guide.
+    /// This processor uses pattern matching to parse and structure unstructured data. This processor can also extract fields from log messages. For more information about this processor including examples, see [grok](https://docs.aws.amazon.com/AmazonCloudWatch/latest/logs/CloudWatch-Logs-Transformation-Configurable.html#CloudWatch-Logs-Transformation-Grok) in the CloudWatch Logs User Guide.
     public struct Grok: Swift.Sendable {
-        /// The grok pattern to match against the log event. For a list of supported grok patterns, see [Supported grok patterns](https://docs.aws.amazon.com/AmazonCloudWatch/latest/logs/CloudWatch-Logs-Transformation-Processors.html#Grok-Patterns).
+        /// The grok pattern to match against the log event. For a list of supported grok patterns, see [Supported grok patterns](https://docs.aws.amazon.com/AmazonCloudWatch/latest/logs/CloudWatch-Logs-Transformation-Configurable.html#CloudWatch-Logs-Transformation-Grok).
         /// This member is required.
         public var match: Swift.String?
         /// The path to the field in the log event that you want to parse. If you omit this value, the whole log message is parsed.
@@ -7168,6 +7177,23 @@ public struct PutAccountPolicyOutput: Swift.Sendable {
         accountPolicy: CloudWatchLogsClientTypes.AccountPolicy? = nil
     ) {
         self.accountPolicy = accountPolicy
+    }
+}
+
+public struct PutBearerTokenAuthenticationInput: Swift.Sendable {
+    /// Whether to enable bearer token authentication. Type: Boolean Required: Yes
+    /// This member is required.
+    public var bearerTokenAuthenticationEnabled: Swift.Bool?
+    /// The name or ARN of the log group. Type: String Length Constraints: Minimum length of 1. Maximum length of 512. Pattern: [\.\-_/#A-Za-z0-9]+ Required: Yes
+    /// This member is required.
+    public var logGroupIdentifier: Swift.String?
+
+    public init(
+        bearerTokenAuthenticationEnabled: Swift.Bool? = nil,
+        logGroupIdentifier: Swift.String? = nil
+    ) {
+        self.bearerTokenAuthenticationEnabled = bearerTokenAuthenticationEnabled
+        self.logGroupIdentifier = logGroupIdentifier
     }
 }
 
@@ -9221,6 +9247,13 @@ extension PutAccountPolicyInput {
     }
 }
 
+extension PutBearerTokenAuthenticationInput {
+
+    static func urlPathProvider(_ value: PutBearerTokenAuthenticationInput) -> Swift.String? {
+        return "/"
+    }
+}
+
 extension PutDataProtectionPolicyInput {
 
     static func urlPathProvider(_ value: PutDataProtectionPolicyInput) -> Swift.String? {
@@ -10208,6 +10241,15 @@ extension PutAccountPolicyInput {
         try writer["policyType"].write(value.policyType)
         try writer["scope"].write(value.scope)
         try writer["selectionCriteria"].write(value.selectionCriteria)
+    }
+}
+
+extension PutBearerTokenAuthenticationInput {
+
+    static func write(value: PutBearerTokenAuthenticationInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["bearerTokenAuthenticationEnabled"].write(value.bearerTokenAuthenticationEnabled)
+        try writer["logGroupIdentifier"].write(value.logGroupIdentifier)
     }
 }
 
@@ -11426,6 +11468,13 @@ extension PutAccountPolicyOutput {
         var value = PutAccountPolicyOutput()
         value.accountPolicy = try reader["accountPolicy"].readIfPresent(with: CloudWatchLogsClientTypes.AccountPolicy.read(from:))
         return value
+    }
+}
+
+extension PutBearerTokenAuthenticationOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> PutBearerTokenAuthenticationOutput {
+        return PutBearerTokenAuthenticationOutput()
     }
 }
 
@@ -13072,6 +13121,25 @@ enum PutAccountPolicyOutputError {
     }
 }
 
+enum PutBearerTokenAuthenticationOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "InvalidOperationException": return try InvalidOperationException.makeError(baseError: baseError)
+            case "InvalidParameterException": return try InvalidParameterException.makeError(baseError: baseError)
+            case "OperationAbortedException": return try OperationAbortedException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ServiceUnavailableException": return try ServiceUnavailableException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
 enum PutDataProtectionPolicyOutputError {
 
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
@@ -14602,6 +14670,7 @@ extension CloudWatchLogsClientTypes.LogGroup {
         value.logGroupClass = try reader["logGroupClass"].readIfPresent()
         value.logGroupArn = try reader["logGroupArn"].readIfPresent()
         value.deletionProtectionEnabled = try reader["deletionProtectionEnabled"].readIfPresent()
+        value.bearerTokenAuthenticationEnabled = try reader["bearerTokenAuthenticationEnabled"].readIfPresent()
         return value
     }
 }

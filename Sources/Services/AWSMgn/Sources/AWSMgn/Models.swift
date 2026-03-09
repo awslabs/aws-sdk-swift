@@ -3852,6 +3852,8 @@ public struct CreateReplicationConfigurationTemplateInput: Swift.Sendable {
     /// Request to configure Staging Area tags during Replication Settings template creation.
     /// This member is required.
     public var stagingAreaTags: [Swift.String: Swift.String]?
+    /// Request to store snapshot on local zone during Replication Settings template creation.
+    public var storeSnapshotOnLocalZone: Swift.Bool?
     /// Request to configure tags during Replication Settings template creation.
     public var tags: [Swift.String: Swift.String]?
     /// Request to use Dedicated Replication Servers during Replication Settings template creation.
@@ -3873,6 +3875,7 @@ public struct CreateReplicationConfigurationTemplateInput: Swift.Sendable {
         replicationServersSecurityGroupsIDs: [Swift.String]? = nil,
         stagingAreaSubnetId: Swift.String? = nil,
         stagingAreaTags: [Swift.String: Swift.String]? = nil,
+        storeSnapshotOnLocalZone: Swift.Bool? = nil,
         tags: [Swift.String: Swift.String]? = nil,
         useDedicatedReplicationServer: Swift.Bool? = nil,
         useFipsEndpoint: Swift.Bool? = nil
@@ -3889,6 +3892,7 @@ public struct CreateReplicationConfigurationTemplateInput: Swift.Sendable {
         self.replicationServersSecurityGroupsIDs = replicationServersSecurityGroupsIDs
         self.stagingAreaSubnetId = stagingAreaSubnetId
         self.stagingAreaTags = stagingAreaTags
+        self.storeSnapshotOnLocalZone = storeSnapshotOnLocalZone
         self.tags = tags
         self.useDedicatedReplicationServer = useDedicatedReplicationServer
         self.useFipsEndpoint = useFipsEndpoint
@@ -3897,7 +3901,7 @@ public struct CreateReplicationConfigurationTemplateInput: Swift.Sendable {
 
 extension CreateReplicationConfigurationTemplateInput: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
-        "CreateReplicationConfigurationTemplateInput(associateDefaultSecurityGroup: \(Swift.String(describing: associateDefaultSecurityGroup)), bandwidthThrottling: \(Swift.String(describing: bandwidthThrottling)), createPublicIP: \(Swift.String(describing: createPublicIP)), dataPlaneRouting: \(Swift.String(describing: dataPlaneRouting)), defaultLargeStagingDiskType: \(Swift.String(describing: defaultLargeStagingDiskType)), ebsEncryption: \(Swift.String(describing: ebsEncryption)), ebsEncryptionKeyArn: \(Swift.String(describing: ebsEncryptionKeyArn)), internetProtocol: \(Swift.String(describing: internetProtocol)), replicationServerInstanceType: \(Swift.String(describing: replicationServerInstanceType)), replicationServersSecurityGroupsIDs: \(Swift.String(describing: replicationServersSecurityGroupsIDs)), stagingAreaSubnetId: \(Swift.String(describing: stagingAreaSubnetId)), useDedicatedReplicationServer: \(Swift.String(describing: useDedicatedReplicationServer)), useFipsEndpoint: \(Swift.String(describing: useFipsEndpoint)), stagingAreaTags: \"CONTENT_REDACTED\", tags: \"CONTENT_REDACTED\")"}
+        "CreateReplicationConfigurationTemplateInput(associateDefaultSecurityGroup: \(Swift.String(describing: associateDefaultSecurityGroup)), bandwidthThrottling: \(Swift.String(describing: bandwidthThrottling)), createPublicIP: \(Swift.String(describing: createPublicIP)), dataPlaneRouting: \(Swift.String(describing: dataPlaneRouting)), defaultLargeStagingDiskType: \(Swift.String(describing: defaultLargeStagingDiskType)), ebsEncryption: \(Swift.String(describing: ebsEncryption)), ebsEncryptionKeyArn: \(Swift.String(describing: ebsEncryptionKeyArn)), internetProtocol: \(Swift.String(describing: internetProtocol)), replicationServerInstanceType: \(Swift.String(describing: replicationServerInstanceType)), replicationServersSecurityGroupsIDs: \(Swift.String(describing: replicationServersSecurityGroupsIDs)), stagingAreaSubnetId: \(Swift.String(describing: stagingAreaSubnetId)), storeSnapshotOnLocalZone: \(Swift.String(describing: storeSnapshotOnLocalZone)), useDedicatedReplicationServer: \(Swift.String(describing: useDedicatedReplicationServer)), useFipsEndpoint: \(Swift.String(describing: useFipsEndpoint)), stagingAreaTags: \"CONTENT_REDACTED\", tags: \"CONTENT_REDACTED\")"}
 }
 
 public struct CreateReplicationConfigurationTemplateOutput: Swift.Sendable {
@@ -3930,6 +3934,8 @@ public struct CreateReplicationConfigurationTemplateOutput: Swift.Sendable {
     public var stagingAreaSubnetId: Swift.String?
     /// Replication Configuration template Staging Area Tags.
     public var stagingAreaTags: [Swift.String: Swift.String]?
+    /// Replication Configuration template store snapshot on local zone.
+    public var storeSnapshotOnLocalZone: Swift.Bool?
     /// Replication Configuration template Tags.
     public var tags: [Swift.String: Swift.String]?
     /// Replication Configuration template use Dedicated Replication Server.
@@ -3952,6 +3958,7 @@ public struct CreateReplicationConfigurationTemplateOutput: Swift.Sendable {
         replicationServersSecurityGroupsIDs: [Swift.String]? = nil,
         stagingAreaSubnetId: Swift.String? = nil,
         stagingAreaTags: [Swift.String: Swift.String]? = nil,
+        storeSnapshotOnLocalZone: Swift.Bool? = nil,
         tags: [Swift.String: Swift.String]? = nil,
         useDedicatedReplicationServer: Swift.Bool? = nil,
         useFipsEndpoint: Swift.Bool? = nil
@@ -3970,6 +3977,7 @@ public struct CreateReplicationConfigurationTemplateOutput: Swift.Sendable {
         self.replicationServersSecurityGroupsIDs = replicationServersSecurityGroupsIDs
         self.stagingAreaSubnetId = stagingAreaSubnetId
         self.stagingAreaTags = stagingAreaTags
+        self.storeSnapshotOnLocalZone = storeSnapshotOnLocalZone
         self.tags = tags
         self.useDedicatedReplicationServer = useDedicatedReplicationServer
         self.useFipsEndpoint = useFipsEndpoint
@@ -3978,7 +3986,7 @@ public struct CreateReplicationConfigurationTemplateOutput: Swift.Sendable {
 
 extension CreateReplicationConfigurationTemplateOutput: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
-        "CreateReplicationConfigurationTemplateOutput(arn: \(Swift.String(describing: arn)), associateDefaultSecurityGroup: \(Swift.String(describing: associateDefaultSecurityGroup)), bandwidthThrottling: \(Swift.String(describing: bandwidthThrottling)), createPublicIP: \(Swift.String(describing: createPublicIP)), dataPlaneRouting: \(Swift.String(describing: dataPlaneRouting)), defaultLargeStagingDiskType: \(Swift.String(describing: defaultLargeStagingDiskType)), ebsEncryption: \(Swift.String(describing: ebsEncryption)), ebsEncryptionKeyArn: \(Swift.String(describing: ebsEncryptionKeyArn)), internetProtocol: \(Swift.String(describing: internetProtocol)), replicationConfigurationTemplateID: \(Swift.String(describing: replicationConfigurationTemplateID)), replicationServerInstanceType: \(Swift.String(describing: replicationServerInstanceType)), replicationServersSecurityGroupsIDs: \(Swift.String(describing: replicationServersSecurityGroupsIDs)), stagingAreaSubnetId: \(Swift.String(describing: stagingAreaSubnetId)), useDedicatedReplicationServer: \(Swift.String(describing: useDedicatedReplicationServer)), useFipsEndpoint: \(Swift.String(describing: useFipsEndpoint)), stagingAreaTags: \"CONTENT_REDACTED\", tags: \"CONTENT_REDACTED\")"}
+        "CreateReplicationConfigurationTemplateOutput(arn: \(Swift.String(describing: arn)), associateDefaultSecurityGroup: \(Swift.String(describing: associateDefaultSecurityGroup)), bandwidthThrottling: \(Swift.String(describing: bandwidthThrottling)), createPublicIP: \(Swift.String(describing: createPublicIP)), dataPlaneRouting: \(Swift.String(describing: dataPlaneRouting)), defaultLargeStagingDiskType: \(Swift.String(describing: defaultLargeStagingDiskType)), ebsEncryption: \(Swift.String(describing: ebsEncryption)), ebsEncryptionKeyArn: \(Swift.String(describing: ebsEncryptionKeyArn)), internetProtocol: \(Swift.String(describing: internetProtocol)), replicationConfigurationTemplateID: \(Swift.String(describing: replicationConfigurationTemplateID)), replicationServerInstanceType: \(Swift.String(describing: replicationServerInstanceType)), replicationServersSecurityGroupsIDs: \(Swift.String(describing: replicationServersSecurityGroupsIDs)), stagingAreaSubnetId: \(Swift.String(describing: stagingAreaSubnetId)), storeSnapshotOnLocalZone: \(Swift.String(describing: storeSnapshotOnLocalZone)), useDedicatedReplicationServer: \(Swift.String(describing: useDedicatedReplicationServer)), useFipsEndpoint: \(Swift.String(describing: useFipsEndpoint)), stagingAreaTags: \"CONTENT_REDACTED\", tags: \"CONTENT_REDACTED\")"}
 }
 
 public struct DeleteReplicationConfigurationTemplateInput: Swift.Sendable {
@@ -4049,6 +4057,8 @@ extension MgnClientTypes {
         public var stagingAreaSubnetId: Swift.String?
         /// Replication Configuration template Staging Area Tags.
         public var stagingAreaTags: [Swift.String: Swift.String]?
+        /// Replication Configuration template store snapshot on local zone.
+        public var storeSnapshotOnLocalZone: Swift.Bool?
         /// Replication Configuration template Tags.
         public var tags: [Swift.String: Swift.String]?
         /// Replication Configuration template use Dedicated Replication Server.
@@ -4071,6 +4081,7 @@ extension MgnClientTypes {
             replicationServersSecurityGroupsIDs: [Swift.String]? = nil,
             stagingAreaSubnetId: Swift.String? = nil,
             stagingAreaTags: [Swift.String: Swift.String]? = nil,
+            storeSnapshotOnLocalZone: Swift.Bool? = nil,
             tags: [Swift.String: Swift.String]? = nil,
             useDedicatedReplicationServer: Swift.Bool? = nil,
             useFipsEndpoint: Swift.Bool? = nil
@@ -4089,6 +4100,7 @@ extension MgnClientTypes {
             self.replicationServersSecurityGroupsIDs = replicationServersSecurityGroupsIDs
             self.stagingAreaSubnetId = stagingAreaSubnetId
             self.stagingAreaTags = stagingAreaTags
+            self.storeSnapshotOnLocalZone = storeSnapshotOnLocalZone
             self.tags = tags
             self.useDedicatedReplicationServer = useDedicatedReplicationServer
             self.useFipsEndpoint = useFipsEndpoint
@@ -4098,7 +4110,7 @@ extension MgnClientTypes {
 
 extension MgnClientTypes.ReplicationConfigurationTemplate: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
-        "ReplicationConfigurationTemplate(arn: \(Swift.String(describing: arn)), associateDefaultSecurityGroup: \(Swift.String(describing: associateDefaultSecurityGroup)), bandwidthThrottling: \(Swift.String(describing: bandwidthThrottling)), createPublicIP: \(Swift.String(describing: createPublicIP)), dataPlaneRouting: \(Swift.String(describing: dataPlaneRouting)), defaultLargeStagingDiskType: \(Swift.String(describing: defaultLargeStagingDiskType)), ebsEncryption: \(Swift.String(describing: ebsEncryption)), ebsEncryptionKeyArn: \(Swift.String(describing: ebsEncryptionKeyArn)), internetProtocol: \(Swift.String(describing: internetProtocol)), replicationConfigurationTemplateID: \(Swift.String(describing: replicationConfigurationTemplateID)), replicationServerInstanceType: \(Swift.String(describing: replicationServerInstanceType)), replicationServersSecurityGroupsIDs: \(Swift.String(describing: replicationServersSecurityGroupsIDs)), stagingAreaSubnetId: \(Swift.String(describing: stagingAreaSubnetId)), useDedicatedReplicationServer: \(Swift.String(describing: useDedicatedReplicationServer)), useFipsEndpoint: \(Swift.String(describing: useFipsEndpoint)), stagingAreaTags: \"CONTENT_REDACTED\", tags: \"CONTENT_REDACTED\")"}
+        "ReplicationConfigurationTemplate(arn: \(Swift.String(describing: arn)), associateDefaultSecurityGroup: \(Swift.String(describing: associateDefaultSecurityGroup)), bandwidthThrottling: \(Swift.String(describing: bandwidthThrottling)), createPublicIP: \(Swift.String(describing: createPublicIP)), dataPlaneRouting: \(Swift.String(describing: dataPlaneRouting)), defaultLargeStagingDiskType: \(Swift.String(describing: defaultLargeStagingDiskType)), ebsEncryption: \(Swift.String(describing: ebsEncryption)), ebsEncryptionKeyArn: \(Swift.String(describing: ebsEncryptionKeyArn)), internetProtocol: \(Swift.String(describing: internetProtocol)), replicationConfigurationTemplateID: \(Swift.String(describing: replicationConfigurationTemplateID)), replicationServerInstanceType: \(Swift.String(describing: replicationServerInstanceType)), replicationServersSecurityGroupsIDs: \(Swift.String(describing: replicationServersSecurityGroupsIDs)), stagingAreaSubnetId: \(Swift.String(describing: stagingAreaSubnetId)), storeSnapshotOnLocalZone: \(Swift.String(describing: storeSnapshotOnLocalZone)), useDedicatedReplicationServer: \(Swift.String(describing: useDedicatedReplicationServer)), useFipsEndpoint: \(Swift.String(describing: useFipsEndpoint)), stagingAreaTags: \"CONTENT_REDACTED\", tags: \"CONTENT_REDACTED\")"}
 }
 
 public struct DescribeReplicationConfigurationTemplatesOutput: Swift.Sendable {
@@ -4146,6 +4158,8 @@ public struct UpdateReplicationConfigurationTemplateInput: Swift.Sendable {
     public var stagingAreaSubnetId: Swift.String?
     /// Update replication configuration template Staging Area Tags request.
     public var stagingAreaTags: [Swift.String: Swift.String]?
+    /// Update replication configuration template store snapshot on local zone request.
+    public var storeSnapshotOnLocalZone: Swift.Bool?
     /// Update replication configuration template use dedicated Replication Server request.
     public var useDedicatedReplicationServer: Swift.Bool?
     /// Update replication configuration template use Fips Endpoint request.
@@ -4166,6 +4180,7 @@ public struct UpdateReplicationConfigurationTemplateInput: Swift.Sendable {
         replicationServersSecurityGroupsIDs: [Swift.String]? = nil,
         stagingAreaSubnetId: Swift.String? = nil,
         stagingAreaTags: [Swift.String: Swift.String]? = nil,
+        storeSnapshotOnLocalZone: Swift.Bool? = nil,
         useDedicatedReplicationServer: Swift.Bool? = nil,
         useFipsEndpoint: Swift.Bool? = nil
     ) {
@@ -4183,6 +4198,7 @@ public struct UpdateReplicationConfigurationTemplateInput: Swift.Sendable {
         self.replicationServersSecurityGroupsIDs = replicationServersSecurityGroupsIDs
         self.stagingAreaSubnetId = stagingAreaSubnetId
         self.stagingAreaTags = stagingAreaTags
+        self.storeSnapshotOnLocalZone = storeSnapshotOnLocalZone
         self.useDedicatedReplicationServer = useDedicatedReplicationServer
         self.useFipsEndpoint = useFipsEndpoint
     }
@@ -4190,7 +4206,7 @@ public struct UpdateReplicationConfigurationTemplateInput: Swift.Sendable {
 
 extension UpdateReplicationConfigurationTemplateInput: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
-        "UpdateReplicationConfigurationTemplateInput(arn: \(Swift.String(describing: arn)), associateDefaultSecurityGroup: \(Swift.String(describing: associateDefaultSecurityGroup)), bandwidthThrottling: \(Swift.String(describing: bandwidthThrottling)), createPublicIP: \(Swift.String(describing: createPublicIP)), dataPlaneRouting: \(Swift.String(describing: dataPlaneRouting)), defaultLargeStagingDiskType: \(Swift.String(describing: defaultLargeStagingDiskType)), ebsEncryption: \(Swift.String(describing: ebsEncryption)), ebsEncryptionKeyArn: \(Swift.String(describing: ebsEncryptionKeyArn)), internetProtocol: \(Swift.String(describing: internetProtocol)), replicationConfigurationTemplateID: \(Swift.String(describing: replicationConfigurationTemplateID)), replicationServerInstanceType: \(Swift.String(describing: replicationServerInstanceType)), replicationServersSecurityGroupsIDs: \(Swift.String(describing: replicationServersSecurityGroupsIDs)), stagingAreaSubnetId: \(Swift.String(describing: stagingAreaSubnetId)), useDedicatedReplicationServer: \(Swift.String(describing: useDedicatedReplicationServer)), useFipsEndpoint: \(Swift.String(describing: useFipsEndpoint)), stagingAreaTags: \"CONTENT_REDACTED\")"}
+        "UpdateReplicationConfigurationTemplateInput(arn: \(Swift.String(describing: arn)), associateDefaultSecurityGroup: \(Swift.String(describing: associateDefaultSecurityGroup)), bandwidthThrottling: \(Swift.String(describing: bandwidthThrottling)), createPublicIP: \(Swift.String(describing: createPublicIP)), dataPlaneRouting: \(Swift.String(describing: dataPlaneRouting)), defaultLargeStagingDiskType: \(Swift.String(describing: defaultLargeStagingDiskType)), ebsEncryption: \(Swift.String(describing: ebsEncryption)), ebsEncryptionKeyArn: \(Swift.String(describing: ebsEncryptionKeyArn)), internetProtocol: \(Swift.String(describing: internetProtocol)), replicationConfigurationTemplateID: \(Swift.String(describing: replicationConfigurationTemplateID)), replicationServerInstanceType: \(Swift.String(describing: replicationServerInstanceType)), replicationServersSecurityGroupsIDs: \(Swift.String(describing: replicationServersSecurityGroupsIDs)), stagingAreaSubnetId: \(Swift.String(describing: stagingAreaSubnetId)), storeSnapshotOnLocalZone: \(Swift.String(describing: storeSnapshotOnLocalZone)), useDedicatedReplicationServer: \(Swift.String(describing: useDedicatedReplicationServer)), useFipsEndpoint: \(Swift.String(describing: useFipsEndpoint)), stagingAreaTags: \"CONTENT_REDACTED\")"}
 }
 
 public struct UpdateReplicationConfigurationTemplateOutput: Swift.Sendable {
@@ -4223,6 +4239,8 @@ public struct UpdateReplicationConfigurationTemplateOutput: Swift.Sendable {
     public var stagingAreaSubnetId: Swift.String?
     /// Replication Configuration template Staging Area Tags.
     public var stagingAreaTags: [Swift.String: Swift.String]?
+    /// Replication Configuration template store snapshot on local zone.
+    public var storeSnapshotOnLocalZone: Swift.Bool?
     /// Replication Configuration template Tags.
     public var tags: [Swift.String: Swift.String]?
     /// Replication Configuration template use Dedicated Replication Server.
@@ -4245,6 +4263,7 @@ public struct UpdateReplicationConfigurationTemplateOutput: Swift.Sendable {
         replicationServersSecurityGroupsIDs: [Swift.String]? = nil,
         stagingAreaSubnetId: Swift.String? = nil,
         stagingAreaTags: [Swift.String: Swift.String]? = nil,
+        storeSnapshotOnLocalZone: Swift.Bool? = nil,
         tags: [Swift.String: Swift.String]? = nil,
         useDedicatedReplicationServer: Swift.Bool? = nil,
         useFipsEndpoint: Swift.Bool? = nil
@@ -4263,6 +4282,7 @@ public struct UpdateReplicationConfigurationTemplateOutput: Swift.Sendable {
         self.replicationServersSecurityGroupsIDs = replicationServersSecurityGroupsIDs
         self.stagingAreaSubnetId = stagingAreaSubnetId
         self.stagingAreaTags = stagingAreaTags
+        self.storeSnapshotOnLocalZone = storeSnapshotOnLocalZone
         self.tags = tags
         self.useDedicatedReplicationServer = useDedicatedReplicationServer
         self.useFipsEndpoint = useFipsEndpoint
@@ -4271,7 +4291,7 @@ public struct UpdateReplicationConfigurationTemplateOutput: Swift.Sendable {
 
 extension UpdateReplicationConfigurationTemplateOutput: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
-        "UpdateReplicationConfigurationTemplateOutput(arn: \(Swift.String(describing: arn)), associateDefaultSecurityGroup: \(Swift.String(describing: associateDefaultSecurityGroup)), bandwidthThrottling: \(Swift.String(describing: bandwidthThrottling)), createPublicIP: \(Swift.String(describing: createPublicIP)), dataPlaneRouting: \(Swift.String(describing: dataPlaneRouting)), defaultLargeStagingDiskType: \(Swift.String(describing: defaultLargeStagingDiskType)), ebsEncryption: \(Swift.String(describing: ebsEncryption)), ebsEncryptionKeyArn: \(Swift.String(describing: ebsEncryptionKeyArn)), internetProtocol: \(Swift.String(describing: internetProtocol)), replicationConfigurationTemplateID: \(Swift.String(describing: replicationConfigurationTemplateID)), replicationServerInstanceType: \(Swift.String(describing: replicationServerInstanceType)), replicationServersSecurityGroupsIDs: \(Swift.String(describing: replicationServersSecurityGroupsIDs)), stagingAreaSubnetId: \(Swift.String(describing: stagingAreaSubnetId)), useDedicatedReplicationServer: \(Swift.String(describing: useDedicatedReplicationServer)), useFipsEndpoint: \(Swift.String(describing: useFipsEndpoint)), stagingAreaTags: \"CONTENT_REDACTED\", tags: \"CONTENT_REDACTED\")"}
+        "UpdateReplicationConfigurationTemplateOutput(arn: \(Swift.String(describing: arn)), associateDefaultSecurityGroup: \(Swift.String(describing: associateDefaultSecurityGroup)), bandwidthThrottling: \(Swift.String(describing: bandwidthThrottling)), createPublicIP: \(Swift.String(describing: createPublicIP)), dataPlaneRouting: \(Swift.String(describing: dataPlaneRouting)), defaultLargeStagingDiskType: \(Swift.String(describing: defaultLargeStagingDiskType)), ebsEncryption: \(Swift.String(describing: ebsEncryption)), ebsEncryptionKeyArn: \(Swift.String(describing: ebsEncryptionKeyArn)), internetProtocol: \(Swift.String(describing: internetProtocol)), replicationConfigurationTemplateID: \(Swift.String(describing: replicationConfigurationTemplateID)), replicationServerInstanceType: \(Swift.String(describing: replicationServerInstanceType)), replicationServersSecurityGroupsIDs: \(Swift.String(describing: replicationServersSecurityGroupsIDs)), stagingAreaSubnetId: \(Swift.String(describing: stagingAreaSubnetId)), storeSnapshotOnLocalZone: \(Swift.String(describing: storeSnapshotOnLocalZone)), useDedicatedReplicationServer: \(Swift.String(describing: useDedicatedReplicationServer)), useFipsEndpoint: \(Swift.String(describing: useFipsEndpoint)), stagingAreaTags: \"CONTENT_REDACTED\", tags: \"CONTENT_REDACTED\")"}
 }
 
 extension MgnClientTypes {
@@ -5787,6 +5807,8 @@ public struct GetReplicationConfigurationOutput: Swift.Sendable {
     public var stagingAreaSubnetId: Swift.String?
     /// Replication Configuration Staging Area tags.
     public var stagingAreaTags: [Swift.String: Swift.String]?
+    /// Replication Configuration store snapshot on local zone.
+    public var storeSnapshotOnLocalZone: Swift.Bool?
     /// Replication Configuration use Dedicated Replication Server.
     public var useDedicatedReplicationServer: Swift.Bool?
     /// Replication Configuration use Fips Endpoint.
@@ -5808,6 +5830,7 @@ public struct GetReplicationConfigurationOutput: Swift.Sendable {
         sourceServerID: Swift.String? = nil,
         stagingAreaSubnetId: Swift.String? = nil,
         stagingAreaTags: [Swift.String: Swift.String]? = nil,
+        storeSnapshotOnLocalZone: Swift.Bool? = nil,
         useDedicatedReplicationServer: Swift.Bool? = nil,
         useFipsEndpoint: Swift.Bool? = nil
     ) {
@@ -5826,6 +5849,7 @@ public struct GetReplicationConfigurationOutput: Swift.Sendable {
         self.sourceServerID = sourceServerID
         self.stagingAreaSubnetId = stagingAreaSubnetId
         self.stagingAreaTags = stagingAreaTags
+        self.storeSnapshotOnLocalZone = storeSnapshotOnLocalZone
         self.useDedicatedReplicationServer = useDedicatedReplicationServer
         self.useFipsEndpoint = useFipsEndpoint
     }
@@ -5833,7 +5857,7 @@ public struct GetReplicationConfigurationOutput: Swift.Sendable {
 
 extension GetReplicationConfigurationOutput: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
-        "GetReplicationConfigurationOutput(associateDefaultSecurityGroup: \(Swift.String(describing: associateDefaultSecurityGroup)), bandwidthThrottling: \(Swift.String(describing: bandwidthThrottling)), createPublicIP: \(Swift.String(describing: createPublicIP)), dataPlaneRouting: \(Swift.String(describing: dataPlaneRouting)), defaultLargeStagingDiskType: \(Swift.String(describing: defaultLargeStagingDiskType)), ebsEncryption: \(Swift.String(describing: ebsEncryption)), ebsEncryptionKeyArn: \(Swift.String(describing: ebsEncryptionKeyArn)), internetProtocol: \(Swift.String(describing: internetProtocol)), name: \(Swift.String(describing: name)), replicatedDisks: \(Swift.String(describing: replicatedDisks)), replicationServerInstanceType: \(Swift.String(describing: replicationServerInstanceType)), replicationServersSecurityGroupsIDs: \(Swift.String(describing: replicationServersSecurityGroupsIDs)), sourceServerID: \(Swift.String(describing: sourceServerID)), stagingAreaSubnetId: \(Swift.String(describing: stagingAreaSubnetId)), useDedicatedReplicationServer: \(Swift.String(describing: useDedicatedReplicationServer)), useFipsEndpoint: \(Swift.String(describing: useFipsEndpoint)), stagingAreaTags: \"CONTENT_REDACTED\")"}
+        "GetReplicationConfigurationOutput(associateDefaultSecurityGroup: \(Swift.String(describing: associateDefaultSecurityGroup)), bandwidthThrottling: \(Swift.String(describing: bandwidthThrottling)), createPublicIP: \(Swift.String(describing: createPublicIP)), dataPlaneRouting: \(Swift.String(describing: dataPlaneRouting)), defaultLargeStagingDiskType: \(Swift.String(describing: defaultLargeStagingDiskType)), ebsEncryption: \(Swift.String(describing: ebsEncryption)), ebsEncryptionKeyArn: \(Swift.String(describing: ebsEncryptionKeyArn)), internetProtocol: \(Swift.String(describing: internetProtocol)), name: \(Swift.String(describing: name)), replicatedDisks: \(Swift.String(describing: replicatedDisks)), replicationServerInstanceType: \(Swift.String(describing: replicationServerInstanceType)), replicationServersSecurityGroupsIDs: \(Swift.String(describing: replicationServersSecurityGroupsIDs)), sourceServerID: \(Swift.String(describing: sourceServerID)), stagingAreaSubnetId: \(Swift.String(describing: stagingAreaSubnetId)), storeSnapshotOnLocalZone: \(Swift.String(describing: storeSnapshotOnLocalZone)), useDedicatedReplicationServer: \(Swift.String(describing: useDedicatedReplicationServer)), useFipsEndpoint: \(Swift.String(describing: useFipsEndpoint)), stagingAreaTags: \"CONTENT_REDACTED\")"}
 }
 
 extension MgnClientTypes {
@@ -6858,6 +6882,8 @@ public struct UpdateReplicationConfigurationInput: Swift.Sendable {
     public var stagingAreaSubnetId: Swift.String?
     /// Update replication configuration Staging Area Tags request.
     public var stagingAreaTags: [Swift.String: Swift.String]?
+    /// Update replication configuration store snapshot on local zone.
+    public var storeSnapshotOnLocalZone: Swift.Bool?
     /// Update replication configuration use dedicated Replication Server request.
     public var useDedicatedReplicationServer: Swift.Bool?
     /// Update replication configuration use Fips Endpoint.
@@ -6880,6 +6906,7 @@ public struct UpdateReplicationConfigurationInput: Swift.Sendable {
         sourceServerID: Swift.String? = nil,
         stagingAreaSubnetId: Swift.String? = nil,
         stagingAreaTags: [Swift.String: Swift.String]? = nil,
+        storeSnapshotOnLocalZone: Swift.Bool? = nil,
         useDedicatedReplicationServer: Swift.Bool? = nil,
         useFipsEndpoint: Swift.Bool? = nil
     ) {
@@ -6899,6 +6926,7 @@ public struct UpdateReplicationConfigurationInput: Swift.Sendable {
         self.sourceServerID = sourceServerID
         self.stagingAreaSubnetId = stagingAreaSubnetId
         self.stagingAreaTags = stagingAreaTags
+        self.storeSnapshotOnLocalZone = storeSnapshotOnLocalZone
         self.useDedicatedReplicationServer = useDedicatedReplicationServer
         self.useFipsEndpoint = useFipsEndpoint
     }
@@ -6906,7 +6934,7 @@ public struct UpdateReplicationConfigurationInput: Swift.Sendable {
 
 extension UpdateReplicationConfigurationInput: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
-        "UpdateReplicationConfigurationInput(accountID: \(Swift.String(describing: accountID)), associateDefaultSecurityGroup: \(Swift.String(describing: associateDefaultSecurityGroup)), bandwidthThrottling: \(Swift.String(describing: bandwidthThrottling)), createPublicIP: \(Swift.String(describing: createPublicIP)), dataPlaneRouting: \(Swift.String(describing: dataPlaneRouting)), defaultLargeStagingDiskType: \(Swift.String(describing: defaultLargeStagingDiskType)), ebsEncryption: \(Swift.String(describing: ebsEncryption)), ebsEncryptionKeyArn: \(Swift.String(describing: ebsEncryptionKeyArn)), internetProtocol: \(Swift.String(describing: internetProtocol)), name: \(Swift.String(describing: name)), replicatedDisks: \(Swift.String(describing: replicatedDisks)), replicationServerInstanceType: \(Swift.String(describing: replicationServerInstanceType)), replicationServersSecurityGroupsIDs: \(Swift.String(describing: replicationServersSecurityGroupsIDs)), sourceServerID: \(Swift.String(describing: sourceServerID)), stagingAreaSubnetId: \(Swift.String(describing: stagingAreaSubnetId)), useDedicatedReplicationServer: \(Swift.String(describing: useDedicatedReplicationServer)), useFipsEndpoint: \(Swift.String(describing: useFipsEndpoint)), stagingAreaTags: \"CONTENT_REDACTED\")"}
+        "UpdateReplicationConfigurationInput(accountID: \(Swift.String(describing: accountID)), associateDefaultSecurityGroup: \(Swift.String(describing: associateDefaultSecurityGroup)), bandwidthThrottling: \(Swift.String(describing: bandwidthThrottling)), createPublicIP: \(Swift.String(describing: createPublicIP)), dataPlaneRouting: \(Swift.String(describing: dataPlaneRouting)), defaultLargeStagingDiskType: \(Swift.String(describing: defaultLargeStagingDiskType)), ebsEncryption: \(Swift.String(describing: ebsEncryption)), ebsEncryptionKeyArn: \(Swift.String(describing: ebsEncryptionKeyArn)), internetProtocol: \(Swift.String(describing: internetProtocol)), name: \(Swift.String(describing: name)), replicatedDisks: \(Swift.String(describing: replicatedDisks)), replicationServerInstanceType: \(Swift.String(describing: replicationServerInstanceType)), replicationServersSecurityGroupsIDs: \(Swift.String(describing: replicationServersSecurityGroupsIDs)), sourceServerID: \(Swift.String(describing: sourceServerID)), stagingAreaSubnetId: \(Swift.String(describing: stagingAreaSubnetId)), storeSnapshotOnLocalZone: \(Swift.String(describing: storeSnapshotOnLocalZone)), useDedicatedReplicationServer: \(Swift.String(describing: useDedicatedReplicationServer)), useFipsEndpoint: \(Swift.String(describing: useFipsEndpoint)), stagingAreaTags: \"CONTENT_REDACTED\")"}
 }
 
 public struct UpdateReplicationConfigurationOutput: Swift.Sendable {
@@ -6940,6 +6968,8 @@ public struct UpdateReplicationConfigurationOutput: Swift.Sendable {
     public var stagingAreaSubnetId: Swift.String?
     /// Replication Configuration Staging Area tags.
     public var stagingAreaTags: [Swift.String: Swift.String]?
+    /// Replication Configuration store snapshot on local zone.
+    public var storeSnapshotOnLocalZone: Swift.Bool?
     /// Replication Configuration use Dedicated Replication Server.
     public var useDedicatedReplicationServer: Swift.Bool?
     /// Replication Configuration use Fips Endpoint.
@@ -6961,6 +6991,7 @@ public struct UpdateReplicationConfigurationOutput: Swift.Sendable {
         sourceServerID: Swift.String? = nil,
         stagingAreaSubnetId: Swift.String? = nil,
         stagingAreaTags: [Swift.String: Swift.String]? = nil,
+        storeSnapshotOnLocalZone: Swift.Bool? = nil,
         useDedicatedReplicationServer: Swift.Bool? = nil,
         useFipsEndpoint: Swift.Bool? = nil
     ) {
@@ -6979,6 +7010,7 @@ public struct UpdateReplicationConfigurationOutput: Swift.Sendable {
         self.sourceServerID = sourceServerID
         self.stagingAreaSubnetId = stagingAreaSubnetId
         self.stagingAreaTags = stagingAreaTags
+        self.storeSnapshotOnLocalZone = storeSnapshotOnLocalZone
         self.useDedicatedReplicationServer = useDedicatedReplicationServer
         self.useFipsEndpoint = useFipsEndpoint
     }
@@ -6986,7 +7018,7 @@ public struct UpdateReplicationConfigurationOutput: Swift.Sendable {
 
 extension UpdateReplicationConfigurationOutput: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
-        "UpdateReplicationConfigurationOutput(associateDefaultSecurityGroup: \(Swift.String(describing: associateDefaultSecurityGroup)), bandwidthThrottling: \(Swift.String(describing: bandwidthThrottling)), createPublicIP: \(Swift.String(describing: createPublicIP)), dataPlaneRouting: \(Swift.String(describing: dataPlaneRouting)), defaultLargeStagingDiskType: \(Swift.String(describing: defaultLargeStagingDiskType)), ebsEncryption: \(Swift.String(describing: ebsEncryption)), ebsEncryptionKeyArn: \(Swift.String(describing: ebsEncryptionKeyArn)), internetProtocol: \(Swift.String(describing: internetProtocol)), name: \(Swift.String(describing: name)), replicatedDisks: \(Swift.String(describing: replicatedDisks)), replicationServerInstanceType: \(Swift.String(describing: replicationServerInstanceType)), replicationServersSecurityGroupsIDs: \(Swift.String(describing: replicationServersSecurityGroupsIDs)), sourceServerID: \(Swift.String(describing: sourceServerID)), stagingAreaSubnetId: \(Swift.String(describing: stagingAreaSubnetId)), useDedicatedReplicationServer: \(Swift.String(describing: useDedicatedReplicationServer)), useFipsEndpoint: \(Swift.String(describing: useFipsEndpoint)), stagingAreaTags: \"CONTENT_REDACTED\")"}
+        "UpdateReplicationConfigurationOutput(associateDefaultSecurityGroup: \(Swift.String(describing: associateDefaultSecurityGroup)), bandwidthThrottling: \(Swift.String(describing: bandwidthThrottling)), createPublicIP: \(Swift.String(describing: createPublicIP)), dataPlaneRouting: \(Swift.String(describing: dataPlaneRouting)), defaultLargeStagingDiskType: \(Swift.String(describing: defaultLargeStagingDiskType)), ebsEncryption: \(Swift.String(describing: ebsEncryption)), ebsEncryptionKeyArn: \(Swift.String(describing: ebsEncryptionKeyArn)), internetProtocol: \(Swift.String(describing: internetProtocol)), name: \(Swift.String(describing: name)), replicatedDisks: \(Swift.String(describing: replicatedDisks)), replicationServerInstanceType: \(Swift.String(describing: replicationServerInstanceType)), replicationServersSecurityGroupsIDs: \(Swift.String(describing: replicationServersSecurityGroupsIDs)), sourceServerID: \(Swift.String(describing: sourceServerID)), stagingAreaSubnetId: \(Swift.String(describing: stagingAreaSubnetId)), storeSnapshotOnLocalZone: \(Swift.String(describing: storeSnapshotOnLocalZone)), useDedicatedReplicationServer: \(Swift.String(describing: useDedicatedReplicationServer)), useFipsEndpoint: \(Swift.String(describing: useFipsEndpoint)), stagingAreaTags: \"CONTENT_REDACTED\")"}
 }
 
 public struct UpdateSourceServerInput: Swift.Sendable {
@@ -8493,6 +8525,7 @@ extension CreateReplicationConfigurationTemplateInput {
         try writer["replicationServersSecurityGroupsIDs"].writeList(value.replicationServersSecurityGroupsIDs, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["stagingAreaSubnetId"].write(value.stagingAreaSubnetId)
         try writer["stagingAreaTags"].writeMap(value.stagingAreaTags, valueWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+        try writer["storeSnapshotOnLocalZone"].write(value.storeSnapshotOnLocalZone)
         try writer["tags"].writeMap(value.tags, valueWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
         try writer["useDedicatedReplicationServer"].write(value.useDedicatedReplicationServer)
         try writer["useFipsEndpoint"].write(value.useFipsEndpoint)
@@ -9066,6 +9099,7 @@ extension UpdateReplicationConfigurationInput {
         try writer["sourceServerID"].write(value.sourceServerID)
         try writer["stagingAreaSubnetId"].write(value.stagingAreaSubnetId)
         try writer["stagingAreaTags"].writeMap(value.stagingAreaTags, valueWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+        try writer["storeSnapshotOnLocalZone"].write(value.storeSnapshotOnLocalZone)
         try writer["useDedicatedReplicationServer"].write(value.useDedicatedReplicationServer)
         try writer["useFipsEndpoint"].write(value.useFipsEndpoint)
     }
@@ -9089,6 +9123,7 @@ extension UpdateReplicationConfigurationTemplateInput {
         try writer["replicationServersSecurityGroupsIDs"].writeList(value.replicationServersSecurityGroupsIDs, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["stagingAreaSubnetId"].write(value.stagingAreaSubnetId)
         try writer["stagingAreaTags"].writeMap(value.stagingAreaTags, valueWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+        try writer["storeSnapshotOnLocalZone"].write(value.storeSnapshotOnLocalZone)
         try writer["useDedicatedReplicationServer"].write(value.useDedicatedReplicationServer)
         try writer["useFipsEndpoint"].write(value.useFipsEndpoint)
     }
@@ -9294,6 +9329,7 @@ extension CreateReplicationConfigurationTemplateOutput {
         value.replicationServersSecurityGroupsIDs = try reader["replicationServersSecurityGroupsIDs"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
         value.stagingAreaSubnetId = try reader["stagingAreaSubnetId"].readIfPresent()
         value.stagingAreaTags = try reader["stagingAreaTags"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+        value.storeSnapshotOnLocalZone = try reader["storeSnapshotOnLocalZone"].readIfPresent()
         value.tags = try reader["tags"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
         value.useDedicatedReplicationServer = try reader["useDedicatedReplicationServer"].readIfPresent()
         value.useFipsEndpoint = try reader["useFipsEndpoint"].readIfPresent()
@@ -9564,6 +9600,7 @@ extension GetReplicationConfigurationOutput {
         value.sourceServerID = try reader["sourceServerID"].readIfPresent()
         value.stagingAreaSubnetId = try reader["stagingAreaSubnetId"].readIfPresent()
         value.stagingAreaTags = try reader["stagingAreaTags"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+        value.storeSnapshotOnLocalZone = try reader["storeSnapshotOnLocalZone"].readIfPresent()
         value.useDedicatedReplicationServer = try reader["useDedicatedReplicationServer"].readIfPresent()
         value.useFipsEndpoint = try reader["useFipsEndpoint"].readIfPresent()
         return value
@@ -10158,6 +10195,7 @@ extension UpdateReplicationConfigurationOutput {
         value.sourceServerID = try reader["sourceServerID"].readIfPresent()
         value.stagingAreaSubnetId = try reader["stagingAreaSubnetId"].readIfPresent()
         value.stagingAreaTags = try reader["stagingAreaTags"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+        value.storeSnapshotOnLocalZone = try reader["storeSnapshotOnLocalZone"].readIfPresent()
         value.useDedicatedReplicationServer = try reader["useDedicatedReplicationServer"].readIfPresent()
         value.useFipsEndpoint = try reader["useFipsEndpoint"].readIfPresent()
         return value
@@ -10185,6 +10223,7 @@ extension UpdateReplicationConfigurationTemplateOutput {
         value.replicationServersSecurityGroupsIDs = try reader["replicationServersSecurityGroupsIDs"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
         value.stagingAreaSubnetId = try reader["stagingAreaSubnetId"].readIfPresent()
         value.stagingAreaTags = try reader["stagingAreaTags"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+        value.storeSnapshotOnLocalZone = try reader["storeSnapshotOnLocalZone"].readIfPresent()
         value.tags = try reader["tags"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
         value.useDedicatedReplicationServer = try reader["useDedicatedReplicationServer"].readIfPresent()
         value.useFipsEndpoint = try reader["useFipsEndpoint"].readIfPresent()
@@ -12282,6 +12321,7 @@ extension MgnClientTypes.ReplicationConfigurationTemplate {
         value.useFipsEndpoint = try reader["useFipsEndpoint"].readIfPresent()
         value.tags = try reader["tags"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
         value.internetProtocol = try reader["internetProtocol"].readIfPresent()
+        value.storeSnapshotOnLocalZone = try reader["storeSnapshotOnLocalZone"].readIfPresent()
         return value
     }
 }

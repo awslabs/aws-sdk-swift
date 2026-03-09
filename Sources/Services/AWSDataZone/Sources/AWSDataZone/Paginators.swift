@@ -888,6 +888,39 @@ extension PaginatorSequence where OperationStackInput == ListTimeSeriesDataPoint
     }
 }
 extension DataZoneClient {
+    /// Paginate over `[QueryGraphOutput]` results.
+    ///
+    /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
+    /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
+    /// until then. If there are errors in your request, you will see the failures only after you start iterating.
+    /// - Parameters:
+    ///     - input: A `[QueryGraphInput]` to start pagination
+    /// - Returns: An `AsyncSequence` that can iterate over `QueryGraphOutput`
+    public func queryGraphPaginated(input: QueryGraphInput) -> ClientRuntime.PaginatorSequence<QueryGraphInput, QueryGraphOutput> {
+        return ClientRuntime.PaginatorSequence<QueryGraphInput, QueryGraphOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.queryGraph(input:))
+    }
+}
+
+extension QueryGraphInput: ClientRuntime.PaginateToken {
+    public func usingPaginationToken(_ token: Swift.String) -> QueryGraphInput {
+        return QueryGraphInput(
+            additionalAttributes: self.additionalAttributes,
+            domainIdentifier: self.domainIdentifier,
+            match: self.match,
+            maxResults: self.maxResults,
+            nextToken: token
+        )}
+}
+
+extension PaginatorSequence where OperationStackInput == QueryGraphInput, OperationStackOutput == QueryGraphOutput {
+    /// This paginator transforms the `AsyncSequence` returned by `queryGraphPaginated`
+    /// to access the nested member `[DataZoneClientTypes.ResultItem]`
+    /// - Returns: `[DataZoneClientTypes.ResultItem]`
+    public func items() async throws -> [DataZoneClientTypes.ResultItem] {
+        return try await self.asyncCompactMap { item in item.items }
+    }
+}
+extension DataZoneClient {
     /// Paginate over `[SearchOutput]` results.
     ///
     /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service

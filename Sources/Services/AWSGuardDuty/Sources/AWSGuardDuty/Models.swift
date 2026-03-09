@@ -6279,6 +6279,7 @@ extension GuardDutyClientTypes {
         case cryptominingProcess
         case highRiskApi
         case maliciousDomain
+        case maliciousFile
         case maliciousIp
         case maliciousProcess
         case suspiciousNetwork
@@ -6299,6 +6300,7 @@ extension GuardDutyClientTypes {
                 .cryptominingProcess,
                 .highRiskApi,
                 .maliciousDomain,
+                .maliciousFile,
                 .maliciousIp,
                 .maliciousProcess,
                 .suspiciousNetwork,
@@ -6325,6 +6327,7 @@ extension GuardDutyClientTypes {
             case .cryptominingProcess: return "CRYPTOMINING_PROCESS"
             case .highRiskApi: return "HIGH_RISK_API"
             case .maliciousDomain: return "MALICIOUS_DOMAIN"
+            case .maliciousFile: return "MALICIOUS_FILE"
             case .maliciousIp: return "MALICIOUS_IP"
             case .maliciousProcess: return "MALICIOUS_PROCESS"
             case .suspiciousNetwork: return "SUSPICIOUS_NETWORK"

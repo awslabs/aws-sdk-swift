@@ -27,6 +27,30 @@ import protocol ClientRuntime.ModeledError
 @_spi(UnknownAWSHTTPServiceError) import struct AWSClientRuntime.UnknownAWSHTTPServiceError
 @_spi(SmithyReadWrite) import struct ClientRuntime.AWSJSONError
 
+/// You don't have sufficient access to perform this action.
+public struct AccessDeniedException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
+
+    public struct Properties: Swift.Sendable {
+        /// This member is required.
+        public internal(set) var message: Swift.String? = nil
+    }
+
+    public internal(set) var properties = Properties()
+    public static var typeName: Swift.String { "AccessDeniedException" }
+    public static var fault: ClientRuntime.ErrorFault { .client }
+    public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
+    public internal(set) var httpResponse = SmithyHTTPAPI.HTTPResponse()
+    public internal(set) var message: Swift.String?
+    public internal(set) var requestID: Swift.String?
+
+    public init(
+        message: Swift.String? = nil
+    ) {
+        self.properties.message = message
+    }
+}
+
 /// An error on the server occurred during the processing of your request. Try again later.
 public struct InternalServerException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
@@ -610,6 +634,209 @@ public struct DeleteExportOutput: Swift.Sendable {
     }
 }
 
+public struct GetExportInput: Swift.Sendable {
+    /// The Amazon Resource Name (ARN) for this export.
+    /// This member is required.
+    public var exportArn: Swift.String?
+
+    public init(
+        exportArn: Swift.String? = nil
+    ) {
+        self.exportArn = exportArn
+    }
+}
+
+extension BCMDataExportsClientTypes {
+
+    public enum ExportStatusCode: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case healthy
+        case unhealthy
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [ExportStatusCode] {
+            return [
+                .healthy,
+                .unhealthy
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .healthy: return "HEALTHY"
+            case .unhealthy: return "UNHEALTHY"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension BCMDataExportsClientTypes {
+
+    public enum ExecutionStatusReason: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case billOwnerChanged
+        case insufficientPermission
+        case internalFailure
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [ExecutionStatusReason] {
+            return [
+                .billOwnerChanged,
+                .insufficientPermission,
+                .internalFailure
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .billOwnerChanged: return "BILL_OWNER_CHANGED"
+            case .insufficientPermission: return "INSUFFICIENT_PERMISSION"
+            case .internalFailure: return "INTERNAL_FAILURE"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension BCMDataExportsClientTypes {
+
+    /// The status of the data export.
+    public struct ExportStatus: Swift.Sendable {
+        /// The timestamp of when the export was created.
+        public var createdAt: Foundation.Date?
+        /// The timestamp of when the export was last generated.
+        public var lastRefreshedAt: Foundation.Date?
+        /// The timestamp of when the export was updated.
+        public var lastUpdatedAt: Foundation.Date?
+        /// The status code for the request.
+        public var statusCode: BCMDataExportsClientTypes.ExportStatusCode?
+        /// The description for the status code.
+        public var statusReason: BCMDataExportsClientTypes.ExecutionStatusReason?
+
+        public init(
+            createdAt: Foundation.Date? = nil,
+            lastRefreshedAt: Foundation.Date? = nil,
+            lastUpdatedAt: Foundation.Date? = nil,
+            statusCode: BCMDataExportsClientTypes.ExportStatusCode? = nil,
+            statusReason: BCMDataExportsClientTypes.ExecutionStatusReason? = nil
+        ) {
+            self.createdAt = createdAt
+            self.lastRefreshedAt = lastRefreshedAt
+            self.lastUpdatedAt = lastUpdatedAt
+            self.statusCode = statusCode
+            self.statusReason = statusReason
+        }
+    }
+}
+
+public struct GetExportOutput: Swift.Sendable {
+    /// The data for this specific export.
+    public var export: BCMDataExportsClientTypes.Export?
+    /// The status of this specific export.
+    public var exportStatus: BCMDataExportsClientTypes.ExportStatus?
+
+    public init(
+        export: BCMDataExportsClientTypes.Export? = nil,
+        exportStatus: BCMDataExportsClientTypes.ExportStatus? = nil
+    ) {
+        self.export = export
+        self.exportStatus = exportStatus
+    }
+}
+
+public struct ListExportsInput: Swift.Sendable {
+    /// The maximum number of objects that are returned for the request.
+    public var maxResults: Swift.Int?
+    /// The token to retrieve the next set of results.
+    public var nextToken: Swift.String?
+
+    public init(
+        maxResults: Swift.Int? = nil,
+        nextToken: Swift.String? = nil
+    ) {
+        self.maxResults = maxResults
+        self.nextToken = nextToken
+    }
+}
+
+extension BCMDataExportsClientTypes {
+
+    /// The reference details for a given export.
+    public struct ExportReference: Swift.Sendable {
+        /// The Amazon Resource Name (ARN) for this export.
+        /// This member is required.
+        public var exportArn: Swift.String?
+        /// The name of this specific data export.
+        /// This member is required.
+        public var exportName: Swift.String?
+        /// The status of this specific data export.
+        /// This member is required.
+        public var exportStatus: BCMDataExportsClientTypes.ExportStatus?
+
+        public init(
+            exportArn: Swift.String? = nil,
+            exportName: Swift.String? = nil,
+            exportStatus: BCMDataExportsClientTypes.ExportStatus? = nil
+        ) {
+            self.exportArn = exportArn
+            self.exportName = exportName
+            self.exportStatus = exportStatus
+        }
+    }
+}
+
+public struct ListExportsOutput: Swift.Sendable {
+    /// The details of the exports, including name and export status.
+    public var exports: [BCMDataExportsClientTypes.ExportReference]?
+    /// The token to retrieve the next set of results.
+    public var nextToken: Swift.String?
+
+    public init(
+        exports: [BCMDataExportsClientTypes.ExportReference]? = nil,
+        nextToken: Swift.String? = nil
+    ) {
+        self.exports = exports
+        self.nextToken = nextToken
+    }
+}
+
+public struct UpdateExportInput: Swift.Sendable {
+    /// The name and query details for the export.
+    /// This member is required.
+    public var export: BCMDataExportsClientTypes.Export?
+    /// The Amazon Resource Name (ARN) for this export.
+    /// This member is required.
+    public var exportArn: Swift.String?
+
+    public init(
+        export: BCMDataExportsClientTypes.Export? = nil,
+        exportArn: Swift.String? = nil
+    ) {
+        self.export = export
+        self.exportArn = exportArn
+    }
+}
+
+public struct UpdateExportOutput: Swift.Sendable {
+    /// The Amazon Resource Name (ARN) for this export.
+    public var exportArn: Swift.String?
+
+    public init(
+        exportArn: Swift.String? = nil
+    ) {
+        self.exportArn = exportArn
+    }
+}
+
 public struct GetExecutionInput: Swift.Sendable {
     /// The ID for this specific execution.
     /// This member is required.
@@ -673,38 +900,6 @@ extension BCMDataExportsClientTypes {
 
 extension BCMDataExportsClientTypes {
 
-    public enum ExecutionStatusReason: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
-        case billOwnerChanged
-        case insufficientPermission
-        case internalFailure
-        case sdkUnknown(Swift.String)
-
-        public static var allCases: [ExecutionStatusReason] {
-            return [
-                .billOwnerChanged,
-                .insufficientPermission,
-                .internalFailure
-            ]
-        }
-
-        public init?(rawValue: Swift.String) {
-            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
-            self = value ?? Self.sdkUnknown(rawValue)
-        }
-
-        public var rawValue: Swift.String {
-            switch self {
-            case .billOwnerChanged: return "BILL_OWNER_CHANGED"
-            case .insufficientPermission: return "INSUFFICIENT_PERMISSION"
-            case .internalFailure: return "INTERNAL_FAILURE"
-            case let .sdkUnknown(s): return s
-            }
-        }
-    }
-}
-
-extension BCMDataExportsClientTypes {
-
     /// The status of the execution.
     public struct ExecutionStatus: Swift.Sendable {
         /// The time when the execution was completed.
@@ -750,93 +945,6 @@ public struct GetExecutionOutput: Swift.Sendable {
         self.executionId = executionId
         self.executionStatus = executionStatus
         self.export = export
-    }
-}
-
-public struct GetExportInput: Swift.Sendable {
-    /// The Amazon Resource Name (ARN) for this export.
-    /// This member is required.
-    public var exportArn: Swift.String?
-
-    public init(
-        exportArn: Swift.String? = nil
-    ) {
-        self.exportArn = exportArn
-    }
-}
-
-extension BCMDataExportsClientTypes {
-
-    public enum ExportStatusCode: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
-        case healthy
-        case unhealthy
-        case sdkUnknown(Swift.String)
-
-        public static var allCases: [ExportStatusCode] {
-            return [
-                .healthy,
-                .unhealthy
-            ]
-        }
-
-        public init?(rawValue: Swift.String) {
-            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
-            self = value ?? Self.sdkUnknown(rawValue)
-        }
-
-        public var rawValue: Swift.String {
-            switch self {
-            case .healthy: return "HEALTHY"
-            case .unhealthy: return "UNHEALTHY"
-            case let .sdkUnknown(s): return s
-            }
-        }
-    }
-}
-
-extension BCMDataExportsClientTypes {
-
-    /// The status of the data export.
-    public struct ExportStatus: Swift.Sendable {
-        /// The timestamp of when the export was created.
-        public var createdAt: Foundation.Date?
-        /// The timestamp of when the export was last generated.
-        public var lastRefreshedAt: Foundation.Date?
-        /// The timestamp of when the export was updated.
-        public var lastUpdatedAt: Foundation.Date?
-        /// The status code for the request.
-        public var statusCode: BCMDataExportsClientTypes.ExportStatusCode?
-        /// The description for the status code.
-        public var statusReason: BCMDataExportsClientTypes.ExecutionStatusReason?
-
-        public init(
-            createdAt: Foundation.Date? = nil,
-            lastRefreshedAt: Foundation.Date? = nil,
-            lastUpdatedAt: Foundation.Date? = nil,
-            statusCode: BCMDataExportsClientTypes.ExportStatusCode? = nil,
-            statusReason: BCMDataExportsClientTypes.ExecutionStatusReason? = nil
-        ) {
-            self.createdAt = createdAt
-            self.lastRefreshedAt = lastRefreshedAt
-            self.lastUpdatedAt = lastUpdatedAt
-            self.statusCode = statusCode
-            self.statusReason = statusReason
-        }
-    }
-}
-
-public struct GetExportOutput: Swift.Sendable {
-    /// The data for this specific export.
-    public var export: BCMDataExportsClientTypes.Export?
-    /// The status of this specific export.
-    public var exportStatus: BCMDataExportsClientTypes.ExportStatus?
-
-    public init(
-        export: BCMDataExportsClientTypes.Export? = nil,
-        exportStatus: BCMDataExportsClientTypes.ExportStatus? = nil
-    ) {
-        self.export = export
-        self.exportStatus = exportStatus
     }
 }
 
@@ -954,62 +1062,6 @@ public struct ListExecutionsOutput: Swift.Sendable {
         nextToken: Swift.String? = nil
     ) {
         self.executions = executions
-        self.nextToken = nextToken
-    }
-}
-
-public struct ListExportsInput: Swift.Sendable {
-    /// The maximum number of objects that are returned for the request.
-    public var maxResults: Swift.Int?
-    /// The token to retrieve the next set of results.
-    public var nextToken: Swift.String?
-
-    public init(
-        maxResults: Swift.Int? = nil,
-        nextToken: Swift.String? = nil
-    ) {
-        self.maxResults = maxResults
-        self.nextToken = nextToken
-    }
-}
-
-extension BCMDataExportsClientTypes {
-
-    /// The reference details for a given export.
-    public struct ExportReference: Swift.Sendable {
-        /// The Amazon Resource Name (ARN) for this export.
-        /// This member is required.
-        public var exportArn: Swift.String?
-        /// The name of this specific data export.
-        /// This member is required.
-        public var exportName: Swift.String?
-        /// The status of this specific data export.
-        /// This member is required.
-        public var exportStatus: BCMDataExportsClientTypes.ExportStatus?
-
-        public init(
-            exportArn: Swift.String? = nil,
-            exportName: Swift.String? = nil,
-            exportStatus: BCMDataExportsClientTypes.ExportStatus? = nil
-        ) {
-            self.exportArn = exportArn
-            self.exportName = exportName
-            self.exportStatus = exportStatus
-        }
-    }
-}
-
-public struct ListExportsOutput: Swift.Sendable {
-    /// The details of the exports, including name and export status.
-    public var exports: [BCMDataExportsClientTypes.ExportReference]?
-    /// The token to retrieve the next set of results.
-    public var nextToken: Swift.String?
-
-    public init(
-        exports: [BCMDataExportsClientTypes.ExportReference]? = nil,
-        nextToken: Swift.String? = nil
-    ) {
-        self.exports = exports
         self.nextToken = nextToken
     }
 }
@@ -1171,34 +1223,6 @@ public struct UntagResourceInput: Swift.Sendable {
 public struct UntagResourceOutput: Swift.Sendable {
 
     public init() { }
-}
-
-public struct UpdateExportInput: Swift.Sendable {
-    /// The name and query details for the export.
-    /// This member is required.
-    public var export: BCMDataExportsClientTypes.Export?
-    /// The Amazon Resource Name (ARN) for this export.
-    /// This member is required.
-    public var exportArn: Swift.String?
-
-    public init(
-        export: BCMDataExportsClientTypes.Export? = nil,
-        exportArn: Swift.String? = nil
-    ) {
-        self.export = export
-        self.exportArn = exportArn
-    }
-}
-
-public struct UpdateExportOutput: Swift.Sendable {
-    /// The Amazon Resource Name (ARN) for this export.
-    public var exportArn: Swift.String?
-
-    public init(
-        exportArn: Swift.String? = nil
-    ) {
-        self.exportArn = exportArn
-    }
 }
 
 extension CreateExportInput {
@@ -1545,6 +1569,7 @@ enum CreateExportOutputError {
         let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
             case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
             case "ServiceQuotaExceededException": return try ServiceQuotaExceededException.makeError(baseError: baseError)
             case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
@@ -1678,6 +1703,7 @@ enum ListTagsForResourceOutputError {
         let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
             case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
             case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
             case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
@@ -1695,6 +1721,7 @@ enum TagResourceOutputError {
         let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
             case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
             case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
             case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
@@ -1712,6 +1739,7 @@ enum UntagResourceOutputError {
         let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
             case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
             case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
             case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
@@ -1735,6 +1763,19 @@ enum UpdateExportOutputError {
             case "ValidationException": return try ValidationException.makeError(baseError: baseError)
             default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
         }
+    }
+}
+
+extension AccessDeniedException {
+
+    static func makeError(baseError: ClientRuntime.AWSJSONError) throws -> AccessDeniedException {
+        let reader = baseError.errorBodyReader
+        var value = AccessDeniedException()
+        value.properties.message = try reader["Message"].readIfPresent() ?? ""
+        value.httpResponse = baseError.httpResponse
+        value.requestID = baseError.requestID
+        value.message = baseError.message
+        return value
     }
 }
 
