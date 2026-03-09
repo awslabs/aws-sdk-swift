@@ -2135,7 +2135,7 @@ public struct ServiceNotSupportedException: ClientRuntime.ModeledError, AWSClien
 }
 
 public struct CreateServiceSpecificCredentialInput: Swift.Sendable {
-    /// The number of days until the service specific credential expires. This field is only valid for Bedrock API keys and must be a positive integer. When not specified, the credential will not expire.
+    /// The number of days until the service specific credential expires. This field is only valid for Bedrock and CloudWatch Logs API keys and must be a positive integer. When not specified, the credential will not expire.
     public var credentialAgeDays: Swift.Int?
     /// The name of the Amazon Web Services service that is to be associated with the credentials. The service you specify here is the only service that can be accessed using these credentials.
     /// This member is required.
@@ -2162,11 +2162,11 @@ extension IAMClientTypes {
         /// The date and time, in [ISO 8601 date-time format](http://www.iso.org/iso/iso8601), when the service-specific credential were created.
         /// This member is required.
         public var createDate: Foundation.Date?
-        /// The date and time when the service specific credential expires. This field is only present for Bedrock API keys that were created with an expiration period.
+        /// The date and time when the service specific credential expires. This field is only present for Bedrock API keys and CloudWatch Logs API keys that were created with an expiration period.
         public var expirationDate: Foundation.Date?
-        /// For Bedrock API keys, this is the public portion of the credential that includes the IAM user name and a suffix containing version and creation information.
+        /// For Bedrock API keys and CloudWatch Logs API keys, this is the public portion of the credential that includes the IAM user name and a suffix containing version and creation information.
         public var serviceCredentialAlias: Swift.String?
-        /// For Bedrock API keys, this is the secret portion of the credential that should be used to authenticate API calls. This value is returned only when the credential is created.
+        /// For Bedrock API keys and CloudWatch Logs API keys, this is the secret portion of the credential that should be used to authenticate API calls. This value is returned only when the credential is created.
         public var serviceCredentialSecret: Swift.String?
         /// The name of the service associated with the service-specific credential.
         /// This member is required.
@@ -4029,7 +4029,7 @@ extension IAMClientTypes {
         public var delegationRequestId: Swift.String?
         /// Description of the delegation request. This is a message that is provided by the Amazon Web Services partner that filed the delegation request.
         public var description: Swift.String?
-        /// The expiry time of this delegation request See the [Understanding the Request Lifecycle] for details on the life time of a delegation request at each state.
+        /// The expiry time of this delegation request See the [Understanding the Request Lifecycle](https://docs.aws.amazon.com/IAM/latest/UserGuide/temporary-delegation-building-integration.html#temporary-delegation-request-lifecycle) for details on the life time of a delegation request at each state.
         public var expirationTime: Foundation.Date?
         /// Notes added to this delegation request, if this request was updated via the [UpdateDelegationRequest](https://docs.aws.amazon.com/IAM/latest/APIReference/API_UpdateDelegationRequest.html) API.
         public var notes: Swift.String?
@@ -4053,11 +4053,11 @@ extension IAMClientTypes {
         public var requestorId: Swift.String?
         /// A friendly name of the requestor.
         public var requestorName: Swift.String?
-        /// If the PermissionPolicy includes role creation permissions, this element will include the list of permissions boundary policies associated with the role creation. See [Permissions boundaries for IAM entities] for more details about IAM permission boundaries.
+        /// If the PermissionPolicy includes role creation permissions, this element will include the list of permissions boundary policies associated with the role creation. See [Permissions boundaries for IAM entities](https://docs.aws.amazon.com/IAM/latest/UserGuide/access_policies_boundaries.html) for more details about IAM permission boundaries.
         public var rolePermissionRestrictionArns: [Swift.String]?
         /// The life-time of the requested session credential.
         public var sessionDuration: Swift.Int?
-        /// The state of this delegation request. See the [Understanding the Request Lifecycle] for an explanation of how these states are transitioned.
+        /// The state of this delegation request. See the [Understanding the Request Lifecycle](https://docs.aws.amazon.com/IAM/latest/UserGuide/temporary-delegation-building-integration.html#temporary-delegation-request-lifecycle) for an explanation of how these states are transitioned.
         public var state: IAMClientTypes.StateType?
         /// Last updated timestamp of the request.
         public var updatedTime: Foundation.Date?
@@ -6945,9 +6945,9 @@ extension IAMClientTypes {
         /// The date and time, in [ISO 8601 date-time format](http://www.iso.org/iso/iso8601), when the service-specific credential were created.
         /// This member is required.
         public var createDate: Foundation.Date?
-        /// The date and time when the service specific credential expires. This field is only present for Bedrock API keys that were created with an expiration period.
+        /// The date and time when the service specific credential expires. This field is only present for Bedrock API keys and CloudWatch Logs API keys that were created with an expiration period.
         public var expirationDate: Foundation.Date?
-        /// For Bedrock API keys, this is the public portion of the credential that includes the IAM user name and a suffix containing version and creation information.
+        /// For Bedrock API keys and CloudWatch Logs API keys, this is the public portion of the credential that includes the IAM user name and a suffix containing version and creation information.
         public var serviceCredentialAlias: Swift.String?
         /// The name of the service associated with the service-specific credential.
         /// This member is required.

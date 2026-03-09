@@ -622,6 +622,7 @@ extension BCMDataExportsClient {
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You don't have sufficient access to perform this action.
     /// - `InternalServerException` : An error on the server occurred during the processing of your request. Try again later.
     /// - `ServiceQuotaExceededException` : You've reached the limit on the number of resources you can create, or exceeded the size of an individual resource.
     /// - `ThrottlingException` : The request was denied due to request throttling.
@@ -1195,6 +1196,7 @@ extension BCMDataExportsClient {
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You don't have sufficient access to perform this action.
     /// - `InternalServerException` : An error on the server occurred during the processing of your request. Try again later.
     /// - `ResourceNotFoundException` : The specified Amazon Resource Name (ARN) in the request doesn't exist.
     /// - `ThrottlingException` : The request was denied due to request throttling.
@@ -1267,6 +1269,7 @@ extension BCMDataExportsClient {
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You don't have sufficient access to perform this action.
     /// - `InternalServerException` : An error on the server occurred during the processing of your request. Try again later.
     /// - `ResourceNotFoundException` : The specified Amazon Resource Name (ARN) in the request doesn't exist.
     /// - `ThrottlingException` : The request was denied due to request throttling.
@@ -1339,6 +1342,7 @@ extension BCMDataExportsClient {
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You don't have sufficient access to perform this action.
     /// - `InternalServerException` : An error on the server occurred during the processing of your request. Try again later.
     /// - `ResourceNotFoundException` : The specified Amazon Resource Name (ARN) in the request doesn't exist.
     /// - `ThrottlingException` : The request was denied due to request throttling.

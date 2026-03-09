@@ -7982,7 +7982,7 @@ extension QuickSightClient {
 
     /// Performs the `DescribeSelfUpgradeConfiguration` operation on the `QuickSight` service.
     ///
-    /// Describes the self-upgrade configuration for a Quick Suite account.
+    /// Describes the self-upgrade configuration for a Quick account.
     ///
     /// - Parameter input: [no documentation found] (Type: `DescribeSelfUpgradeConfigurationInput`)
     ///
@@ -8970,16 +8970,16 @@ extension QuickSightClient {
 
     /// Performs the `GenerateEmbedUrlForAnonymousUser` operation on the `QuickSight` service.
     ///
-    /// Generates an embed URL that you can use to embed an Amazon Quick Suite dashboard or visual in your website, without having to register any reader users. Before you use this action, make sure that you have configured the dashboards and permissions. The following rules apply to the generated URL:
+    /// Generates an embed URL that you can use to embed an Amazon Quick dashboard or visual in your website, without having to register any reader users. Before you use this action, make sure that you have configured the dashboards and permissions. The following rules apply to the generated URL:
     ///
     /// * It contains a temporary bearer token. It is valid for 5 minutes after it is generated. Once redeemed within this period, it cannot be re-used again.
     ///
     /// * The URL validity period should not be confused with the actual session lifetime that can be customized using the [SessionLifetimeInMinutes](https://docs.aws.amazon.com/quicksight/latest/APIReference/API_GenerateEmbedUrlForAnonymousUser.html#QS-GenerateEmbedUrlForAnonymousUser-request-SessionLifetimeInMinutes) parameter. The resulting user session is valid for 15 minutes (minimum) to 10 hours (maximum). The default session duration is 10 hours.
     ///
-    /// * You are charged only when the URL is used or there is interaction with Amazon Quick Suite.
+    /// * You are charged only when the URL is used or there is interaction with Amazon Quick.
     ///
     ///
-    /// For more information, see [Embedded Analytics](https://docs.aws.amazon.com/quicksight/latest/user/embedded-analytics.html) in the Amazon Quick Suite User Guide. For more information about the high-level steps for embedding and for an interactive demo of the ways you can customize embedding, visit the [Amazon Quick Suite Developer Portal](https://docs.aws.amazon.com/quicksight/latest/user/quicksight-dev-portal.html).
+    /// For more information, see [Embedded Analytics](https://docs.aws.amazon.com/quicksight/latest/user/embedded-analytics.html) in the Amazon Quick User Guide. For more information about the high-level steps for embedding and for an interactive demo of the ways you can customize embedding, visit the [Amazon Quick Developer Portal](https://docs.aws.amazon.com/quicksight/latest/user/quicksight-dev-portal.html).
     ///
     /// - Parameter input: [no documentation found] (Type: `GenerateEmbedUrlForAnonymousUserInput`)
     ///
@@ -9054,16 +9054,16 @@ extension QuickSightClient {
 
     /// Performs the `GenerateEmbedUrlForRegisteredUser` operation on the `QuickSight` service.
     ///
-    /// Generates an embed URL that you can use to embed an Amazon Quick Suite experience in your website. This action can be used for any type of user registered in an Amazon Quick Suite account. Before you use this action, make sure that you have configured the relevant Amazon Quick Suite resource and permissions. The following rules apply to the generated URL:
+    /// Generates an embed URL that you can use to embed an Amazon Quick experience in your website. This action can be used for any type of user registered in an Amazon Quick account. Before you use this action, make sure that you have configured the relevant Amazon Quick resource and permissions. The following rules apply to the generated URL:
     ///
     /// * It contains a temporary bearer token. It is valid for 5 minutes after it is generated. Once redeemed within this period, it cannot be re-used again.
     ///
     /// * The URL validity period should not be confused with the actual session lifetime that can be customized using the [SessionLifetimeInMinutes](https://docs.aws.amazon.com/quicksight/latest/APIReference/API_GenerateEmbedUrlForRegisteredUser.html#QS-GenerateEmbedUrlForRegisteredUser-request-SessionLifetimeInMinutes) parameter. The resulting user session is valid for 15 minutes (minimum) to 10 hours (maximum). The default session duration is 10 hours.
     ///
-    /// * You are charged only when the URL is used or there is interaction with Amazon Quick Suite.
+    /// * You are charged only when the URL is used or there is interaction with Amazon Quick.
     ///
     ///
-    /// For more information, see [Embedded Analytics](https://docs.aws.amazon.com/quicksight/latest/user/embedded-analytics.html) in the Amazon Quick Suite User Guide. For more information about the high-level steps for embedding and for an interactive demo of the ways you can customize embedding, visit the [Amazon Quick Suite Developer Portal](https://docs.aws.amazon.com/quicksight/latest/user/quicksight-dev-portal.html).
+    /// For more information, see [Embedded Analytics](https://docs.aws.amazon.com/quicksight/latest/user/embedded-analytics.html) in the Amazon Quick User Guide. For more information about the high-level steps for embedding and for an interactive demo of the ways you can customize embedding, visit the [Amazon Quick Developer Portal](https://docs.aws.amazon.com/quicksight/latest/user/quicksight-dev-portal.html).
     ///
     /// - Parameter input: [no documentation found] (Type: `GenerateEmbedUrlForRegisteredUserInput`)
     ///
@@ -9223,12 +9223,12 @@ extension QuickSightClient {
     ///
     /// * They are valid for 5 minutes after you run this command.
     ///
-    /// * You are charged only when the URL is used or there is interaction with Quick Suite.
+    /// * You are charged only when the URL is used or there is interaction with Quick.
     ///
     /// * The resulting user session is valid for 15 minutes (default) up to 10 hours (maximum). You can use the optional SessionLifetimeInMinutes parameter to customize session duration.
     ///
     ///
-    /// For more information, see [Embedding Analytics Using GetDashboardEmbedUrl](https://docs.aws.amazon.com/quicksight/latest/user/embedded-analytics-deprecated.html) in the Amazon Quick Suite User Guide. For more information about the high-level steps for embedding and for an interactive demo of the ways you can customize embedding, visit the [Amazon Quick Suite Developer Portal](https://docs.aws.amazon.com/quicksight/latest/user/quicksight-dev-portal.html).
+    /// For more information, see [Embedding Analytics Using GetDashboardEmbedUrl](https://docs.aws.amazon.com/quicksight/latest/user/embedded-analytics-deprecated.html) in the Amazon Quick User Guide. For more information about the high-level steps for embedding and for an interactive demo of the ways you can customize embedding, visit the [Amazon Quick Developer Portal](https://docs.aws.amazon.com/quicksight/latest/user/quicksight-dev-portal.html).
     ///
     /// - Parameter input: [no documentation found] (Type: `GetDashboardEmbedUrlInput`)
     ///
@@ -9539,11 +9539,11 @@ extension QuickSightClient {
 
     /// Performs the `GetSessionEmbedUrl` operation on the `QuickSight` service.
     ///
-    /// Generates a session URL and authorization code that you can use to embed the Amazon Amazon Quick Sight console in your web server code. Use GetSessionEmbedUrl where you want to provide an authoring portal that allows users to create data sources, datasets, analyses, and dashboards. The users who access an embedded Amazon Quick Sight console need belong to the author or admin security cohort. If you want to restrict permissions to some of these features, add a custom permissions profile to the user with the [UpdateUser](https://docs.aws.amazon.com/quicksight/latest/APIReference/API_UpdateUser.html) API operation. Use [RegisterUser](https://docs.aws.amazon.com/quicksight/latest/APIReference/API_RegisterUser.html) API operation to add a new user with a custom permission profile attached. For more information, see the following sections in the Amazon Quick Suite User Guide:
+    /// Generates a session URL and authorization code that you can use to embed the Amazon Amazon Quick Sight console in your web server code. Use GetSessionEmbedUrl where you want to provide an authoring portal that allows users to create data sources, datasets, analyses, and dashboards. The users who access an embedded Amazon Quick Sight console need belong to the author or admin security cohort. If you want to restrict permissions to some of these features, add a custom permissions profile to the user with the [UpdateUser](https://docs.aws.amazon.com/quicksight/latest/APIReference/API_UpdateUser.html) API operation. Use [RegisterUser](https://docs.aws.amazon.com/quicksight/latest/APIReference/API_RegisterUser.html) API operation to add a new user with a custom permission profile attached. For more information, see the following sections in the Amazon Quick User Guide:
     ///
     /// * [Embedding Analytics](https://docs.aws.amazon.com/quicksight/latest/user/embedded-analytics.html)
     ///
-    /// * [Customizing Access to the Amazon Quick Suite Console](https://docs.aws.amazon.com/quicksight/latest/user/customizing-permissions-to-the-quicksight-console.html)
+    /// * [Customizing Access to the Amazon Quick Console](https://docs.aws.amazon.com/quicksight/latest/user/customizing-permissions-to-the-quicksight-console.html)
     ///
     /// - Parameter input: [no documentation found] (Type: `GetSessionEmbedUrlInput`)
     ///
@@ -11250,7 +11250,7 @@ extension QuickSightClient {
 
     /// Performs the `ListSelfUpgrades` operation on the `QuickSight` service.
     ///
-    /// Lists all self-upgrade requests for a Quick Suite account.
+    /// Lists all self-upgrade requests for a Quick account.
     ///
     /// - Parameter input: [no documentation found] (Type: `ListSelfUpgradesInput`)
     ///
@@ -12248,7 +12248,7 @@ extension QuickSightClient {
 
     /// Performs the `PredictQAResults` operation on the `QuickSight` service.
     ///
-    /// Predicts existing visuals or generates new visuals to answer a given query. This API uses [trusted identity propagation](https://docs.aws.amazon.com/singlesignon/latest/userguide/trustedidentitypropagation.html) to ensure that an end user is authenticated and receives the embed URL that is specific to that user. The IAM Identity Center application that the user has logged into needs to have [trusted Identity Propagation enabled for Quick Suite](https://docs.aws.amazon.com/singlesignon/latest/userguide/trustedidentitypropagation-using-customermanagedapps-specify-trusted-apps.html) with the scope value set to quicksight:read. Before you use this action, make sure that you have configured the relevant Quick Suite resource and permissions. We recommend enabling the QSearchStatus API to unlock the full potential of PredictQnA. When QSearchStatus is enabled, it first checks the specified dashboard for any existing visuals that match the question. If no matching visuals are found, PredictQnA uses generative Q&A to provide an answer. To update the QSearchStatus, see [UpdateQuickSightQSearchConfiguration](https://docs.aws.amazon.com/quicksight/latest/APIReference/API_UpdateQuickSightQSearchConfiguration.html).
+    /// Predicts existing visuals or generates new visuals to answer a given query. This API uses [trusted identity propagation](https://docs.aws.amazon.com/singlesignon/latest/userguide/trustedidentitypropagation.html) to ensure that an end user is authenticated and receives the embed URL that is specific to that user. The IAM Identity Center application that the user has logged into needs to have [trusted Identity Propagation enabled for Quick](https://docs.aws.amazon.com/singlesignon/latest/userguide/trustedidentitypropagation-using-customermanagedapps-specify-trusted-apps.html) with the scope value set to quicksight:read. Before you use this action, make sure that you have configured the relevant Quick resource and permissions. We recommend enabling the QSearchStatus API to unlock the full potential of PredictQnA. When QSearchStatus is enabled, it first checks the specified dashboard for any existing visuals that match the question. If no matching visuals are found, PredictQnA uses generative Q&A to provide an answer. To update the QSearchStatus, see [UpdateQuickSightQSearchConfiguration](https://docs.aws.amazon.com/quicksight/latest/APIReference/API_UpdateQuickSightQSearchConfiguration.html).
     ///
     /// - Parameter input: [no documentation found] (Type: `PredictQAResultsInput`)
     ///
@@ -13129,7 +13129,7 @@ extension QuickSightClient {
 
     /// Performs the `SearchTopics` operation on the `QuickSight` service.
     ///
-    /// Searches for any Q topic that exists in an Quick Suite account.
+    /// Searches for any Q topic that exists in an Quick account.
     ///
     /// - Parameter input: [no documentation found] (Type: `SearchTopicsInput`)
     ///
@@ -14222,7 +14222,7 @@ extension QuickSightClient {
 
     /// Performs the `UpdateApplicationWithTokenExchangeGrant` operation on the `QuickSight` service.
     ///
-    /// Updates an Quick Suite application with a token exchange grant. This operation only supports Quick Suite applications that are registered with IAM Identity Center.
+    /// Updates an Quick application with a token exchange grant. This operation only supports Quick applications that are registered with IAM Identity Center.
     ///
     /// - Parameter input: [no documentation found] (Type: `UpdateApplicationWithTokenExchangeGrantInput`)
     ///
@@ -15914,7 +15914,7 @@ extension QuickSightClient {
     /// * This setting affects your entire Amazon Web Services account and all Quick Sight users
     ///
     ///
-    /// Before proceeding: Ensure you understand the security implications and have proper IAM permissions configured. Use the UpdatePublicSharingSettings operation to turn on or turn off the public sharing settings of an Amazon Quick Sight dashboard. To use this operation, turn on session capacity pricing for your Amazon Quick Sight account. Before you can turn on public sharing on your account, make sure to give public sharing permissions to an administrative user in the Identity and Access Management (IAM) console. For more information on using IAM with Amazon Quick Sight, see [Using Quick Suite with IAM](https://docs.aws.amazon.com/quicksight/latest/user/security_iam_service-with-iam.html) in the Amazon Quick Sight User Guide.
+    /// Before proceeding: Ensure you understand the security implications and have proper IAM permissions configured. Use the UpdatePublicSharingSettings operation to turn on or turn off the public sharing settings of an Amazon Quick Sight dashboard. To use this operation, turn on session capacity pricing for your Amazon Quick Sight account. Before you can turn on public sharing on your account, make sure to give public sharing permissions to an administrative user in the Identity and Access Management (IAM) console. For more information on using IAM with Amazon Quick Sight, see [Using Quick with IAM](https://docs.aws.amazon.com/quicksight/latest/user/security_iam_service-with-iam.html) in the Amazon Quick Sight User Guide.
     ///
     /// - Parameter input: [no documentation found] (Type: `UpdatePublicSharingSettingsInput`)
     ///
@@ -16354,7 +16354,7 @@ extension QuickSightClient {
 
     /// Performs the `UpdateSelfUpgrade` operation on the `QuickSight` service.
     ///
-    /// Updates a self-upgrade request for a Quick Suite user by approving, denying, or verifying the request.
+    /// Updates a self-upgrade request for a Quick user by approving, denying, or verifying the request.
     ///
     /// - Parameter input: [no documentation found] (Type: `UpdateSelfUpgradeInput`)
     ///
@@ -16430,7 +16430,7 @@ extension QuickSightClient {
 
     /// Performs the `UpdateSelfUpgradeConfiguration` operation on the `QuickSight` service.
     ///
-    /// Updates the self-upgrade configuration for a Quick Suite account.
+    /// Updates the self-upgrade configuration for a Quick account.
     ///
     /// - Parameter input: [no documentation found] (Type: `UpdateSelfUpgradeConfigurationInput`)
     ///

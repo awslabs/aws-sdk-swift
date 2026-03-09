@@ -301,6 +301,8 @@ This SDK is open-source.  Code is available on Github [here](https://github.com/
 
 [AWSConnectContactLens](/sdk-for-swift/latest/api/awsconnectcontactlens/documentation/awsconnectcontactlens)
 
+[AWSConnectHealth](/sdk-for-swift/latest/api/awsconnecthealth/documentation/awsconnecthealth)
+
 [AWSConnectParticipant](/sdk-for-swift/latest/api/awsconnectparticipant/documentation/awsconnectparticipant)
 
 [AWSControlCatalog](/sdk-for-swift/latest/api/awscontrolcatalog/documentation/awscontrolcatalog)

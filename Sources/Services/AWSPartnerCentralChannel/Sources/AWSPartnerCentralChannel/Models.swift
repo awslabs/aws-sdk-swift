@@ -1412,22 +1412,6 @@ extension PartnerCentralChannelClientTypes {
 
 extension PartnerCentralChannelClientTypes {
 
-    /// Configuration for resold business support plans.
-    public struct ResoldBusiness: Swift.Sendable {
-        /// The coverage level for resold business support.
-        /// This member is required.
-        public var coverage: PartnerCentralChannelClientTypes.Coverage?
-
-        public init(
-            coverage: PartnerCentralChannelClientTypes.Coverage? = nil
-        ) {
-            self.coverage = coverage
-        }
-    }
-}
-
-extension PartnerCentralChannelClientTypes {
-
     /// Configuration for resold enterprise support plans.
     public struct ResoldEnterprise: Swift.Sendable {
         /// The AWS account ID to charge for the support plan.
@@ -1453,14 +1437,39 @@ extension PartnerCentralChannelClientTypes {
 
 extension PartnerCentralChannelClientTypes {
 
+    /// Configuration for resold unified operations support plans.
+    public struct ResoldUnifiedOperations: Swift.Sendable {
+        /// The AWS account ID to charge for the support plan.
+        public var chargeAccountId: Swift.String?
+        /// The coverage level for resold unified operations support.
+        /// This member is required.
+        public var coverage: PartnerCentralChannelClientTypes.Coverage?
+        /// The location of the Technical Account Manager (TAM).
+        /// This member is required.
+        public var tamLocation: Swift.String?
+
+        public init(
+            chargeAccountId: Swift.String? = nil,
+            coverage: PartnerCentralChannelClientTypes.Coverage? = nil,
+            tamLocation: Swift.String? = nil
+        ) {
+            self.chargeAccountId = chargeAccountId
+            self.coverage = coverage
+            self.tamLocation = tamLocation
+        }
+    }
+}
+
+extension PartnerCentralChannelClientTypes {
+
     /// Configuration for different types of support plans.
     public enum SupportPlan: Swift.Sendable {
-        /// Configuration for resold business support plans.
-        case resoldbusiness(PartnerCentralChannelClientTypes.ResoldBusiness)
         /// Configuration for resold enterprise support plans.
         case resoldenterprise(PartnerCentralChannelClientTypes.ResoldEnterprise)
         /// Configuration for partner-led support plans.
         case partnerledsupport(PartnerCentralChannelClientTypes.PartnerLedSupport)
+        /// Configuration for resold unified operations support plans.
+        case resoldunifiedoperations(PartnerCentralChannelClientTypes.ResoldUnifiedOperations)
         case sdkUnknown(Swift.String)
     }
 }
@@ -3545,17 +3554,19 @@ extension PartnerCentralChannelClientTypes.RelationshipSummary {
     }
 }
 
-extension PartnerCentralChannelClientTypes.ResoldBusiness {
-
-    static func write(value: PartnerCentralChannelClientTypes.ResoldBusiness?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["coverage"].write(value.coverage)
-    }
-}
-
 extension PartnerCentralChannelClientTypes.ResoldEnterprise {
 
     static func write(value: PartnerCentralChannelClientTypes.ResoldEnterprise?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["chargeAccountId"].write(value.chargeAccountId)
+        try writer["coverage"].write(value.coverage)
+        try writer["tamLocation"].write(value.tamLocation)
+    }
+}
+
+extension PartnerCentralChannelClientTypes.ResoldUnifiedOperations {
+
+    static func write(value: PartnerCentralChannelClientTypes.ResoldUnifiedOperations?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
         try writer["chargeAccountId"].write(value.chargeAccountId)
         try writer["coverage"].write(value.coverage)
@@ -3653,10 +3664,10 @@ extension PartnerCentralChannelClientTypes.SupportPlan {
         switch value {
             case let .partnerledsupport(partnerledsupport):
                 try writer["partnerLedSupport"].write(partnerledsupport, with: PartnerCentralChannelClientTypes.PartnerLedSupport.write(value:to:))
-            case let .resoldbusiness(resoldbusiness):
-                try writer["resoldBusiness"].write(resoldbusiness, with: PartnerCentralChannelClientTypes.ResoldBusiness.write(value:to:))
             case let .resoldenterprise(resoldenterprise):
                 try writer["resoldEnterprise"].write(resoldenterprise, with: PartnerCentralChannelClientTypes.ResoldEnterprise.write(value:to:))
+            case let .resoldunifiedoperations(resoldunifiedoperations):
+                try writer["resoldUnifiedOperations"].write(resoldunifiedoperations, with: PartnerCentralChannelClientTypes.ResoldUnifiedOperations.write(value:to:))
             case let .sdkUnknown(sdkUnknown):
                 try writer["sdkUnknown"].write(sdkUnknown)
         }
