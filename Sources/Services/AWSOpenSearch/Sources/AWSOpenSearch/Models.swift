@@ -776,6 +776,8 @@ extension OpenSearchClientTypes {
 }
 
 public struct AddDirectQueryDataSourceInput: Swift.Sendable {
+    /// An optional IAM access policy document that defines the permissions for accessing the data source. The policy document must be in valid JSON format and follow IAM policy syntax.
+    public var dataSourceAccessPolicy: Swift.String?
     /// A unique, user-defined label to identify the data source within your OpenSearch Service environment.
     /// This member is required.
     public var dataSourceName: Swift.String?
@@ -791,12 +793,14 @@ public struct AddDirectQueryDataSourceInput: Swift.Sendable {
     public var tagList: [OpenSearchClientTypes.Tag]?
 
     public init(
+        dataSourceAccessPolicy: Swift.String? = nil,
         dataSourceName: Swift.String? = nil,
         dataSourceType: OpenSearchClientTypes.DirectQueryDataSourceType? = nil,
         description: Swift.String? = nil,
         openSearchArns: [Swift.String]? = nil,
         tagList: [OpenSearchClientTypes.Tag]? = nil
     ) {
+        self.dataSourceAccessPolicy = dataSourceAccessPolicy
         self.dataSourceName = dataSourceName
         self.dataSourceType = dataSourceType
         self.description = description
@@ -2034,13 +2038,17 @@ extension OpenSearchClientTypes {
         public var dataSourceArn: Swift.String?
         /// Detailed description of a data source.
         public var dataSourceDescription: Swift.String?
+        /// The ARN of the IAM role to be used for cross account/region data source association.
+        public var iamRoleForDataSourceArn: Swift.String?
 
         public init(
             dataSourceArn: Swift.String? = nil,
-            dataSourceDescription: Swift.String? = nil
+            dataSourceDescription: Swift.String? = nil,
+            iamRoleForDataSourceArn: Swift.String? = nil
         ) {
             self.dataSourceArn = dataSourceArn
             self.dataSourceDescription = dataSourceDescription
+            self.iamRoleForDataSourceArn = iamRoleForDataSourceArn
         }
     }
 }
@@ -7488,6 +7496,8 @@ public struct GetDirectQueryDataSourceInput: Swift.Sendable {
 }
 
 public struct GetDirectQueryDataSourceOutput: Swift.Sendable {
+    /// The IAM access policy document that defines the permissions for accessing the direct query data source. Returns the current policy configuration in JSON format, or null if no custom policy is configured.
+    public var dataSourceAccessPolicy: Swift.String?
     /// The unique, system-generated identifier that represents the data source.
     public var dataSourceArn: Swift.String?
     /// A unique, user-defined label to identify the data source within your OpenSearch Service environment.
@@ -7500,12 +7510,14 @@ public struct GetDirectQueryDataSourceOutput: Swift.Sendable {
     public var openSearchArns: [Swift.String]?
 
     public init(
+        dataSourceAccessPolicy: Swift.String? = nil,
         dataSourceArn: Swift.String? = nil,
         dataSourceName: Swift.String? = nil,
         dataSourceType: OpenSearchClientTypes.DirectQueryDataSourceType? = nil,
         description: Swift.String? = nil,
         openSearchArns: [Swift.String]? = nil
     ) {
+        self.dataSourceAccessPolicy = dataSourceAccessPolicy
         self.dataSourceArn = dataSourceArn
         self.dataSourceName = dataSourceName
         self.dataSourceType = dataSourceType
@@ -9069,6 +9081,8 @@ public struct UpdateDataSourceOutput: Swift.Sendable {
 }
 
 public struct UpdateDirectQueryDataSourceInput: Swift.Sendable {
+    /// An optional IAM access policy document that defines the updated permissions for accessing the direct query data source. The policy document must be in valid JSON format and follow IAM policy syntax. If not specified, the existing access policy if present remains unchanged.
+    public var dataSourceAccessPolicy: Swift.String?
     /// A unique, user-defined label to identify the data source within your OpenSearch Service environment.
     /// This member is required.
     public var dataSourceName: Swift.String?
@@ -9082,11 +9096,13 @@ public struct UpdateDirectQueryDataSourceInput: Swift.Sendable {
     public var openSearchArns: [Swift.String]?
 
     public init(
+        dataSourceAccessPolicy: Swift.String? = nil,
         dataSourceName: Swift.String? = nil,
         dataSourceType: OpenSearchClientTypes.DirectQueryDataSourceType? = nil,
         description: Swift.String? = nil,
         openSearchArns: [Swift.String]? = nil
     ) {
+        self.dataSourceAccessPolicy = dataSourceAccessPolicy
         self.dataSourceName = dataSourceName
         self.dataSourceType = dataSourceType
         self.description = description
@@ -10709,6 +10725,7 @@ extension AddDirectQueryDataSourceInput {
 
     static func write(value: AddDirectQueryDataSourceInput?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
+        try writer["DataSourceAccessPolicy"].write(value.dataSourceAccessPolicy)
         try writer["DataSourceName"].write(value.dataSourceName)
         try writer["DataSourceType"].write(value.dataSourceType, with: OpenSearchClientTypes.DirectQueryDataSourceType.write(value:to:))
         try writer["Description"].write(value.description)
@@ -10992,6 +11009,7 @@ extension UpdateDirectQueryDataSourceInput {
 
     static func write(value: UpdateDirectQueryDataSourceInput?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
+        try writer["DataSourceAccessPolicy"].write(value.dataSourceAccessPolicy)
         try writer["DataSourceType"].write(value.dataSourceType, with: OpenSearchClientTypes.DirectQueryDataSourceType.write(value:to:))
         try writer["Description"].write(value.description)
         try writer["OpenSearchArns"].writeList(value.openSearchArns, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
@@ -11670,6 +11688,7 @@ extension GetDirectQueryDataSourceOutput {
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
         var value = GetDirectQueryDataSourceOutput()
+        value.dataSourceAccessPolicy = try reader["DataSourceAccessPolicy"].readIfPresent()
         value.dataSourceArn = try reader["DataSourceArn"].readIfPresent()
         value.dataSourceName = try reader["DataSourceName"].readIfPresent()
         value.dataSourceType = try reader["DataSourceType"].readIfPresent(with: OpenSearchClientTypes.DirectQueryDataSourceType.read(from:))
@@ -13471,6 +13490,7 @@ enum UpdateDirectQueryDataSourceOutputError {
             case "BaseException": return try BaseException.makeError(baseError: baseError)
             case "DisabledOperationException": return try DisabledOperationException.makeError(baseError: baseError)
             case "InternalException": return try InternalException.makeError(baseError: baseError)
+            case "LimitExceededException": return try LimitExceededException.makeError(baseError: baseError)
             case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
             case "ValidationException": return try ValidationException.makeError(baseError: baseError)
             default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
@@ -14309,6 +14329,7 @@ extension OpenSearchClientTypes.DataSource {
         guard let value else { return }
         try writer["dataSourceArn"].write(value.dataSourceArn)
         try writer["dataSourceDescription"].write(value.dataSourceDescription)
+        try writer["iamRoleForDataSourceArn"].write(value.iamRoleForDataSourceArn)
     }
 
     static func read(from reader: SmithyJSON.Reader) throws -> OpenSearchClientTypes.DataSource {
@@ -14316,6 +14337,7 @@ extension OpenSearchClientTypes.DataSource {
         var value = OpenSearchClientTypes.DataSource()
         value.dataSourceArn = try reader["dataSourceArn"].readIfPresent()
         value.dataSourceDescription = try reader["dataSourceDescription"].readIfPresent()
+        value.iamRoleForDataSourceArn = try reader["iamRoleForDataSourceArn"].readIfPresent()
         return value
     }
 }
