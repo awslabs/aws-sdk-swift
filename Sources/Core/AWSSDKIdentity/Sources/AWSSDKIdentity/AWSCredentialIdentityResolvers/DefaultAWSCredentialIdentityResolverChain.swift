@@ -6,11 +6,11 @@
 //
 
 @_spi(FileBasedConfig) import AWSSDKCommon
-@_spi(SmithyIdentity) import protocol SmithyIdentity.AWSCredentialIdentityResolvedByCRT
-import protocol SmithyIdentity.AWSCredentialIdentityResolver
 import struct Foundation.Date
 import struct Smithy.Attributes
 import struct Smithy.SwiftLogger
+@_spi(SmithyIdentity) import protocol SmithyIdentity.AWSCredentialIdentityResolvedByCRT
+import protocol SmithyIdentity.AWSCredentialIdentityResolver
 
 // swiftlint:disable type_name
 // ^ Required to mute swiftlint warning about type name being too long.
