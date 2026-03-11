@@ -42,7 +42,7 @@ let package = Package(
         .package(path: "../../smithy-swift"),
         .package(path: "../../aws-sdk-swift"),
         .package(url: "https://github.com/smithy-lang/smithy-swift-opentelemetry.git", from: "2.0.0"),
-        .package(url: "https://github.com/open-telemetry/opentelemetry-swift.git", from: "1.13.0"),
+        .package(url: "https://github.com/open-telemetry/opentelemetry-swift-core", from: "2.3.0"),
     ],
     targets: integrationTestTargets
 )
@@ -65,7 +65,7 @@ private var integrationTestTargets: [Target] {
         "AWSBedrockRuntime",
         "AWSCloudWatch",
     ].map { integrationTestTarget($0) }
-    return integrationTests + [.target(name: "AWSIntegrationTestUtils", dependencies: [.clientRuntime], path: "./AWSIntegrationTestUtils")]
+    return integrationTests + [.target(name: "AWSIntegrationTestUtils", dependencies: [.clientRuntime, .product(name: "OpenTelemetrySdk", package: "opentelemetry-swift-core")], path: "./AWSIntegrationTestUtils")]
 }
 
 private func integrationTestTarget(_ name: String) -> Target {
@@ -95,7 +95,6 @@ private func integrationTestTarget(_ name: String) -> Target {
         additionalDependencies = ["AWSIAM", "AWSCognitoIdentity"]
         platformSpecificDependencies = [
             .product(name: "SmithyOpenTelemetry", package: "smithy-swift-opentelemetry", condition: .when(platforms: [.macOS, .iOS, .tvOS, .watchOS])),
-            .product(name: "InMemoryExporter", package: "opentelemetry-swift", condition: .when(platforms: [.macOS, .iOS, .tvOS, .watchOS]))
         ]
     case "AWSCognitoIdentity":
         additionalDependencies = ["AWSSTS", "AWSIAM"]

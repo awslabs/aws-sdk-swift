@@ -13,7 +13,7 @@ import AWSSDKIdentity
 import ClientRuntime
 #if os(macOS) || os(iOS) || os(watchOS) || os(tvOS)
 import SmithyOpenTelemetry
-import InMemoryExporter
+import AWSIntegrationTestUtils
 #endif
 
 class STSAssumeRoleAWSCredentialIdentityResolverTests: XCTestCase {
