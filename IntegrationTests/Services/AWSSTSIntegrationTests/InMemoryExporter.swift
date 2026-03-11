@@ -3,7 +3,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-#if os(macOS) || os(iOS) || os(watchOS) || os(tvOS)
+#if canImport(OpenTelemetrySdk)
 import Foundation
 import OpenTelemetrySdk
 
