@@ -2848,6 +2848,7 @@ extension WorkSpacesClientTypes {
         case windowsServer2016
         case windowsServer2019
         case windowsServer2022
+        case windowsServer2025
         case sdkUnknown(Swift.String)
 
         public static var allCases: [OperatingSystemName] {
@@ -2864,7 +2865,8 @@ extension WorkSpacesClientTypes {
                 .windows7,
                 .windowsServer2016,
                 .windowsServer2019,
-                .windowsServer2022
+                .windowsServer2022,
+                .windowsServer2025
             ]
         }
 
@@ -2888,6 +2890,7 @@ extension WorkSpacesClientTypes {
             case .windowsServer2016: return "WINDOWS_SERVER_2016"
             case .windowsServer2019: return "WINDOWS_SERVER_2019"
             case .windowsServer2022: return "WINDOWS_SERVER_2022"
+            case .windowsServer2025: return "WINDOWS_SERVER_2025"
             case let .sdkUnknown(s): return s
             }
         }
