@@ -65,7 +65,7 @@ private var integrationTestTargets: [Target] {
         "AWSBedrockRuntime",
         "AWSCloudWatch",
     ].map { integrationTestTarget($0) }
-    return integrationTests + [.target(name: "AWSIntegrationTestUtils", dependencies: [.clientRuntime, .product(name: "OpenTelemetrySdk", package: "opentelemetry-swift-core")], path: "./AWSIntegrationTestUtils")]
+    return integrationTests + [.target(name: "AWSIntegrationTestUtils", dependencies: [.clientRuntime], path: "./AWSIntegrationTestUtils")]
 }
 
 private func integrationTestTarget(_ name: String) -> Target {
@@ -95,6 +95,7 @@ private func integrationTestTarget(_ name: String) -> Target {
         additionalDependencies = ["AWSIAM", "AWSCognitoIdentity"]
         platformSpecificDependencies = [
             .product(name: "SmithyOpenTelemetry", package: "smithy-swift-opentelemetry", condition: .when(platforms: [.macOS, .iOS, .tvOS, .watchOS])),
+            .product(name: "OpenTelemetrySdk", package: "opentelemetry-swift-core", condition: .when(platforms: [.macOS, .iOS, .tvOS, .watchOS])),
         ]
     case "AWSCognitoIdentity":
         additionalDependencies = ["AWSSTS", "AWSIAM"]
