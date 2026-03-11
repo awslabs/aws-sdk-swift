@@ -102,8 +102,8 @@ private func integrationTestTarget(_ name: String) -> Target {
         additionalDependencies = ["AWSIAM", "AWSCognitoIdentity"]
         #if swift(>=5.10)
         platformSpecificDependencies = [
-            .product(name: "SmithyOpenTelemetry", package: "smithy-swift-opentelemetry", condition: .when(platforms: [.macOS, .iOS, .tvOS, .watchOS])),
-            .product(name: "OpenTelemetrySdk", package: "opentelemetry-swift-core", condition: .when(platforms: [.macOS, .iOS, .tvOS, .watchOS])),
+            .product(name: "SmithyOpenTelemetry", package: "smithy-swift-opentelemetry", condition: .when(platforms: [.macOS, .iOS, .tvOS, .watchOS, .visionOS])),
+            .product(name: "OpenTelemetrySdk", package: "opentelemetry-swift-core", condition: .when(platforms: [.macOS, .iOS, .tvOS, .watchOS, .visionOS])),
         ]
         #endif
     case "AWSCognitoIdentity":

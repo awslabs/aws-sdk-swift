@@ -86,7 +86,7 @@ class STSAssumeRoleAWSCredentialIdentityResolverTests: XCTestCase {
         throw lastError!
     }
 
-    // Right now opentelemetry-swift doesnt support linux or visionos
+    // Right now opentelemetry-swift doesnt support linux
     #if canImport(SmithyOpenTelemetry)
     // OpenTelemetry Tracing works as expected
     func testGetCallerIdentityWithOTelTracing() async throws {
