@@ -12,6 +12,8 @@ import struct Foundation.Data
 import enum Smithy.ClientError
 import class Smithy.Context
 import struct Smithy.ShapeID
+import struct Smithy.StreamingTrait
+import struct SmithyEventStreams.EventStreamDeserializer
 import class SmithyHTTPAPI.HTTPRequest
 import class SmithyHTTPAPI.HTTPRequestBuilder
 import class SmithyHTTPAPI.HTTPResponse
@@ -48,11 +50,18 @@ public struct ClientProtocol: SmithySerialization.ClientProtocol {
         context: Context,
         response: HTTPResponse
     ) async throws -> Output where Input: SerializableStruct, Output: DeserializableStruct {
-        let data = try await response.body.readData() ?? Data()
-        let deserializer = try codec.makeDeserializer(data: data)
         if (200..<300).contains(response.statusCode.rawValue) {
-            return try Output.deserialize(deserializer)
+            if response.isEventStream {
+                let eventStreamDeserializer = EventStreamDeserializer(codec: codec, response: response)
+                return try Output.deserialize(eventStreamDeserializer)
+            } else {
+                let data = try await response.body.readData() ?? Data()
+                let deserializer = try codec.makeDeserializer(data: data)
+                return try Output.deserialize(deserializer)
+            }
         } else {
+            let data = try await response.body.readData() ?? Data()
+            let deserializer = try codec.makeDeserializer(data: data)
             let baseError = try BaseError.deserialize(deserializer)
             let code = baseError.__type ?? baseError.code ?? response.headers.value(for: "X-Amzn-Errortype") ?? "<NoCodeFound>"
             let strippedCode = String(code.split(separator: ":").first!.split(separator: "#").last!)
@@ -78,5 +87,12 @@ public struct ClientProtocol: SmithySerialization.ClientProtocol {
                 throw UnknownHTTPServiceError(httpResponse: response, message: baseError.message, typeName: code)
             }
         }
+    }
+}
+
+extension HTTPResponse {
+
+    var isEventStream: Bool {
+        headers.value(for: "Content-Type") == "application/vnd.amazon.eventstream"
     }
 }
