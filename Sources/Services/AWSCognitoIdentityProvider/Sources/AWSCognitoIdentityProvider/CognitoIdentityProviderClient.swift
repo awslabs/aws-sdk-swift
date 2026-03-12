@@ -49,7 +49,6 @@ import protocol SmithyIdentity.BearerTokenIdentityResolver
 @_spi(AWSEndpointResolverMiddleware) import struct AWSClientRuntime.AWSEndpointResolverMiddleware
 import struct AWSClientRuntime.AmzSdkInvocationIdMiddleware
 import struct AWSClientRuntime.UserAgentMiddleware
-import struct AWSClientRuntime.XAmzTargetMiddleware
 import struct AWSSDKHTTPAuth.SigV4AuthScheme
 import struct ClientRuntime.AuthSchemeMiddleware
 @_spi(SmithyReadWrite) import struct ClientRuntime.BodyMiddleware
@@ -57,6 +56,7 @@ import struct ClientRuntime.ContentLengthMiddleware
 import struct ClientRuntime.ContentTypeMiddleware
 @_spi(SmithyReadWrite) import struct ClientRuntime.DeserializeMiddleware
 import struct ClientRuntime.LoggerMiddleware
+import struct ClientRuntime.MutateHeadersMiddleware
 import struct ClientRuntime.SendableHttpInterceptorProviderBox
 import struct ClientRuntime.SendableInterceptorProviderBox
 import struct ClientRuntime.SignerMiddleware
@@ -669,7 +669,7 @@ extension CognitoIdentityProviderClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<AddCustomAttributesOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<AddCustomAttributesInput, AddCustomAttributesOutput>(xAmzTarget: "AWSCognitoIdentityProviderService.AddCustomAttributes"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<AddCustomAttributesInput, AddCustomAttributesOutput>(overrides: ["X-Amz-Target": "AWSCognitoIdentityProviderService.AddCustomAttributes"]))
         builder.serialize(ClientRuntime.BodyMiddleware<AddCustomAttributesInput, AddCustomAttributesOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: AddCustomAttributesInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<AddCustomAttributesInput, AddCustomAttributesOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<AddCustomAttributesOutput>())
@@ -679,6 +679,80 @@ extension CognitoIdentityProviderClient {
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "CognitoIdentityProvider")
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "AddCustomAttributes")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
+    }
+
+    /// Performs the `AddUserPoolClientSecret` operation on the `CognitoIdentityProvider` service.
+    ///
+    /// Creates a new client secret for an existing confidential user pool app client. Supports up to 2 active secrets per app client for zero-downtime credential rotation workflows.
+    ///
+    /// - Parameter input: The request to create a new client secret for a user pool app client. (Type: `AddUserPoolClientSecretInput`)
+    ///
+    /// - Returns: The response from creating a new client secret. (Type: `AddUserPoolClientSecretOutput`)
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : This exception is thrown when you don't have sufficient permissions to perform the requested operation.
+    /// - `InternalServerException` : This exception is thrown when Amazon Cognito encounters an internal server error.
+    /// - `InvalidParameterException` : This exception is thrown when the Amazon Cognito service encounters an invalid parameter.
+    /// - `LimitExceededException` : This exception is thrown when a user exceeds the limit for a requested Amazon Web Services resource.
+    /// - `ResourceNotFoundException` : This exception is thrown when the Amazon Cognito service can't find the requested resource.
+    /// - `TooManyRequestsException` : This exception is thrown when the user has made too many requests for a given operation.
+    public func addUserPoolClientSecret(input: AddUserPoolClientSecretInput) async throws -> AddUserPoolClientSecretOutput {
+        let context = Smithy.ContextBuilder()
+                      .withMethod(value: .post)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "addUserPoolClientSecret")
+                      .withUnsignedPayloadTrait(value: false)
+                      .withSmithyDefaultConfig(config)
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
+                      .withSigningName(value: "cognito-idp")
+                      .withSigningRegion(value: config.signingRegion)
+                      .build()
+        let builder = ClientRuntime.OrchestratorBuilder<AddUserPoolClientSecretInput, AddUserPoolClientSecretOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<AddUserPoolClientSecretInput, AddUserPoolClientSecretOutput>(AddUserPoolClientSecretInput.urlPathProvider(_:)))
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<AddUserPoolClientSecretInput, AddUserPoolClientSecretOutput>())
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<AddUserPoolClientSecretInput, AddUserPoolClientSecretOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<AddUserPoolClientSecretOutput>(AddUserPoolClientSecretOutput.httpOutput(from:), AddUserPoolClientSecretOutputError.httpError(from:)))
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<AddUserPoolClientSecretInput, AddUserPoolClientSecretOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
+        builder.applySigner(ClientRuntime.SignerMiddleware<AddUserPoolClientSecretOutput>())
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Cognito Identity Provider", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<AddUserPoolClientSecretOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<AddUserPoolClientSecretInput, AddUserPoolClientSecretOutput>(overrides: ["X-Amz-Target": "AWSCognitoIdentityProviderService.AddUserPoolClientSecret"]))
+        builder.serialize(ClientRuntime.BodyMiddleware<AddUserPoolClientSecretInput, AddUserPoolClientSecretOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: AddUserPoolClientSecretInput.write(value:to:)))
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<AddUserPoolClientSecretInput, AddUserPoolClientSecretOutput>(contentType: "application/x-amz-json-1.1"))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<AddUserPoolClientSecretOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<AddUserPoolClientSecretInput, AddUserPoolClientSecretOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<AddUserPoolClientSecretInput, AddUserPoolClientSecretOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<AddUserPoolClientSecretInput, AddUserPoolClientSecretOutput>(serviceID: serviceName, version: CognitoIdentityProviderClient.version, config: config))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "CognitoIdentityProvider")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "AddUserPoolClientSecret")
         let op = builder.attributes(context)
             .telemetry(ClientRuntime.OrchestratorTelemetry(
                 telemetryProvider: config.telemetryProvider,
@@ -747,7 +821,7 @@ extension CognitoIdentityProviderClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<AdminAddUserToGroupOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<AdminAddUserToGroupInput, AdminAddUserToGroupOutput>(xAmzTarget: "AWSCognitoIdentityProviderService.AdminAddUserToGroup"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<AdminAddUserToGroupInput, AdminAddUserToGroupOutput>(overrides: ["X-Amz-Target": "AWSCognitoIdentityProviderService.AdminAddUserToGroup"]))
         builder.serialize(ClientRuntime.BodyMiddleware<AdminAddUserToGroupInput, AdminAddUserToGroupOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: AdminAddUserToGroupInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<AdminAddUserToGroupInput, AdminAddUserToGroupOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<AdminAddUserToGroupOutput>())
@@ -833,7 +907,7 @@ extension CognitoIdentityProviderClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<AdminConfirmSignUpOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<AdminConfirmSignUpInput, AdminConfirmSignUpOutput>(xAmzTarget: "AWSCognitoIdentityProviderService.AdminConfirmSignUp"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<AdminConfirmSignUpInput, AdminConfirmSignUpOutput>(overrides: ["X-Amz-Target": "AWSCognitoIdentityProviderService.AdminConfirmSignUp"]))
         builder.serialize(ClientRuntime.BodyMiddleware<AdminConfirmSignUpInput, AdminConfirmSignUpOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: AdminConfirmSignUpInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<AdminConfirmSignUpInput, AdminConfirmSignUpOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<AdminConfirmSignUpOutput>())
@@ -921,7 +995,7 @@ extension CognitoIdentityProviderClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<AdminCreateUserOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<AdminCreateUserInput, AdminCreateUserOutput>(xAmzTarget: "AWSCognitoIdentityProviderService.AdminCreateUser"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<AdminCreateUserInput, AdminCreateUserOutput>(overrides: ["X-Amz-Target": "AWSCognitoIdentityProviderService.AdminCreateUser"]))
         builder.serialize(ClientRuntime.BodyMiddleware<AdminCreateUserInput, AdminCreateUserOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: AdminCreateUserInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<AdminCreateUserInput, AdminCreateUserOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<AdminCreateUserOutput>())
@@ -999,7 +1073,7 @@ extension CognitoIdentityProviderClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<AdminDeleteUserOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<AdminDeleteUserInput, AdminDeleteUserOutput>(xAmzTarget: "AWSCognitoIdentityProviderService.AdminDeleteUser"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<AdminDeleteUserInput, AdminDeleteUserOutput>(overrides: ["X-Amz-Target": "AWSCognitoIdentityProviderService.AdminDeleteUser"]))
         builder.serialize(ClientRuntime.BodyMiddleware<AdminDeleteUserInput, AdminDeleteUserOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: AdminDeleteUserInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<AdminDeleteUserInput, AdminDeleteUserOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<AdminDeleteUserOutput>())
@@ -1077,7 +1151,7 @@ extension CognitoIdentityProviderClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<AdminDeleteUserAttributesOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<AdminDeleteUserAttributesInput, AdminDeleteUserAttributesOutput>(xAmzTarget: "AWSCognitoIdentityProviderService.AdminDeleteUserAttributes"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<AdminDeleteUserAttributesInput, AdminDeleteUserAttributesOutput>(overrides: ["X-Amz-Target": "AWSCognitoIdentityProviderService.AdminDeleteUserAttributes"]))
         builder.serialize(ClientRuntime.BodyMiddleware<AdminDeleteUserAttributesInput, AdminDeleteUserAttributesOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: AdminDeleteUserAttributesInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<AdminDeleteUserAttributesInput, AdminDeleteUserAttributesOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<AdminDeleteUserAttributesOutput>())
@@ -1156,7 +1230,7 @@ extension CognitoIdentityProviderClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<AdminDisableProviderForUserOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<AdminDisableProviderForUserInput, AdminDisableProviderForUserOutput>(xAmzTarget: "AWSCognitoIdentityProviderService.AdminDisableProviderForUser"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<AdminDisableProviderForUserInput, AdminDisableProviderForUserOutput>(overrides: ["X-Amz-Target": "AWSCognitoIdentityProviderService.AdminDisableProviderForUser"]))
         builder.serialize(ClientRuntime.BodyMiddleware<AdminDisableProviderForUserInput, AdminDisableProviderForUserOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: AdminDisableProviderForUserInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<AdminDisableProviderForUserInput, AdminDisableProviderForUserOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<AdminDisableProviderForUserOutput>())
@@ -1234,7 +1308,7 @@ extension CognitoIdentityProviderClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<AdminDisableUserOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<AdminDisableUserInput, AdminDisableUserOutput>(xAmzTarget: "AWSCognitoIdentityProviderService.AdminDisableUser"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<AdminDisableUserInput, AdminDisableUserOutput>(overrides: ["X-Amz-Target": "AWSCognitoIdentityProviderService.AdminDisableUser"]))
         builder.serialize(ClientRuntime.BodyMiddleware<AdminDisableUserInput, AdminDisableUserOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: AdminDisableUserInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<AdminDisableUserInput, AdminDisableUserOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<AdminDisableUserOutput>())
@@ -1312,7 +1386,7 @@ extension CognitoIdentityProviderClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<AdminEnableUserOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<AdminEnableUserInput, AdminEnableUserOutput>(xAmzTarget: "AWSCognitoIdentityProviderService.AdminEnableUser"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<AdminEnableUserInput, AdminEnableUserOutput>(overrides: ["X-Amz-Target": "AWSCognitoIdentityProviderService.AdminEnableUser"]))
         builder.serialize(ClientRuntime.BodyMiddleware<AdminEnableUserInput, AdminEnableUserOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: AdminEnableUserInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<AdminEnableUserInput, AdminEnableUserOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<AdminEnableUserOutput>())
@@ -1391,7 +1465,7 @@ extension CognitoIdentityProviderClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<AdminForgetDeviceOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<AdminForgetDeviceInput, AdminForgetDeviceOutput>(xAmzTarget: "AWSCognitoIdentityProviderService.AdminForgetDevice"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<AdminForgetDeviceInput, AdminForgetDeviceOutput>(overrides: ["X-Amz-Target": "AWSCognitoIdentityProviderService.AdminForgetDevice"]))
         builder.serialize(ClientRuntime.BodyMiddleware<AdminForgetDeviceInput, AdminForgetDeviceOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: AdminForgetDeviceInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<AdminForgetDeviceInput, AdminForgetDeviceOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<AdminForgetDeviceOutput>())
@@ -1469,7 +1543,7 @@ extension CognitoIdentityProviderClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<AdminGetDeviceOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<AdminGetDeviceInput, AdminGetDeviceOutput>(xAmzTarget: "AWSCognitoIdentityProviderService.AdminGetDevice"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<AdminGetDeviceInput, AdminGetDeviceOutput>(overrides: ["X-Amz-Target": "AWSCognitoIdentityProviderService.AdminGetDevice"]))
         builder.serialize(ClientRuntime.BodyMiddleware<AdminGetDeviceInput, AdminGetDeviceOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: AdminGetDeviceInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<AdminGetDeviceInput, AdminGetDeviceOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<AdminGetDeviceOutput>())
@@ -1547,7 +1621,7 @@ extension CognitoIdentityProviderClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<AdminGetUserOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<AdminGetUserInput, AdminGetUserOutput>(xAmzTarget: "AWSCognitoIdentityProviderService.AdminGetUser"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<AdminGetUserInput, AdminGetUserOutput>(overrides: ["X-Amz-Target": "AWSCognitoIdentityProviderService.AdminGetUser"]))
         builder.serialize(ClientRuntime.BodyMiddleware<AdminGetUserInput, AdminGetUserOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: AdminGetUserInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<AdminGetUserInput, AdminGetUserOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<AdminGetUserOutput>())
@@ -1636,7 +1710,7 @@ extension CognitoIdentityProviderClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<AdminInitiateAuthOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<AdminInitiateAuthInput, AdminInitiateAuthOutput>(xAmzTarget: "AWSCognitoIdentityProviderService.AdminInitiateAuth"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<AdminInitiateAuthInput, AdminInitiateAuthOutput>(overrides: ["X-Amz-Target": "AWSCognitoIdentityProviderService.AdminInitiateAuth"]))
         builder.serialize(ClientRuntime.BodyMiddleware<AdminInitiateAuthInput, AdminInitiateAuthOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: AdminInitiateAuthInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<AdminInitiateAuthInput, AdminInitiateAuthOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<AdminInitiateAuthOutput>())
@@ -1716,7 +1790,7 @@ extension CognitoIdentityProviderClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<AdminLinkProviderForUserOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<AdminLinkProviderForUserInput, AdminLinkProviderForUserOutput>(xAmzTarget: "AWSCognitoIdentityProviderService.AdminLinkProviderForUser"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<AdminLinkProviderForUserInput, AdminLinkProviderForUserOutput>(overrides: ["X-Amz-Target": "AWSCognitoIdentityProviderService.AdminLinkProviderForUser"]))
         builder.serialize(ClientRuntime.BodyMiddleware<AdminLinkProviderForUserInput, AdminLinkProviderForUserOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: AdminLinkProviderForUserInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<AdminLinkProviderForUserInput, AdminLinkProviderForUserOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<AdminLinkProviderForUserOutput>())
@@ -1794,7 +1868,7 @@ extension CognitoIdentityProviderClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<AdminListDevicesOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<AdminListDevicesInput, AdminListDevicesOutput>(xAmzTarget: "AWSCognitoIdentityProviderService.AdminListDevices"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<AdminListDevicesInput, AdminListDevicesOutput>(overrides: ["X-Amz-Target": "AWSCognitoIdentityProviderService.AdminListDevices"]))
         builder.serialize(ClientRuntime.BodyMiddleware<AdminListDevicesInput, AdminListDevicesOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: AdminListDevicesInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<AdminListDevicesInput, AdminListDevicesOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<AdminListDevicesOutput>())
@@ -1872,7 +1946,7 @@ extension CognitoIdentityProviderClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<AdminListGroupsForUserOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<AdminListGroupsForUserInput, AdminListGroupsForUserOutput>(xAmzTarget: "AWSCognitoIdentityProviderService.AdminListGroupsForUser"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<AdminListGroupsForUserInput, AdminListGroupsForUserOutput>(overrides: ["X-Amz-Target": "AWSCognitoIdentityProviderService.AdminListGroupsForUser"]))
         builder.serialize(ClientRuntime.BodyMiddleware<AdminListGroupsForUserInput, AdminListGroupsForUserOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: AdminListGroupsForUserInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<AdminListGroupsForUserInput, AdminListGroupsForUserOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<AdminListGroupsForUserOutput>())
@@ -1951,7 +2025,7 @@ extension CognitoIdentityProviderClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<AdminListUserAuthEventsOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<AdminListUserAuthEventsInput, AdminListUserAuthEventsOutput>(xAmzTarget: "AWSCognitoIdentityProviderService.AdminListUserAuthEvents"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<AdminListUserAuthEventsInput, AdminListUserAuthEventsOutput>(overrides: ["X-Amz-Target": "AWSCognitoIdentityProviderService.AdminListUserAuthEvents"]))
         builder.serialize(ClientRuntime.BodyMiddleware<AdminListUserAuthEventsInput, AdminListUserAuthEventsOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: AdminListUserAuthEventsInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<AdminListUserAuthEventsInput, AdminListUserAuthEventsOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<AdminListUserAuthEventsOutput>())
@@ -2029,7 +2103,7 @@ extension CognitoIdentityProviderClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<AdminRemoveUserFromGroupOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<AdminRemoveUserFromGroupInput, AdminRemoveUserFromGroupOutput>(xAmzTarget: "AWSCognitoIdentityProviderService.AdminRemoveUserFromGroup"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<AdminRemoveUserFromGroupInput, AdminRemoveUserFromGroupOutput>(overrides: ["X-Amz-Target": "AWSCognitoIdentityProviderService.AdminRemoveUserFromGroup"]))
         builder.serialize(ClientRuntime.BodyMiddleware<AdminRemoveUserFromGroupInput, AdminRemoveUserFromGroupOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: AdminRemoveUserFromGroupInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<AdminRemoveUserFromGroupInput, AdminRemoveUserFromGroupOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<AdminRemoveUserFromGroupOutput>())
@@ -2114,7 +2188,7 @@ extension CognitoIdentityProviderClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<AdminResetUserPasswordOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<AdminResetUserPasswordInput, AdminResetUserPasswordOutput>(xAmzTarget: "AWSCognitoIdentityProviderService.AdminResetUserPassword"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<AdminResetUserPasswordInput, AdminResetUserPasswordOutput>(overrides: ["X-Amz-Target": "AWSCognitoIdentityProviderService.AdminResetUserPassword"]))
         builder.serialize(ClientRuntime.BodyMiddleware<AdminResetUserPasswordInput, AdminResetUserPasswordOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: AdminResetUserPasswordInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<AdminResetUserPasswordInput, AdminResetUserPasswordOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<AdminResetUserPasswordOutput>())
@@ -2208,7 +2282,7 @@ extension CognitoIdentityProviderClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<AdminRespondToAuthChallengeOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<AdminRespondToAuthChallengeInput, AdminRespondToAuthChallengeOutput>(xAmzTarget: "AWSCognitoIdentityProviderService.AdminRespondToAuthChallenge"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<AdminRespondToAuthChallengeInput, AdminRespondToAuthChallengeOutput>(overrides: ["X-Amz-Target": "AWSCognitoIdentityProviderService.AdminRespondToAuthChallenge"]))
         builder.serialize(ClientRuntime.BodyMiddleware<AdminRespondToAuthChallengeInput, AdminRespondToAuthChallengeOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: AdminRespondToAuthChallengeInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<AdminRespondToAuthChallengeInput, AdminRespondToAuthChallengeOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<AdminRespondToAuthChallengeOutput>())
@@ -2287,7 +2361,7 @@ extension CognitoIdentityProviderClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<AdminSetUserMFAPreferenceOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<AdminSetUserMFAPreferenceInput, AdminSetUserMFAPreferenceOutput>(xAmzTarget: "AWSCognitoIdentityProviderService.AdminSetUserMFAPreference"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<AdminSetUserMFAPreferenceInput, AdminSetUserMFAPreferenceOutput>(overrides: ["X-Amz-Target": "AWSCognitoIdentityProviderService.AdminSetUserMFAPreference"]))
         builder.serialize(ClientRuntime.BodyMiddleware<AdminSetUserMFAPreferenceInput, AdminSetUserMFAPreferenceOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: AdminSetUserMFAPreferenceInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<AdminSetUserMFAPreferenceInput, AdminSetUserMFAPreferenceOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<AdminSetUserMFAPreferenceOutput>())
@@ -2367,7 +2441,7 @@ extension CognitoIdentityProviderClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<AdminSetUserPasswordOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<AdminSetUserPasswordInput, AdminSetUserPasswordOutput>(xAmzTarget: "AWSCognitoIdentityProviderService.AdminSetUserPassword"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<AdminSetUserPasswordInput, AdminSetUserPasswordOutput>(overrides: ["X-Amz-Target": "AWSCognitoIdentityProviderService.AdminSetUserPassword"]))
         builder.serialize(ClientRuntime.BodyMiddleware<AdminSetUserPasswordInput, AdminSetUserPasswordOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: AdminSetUserPasswordInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<AdminSetUserPasswordInput, AdminSetUserPasswordOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<AdminSetUserPasswordOutput>())
@@ -2444,7 +2518,7 @@ extension CognitoIdentityProviderClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<AdminSetUserSettingsOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<AdminSetUserSettingsInput, AdminSetUserSettingsOutput>(xAmzTarget: "AWSCognitoIdentityProviderService.AdminSetUserSettings"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<AdminSetUserSettingsInput, AdminSetUserSettingsOutput>(overrides: ["X-Amz-Target": "AWSCognitoIdentityProviderService.AdminSetUserSettings"]))
         builder.serialize(ClientRuntime.BodyMiddleware<AdminSetUserSettingsInput, AdminSetUserSettingsOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: AdminSetUserSettingsInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<AdminSetUserSettingsInput, AdminSetUserSettingsOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<AdminSetUserSettingsOutput>())
@@ -2523,7 +2597,7 @@ extension CognitoIdentityProviderClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<AdminUpdateAuthEventFeedbackOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<AdminUpdateAuthEventFeedbackInput, AdminUpdateAuthEventFeedbackOutput>(xAmzTarget: "AWSCognitoIdentityProviderService.AdminUpdateAuthEventFeedback"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<AdminUpdateAuthEventFeedbackInput, AdminUpdateAuthEventFeedbackOutput>(overrides: ["X-Amz-Target": "AWSCognitoIdentityProviderService.AdminUpdateAuthEventFeedback"]))
         builder.serialize(ClientRuntime.BodyMiddleware<AdminUpdateAuthEventFeedbackInput, AdminUpdateAuthEventFeedbackOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: AdminUpdateAuthEventFeedbackInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<AdminUpdateAuthEventFeedbackInput, AdminUpdateAuthEventFeedbackOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<AdminUpdateAuthEventFeedbackOutput>())
@@ -2602,7 +2676,7 @@ extension CognitoIdentityProviderClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<AdminUpdateDeviceStatusOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<AdminUpdateDeviceStatusInput, AdminUpdateDeviceStatusOutput>(xAmzTarget: "AWSCognitoIdentityProviderService.AdminUpdateDeviceStatus"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<AdminUpdateDeviceStatusInput, AdminUpdateDeviceStatusOutput>(overrides: ["X-Amz-Target": "AWSCognitoIdentityProviderService.AdminUpdateDeviceStatus"]))
         builder.serialize(ClientRuntime.BodyMiddleware<AdminUpdateDeviceStatusInput, AdminUpdateDeviceStatusOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: AdminUpdateDeviceStatusInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<AdminUpdateDeviceStatusInput, AdminUpdateDeviceStatusOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<AdminUpdateDeviceStatusOutput>())
@@ -2690,7 +2764,7 @@ extension CognitoIdentityProviderClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<AdminUpdateUserAttributesOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<AdminUpdateUserAttributesInput, AdminUpdateUserAttributesOutput>(xAmzTarget: "AWSCognitoIdentityProviderService.AdminUpdateUserAttributes"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<AdminUpdateUserAttributesInput, AdminUpdateUserAttributesOutput>(overrides: ["X-Amz-Target": "AWSCognitoIdentityProviderService.AdminUpdateUserAttributes"]))
         builder.serialize(ClientRuntime.BodyMiddleware<AdminUpdateUserAttributesInput, AdminUpdateUserAttributesOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: AdminUpdateUserAttributesInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<AdminUpdateUserAttributesInput, AdminUpdateUserAttributesOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<AdminUpdateUserAttributesOutput>())
@@ -2777,7 +2851,7 @@ extension CognitoIdentityProviderClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<AdminUserGlobalSignOutOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<AdminUserGlobalSignOutInput, AdminUserGlobalSignOutOutput>(xAmzTarget: "AWSCognitoIdentityProviderService.AdminUserGlobalSignOut"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<AdminUserGlobalSignOutInput, AdminUserGlobalSignOutOutput>(overrides: ["X-Amz-Target": "AWSCognitoIdentityProviderService.AdminUserGlobalSignOut"]))
         builder.serialize(ClientRuntime.BodyMiddleware<AdminUserGlobalSignOutInput, AdminUserGlobalSignOutOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: AdminUserGlobalSignOutInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<AdminUserGlobalSignOutInput, AdminUserGlobalSignOutOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<AdminUserGlobalSignOutOutput>())
@@ -2850,7 +2924,7 @@ extension CognitoIdentityProviderClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<AssociateSoftwareTokenOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<AssociateSoftwareTokenInput, AssociateSoftwareTokenOutput>(xAmzTarget: "AWSCognitoIdentityProviderService.AssociateSoftwareToken"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<AssociateSoftwareTokenInput, AssociateSoftwareTokenOutput>(overrides: ["X-Amz-Target": "AWSCognitoIdentityProviderService.AssociateSoftwareToken"]))
         builder.serialize(ClientRuntime.BodyMiddleware<AssociateSoftwareTokenInput, AssociateSoftwareTokenOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: AssociateSoftwareTokenInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<AssociateSoftwareTokenInput, AssociateSoftwareTokenOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<AssociateSoftwareTokenOutput>())
@@ -2928,7 +3002,7 @@ extension CognitoIdentityProviderClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<ChangePasswordOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<ChangePasswordInput, ChangePasswordOutput>(xAmzTarget: "AWSCognitoIdentityProviderService.ChangePassword"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<ChangePasswordInput, ChangePasswordOutput>(overrides: ["X-Amz-Target": "AWSCognitoIdentityProviderService.ChangePassword"]))
         builder.serialize(ClientRuntime.BodyMiddleware<ChangePasswordInput, ChangePasswordOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: ChangePasswordInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<ChangePasswordInput, ChangePasswordOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ChangePasswordOutput>())
@@ -2966,6 +3040,7 @@ extension CognitoIdentityProviderClient {
     /// - `InvalidParameterException` : This exception is thrown when the Amazon Cognito service encounters an invalid parameter.
     /// - `LimitExceededException` : This exception is thrown when a user exceeds the limit for a requested Amazon Web Services resource.
     /// - `NotAuthorizedException` : This exception is thrown when a user isn't authorized.
+    /// - `PasswordResetRequiredException` : This exception is thrown when a password reset is required.
     /// - `TooManyRequestsException` : This exception is thrown when the user has made too many requests for a given operation.
     /// - `WebAuthnChallengeNotFoundException` : This exception is thrown when the challenge from StartWebAuthn registration has expired.
     /// - `WebAuthnClientMismatchException` : This exception is thrown when the access token is for a different client than the one in the original StartWebAuthnRegistration request.
@@ -3006,7 +3081,7 @@ extension CognitoIdentityProviderClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<CompleteWebAuthnRegistrationOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<CompleteWebAuthnRegistrationInput, CompleteWebAuthnRegistrationOutput>(xAmzTarget: "AWSCognitoIdentityProviderService.CompleteWebAuthnRegistration"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<CompleteWebAuthnRegistrationInput, CompleteWebAuthnRegistrationOutput>(overrides: ["X-Amz-Target": "AWSCognitoIdentityProviderService.CompleteWebAuthnRegistration"]))
         builder.serialize(ClientRuntime.BodyMiddleware<CompleteWebAuthnRegistrationInput, CompleteWebAuthnRegistrationOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: CompleteWebAuthnRegistrationInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<CompleteWebAuthnRegistrationInput, CompleteWebAuthnRegistrationOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<CompleteWebAuthnRegistrationOutput>())
@@ -3086,7 +3161,7 @@ extension CognitoIdentityProviderClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<ConfirmDeviceOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<ConfirmDeviceInput, ConfirmDeviceOutput>(xAmzTarget: "AWSCognitoIdentityProviderService.ConfirmDevice"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<ConfirmDeviceInput, ConfirmDeviceOutput>(overrides: ["X-Amz-Target": "AWSCognitoIdentityProviderService.ConfirmDevice"]))
         builder.serialize(ClientRuntime.BodyMiddleware<ConfirmDeviceInput, ConfirmDeviceOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: ConfirmDeviceInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<ConfirmDeviceInput, ConfirmDeviceOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ConfirmDeviceOutput>())
@@ -3169,7 +3244,7 @@ extension CognitoIdentityProviderClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<ConfirmForgotPasswordOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<ConfirmForgotPasswordInput, ConfirmForgotPasswordOutput>(xAmzTarget: "AWSCognitoIdentityProviderService.ConfirmForgotPassword"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<ConfirmForgotPasswordInput, ConfirmForgotPasswordOutput>(overrides: ["X-Amz-Target": "AWSCognitoIdentityProviderService.ConfirmForgotPassword"]))
         builder.serialize(ClientRuntime.BodyMiddleware<ConfirmForgotPasswordInput, ConfirmForgotPasswordOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: ConfirmForgotPasswordInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<ConfirmForgotPasswordInput, ConfirmForgotPasswordOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ConfirmForgotPasswordOutput>())
@@ -3250,7 +3325,7 @@ extension CognitoIdentityProviderClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<ConfirmSignUpOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<ConfirmSignUpInput, ConfirmSignUpOutput>(xAmzTarget: "AWSCognitoIdentityProviderService.ConfirmSignUp"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<ConfirmSignUpInput, ConfirmSignUpOutput>(overrides: ["X-Amz-Target": "AWSCognitoIdentityProviderService.ConfirmSignUp"]))
         builder.serialize(ClientRuntime.BodyMiddleware<ConfirmSignUpInput, ConfirmSignUpOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: ConfirmSignUpInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<ConfirmSignUpInput, ConfirmSignUpOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ConfirmSignUpOutput>())
@@ -3329,7 +3404,7 @@ extension CognitoIdentityProviderClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<CreateGroupOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<CreateGroupInput, CreateGroupOutput>(xAmzTarget: "AWSCognitoIdentityProviderService.CreateGroup"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<CreateGroupInput, CreateGroupOutput>(overrides: ["X-Amz-Target": "AWSCognitoIdentityProviderService.CreateGroup"]))
         builder.serialize(ClientRuntime.BodyMiddleware<CreateGroupInput, CreateGroupOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: CreateGroupInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<CreateGroupInput, CreateGroupOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<CreateGroupOutput>())
@@ -3408,7 +3483,7 @@ extension CognitoIdentityProviderClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<CreateIdentityProviderOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<CreateIdentityProviderInput, CreateIdentityProviderOutput>(xAmzTarget: "AWSCognitoIdentityProviderService.CreateIdentityProvider"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<CreateIdentityProviderInput, CreateIdentityProviderOutput>(overrides: ["X-Amz-Target": "AWSCognitoIdentityProviderService.CreateIdentityProvider"]))
         builder.serialize(ClientRuntime.BodyMiddleware<CreateIdentityProviderInput, CreateIdentityProviderOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: CreateIdentityProviderInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<CreateIdentityProviderInput, CreateIdentityProviderOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<CreateIdentityProviderOutput>())
@@ -3488,7 +3563,7 @@ extension CognitoIdentityProviderClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<CreateManagedLoginBrandingOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<CreateManagedLoginBrandingInput, CreateManagedLoginBrandingOutput>(xAmzTarget: "AWSCognitoIdentityProviderService.CreateManagedLoginBranding"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<CreateManagedLoginBrandingInput, CreateManagedLoginBrandingOutput>(overrides: ["X-Amz-Target": "AWSCognitoIdentityProviderService.CreateManagedLoginBranding"]))
         builder.serialize(ClientRuntime.BodyMiddleware<CreateManagedLoginBrandingInput, CreateManagedLoginBrandingOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: CreateManagedLoginBrandingInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<CreateManagedLoginBrandingInput, CreateManagedLoginBrandingOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<CreateManagedLoginBrandingOutput>())
@@ -3566,7 +3641,7 @@ extension CognitoIdentityProviderClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<CreateResourceServerOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<CreateResourceServerInput, CreateResourceServerOutput>(xAmzTarget: "AWSCognitoIdentityProviderService.CreateResourceServer"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<CreateResourceServerInput, CreateResourceServerOutput>(overrides: ["X-Amz-Target": "AWSCognitoIdentityProviderService.CreateResourceServer"]))
         builder.serialize(ClientRuntime.BodyMiddleware<CreateResourceServerInput, CreateResourceServerOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: CreateResourceServerInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<CreateResourceServerInput, CreateResourceServerOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<CreateResourceServerOutput>())
@@ -3646,7 +3721,7 @@ extension CognitoIdentityProviderClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<CreateTermsOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<CreateTermsInput, CreateTermsOutput>(xAmzTarget: "AWSCognitoIdentityProviderService.CreateTerms"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<CreateTermsInput, CreateTermsOutput>(overrides: ["X-Amz-Target": "AWSCognitoIdentityProviderService.CreateTerms"]))
         builder.serialize(ClientRuntime.BodyMiddleware<CreateTermsInput, CreateTermsOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: CreateTermsInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<CreateTermsInput, CreateTermsOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<CreateTermsOutput>())
@@ -3725,7 +3800,7 @@ extension CognitoIdentityProviderClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<CreateUserImportJobOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<CreateUserImportJobInput, CreateUserImportJobOutput>(xAmzTarget: "AWSCognitoIdentityProviderService.CreateUserImportJob"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<CreateUserImportJobInput, CreateUserImportJobOutput>(overrides: ["X-Amz-Target": "AWSCognitoIdentityProviderService.CreateUserImportJob"]))
         builder.serialize(ClientRuntime.BodyMiddleware<CreateUserImportJobInput, CreateUserImportJobOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: CreateUserImportJobInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<CreateUserImportJobInput, CreateUserImportJobOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<CreateUserImportJobOutput>())
@@ -3808,7 +3883,7 @@ extension CognitoIdentityProviderClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<CreateUserPoolOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<CreateUserPoolInput, CreateUserPoolOutput>(xAmzTarget: "AWSCognitoIdentityProviderService.CreateUserPool"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<CreateUserPoolInput, CreateUserPoolOutput>(overrides: ["X-Amz-Target": "AWSCognitoIdentityProviderService.CreateUserPool"]))
         builder.serialize(ClientRuntime.BodyMiddleware<CreateUserPoolInput, CreateUserPoolOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: CreateUserPoolInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<CreateUserPoolInput, CreateUserPoolOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<CreateUserPoolOutput>())
@@ -3889,7 +3964,7 @@ extension CognitoIdentityProviderClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<CreateUserPoolClientOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<CreateUserPoolClientInput, CreateUserPoolClientOutput>(xAmzTarget: "AWSCognitoIdentityProviderService.CreateUserPoolClient"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<CreateUserPoolClientInput, CreateUserPoolClientOutput>(overrides: ["X-Amz-Target": "AWSCognitoIdentityProviderService.CreateUserPoolClient"]))
         builder.serialize(ClientRuntime.BodyMiddleware<CreateUserPoolClientInput, CreateUserPoolClientOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: CreateUserPoolClientInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<CreateUserPoolClientInput, CreateUserPoolClientOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<CreateUserPoolClientOutput>())
@@ -3968,7 +4043,7 @@ extension CognitoIdentityProviderClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<CreateUserPoolDomainOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<CreateUserPoolDomainInput, CreateUserPoolDomainOutput>(xAmzTarget: "AWSCognitoIdentityProviderService.CreateUserPoolDomain"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<CreateUserPoolDomainInput, CreateUserPoolDomainOutput>(overrides: ["X-Amz-Target": "AWSCognitoIdentityProviderService.CreateUserPoolDomain"]))
         builder.serialize(ClientRuntime.BodyMiddleware<CreateUserPoolDomainInput, CreateUserPoolDomainOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: CreateUserPoolDomainInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<CreateUserPoolDomainInput, CreateUserPoolDomainOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<CreateUserPoolDomainOutput>())
@@ -4045,7 +4120,7 @@ extension CognitoIdentityProviderClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<DeleteGroupOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<DeleteGroupInput, DeleteGroupOutput>(xAmzTarget: "AWSCognitoIdentityProviderService.DeleteGroup"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<DeleteGroupInput, DeleteGroupOutput>(overrides: ["X-Amz-Target": "AWSCognitoIdentityProviderService.DeleteGroup"]))
         builder.serialize(ClientRuntime.BodyMiddleware<DeleteGroupInput, DeleteGroupOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: DeleteGroupInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DeleteGroupInput, DeleteGroupOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DeleteGroupOutput>())
@@ -4124,7 +4199,7 @@ extension CognitoIdentityProviderClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<DeleteIdentityProviderOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<DeleteIdentityProviderInput, DeleteIdentityProviderOutput>(xAmzTarget: "AWSCognitoIdentityProviderService.DeleteIdentityProvider"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<DeleteIdentityProviderInput, DeleteIdentityProviderOutput>(overrides: ["X-Amz-Target": "AWSCognitoIdentityProviderService.DeleteIdentityProvider"]))
         builder.serialize(ClientRuntime.BodyMiddleware<DeleteIdentityProviderInput, DeleteIdentityProviderOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: DeleteIdentityProviderInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DeleteIdentityProviderInput, DeleteIdentityProviderOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DeleteIdentityProviderOutput>())
@@ -4202,7 +4277,7 @@ extension CognitoIdentityProviderClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<DeleteManagedLoginBrandingOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<DeleteManagedLoginBrandingInput, DeleteManagedLoginBrandingOutput>(xAmzTarget: "AWSCognitoIdentityProviderService.DeleteManagedLoginBranding"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<DeleteManagedLoginBrandingInput, DeleteManagedLoginBrandingOutput>(overrides: ["X-Amz-Target": "AWSCognitoIdentityProviderService.DeleteManagedLoginBranding"]))
         builder.serialize(ClientRuntime.BodyMiddleware<DeleteManagedLoginBrandingInput, DeleteManagedLoginBrandingOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: DeleteManagedLoginBrandingInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DeleteManagedLoginBrandingInput, DeleteManagedLoginBrandingOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DeleteManagedLoginBrandingOutput>())
@@ -4279,7 +4354,7 @@ extension CognitoIdentityProviderClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<DeleteResourceServerOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<DeleteResourceServerInput, DeleteResourceServerOutput>(xAmzTarget: "AWSCognitoIdentityProviderService.DeleteResourceServer"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<DeleteResourceServerInput, DeleteResourceServerOutput>(overrides: ["X-Amz-Target": "AWSCognitoIdentityProviderService.DeleteResourceServer"]))
         builder.serialize(ClientRuntime.BodyMiddleware<DeleteResourceServerInput, DeleteResourceServerOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: DeleteResourceServerInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DeleteResourceServerInput, DeleteResourceServerOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DeleteResourceServerOutput>())
@@ -4357,7 +4432,7 @@ extension CognitoIdentityProviderClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<DeleteTermsOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<DeleteTermsInput, DeleteTermsOutput>(xAmzTarget: "AWSCognitoIdentityProviderService.DeleteTerms"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<DeleteTermsInput, DeleteTermsOutput>(overrides: ["X-Amz-Target": "AWSCognitoIdentityProviderService.DeleteTerms"]))
         builder.serialize(ClientRuntime.BodyMiddleware<DeleteTermsInput, DeleteTermsOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: DeleteTermsInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DeleteTermsInput, DeleteTermsOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DeleteTermsOutput>())
@@ -4432,7 +4507,7 @@ extension CognitoIdentityProviderClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<DeleteUserOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<DeleteUserInput, DeleteUserOutput>(xAmzTarget: "AWSCognitoIdentityProviderService.DeleteUser"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<DeleteUserInput, DeleteUserOutput>(overrides: ["X-Amz-Target": "AWSCognitoIdentityProviderService.DeleteUser"]))
         builder.serialize(ClientRuntime.BodyMiddleware<DeleteUserInput, DeleteUserOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: DeleteUserInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DeleteUserInput, DeleteUserOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DeleteUserOutput>())
@@ -4507,7 +4582,7 @@ extension CognitoIdentityProviderClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<DeleteUserAttributesOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<DeleteUserAttributesInput, DeleteUserAttributesOutput>(xAmzTarget: "AWSCognitoIdentityProviderService.DeleteUserAttributes"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<DeleteUserAttributesInput, DeleteUserAttributesOutput>(overrides: ["X-Amz-Target": "AWSCognitoIdentityProviderService.DeleteUserAttributes"]))
         builder.serialize(ClientRuntime.BodyMiddleware<DeleteUserAttributesInput, DeleteUserAttributesOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: DeleteUserAttributesInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DeleteUserAttributesInput, DeleteUserAttributesOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DeleteUserAttributesOutput>())
@@ -4581,7 +4656,7 @@ extension CognitoIdentityProviderClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<DeleteUserPoolOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<DeleteUserPoolInput, DeleteUserPoolOutput>(xAmzTarget: "AWSCognitoIdentityProviderService.DeleteUserPool"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<DeleteUserPoolInput, DeleteUserPoolOutput>(overrides: ["X-Amz-Target": "AWSCognitoIdentityProviderService.DeleteUserPool"]))
         builder.serialize(ClientRuntime.BodyMiddleware<DeleteUserPoolInput, DeleteUserPoolOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: DeleteUserPoolInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DeleteUserPoolInput, DeleteUserPoolOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DeleteUserPoolOutput>())
@@ -4655,7 +4730,7 @@ extension CognitoIdentityProviderClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<DeleteUserPoolClientOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<DeleteUserPoolClientInput, DeleteUserPoolClientOutput>(xAmzTarget: "AWSCognitoIdentityProviderService.DeleteUserPoolClient"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<DeleteUserPoolClientInput, DeleteUserPoolClientOutput>(overrides: ["X-Amz-Target": "AWSCognitoIdentityProviderService.DeleteUserPoolClient"]))
         builder.serialize(ClientRuntime.BodyMiddleware<DeleteUserPoolClientInput, DeleteUserPoolClientOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: DeleteUserPoolClientInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DeleteUserPoolClientInput, DeleteUserPoolClientOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DeleteUserPoolClientOutput>())
@@ -4665,6 +4740,79 @@ extension CognitoIdentityProviderClient {
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "CognitoIdentityProvider")
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "DeleteUserPoolClient")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
+    }
+
+    /// Performs the `DeleteUserPoolClientSecret` operation on the `CognitoIdentityProvider` service.
+    ///
+    /// Deletes a specific client secret from a user pool app client. You cannot delete the last remaining secret for an app client.
+    ///
+    /// - Parameter input: The request to delete a specific client secret from a user pool app client. (Type: `DeleteUserPoolClientSecretInput`)
+    ///
+    /// - Returns: The response from deleting a client secret. (Type: `DeleteUserPoolClientSecretOutput`)
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InternalServerException` : This exception is thrown when Amazon Cognito encounters an internal server error.
+    /// - `InvalidParameterException` : This exception is thrown when the Amazon Cognito service encounters an invalid parameter.
+    /// - `LimitExceededException` : This exception is thrown when a user exceeds the limit for a requested Amazon Web Services resource.
+    /// - `ResourceNotFoundException` : This exception is thrown when the Amazon Cognito service can't find the requested resource.
+    /// - `TooManyRequestsException` : This exception is thrown when the user has made too many requests for a given operation.
+    public func deleteUserPoolClientSecret(input: DeleteUserPoolClientSecretInput) async throws -> DeleteUserPoolClientSecretOutput {
+        let context = Smithy.ContextBuilder()
+                      .withMethod(value: .post)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "deleteUserPoolClientSecret")
+                      .withUnsignedPayloadTrait(value: false)
+                      .withSmithyDefaultConfig(config)
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
+                      .withSigningName(value: "cognito-idp")
+                      .withSigningRegion(value: config.signingRegion)
+                      .build()
+        let builder = ClientRuntime.OrchestratorBuilder<DeleteUserPoolClientSecretInput, DeleteUserPoolClientSecretOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<DeleteUserPoolClientSecretInput, DeleteUserPoolClientSecretOutput>(DeleteUserPoolClientSecretInput.urlPathProvider(_:)))
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<DeleteUserPoolClientSecretInput, DeleteUserPoolClientSecretOutput>())
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DeleteUserPoolClientSecretInput, DeleteUserPoolClientSecretOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteUserPoolClientSecretOutput>(DeleteUserPoolClientSecretOutput.httpOutput(from:), DeleteUserPoolClientSecretOutputError.httpError(from:)))
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteUserPoolClientSecretInput, DeleteUserPoolClientSecretOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
+        builder.applySigner(ClientRuntime.SignerMiddleware<DeleteUserPoolClientSecretOutput>())
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Cognito Identity Provider", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<DeleteUserPoolClientSecretOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<DeleteUserPoolClientSecretInput, DeleteUserPoolClientSecretOutput>(overrides: ["X-Amz-Target": "AWSCognitoIdentityProviderService.DeleteUserPoolClientSecret"]))
+        builder.serialize(ClientRuntime.BodyMiddleware<DeleteUserPoolClientSecretInput, DeleteUserPoolClientSecretOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: DeleteUserPoolClientSecretInput.write(value:to:)))
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DeleteUserPoolClientSecretInput, DeleteUserPoolClientSecretOutput>(contentType: "application/x-amz-json-1.1"))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DeleteUserPoolClientSecretOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DeleteUserPoolClientSecretInput, DeleteUserPoolClientSecretOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<DeleteUserPoolClientSecretInput, DeleteUserPoolClientSecretOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<DeleteUserPoolClientSecretInput, DeleteUserPoolClientSecretOutput>(serviceID: serviceName, version: CognitoIdentityProviderClient.version, config: config))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "CognitoIdentityProvider")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "DeleteUserPoolClientSecret")
         let op = builder.attributes(context)
             .telemetry(ClientRuntime.OrchestratorTelemetry(
                 telemetryProvider: config.telemetryProvider,
@@ -4728,7 +4876,7 @@ extension CognitoIdentityProviderClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<DeleteUserPoolDomainOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<DeleteUserPoolDomainInput, DeleteUserPoolDomainOutput>(xAmzTarget: "AWSCognitoIdentityProviderService.DeleteUserPoolDomain"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<DeleteUserPoolDomainInput, DeleteUserPoolDomainOutput>(overrides: ["X-Amz-Target": "AWSCognitoIdentityProviderService.DeleteUserPoolDomain"]))
         builder.serialize(ClientRuntime.BodyMiddleware<DeleteUserPoolDomainInput, DeleteUserPoolDomainOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: DeleteUserPoolDomainInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DeleteUserPoolDomainInput, DeleteUserPoolDomainOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DeleteUserPoolDomainOutput>())
@@ -4766,6 +4914,7 @@ extension CognitoIdentityProviderClient {
     /// - `InvalidParameterException` : This exception is thrown when the Amazon Cognito service encounters an invalid parameter.
     /// - `LimitExceededException` : This exception is thrown when a user exceeds the limit for a requested Amazon Web Services resource.
     /// - `NotAuthorizedException` : This exception is thrown when a user isn't authorized.
+    /// - `PasswordResetRequiredException` : This exception is thrown when a password reset is required.
     /// - `ResourceNotFoundException` : This exception is thrown when the Amazon Cognito service can't find the requested resource.
     /// - `TooManyRequestsException` : This exception is thrown when the user has made too many requests for a given operation.
     public func deleteWebAuthnCredential(input: DeleteWebAuthnCredentialInput) async throws -> DeleteWebAuthnCredentialOutput {
@@ -4801,7 +4950,7 @@ extension CognitoIdentityProviderClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<DeleteWebAuthnCredentialOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<DeleteWebAuthnCredentialInput, DeleteWebAuthnCredentialOutput>(xAmzTarget: "AWSCognitoIdentityProviderService.DeleteWebAuthnCredential"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<DeleteWebAuthnCredentialInput, DeleteWebAuthnCredentialOutput>(overrides: ["X-Amz-Target": "AWSCognitoIdentityProviderService.DeleteWebAuthnCredential"]))
         builder.serialize(ClientRuntime.BodyMiddleware<DeleteWebAuthnCredentialInput, DeleteWebAuthnCredentialOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: DeleteWebAuthnCredentialInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DeleteWebAuthnCredentialInput, DeleteWebAuthnCredentialOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DeleteWebAuthnCredentialOutput>())
@@ -4874,7 +5023,7 @@ extension CognitoIdentityProviderClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<DescribeIdentityProviderOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<DescribeIdentityProviderInput, DescribeIdentityProviderOutput>(xAmzTarget: "AWSCognitoIdentityProviderService.DescribeIdentityProvider"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<DescribeIdentityProviderInput, DescribeIdentityProviderOutput>(overrides: ["X-Amz-Target": "AWSCognitoIdentityProviderService.DescribeIdentityProvider"]))
         builder.serialize(ClientRuntime.BodyMiddleware<DescribeIdentityProviderInput, DescribeIdentityProviderOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: DescribeIdentityProviderInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DescribeIdentityProviderInput, DescribeIdentityProviderOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DescribeIdentityProviderOutput>())
@@ -4947,7 +5096,7 @@ extension CognitoIdentityProviderClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<DescribeManagedLoginBrandingOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<DescribeManagedLoginBrandingInput, DescribeManagedLoginBrandingOutput>(xAmzTarget: "AWSCognitoIdentityProviderService.DescribeManagedLoginBranding"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<DescribeManagedLoginBrandingInput, DescribeManagedLoginBrandingOutput>(overrides: ["X-Amz-Target": "AWSCognitoIdentityProviderService.DescribeManagedLoginBranding"]))
         builder.serialize(ClientRuntime.BodyMiddleware<DescribeManagedLoginBrandingInput, DescribeManagedLoginBrandingOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: DescribeManagedLoginBrandingInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DescribeManagedLoginBrandingInput, DescribeManagedLoginBrandingOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DescribeManagedLoginBrandingOutput>())
@@ -5020,7 +5169,7 @@ extension CognitoIdentityProviderClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<DescribeManagedLoginBrandingByClientOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<DescribeManagedLoginBrandingByClientInput, DescribeManagedLoginBrandingByClientOutput>(xAmzTarget: "AWSCognitoIdentityProviderService.DescribeManagedLoginBrandingByClient"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<DescribeManagedLoginBrandingByClientInput, DescribeManagedLoginBrandingByClientOutput>(overrides: ["X-Amz-Target": "AWSCognitoIdentityProviderService.DescribeManagedLoginBrandingByClient"]))
         builder.serialize(ClientRuntime.BodyMiddleware<DescribeManagedLoginBrandingByClientInput, DescribeManagedLoginBrandingByClientOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: DescribeManagedLoginBrandingByClientInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DescribeManagedLoginBrandingByClientInput, DescribeManagedLoginBrandingByClientOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DescribeManagedLoginBrandingByClientOutput>())
@@ -5093,7 +5242,7 @@ extension CognitoIdentityProviderClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<DescribeResourceServerOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<DescribeResourceServerInput, DescribeResourceServerOutput>(xAmzTarget: "AWSCognitoIdentityProviderService.DescribeResourceServer"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<DescribeResourceServerInput, DescribeResourceServerOutput>(overrides: ["X-Amz-Target": "AWSCognitoIdentityProviderService.DescribeResourceServer"]))
         builder.serialize(ClientRuntime.BodyMiddleware<DescribeResourceServerInput, DescribeResourceServerOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: DescribeResourceServerInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DescribeResourceServerInput, DescribeResourceServerOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DescribeResourceServerOutput>())
@@ -5167,7 +5316,7 @@ extension CognitoIdentityProviderClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<DescribeRiskConfigurationOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<DescribeRiskConfigurationInput, DescribeRiskConfigurationOutput>(xAmzTarget: "AWSCognitoIdentityProviderService.DescribeRiskConfiguration"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<DescribeRiskConfigurationInput, DescribeRiskConfigurationOutput>(overrides: ["X-Amz-Target": "AWSCognitoIdentityProviderService.DescribeRiskConfiguration"]))
         builder.serialize(ClientRuntime.BodyMiddleware<DescribeRiskConfigurationInput, DescribeRiskConfigurationOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: DescribeRiskConfigurationInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DescribeRiskConfigurationInput, DescribeRiskConfigurationOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DescribeRiskConfigurationOutput>())
@@ -5244,7 +5393,7 @@ extension CognitoIdentityProviderClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<DescribeTermsOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<DescribeTermsInput, DescribeTermsOutput>(xAmzTarget: "AWSCognitoIdentityProviderService.DescribeTerms"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<DescribeTermsInput, DescribeTermsOutput>(overrides: ["X-Amz-Target": "AWSCognitoIdentityProviderService.DescribeTerms"]))
         builder.serialize(ClientRuntime.BodyMiddleware<DescribeTermsInput, DescribeTermsOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: DescribeTermsInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DescribeTermsInput, DescribeTermsOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DescribeTermsOutput>())
@@ -5317,7 +5466,7 @@ extension CognitoIdentityProviderClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<DescribeUserImportJobOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<DescribeUserImportJobInput, DescribeUserImportJobOutput>(xAmzTarget: "AWSCognitoIdentityProviderService.DescribeUserImportJob"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<DescribeUserImportJobInput, DescribeUserImportJobOutput>(overrides: ["X-Amz-Target": "AWSCognitoIdentityProviderService.DescribeUserImportJob"]))
         builder.serialize(ClientRuntime.BodyMiddleware<DescribeUserImportJobInput, DescribeUserImportJobOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: DescribeUserImportJobInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DescribeUserImportJobInput, DescribeUserImportJobOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DescribeUserImportJobOutput>())
@@ -5395,7 +5544,7 @@ extension CognitoIdentityProviderClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<DescribeUserPoolOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<DescribeUserPoolInput, DescribeUserPoolOutput>(xAmzTarget: "AWSCognitoIdentityProviderService.DescribeUserPool"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<DescribeUserPoolInput, DescribeUserPoolOutput>(overrides: ["X-Amz-Target": "AWSCognitoIdentityProviderService.DescribeUserPool"]))
         builder.serialize(ClientRuntime.BodyMiddleware<DescribeUserPoolInput, DescribeUserPoolOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: DescribeUserPoolInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DescribeUserPoolInput, DescribeUserPoolOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DescribeUserPoolOutput>())
@@ -5472,7 +5621,7 @@ extension CognitoIdentityProviderClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<DescribeUserPoolClientOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<DescribeUserPoolClientInput, DescribeUserPoolClientOutput>(xAmzTarget: "AWSCognitoIdentityProviderService.DescribeUserPoolClient"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<DescribeUserPoolClientInput, DescribeUserPoolClientOutput>(overrides: ["X-Amz-Target": "AWSCognitoIdentityProviderService.DescribeUserPoolClient"]))
         builder.serialize(ClientRuntime.BodyMiddleware<DescribeUserPoolClientInput, DescribeUserPoolClientOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: DescribeUserPoolClientInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DescribeUserPoolClientInput, DescribeUserPoolClientOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DescribeUserPoolClientOutput>())
@@ -5548,7 +5697,7 @@ extension CognitoIdentityProviderClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<DescribeUserPoolDomainOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<DescribeUserPoolDomainInput, DescribeUserPoolDomainOutput>(xAmzTarget: "AWSCognitoIdentityProviderService.DescribeUserPoolDomain"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<DescribeUserPoolDomainInput, DescribeUserPoolDomainOutput>(overrides: ["X-Amz-Target": "AWSCognitoIdentityProviderService.DescribeUserPoolDomain"]))
         builder.serialize(ClientRuntime.BodyMiddleware<DescribeUserPoolDomainInput, DescribeUserPoolDomainOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: DescribeUserPoolDomainInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DescribeUserPoolDomainInput, DescribeUserPoolDomainOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DescribeUserPoolDomainOutput>())
@@ -5624,7 +5773,7 @@ extension CognitoIdentityProviderClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<ForgetDeviceOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<ForgetDeviceInput, ForgetDeviceOutput>(xAmzTarget: "AWSCognitoIdentityProviderService.ForgetDevice"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<ForgetDeviceInput, ForgetDeviceOutput>(overrides: ["X-Amz-Target": "AWSCognitoIdentityProviderService.ForgetDevice"]))
         builder.serialize(ClientRuntime.BodyMiddleware<ForgetDeviceInput, ForgetDeviceOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: ForgetDeviceInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<ForgetDeviceInput, ForgetDeviceOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ForgetDeviceOutput>())
@@ -5705,7 +5854,7 @@ extension CognitoIdentityProviderClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<ForgotPasswordOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<ForgotPasswordInput, ForgotPasswordOutput>(xAmzTarget: "AWSCognitoIdentityProviderService.ForgotPassword"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<ForgotPasswordInput, ForgotPasswordOutput>(overrides: ["X-Amz-Target": "AWSCognitoIdentityProviderService.ForgotPassword"]))
         builder.serialize(ClientRuntime.BodyMiddleware<ForgotPasswordInput, ForgotPasswordOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: ForgotPasswordInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<ForgotPasswordInput, ForgotPasswordOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ForgotPasswordOutput>())
@@ -5782,7 +5931,7 @@ extension CognitoIdentityProviderClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<GetCSVHeaderOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<GetCSVHeaderInput, GetCSVHeaderOutput>(xAmzTarget: "AWSCognitoIdentityProviderService.GetCSVHeader"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<GetCSVHeaderInput, GetCSVHeaderOutput>(overrides: ["X-Amz-Target": "AWSCognitoIdentityProviderService.GetCSVHeader"]))
         builder.serialize(ClientRuntime.BodyMiddleware<GetCSVHeaderInput, GetCSVHeaderOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: GetCSVHeaderInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<GetCSVHeaderInput, GetCSVHeaderOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<GetCSVHeaderOutput>())
@@ -5858,7 +6007,7 @@ extension CognitoIdentityProviderClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<GetDeviceOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<GetDeviceInput, GetDeviceOutput>(xAmzTarget: "AWSCognitoIdentityProviderService.GetDevice"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<GetDeviceInput, GetDeviceOutput>(overrides: ["X-Amz-Target": "AWSCognitoIdentityProviderService.GetDevice"]))
         builder.serialize(ClientRuntime.BodyMiddleware<GetDeviceInput, GetDeviceOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: GetDeviceInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<GetDeviceInput, GetDeviceOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<GetDeviceOutput>())
@@ -5935,7 +6084,7 @@ extension CognitoIdentityProviderClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<GetGroupOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<GetGroupInput, GetGroupOutput>(xAmzTarget: "AWSCognitoIdentityProviderService.GetGroup"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<GetGroupInput, GetGroupOutput>(overrides: ["X-Amz-Target": "AWSCognitoIdentityProviderService.GetGroup"]))
         builder.serialize(ClientRuntime.BodyMiddleware<GetGroupInput, GetGroupOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: GetGroupInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<GetGroupInput, GetGroupOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<GetGroupOutput>())
@@ -6008,7 +6157,7 @@ extension CognitoIdentityProviderClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<GetIdentityProviderByIdentifierOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<GetIdentityProviderByIdentifierInput, GetIdentityProviderByIdentifierOutput>(xAmzTarget: "AWSCognitoIdentityProviderService.GetIdentityProviderByIdentifier"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<GetIdentityProviderByIdentifierInput, GetIdentityProviderByIdentifierOutput>(overrides: ["X-Amz-Target": "AWSCognitoIdentityProviderService.GetIdentityProviderByIdentifier"]))
         builder.serialize(ClientRuntime.BodyMiddleware<GetIdentityProviderByIdentifierInput, GetIdentityProviderByIdentifierOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: GetIdentityProviderByIdentifierInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<GetIdentityProviderByIdentifierInput, GetIdentityProviderByIdentifierOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<GetIdentityProviderByIdentifierOutput>())
@@ -6085,7 +6234,7 @@ extension CognitoIdentityProviderClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<GetLogDeliveryConfigurationOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<GetLogDeliveryConfigurationInput, GetLogDeliveryConfigurationOutput>(xAmzTarget: "AWSCognitoIdentityProviderService.GetLogDeliveryConfiguration"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<GetLogDeliveryConfigurationInput, GetLogDeliveryConfigurationOutput>(overrides: ["X-Amz-Target": "AWSCognitoIdentityProviderService.GetLogDeliveryConfiguration"]))
         builder.serialize(ClientRuntime.BodyMiddleware<GetLogDeliveryConfigurationInput, GetLogDeliveryConfigurationOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: GetLogDeliveryConfigurationInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<GetLogDeliveryConfigurationInput, GetLogDeliveryConfigurationOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<GetLogDeliveryConfigurationOutput>())
@@ -6160,7 +6309,7 @@ extension CognitoIdentityProviderClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<GetSigningCertificateOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<GetSigningCertificateInput, GetSigningCertificateOutput>(xAmzTarget: "AWSCognitoIdentityProviderService.GetSigningCertificate"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<GetSigningCertificateInput, GetSigningCertificateOutput>(overrides: ["X-Amz-Target": "AWSCognitoIdentityProviderService.GetSigningCertificate"]))
         builder.serialize(ClientRuntime.BodyMiddleware<GetSigningCertificateInput, GetSigningCertificateOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: GetSigningCertificateInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<GetSigningCertificateInput, GetSigningCertificateOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<GetSigningCertificateOutput>())
@@ -6237,7 +6386,7 @@ extension CognitoIdentityProviderClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<GetTokensFromRefreshTokenOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<GetTokensFromRefreshTokenInput, GetTokensFromRefreshTokenOutput>(xAmzTarget: "AWSCognitoIdentityProviderService.GetTokensFromRefreshToken"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<GetTokensFromRefreshTokenInput, GetTokensFromRefreshTokenOutput>(overrides: ["X-Amz-Target": "AWSCognitoIdentityProviderService.GetTokensFromRefreshToken"]))
         builder.serialize(ClientRuntime.BodyMiddleware<GetTokensFromRefreshTokenInput, GetTokensFromRefreshTokenOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: GetTokensFromRefreshTokenInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<GetTokensFromRefreshTokenInput, GetTokensFromRefreshTokenOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<GetTokensFromRefreshTokenOutput>())
@@ -6310,7 +6459,7 @@ extension CognitoIdentityProviderClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<GetUICustomizationOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<GetUICustomizationInput, GetUICustomizationOutput>(xAmzTarget: "AWSCognitoIdentityProviderService.GetUICustomization"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<GetUICustomizationInput, GetUICustomizationOutput>(overrides: ["X-Amz-Target": "AWSCognitoIdentityProviderService.GetUICustomization"]))
         builder.serialize(ClientRuntime.BodyMiddleware<GetUICustomizationInput, GetUICustomizationOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: GetUICustomizationInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<GetUICustomizationInput, GetUICustomizationOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<GetUICustomizationOutput>())
@@ -6385,7 +6534,7 @@ extension CognitoIdentityProviderClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<GetUserOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<GetUserInput, GetUserOutput>(xAmzTarget: "AWSCognitoIdentityProviderService.GetUser"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<GetUserInput, GetUserOutput>(overrides: ["X-Amz-Target": "AWSCognitoIdentityProviderService.GetUser"]))
         builder.serialize(ClientRuntime.BodyMiddleware<GetUserInput, GetUserOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: GetUserInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<GetUserInput, GetUserOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<GetUserOutput>())
@@ -6468,7 +6617,7 @@ extension CognitoIdentityProviderClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<GetUserAttributeVerificationCodeOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<GetUserAttributeVerificationCodeInput, GetUserAttributeVerificationCodeOutput>(xAmzTarget: "AWSCognitoIdentityProviderService.GetUserAttributeVerificationCode"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<GetUserAttributeVerificationCodeInput, GetUserAttributeVerificationCodeOutput>(overrides: ["X-Amz-Target": "AWSCognitoIdentityProviderService.GetUserAttributeVerificationCode"]))
         builder.serialize(ClientRuntime.BodyMiddleware<GetUserAttributeVerificationCodeInput, GetUserAttributeVerificationCodeOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: GetUserAttributeVerificationCodeInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<GetUserAttributeVerificationCodeInput, GetUserAttributeVerificationCodeOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<GetUserAttributeVerificationCodeOutput>())
@@ -6550,7 +6699,7 @@ extension CognitoIdentityProviderClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<GetUserAuthFactorsOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<GetUserAuthFactorsInput, GetUserAuthFactorsOutput>(xAmzTarget: "AWSCognitoIdentityProviderService.GetUserAuthFactors"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<GetUserAuthFactorsInput, GetUserAuthFactorsOutput>(overrides: ["X-Amz-Target": "AWSCognitoIdentityProviderService.GetUserAuthFactors"]))
         builder.serialize(ClientRuntime.BodyMiddleware<GetUserAuthFactorsInput, GetUserAuthFactorsOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: GetUserAuthFactorsInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<GetUserAuthFactorsInput, GetUserAuthFactorsOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<GetUserAuthFactorsOutput>())
@@ -6638,7 +6787,7 @@ extension CognitoIdentityProviderClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<GetUserPoolMfaConfigOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<GetUserPoolMfaConfigInput, GetUserPoolMfaConfigOutput>(xAmzTarget: "AWSCognitoIdentityProviderService.GetUserPoolMfaConfig"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<GetUserPoolMfaConfigInput, GetUserPoolMfaConfigOutput>(overrides: ["X-Amz-Target": "AWSCognitoIdentityProviderService.GetUserPoolMfaConfig"]))
         builder.serialize(ClientRuntime.BodyMiddleware<GetUserPoolMfaConfigInput, GetUserPoolMfaConfigOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: GetUserPoolMfaConfigInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<GetUserPoolMfaConfigInput, GetUserPoolMfaConfigOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<GetUserPoolMfaConfigOutput>())
@@ -6721,7 +6870,7 @@ extension CognitoIdentityProviderClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<GlobalSignOutOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<GlobalSignOutInput, GlobalSignOutOutput>(xAmzTarget: "AWSCognitoIdentityProviderService.GlobalSignOut"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<GlobalSignOutInput, GlobalSignOutOutput>(overrides: ["X-Amz-Target": "AWSCognitoIdentityProviderService.GlobalSignOut"]))
         builder.serialize(ClientRuntime.BodyMiddleware<GlobalSignOutInput, GlobalSignOutOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: GlobalSignOutInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<GlobalSignOutInput, GlobalSignOutOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<GlobalSignOutOutput>())
@@ -6804,7 +6953,7 @@ extension CognitoIdentityProviderClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<InitiateAuthOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<InitiateAuthInput, InitiateAuthOutput>(xAmzTarget: "AWSCognitoIdentityProviderService.InitiateAuth"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<InitiateAuthInput, InitiateAuthOutput>(overrides: ["X-Amz-Target": "AWSCognitoIdentityProviderService.InitiateAuth"]))
         builder.serialize(ClientRuntime.BodyMiddleware<InitiateAuthInput, InitiateAuthOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: InitiateAuthInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<InitiateAuthInput, InitiateAuthOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<InitiateAuthOutput>())
@@ -6880,7 +7029,7 @@ extension CognitoIdentityProviderClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<ListDevicesOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<ListDevicesInput, ListDevicesOutput>(xAmzTarget: "AWSCognitoIdentityProviderService.ListDevices"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<ListDevicesInput, ListDevicesOutput>(overrides: ["X-Amz-Target": "AWSCognitoIdentityProviderService.ListDevices"]))
         builder.serialize(ClientRuntime.BodyMiddleware<ListDevicesInput, ListDevicesOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: ListDevicesInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<ListDevicesInput, ListDevicesOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ListDevicesOutput>())
@@ -6957,7 +7106,7 @@ extension CognitoIdentityProviderClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<ListGroupsOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<ListGroupsInput, ListGroupsOutput>(xAmzTarget: "AWSCognitoIdentityProviderService.ListGroups"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<ListGroupsInput, ListGroupsOutput>(overrides: ["X-Amz-Target": "AWSCognitoIdentityProviderService.ListGroups"]))
         builder.serialize(ClientRuntime.BodyMiddleware<ListGroupsInput, ListGroupsOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: ListGroupsInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<ListGroupsInput, ListGroupsOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ListGroupsOutput>())
@@ -7034,7 +7183,7 @@ extension CognitoIdentityProviderClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<ListIdentityProvidersOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<ListIdentityProvidersInput, ListIdentityProvidersOutput>(xAmzTarget: "AWSCognitoIdentityProviderService.ListIdentityProviders"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<ListIdentityProvidersInput, ListIdentityProvidersOutput>(overrides: ["X-Amz-Target": "AWSCognitoIdentityProviderService.ListIdentityProviders"]))
         builder.serialize(ClientRuntime.BodyMiddleware<ListIdentityProvidersInput, ListIdentityProvidersOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: ListIdentityProvidersInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<ListIdentityProvidersInput, ListIdentityProvidersOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ListIdentityProvidersOutput>())
@@ -7111,7 +7260,7 @@ extension CognitoIdentityProviderClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<ListResourceServersOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<ListResourceServersInput, ListResourceServersOutput>(xAmzTarget: "AWSCognitoIdentityProviderService.ListResourceServers"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<ListResourceServersInput, ListResourceServersOutput>(overrides: ["X-Amz-Target": "AWSCognitoIdentityProviderService.ListResourceServers"]))
         builder.serialize(ClientRuntime.BodyMiddleware<ListResourceServersInput, ListResourceServersOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: ListResourceServersInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<ListResourceServersInput, ListResourceServersOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ListResourceServersOutput>())
@@ -7184,7 +7333,7 @@ extension CognitoIdentityProviderClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<ListTagsForResourceOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<ListTagsForResourceInput, ListTagsForResourceOutput>(xAmzTarget: "AWSCognitoIdentityProviderService.ListTagsForResource"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<ListTagsForResourceInput, ListTagsForResourceOutput>(overrides: ["X-Amz-Target": "AWSCognitoIdentityProviderService.ListTagsForResource"]))
         builder.serialize(ClientRuntime.BodyMiddleware<ListTagsForResourceInput, ListTagsForResourceOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: ListTagsForResourceInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<ListTagsForResourceInput, ListTagsForResourceOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ListTagsForResourceOutput>())
@@ -7261,7 +7410,7 @@ extension CognitoIdentityProviderClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<ListTermsOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<ListTermsInput, ListTermsOutput>(xAmzTarget: "AWSCognitoIdentityProviderService.ListTerms"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<ListTermsInput, ListTermsOutput>(overrides: ["X-Amz-Target": "AWSCognitoIdentityProviderService.ListTerms"]))
         builder.serialize(ClientRuntime.BodyMiddleware<ListTermsInput, ListTermsOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: ListTermsInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<ListTermsInput, ListTermsOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ListTermsOutput>())
@@ -7338,7 +7487,7 @@ extension CognitoIdentityProviderClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<ListUserImportJobsOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<ListUserImportJobsInput, ListUserImportJobsOutput>(xAmzTarget: "AWSCognitoIdentityProviderService.ListUserImportJobs"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<ListUserImportJobsInput, ListUserImportJobsOutput>(overrides: ["X-Amz-Target": "AWSCognitoIdentityProviderService.ListUserImportJobs"]))
         builder.serialize(ClientRuntime.BodyMiddleware<ListUserImportJobsInput, ListUserImportJobsOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: ListUserImportJobsInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<ListUserImportJobsInput, ListUserImportJobsOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ListUserImportJobsOutput>())
@@ -7348,6 +7497,79 @@ extension CognitoIdentityProviderClient {
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "CognitoIdentityProvider")
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "ListUserImportJobs")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
+    }
+
+    /// Performs the `ListUserPoolClientSecrets` operation on the `CognitoIdentityProvider` service.
+    ///
+    /// Lists all client secrets associated with a user pool app client. Returns metadata about the secrets. The response does not include pagination tokens as there are only 2 secrets at any given time and we return both with every ListUserPoolClientSecrets call. For security reasons, the response never reveals the actual secret value in ClientSecretValue.
+    ///
+    /// - Parameter input: The request to list client secrets for a user pool app client. (Type: `ListUserPoolClientSecretsInput`)
+    ///
+    /// - Returns: The response containing the list of client secret metadata. This response does not include a NextToken field as all secrets are returned in a single response. (Type: `ListUserPoolClientSecretsOutput`)
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InternalServerException` : This exception is thrown when Amazon Cognito encounters an internal server error.
+    /// - `InvalidParameterException` : This exception is thrown when the Amazon Cognito service encounters an invalid parameter.
+    /// - `LimitExceededException` : This exception is thrown when a user exceeds the limit for a requested Amazon Web Services resource.
+    /// - `ResourceNotFoundException` : This exception is thrown when the Amazon Cognito service can't find the requested resource.
+    /// - `TooManyRequestsException` : This exception is thrown when the user has made too many requests for a given operation.
+    public func listUserPoolClientSecrets(input: ListUserPoolClientSecretsInput) async throws -> ListUserPoolClientSecretsOutput {
+        let context = Smithy.ContextBuilder()
+                      .withMethod(value: .post)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "listUserPoolClientSecrets")
+                      .withUnsignedPayloadTrait(value: false)
+                      .withSmithyDefaultConfig(config)
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
+                      .withSigningName(value: "cognito-idp")
+                      .withSigningRegion(value: config.signingRegion)
+                      .build()
+        let builder = ClientRuntime.OrchestratorBuilder<ListUserPoolClientSecretsInput, ListUserPoolClientSecretsOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<ListUserPoolClientSecretsInput, ListUserPoolClientSecretsOutput>(ListUserPoolClientSecretsInput.urlPathProvider(_:)))
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<ListUserPoolClientSecretsInput, ListUserPoolClientSecretsOutput>())
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListUserPoolClientSecretsInput, ListUserPoolClientSecretsOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<ListUserPoolClientSecretsOutput>(ListUserPoolClientSecretsOutput.httpOutput(from:), ListUserPoolClientSecretsOutputError.httpError(from:)))
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListUserPoolClientSecretsInput, ListUserPoolClientSecretsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
+        builder.applySigner(ClientRuntime.SignerMiddleware<ListUserPoolClientSecretsOutput>())
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Cognito Identity Provider", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<ListUserPoolClientSecretsOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<ListUserPoolClientSecretsInput, ListUserPoolClientSecretsOutput>(overrides: ["X-Amz-Target": "AWSCognitoIdentityProviderService.ListUserPoolClientSecrets"]))
+        builder.serialize(ClientRuntime.BodyMiddleware<ListUserPoolClientSecretsInput, ListUserPoolClientSecretsOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: ListUserPoolClientSecretsInput.write(value:to:)))
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<ListUserPoolClientSecretsInput, ListUserPoolClientSecretsOutput>(contentType: "application/x-amz-json-1.1"))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ListUserPoolClientSecretsOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<ListUserPoolClientSecretsInput, ListUserPoolClientSecretsOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<ListUserPoolClientSecretsInput, ListUserPoolClientSecretsOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<ListUserPoolClientSecretsInput, ListUserPoolClientSecretsOutput>(serviceID: serviceName, version: CognitoIdentityProviderClient.version, config: config))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "CognitoIdentityProvider")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "ListUserPoolClientSecrets")
         let op = builder.attributes(context)
             .telemetry(ClientRuntime.OrchestratorTelemetry(
                 telemetryProvider: config.telemetryProvider,
@@ -7415,7 +7637,7 @@ extension CognitoIdentityProviderClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<ListUserPoolClientsOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<ListUserPoolClientsInput, ListUserPoolClientsOutput>(xAmzTarget: "AWSCognitoIdentityProviderService.ListUserPoolClients"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<ListUserPoolClientsInput, ListUserPoolClientsOutput>(overrides: ["X-Amz-Target": "AWSCognitoIdentityProviderService.ListUserPoolClients"]))
         builder.serialize(ClientRuntime.BodyMiddleware<ListUserPoolClientsInput, ListUserPoolClientsOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: ListUserPoolClientsInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<ListUserPoolClientsInput, ListUserPoolClientsOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ListUserPoolClientsOutput>())
@@ -7491,7 +7713,7 @@ extension CognitoIdentityProviderClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<ListUserPoolsOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<ListUserPoolsInput, ListUserPoolsOutput>(xAmzTarget: "AWSCognitoIdentityProviderService.ListUserPools"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<ListUserPoolsInput, ListUserPoolsOutput>(overrides: ["X-Amz-Target": "AWSCognitoIdentityProviderService.ListUserPools"]))
         builder.serialize(ClientRuntime.BodyMiddleware<ListUserPoolsInput, ListUserPoolsOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: ListUserPoolsInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<ListUserPoolsInput, ListUserPoolsOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ListUserPoolsOutput>())
@@ -7515,7 +7737,7 @@ extension CognitoIdentityProviderClient {
 
     /// Performs the `ListUsers` operation on the `CognitoIdentityProvider` service.
     ///
-    /// Given a user pool ID, returns a list of users and their basic details in a user pool. Amazon Cognito evaluates Identity and Access Management (IAM) policies in requests for this API operation. For this operation, you must use IAM credentials to authorize requests, and you must grant yourself the corresponding IAM permission in a policy. Learn more
+    /// Given a user pool ID, returns a list of users and their basic details in a user pool. This operation is eventually consistent. You might experience a delay before results are up-to-date. To validate the existence or configuration of an individual user, use AdminGetUser. Amazon Cognito evaluates Identity and Access Management (IAM) policies in requests for this API operation. For this operation, you must use IAM credentials to authorize requests, and you must grant yourself the corresponding IAM permission in a policy. Learn more
     ///
     /// * [Signing Amazon Web Services API Requests](https://docs.aws.amazon.com/IAM/latest/UserGuide/reference_aws-signing.html)
     ///
@@ -7568,7 +7790,7 @@ extension CognitoIdentityProviderClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<ListUsersOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<ListUsersInput, ListUsersOutput>(xAmzTarget: "AWSCognitoIdentityProviderService.ListUsers"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<ListUsersInput, ListUsersOutput>(overrides: ["X-Amz-Target": "AWSCognitoIdentityProviderService.ListUsers"]))
         builder.serialize(ClientRuntime.BodyMiddleware<ListUsersInput, ListUsersOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: ListUsersInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<ListUsersInput, ListUsersOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ListUsersOutput>())
@@ -7645,7 +7867,7 @@ extension CognitoIdentityProviderClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<ListUsersInGroupOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<ListUsersInGroupInput, ListUsersInGroupOutput>(xAmzTarget: "AWSCognitoIdentityProviderService.ListUsersInGroup"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<ListUsersInGroupInput, ListUsersInGroupOutput>(overrides: ["X-Amz-Target": "AWSCognitoIdentityProviderService.ListUsersInGroup"]))
         builder.serialize(ClientRuntime.BodyMiddleware<ListUsersInGroupInput, ListUsersInGroupOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: ListUsersInGroupInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<ListUsersInGroupInput, ListUsersInGroupOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ListUsersInGroupOutput>())
@@ -7683,6 +7905,7 @@ extension CognitoIdentityProviderClient {
     /// - `InvalidParameterException` : This exception is thrown when the Amazon Cognito service encounters an invalid parameter.
     /// - `LimitExceededException` : This exception is thrown when a user exceeds the limit for a requested Amazon Web Services resource.
     /// - `NotAuthorizedException` : This exception is thrown when a user isn't authorized.
+    /// - `PasswordResetRequiredException` : This exception is thrown when a password reset is required.
     /// - `TooManyRequestsException` : This exception is thrown when the user has made too many requests for a given operation.
     public func listWebAuthnCredentials(input: ListWebAuthnCredentialsInput) async throws -> ListWebAuthnCredentialsOutput {
         let context = Smithy.ContextBuilder()
@@ -7717,7 +7940,7 @@ extension CognitoIdentityProviderClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<ListWebAuthnCredentialsOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<ListWebAuthnCredentialsInput, ListWebAuthnCredentialsOutput>(xAmzTarget: "AWSCognitoIdentityProviderService.ListWebAuthnCredentials"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<ListWebAuthnCredentialsInput, ListWebAuthnCredentialsOutput>(overrides: ["X-Amz-Target": "AWSCognitoIdentityProviderService.ListWebAuthnCredentials"]))
         builder.serialize(ClientRuntime.BodyMiddleware<ListWebAuthnCredentialsInput, ListWebAuthnCredentialsOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: ListWebAuthnCredentialsInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<ListWebAuthnCredentialsInput, ListWebAuthnCredentialsOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ListWebAuthnCredentialsOutput>())
@@ -7798,7 +8021,7 @@ extension CognitoIdentityProviderClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<ResendConfirmationCodeOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<ResendConfirmationCodeInput, ResendConfirmationCodeOutput>(xAmzTarget: "AWSCognitoIdentityProviderService.ResendConfirmationCode"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<ResendConfirmationCodeInput, ResendConfirmationCodeOutput>(overrides: ["X-Amz-Target": "AWSCognitoIdentityProviderService.ResendConfirmationCode"]))
         builder.serialize(ClientRuntime.BodyMiddleware<ResendConfirmationCodeInput, ResendConfirmationCodeOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: ResendConfirmationCodeInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<ResendConfirmationCodeInput, ResendConfirmationCodeOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ResendConfirmationCodeOutput>())
@@ -7887,7 +8110,7 @@ extension CognitoIdentityProviderClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<RespondToAuthChallengeOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<RespondToAuthChallengeInput, RespondToAuthChallengeOutput>(xAmzTarget: "AWSCognitoIdentityProviderService.RespondToAuthChallenge"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<RespondToAuthChallengeInput, RespondToAuthChallengeOutput>(overrides: ["X-Amz-Target": "AWSCognitoIdentityProviderService.RespondToAuthChallenge"]))
         builder.serialize(ClientRuntime.BodyMiddleware<RespondToAuthChallengeInput, RespondToAuthChallengeOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: RespondToAuthChallengeInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<RespondToAuthChallengeInput, RespondToAuthChallengeOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<RespondToAuthChallengeOutput>())
@@ -7960,7 +8183,7 @@ extension CognitoIdentityProviderClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<RevokeTokenOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<RevokeTokenInput, RevokeTokenOutput>(xAmzTarget: "AWSCognitoIdentityProviderService.RevokeToken"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<RevokeTokenInput, RevokeTokenOutput>(overrides: ["X-Amz-Target": "AWSCognitoIdentityProviderService.RevokeToken"]))
         builder.serialize(ClientRuntime.BodyMiddleware<RevokeTokenInput, RevokeTokenOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: RevokeTokenInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<RevokeTokenInput, RevokeTokenOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<RevokeTokenOutput>())
@@ -8034,7 +8257,7 @@ extension CognitoIdentityProviderClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<SetLogDeliveryConfigurationOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<SetLogDeliveryConfigurationInput, SetLogDeliveryConfigurationOutput>(xAmzTarget: "AWSCognitoIdentityProviderService.SetLogDeliveryConfiguration"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<SetLogDeliveryConfigurationInput, SetLogDeliveryConfigurationOutput>(overrides: ["X-Amz-Target": "AWSCognitoIdentityProviderService.SetLogDeliveryConfiguration"]))
         builder.serialize(ClientRuntime.BodyMiddleware<SetLogDeliveryConfigurationInput, SetLogDeliveryConfigurationOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: SetLogDeliveryConfigurationInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<SetLogDeliveryConfigurationInput, SetLogDeliveryConfigurationOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<SetLogDeliveryConfigurationOutput>())
@@ -8121,7 +8344,7 @@ extension CognitoIdentityProviderClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<SetRiskConfigurationOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<SetRiskConfigurationInput, SetRiskConfigurationOutput>(xAmzTarget: "AWSCognitoIdentityProviderService.SetRiskConfiguration"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<SetRiskConfigurationInput, SetRiskConfigurationOutput>(overrides: ["X-Amz-Target": "AWSCognitoIdentityProviderService.SetRiskConfiguration"]))
         builder.serialize(ClientRuntime.BodyMiddleware<SetRiskConfigurationInput, SetRiskConfigurationOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: SetRiskConfigurationInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<SetRiskConfigurationInput, SetRiskConfigurationOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<SetRiskConfigurationOutput>())
@@ -8198,7 +8421,7 @@ extension CognitoIdentityProviderClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<SetUICustomizationOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<SetUICustomizationInput, SetUICustomizationOutput>(xAmzTarget: "AWSCognitoIdentityProviderService.SetUICustomization"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<SetUICustomizationInput, SetUICustomizationOutput>(overrides: ["X-Amz-Target": "AWSCognitoIdentityProviderService.SetUICustomization"]))
         builder.serialize(ClientRuntime.BodyMiddleware<SetUICustomizationInput, SetUICustomizationOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: SetUICustomizationInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<SetUICustomizationInput, SetUICustomizationOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<SetUICustomizationOutput>())
@@ -8272,7 +8495,7 @@ extension CognitoIdentityProviderClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<SetUserMFAPreferenceOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<SetUserMFAPreferenceInput, SetUserMFAPreferenceOutput>(xAmzTarget: "AWSCognitoIdentityProviderService.SetUserMFAPreference"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<SetUserMFAPreferenceInput, SetUserMFAPreferenceOutput>(overrides: ["X-Amz-Target": "AWSCognitoIdentityProviderService.SetUserMFAPreference"]))
         builder.serialize(ClientRuntime.BodyMiddleware<SetUserMFAPreferenceInput, SetUserMFAPreferenceOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: SetUserMFAPreferenceInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<SetUserMFAPreferenceInput, SetUserMFAPreferenceOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<SetUserMFAPreferenceOutput>())
@@ -8349,7 +8572,7 @@ extension CognitoIdentityProviderClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<SetUserPoolMfaConfigOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<SetUserPoolMfaConfigInput, SetUserPoolMfaConfigOutput>(xAmzTarget: "AWSCognitoIdentityProviderService.SetUserPoolMfaConfig"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<SetUserPoolMfaConfigInput, SetUserPoolMfaConfigOutput>(overrides: ["X-Amz-Target": "AWSCognitoIdentityProviderService.SetUserPoolMfaConfig"]))
         builder.serialize(ClientRuntime.BodyMiddleware<SetUserPoolMfaConfigInput, SetUserPoolMfaConfigOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: SetUserPoolMfaConfigInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<SetUserPoolMfaConfigInput, SetUserPoolMfaConfigOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<SetUserPoolMfaConfigOutput>())
@@ -8423,7 +8646,7 @@ extension CognitoIdentityProviderClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<SetUserSettingsOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<SetUserSettingsInput, SetUserSettingsOutput>(xAmzTarget: "AWSCognitoIdentityProviderService.SetUserSettings"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<SetUserSettingsInput, SetUserSettingsOutput>(overrides: ["X-Amz-Target": "AWSCognitoIdentityProviderService.SetUserSettings"]))
         builder.serialize(ClientRuntime.BodyMiddleware<SetUserSettingsInput, SetUserSettingsOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: SetUserSettingsInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<SetUserSettingsInput, SetUserSettingsOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<SetUserSettingsOutput>())
@@ -8505,7 +8728,7 @@ extension CognitoIdentityProviderClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<SignUpOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<SignUpInput, SignUpOutput>(xAmzTarget: "AWSCognitoIdentityProviderService.SignUp"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<SignUpInput, SignUpOutput>(overrides: ["X-Amz-Target": "AWSCognitoIdentityProviderService.SignUp"]))
         builder.serialize(ClientRuntime.BodyMiddleware<SignUpInput, SignUpOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: SignUpInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<SignUpInput, SignUpOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<SignUpOutput>())
@@ -8579,7 +8802,7 @@ extension CognitoIdentityProviderClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<StartUserImportJobOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<StartUserImportJobInput, StartUserImportJobOutput>(xAmzTarget: "AWSCognitoIdentityProviderService.StartUserImportJob"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<StartUserImportJobInput, StartUserImportJobOutput>(overrides: ["X-Amz-Target": "AWSCognitoIdentityProviderService.StartUserImportJob"]))
         builder.serialize(ClientRuntime.BodyMiddleware<StartUserImportJobInput, StartUserImportJobOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: StartUserImportJobInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<StartUserImportJobInput, StartUserImportJobOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<StartUserImportJobOutput>())
@@ -8617,6 +8840,7 @@ extension CognitoIdentityProviderClient {
     /// - `InvalidParameterException` : This exception is thrown when the Amazon Cognito service encounters an invalid parameter.
     /// - `LimitExceededException` : This exception is thrown when a user exceeds the limit for a requested Amazon Web Services resource.
     /// - `NotAuthorizedException` : This exception is thrown when a user isn't authorized.
+    /// - `PasswordResetRequiredException` : This exception is thrown when a password reset is required.
     /// - `TooManyRequestsException` : This exception is thrown when the user has made too many requests for a given operation.
     /// - `WebAuthnConfigurationMissingException` : This exception is thrown when a user pool doesn't have a configured relying party id or a user pool domain.
     /// - `WebAuthnNotEnabledException` : This exception is thrown when the passkey feature isn't enabled for the user pool.
@@ -8653,7 +8877,7 @@ extension CognitoIdentityProviderClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<StartWebAuthnRegistrationOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<StartWebAuthnRegistrationInput, StartWebAuthnRegistrationOutput>(xAmzTarget: "AWSCognitoIdentityProviderService.StartWebAuthnRegistration"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<StartWebAuthnRegistrationInput, StartWebAuthnRegistrationOutput>(overrides: ["X-Amz-Target": "AWSCognitoIdentityProviderService.StartWebAuthnRegistration"]))
         builder.serialize(ClientRuntime.BodyMiddleware<StartWebAuthnRegistrationInput, StartWebAuthnRegistrationOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: StartWebAuthnRegistrationInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<StartWebAuthnRegistrationInput, StartWebAuthnRegistrationOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<StartWebAuthnRegistrationOutput>())
@@ -8727,7 +8951,7 @@ extension CognitoIdentityProviderClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<StopUserImportJobOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<StopUserImportJobInput, StopUserImportJobOutput>(xAmzTarget: "AWSCognitoIdentityProviderService.StopUserImportJob"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<StopUserImportJobInput, StopUserImportJobOutput>(overrides: ["X-Amz-Target": "AWSCognitoIdentityProviderService.StopUserImportJob"]))
         builder.serialize(ClientRuntime.BodyMiddleware<StopUserImportJobInput, StopUserImportJobOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: StopUserImportJobInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<StopUserImportJobInput, StopUserImportJobOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<StopUserImportJobOutput>())
@@ -8800,7 +9024,7 @@ extension CognitoIdentityProviderClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<TagResourceOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<TagResourceInput, TagResourceOutput>(xAmzTarget: "AWSCognitoIdentityProviderService.TagResource"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<TagResourceInput, TagResourceOutput>(overrides: ["X-Amz-Target": "AWSCognitoIdentityProviderService.TagResource"]))
         builder.serialize(ClientRuntime.BodyMiddleware<TagResourceInput, TagResourceOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: TagResourceInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<TagResourceInput, TagResourceOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<TagResourceOutput>())
@@ -8873,7 +9097,7 @@ extension CognitoIdentityProviderClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<UntagResourceOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<UntagResourceInput, UntagResourceOutput>(xAmzTarget: "AWSCognitoIdentityProviderService.UntagResource"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<UntagResourceInput, UntagResourceOutput>(overrides: ["X-Amz-Target": "AWSCognitoIdentityProviderService.UntagResource"]))
         builder.serialize(ClientRuntime.BodyMiddleware<UntagResourceInput, UntagResourceOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: UntagResourceInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<UntagResourceInput, UntagResourceOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<UntagResourceOutput>())
@@ -8946,7 +9170,7 @@ extension CognitoIdentityProviderClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<UpdateAuthEventFeedbackOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<UpdateAuthEventFeedbackInput, UpdateAuthEventFeedbackOutput>(xAmzTarget: "AWSCognitoIdentityProviderService.UpdateAuthEventFeedback"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<UpdateAuthEventFeedbackInput, UpdateAuthEventFeedbackOutput>(overrides: ["X-Amz-Target": "AWSCognitoIdentityProviderService.UpdateAuthEventFeedback"]))
         builder.serialize(ClientRuntime.BodyMiddleware<UpdateAuthEventFeedbackInput, UpdateAuthEventFeedbackOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: UpdateAuthEventFeedbackInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<UpdateAuthEventFeedbackInput, UpdateAuthEventFeedbackOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<UpdateAuthEventFeedbackOutput>())
@@ -9022,7 +9246,7 @@ extension CognitoIdentityProviderClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<UpdateDeviceStatusOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<UpdateDeviceStatusInput, UpdateDeviceStatusOutput>(xAmzTarget: "AWSCognitoIdentityProviderService.UpdateDeviceStatus"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<UpdateDeviceStatusInput, UpdateDeviceStatusOutput>(overrides: ["X-Amz-Target": "AWSCognitoIdentityProviderService.UpdateDeviceStatus"]))
         builder.serialize(ClientRuntime.BodyMiddleware<UpdateDeviceStatusInput, UpdateDeviceStatusOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: UpdateDeviceStatusInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<UpdateDeviceStatusInput, UpdateDeviceStatusOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<UpdateDeviceStatusOutput>())
@@ -9099,7 +9323,7 @@ extension CognitoIdentityProviderClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<UpdateGroupOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<UpdateGroupInput, UpdateGroupOutput>(xAmzTarget: "AWSCognitoIdentityProviderService.UpdateGroup"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<UpdateGroupInput, UpdateGroupOutput>(overrides: ["X-Amz-Target": "AWSCognitoIdentityProviderService.UpdateGroup"]))
         builder.serialize(ClientRuntime.BodyMiddleware<UpdateGroupInput, UpdateGroupOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: UpdateGroupInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<UpdateGroupInput, UpdateGroupOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<UpdateGroupOutput>())
@@ -9178,7 +9402,7 @@ extension CognitoIdentityProviderClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<UpdateIdentityProviderOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<UpdateIdentityProviderInput, UpdateIdentityProviderOutput>(xAmzTarget: "AWSCognitoIdentityProviderService.UpdateIdentityProvider"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<UpdateIdentityProviderInput, UpdateIdentityProviderOutput>(overrides: ["X-Amz-Target": "AWSCognitoIdentityProviderService.UpdateIdentityProvider"]))
         builder.serialize(ClientRuntime.BodyMiddleware<UpdateIdentityProviderInput, UpdateIdentityProviderOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: UpdateIdentityProviderInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<UpdateIdentityProviderInput, UpdateIdentityProviderOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<UpdateIdentityProviderOutput>())
@@ -9256,7 +9480,7 @@ extension CognitoIdentityProviderClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<UpdateManagedLoginBrandingOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<UpdateManagedLoginBrandingInput, UpdateManagedLoginBrandingOutput>(xAmzTarget: "AWSCognitoIdentityProviderService.UpdateManagedLoginBranding"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<UpdateManagedLoginBrandingInput, UpdateManagedLoginBrandingOutput>(overrides: ["X-Amz-Target": "AWSCognitoIdentityProviderService.UpdateManagedLoginBranding"]))
         builder.serialize(ClientRuntime.BodyMiddleware<UpdateManagedLoginBrandingInput, UpdateManagedLoginBrandingOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: UpdateManagedLoginBrandingInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<UpdateManagedLoginBrandingInput, UpdateManagedLoginBrandingOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<UpdateManagedLoginBrandingOutput>())
@@ -9333,7 +9557,7 @@ extension CognitoIdentityProviderClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<UpdateResourceServerOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<UpdateResourceServerInput, UpdateResourceServerOutput>(xAmzTarget: "AWSCognitoIdentityProviderService.UpdateResourceServer"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<UpdateResourceServerInput, UpdateResourceServerOutput>(overrides: ["X-Amz-Target": "AWSCognitoIdentityProviderService.UpdateResourceServer"]))
         builder.serialize(ClientRuntime.BodyMiddleware<UpdateResourceServerInput, UpdateResourceServerOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: UpdateResourceServerInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<UpdateResourceServerInput, UpdateResourceServerOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<UpdateResourceServerOutput>())
@@ -9412,7 +9636,7 @@ extension CognitoIdentityProviderClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<UpdateTermsOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<UpdateTermsInput, UpdateTermsOutput>(xAmzTarget: "AWSCognitoIdentityProviderService.UpdateTerms"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<UpdateTermsInput, UpdateTermsOutput>(overrides: ["X-Amz-Target": "AWSCognitoIdentityProviderService.UpdateTerms"]))
         builder.serialize(ClientRuntime.BodyMiddleware<UpdateTermsInput, UpdateTermsOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: UpdateTermsInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<UpdateTermsInput, UpdateTermsOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<UpdateTermsOutput>())
@@ -9497,7 +9721,7 @@ extension CognitoIdentityProviderClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<UpdateUserAttributesOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<UpdateUserAttributesInput, UpdateUserAttributesOutput>(xAmzTarget: "AWSCognitoIdentityProviderService.UpdateUserAttributes"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<UpdateUserAttributesInput, UpdateUserAttributesOutput>(overrides: ["X-Amz-Target": "AWSCognitoIdentityProviderService.UpdateUserAttributes"]))
         builder.serialize(ClientRuntime.BodyMiddleware<UpdateUserAttributesInput, UpdateUserAttributesOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: UpdateUserAttributesInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<UpdateUserAttributesInput, UpdateUserAttributesOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<UpdateUserAttributesOutput>())
@@ -9521,7 +9745,7 @@ extension CognitoIdentityProviderClient {
 
     /// Performs the `UpdateUserPool` operation on the `CognitoIdentityProvider` service.
     ///
-    /// Updates the configuration of a user pool. To avoid setting parameters to Amazon Cognito defaults, construct this API request to pass the existing configuration of your user pool, modified to include the changes that you want to make. If you don't provide a value for an attribute, Amazon Cognito sets it to its default value. This action might generate an SMS text message. Starting June 1, 2021, US telecom carriers require you to register an origination phone number before you can send SMS messages to US phone numbers. If you use SMS text messages in Amazon Cognito, you must register a phone number with [Amazon Pinpoint](https://console.aws.amazon.com/pinpoint/home/). Amazon Cognito uses the registered number automatically. Otherwise, Amazon Cognito users who must receive SMS messages might not be able to sign up, activate their accounts, or sign in. If you have never used SMS text messages with Amazon Cognito or any other Amazon Web Services service, Amazon Simple Notification Service might place your account in the SMS sandbox. In [sandbox mode](https://docs.aws.amazon.com/sns/latest/dg/sns-sms-sandbox.html) , you can send messages only to verified phone numbers. After you test your app while in the sandbox environment, you can move out of the sandbox and into production. For more information, see [ SMS message settings for Amazon Cognito user pools](https://docs.aws.amazon.com/cognito/latest/developerguide/user-pool-sms-settings.html) in the Amazon Cognito Developer Guide. Amazon Cognito evaluates Identity and Access Management (IAM) policies in requests for this API operation. For this operation, you must use IAM credentials to authorize requests, and you must grant yourself the corresponding IAM permission in a policy. Learn more
+    /// Updates the configuration of a user pool. To avoid setting parameters to Amazon Cognito defaults, construct this API request to pass the existing configuration of your user pool, modified to include the changes that you want to make. With the exception of UserPoolTier, if you don't provide a value for an attribute, Amazon Cognito sets it to its default value. This action might generate an SMS text message. Starting June 1, 2021, US telecom carriers require you to register an origination phone number before you can send SMS messages to US phone numbers. If you use SMS text messages in Amazon Cognito, you must register a phone number with [Amazon Pinpoint](https://console.aws.amazon.com/pinpoint/home/). Amazon Cognito uses the registered number automatically. Otherwise, Amazon Cognito users who must receive SMS messages might not be able to sign up, activate their accounts, or sign in. If you have never used SMS text messages with Amazon Cognito or any other Amazon Web Services service, Amazon Simple Notification Service might place your account in the SMS sandbox. In [sandbox mode](https://docs.aws.amazon.com/sns/latest/dg/sns-sms-sandbox.html) , you can send messages only to verified phone numbers. After you test your app while in the sandbox environment, you can move out of the sandbox and into production. For more information, see [ SMS message settings for Amazon Cognito user pools](https://docs.aws.amazon.com/cognito/latest/developerguide/user-pool-sms-settings.html) in the Amazon Cognito Developer Guide. Amazon Cognito evaluates Identity and Access Management (IAM) policies in requests for this API operation. For this operation, you must use IAM credentials to authorize requests, and you must grant yourself the corresponding IAM permission in a policy. Learn more
     ///
     /// * [Signing Amazon Web Services API Requests](https://docs.aws.amazon.com/IAM/latest/UserGuide/reference_aws-signing.html)
     ///
@@ -9582,7 +9806,7 @@ extension CognitoIdentityProviderClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<UpdateUserPoolOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<UpdateUserPoolInput, UpdateUserPoolOutput>(xAmzTarget: "AWSCognitoIdentityProviderService.UpdateUserPool"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<UpdateUserPoolInput, UpdateUserPoolOutput>(overrides: ["X-Amz-Target": "AWSCognitoIdentityProviderService.UpdateUserPool"]))
         builder.serialize(ClientRuntime.BodyMiddleware<UpdateUserPoolInput, UpdateUserPoolOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: UpdateUserPoolInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<UpdateUserPoolInput, UpdateUserPoolOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<UpdateUserPoolOutput>())
@@ -9663,7 +9887,7 @@ extension CognitoIdentityProviderClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<UpdateUserPoolClientOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<UpdateUserPoolClientInput, UpdateUserPoolClientOutput>(xAmzTarget: "AWSCognitoIdentityProviderService.UpdateUserPoolClient"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<UpdateUserPoolClientInput, UpdateUserPoolClientOutput>(overrides: ["X-Amz-Target": "AWSCognitoIdentityProviderService.UpdateUserPoolClient"]))
         builder.serialize(ClientRuntime.BodyMiddleware<UpdateUserPoolClientInput, UpdateUserPoolClientOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: UpdateUserPoolClientInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<UpdateUserPoolClientInput, UpdateUserPoolClientOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<UpdateUserPoolClientOutput>())
@@ -9742,7 +9966,7 @@ extension CognitoIdentityProviderClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<UpdateUserPoolDomainOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<UpdateUserPoolDomainInput, UpdateUserPoolDomainOutput>(xAmzTarget: "AWSCognitoIdentityProviderService.UpdateUserPoolDomain"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<UpdateUserPoolDomainInput, UpdateUserPoolDomainOutput>(overrides: ["X-Amz-Target": "AWSCognitoIdentityProviderService.UpdateUserPoolDomain"]))
         builder.serialize(ClientRuntime.BodyMiddleware<UpdateUserPoolDomainInput, UpdateUserPoolDomainOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: UpdateUserPoolDomainInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<UpdateUserPoolDomainInput, UpdateUserPoolDomainOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<UpdateUserPoolDomainOutput>())
@@ -9821,7 +10045,7 @@ extension CognitoIdentityProviderClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<VerifySoftwareTokenOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<VerifySoftwareTokenInput, VerifySoftwareTokenOutput>(xAmzTarget: "AWSCognitoIdentityProviderService.VerifySoftwareToken"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<VerifySoftwareTokenInput, VerifySoftwareTokenOutput>(overrides: ["X-Amz-Target": "AWSCognitoIdentityProviderService.VerifySoftwareToken"]))
         builder.serialize(ClientRuntime.BodyMiddleware<VerifySoftwareTokenInput, VerifySoftwareTokenOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: VerifySoftwareTokenInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<VerifySoftwareTokenInput, VerifySoftwareTokenOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<VerifySoftwareTokenOutput>())
@@ -9900,7 +10124,7 @@ extension CognitoIdentityProviderClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<VerifyUserAttributeOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<VerifyUserAttributeInput, VerifyUserAttributeOutput>(xAmzTarget: "AWSCognitoIdentityProviderService.VerifyUserAttribute"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<VerifyUserAttributeInput, VerifyUserAttributeOutput>(overrides: ["X-Amz-Target": "AWSCognitoIdentityProviderService.VerifyUserAttribute"]))
         builder.serialize(ClientRuntime.BodyMiddleware<VerifyUserAttributeInput, VerifyUserAttributeOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: VerifyUserAttributeInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<VerifyUserAttributeInput, VerifyUserAttributeOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<VerifyUserAttributeOutput>())

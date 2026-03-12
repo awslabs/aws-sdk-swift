@@ -23,8 +23,8 @@ import protocol ClientRuntime.HTTPError
 import protocol ClientRuntime.ModeledError
 @_spi(SmithyReadWrite) import protocol SmithyReadWrite.SmithyReader
 @_spi(SmithyReadWrite) import protocol SmithyReadWrite.SmithyWriter
-@_spi(SmithyReadWrite) import struct AWSClientRuntime.RestJSONError
 @_spi(UnknownAWSHTTPServiceError) import struct AWSClientRuntime.UnknownAWSHTTPServiceError
+@_spi(SmithyReadWrite) import struct ClientRuntime.RestJSONError
 import struct Smithy.Document
 import struct Smithy.URIQueryItem
 @_spi(SmithyTimestamps) import struct SmithyTimestamps.TimestampFormatter
@@ -2212,7 +2212,7 @@ enum CreateActOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
@@ -2232,7 +2232,7 @@ enum CreateSessionOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
@@ -2252,7 +2252,7 @@ enum CreateWorkflowDefinitionOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
@@ -2271,7 +2271,7 @@ enum CreateWorkflowRunOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
@@ -2290,7 +2290,7 @@ enum DeleteWorkflowDefinitionOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
@@ -2309,7 +2309,7 @@ enum DeleteWorkflowRunOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
@@ -2328,7 +2328,7 @@ enum GetWorkflowDefinitionOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
@@ -2346,7 +2346,7 @@ enum GetWorkflowRunOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
@@ -2365,7 +2365,7 @@ enum InvokeActStepOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
@@ -2385,7 +2385,7 @@ enum ListActsOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
@@ -2404,7 +2404,7 @@ enum ListModelsOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
@@ -2420,7 +2420,7 @@ enum ListSessionsOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
@@ -2439,7 +2439,7 @@ enum ListWorkflowDefinitionsOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
@@ -2456,7 +2456,7 @@ enum ListWorkflowRunsOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
@@ -2475,7 +2475,7 @@ enum UpdateActOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
@@ -2494,7 +2494,7 @@ enum UpdateWorkflowRunOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
@@ -2510,7 +2510,7 @@ enum UpdateWorkflowRunOutputError {
 
 extension AccessDeniedException {
 
-    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> AccessDeniedException {
+    static func makeError(baseError: ClientRuntime.RestJSONError) throws -> AccessDeniedException {
         let reader = baseError.errorBodyReader
         var value = AccessDeniedException()
         value.properties.message = try reader["message"].readIfPresent() ?? ""
@@ -2523,7 +2523,7 @@ extension AccessDeniedException {
 
 extension ConflictException {
 
-    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> ConflictException {
+    static func makeError(baseError: ClientRuntime.RestJSONError) throws -> ConflictException {
         let reader = baseError.errorBodyReader
         var value = ConflictException()
         value.properties.message = try reader["message"].readIfPresent() ?? ""
@@ -2538,7 +2538,7 @@ extension ConflictException {
 
 extension InternalServerException {
 
-    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> InternalServerException {
+    static func makeError(baseError: ClientRuntime.RestJSONError) throws -> InternalServerException {
         let reader = baseError.errorBodyReader
         let httpResponse = baseError.httpResponse
         var value = InternalServerException()
@@ -2556,7 +2556,7 @@ extension InternalServerException {
 
 extension ResourceNotFoundException {
 
-    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> ResourceNotFoundException {
+    static func makeError(baseError: ClientRuntime.RestJSONError) throws -> ResourceNotFoundException {
         let reader = baseError.errorBodyReader
         var value = ResourceNotFoundException()
         value.properties.message = try reader["message"].readIfPresent() ?? ""
@@ -2571,7 +2571,7 @@ extension ResourceNotFoundException {
 
 extension ServiceQuotaExceededException {
 
-    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> ServiceQuotaExceededException {
+    static func makeError(baseError: ClientRuntime.RestJSONError) throws -> ServiceQuotaExceededException {
         let reader = baseError.errorBodyReader
         var value = ServiceQuotaExceededException()
         value.properties.message = try reader["message"].readIfPresent() ?? ""
@@ -2588,7 +2588,7 @@ extension ServiceQuotaExceededException {
 
 extension ThrottlingException {
 
-    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> ThrottlingException {
+    static func makeError(baseError: ClientRuntime.RestJSONError) throws -> ThrottlingException {
         let reader = baseError.errorBodyReader
         let httpResponse = baseError.httpResponse
         var value = ThrottlingException()
@@ -2607,7 +2607,7 @@ extension ThrottlingException {
 
 extension ValidationException {
 
-    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> ValidationException {
+    static func makeError(baseError: ClientRuntime.RestJSONError) throws -> ValidationException {
         let reader = baseError.errorBodyReader
         var value = ValidationException()
         value.properties.fieldList = try reader["fieldList"].readListIfPresent(memberReadingClosure: NovaActClientTypes.ValidationExceptionField.read(from:), memberNodeInfo: "member", isFlattened: false)
@@ -2620,32 +2620,12 @@ extension ValidationException {
     }
 }
 
-extension NovaActClientTypes.WorkflowExportConfig {
+extension NovaActClientTypes.ActError {
 
-    static func write(value: NovaActClientTypes.WorkflowExportConfig?, to writer: SmithyJSON.Writer) throws {
+    static func write(value: NovaActClientTypes.ActError?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
-        try writer["s3BucketName"].write(value.s3BucketName)
-        try writer["s3KeyPrefix"].write(value.s3KeyPrefix)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> NovaActClientTypes.WorkflowExportConfig {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = NovaActClientTypes.WorkflowExportConfig()
-        value.s3BucketName = try reader["s3BucketName"].readIfPresent() ?? ""
-        value.s3KeyPrefix = try reader["s3KeyPrefix"].readIfPresent()
-        return value
-    }
-}
-
-extension NovaActClientTypes.Call {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> NovaActClientTypes.Call {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = NovaActClientTypes.Call()
-        value.callId = try reader["callId"].readIfPresent() ?? ""
-        value.input = try reader["input"].readIfPresent() ?? [:]
-        value.name = try reader["name"].readIfPresent() ?? ""
-        return value
+        try writer["message"].write(value.message)
+        try writer["type"].write(value.type)
     }
 }
 
@@ -2665,141 +2645,15 @@ extension NovaActClientTypes.ActSummary {
     }
 }
 
-extension NovaActClientTypes.TraceLocation {
+extension NovaActClientTypes.Call {
 
-    static func read(from reader: SmithyJSON.Reader) throws -> NovaActClientTypes.TraceLocation {
+    static func read(from reader: SmithyJSON.Reader) throws -> NovaActClientTypes.Call {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = NovaActClientTypes.TraceLocation()
-        value.locationType = try reader["locationType"].readIfPresent() ?? .sdkUnknown("")
-        value.location = try reader["location"].readIfPresent() ?? ""
-        return value
-    }
-}
-
-extension NovaActClientTypes.ModelSummary {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> NovaActClientTypes.ModelSummary {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = NovaActClientTypes.ModelSummary()
-        value.modelId = try reader["modelId"].readIfPresent() ?? ""
-        value.modelLifecycle = try reader["modelLifecycle"].readIfPresent(with: NovaActClientTypes.ModelLifecycle.read(from:))
-        value.minimumCompatibilityVersion = try reader["minimumCompatibilityVersion"].readIfPresent() ?? 0
-        return value
-    }
-}
-
-extension NovaActClientTypes.ModelLifecycle {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> NovaActClientTypes.ModelLifecycle {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = NovaActClientTypes.ModelLifecycle()
-        value.status = try reader["status"].readIfPresent() ?? .sdkUnknown("")
-        return value
-    }
-}
-
-extension NovaActClientTypes.ModelAlias {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> NovaActClientTypes.ModelAlias {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = NovaActClientTypes.ModelAlias()
-        value.aliasName = try reader["aliasName"].readIfPresent() ?? ""
-        value.latestModelId = try reader["latestModelId"].readIfPresent() ?? ""
-        value.resolvedModelId = try reader["resolvedModelId"].readIfPresent()
-        return value
-    }
-}
-
-extension NovaActClientTypes.CompatibilityInformation {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> NovaActClientTypes.CompatibilityInformation {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = NovaActClientTypes.CompatibilityInformation()
-        value.clientCompatibilityVersion = try reader["clientCompatibilityVersion"].readIfPresent() ?? 0
-        value.supportedModelIds = try reader["supportedModelIds"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false) ?? []
-        value.message = try reader["message"].readIfPresent()
-        return value
-    }
-}
-
-extension NovaActClientTypes.SessionSummary {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> NovaActClientTypes.SessionSummary {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = NovaActClientTypes.SessionSummary()
-        value.sessionId = try reader["sessionId"].readIfPresent() ?? ""
-        return value
-    }
-}
-
-extension NovaActClientTypes.WorkflowDefinitionSummary {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> NovaActClientTypes.WorkflowDefinitionSummary {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = NovaActClientTypes.WorkflowDefinitionSummary()
-        value.workflowDefinitionArn = try reader["workflowDefinitionArn"].readIfPresent() ?? ""
-        value.workflowDefinitionName = try reader["workflowDefinitionName"].readIfPresent() ?? ""
-        value.createdAt = try reader["createdAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
-        value.status = try reader["status"].readIfPresent() ?? .sdkUnknown("")
-        return value
-    }
-}
-
-extension NovaActClientTypes.WorkflowRunSummary {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> NovaActClientTypes.WorkflowRunSummary {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = NovaActClientTypes.WorkflowRunSummary()
-        value.workflowRunArn = try reader["workflowRunArn"].readIfPresent() ?? ""
-        value.workflowRunId = try reader["workflowRunId"].readIfPresent() ?? ""
-        value.status = try reader["status"].readIfPresent() ?? .sdkUnknown("")
-        value.startedAt = try reader["startedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
-        value.endedAt = try reader["endedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
-        value.traceLocation = try reader["traceLocation"].readIfPresent(with: NovaActClientTypes.TraceLocation.read(from:))
-        return value
-    }
-}
-
-extension NovaActClientTypes.ValidationExceptionField {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> NovaActClientTypes.ValidationExceptionField {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = NovaActClientTypes.ValidationExceptionField()
+        var value = NovaActClientTypes.Call()
+        value.callId = try reader["callId"].readIfPresent() ?? ""
+        value.input = try reader["input"].readIfPresent() ?? [:]
         value.name = try reader["name"].readIfPresent() ?? ""
-        value.message = try reader["message"].readIfPresent() ?? ""
         return value
-    }
-}
-
-extension NovaActClientTypes.ToolSpec {
-
-    static func write(value: NovaActClientTypes.ToolSpec?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["description"].write(value.description)
-        try writer["inputSchema"].write(value.inputSchema, with: NovaActClientTypes.ToolInputSchema.write(value:to:))
-        try writer["name"].write(value.name)
-    }
-}
-
-extension NovaActClientTypes.ToolInputSchema {
-
-    static func write(value: NovaActClientTypes.ToolInputSchema?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        switch value {
-            case let .json(json):
-                try writer["json"].write(json)
-            case let .sdkUnknown(sdkUnknown):
-                try writer["sdkUnknown"].write(sdkUnknown)
-        }
-    }
-}
-
-extension NovaActClientTypes.ClientInfo {
-
-    static func write(value: NovaActClientTypes.ClientInfo?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["compatibilityVersion"].write(value.compatibilityVersion)
-        try writer["sdkVersion"].write(value.sdkVersion)
     }
 }
 
@@ -2825,12 +2679,158 @@ extension NovaActClientTypes.CallResultContent {
     }
 }
 
-extension NovaActClientTypes.ActError {
+extension NovaActClientTypes.ClientInfo {
 
-    static func write(value: NovaActClientTypes.ActError?, to writer: SmithyJSON.Writer) throws {
+    static func write(value: NovaActClientTypes.ClientInfo?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
-        try writer["message"].write(value.message)
-        try writer["type"].write(value.type)
+        try writer["compatibilityVersion"].write(value.compatibilityVersion)
+        try writer["sdkVersion"].write(value.sdkVersion)
+    }
+}
+
+extension NovaActClientTypes.CompatibilityInformation {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> NovaActClientTypes.CompatibilityInformation {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = NovaActClientTypes.CompatibilityInformation()
+        value.clientCompatibilityVersion = try reader["clientCompatibilityVersion"].readIfPresent() ?? 0
+        value.supportedModelIds = try reader["supportedModelIds"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        value.message = try reader["message"].readIfPresent()
+        return value
+    }
+}
+
+extension NovaActClientTypes.ModelAlias {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> NovaActClientTypes.ModelAlias {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = NovaActClientTypes.ModelAlias()
+        value.aliasName = try reader["aliasName"].readIfPresent() ?? ""
+        value.latestModelId = try reader["latestModelId"].readIfPresent() ?? ""
+        value.resolvedModelId = try reader["resolvedModelId"].readIfPresent()
+        return value
+    }
+}
+
+extension NovaActClientTypes.ModelLifecycle {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> NovaActClientTypes.ModelLifecycle {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = NovaActClientTypes.ModelLifecycle()
+        value.status = try reader["status"].readIfPresent() ?? .sdkUnknown("")
+        return value
+    }
+}
+
+extension NovaActClientTypes.ModelSummary {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> NovaActClientTypes.ModelSummary {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = NovaActClientTypes.ModelSummary()
+        value.modelId = try reader["modelId"].readIfPresent() ?? ""
+        value.modelLifecycle = try reader["modelLifecycle"].readIfPresent(with: NovaActClientTypes.ModelLifecycle.read(from:))
+        value.minimumCompatibilityVersion = try reader["minimumCompatibilityVersion"].readIfPresent() ?? 0
+        return value
+    }
+}
+
+extension NovaActClientTypes.SessionSummary {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> NovaActClientTypes.SessionSummary {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = NovaActClientTypes.SessionSummary()
+        value.sessionId = try reader["sessionId"].readIfPresent() ?? ""
+        return value
+    }
+}
+
+extension NovaActClientTypes.ToolInputSchema {
+
+    static func write(value: NovaActClientTypes.ToolInputSchema?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        switch value {
+            case let .json(json):
+                try writer["json"].write(json)
+            case let .sdkUnknown(sdkUnknown):
+                try writer["sdkUnknown"].write(sdkUnknown)
+        }
+    }
+}
+
+extension NovaActClientTypes.ToolSpec {
+
+    static func write(value: NovaActClientTypes.ToolSpec?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["description"].write(value.description)
+        try writer["inputSchema"].write(value.inputSchema, with: NovaActClientTypes.ToolInputSchema.write(value:to:))
+        try writer["name"].write(value.name)
+    }
+}
+
+extension NovaActClientTypes.TraceLocation {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> NovaActClientTypes.TraceLocation {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = NovaActClientTypes.TraceLocation()
+        value.locationType = try reader["locationType"].readIfPresent() ?? .sdkUnknown("")
+        value.location = try reader["location"].readIfPresent() ?? ""
+        return value
+    }
+}
+
+extension NovaActClientTypes.ValidationExceptionField {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> NovaActClientTypes.ValidationExceptionField {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = NovaActClientTypes.ValidationExceptionField()
+        value.name = try reader["name"].readIfPresent() ?? ""
+        value.message = try reader["message"].readIfPresent() ?? ""
+        return value
+    }
+}
+
+extension NovaActClientTypes.WorkflowDefinitionSummary {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> NovaActClientTypes.WorkflowDefinitionSummary {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = NovaActClientTypes.WorkflowDefinitionSummary()
+        value.workflowDefinitionArn = try reader["workflowDefinitionArn"].readIfPresent() ?? ""
+        value.workflowDefinitionName = try reader["workflowDefinitionName"].readIfPresent() ?? ""
+        value.createdAt = try reader["createdAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        value.status = try reader["status"].readIfPresent() ?? .sdkUnknown("")
+        return value
+    }
+}
+
+extension NovaActClientTypes.WorkflowExportConfig {
+
+    static func write(value: NovaActClientTypes.WorkflowExportConfig?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["s3BucketName"].write(value.s3BucketName)
+        try writer["s3KeyPrefix"].write(value.s3KeyPrefix)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> NovaActClientTypes.WorkflowExportConfig {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = NovaActClientTypes.WorkflowExportConfig()
+        value.s3BucketName = try reader["s3BucketName"].readIfPresent() ?? ""
+        value.s3KeyPrefix = try reader["s3KeyPrefix"].readIfPresent()
+        return value
+    }
+}
+
+extension NovaActClientTypes.WorkflowRunSummary {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> NovaActClientTypes.WorkflowRunSummary {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = NovaActClientTypes.WorkflowRunSummary()
+        value.workflowRunArn = try reader["workflowRunArn"].readIfPresent() ?? ""
+        value.workflowRunId = try reader["workflowRunId"].readIfPresent() ?? ""
+        value.status = try reader["status"].readIfPresent() ?? .sdkUnknown("")
+        value.startedAt = try reader["startedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        value.endedAt = try reader["endedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
+        value.traceLocation = try reader["traceLocation"].readIfPresent(with: NovaActClientTypes.TraceLocation.read(from:))
+        return value
     }
 }
 

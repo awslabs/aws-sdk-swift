@@ -22,8 +22,8 @@ import protocol ClientRuntime.HTTPError
 import protocol ClientRuntime.ModeledError
 @_spi(SmithyReadWrite) import protocol SmithyReadWrite.SmithyReader
 @_spi(SmithyReadWrite) import protocol SmithyReadWrite.SmithyWriter
-@_spi(SmithyReadWrite) import struct AWSClientRuntime.AWSJSONError
 @_spi(UnknownAWSHTTPServiceError) import struct AWSClientRuntime.UnknownAWSHTTPServiceError
+@_spi(SmithyReadWrite) import struct ClientRuntime.AWSJSONError
 
 
 public struct ActivateEventSourceOutput: Swift.Sendable {
@@ -5737,7 +5737,7 @@ enum ActivateEventSourceOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "ConcurrentModificationException": return try ConcurrentModificationException.makeError(baseError: baseError)
@@ -5755,7 +5755,7 @@ enum CancelReplayOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "ConcurrentModificationException": return try ConcurrentModificationException.makeError(baseError: baseError)
@@ -5772,7 +5772,7 @@ enum CreateApiDestinationOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "InternalException": return try InternalException.makeError(baseError: baseError)
@@ -5789,7 +5789,7 @@ enum CreateArchiveOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "ConcurrentModificationException": return try ConcurrentModificationException.makeError(baseError: baseError)
@@ -5808,7 +5808,7 @@ enum CreateConnectionOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "InternalException": return try InternalException.makeError(baseError: baseError)
@@ -5824,7 +5824,7 @@ enum CreateEventBusOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "ConcurrentModificationException": return try ConcurrentModificationException.makeError(baseError: baseError)
@@ -5844,7 +5844,7 @@ enum CreatePartnerEventSourceOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "ConcurrentModificationException": return try ConcurrentModificationException.makeError(baseError: baseError)
@@ -5862,7 +5862,7 @@ enum DeactivateEventSourceOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "ConcurrentModificationException": return try ConcurrentModificationException.makeError(baseError: baseError)
@@ -5880,7 +5880,7 @@ enum DeauthorizeConnectionOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "ConcurrentModificationException": return try ConcurrentModificationException.makeError(baseError: baseError)
@@ -5896,7 +5896,7 @@ enum DeleteApiDestinationOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "ConcurrentModificationException": return try ConcurrentModificationException.makeError(baseError: baseError)
@@ -5912,7 +5912,7 @@ enum DeleteArchiveOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "ConcurrentModificationException": return try ConcurrentModificationException.makeError(baseError: baseError)
@@ -5928,7 +5928,7 @@ enum DeleteConnectionOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "ConcurrentModificationException": return try ConcurrentModificationException.makeError(baseError: baseError)
@@ -5944,7 +5944,7 @@ enum DeleteEventBusOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "ConcurrentModificationException": return try ConcurrentModificationException.makeError(baseError: baseError)
@@ -5959,7 +5959,7 @@ enum DeletePartnerEventSourceOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "ConcurrentModificationException": return try ConcurrentModificationException.makeError(baseError: baseError)
@@ -5975,7 +5975,7 @@ enum DeleteRuleOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "ConcurrentModificationException": return try ConcurrentModificationException.makeError(baseError: baseError)
@@ -5992,7 +5992,7 @@ enum DescribeApiDestinationOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "InternalException": return try InternalException.makeError(baseError: baseError)
@@ -6007,7 +6007,7 @@ enum DescribeArchiveOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "InternalException": return try InternalException.makeError(baseError: baseError)
@@ -6023,7 +6023,7 @@ enum DescribeConnectionOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "InternalException": return try InternalException.makeError(baseError: baseError)
@@ -6038,7 +6038,7 @@ enum DescribeEventBusOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "InternalException": return try InternalException.makeError(baseError: baseError)
@@ -6053,7 +6053,7 @@ enum DescribeEventSourceOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "InternalException": return try InternalException.makeError(baseError: baseError)
@@ -6069,7 +6069,7 @@ enum DescribePartnerEventSourceOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "InternalException": return try InternalException.makeError(baseError: baseError)
@@ -6085,7 +6085,7 @@ enum DescribeReplayOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "InternalException": return try InternalException.makeError(baseError: baseError)
@@ -6100,7 +6100,7 @@ enum DescribeRuleOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "InternalException": return try InternalException.makeError(baseError: baseError)
@@ -6115,7 +6115,7 @@ enum DisableRuleOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "ConcurrentModificationException": return try ConcurrentModificationException.makeError(baseError: baseError)
@@ -6132,7 +6132,7 @@ enum EnableRuleOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "ConcurrentModificationException": return try ConcurrentModificationException.makeError(baseError: baseError)
@@ -6149,7 +6149,7 @@ enum ListApiDestinationsOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "InternalException": return try InternalException.makeError(baseError: baseError)
@@ -6163,7 +6163,7 @@ enum ListArchivesOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "InternalException": return try InternalException.makeError(baseError: baseError)
@@ -6178,7 +6178,7 @@ enum ListConnectionsOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "InternalException": return try InternalException.makeError(baseError: baseError)
@@ -6192,7 +6192,7 @@ enum ListEventBusesOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "InternalException": return try InternalException.makeError(baseError: baseError)
@@ -6206,7 +6206,7 @@ enum ListEventSourcesOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "InternalException": return try InternalException.makeError(baseError: baseError)
@@ -6221,7 +6221,7 @@ enum ListPartnerEventSourceAccountsOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "InternalException": return try InternalException.makeError(baseError: baseError)
@@ -6237,7 +6237,7 @@ enum ListPartnerEventSourcesOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "InternalException": return try InternalException.makeError(baseError: baseError)
@@ -6252,7 +6252,7 @@ enum ListReplaysOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "InternalException": return try InternalException.makeError(baseError: baseError)
@@ -6266,7 +6266,7 @@ enum ListRuleNamesByTargetOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "InternalException": return try InternalException.makeError(baseError: baseError)
@@ -6281,7 +6281,7 @@ enum ListRulesOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "InternalException": return try InternalException.makeError(baseError: baseError)
@@ -6296,7 +6296,7 @@ enum ListTagsForResourceOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "InternalException": return try InternalException.makeError(baseError: baseError)
@@ -6311,7 +6311,7 @@ enum ListTargetsByRuleOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "InternalException": return try InternalException.makeError(baseError: baseError)
@@ -6326,7 +6326,7 @@ enum PutEventsOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "InternalException": return try InternalException.makeError(baseError: baseError)
@@ -6340,7 +6340,7 @@ enum PutPartnerEventsOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "InternalException": return try InternalException.makeError(baseError: baseError)
@@ -6355,7 +6355,7 @@ enum PutPermissionOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "ConcurrentModificationException": return try ConcurrentModificationException.makeError(baseError: baseError)
@@ -6373,7 +6373,7 @@ enum PutRuleOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "ConcurrentModificationException": return try ConcurrentModificationException.makeError(baseError: baseError)
@@ -6392,7 +6392,7 @@ enum PutTargetsOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "ConcurrentModificationException": return try ConcurrentModificationException.makeError(baseError: baseError)
@@ -6410,7 +6410,7 @@ enum RemovePermissionOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "ConcurrentModificationException": return try ConcurrentModificationException.makeError(baseError: baseError)
@@ -6427,7 +6427,7 @@ enum RemoveTargetsOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "ConcurrentModificationException": return try ConcurrentModificationException.makeError(baseError: baseError)
@@ -6444,7 +6444,7 @@ enum StartReplayOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "InternalException": return try InternalException.makeError(baseError: baseError)
@@ -6462,7 +6462,7 @@ enum TagResourceOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "ConcurrentModificationException": return try ConcurrentModificationException.makeError(baseError: baseError)
@@ -6479,7 +6479,7 @@ enum TestEventPatternOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "InternalException": return try InternalException.makeError(baseError: baseError)
@@ -6494,7 +6494,7 @@ enum UntagResourceOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "ConcurrentModificationException": return try ConcurrentModificationException.makeError(baseError: baseError)
@@ -6511,7 +6511,7 @@ enum UpdateApiDestinationOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "ConcurrentModificationException": return try ConcurrentModificationException.makeError(baseError: baseError)
@@ -6528,7 +6528,7 @@ enum UpdateArchiveOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "ConcurrentModificationException": return try ConcurrentModificationException.makeError(baseError: baseError)
@@ -6546,7 +6546,7 @@ enum UpdateConnectionOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "ConcurrentModificationException": return try ConcurrentModificationException.makeError(baseError: baseError)
@@ -6560,7 +6560,7 @@ enum UpdateConnectionOutputError {
 
 extension ConcurrentModificationException {
 
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> ConcurrentModificationException {
+    static func makeError(baseError: ClientRuntime.AWSJSONError) throws -> ConcurrentModificationException {
         let reader = baseError.errorBodyReader
         var value = ConcurrentModificationException()
         value.properties.message = try reader["message"].readIfPresent()
@@ -6573,7 +6573,7 @@ extension ConcurrentModificationException {
 
 extension InternalException {
 
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> InternalException {
+    static func makeError(baseError: ClientRuntime.AWSJSONError) throws -> InternalException {
         let reader = baseError.errorBodyReader
         var value = InternalException()
         value.properties.message = try reader["message"].readIfPresent()
@@ -6586,7 +6586,7 @@ extension InternalException {
 
 extension InvalidStateException {
 
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> InvalidStateException {
+    static func makeError(baseError: ClientRuntime.AWSJSONError) throws -> InvalidStateException {
         let reader = baseError.errorBodyReader
         var value = InvalidStateException()
         value.properties.message = try reader["message"].readIfPresent()
@@ -6599,7 +6599,7 @@ extension InvalidStateException {
 
 extension OperationDisabledException {
 
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> OperationDisabledException {
+    static func makeError(baseError: ClientRuntime.AWSJSONError) throws -> OperationDisabledException {
         let reader = baseError.errorBodyReader
         var value = OperationDisabledException()
         value.properties.message = try reader["message"].readIfPresent()
@@ -6612,7 +6612,7 @@ extension OperationDisabledException {
 
 extension ResourceNotFoundException {
 
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> ResourceNotFoundException {
+    static func makeError(baseError: ClientRuntime.AWSJSONError) throws -> ResourceNotFoundException {
         let reader = baseError.errorBodyReader
         var value = ResourceNotFoundException()
         value.properties.message = try reader["message"].readIfPresent()
@@ -6625,7 +6625,7 @@ extension ResourceNotFoundException {
 
 extension IllegalStatusException {
 
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> IllegalStatusException {
+    static func makeError(baseError: ClientRuntime.AWSJSONError) throws -> IllegalStatusException {
         let reader = baseError.errorBodyReader
         var value = IllegalStatusException()
         value.properties.message = try reader["message"].readIfPresent()
@@ -6638,7 +6638,7 @@ extension IllegalStatusException {
 
 extension LimitExceededException {
 
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> LimitExceededException {
+    static func makeError(baseError: ClientRuntime.AWSJSONError) throws -> LimitExceededException {
         let reader = baseError.errorBodyReader
         var value = LimitExceededException()
         value.properties.message = try reader["message"].readIfPresent()
@@ -6651,7 +6651,7 @@ extension LimitExceededException {
 
 extension ResourceAlreadyExistsException {
 
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> ResourceAlreadyExistsException {
+    static func makeError(baseError: ClientRuntime.AWSJSONError) throws -> ResourceAlreadyExistsException {
         let reader = baseError.errorBodyReader
         var value = ResourceAlreadyExistsException()
         value.properties.message = try reader["message"].readIfPresent()
@@ -6664,7 +6664,7 @@ extension ResourceAlreadyExistsException {
 
 extension InvalidEventPatternException {
 
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> InvalidEventPatternException {
+    static func makeError(baseError: ClientRuntime.AWSJSONError) throws -> InvalidEventPatternException {
         let reader = baseError.errorBodyReader
         var value = InvalidEventPatternException()
         value.properties.message = try reader["message"].readIfPresent()
@@ -6677,7 +6677,7 @@ extension InvalidEventPatternException {
 
 extension ManagedRuleException {
 
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> ManagedRuleException {
+    static func makeError(baseError: ClientRuntime.AWSJSONError) throws -> ManagedRuleException {
         let reader = baseError.errorBodyReader
         var value = ManagedRuleException()
         value.properties.message = try reader["message"].readIfPresent()
@@ -6690,162 +6690,13 @@ extension ManagedRuleException {
 
 extension PolicyLengthExceededException {
 
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> PolicyLengthExceededException {
+    static func makeError(baseError: ClientRuntime.AWSJSONError) throws -> PolicyLengthExceededException {
         let reader = baseError.errorBodyReader
         var value = PolicyLengthExceededException()
         value.properties.message = try reader["message"].readIfPresent()
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
         value.message = baseError.message
-        return value
-    }
-}
-
-extension CloudWatchEventsClientTypes.ConnectionAuthResponseParameters {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> CloudWatchEventsClientTypes.ConnectionAuthResponseParameters {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = CloudWatchEventsClientTypes.ConnectionAuthResponseParameters()
-        value.basicAuthParameters = try reader["BasicAuthParameters"].readIfPresent(with: CloudWatchEventsClientTypes.ConnectionBasicAuthResponseParameters.read(from:))
-        value.oAuthParameters = try reader["OAuthParameters"].readIfPresent(with: CloudWatchEventsClientTypes.ConnectionOAuthResponseParameters.read(from:))
-        value.apiKeyAuthParameters = try reader["ApiKeyAuthParameters"].readIfPresent(with: CloudWatchEventsClientTypes.ConnectionApiKeyAuthResponseParameters.read(from:))
-        value.invocationHttpParameters = try reader["InvocationHttpParameters"].readIfPresent(with: CloudWatchEventsClientTypes.ConnectionHttpParameters.read(from:))
-        return value
-    }
-}
-
-extension CloudWatchEventsClientTypes.ConnectionHttpParameters {
-
-    static func write(value: CloudWatchEventsClientTypes.ConnectionHttpParameters?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["BodyParameters"].writeList(value.bodyParameters, memberWritingClosure: CloudWatchEventsClientTypes.ConnectionBodyParameter.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["HeaderParameters"].writeList(value.headerParameters, memberWritingClosure: CloudWatchEventsClientTypes.ConnectionHeaderParameter.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["QueryStringParameters"].writeList(value.queryStringParameters, memberWritingClosure: CloudWatchEventsClientTypes.ConnectionQueryStringParameter.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> CloudWatchEventsClientTypes.ConnectionHttpParameters {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = CloudWatchEventsClientTypes.ConnectionHttpParameters()
-        value.headerParameters = try reader["HeaderParameters"].readListIfPresent(memberReadingClosure: CloudWatchEventsClientTypes.ConnectionHeaderParameter.read(from:), memberNodeInfo: "member", isFlattened: false)
-        value.queryStringParameters = try reader["QueryStringParameters"].readListIfPresent(memberReadingClosure: CloudWatchEventsClientTypes.ConnectionQueryStringParameter.read(from:), memberNodeInfo: "member", isFlattened: false)
-        value.bodyParameters = try reader["BodyParameters"].readListIfPresent(memberReadingClosure: CloudWatchEventsClientTypes.ConnectionBodyParameter.read(from:), memberNodeInfo: "member", isFlattened: false)
-        return value
-    }
-}
-
-extension CloudWatchEventsClientTypes.ConnectionBodyParameter {
-
-    static func write(value: CloudWatchEventsClientTypes.ConnectionBodyParameter?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["IsValueSecret"].write(value.isValueSecret)
-        try writer["Key"].write(value.key)
-        try writer["Value"].write(value.value)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> CloudWatchEventsClientTypes.ConnectionBodyParameter {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = CloudWatchEventsClientTypes.ConnectionBodyParameter()
-        value.key = try reader["Key"].readIfPresent()
-        value.value = try reader["Value"].readIfPresent()
-        value.isValueSecret = try reader["IsValueSecret"].readIfPresent() ?? false
-        return value
-    }
-}
-
-extension CloudWatchEventsClientTypes.ConnectionQueryStringParameter {
-
-    static func write(value: CloudWatchEventsClientTypes.ConnectionQueryStringParameter?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["IsValueSecret"].write(value.isValueSecret)
-        try writer["Key"].write(value.key)
-        try writer["Value"].write(value.value)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> CloudWatchEventsClientTypes.ConnectionQueryStringParameter {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = CloudWatchEventsClientTypes.ConnectionQueryStringParameter()
-        value.key = try reader["Key"].readIfPresent()
-        value.value = try reader["Value"].readIfPresent()
-        value.isValueSecret = try reader["IsValueSecret"].readIfPresent() ?? false
-        return value
-    }
-}
-
-extension CloudWatchEventsClientTypes.ConnectionHeaderParameter {
-
-    static func write(value: CloudWatchEventsClientTypes.ConnectionHeaderParameter?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["IsValueSecret"].write(value.isValueSecret)
-        try writer["Key"].write(value.key)
-        try writer["Value"].write(value.value)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> CloudWatchEventsClientTypes.ConnectionHeaderParameter {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = CloudWatchEventsClientTypes.ConnectionHeaderParameter()
-        value.key = try reader["Key"].readIfPresent()
-        value.value = try reader["Value"].readIfPresent()
-        value.isValueSecret = try reader["IsValueSecret"].readIfPresent() ?? false
-        return value
-    }
-}
-
-extension CloudWatchEventsClientTypes.ConnectionApiKeyAuthResponseParameters {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> CloudWatchEventsClientTypes.ConnectionApiKeyAuthResponseParameters {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = CloudWatchEventsClientTypes.ConnectionApiKeyAuthResponseParameters()
-        value.apiKeyName = try reader["ApiKeyName"].readIfPresent()
-        return value
-    }
-}
-
-extension CloudWatchEventsClientTypes.ConnectionOAuthResponseParameters {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> CloudWatchEventsClientTypes.ConnectionOAuthResponseParameters {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = CloudWatchEventsClientTypes.ConnectionOAuthResponseParameters()
-        value.clientParameters = try reader["ClientParameters"].readIfPresent(with: CloudWatchEventsClientTypes.ConnectionOAuthClientResponseParameters.read(from:))
-        value.authorizationEndpoint = try reader["AuthorizationEndpoint"].readIfPresent()
-        value.httpMethod = try reader["HttpMethod"].readIfPresent()
-        value.oAuthHttpParameters = try reader["OAuthHttpParameters"].readIfPresent(with: CloudWatchEventsClientTypes.ConnectionHttpParameters.read(from:))
-        return value
-    }
-}
-
-extension CloudWatchEventsClientTypes.ConnectionOAuthClientResponseParameters {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> CloudWatchEventsClientTypes.ConnectionOAuthClientResponseParameters {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = CloudWatchEventsClientTypes.ConnectionOAuthClientResponseParameters()
-        value.clientID = try reader["ClientID"].readIfPresent()
-        return value
-    }
-}
-
-extension CloudWatchEventsClientTypes.ConnectionBasicAuthResponseParameters {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> CloudWatchEventsClientTypes.ConnectionBasicAuthResponseParameters {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = CloudWatchEventsClientTypes.ConnectionBasicAuthResponseParameters()
-        value.username = try reader["Username"].readIfPresent()
-        return value
-    }
-}
-
-extension CloudWatchEventsClientTypes.ReplayDestination {
-
-    static func write(value: CloudWatchEventsClientTypes.ReplayDestination?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["Arn"].write(value.arn)
-        try writer["FilterArns"].writeList(value.filterArns, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> CloudWatchEventsClientTypes.ReplayDestination {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = CloudWatchEventsClientTypes.ReplayDestination()
-        value.arn = try reader["Arn"].readIfPresent() ?? ""
-        value.filterArns = try reader["FilterArns"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
         return value
     }
 }
@@ -6885,6 +6736,105 @@ extension CloudWatchEventsClientTypes.Archive {
     }
 }
 
+extension CloudWatchEventsClientTypes.AwsVpcConfiguration {
+
+    static func write(value: CloudWatchEventsClientTypes.AwsVpcConfiguration?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["AssignPublicIp"].write(value.assignPublicIp)
+        try writer["SecurityGroups"].writeList(value.securityGroups, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["Subnets"].writeList(value.subnets, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> CloudWatchEventsClientTypes.AwsVpcConfiguration {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = CloudWatchEventsClientTypes.AwsVpcConfiguration()
+        value.subnets = try reader["Subnets"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        value.securityGroups = try reader["SecurityGroups"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        value.assignPublicIp = try reader["AssignPublicIp"].readIfPresent()
+        return value
+    }
+}
+
+extension CloudWatchEventsClientTypes.BatchArrayProperties {
+
+    static func write(value: CloudWatchEventsClientTypes.BatchArrayProperties?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["Size"].write(value.size)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> CloudWatchEventsClientTypes.BatchArrayProperties {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = CloudWatchEventsClientTypes.BatchArrayProperties()
+        value.size = try reader["Size"].readIfPresent() ?? 0
+        return value
+    }
+}
+
+extension CloudWatchEventsClientTypes.BatchParameters {
+
+    static func write(value: CloudWatchEventsClientTypes.BatchParameters?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["ArrayProperties"].write(value.arrayProperties, with: CloudWatchEventsClientTypes.BatchArrayProperties.write(value:to:))
+        try writer["JobDefinition"].write(value.jobDefinition)
+        try writer["JobName"].write(value.jobName)
+        try writer["RetryStrategy"].write(value.retryStrategy, with: CloudWatchEventsClientTypes.BatchRetryStrategy.write(value:to:))
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> CloudWatchEventsClientTypes.BatchParameters {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = CloudWatchEventsClientTypes.BatchParameters()
+        value.jobDefinition = try reader["JobDefinition"].readIfPresent() ?? ""
+        value.jobName = try reader["JobName"].readIfPresent() ?? ""
+        value.arrayProperties = try reader["ArrayProperties"].readIfPresent(with: CloudWatchEventsClientTypes.BatchArrayProperties.read(from:))
+        value.retryStrategy = try reader["RetryStrategy"].readIfPresent(with: CloudWatchEventsClientTypes.BatchRetryStrategy.read(from:))
+        return value
+    }
+}
+
+extension CloudWatchEventsClientTypes.BatchRetryStrategy {
+
+    static func write(value: CloudWatchEventsClientTypes.BatchRetryStrategy?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["Attempts"].write(value.attempts)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> CloudWatchEventsClientTypes.BatchRetryStrategy {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = CloudWatchEventsClientTypes.BatchRetryStrategy()
+        value.attempts = try reader["Attempts"].readIfPresent() ?? 0
+        return value
+    }
+}
+
+extension CloudWatchEventsClientTypes.CapacityProviderStrategyItem {
+
+    static func write(value: CloudWatchEventsClientTypes.CapacityProviderStrategyItem?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["base"].write(value.base)
+        try writer["capacityProvider"].write(value.capacityProvider)
+        try writer["weight"].write(value.weight)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> CloudWatchEventsClientTypes.CapacityProviderStrategyItem {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = CloudWatchEventsClientTypes.CapacityProviderStrategyItem()
+        value.capacityProvider = try reader["capacityProvider"].readIfPresent() ?? ""
+        value.weight = try reader["weight"].readIfPresent() ?? 0
+        value.base = try reader["base"].readIfPresent() ?? 0
+        return value
+    }
+}
+
+extension CloudWatchEventsClientTypes.Condition {
+
+    static func write(value: CloudWatchEventsClientTypes.Condition?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["Key"].write(value.key)
+        try writer["Type"].write(value.type)
+        try writer["Value"].write(value.value)
+    }
+}
+
 extension CloudWatchEventsClientTypes.Connection {
 
     static func read(from reader: SmithyJSON.Reader) throws -> CloudWatchEventsClientTypes.Connection {
@@ -6898,6 +6848,243 @@ extension CloudWatchEventsClientTypes.Connection {
         value.creationTime = try reader["CreationTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
         value.lastModifiedTime = try reader["LastModifiedTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
         value.lastAuthorizedTime = try reader["LastAuthorizedTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        return value
+    }
+}
+
+extension CloudWatchEventsClientTypes.ConnectionApiKeyAuthResponseParameters {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> CloudWatchEventsClientTypes.ConnectionApiKeyAuthResponseParameters {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = CloudWatchEventsClientTypes.ConnectionApiKeyAuthResponseParameters()
+        value.apiKeyName = try reader["ApiKeyName"].readIfPresent()
+        return value
+    }
+}
+
+extension CloudWatchEventsClientTypes.ConnectionAuthResponseParameters {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> CloudWatchEventsClientTypes.ConnectionAuthResponseParameters {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = CloudWatchEventsClientTypes.ConnectionAuthResponseParameters()
+        value.basicAuthParameters = try reader["BasicAuthParameters"].readIfPresent(with: CloudWatchEventsClientTypes.ConnectionBasicAuthResponseParameters.read(from:))
+        value.oAuthParameters = try reader["OAuthParameters"].readIfPresent(with: CloudWatchEventsClientTypes.ConnectionOAuthResponseParameters.read(from:))
+        value.apiKeyAuthParameters = try reader["ApiKeyAuthParameters"].readIfPresent(with: CloudWatchEventsClientTypes.ConnectionApiKeyAuthResponseParameters.read(from:))
+        value.invocationHttpParameters = try reader["InvocationHttpParameters"].readIfPresent(with: CloudWatchEventsClientTypes.ConnectionHttpParameters.read(from:))
+        return value
+    }
+}
+
+extension CloudWatchEventsClientTypes.ConnectionBasicAuthResponseParameters {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> CloudWatchEventsClientTypes.ConnectionBasicAuthResponseParameters {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = CloudWatchEventsClientTypes.ConnectionBasicAuthResponseParameters()
+        value.username = try reader["Username"].readIfPresent()
+        return value
+    }
+}
+
+extension CloudWatchEventsClientTypes.ConnectionBodyParameter {
+
+    static func write(value: CloudWatchEventsClientTypes.ConnectionBodyParameter?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["IsValueSecret"].write(value.isValueSecret)
+        try writer["Key"].write(value.key)
+        try writer["Value"].write(value.value)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> CloudWatchEventsClientTypes.ConnectionBodyParameter {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = CloudWatchEventsClientTypes.ConnectionBodyParameter()
+        value.key = try reader["Key"].readIfPresent()
+        value.value = try reader["Value"].readIfPresent()
+        value.isValueSecret = try reader["IsValueSecret"].readIfPresent() ?? false
+        return value
+    }
+}
+
+extension CloudWatchEventsClientTypes.ConnectionHeaderParameter {
+
+    static func write(value: CloudWatchEventsClientTypes.ConnectionHeaderParameter?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["IsValueSecret"].write(value.isValueSecret)
+        try writer["Key"].write(value.key)
+        try writer["Value"].write(value.value)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> CloudWatchEventsClientTypes.ConnectionHeaderParameter {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = CloudWatchEventsClientTypes.ConnectionHeaderParameter()
+        value.key = try reader["Key"].readIfPresent()
+        value.value = try reader["Value"].readIfPresent()
+        value.isValueSecret = try reader["IsValueSecret"].readIfPresent() ?? false
+        return value
+    }
+}
+
+extension CloudWatchEventsClientTypes.ConnectionHttpParameters {
+
+    static func write(value: CloudWatchEventsClientTypes.ConnectionHttpParameters?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["BodyParameters"].writeList(value.bodyParameters, memberWritingClosure: CloudWatchEventsClientTypes.ConnectionBodyParameter.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["HeaderParameters"].writeList(value.headerParameters, memberWritingClosure: CloudWatchEventsClientTypes.ConnectionHeaderParameter.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["QueryStringParameters"].writeList(value.queryStringParameters, memberWritingClosure: CloudWatchEventsClientTypes.ConnectionQueryStringParameter.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> CloudWatchEventsClientTypes.ConnectionHttpParameters {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = CloudWatchEventsClientTypes.ConnectionHttpParameters()
+        value.headerParameters = try reader["HeaderParameters"].readListIfPresent(memberReadingClosure: CloudWatchEventsClientTypes.ConnectionHeaderParameter.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.queryStringParameters = try reader["QueryStringParameters"].readListIfPresent(memberReadingClosure: CloudWatchEventsClientTypes.ConnectionQueryStringParameter.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.bodyParameters = try reader["BodyParameters"].readListIfPresent(memberReadingClosure: CloudWatchEventsClientTypes.ConnectionBodyParameter.read(from:), memberNodeInfo: "member", isFlattened: false)
+        return value
+    }
+}
+
+extension CloudWatchEventsClientTypes.ConnectionOAuthClientResponseParameters {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> CloudWatchEventsClientTypes.ConnectionOAuthClientResponseParameters {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = CloudWatchEventsClientTypes.ConnectionOAuthClientResponseParameters()
+        value.clientID = try reader["ClientID"].readIfPresent()
+        return value
+    }
+}
+
+extension CloudWatchEventsClientTypes.ConnectionOAuthResponseParameters {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> CloudWatchEventsClientTypes.ConnectionOAuthResponseParameters {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = CloudWatchEventsClientTypes.ConnectionOAuthResponseParameters()
+        value.clientParameters = try reader["ClientParameters"].readIfPresent(with: CloudWatchEventsClientTypes.ConnectionOAuthClientResponseParameters.read(from:))
+        value.authorizationEndpoint = try reader["AuthorizationEndpoint"].readIfPresent()
+        value.httpMethod = try reader["HttpMethod"].readIfPresent()
+        value.oAuthHttpParameters = try reader["OAuthHttpParameters"].readIfPresent(with: CloudWatchEventsClientTypes.ConnectionHttpParameters.read(from:))
+        return value
+    }
+}
+
+extension CloudWatchEventsClientTypes.ConnectionQueryStringParameter {
+
+    static func write(value: CloudWatchEventsClientTypes.ConnectionQueryStringParameter?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["IsValueSecret"].write(value.isValueSecret)
+        try writer["Key"].write(value.key)
+        try writer["Value"].write(value.value)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> CloudWatchEventsClientTypes.ConnectionQueryStringParameter {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = CloudWatchEventsClientTypes.ConnectionQueryStringParameter()
+        value.key = try reader["Key"].readIfPresent()
+        value.value = try reader["Value"].readIfPresent()
+        value.isValueSecret = try reader["IsValueSecret"].readIfPresent() ?? false
+        return value
+    }
+}
+
+extension CloudWatchEventsClientTypes.CreateConnectionApiKeyAuthRequestParameters {
+
+    static func write(value: CloudWatchEventsClientTypes.CreateConnectionApiKeyAuthRequestParameters?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["ApiKeyName"].write(value.apiKeyName)
+        try writer["ApiKeyValue"].write(value.apiKeyValue)
+    }
+}
+
+extension CloudWatchEventsClientTypes.CreateConnectionAuthRequestParameters {
+
+    static func write(value: CloudWatchEventsClientTypes.CreateConnectionAuthRequestParameters?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["ApiKeyAuthParameters"].write(value.apiKeyAuthParameters, with: CloudWatchEventsClientTypes.CreateConnectionApiKeyAuthRequestParameters.write(value:to:))
+        try writer["BasicAuthParameters"].write(value.basicAuthParameters, with: CloudWatchEventsClientTypes.CreateConnectionBasicAuthRequestParameters.write(value:to:))
+        try writer["InvocationHttpParameters"].write(value.invocationHttpParameters, with: CloudWatchEventsClientTypes.ConnectionHttpParameters.write(value:to:))
+        try writer["OAuthParameters"].write(value.oAuthParameters, with: CloudWatchEventsClientTypes.CreateConnectionOAuthRequestParameters.write(value:to:))
+    }
+}
+
+extension CloudWatchEventsClientTypes.CreateConnectionBasicAuthRequestParameters {
+
+    static func write(value: CloudWatchEventsClientTypes.CreateConnectionBasicAuthRequestParameters?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["Password"].write(value.password)
+        try writer["Username"].write(value.username)
+    }
+}
+
+extension CloudWatchEventsClientTypes.CreateConnectionOAuthClientRequestParameters {
+
+    static func write(value: CloudWatchEventsClientTypes.CreateConnectionOAuthClientRequestParameters?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["ClientID"].write(value.clientID)
+        try writer["ClientSecret"].write(value.clientSecret)
+    }
+}
+
+extension CloudWatchEventsClientTypes.CreateConnectionOAuthRequestParameters {
+
+    static func write(value: CloudWatchEventsClientTypes.CreateConnectionOAuthRequestParameters?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["AuthorizationEndpoint"].write(value.authorizationEndpoint)
+        try writer["ClientParameters"].write(value.clientParameters, with: CloudWatchEventsClientTypes.CreateConnectionOAuthClientRequestParameters.write(value:to:))
+        try writer["HttpMethod"].write(value.httpMethod)
+        try writer["OAuthHttpParameters"].write(value.oAuthHttpParameters, with: CloudWatchEventsClientTypes.ConnectionHttpParameters.write(value:to:))
+    }
+}
+
+extension CloudWatchEventsClientTypes.DeadLetterConfig {
+
+    static func write(value: CloudWatchEventsClientTypes.DeadLetterConfig?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["Arn"].write(value.arn)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> CloudWatchEventsClientTypes.DeadLetterConfig {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = CloudWatchEventsClientTypes.DeadLetterConfig()
+        value.arn = try reader["Arn"].readIfPresent()
+        return value
+    }
+}
+
+extension CloudWatchEventsClientTypes.EcsParameters {
+
+    static func write(value: CloudWatchEventsClientTypes.EcsParameters?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["CapacityProviderStrategy"].writeList(value.capacityProviderStrategy, memberWritingClosure: CloudWatchEventsClientTypes.CapacityProviderStrategyItem.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["EnableECSManagedTags"].write(value.enableECSManagedTags)
+        try writer["EnableExecuteCommand"].write(value.enableExecuteCommand)
+        try writer["Group"].write(value.group)
+        try writer["LaunchType"].write(value.launchType)
+        try writer["NetworkConfiguration"].write(value.networkConfiguration, with: CloudWatchEventsClientTypes.NetworkConfiguration.write(value:to:))
+        try writer["PlacementConstraints"].writeList(value.placementConstraints, memberWritingClosure: CloudWatchEventsClientTypes.PlacementConstraint.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["PlacementStrategy"].writeList(value.placementStrategy, memberWritingClosure: CloudWatchEventsClientTypes.PlacementStrategy.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["PlatformVersion"].write(value.platformVersion)
+        try writer["PropagateTags"].write(value.propagateTags)
+        try writer["ReferenceId"].write(value.referenceId)
+        try writer["Tags"].writeList(value.tags, memberWritingClosure: CloudWatchEventsClientTypes.Tag.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["TaskCount"].write(value.taskCount)
+        try writer["TaskDefinitionArn"].write(value.taskDefinitionArn)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> CloudWatchEventsClientTypes.EcsParameters {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = CloudWatchEventsClientTypes.EcsParameters()
+        value.taskDefinitionArn = try reader["TaskDefinitionArn"].readIfPresent() ?? ""
+        value.taskCount = try reader["TaskCount"].readIfPresent()
+        value.launchType = try reader["LaunchType"].readIfPresent()
+        value.networkConfiguration = try reader["NetworkConfiguration"].readIfPresent(with: CloudWatchEventsClientTypes.NetworkConfiguration.read(from:))
+        value.platformVersion = try reader["PlatformVersion"].readIfPresent()
+        value.group = try reader["Group"].readIfPresent()
+        value.capacityProviderStrategy = try reader["CapacityProviderStrategy"].readListIfPresent(memberReadingClosure: CloudWatchEventsClientTypes.CapacityProviderStrategyItem.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.enableECSManagedTags = try reader["EnableECSManagedTags"].readIfPresent() ?? false
+        value.enableExecuteCommand = try reader["EnableExecuteCommand"].readIfPresent() ?? false
+        value.placementConstraints = try reader["PlacementConstraints"].readListIfPresent(memberReadingClosure: CloudWatchEventsClientTypes.PlacementConstraint.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.placementStrategy = try reader["PlacementStrategy"].readListIfPresent(memberReadingClosure: CloudWatchEventsClientTypes.PlacementStrategy.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.propagateTags = try reader["PropagateTags"].readIfPresent()
+        value.referenceId = try reader["ReferenceId"].readIfPresent()
+        value.tags = try reader["Tags"].readListIfPresent(memberReadingClosure: CloudWatchEventsClientTypes.Tag.read(from:), memberNodeInfo: "member", isFlattened: false)
         return value
     }
 }
@@ -6929,6 +7116,83 @@ extension CloudWatchEventsClientTypes.EventSource {
     }
 }
 
+extension CloudWatchEventsClientTypes.HttpParameters {
+
+    static func write(value: CloudWatchEventsClientTypes.HttpParameters?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["HeaderParameters"].writeMap(value.headerParameters, valueWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+        try writer["PathParameterValues"].writeList(value.pathParameterValues, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["QueryStringParameters"].writeMap(value.queryStringParameters, valueWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> CloudWatchEventsClientTypes.HttpParameters {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = CloudWatchEventsClientTypes.HttpParameters()
+        value.pathParameterValues = try reader["PathParameterValues"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        value.headerParameters = try reader["HeaderParameters"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+        value.queryStringParameters = try reader["QueryStringParameters"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+        return value
+    }
+}
+
+extension CloudWatchEventsClientTypes.InputTransformer {
+
+    static func write(value: CloudWatchEventsClientTypes.InputTransformer?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["InputPathsMap"].writeMap(value.inputPathsMap, valueWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+        try writer["InputTemplate"].write(value.inputTemplate)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> CloudWatchEventsClientTypes.InputTransformer {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = CloudWatchEventsClientTypes.InputTransformer()
+        value.inputPathsMap = try reader["InputPathsMap"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+        value.inputTemplate = try reader["InputTemplate"].readIfPresent() ?? ""
+        return value
+    }
+}
+
+extension CloudWatchEventsClientTypes.KinesisParameters {
+
+    static func write(value: CloudWatchEventsClientTypes.KinesisParameters?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["PartitionKeyPath"].write(value.partitionKeyPath)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> CloudWatchEventsClientTypes.KinesisParameters {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = CloudWatchEventsClientTypes.KinesisParameters()
+        value.partitionKeyPath = try reader["PartitionKeyPath"].readIfPresent() ?? ""
+        return value
+    }
+}
+
+extension CloudWatchEventsClientTypes.NetworkConfiguration {
+
+    static func write(value: CloudWatchEventsClientTypes.NetworkConfiguration?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["awsvpcConfiguration"].write(value.awsvpcConfiguration, with: CloudWatchEventsClientTypes.AwsVpcConfiguration.write(value:to:))
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> CloudWatchEventsClientTypes.NetworkConfiguration {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = CloudWatchEventsClientTypes.NetworkConfiguration()
+        value.awsvpcConfiguration = try reader["awsvpcConfiguration"].readIfPresent(with: CloudWatchEventsClientTypes.AwsVpcConfiguration.read(from:))
+        return value
+    }
+}
+
+extension CloudWatchEventsClientTypes.PartnerEventSource {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> CloudWatchEventsClientTypes.PartnerEventSource {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = CloudWatchEventsClientTypes.PartnerEventSource()
+        value.arn = try reader["Arn"].readIfPresent()
+        value.name = try reader["Name"].readIfPresent()
+        return value
+    }
+}
+
 extension CloudWatchEventsClientTypes.PartnerEventSourceAccount {
 
     static func read(from reader: SmithyJSON.Reader) throws -> CloudWatchEventsClientTypes.PartnerEventSourceAccount {
@@ -6942,13 +7206,135 @@ extension CloudWatchEventsClientTypes.PartnerEventSourceAccount {
     }
 }
 
-extension CloudWatchEventsClientTypes.PartnerEventSource {
+extension CloudWatchEventsClientTypes.PlacementConstraint {
 
-    static func read(from reader: SmithyJSON.Reader) throws -> CloudWatchEventsClientTypes.PartnerEventSource {
+    static func write(value: CloudWatchEventsClientTypes.PlacementConstraint?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["expression"].write(value.expression)
+        try writer["type"].write(value.type)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> CloudWatchEventsClientTypes.PlacementConstraint {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = CloudWatchEventsClientTypes.PartnerEventSource()
-        value.arn = try reader["Arn"].readIfPresent()
-        value.name = try reader["Name"].readIfPresent()
+        var value = CloudWatchEventsClientTypes.PlacementConstraint()
+        value.type = try reader["type"].readIfPresent()
+        value.expression = try reader["expression"].readIfPresent()
+        return value
+    }
+}
+
+extension CloudWatchEventsClientTypes.PlacementStrategy {
+
+    static func write(value: CloudWatchEventsClientTypes.PlacementStrategy?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["field"].write(value.field)
+        try writer["type"].write(value.type)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> CloudWatchEventsClientTypes.PlacementStrategy {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = CloudWatchEventsClientTypes.PlacementStrategy()
+        value.type = try reader["type"].readIfPresent()
+        value.field = try reader["field"].readIfPresent()
+        return value
+    }
+}
+
+extension CloudWatchEventsClientTypes.PutEventsRequestEntry {
+
+    static func write(value: CloudWatchEventsClientTypes.PutEventsRequestEntry?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["Detail"].write(value.detail)
+        try writer["DetailType"].write(value.detailType)
+        try writer["EventBusName"].write(value.eventBusName)
+        try writer["Resources"].writeList(value.resources, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["Source"].write(value.source)
+        try writer["Time"].writeTimestamp(value.time, format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        try writer["TraceHeader"].write(value.traceHeader)
+    }
+}
+
+extension CloudWatchEventsClientTypes.PutEventsResultEntry {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> CloudWatchEventsClientTypes.PutEventsResultEntry {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = CloudWatchEventsClientTypes.PutEventsResultEntry()
+        value.eventId = try reader["EventId"].readIfPresent()
+        value.errorCode = try reader["ErrorCode"].readIfPresent()
+        value.errorMessage = try reader["ErrorMessage"].readIfPresent()
+        return value
+    }
+}
+
+extension CloudWatchEventsClientTypes.PutPartnerEventsRequestEntry {
+
+    static func write(value: CloudWatchEventsClientTypes.PutPartnerEventsRequestEntry?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["Detail"].write(value.detail)
+        try writer["DetailType"].write(value.detailType)
+        try writer["Resources"].writeList(value.resources, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["Source"].write(value.source)
+        try writer["Time"].writeTimestamp(value.time, format: SmithyTimestamps.TimestampFormat.epochSeconds)
+    }
+}
+
+extension CloudWatchEventsClientTypes.PutPartnerEventsResultEntry {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> CloudWatchEventsClientTypes.PutPartnerEventsResultEntry {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = CloudWatchEventsClientTypes.PutPartnerEventsResultEntry()
+        value.eventId = try reader["EventId"].readIfPresent()
+        value.errorCode = try reader["ErrorCode"].readIfPresent()
+        value.errorMessage = try reader["ErrorMessage"].readIfPresent()
+        return value
+    }
+}
+
+extension CloudWatchEventsClientTypes.PutTargetsResultEntry {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> CloudWatchEventsClientTypes.PutTargetsResultEntry {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = CloudWatchEventsClientTypes.PutTargetsResultEntry()
+        value.targetId = try reader["TargetId"].readIfPresent()
+        value.errorCode = try reader["ErrorCode"].readIfPresent()
+        value.errorMessage = try reader["ErrorMessage"].readIfPresent()
+        return value
+    }
+}
+
+extension CloudWatchEventsClientTypes.RedshiftDataParameters {
+
+    static func write(value: CloudWatchEventsClientTypes.RedshiftDataParameters?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["Database"].write(value.database)
+        try writer["DbUser"].write(value.dbUser)
+        try writer["SecretManagerArn"].write(value.secretManagerArn)
+        try writer["Sql"].write(value.sql)
+        try writer["StatementName"].write(value.statementName)
+        try writer["WithEvent"].write(value.withEvent)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> CloudWatchEventsClientTypes.RedshiftDataParameters {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = CloudWatchEventsClientTypes.RedshiftDataParameters()
+        value.secretManagerArn = try reader["SecretManagerArn"].readIfPresent()
+        value.database = try reader["Database"].readIfPresent() ?? ""
+        value.dbUser = try reader["DbUser"].readIfPresent()
+        value.sql = try reader["Sql"].readIfPresent() ?? ""
+        value.statementName = try reader["StatementName"].readIfPresent()
+        value.withEvent = try reader["WithEvent"].readIfPresent() ?? false
+        return value
+    }
+}
+
+extension CloudWatchEventsClientTypes.RemoveTargetsResultEntry {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> CloudWatchEventsClientTypes.RemoveTargetsResultEntry {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = CloudWatchEventsClientTypes.RemoveTargetsResultEntry()
+        value.targetId = try reader["TargetId"].readIfPresent()
+        value.errorCode = try reader["ErrorCode"].readIfPresent()
+        value.errorMessage = try reader["ErrorMessage"].readIfPresent()
         return value
     }
 }
@@ -6971,6 +7357,40 @@ extension CloudWatchEventsClientTypes.Replay {
     }
 }
 
+extension CloudWatchEventsClientTypes.ReplayDestination {
+
+    static func write(value: CloudWatchEventsClientTypes.ReplayDestination?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["Arn"].write(value.arn)
+        try writer["FilterArns"].writeList(value.filterArns, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> CloudWatchEventsClientTypes.ReplayDestination {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = CloudWatchEventsClientTypes.ReplayDestination()
+        value.arn = try reader["Arn"].readIfPresent() ?? ""
+        value.filterArns = try reader["FilterArns"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        return value
+    }
+}
+
+extension CloudWatchEventsClientTypes.RetryPolicy {
+
+    static func write(value: CloudWatchEventsClientTypes.RetryPolicy?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["MaximumEventAgeInSeconds"].write(value.maximumEventAgeInSeconds)
+        try writer["MaximumRetryAttempts"].write(value.maximumRetryAttempts)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> CloudWatchEventsClientTypes.RetryPolicy {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = CloudWatchEventsClientTypes.RetryPolicy()
+        value.maximumRetryAttempts = try reader["MaximumRetryAttempts"].readIfPresent()
+        value.maximumEventAgeInSeconds = try reader["MaximumEventAgeInSeconds"].readIfPresent()
+        return value
+    }
+}
+
 extension CloudWatchEventsClientTypes.Rule {
 
     static func read(from reader: SmithyJSON.Reader) throws -> CloudWatchEventsClientTypes.Rule {
@@ -6985,6 +7405,85 @@ extension CloudWatchEventsClientTypes.Rule {
         value.roleArn = try reader["RoleArn"].readIfPresent()
         value.managedBy = try reader["ManagedBy"].readIfPresent()
         value.eventBusName = try reader["EventBusName"].readIfPresent()
+        return value
+    }
+}
+
+extension CloudWatchEventsClientTypes.RunCommandParameters {
+
+    static func write(value: CloudWatchEventsClientTypes.RunCommandParameters?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["RunCommandTargets"].writeList(value.runCommandTargets, memberWritingClosure: CloudWatchEventsClientTypes.RunCommandTarget.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> CloudWatchEventsClientTypes.RunCommandParameters {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = CloudWatchEventsClientTypes.RunCommandParameters()
+        value.runCommandTargets = try reader["RunCommandTargets"].readListIfPresent(memberReadingClosure: CloudWatchEventsClientTypes.RunCommandTarget.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        return value
+    }
+}
+
+extension CloudWatchEventsClientTypes.RunCommandTarget {
+
+    static func write(value: CloudWatchEventsClientTypes.RunCommandTarget?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["Key"].write(value.key)
+        try writer["Values"].writeList(value.values, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> CloudWatchEventsClientTypes.RunCommandTarget {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = CloudWatchEventsClientTypes.RunCommandTarget()
+        value.key = try reader["Key"].readIfPresent() ?? ""
+        value.values = try reader["Values"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        return value
+    }
+}
+
+extension CloudWatchEventsClientTypes.SageMakerPipelineParameter {
+
+    static func write(value: CloudWatchEventsClientTypes.SageMakerPipelineParameter?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["Name"].write(value.name)
+        try writer["Value"].write(value.value)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> CloudWatchEventsClientTypes.SageMakerPipelineParameter {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = CloudWatchEventsClientTypes.SageMakerPipelineParameter()
+        value.name = try reader["Name"].readIfPresent() ?? ""
+        value.value = try reader["Value"].readIfPresent() ?? ""
+        return value
+    }
+}
+
+extension CloudWatchEventsClientTypes.SageMakerPipelineParameters {
+
+    static func write(value: CloudWatchEventsClientTypes.SageMakerPipelineParameters?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["PipelineParameterList"].writeList(value.pipelineParameterList, memberWritingClosure: CloudWatchEventsClientTypes.SageMakerPipelineParameter.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> CloudWatchEventsClientTypes.SageMakerPipelineParameters {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = CloudWatchEventsClientTypes.SageMakerPipelineParameters()
+        value.pipelineParameterList = try reader["PipelineParameterList"].readListIfPresent(memberReadingClosure: CloudWatchEventsClientTypes.SageMakerPipelineParameter.read(from:), memberNodeInfo: "member", isFlattened: false)
+        return value
+    }
+}
+
+extension CloudWatchEventsClientTypes.SqsParameters {
+
+    static func write(value: CloudWatchEventsClientTypes.SqsParameters?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["MessageGroupId"].write(value.messageGroupId)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> CloudWatchEventsClientTypes.SqsParameters {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = CloudWatchEventsClientTypes.SqsParameters()
+        value.messageGroupId = try reader["MessageGroupId"].readIfPresent()
         return value
     }
 }
@@ -7051,502 +7550,12 @@ extension CloudWatchEventsClientTypes.Target {
     }
 }
 
-extension CloudWatchEventsClientTypes.RetryPolicy {
+extension CloudWatchEventsClientTypes.UpdateConnectionApiKeyAuthRequestParameters {
 
-    static func write(value: CloudWatchEventsClientTypes.RetryPolicy?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["MaximumEventAgeInSeconds"].write(value.maximumEventAgeInSeconds)
-        try writer["MaximumRetryAttempts"].write(value.maximumRetryAttempts)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> CloudWatchEventsClientTypes.RetryPolicy {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = CloudWatchEventsClientTypes.RetryPolicy()
-        value.maximumRetryAttempts = try reader["MaximumRetryAttempts"].readIfPresent()
-        value.maximumEventAgeInSeconds = try reader["MaximumEventAgeInSeconds"].readIfPresent()
-        return value
-    }
-}
-
-extension CloudWatchEventsClientTypes.DeadLetterConfig {
-
-    static func write(value: CloudWatchEventsClientTypes.DeadLetterConfig?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["Arn"].write(value.arn)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> CloudWatchEventsClientTypes.DeadLetterConfig {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = CloudWatchEventsClientTypes.DeadLetterConfig()
-        value.arn = try reader["Arn"].readIfPresent()
-        return value
-    }
-}
-
-extension CloudWatchEventsClientTypes.SageMakerPipelineParameters {
-
-    static func write(value: CloudWatchEventsClientTypes.SageMakerPipelineParameters?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["PipelineParameterList"].writeList(value.pipelineParameterList, memberWritingClosure: CloudWatchEventsClientTypes.SageMakerPipelineParameter.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> CloudWatchEventsClientTypes.SageMakerPipelineParameters {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = CloudWatchEventsClientTypes.SageMakerPipelineParameters()
-        value.pipelineParameterList = try reader["PipelineParameterList"].readListIfPresent(memberReadingClosure: CloudWatchEventsClientTypes.SageMakerPipelineParameter.read(from:), memberNodeInfo: "member", isFlattened: false)
-        return value
-    }
-}
-
-extension CloudWatchEventsClientTypes.SageMakerPipelineParameter {
-
-    static func write(value: CloudWatchEventsClientTypes.SageMakerPipelineParameter?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["Name"].write(value.name)
-        try writer["Value"].write(value.value)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> CloudWatchEventsClientTypes.SageMakerPipelineParameter {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = CloudWatchEventsClientTypes.SageMakerPipelineParameter()
-        value.name = try reader["Name"].readIfPresent() ?? ""
-        value.value = try reader["Value"].readIfPresent() ?? ""
-        return value
-    }
-}
-
-extension CloudWatchEventsClientTypes.RedshiftDataParameters {
-
-    static func write(value: CloudWatchEventsClientTypes.RedshiftDataParameters?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["Database"].write(value.database)
-        try writer["DbUser"].write(value.dbUser)
-        try writer["SecretManagerArn"].write(value.secretManagerArn)
-        try writer["Sql"].write(value.sql)
-        try writer["StatementName"].write(value.statementName)
-        try writer["WithEvent"].write(value.withEvent)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> CloudWatchEventsClientTypes.RedshiftDataParameters {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = CloudWatchEventsClientTypes.RedshiftDataParameters()
-        value.secretManagerArn = try reader["SecretManagerArn"].readIfPresent()
-        value.database = try reader["Database"].readIfPresent() ?? ""
-        value.dbUser = try reader["DbUser"].readIfPresent()
-        value.sql = try reader["Sql"].readIfPresent() ?? ""
-        value.statementName = try reader["StatementName"].readIfPresent()
-        value.withEvent = try reader["WithEvent"].readIfPresent() ?? false
-        return value
-    }
-}
-
-extension CloudWatchEventsClientTypes.HttpParameters {
-
-    static func write(value: CloudWatchEventsClientTypes.HttpParameters?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["HeaderParameters"].writeMap(value.headerParameters, valueWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
-        try writer["PathParameterValues"].writeList(value.pathParameterValues, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["QueryStringParameters"].writeMap(value.queryStringParameters, valueWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> CloudWatchEventsClientTypes.HttpParameters {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = CloudWatchEventsClientTypes.HttpParameters()
-        value.pathParameterValues = try reader["PathParameterValues"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
-        value.headerParameters = try reader["HeaderParameters"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
-        value.queryStringParameters = try reader["QueryStringParameters"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
-        return value
-    }
-}
-
-extension CloudWatchEventsClientTypes.SqsParameters {
-
-    static func write(value: CloudWatchEventsClientTypes.SqsParameters?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["MessageGroupId"].write(value.messageGroupId)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> CloudWatchEventsClientTypes.SqsParameters {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = CloudWatchEventsClientTypes.SqsParameters()
-        value.messageGroupId = try reader["MessageGroupId"].readIfPresent()
-        return value
-    }
-}
-
-extension CloudWatchEventsClientTypes.BatchParameters {
-
-    static func write(value: CloudWatchEventsClientTypes.BatchParameters?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["ArrayProperties"].write(value.arrayProperties, with: CloudWatchEventsClientTypes.BatchArrayProperties.write(value:to:))
-        try writer["JobDefinition"].write(value.jobDefinition)
-        try writer["JobName"].write(value.jobName)
-        try writer["RetryStrategy"].write(value.retryStrategy, with: CloudWatchEventsClientTypes.BatchRetryStrategy.write(value:to:))
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> CloudWatchEventsClientTypes.BatchParameters {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = CloudWatchEventsClientTypes.BatchParameters()
-        value.jobDefinition = try reader["JobDefinition"].readIfPresent() ?? ""
-        value.jobName = try reader["JobName"].readIfPresent() ?? ""
-        value.arrayProperties = try reader["ArrayProperties"].readIfPresent(with: CloudWatchEventsClientTypes.BatchArrayProperties.read(from:))
-        value.retryStrategy = try reader["RetryStrategy"].readIfPresent(with: CloudWatchEventsClientTypes.BatchRetryStrategy.read(from:))
-        return value
-    }
-}
-
-extension CloudWatchEventsClientTypes.BatchRetryStrategy {
-
-    static func write(value: CloudWatchEventsClientTypes.BatchRetryStrategy?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["Attempts"].write(value.attempts)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> CloudWatchEventsClientTypes.BatchRetryStrategy {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = CloudWatchEventsClientTypes.BatchRetryStrategy()
-        value.attempts = try reader["Attempts"].readIfPresent() ?? 0
-        return value
-    }
-}
-
-extension CloudWatchEventsClientTypes.BatchArrayProperties {
-
-    static func write(value: CloudWatchEventsClientTypes.BatchArrayProperties?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["Size"].write(value.size)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> CloudWatchEventsClientTypes.BatchArrayProperties {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = CloudWatchEventsClientTypes.BatchArrayProperties()
-        value.size = try reader["Size"].readIfPresent() ?? 0
-        return value
-    }
-}
-
-extension CloudWatchEventsClientTypes.EcsParameters {
-
-    static func write(value: CloudWatchEventsClientTypes.EcsParameters?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["CapacityProviderStrategy"].writeList(value.capacityProviderStrategy, memberWritingClosure: CloudWatchEventsClientTypes.CapacityProviderStrategyItem.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["EnableECSManagedTags"].write(value.enableECSManagedTags)
-        try writer["EnableExecuteCommand"].write(value.enableExecuteCommand)
-        try writer["Group"].write(value.group)
-        try writer["LaunchType"].write(value.launchType)
-        try writer["NetworkConfiguration"].write(value.networkConfiguration, with: CloudWatchEventsClientTypes.NetworkConfiguration.write(value:to:))
-        try writer["PlacementConstraints"].writeList(value.placementConstraints, memberWritingClosure: CloudWatchEventsClientTypes.PlacementConstraint.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["PlacementStrategy"].writeList(value.placementStrategy, memberWritingClosure: CloudWatchEventsClientTypes.PlacementStrategy.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["PlatformVersion"].write(value.platformVersion)
-        try writer["PropagateTags"].write(value.propagateTags)
-        try writer["ReferenceId"].write(value.referenceId)
-        try writer["Tags"].writeList(value.tags, memberWritingClosure: CloudWatchEventsClientTypes.Tag.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["TaskCount"].write(value.taskCount)
-        try writer["TaskDefinitionArn"].write(value.taskDefinitionArn)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> CloudWatchEventsClientTypes.EcsParameters {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = CloudWatchEventsClientTypes.EcsParameters()
-        value.taskDefinitionArn = try reader["TaskDefinitionArn"].readIfPresent() ?? ""
-        value.taskCount = try reader["TaskCount"].readIfPresent()
-        value.launchType = try reader["LaunchType"].readIfPresent()
-        value.networkConfiguration = try reader["NetworkConfiguration"].readIfPresent(with: CloudWatchEventsClientTypes.NetworkConfiguration.read(from:))
-        value.platformVersion = try reader["PlatformVersion"].readIfPresent()
-        value.group = try reader["Group"].readIfPresent()
-        value.capacityProviderStrategy = try reader["CapacityProviderStrategy"].readListIfPresent(memberReadingClosure: CloudWatchEventsClientTypes.CapacityProviderStrategyItem.read(from:), memberNodeInfo: "member", isFlattened: false)
-        value.enableECSManagedTags = try reader["EnableECSManagedTags"].readIfPresent() ?? false
-        value.enableExecuteCommand = try reader["EnableExecuteCommand"].readIfPresent() ?? false
-        value.placementConstraints = try reader["PlacementConstraints"].readListIfPresent(memberReadingClosure: CloudWatchEventsClientTypes.PlacementConstraint.read(from:), memberNodeInfo: "member", isFlattened: false)
-        value.placementStrategy = try reader["PlacementStrategy"].readListIfPresent(memberReadingClosure: CloudWatchEventsClientTypes.PlacementStrategy.read(from:), memberNodeInfo: "member", isFlattened: false)
-        value.propagateTags = try reader["PropagateTags"].readIfPresent()
-        value.referenceId = try reader["ReferenceId"].readIfPresent()
-        value.tags = try reader["Tags"].readListIfPresent(memberReadingClosure: CloudWatchEventsClientTypes.Tag.read(from:), memberNodeInfo: "member", isFlattened: false)
-        return value
-    }
-}
-
-extension CloudWatchEventsClientTypes.PlacementStrategy {
-
-    static func write(value: CloudWatchEventsClientTypes.PlacementStrategy?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["field"].write(value.field)
-        try writer["type"].write(value.type)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> CloudWatchEventsClientTypes.PlacementStrategy {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = CloudWatchEventsClientTypes.PlacementStrategy()
-        value.type = try reader["type"].readIfPresent()
-        value.field = try reader["field"].readIfPresent()
-        return value
-    }
-}
-
-extension CloudWatchEventsClientTypes.PlacementConstraint {
-
-    static func write(value: CloudWatchEventsClientTypes.PlacementConstraint?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["expression"].write(value.expression)
-        try writer["type"].write(value.type)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> CloudWatchEventsClientTypes.PlacementConstraint {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = CloudWatchEventsClientTypes.PlacementConstraint()
-        value.type = try reader["type"].readIfPresent()
-        value.expression = try reader["expression"].readIfPresent()
-        return value
-    }
-}
-
-extension CloudWatchEventsClientTypes.CapacityProviderStrategyItem {
-
-    static func write(value: CloudWatchEventsClientTypes.CapacityProviderStrategyItem?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["base"].write(value.base)
-        try writer["capacityProvider"].write(value.capacityProvider)
-        try writer["weight"].write(value.weight)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> CloudWatchEventsClientTypes.CapacityProviderStrategyItem {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = CloudWatchEventsClientTypes.CapacityProviderStrategyItem()
-        value.capacityProvider = try reader["capacityProvider"].readIfPresent() ?? ""
-        value.weight = try reader["weight"].readIfPresent() ?? 0
-        value.base = try reader["base"].readIfPresent() ?? 0
-        return value
-    }
-}
-
-extension CloudWatchEventsClientTypes.NetworkConfiguration {
-
-    static func write(value: CloudWatchEventsClientTypes.NetworkConfiguration?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["awsvpcConfiguration"].write(value.awsvpcConfiguration, with: CloudWatchEventsClientTypes.AwsVpcConfiguration.write(value:to:))
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> CloudWatchEventsClientTypes.NetworkConfiguration {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = CloudWatchEventsClientTypes.NetworkConfiguration()
-        value.awsvpcConfiguration = try reader["awsvpcConfiguration"].readIfPresent(with: CloudWatchEventsClientTypes.AwsVpcConfiguration.read(from:))
-        return value
-    }
-}
-
-extension CloudWatchEventsClientTypes.AwsVpcConfiguration {
-
-    static func write(value: CloudWatchEventsClientTypes.AwsVpcConfiguration?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["AssignPublicIp"].write(value.assignPublicIp)
-        try writer["SecurityGroups"].writeList(value.securityGroups, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["Subnets"].writeList(value.subnets, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> CloudWatchEventsClientTypes.AwsVpcConfiguration {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = CloudWatchEventsClientTypes.AwsVpcConfiguration()
-        value.subnets = try reader["Subnets"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false) ?? []
-        value.securityGroups = try reader["SecurityGroups"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
-        value.assignPublicIp = try reader["AssignPublicIp"].readIfPresent()
-        return value
-    }
-}
-
-extension CloudWatchEventsClientTypes.RunCommandParameters {
-
-    static func write(value: CloudWatchEventsClientTypes.RunCommandParameters?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["RunCommandTargets"].writeList(value.runCommandTargets, memberWritingClosure: CloudWatchEventsClientTypes.RunCommandTarget.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> CloudWatchEventsClientTypes.RunCommandParameters {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = CloudWatchEventsClientTypes.RunCommandParameters()
-        value.runCommandTargets = try reader["RunCommandTargets"].readListIfPresent(memberReadingClosure: CloudWatchEventsClientTypes.RunCommandTarget.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
-        return value
-    }
-}
-
-extension CloudWatchEventsClientTypes.RunCommandTarget {
-
-    static func write(value: CloudWatchEventsClientTypes.RunCommandTarget?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["Key"].write(value.key)
-        try writer["Values"].writeList(value.values, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> CloudWatchEventsClientTypes.RunCommandTarget {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = CloudWatchEventsClientTypes.RunCommandTarget()
-        value.key = try reader["Key"].readIfPresent() ?? ""
-        value.values = try reader["Values"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false) ?? []
-        return value
-    }
-}
-
-extension CloudWatchEventsClientTypes.KinesisParameters {
-
-    static func write(value: CloudWatchEventsClientTypes.KinesisParameters?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["PartitionKeyPath"].write(value.partitionKeyPath)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> CloudWatchEventsClientTypes.KinesisParameters {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = CloudWatchEventsClientTypes.KinesisParameters()
-        value.partitionKeyPath = try reader["PartitionKeyPath"].readIfPresent() ?? ""
-        return value
-    }
-}
-
-extension CloudWatchEventsClientTypes.InputTransformer {
-
-    static func write(value: CloudWatchEventsClientTypes.InputTransformer?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["InputPathsMap"].writeMap(value.inputPathsMap, valueWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
-        try writer["InputTemplate"].write(value.inputTemplate)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> CloudWatchEventsClientTypes.InputTransformer {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = CloudWatchEventsClientTypes.InputTransformer()
-        value.inputPathsMap = try reader["InputPathsMap"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
-        value.inputTemplate = try reader["InputTemplate"].readIfPresent() ?? ""
-        return value
-    }
-}
-
-extension CloudWatchEventsClientTypes.PutEventsResultEntry {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> CloudWatchEventsClientTypes.PutEventsResultEntry {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = CloudWatchEventsClientTypes.PutEventsResultEntry()
-        value.eventId = try reader["EventId"].readIfPresent()
-        value.errorCode = try reader["ErrorCode"].readIfPresent()
-        value.errorMessage = try reader["ErrorMessage"].readIfPresent()
-        return value
-    }
-}
-
-extension CloudWatchEventsClientTypes.PutPartnerEventsResultEntry {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> CloudWatchEventsClientTypes.PutPartnerEventsResultEntry {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = CloudWatchEventsClientTypes.PutPartnerEventsResultEntry()
-        value.eventId = try reader["EventId"].readIfPresent()
-        value.errorCode = try reader["ErrorCode"].readIfPresent()
-        value.errorMessage = try reader["ErrorMessage"].readIfPresent()
-        return value
-    }
-}
-
-extension CloudWatchEventsClientTypes.PutTargetsResultEntry {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> CloudWatchEventsClientTypes.PutTargetsResultEntry {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = CloudWatchEventsClientTypes.PutTargetsResultEntry()
-        value.targetId = try reader["TargetId"].readIfPresent()
-        value.errorCode = try reader["ErrorCode"].readIfPresent()
-        value.errorMessage = try reader["ErrorMessage"].readIfPresent()
-        return value
-    }
-}
-
-extension CloudWatchEventsClientTypes.RemoveTargetsResultEntry {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> CloudWatchEventsClientTypes.RemoveTargetsResultEntry {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = CloudWatchEventsClientTypes.RemoveTargetsResultEntry()
-        value.targetId = try reader["TargetId"].readIfPresent()
-        value.errorCode = try reader["ErrorCode"].readIfPresent()
-        value.errorMessage = try reader["ErrorMessage"].readIfPresent()
-        return value
-    }
-}
-
-extension CloudWatchEventsClientTypes.CreateConnectionAuthRequestParameters {
-
-    static func write(value: CloudWatchEventsClientTypes.CreateConnectionAuthRequestParameters?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["ApiKeyAuthParameters"].write(value.apiKeyAuthParameters, with: CloudWatchEventsClientTypes.CreateConnectionApiKeyAuthRequestParameters.write(value:to:))
-        try writer["BasicAuthParameters"].write(value.basicAuthParameters, with: CloudWatchEventsClientTypes.CreateConnectionBasicAuthRequestParameters.write(value:to:))
-        try writer["InvocationHttpParameters"].write(value.invocationHttpParameters, with: CloudWatchEventsClientTypes.ConnectionHttpParameters.write(value:to:))
-        try writer["OAuthParameters"].write(value.oAuthParameters, with: CloudWatchEventsClientTypes.CreateConnectionOAuthRequestParameters.write(value:to:))
-    }
-}
-
-extension CloudWatchEventsClientTypes.CreateConnectionApiKeyAuthRequestParameters {
-
-    static func write(value: CloudWatchEventsClientTypes.CreateConnectionApiKeyAuthRequestParameters?, to writer: SmithyJSON.Writer) throws {
+    static func write(value: CloudWatchEventsClientTypes.UpdateConnectionApiKeyAuthRequestParameters?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
         try writer["ApiKeyName"].write(value.apiKeyName)
         try writer["ApiKeyValue"].write(value.apiKeyValue)
-    }
-}
-
-extension CloudWatchEventsClientTypes.CreateConnectionOAuthRequestParameters {
-
-    static func write(value: CloudWatchEventsClientTypes.CreateConnectionOAuthRequestParameters?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["AuthorizationEndpoint"].write(value.authorizationEndpoint)
-        try writer["ClientParameters"].write(value.clientParameters, with: CloudWatchEventsClientTypes.CreateConnectionOAuthClientRequestParameters.write(value:to:))
-        try writer["HttpMethod"].write(value.httpMethod)
-        try writer["OAuthHttpParameters"].write(value.oAuthHttpParameters, with: CloudWatchEventsClientTypes.ConnectionHttpParameters.write(value:to:))
-    }
-}
-
-extension CloudWatchEventsClientTypes.CreateConnectionOAuthClientRequestParameters {
-
-    static func write(value: CloudWatchEventsClientTypes.CreateConnectionOAuthClientRequestParameters?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["ClientID"].write(value.clientID)
-        try writer["ClientSecret"].write(value.clientSecret)
-    }
-}
-
-extension CloudWatchEventsClientTypes.CreateConnectionBasicAuthRequestParameters {
-
-    static func write(value: CloudWatchEventsClientTypes.CreateConnectionBasicAuthRequestParameters?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["Password"].write(value.password)
-        try writer["Username"].write(value.username)
-    }
-}
-
-extension CloudWatchEventsClientTypes.PutEventsRequestEntry {
-
-    static func write(value: CloudWatchEventsClientTypes.PutEventsRequestEntry?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["Detail"].write(value.detail)
-        try writer["DetailType"].write(value.detailType)
-        try writer["EventBusName"].write(value.eventBusName)
-        try writer["Resources"].writeList(value.resources, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["Source"].write(value.source)
-        try writer["Time"].writeTimestamp(value.time, format: SmithyTimestamps.TimestampFormat.epochSeconds)
-        try writer["TraceHeader"].write(value.traceHeader)
-    }
-}
-
-extension CloudWatchEventsClientTypes.PutPartnerEventsRequestEntry {
-
-    static func write(value: CloudWatchEventsClientTypes.PutPartnerEventsRequestEntry?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["Detail"].write(value.detail)
-        try writer["DetailType"].write(value.detailType)
-        try writer["Resources"].writeList(value.resources, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["Source"].write(value.source)
-        try writer["Time"].writeTimestamp(value.time, format: SmithyTimestamps.TimestampFormat.epochSeconds)
-    }
-}
-
-extension CloudWatchEventsClientTypes.Condition {
-
-    static func write(value: CloudWatchEventsClientTypes.Condition?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["Key"].write(value.key)
-        try writer["Type"].write(value.type)
-        try writer["Value"].write(value.value)
     }
 }
 
@@ -7561,23 +7570,12 @@ extension CloudWatchEventsClientTypes.UpdateConnectionAuthRequestParameters {
     }
 }
 
-extension CloudWatchEventsClientTypes.UpdateConnectionApiKeyAuthRequestParameters {
+extension CloudWatchEventsClientTypes.UpdateConnectionBasicAuthRequestParameters {
 
-    static func write(value: CloudWatchEventsClientTypes.UpdateConnectionApiKeyAuthRequestParameters?, to writer: SmithyJSON.Writer) throws {
+    static func write(value: CloudWatchEventsClientTypes.UpdateConnectionBasicAuthRequestParameters?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
-        try writer["ApiKeyName"].write(value.apiKeyName)
-        try writer["ApiKeyValue"].write(value.apiKeyValue)
-    }
-}
-
-extension CloudWatchEventsClientTypes.UpdateConnectionOAuthRequestParameters {
-
-    static func write(value: CloudWatchEventsClientTypes.UpdateConnectionOAuthRequestParameters?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["AuthorizationEndpoint"].write(value.authorizationEndpoint)
-        try writer["ClientParameters"].write(value.clientParameters, with: CloudWatchEventsClientTypes.UpdateConnectionOAuthClientRequestParameters.write(value:to:))
-        try writer["HttpMethod"].write(value.httpMethod)
-        try writer["OAuthHttpParameters"].write(value.oAuthHttpParameters, with: CloudWatchEventsClientTypes.ConnectionHttpParameters.write(value:to:))
+        try writer["Password"].write(value.password)
+        try writer["Username"].write(value.username)
     }
 }
 
@@ -7590,12 +7588,14 @@ extension CloudWatchEventsClientTypes.UpdateConnectionOAuthClientRequestParamete
     }
 }
 
-extension CloudWatchEventsClientTypes.UpdateConnectionBasicAuthRequestParameters {
+extension CloudWatchEventsClientTypes.UpdateConnectionOAuthRequestParameters {
 
-    static func write(value: CloudWatchEventsClientTypes.UpdateConnectionBasicAuthRequestParameters?, to writer: SmithyJSON.Writer) throws {
+    static func write(value: CloudWatchEventsClientTypes.UpdateConnectionOAuthRequestParameters?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
-        try writer["Password"].write(value.password)
-        try writer["Username"].write(value.username)
+        try writer["AuthorizationEndpoint"].write(value.authorizationEndpoint)
+        try writer["ClientParameters"].write(value.clientParameters, with: CloudWatchEventsClientTypes.UpdateConnectionOAuthClientRequestParameters.write(value:to:))
+        try writer["HttpMethod"].write(value.httpMethod)
+        try writer["OAuthHttpParameters"].write(value.oAuthHttpParameters, with: CloudWatchEventsClientTypes.ConnectionHttpParameters.write(value:to:))
     }
 }
 

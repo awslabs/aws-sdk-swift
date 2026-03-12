@@ -22,8 +22,8 @@ import protocol ClientRuntime.HTTPError
 import protocol ClientRuntime.ModeledError
 @_spi(SmithyReadWrite) import protocol SmithyReadWrite.SmithyReader
 @_spi(SmithyReadWrite) import protocol SmithyReadWrite.SmithyWriter
-@_spi(SmithyReadWrite) import struct AWSClientRuntime.AWSJSONError
 @_spi(UnknownAWSHTTPServiceError) import struct AWSClientRuntime.UnknownAWSHTTPServiceError
+@_spi(SmithyReadWrite) import struct ClientRuntime.AWSJSONError
 
 /// You don't have sufficient access to perform this action. Make sure you have the required permissions and try again.
 public struct AccessDeniedException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
@@ -3375,6 +3375,8 @@ public struct CreateOdbPeeringConnectionInput: Swift.Sendable {
     /// The unique identifier of the peer network. This can be either a VPC ID or another ODB network ID.
     /// This member is required.
     public var peerNetworkId: Swift.String?
+    /// The unique identifier of the VPC route table for which a route to the ODB network is automatically created during peering connection establishment.
+    public var peerNetworkRouteTableIds: [Swift.String]?
     /// The tags to assign to the ODB peering connection.
     public var tags: [Swift.String: Swift.String]?
 
@@ -3384,6 +3386,7 @@ public struct CreateOdbPeeringConnectionInput: Swift.Sendable {
         odbNetworkId: Swift.String? = nil,
         peerNetworkCidrsToBeAdded: [Swift.String]? = nil,
         peerNetworkId: Swift.String? = nil,
+        peerNetworkRouteTableIds: [Swift.String]? = nil,
         tags: [Swift.String: Swift.String]? = nil
     ) {
         self.clientToken = clientToken
@@ -3391,6 +3394,7 @@ public struct CreateOdbPeeringConnectionInput: Swift.Sendable {
         self.odbNetworkId = odbNetworkId
         self.peerNetworkCidrsToBeAdded = peerNetworkCidrsToBeAdded
         self.peerNetworkId = peerNetworkId
+        self.peerNetworkRouteTableIds = peerNetworkRouteTableIds
         self.tags = tags
     }
 }
@@ -5740,6 +5744,7 @@ extension CreateOdbPeeringConnectionInput {
         try writer["odbNetworkId"].write(value.odbNetworkId)
         try writer["peerNetworkCidrsToBeAdded"].writeList(value.peerNetworkCidrsToBeAdded, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["peerNetworkId"].write(value.peerNetworkId)
+        try writer["peerNetworkRouteTableIds"].writeList(value.peerNetworkRouteTableIds, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["tags"].writeMap(value.tags, valueWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
     }
 }
@@ -6591,7 +6596,7 @@ enum AcceptMarketplaceRegistrationOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
@@ -6609,7 +6614,7 @@ enum AssociateIamRoleToResourceOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
@@ -6628,7 +6633,7 @@ enum CreateCloudAutonomousVmClusterOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
@@ -6648,7 +6653,7 @@ enum CreateCloudExadataInfrastructureOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
@@ -6667,7 +6672,7 @@ enum CreateCloudVmClusterOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
@@ -6687,7 +6692,7 @@ enum CreateOdbNetworkOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
@@ -6706,7 +6711,7 @@ enum CreateOdbPeeringConnectionOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
@@ -6725,7 +6730,7 @@ enum DeleteCloudAutonomousVmClusterOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
@@ -6743,7 +6748,7 @@ enum DeleteCloudExadataInfrastructureOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
@@ -6762,7 +6767,7 @@ enum DeleteCloudVmClusterOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
@@ -6780,7 +6785,7 @@ enum DeleteOdbNetworkOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
@@ -6798,7 +6803,7 @@ enum DeleteOdbPeeringConnectionOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
@@ -6816,7 +6821,7 @@ enum DisassociateIamRoleFromResourceOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
@@ -6835,7 +6840,7 @@ enum GetCloudAutonomousVmClusterOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
@@ -6853,7 +6858,7 @@ enum GetCloudExadataInfrastructureOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
@@ -6871,7 +6876,7 @@ enum GetCloudExadataInfrastructureUnallocatedResourcesOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
@@ -6889,7 +6894,7 @@ enum GetCloudVmClusterOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
@@ -6907,7 +6912,7 @@ enum GetDbNodeOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
@@ -6925,7 +6930,7 @@ enum GetDbServerOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
@@ -6943,7 +6948,7 @@ enum GetOciOnboardingStatusOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
@@ -6960,7 +6965,7 @@ enum GetOdbNetworkOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
@@ -6978,7 +6983,7 @@ enum GetOdbPeeringConnectionOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
@@ -6996,7 +7001,7 @@ enum InitializeServiceOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
@@ -7013,7 +7018,7 @@ enum ListAutonomousVirtualMachinesOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
@@ -7031,7 +7036,7 @@ enum ListCloudAutonomousVmClustersOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
@@ -7049,7 +7054,7 @@ enum ListCloudExadataInfrastructuresOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
@@ -7066,7 +7071,7 @@ enum ListCloudVmClustersOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
@@ -7084,7 +7089,7 @@ enum ListDbNodesOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
@@ -7102,7 +7107,7 @@ enum ListDbServersOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
@@ -7120,7 +7125,7 @@ enum ListDbSystemShapesOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
@@ -7137,7 +7142,7 @@ enum ListGiVersionsOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
@@ -7154,7 +7159,7 @@ enum ListOdbNetworksOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
@@ -7171,7 +7176,7 @@ enum ListOdbPeeringConnectionsOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
@@ -7189,7 +7194,7 @@ enum ListSystemVersionsOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
@@ -7207,7 +7212,7 @@ enum ListTagsForResourceOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
@@ -7221,7 +7226,7 @@ enum RebootDbNodeOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
@@ -7239,7 +7244,7 @@ enum StartDbNodeOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
@@ -7257,7 +7262,7 @@ enum StopDbNodeOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
@@ -7275,7 +7280,7 @@ enum TagResourceOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
@@ -7290,7 +7295,7 @@ enum UntagResourceOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
@@ -7304,7 +7309,7 @@ enum UpdateCloudExadataInfrastructureOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
@@ -7323,7 +7328,7 @@ enum UpdateOdbNetworkOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
@@ -7342,7 +7347,7 @@ enum UpdateOdbPeeringConnectionOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
@@ -7358,7 +7363,7 @@ enum UpdateOdbPeeringConnectionOutputError {
 
 extension AccessDeniedException {
 
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> AccessDeniedException {
+    static func makeError(baseError: ClientRuntime.AWSJSONError) throws -> AccessDeniedException {
         let reader = baseError.errorBodyReader
         var value = AccessDeniedException()
         value.properties.message = try reader["message"].readIfPresent() ?? ""
@@ -7371,7 +7376,7 @@ extension AccessDeniedException {
 
 extension ConflictException {
 
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> ConflictException {
+    static func makeError(baseError: ClientRuntime.AWSJSONError) throws -> ConflictException {
         let reader = baseError.errorBodyReader
         var value = ConflictException()
         value.properties.message = try reader["message"].readIfPresent() ?? ""
@@ -7386,7 +7391,7 @@ extension ConflictException {
 
 extension InternalServerException {
 
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> InternalServerException {
+    static func makeError(baseError: ClientRuntime.AWSJSONError) throws -> InternalServerException {
         let reader = baseError.errorBodyReader
         let httpResponse = baseError.httpResponse
         var value = InternalServerException()
@@ -7403,7 +7408,7 @@ extension InternalServerException {
 
 extension ThrottlingException {
 
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> ThrottlingException {
+    static func makeError(baseError: ClientRuntime.AWSJSONError) throws -> ThrottlingException {
         let reader = baseError.errorBodyReader
         let httpResponse = baseError.httpResponse
         var value = ThrottlingException()
@@ -7420,7 +7425,7 @@ extension ThrottlingException {
 
 extension ValidationException {
 
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> ValidationException {
+    static func makeError(baseError: ClientRuntime.AWSJSONError) throws -> ValidationException {
         let reader = baseError.errorBodyReader
         var value = ValidationException()
         value.properties.fieldList = try reader["fieldList"].readListIfPresent(memberReadingClosure: OdbClientTypes.ValidationExceptionField.read(from:), memberNodeInfo: "member", isFlattened: false)
@@ -7435,7 +7440,7 @@ extension ValidationException {
 
 extension ResourceNotFoundException {
 
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> ResourceNotFoundException {
+    static func makeError(baseError: ClientRuntime.AWSJSONError) throws -> ResourceNotFoundException {
         let reader = baseError.errorBodyReader
         var value = ResourceNotFoundException()
         value.properties.message = try reader["message"].readIfPresent() ?? ""
@@ -7450,7 +7455,7 @@ extension ResourceNotFoundException {
 
 extension ServiceQuotaExceededException {
 
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> ServiceQuotaExceededException {
+    static func makeError(baseError: ClientRuntime.AWSJSONError) throws -> ServiceQuotaExceededException {
         let reader = baseError.errorBodyReader
         var value = ServiceQuotaExceededException()
         value.properties.message = try reader["message"].readIfPresent() ?? ""
@@ -7460,6 +7465,28 @@ extension ServiceQuotaExceededException {
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
         value.message = baseError.message
+        return value
+    }
+}
+
+extension OdbClientTypes.AutonomousVirtualMachineSummary {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> OdbClientTypes.AutonomousVirtualMachineSummary {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = OdbClientTypes.AutonomousVirtualMachineSummary()
+        value.autonomousVirtualMachineId = try reader["autonomousVirtualMachineId"].readIfPresent()
+        value.status = try reader["status"].readIfPresent()
+        value.statusReason = try reader["statusReason"].readIfPresent()
+        value.vmName = try reader["vmName"].readIfPresent()
+        value.dbServerId = try reader["dbServerId"].readIfPresent()
+        value.dbServerDisplayName = try reader["dbServerDisplayName"].readIfPresent()
+        value.cpuCoreCount = try reader["cpuCoreCount"].readIfPresent()
+        value.memorySizeInGBs = try reader["memorySizeInGBs"].readIfPresent()
+        value.dbNodeStorageSizeInGBs = try reader["dbNodeStorageSizeInGBs"].readIfPresent()
+        value.clientIpAddress = try reader["clientIpAddress"].readIfPresent()
+        value.cloudAutonomousVmClusterId = try reader["cloudAutonomousVmClusterId"].readIfPresent()
+        value.ocid = try reader["ocid"].readIfPresent()
+        value.ociResourceAnchorName = try reader["ociResourceAnchorName"].readIfPresent()
         return value
     }
 }
@@ -7525,160 +7552,6 @@ extension OdbClientTypes.CloudAutonomousVmCluster {
     }
 }
 
-extension OdbClientTypes.IamRole {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> OdbClientTypes.IamRole {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = OdbClientTypes.IamRole()
-        value.iamRoleArn = try reader["iamRoleArn"].readIfPresent()
-        value.status = try reader["status"].readIfPresent()
-        value.statusReason = try reader["statusReason"].readIfPresent()
-        value.awsIntegration = try reader["awsIntegration"].readIfPresent()
-        return value
-    }
-}
-
-extension OdbClientTypes.MaintenanceWindow {
-
-    static func write(value: OdbClientTypes.MaintenanceWindow?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["customActionTimeoutInMins"].write(value.customActionTimeoutInMins)
-        try writer["daysOfWeek"].writeList(value.daysOfWeek, memberWritingClosure: OdbClientTypes.DayOfWeek.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["hoursOfDay"].writeList(value.hoursOfDay, memberWritingClosure: SmithyReadWrite.WritingClosures.writeInt(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["isCustomActionTimeoutEnabled"].write(value.isCustomActionTimeoutEnabled)
-        try writer["leadTimeInWeeks"].write(value.leadTimeInWeeks)
-        try writer["months"].writeList(value.months, memberWritingClosure: OdbClientTypes.Month.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["patchingMode"].write(value.patchingMode)
-        try writer["preference"].write(value.preference)
-        try writer["skipRu"].write(value.skipRu)
-        try writer["weeksOfMonth"].writeList(value.weeksOfMonth, memberWritingClosure: SmithyReadWrite.WritingClosures.writeInt(value:to:), memberNodeInfo: "member", isFlattened: false)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> OdbClientTypes.MaintenanceWindow {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = OdbClientTypes.MaintenanceWindow()
-        value.customActionTimeoutInMins = try reader["customActionTimeoutInMins"].readIfPresent()
-        value.daysOfWeek = try reader["daysOfWeek"].readListIfPresent(memberReadingClosure: OdbClientTypes.DayOfWeek.read(from:), memberNodeInfo: "member", isFlattened: false)
-        value.hoursOfDay = try reader["hoursOfDay"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readInt(from:), memberNodeInfo: "member", isFlattened: false)
-        value.isCustomActionTimeoutEnabled = try reader["isCustomActionTimeoutEnabled"].readIfPresent()
-        value.leadTimeInWeeks = try reader["leadTimeInWeeks"].readIfPresent()
-        value.months = try reader["months"].readListIfPresent(memberReadingClosure: OdbClientTypes.Month.read(from:), memberNodeInfo: "member", isFlattened: false)
-        value.patchingMode = try reader["patchingMode"].readIfPresent()
-        value.preference = try reader["preference"].readIfPresent()
-        value.skipRu = try reader["skipRu"].readIfPresent()
-        value.weeksOfMonth = try reader["weeksOfMonth"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readInt(from:), memberNodeInfo: "member", isFlattened: false)
-        return value
-    }
-}
-
-extension OdbClientTypes.Month {
-
-    static func write(value: OdbClientTypes.Month?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["name"].write(value.name)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> OdbClientTypes.Month {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = OdbClientTypes.Month()
-        value.name = try reader["name"].readIfPresent()
-        return value
-    }
-}
-
-extension OdbClientTypes.DayOfWeek {
-
-    static func write(value: OdbClientTypes.DayOfWeek?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["name"].write(value.name)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> OdbClientTypes.DayOfWeek {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = OdbClientTypes.DayOfWeek()
-        value.name = try reader["name"].readIfPresent()
-        return value
-    }
-}
-
-extension OdbClientTypes.CloudExadataInfrastructure {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> OdbClientTypes.CloudExadataInfrastructure {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = OdbClientTypes.CloudExadataInfrastructure()
-        value.cloudExadataInfrastructureId = try reader["cloudExadataInfrastructureId"].readIfPresent() ?? ""
-        value.displayName = try reader["displayName"].readIfPresent()
-        value.status = try reader["status"].readIfPresent()
-        value.statusReason = try reader["statusReason"].readIfPresent()
-        value.cloudExadataInfrastructureArn = try reader["cloudExadataInfrastructureArn"].readIfPresent()
-        value.activatedStorageCount = try reader["activatedStorageCount"].readIfPresent()
-        value.additionalStorageCount = try reader["additionalStorageCount"].readIfPresent()
-        value.availableStorageSizeInGBs = try reader["availableStorageSizeInGBs"].readIfPresent()
-        value.availabilityZone = try reader["availabilityZone"].readIfPresent()
-        value.availabilityZoneId = try reader["availabilityZoneId"].readIfPresent()
-        value.computeCount = try reader["computeCount"].readIfPresent()
-        value.cpuCount = try reader["cpuCount"].readIfPresent()
-        value.customerContactsToSendToOCI = try reader["customerContactsToSendToOCI"].readListIfPresent(memberReadingClosure: OdbClientTypes.CustomerContact.read(from:), memberNodeInfo: "member", isFlattened: false)
-        value.dataStorageSizeInTBs = try reader["dataStorageSizeInTBs"].readIfPresent()
-        value.dbNodeStorageSizeInGBs = try reader["dbNodeStorageSizeInGBs"].readIfPresent()
-        value.dbServerVersion = try reader["dbServerVersion"].readIfPresent()
-        value.lastMaintenanceRunId = try reader["lastMaintenanceRunId"].readIfPresent()
-        value.maintenanceWindow = try reader["maintenanceWindow"].readIfPresent(with: OdbClientTypes.MaintenanceWindow.read(from:))
-        value.maxCpuCount = try reader["maxCpuCount"].readIfPresent()
-        value.maxDataStorageInTBs = try reader["maxDataStorageInTBs"].readIfPresent()
-        value.maxDbNodeStorageSizeInGBs = try reader["maxDbNodeStorageSizeInGBs"].readIfPresent()
-        value.maxMemoryInGBs = try reader["maxMemoryInGBs"].readIfPresent()
-        value.memorySizeInGBs = try reader["memorySizeInGBs"].readIfPresent()
-        value.monthlyDbServerVersion = try reader["monthlyDbServerVersion"].readIfPresent()
-        value.monthlyStorageServerVersion = try reader["monthlyStorageServerVersion"].readIfPresent()
-        value.nextMaintenanceRunId = try reader["nextMaintenanceRunId"].readIfPresent()
-        value.ociResourceAnchorName = try reader["ociResourceAnchorName"].readIfPresent()
-        value.ociUrl = try reader["ociUrl"].readIfPresent()
-        value.ocid = try reader["ocid"].readIfPresent()
-        value.shape = try reader["shape"].readIfPresent()
-        value.storageCount = try reader["storageCount"].readIfPresent()
-        value.storageServerVersion = try reader["storageServerVersion"].readIfPresent()
-        value.createdAt = try reader["createdAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
-        value.totalStorageSizeInGBs = try reader["totalStorageSizeInGBs"].readIfPresent()
-        value.percentProgress = try reader["percentProgress"].readIfPresent()
-        value.databaseServerType = try reader["databaseServerType"].readIfPresent()
-        value.storageServerType = try reader["storageServerType"].readIfPresent()
-        value.computeModel = try reader["computeModel"].readIfPresent()
-        return value
-    }
-}
-
-extension OdbClientTypes.CustomerContact {
-
-    static func write(value: OdbClientTypes.CustomerContact?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["email"].write(value.email)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> OdbClientTypes.CustomerContact {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = OdbClientTypes.CustomerContact()
-        value.email = try reader["email"].readIfPresent()
-        return value
-    }
-}
-
-extension OdbClientTypes.CloudExadataInfrastructureUnallocatedResources {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> OdbClientTypes.CloudExadataInfrastructureUnallocatedResources {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = OdbClientTypes.CloudExadataInfrastructureUnallocatedResources()
-        value.cloudAutonomousVmClusters = try reader["cloudAutonomousVmClusters"].readListIfPresent(memberReadingClosure: OdbClientTypes.CloudAutonomousVmClusterResourceDetails.read(from:), memberNodeInfo: "member", isFlattened: false)
-        value.cloudExadataInfrastructureDisplayName = try reader["cloudExadataInfrastructureDisplayName"].readIfPresent()
-        value.exadataStorageInTBs = try reader["exadataStorageInTBs"].readIfPresent()
-        value.cloudExadataInfrastructureId = try reader["cloudExadataInfrastructureId"].readIfPresent()
-        value.localStorageInGBs = try reader["localStorageInGBs"].readIfPresent()
-        value.memoryInGBs = try reader["memoryInGBs"].readIfPresent()
-        value.ocpus = try reader["ocpus"].readIfPresent()
-        return value
-    }
-}
-
 extension OdbClientTypes.CloudAutonomousVmClusterResourceDetails {
 
     static func read(from reader: SmithyJSON.Reader) throws -> OdbClientTypes.CloudAutonomousVmClusterResourceDetails {
@@ -7686,382 +7559,6 @@ extension OdbClientTypes.CloudAutonomousVmClusterResourceDetails {
         var value = OdbClientTypes.CloudAutonomousVmClusterResourceDetails()
         value.cloudAutonomousVmClusterId = try reader["cloudAutonomousVmClusterId"].readIfPresent()
         value.unallocatedAdbStorageInTBs = try reader["unallocatedAdbStorageInTBs"].readIfPresent()
-        return value
-    }
-}
-
-extension OdbClientTypes.CloudVmCluster {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> OdbClientTypes.CloudVmCluster {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = OdbClientTypes.CloudVmCluster()
-        value.cloudVmClusterId = try reader["cloudVmClusterId"].readIfPresent() ?? ""
-        value.displayName = try reader["displayName"].readIfPresent()
-        value.status = try reader["status"].readIfPresent()
-        value.statusReason = try reader["statusReason"].readIfPresent()
-        value.cloudVmClusterArn = try reader["cloudVmClusterArn"].readIfPresent()
-        value.cloudExadataInfrastructureId = try reader["cloudExadataInfrastructureId"].readIfPresent()
-        value.cloudExadataInfrastructureArn = try reader["cloudExadataInfrastructureArn"].readIfPresent()
-        value.clusterName = try reader["clusterName"].readIfPresent()
-        value.cpuCoreCount = try reader["cpuCoreCount"].readIfPresent()
-        value.dataCollectionOptions = try reader["dataCollectionOptions"].readIfPresent(with: OdbClientTypes.DataCollectionOptions.read(from:))
-        value.dataStorageSizeInTBs = try reader["dataStorageSizeInTBs"].readIfPresent()
-        value.dbNodeStorageSizeInGBs = try reader["dbNodeStorageSizeInGBs"].readIfPresent()
-        value.dbServers = try reader["dbServers"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
-        value.diskRedundancy = try reader["diskRedundancy"].readIfPresent()
-        value.giVersion = try reader["giVersion"].readIfPresent()
-        value.hostname = try reader["hostname"].readIfPresent()
-        value.iormConfigCache = try reader["iormConfigCache"].readIfPresent(with: OdbClientTypes.ExadataIormConfig.read(from:))
-        value.isLocalBackupEnabled = try reader["isLocalBackupEnabled"].readIfPresent()
-        value.isSparseDiskgroupEnabled = try reader["isSparseDiskgroupEnabled"].readIfPresent()
-        value.lastUpdateHistoryEntryId = try reader["lastUpdateHistoryEntryId"].readIfPresent()
-        value.licenseModel = try reader["licenseModel"].readIfPresent()
-        value.listenerPort = try reader["listenerPort"].readIfPresent()
-        value.memorySizeInGBs = try reader["memorySizeInGBs"].readIfPresent()
-        value.nodeCount = try reader["nodeCount"].readIfPresent()
-        value.ocid = try reader["ocid"].readIfPresent()
-        value.ociResourceAnchorName = try reader["ociResourceAnchorName"].readIfPresent()
-        value.ociUrl = try reader["ociUrl"].readIfPresent()
-        value.domain = try reader["domain"].readIfPresent()
-        value.scanDnsName = try reader["scanDnsName"].readIfPresent()
-        value.scanDnsRecordId = try reader["scanDnsRecordId"].readIfPresent()
-        value.scanIpIds = try reader["scanIpIds"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
-        value.shape = try reader["shape"].readIfPresent()
-        value.sshPublicKeys = try reader["sshPublicKeys"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
-        value.storageSizeInGBs = try reader["storageSizeInGBs"].readIfPresent()
-        value.systemVersion = try reader["systemVersion"].readIfPresent()
-        value.createdAt = try reader["createdAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
-        value.timeZone = try reader["timeZone"].readIfPresent()
-        value.vipIds = try reader["vipIds"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
-        value.odbNetworkId = try reader["odbNetworkId"].readIfPresent()
-        value.odbNetworkArn = try reader["odbNetworkArn"].readIfPresent()
-        value.percentProgress = try reader["percentProgress"].readIfPresent()
-        value.computeModel = try reader["computeModel"].readIfPresent()
-        value.iamRoles = try reader["iamRoles"].readListIfPresent(memberReadingClosure: OdbClientTypes.IamRole.read(from:), memberNodeInfo: "member", isFlattened: false)
-        return value
-    }
-}
-
-extension OdbClientTypes.ExadataIormConfig {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> OdbClientTypes.ExadataIormConfig {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = OdbClientTypes.ExadataIormConfig()
-        value.dbPlans = try reader["dbPlans"].readListIfPresent(memberReadingClosure: OdbClientTypes.DbIormConfig.read(from:), memberNodeInfo: "member", isFlattened: false)
-        value.lifecycleDetails = try reader["lifecycleDetails"].readIfPresent()
-        value.lifecycleState = try reader["lifecycleState"].readIfPresent()
-        value.objective = try reader["objective"].readIfPresent()
-        return value
-    }
-}
-
-extension OdbClientTypes.DbIormConfig {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> OdbClientTypes.DbIormConfig {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = OdbClientTypes.DbIormConfig()
-        value.dbName = try reader["dbName"].readIfPresent()
-        value.flashCacheLimit = try reader["flashCacheLimit"].readIfPresent()
-        value.share = try reader["share"].readIfPresent()
-        return value
-    }
-}
-
-extension OdbClientTypes.DataCollectionOptions {
-
-    static func write(value: OdbClientTypes.DataCollectionOptions?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["isDiagnosticsEventsEnabled"].write(value.isDiagnosticsEventsEnabled)
-        try writer["isHealthMonitoringEnabled"].write(value.isHealthMonitoringEnabled)
-        try writer["isIncidentLogsEnabled"].write(value.isIncidentLogsEnabled)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> OdbClientTypes.DataCollectionOptions {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = OdbClientTypes.DataCollectionOptions()
-        value.isDiagnosticsEventsEnabled = try reader["isDiagnosticsEventsEnabled"].readIfPresent()
-        value.isHealthMonitoringEnabled = try reader["isHealthMonitoringEnabled"].readIfPresent()
-        value.isIncidentLogsEnabled = try reader["isIncidentLogsEnabled"].readIfPresent()
-        return value
-    }
-}
-
-extension OdbClientTypes.DbNode {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> OdbClientTypes.DbNode {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = OdbClientTypes.DbNode()
-        value.dbNodeId = try reader["dbNodeId"].readIfPresent()
-        value.dbNodeArn = try reader["dbNodeArn"].readIfPresent()
-        value.status = try reader["status"].readIfPresent()
-        value.statusReason = try reader["statusReason"].readIfPresent()
-        value.additionalDetails = try reader["additionalDetails"].readIfPresent()
-        value.backupIpId = try reader["backupIpId"].readIfPresent()
-        value.backupVnic2Id = try reader["backupVnic2Id"].readIfPresent()
-        value.backupVnicId = try reader["backupVnicId"].readIfPresent()
-        value.cpuCoreCount = try reader["cpuCoreCount"].readIfPresent()
-        value.dbNodeStorageSizeInGBs = try reader["dbNodeStorageSizeInGBs"].readIfPresent()
-        value.dbServerId = try reader["dbServerId"].readIfPresent()
-        value.dbSystemId = try reader["dbSystemId"].readIfPresent()
-        value.faultDomain = try reader["faultDomain"].readIfPresent()
-        value.hostIpId = try reader["hostIpId"].readIfPresent()
-        value.hostname = try reader["hostname"].readIfPresent()
-        value.ocid = try reader["ocid"].readIfPresent()
-        value.ociResourceAnchorName = try reader["ociResourceAnchorName"].readIfPresent()
-        value.maintenanceType = try reader["maintenanceType"].readIfPresent()
-        value.memorySizeInGBs = try reader["memorySizeInGBs"].readIfPresent()
-        value.softwareStorageSizeInGB = try reader["softwareStorageSizeInGB"].readIfPresent()
-        value.createdAt = try reader["createdAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
-        value.timeMaintenanceWindowEnd = try reader["timeMaintenanceWindowEnd"].readIfPresent()
-        value.timeMaintenanceWindowStart = try reader["timeMaintenanceWindowStart"].readIfPresent()
-        value.totalCpuCoreCount = try reader["totalCpuCoreCount"].readIfPresent()
-        value.vnic2Id = try reader["vnic2Id"].readIfPresent()
-        value.vnicId = try reader["vnicId"].readIfPresent()
-        value.privateIpAddress = try reader["privateIpAddress"].readIfPresent()
-        value.floatingIpAddress = try reader["floatingIpAddress"].readIfPresent()
-        return value
-    }
-}
-
-extension OdbClientTypes.DbServer {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> OdbClientTypes.DbServer {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = OdbClientTypes.DbServer()
-        value.dbServerId = try reader["dbServerId"].readIfPresent()
-        value.status = try reader["status"].readIfPresent()
-        value.statusReason = try reader["statusReason"].readIfPresent()
-        value.cpuCoreCount = try reader["cpuCoreCount"].readIfPresent()
-        value.dbNodeStorageSizeInGBs = try reader["dbNodeStorageSizeInGBs"].readIfPresent()
-        value.dbServerPatchingDetails = try reader["dbServerPatchingDetails"].readIfPresent(with: OdbClientTypes.DbServerPatchingDetails.read(from:))
-        value.displayName = try reader["displayName"].readIfPresent()
-        value.exadataInfrastructureId = try reader["exadataInfrastructureId"].readIfPresent()
-        value.ocid = try reader["ocid"].readIfPresent()
-        value.ociResourceAnchorName = try reader["ociResourceAnchorName"].readIfPresent()
-        value.maxCpuCount = try reader["maxCpuCount"].readIfPresent()
-        value.maxDbNodeStorageInGBs = try reader["maxDbNodeStorageInGBs"].readIfPresent()
-        value.maxMemoryInGBs = try reader["maxMemoryInGBs"].readIfPresent()
-        value.memorySizeInGBs = try reader["memorySizeInGBs"].readIfPresent()
-        value.shape = try reader["shape"].readIfPresent()
-        value.createdAt = try reader["createdAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
-        value.vmClusterIds = try reader["vmClusterIds"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
-        value.computeModel = try reader["computeModel"].readIfPresent()
-        value.autonomousVmClusterIds = try reader["autonomousVmClusterIds"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
-        value.autonomousVirtualMachineIds = try reader["autonomousVirtualMachineIds"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
-        return value
-    }
-}
-
-extension OdbClientTypes.DbServerPatchingDetails {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> OdbClientTypes.DbServerPatchingDetails {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = OdbClientTypes.DbServerPatchingDetails()
-        value.estimatedPatchDuration = try reader["estimatedPatchDuration"].readIfPresent()
-        value.patchingStatus = try reader["patchingStatus"].readIfPresent()
-        value.timePatchingEnded = try reader["timePatchingEnded"].readIfPresent()
-        value.timePatchingStarted = try reader["timePatchingStarted"].readIfPresent()
-        return value
-    }
-}
-
-extension OdbClientTypes.OciIdentityDomain {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> OdbClientTypes.OciIdentityDomain {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = OdbClientTypes.OciIdentityDomain()
-        value.ociIdentityDomainId = try reader["ociIdentityDomainId"].readIfPresent()
-        value.ociIdentityDomainResourceUrl = try reader["ociIdentityDomainResourceUrl"].readIfPresent()
-        value.ociIdentityDomainUrl = try reader["ociIdentityDomainUrl"].readIfPresent()
-        value.status = try reader["status"].readIfPresent()
-        value.statusReason = try reader["statusReason"].readIfPresent()
-        value.accountSetupCloudFormationUrl = try reader["accountSetupCloudFormationUrl"].readIfPresent()
-        return value
-    }
-}
-
-extension OdbClientTypes.OdbNetwork {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> OdbClientTypes.OdbNetwork {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = OdbClientTypes.OdbNetwork()
-        value.odbNetworkId = try reader["odbNetworkId"].readIfPresent() ?? ""
-        value.displayName = try reader["displayName"].readIfPresent()
-        value.status = try reader["status"].readIfPresent()
-        value.statusReason = try reader["statusReason"].readIfPresent()
-        value.odbNetworkArn = try reader["odbNetworkArn"].readIfPresent()
-        value.availabilityZone = try reader["availabilityZone"].readIfPresent()
-        value.availabilityZoneId = try reader["availabilityZoneId"].readIfPresent()
-        value.clientSubnetCidr = try reader["clientSubnetCidr"].readIfPresent()
-        value.backupSubnetCidr = try reader["backupSubnetCidr"].readIfPresent()
-        value.customDomainName = try reader["customDomainName"].readIfPresent()
-        value.defaultDnsPrefix = try reader["defaultDnsPrefix"].readIfPresent()
-        value.peeredCidrs = try reader["peeredCidrs"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
-        value.ociNetworkAnchorId = try reader["ociNetworkAnchorId"].readIfPresent()
-        value.ociNetworkAnchorUrl = try reader["ociNetworkAnchorUrl"].readIfPresent()
-        value.ociResourceAnchorName = try reader["ociResourceAnchorName"].readIfPresent()
-        value.ociVcnId = try reader["ociVcnId"].readIfPresent()
-        value.ociVcnUrl = try reader["ociVcnUrl"].readIfPresent()
-        value.ociDnsForwardingConfigs = try reader["ociDnsForwardingConfigs"].readListIfPresent(memberReadingClosure: OdbClientTypes.OciDnsForwardingConfig.read(from:), memberNodeInfo: "member", isFlattened: false)
-        value.createdAt = try reader["createdAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
-        value.percentProgress = try reader["percentProgress"].readIfPresent()
-        value.managedServices = try reader["managedServices"].readIfPresent(with: OdbClientTypes.ManagedServices.read(from:))
-        return value
-    }
-}
-
-extension OdbClientTypes.ManagedServices {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> OdbClientTypes.ManagedServices {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = OdbClientTypes.ManagedServices()
-        value.serviceNetworkArn = try reader["serviceNetworkArn"].readIfPresent()
-        value.resourceGatewayArn = try reader["resourceGatewayArn"].readIfPresent()
-        value.managedServicesIpv4Cidrs = try reader["managedServicesIpv4Cidrs"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
-        value.serviceNetworkEndpoint = try reader["serviceNetworkEndpoint"].readIfPresent(with: OdbClientTypes.ServiceNetworkEndpoint.read(from:))
-        value.managedS3BackupAccess = try reader["managedS3BackupAccess"].readIfPresent(with: OdbClientTypes.ManagedS3BackupAccess.read(from:))
-        value.zeroEtlAccess = try reader["zeroEtlAccess"].readIfPresent(with: OdbClientTypes.ZeroEtlAccess.read(from:))
-        value.s3Access = try reader["s3Access"].readIfPresent(with: OdbClientTypes.S3Access.read(from:))
-        value.stsAccess = try reader["stsAccess"].readIfPresent(with: OdbClientTypes.StsAccess.read(from:))
-        value.kmsAccess = try reader["kmsAccess"].readIfPresent(with: OdbClientTypes.KmsAccess.read(from:))
-        value.crossRegionS3RestoreSourcesAccess = try reader["crossRegionS3RestoreSourcesAccess"].readListIfPresent(memberReadingClosure: OdbClientTypes.CrossRegionS3RestoreSourcesAccess.read(from:), memberNodeInfo: "member", isFlattened: false)
-        return value
-    }
-}
-
-extension OdbClientTypes.CrossRegionS3RestoreSourcesAccess {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> OdbClientTypes.CrossRegionS3RestoreSourcesAccess {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = OdbClientTypes.CrossRegionS3RestoreSourcesAccess()
-        value.region = try reader["region"].readIfPresent()
-        value.ipv4Addresses = try reader["ipv4Addresses"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
-        value.status = try reader["status"].readIfPresent()
-        return value
-    }
-}
-
-extension OdbClientTypes.KmsAccess {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> OdbClientTypes.KmsAccess {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = OdbClientTypes.KmsAccess()
-        value.status = try reader["status"].readIfPresent()
-        value.ipv4Addresses = try reader["ipv4Addresses"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
-        value.domainName = try reader["domainName"].readIfPresent()
-        value.kmsPolicyDocument = try reader["kmsPolicyDocument"].readIfPresent()
-        return value
-    }
-}
-
-extension OdbClientTypes.StsAccess {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> OdbClientTypes.StsAccess {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = OdbClientTypes.StsAccess()
-        value.status = try reader["status"].readIfPresent()
-        value.ipv4Addresses = try reader["ipv4Addresses"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
-        value.domainName = try reader["domainName"].readIfPresent()
-        value.stsPolicyDocument = try reader["stsPolicyDocument"].readIfPresent()
-        return value
-    }
-}
-
-extension OdbClientTypes.S3Access {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> OdbClientTypes.S3Access {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = OdbClientTypes.S3Access()
-        value.status = try reader["status"].readIfPresent()
-        value.ipv4Addresses = try reader["ipv4Addresses"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
-        value.domainName = try reader["domainName"].readIfPresent()
-        value.s3PolicyDocument = try reader["s3PolicyDocument"].readIfPresent()
-        return value
-    }
-}
-
-extension OdbClientTypes.ZeroEtlAccess {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> OdbClientTypes.ZeroEtlAccess {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = OdbClientTypes.ZeroEtlAccess()
-        value.status = try reader["status"].readIfPresent()
-        value.cidr = try reader["cidr"].readIfPresent()
-        return value
-    }
-}
-
-extension OdbClientTypes.ManagedS3BackupAccess {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> OdbClientTypes.ManagedS3BackupAccess {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = OdbClientTypes.ManagedS3BackupAccess()
-        value.status = try reader["status"].readIfPresent()
-        value.ipv4Addresses = try reader["ipv4Addresses"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
-        return value
-    }
-}
-
-extension OdbClientTypes.ServiceNetworkEndpoint {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> OdbClientTypes.ServiceNetworkEndpoint {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = OdbClientTypes.ServiceNetworkEndpoint()
-        value.vpcEndpointId = try reader["vpcEndpointId"].readIfPresent()
-        value.vpcEndpointType = try reader["vpcEndpointType"].readIfPresent()
-        return value
-    }
-}
-
-extension OdbClientTypes.OciDnsForwardingConfig {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> OdbClientTypes.OciDnsForwardingConfig {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = OdbClientTypes.OciDnsForwardingConfig()
-        value.domainName = try reader["domainName"].readIfPresent()
-        value.ociDnsListenerIp = try reader["ociDnsListenerIp"].readIfPresent()
-        return value
-    }
-}
-
-extension OdbClientTypes.OdbPeeringConnection {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> OdbClientTypes.OdbPeeringConnection {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = OdbClientTypes.OdbPeeringConnection()
-        value.odbPeeringConnectionId = try reader["odbPeeringConnectionId"].readIfPresent() ?? ""
-        value.displayName = try reader["displayName"].readIfPresent()
-        value.status = try reader["status"].readIfPresent()
-        value.statusReason = try reader["statusReason"].readIfPresent()
-        value.odbPeeringConnectionArn = try reader["odbPeeringConnectionArn"].readIfPresent()
-        value.odbNetworkArn = try reader["odbNetworkArn"].readIfPresent()
-        value.peerNetworkArn = try reader["peerNetworkArn"].readIfPresent()
-        value.odbPeeringConnectionType = try reader["odbPeeringConnectionType"].readIfPresent()
-        value.peerNetworkCidrs = try reader["peerNetworkCidrs"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
-        value.createdAt = try reader["createdAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
-        value.percentProgress = try reader["percentProgress"].readIfPresent()
-        return value
-    }
-}
-
-extension OdbClientTypes.AutonomousVirtualMachineSummary {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> OdbClientTypes.AutonomousVirtualMachineSummary {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = OdbClientTypes.AutonomousVirtualMachineSummary()
-        value.autonomousVirtualMachineId = try reader["autonomousVirtualMachineId"].readIfPresent()
-        value.status = try reader["status"].readIfPresent()
-        value.statusReason = try reader["statusReason"].readIfPresent()
-        value.vmName = try reader["vmName"].readIfPresent()
-        value.dbServerId = try reader["dbServerId"].readIfPresent()
-        value.dbServerDisplayName = try reader["dbServerDisplayName"].readIfPresent()
-        value.cpuCoreCount = try reader["cpuCoreCount"].readIfPresent()
-        value.memorySizeInGBs = try reader["memorySizeInGBs"].readIfPresent()
-        value.dbNodeStorageSizeInGBs = try reader["dbNodeStorageSizeInGBs"].readIfPresent()
-        value.clientIpAddress = try reader["clientIpAddress"].readIfPresent()
-        value.cloudAutonomousVmClusterId = try reader["cloudAutonomousVmClusterId"].readIfPresent()
-        value.ocid = try reader["ocid"].readIfPresent()
-        value.ociResourceAnchorName = try reader["ociResourceAnchorName"].readIfPresent()
         return value
     }
 }
@@ -8127,6 +7624,53 @@ extension OdbClientTypes.CloudAutonomousVmClusterSummary {
     }
 }
 
+extension OdbClientTypes.CloudExadataInfrastructure {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> OdbClientTypes.CloudExadataInfrastructure {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = OdbClientTypes.CloudExadataInfrastructure()
+        value.cloudExadataInfrastructureId = try reader["cloudExadataInfrastructureId"].readIfPresent() ?? ""
+        value.displayName = try reader["displayName"].readIfPresent()
+        value.status = try reader["status"].readIfPresent()
+        value.statusReason = try reader["statusReason"].readIfPresent()
+        value.cloudExadataInfrastructureArn = try reader["cloudExadataInfrastructureArn"].readIfPresent()
+        value.activatedStorageCount = try reader["activatedStorageCount"].readIfPresent()
+        value.additionalStorageCount = try reader["additionalStorageCount"].readIfPresent()
+        value.availableStorageSizeInGBs = try reader["availableStorageSizeInGBs"].readIfPresent()
+        value.availabilityZone = try reader["availabilityZone"].readIfPresent()
+        value.availabilityZoneId = try reader["availabilityZoneId"].readIfPresent()
+        value.computeCount = try reader["computeCount"].readIfPresent()
+        value.cpuCount = try reader["cpuCount"].readIfPresent()
+        value.customerContactsToSendToOCI = try reader["customerContactsToSendToOCI"].readListIfPresent(memberReadingClosure: OdbClientTypes.CustomerContact.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.dataStorageSizeInTBs = try reader["dataStorageSizeInTBs"].readIfPresent()
+        value.dbNodeStorageSizeInGBs = try reader["dbNodeStorageSizeInGBs"].readIfPresent()
+        value.dbServerVersion = try reader["dbServerVersion"].readIfPresent()
+        value.lastMaintenanceRunId = try reader["lastMaintenanceRunId"].readIfPresent()
+        value.maintenanceWindow = try reader["maintenanceWindow"].readIfPresent(with: OdbClientTypes.MaintenanceWindow.read(from:))
+        value.maxCpuCount = try reader["maxCpuCount"].readIfPresent()
+        value.maxDataStorageInTBs = try reader["maxDataStorageInTBs"].readIfPresent()
+        value.maxDbNodeStorageSizeInGBs = try reader["maxDbNodeStorageSizeInGBs"].readIfPresent()
+        value.maxMemoryInGBs = try reader["maxMemoryInGBs"].readIfPresent()
+        value.memorySizeInGBs = try reader["memorySizeInGBs"].readIfPresent()
+        value.monthlyDbServerVersion = try reader["monthlyDbServerVersion"].readIfPresent()
+        value.monthlyStorageServerVersion = try reader["monthlyStorageServerVersion"].readIfPresent()
+        value.nextMaintenanceRunId = try reader["nextMaintenanceRunId"].readIfPresent()
+        value.ociResourceAnchorName = try reader["ociResourceAnchorName"].readIfPresent()
+        value.ociUrl = try reader["ociUrl"].readIfPresent()
+        value.ocid = try reader["ocid"].readIfPresent()
+        value.shape = try reader["shape"].readIfPresent()
+        value.storageCount = try reader["storageCount"].readIfPresent()
+        value.storageServerVersion = try reader["storageServerVersion"].readIfPresent()
+        value.createdAt = try reader["createdAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
+        value.totalStorageSizeInGBs = try reader["totalStorageSizeInGBs"].readIfPresent()
+        value.percentProgress = try reader["percentProgress"].readIfPresent()
+        value.databaseServerType = try reader["databaseServerType"].readIfPresent()
+        value.storageServerType = try reader["storageServerType"].readIfPresent()
+        value.computeModel = try reader["computeModel"].readIfPresent()
+        return value
+    }
+}
+
 extension OdbClientTypes.CloudExadataInfrastructureSummary {
 
     static func read(from reader: SmithyJSON.Reader) throws -> OdbClientTypes.CloudExadataInfrastructureSummary {
@@ -8170,6 +7714,74 @@ extension OdbClientTypes.CloudExadataInfrastructureSummary {
         value.databaseServerType = try reader["databaseServerType"].readIfPresent()
         value.storageServerType = try reader["storageServerType"].readIfPresent()
         value.computeModel = try reader["computeModel"].readIfPresent()
+        return value
+    }
+}
+
+extension OdbClientTypes.CloudExadataInfrastructureUnallocatedResources {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> OdbClientTypes.CloudExadataInfrastructureUnallocatedResources {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = OdbClientTypes.CloudExadataInfrastructureUnallocatedResources()
+        value.cloudAutonomousVmClusters = try reader["cloudAutonomousVmClusters"].readListIfPresent(memberReadingClosure: OdbClientTypes.CloudAutonomousVmClusterResourceDetails.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.cloudExadataInfrastructureDisplayName = try reader["cloudExadataInfrastructureDisplayName"].readIfPresent()
+        value.exadataStorageInTBs = try reader["exadataStorageInTBs"].readIfPresent()
+        value.cloudExadataInfrastructureId = try reader["cloudExadataInfrastructureId"].readIfPresent()
+        value.localStorageInGBs = try reader["localStorageInGBs"].readIfPresent()
+        value.memoryInGBs = try reader["memoryInGBs"].readIfPresent()
+        value.ocpus = try reader["ocpus"].readIfPresent()
+        return value
+    }
+}
+
+extension OdbClientTypes.CloudVmCluster {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> OdbClientTypes.CloudVmCluster {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = OdbClientTypes.CloudVmCluster()
+        value.cloudVmClusterId = try reader["cloudVmClusterId"].readIfPresent() ?? ""
+        value.displayName = try reader["displayName"].readIfPresent()
+        value.status = try reader["status"].readIfPresent()
+        value.statusReason = try reader["statusReason"].readIfPresent()
+        value.cloudVmClusterArn = try reader["cloudVmClusterArn"].readIfPresent()
+        value.cloudExadataInfrastructureId = try reader["cloudExadataInfrastructureId"].readIfPresent()
+        value.cloudExadataInfrastructureArn = try reader["cloudExadataInfrastructureArn"].readIfPresent()
+        value.clusterName = try reader["clusterName"].readIfPresent()
+        value.cpuCoreCount = try reader["cpuCoreCount"].readIfPresent()
+        value.dataCollectionOptions = try reader["dataCollectionOptions"].readIfPresent(with: OdbClientTypes.DataCollectionOptions.read(from:))
+        value.dataStorageSizeInTBs = try reader["dataStorageSizeInTBs"].readIfPresent()
+        value.dbNodeStorageSizeInGBs = try reader["dbNodeStorageSizeInGBs"].readIfPresent()
+        value.dbServers = try reader["dbServers"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        value.diskRedundancy = try reader["diskRedundancy"].readIfPresent()
+        value.giVersion = try reader["giVersion"].readIfPresent()
+        value.hostname = try reader["hostname"].readIfPresent()
+        value.iormConfigCache = try reader["iormConfigCache"].readIfPresent(with: OdbClientTypes.ExadataIormConfig.read(from:))
+        value.isLocalBackupEnabled = try reader["isLocalBackupEnabled"].readIfPresent()
+        value.isSparseDiskgroupEnabled = try reader["isSparseDiskgroupEnabled"].readIfPresent()
+        value.lastUpdateHistoryEntryId = try reader["lastUpdateHistoryEntryId"].readIfPresent()
+        value.licenseModel = try reader["licenseModel"].readIfPresent()
+        value.listenerPort = try reader["listenerPort"].readIfPresent()
+        value.memorySizeInGBs = try reader["memorySizeInGBs"].readIfPresent()
+        value.nodeCount = try reader["nodeCount"].readIfPresent()
+        value.ocid = try reader["ocid"].readIfPresent()
+        value.ociResourceAnchorName = try reader["ociResourceAnchorName"].readIfPresent()
+        value.ociUrl = try reader["ociUrl"].readIfPresent()
+        value.domain = try reader["domain"].readIfPresent()
+        value.scanDnsName = try reader["scanDnsName"].readIfPresent()
+        value.scanDnsRecordId = try reader["scanDnsRecordId"].readIfPresent()
+        value.scanIpIds = try reader["scanIpIds"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        value.shape = try reader["shape"].readIfPresent()
+        value.sshPublicKeys = try reader["sshPublicKeys"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        value.storageSizeInGBs = try reader["storageSizeInGBs"].readIfPresent()
+        value.systemVersion = try reader["systemVersion"].readIfPresent()
+        value.createdAt = try reader["createdAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
+        value.timeZone = try reader["timeZone"].readIfPresent()
+        value.vipIds = try reader["vipIds"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        value.odbNetworkId = try reader["odbNetworkId"].readIfPresent()
+        value.odbNetworkArn = try reader["odbNetworkArn"].readIfPresent()
+        value.percentProgress = try reader["percentProgress"].readIfPresent()
+        value.computeModel = try reader["computeModel"].readIfPresent()
+        value.iamRoles = try reader["iamRoles"].readListIfPresent(memberReadingClosure: OdbClientTypes.IamRole.read(from:), memberNodeInfo: "member", isFlattened: false)
         return value
     }
 }
@@ -8226,6 +7838,116 @@ extension OdbClientTypes.CloudVmClusterSummary {
     }
 }
 
+extension OdbClientTypes.CrossRegionS3RestoreSourcesAccess {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> OdbClientTypes.CrossRegionS3RestoreSourcesAccess {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = OdbClientTypes.CrossRegionS3RestoreSourcesAccess()
+        value.region = try reader["region"].readIfPresent()
+        value.ipv4Addresses = try reader["ipv4Addresses"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        value.status = try reader["status"].readIfPresent()
+        return value
+    }
+}
+
+extension OdbClientTypes.CustomerContact {
+
+    static func write(value: OdbClientTypes.CustomerContact?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["email"].write(value.email)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> OdbClientTypes.CustomerContact {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = OdbClientTypes.CustomerContact()
+        value.email = try reader["email"].readIfPresent()
+        return value
+    }
+}
+
+extension OdbClientTypes.DataCollectionOptions {
+
+    static func write(value: OdbClientTypes.DataCollectionOptions?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["isDiagnosticsEventsEnabled"].write(value.isDiagnosticsEventsEnabled)
+        try writer["isHealthMonitoringEnabled"].write(value.isHealthMonitoringEnabled)
+        try writer["isIncidentLogsEnabled"].write(value.isIncidentLogsEnabled)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> OdbClientTypes.DataCollectionOptions {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = OdbClientTypes.DataCollectionOptions()
+        value.isDiagnosticsEventsEnabled = try reader["isDiagnosticsEventsEnabled"].readIfPresent()
+        value.isHealthMonitoringEnabled = try reader["isHealthMonitoringEnabled"].readIfPresent()
+        value.isIncidentLogsEnabled = try reader["isIncidentLogsEnabled"].readIfPresent()
+        return value
+    }
+}
+
+extension OdbClientTypes.DayOfWeek {
+
+    static func write(value: OdbClientTypes.DayOfWeek?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["name"].write(value.name)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> OdbClientTypes.DayOfWeek {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = OdbClientTypes.DayOfWeek()
+        value.name = try reader["name"].readIfPresent()
+        return value
+    }
+}
+
+extension OdbClientTypes.DbIormConfig {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> OdbClientTypes.DbIormConfig {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = OdbClientTypes.DbIormConfig()
+        value.dbName = try reader["dbName"].readIfPresent()
+        value.flashCacheLimit = try reader["flashCacheLimit"].readIfPresent()
+        value.share = try reader["share"].readIfPresent()
+        return value
+    }
+}
+
+extension OdbClientTypes.DbNode {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> OdbClientTypes.DbNode {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = OdbClientTypes.DbNode()
+        value.dbNodeId = try reader["dbNodeId"].readIfPresent()
+        value.dbNodeArn = try reader["dbNodeArn"].readIfPresent()
+        value.status = try reader["status"].readIfPresent()
+        value.statusReason = try reader["statusReason"].readIfPresent()
+        value.additionalDetails = try reader["additionalDetails"].readIfPresent()
+        value.backupIpId = try reader["backupIpId"].readIfPresent()
+        value.backupVnic2Id = try reader["backupVnic2Id"].readIfPresent()
+        value.backupVnicId = try reader["backupVnicId"].readIfPresent()
+        value.cpuCoreCount = try reader["cpuCoreCount"].readIfPresent()
+        value.dbNodeStorageSizeInGBs = try reader["dbNodeStorageSizeInGBs"].readIfPresent()
+        value.dbServerId = try reader["dbServerId"].readIfPresent()
+        value.dbSystemId = try reader["dbSystemId"].readIfPresent()
+        value.faultDomain = try reader["faultDomain"].readIfPresent()
+        value.hostIpId = try reader["hostIpId"].readIfPresent()
+        value.hostname = try reader["hostname"].readIfPresent()
+        value.ocid = try reader["ocid"].readIfPresent()
+        value.ociResourceAnchorName = try reader["ociResourceAnchorName"].readIfPresent()
+        value.maintenanceType = try reader["maintenanceType"].readIfPresent()
+        value.memorySizeInGBs = try reader["memorySizeInGBs"].readIfPresent()
+        value.softwareStorageSizeInGB = try reader["softwareStorageSizeInGB"].readIfPresent()
+        value.createdAt = try reader["createdAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
+        value.timeMaintenanceWindowEnd = try reader["timeMaintenanceWindowEnd"].readIfPresent()
+        value.timeMaintenanceWindowStart = try reader["timeMaintenanceWindowStart"].readIfPresent()
+        value.totalCpuCoreCount = try reader["totalCpuCoreCount"].readIfPresent()
+        value.vnic2Id = try reader["vnic2Id"].readIfPresent()
+        value.vnicId = try reader["vnicId"].readIfPresent()
+        value.privateIpAddress = try reader["privateIpAddress"].readIfPresent()
+        value.floatingIpAddress = try reader["floatingIpAddress"].readIfPresent()
+        return value
+    }
+}
+
 extension OdbClientTypes.DbNodeSummary {
 
     static func read(from reader: SmithyJSON.Reader) throws -> OdbClientTypes.DbNodeSummary {
@@ -8257,6 +7979,48 @@ extension OdbClientTypes.DbNodeSummary {
         value.totalCpuCoreCount = try reader["totalCpuCoreCount"].readIfPresent()
         value.vnic2Id = try reader["vnic2Id"].readIfPresent()
         value.vnicId = try reader["vnicId"].readIfPresent()
+        return value
+    }
+}
+
+extension OdbClientTypes.DbServer {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> OdbClientTypes.DbServer {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = OdbClientTypes.DbServer()
+        value.dbServerId = try reader["dbServerId"].readIfPresent()
+        value.status = try reader["status"].readIfPresent()
+        value.statusReason = try reader["statusReason"].readIfPresent()
+        value.cpuCoreCount = try reader["cpuCoreCount"].readIfPresent()
+        value.dbNodeStorageSizeInGBs = try reader["dbNodeStorageSizeInGBs"].readIfPresent()
+        value.dbServerPatchingDetails = try reader["dbServerPatchingDetails"].readIfPresent(with: OdbClientTypes.DbServerPatchingDetails.read(from:))
+        value.displayName = try reader["displayName"].readIfPresent()
+        value.exadataInfrastructureId = try reader["exadataInfrastructureId"].readIfPresent()
+        value.ocid = try reader["ocid"].readIfPresent()
+        value.ociResourceAnchorName = try reader["ociResourceAnchorName"].readIfPresent()
+        value.maxCpuCount = try reader["maxCpuCount"].readIfPresent()
+        value.maxDbNodeStorageInGBs = try reader["maxDbNodeStorageInGBs"].readIfPresent()
+        value.maxMemoryInGBs = try reader["maxMemoryInGBs"].readIfPresent()
+        value.memorySizeInGBs = try reader["memorySizeInGBs"].readIfPresent()
+        value.shape = try reader["shape"].readIfPresent()
+        value.createdAt = try reader["createdAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
+        value.vmClusterIds = try reader["vmClusterIds"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        value.computeModel = try reader["computeModel"].readIfPresent()
+        value.autonomousVmClusterIds = try reader["autonomousVmClusterIds"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        value.autonomousVirtualMachineIds = try reader["autonomousVirtualMachineIds"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        return value
+    }
+}
+
+extension OdbClientTypes.DbServerPatchingDetails {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> OdbClientTypes.DbServerPatchingDetails {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = OdbClientTypes.DbServerPatchingDetails()
+        value.estimatedPatchDuration = try reader["estimatedPatchDuration"].readIfPresent()
+        value.patchingStatus = try reader["patchingStatus"].readIfPresent()
+        value.timePatchingEnded = try reader["timePatchingEnded"].readIfPresent()
+        value.timePatchingStarted = try reader["timePatchingStarted"].readIfPresent()
         return value
     }
 }
@@ -8323,12 +8087,185 @@ extension OdbClientTypes.DbSystemShapeSummary {
     }
 }
 
+extension OdbClientTypes.ExadataIormConfig {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> OdbClientTypes.ExadataIormConfig {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = OdbClientTypes.ExadataIormConfig()
+        value.dbPlans = try reader["dbPlans"].readListIfPresent(memberReadingClosure: OdbClientTypes.DbIormConfig.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.lifecycleDetails = try reader["lifecycleDetails"].readIfPresent()
+        value.lifecycleState = try reader["lifecycleState"].readIfPresent()
+        value.objective = try reader["objective"].readIfPresent()
+        return value
+    }
+}
+
 extension OdbClientTypes.GiVersionSummary {
 
     static func read(from reader: SmithyJSON.Reader) throws -> OdbClientTypes.GiVersionSummary {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = OdbClientTypes.GiVersionSummary()
         value.version = try reader["version"].readIfPresent()
+        return value
+    }
+}
+
+extension OdbClientTypes.IamRole {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> OdbClientTypes.IamRole {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = OdbClientTypes.IamRole()
+        value.iamRoleArn = try reader["iamRoleArn"].readIfPresent()
+        value.status = try reader["status"].readIfPresent()
+        value.statusReason = try reader["statusReason"].readIfPresent()
+        value.awsIntegration = try reader["awsIntegration"].readIfPresent()
+        return value
+    }
+}
+
+extension OdbClientTypes.KmsAccess {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> OdbClientTypes.KmsAccess {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = OdbClientTypes.KmsAccess()
+        value.status = try reader["status"].readIfPresent()
+        value.ipv4Addresses = try reader["ipv4Addresses"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        value.domainName = try reader["domainName"].readIfPresent()
+        value.kmsPolicyDocument = try reader["kmsPolicyDocument"].readIfPresent()
+        return value
+    }
+}
+
+extension OdbClientTypes.MaintenanceWindow {
+
+    static func write(value: OdbClientTypes.MaintenanceWindow?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["customActionTimeoutInMins"].write(value.customActionTimeoutInMins)
+        try writer["daysOfWeek"].writeList(value.daysOfWeek, memberWritingClosure: OdbClientTypes.DayOfWeek.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["hoursOfDay"].writeList(value.hoursOfDay, memberWritingClosure: SmithyReadWrite.WritingClosures.writeInt(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["isCustomActionTimeoutEnabled"].write(value.isCustomActionTimeoutEnabled)
+        try writer["leadTimeInWeeks"].write(value.leadTimeInWeeks)
+        try writer["months"].writeList(value.months, memberWritingClosure: OdbClientTypes.Month.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["patchingMode"].write(value.patchingMode)
+        try writer["preference"].write(value.preference)
+        try writer["skipRu"].write(value.skipRu)
+        try writer["weeksOfMonth"].writeList(value.weeksOfMonth, memberWritingClosure: SmithyReadWrite.WritingClosures.writeInt(value:to:), memberNodeInfo: "member", isFlattened: false)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> OdbClientTypes.MaintenanceWindow {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = OdbClientTypes.MaintenanceWindow()
+        value.customActionTimeoutInMins = try reader["customActionTimeoutInMins"].readIfPresent()
+        value.daysOfWeek = try reader["daysOfWeek"].readListIfPresent(memberReadingClosure: OdbClientTypes.DayOfWeek.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.hoursOfDay = try reader["hoursOfDay"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readInt(from:), memberNodeInfo: "member", isFlattened: false)
+        value.isCustomActionTimeoutEnabled = try reader["isCustomActionTimeoutEnabled"].readIfPresent()
+        value.leadTimeInWeeks = try reader["leadTimeInWeeks"].readIfPresent()
+        value.months = try reader["months"].readListIfPresent(memberReadingClosure: OdbClientTypes.Month.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.patchingMode = try reader["patchingMode"].readIfPresent()
+        value.preference = try reader["preference"].readIfPresent()
+        value.skipRu = try reader["skipRu"].readIfPresent()
+        value.weeksOfMonth = try reader["weeksOfMonth"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readInt(from:), memberNodeInfo: "member", isFlattened: false)
+        return value
+    }
+}
+
+extension OdbClientTypes.ManagedS3BackupAccess {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> OdbClientTypes.ManagedS3BackupAccess {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = OdbClientTypes.ManagedS3BackupAccess()
+        value.status = try reader["status"].readIfPresent()
+        value.ipv4Addresses = try reader["ipv4Addresses"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        return value
+    }
+}
+
+extension OdbClientTypes.ManagedServices {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> OdbClientTypes.ManagedServices {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = OdbClientTypes.ManagedServices()
+        value.serviceNetworkArn = try reader["serviceNetworkArn"].readIfPresent()
+        value.resourceGatewayArn = try reader["resourceGatewayArn"].readIfPresent()
+        value.managedServicesIpv4Cidrs = try reader["managedServicesIpv4Cidrs"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        value.serviceNetworkEndpoint = try reader["serviceNetworkEndpoint"].readIfPresent(with: OdbClientTypes.ServiceNetworkEndpoint.read(from:))
+        value.managedS3BackupAccess = try reader["managedS3BackupAccess"].readIfPresent(with: OdbClientTypes.ManagedS3BackupAccess.read(from:))
+        value.zeroEtlAccess = try reader["zeroEtlAccess"].readIfPresent(with: OdbClientTypes.ZeroEtlAccess.read(from:))
+        value.s3Access = try reader["s3Access"].readIfPresent(with: OdbClientTypes.S3Access.read(from:))
+        value.stsAccess = try reader["stsAccess"].readIfPresent(with: OdbClientTypes.StsAccess.read(from:))
+        value.kmsAccess = try reader["kmsAccess"].readIfPresent(with: OdbClientTypes.KmsAccess.read(from:))
+        value.crossRegionS3RestoreSourcesAccess = try reader["crossRegionS3RestoreSourcesAccess"].readListIfPresent(memberReadingClosure: OdbClientTypes.CrossRegionS3RestoreSourcesAccess.read(from:), memberNodeInfo: "member", isFlattened: false)
+        return value
+    }
+}
+
+extension OdbClientTypes.Month {
+
+    static func write(value: OdbClientTypes.Month?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["name"].write(value.name)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> OdbClientTypes.Month {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = OdbClientTypes.Month()
+        value.name = try reader["name"].readIfPresent()
+        return value
+    }
+}
+
+extension OdbClientTypes.OciDnsForwardingConfig {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> OdbClientTypes.OciDnsForwardingConfig {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = OdbClientTypes.OciDnsForwardingConfig()
+        value.domainName = try reader["domainName"].readIfPresent()
+        value.ociDnsListenerIp = try reader["ociDnsListenerIp"].readIfPresent()
+        return value
+    }
+}
+
+extension OdbClientTypes.OciIdentityDomain {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> OdbClientTypes.OciIdentityDomain {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = OdbClientTypes.OciIdentityDomain()
+        value.ociIdentityDomainId = try reader["ociIdentityDomainId"].readIfPresent()
+        value.ociIdentityDomainResourceUrl = try reader["ociIdentityDomainResourceUrl"].readIfPresent()
+        value.ociIdentityDomainUrl = try reader["ociIdentityDomainUrl"].readIfPresent()
+        value.status = try reader["status"].readIfPresent()
+        value.statusReason = try reader["statusReason"].readIfPresent()
+        value.accountSetupCloudFormationUrl = try reader["accountSetupCloudFormationUrl"].readIfPresent()
+        return value
+    }
+}
+
+extension OdbClientTypes.OdbNetwork {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> OdbClientTypes.OdbNetwork {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = OdbClientTypes.OdbNetwork()
+        value.odbNetworkId = try reader["odbNetworkId"].readIfPresent() ?? ""
+        value.displayName = try reader["displayName"].readIfPresent()
+        value.status = try reader["status"].readIfPresent()
+        value.statusReason = try reader["statusReason"].readIfPresent()
+        value.odbNetworkArn = try reader["odbNetworkArn"].readIfPresent()
+        value.availabilityZone = try reader["availabilityZone"].readIfPresent()
+        value.availabilityZoneId = try reader["availabilityZoneId"].readIfPresent()
+        value.clientSubnetCidr = try reader["clientSubnetCidr"].readIfPresent()
+        value.backupSubnetCidr = try reader["backupSubnetCidr"].readIfPresent()
+        value.customDomainName = try reader["customDomainName"].readIfPresent()
+        value.defaultDnsPrefix = try reader["defaultDnsPrefix"].readIfPresent()
+        value.peeredCidrs = try reader["peeredCidrs"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        value.ociNetworkAnchorId = try reader["ociNetworkAnchorId"].readIfPresent()
+        value.ociNetworkAnchorUrl = try reader["ociNetworkAnchorUrl"].readIfPresent()
+        value.ociResourceAnchorName = try reader["ociResourceAnchorName"].readIfPresent()
+        value.ociVcnId = try reader["ociVcnId"].readIfPresent()
+        value.ociVcnUrl = try reader["ociVcnUrl"].readIfPresent()
+        value.ociDnsForwardingConfigs = try reader["ociDnsForwardingConfigs"].readListIfPresent(memberReadingClosure: OdbClientTypes.OciDnsForwardingConfig.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.createdAt = try reader["createdAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
+        value.percentProgress = try reader["percentProgress"].readIfPresent()
+        value.managedServices = try reader["managedServices"].readIfPresent(with: OdbClientTypes.ManagedServices.read(from:))
         return value
     }
 }
@@ -8363,6 +8300,26 @@ extension OdbClientTypes.OdbNetworkSummary {
     }
 }
 
+extension OdbClientTypes.OdbPeeringConnection {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> OdbClientTypes.OdbPeeringConnection {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = OdbClientTypes.OdbPeeringConnection()
+        value.odbPeeringConnectionId = try reader["odbPeeringConnectionId"].readIfPresent() ?? ""
+        value.displayName = try reader["displayName"].readIfPresent()
+        value.status = try reader["status"].readIfPresent()
+        value.statusReason = try reader["statusReason"].readIfPresent()
+        value.odbPeeringConnectionArn = try reader["odbPeeringConnectionArn"].readIfPresent()
+        value.odbNetworkArn = try reader["odbNetworkArn"].readIfPresent()
+        value.peerNetworkArn = try reader["peerNetworkArn"].readIfPresent()
+        value.odbPeeringConnectionType = try reader["odbPeeringConnectionType"].readIfPresent()
+        value.peerNetworkCidrs = try reader["peerNetworkCidrs"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        value.createdAt = try reader["createdAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
+        value.percentProgress = try reader["percentProgress"].readIfPresent()
+        return value
+    }
+}
+
 extension OdbClientTypes.OdbPeeringConnectionSummary {
 
     static func read(from reader: SmithyJSON.Reader) throws -> OdbClientTypes.OdbPeeringConnectionSummary {
@@ -8379,6 +8336,43 @@ extension OdbClientTypes.OdbPeeringConnectionSummary {
         value.peerNetworkCidrs = try reader["peerNetworkCidrs"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
         value.createdAt = try reader["createdAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
         value.percentProgress = try reader["percentProgress"].readIfPresent()
+        return value
+    }
+}
+
+extension OdbClientTypes.S3Access {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> OdbClientTypes.S3Access {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = OdbClientTypes.S3Access()
+        value.status = try reader["status"].readIfPresent()
+        value.ipv4Addresses = try reader["ipv4Addresses"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        value.domainName = try reader["domainName"].readIfPresent()
+        value.s3PolicyDocument = try reader["s3PolicyDocument"].readIfPresent()
+        return value
+    }
+}
+
+extension OdbClientTypes.ServiceNetworkEndpoint {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> OdbClientTypes.ServiceNetworkEndpoint {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = OdbClientTypes.ServiceNetworkEndpoint()
+        value.vpcEndpointId = try reader["vpcEndpointId"].readIfPresent()
+        value.vpcEndpointType = try reader["vpcEndpointType"].readIfPresent()
+        return value
+    }
+}
+
+extension OdbClientTypes.StsAccess {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> OdbClientTypes.StsAccess {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = OdbClientTypes.StsAccess()
+        value.status = try reader["status"].readIfPresent()
+        value.ipv4Addresses = try reader["ipv4Addresses"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        value.domainName = try reader["domainName"].readIfPresent()
+        value.stsPolicyDocument = try reader["stsPolicyDocument"].readIfPresent()
         return value
     }
 }
@@ -8402,6 +8396,17 @@ extension OdbClientTypes.ValidationExceptionField {
         var value = OdbClientTypes.ValidationExceptionField()
         value.name = try reader["name"].readIfPresent() ?? ""
         value.message = try reader["message"].readIfPresent() ?? ""
+        return value
+    }
+}
+
+extension OdbClientTypes.ZeroEtlAccess {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> OdbClientTypes.ZeroEtlAccess {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = OdbClientTypes.ZeroEtlAccess()
+        value.status = try reader["status"].readIfPresent()
+        value.cidr = try reader["cidr"].readIfPresent()
         return value
     }
 }

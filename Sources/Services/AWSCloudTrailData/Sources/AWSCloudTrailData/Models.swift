@@ -19,8 +19,8 @@ import protocol ClientRuntime.HTTPError
 import protocol ClientRuntime.ModeledError
 @_spi(SmithyReadWrite) import protocol SmithyReadWrite.SmithyReader
 @_spi(SmithyReadWrite) import protocol SmithyReadWrite.SmithyWriter
-@_spi(SmithyReadWrite) import struct AWSClientRuntime.RestJSONError
 @_spi(UnknownAWSHTTPServiceError) import struct AWSClientRuntime.UnknownAWSHTTPServiceError
+@_spi(SmithyReadWrite) import struct ClientRuntime.RestJSONError
 import struct Smithy.URIQueryItem
 
 extension CloudTrailDataClientTypes {
@@ -322,7 +322,7 @@ enum PutAuditEventsOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "ChannelInsufficientPermission": return try ChannelInsufficientPermission.makeError(baseError: baseError)
@@ -338,7 +338,7 @@ enum PutAuditEventsOutputError {
 
 extension ChannelInsufficientPermission {
 
-    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> ChannelInsufficientPermission {
+    static func makeError(baseError: ClientRuntime.RestJSONError) throws -> ChannelInsufficientPermission {
         let reader = baseError.errorBodyReader
         var value = ChannelInsufficientPermission()
         value.properties.message = try reader["message"].readIfPresent()
@@ -351,7 +351,7 @@ extension ChannelInsufficientPermission {
 
 extension ChannelNotFound {
 
-    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> ChannelNotFound {
+    static func makeError(baseError: ClientRuntime.RestJSONError) throws -> ChannelNotFound {
         let reader = baseError.errorBodyReader
         var value = ChannelNotFound()
         value.properties.message = try reader["message"].readIfPresent()
@@ -364,7 +364,7 @@ extension ChannelNotFound {
 
 extension ChannelUnsupportedSchema {
 
-    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> ChannelUnsupportedSchema {
+    static func makeError(baseError: ClientRuntime.RestJSONError) throws -> ChannelUnsupportedSchema {
         let reader = baseError.errorBodyReader
         var value = ChannelUnsupportedSchema()
         value.properties.message = try reader["message"].readIfPresent()
@@ -377,7 +377,7 @@ extension ChannelUnsupportedSchema {
 
 extension DuplicatedAuditEventId {
 
-    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> DuplicatedAuditEventId {
+    static func makeError(baseError: ClientRuntime.RestJSONError) throws -> DuplicatedAuditEventId {
         let reader = baseError.errorBodyReader
         var value = DuplicatedAuditEventId()
         value.properties.message = try reader["message"].readIfPresent()
@@ -390,7 +390,7 @@ extension DuplicatedAuditEventId {
 
 extension InvalidChannelARN {
 
-    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> InvalidChannelARN {
+    static func makeError(baseError: ClientRuntime.RestJSONError) throws -> InvalidChannelARN {
         let reader = baseError.errorBodyReader
         var value = InvalidChannelARN()
         value.properties.message = try reader["message"].readIfPresent()
@@ -403,7 +403,7 @@ extension InvalidChannelARN {
 
 extension UnsupportedOperationException {
 
-    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> UnsupportedOperationException {
+    static func makeError(baseError: ClientRuntime.RestJSONError) throws -> UnsupportedOperationException {
         let reader = baseError.errorBodyReader
         var value = UnsupportedOperationException()
         value.properties.message = try reader["message"].readIfPresent()
@@ -411,6 +411,16 @@ extension UnsupportedOperationException {
         value.requestID = baseError.requestID
         value.message = baseError.message
         return value
+    }
+}
+
+extension CloudTrailDataClientTypes.AuditEvent {
+
+    static func write(value: CloudTrailDataClientTypes.AuditEvent?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["eventData"].write(value.eventData)
+        try writer["eventDataChecksum"].write(value.eventDataChecksum)
+        try writer["id"].write(value.id)
     }
 }
 
@@ -434,16 +444,6 @@ extension CloudTrailDataClientTypes.ResultErrorEntry {
         value.errorCode = try reader["errorCode"].readIfPresent() ?? ""
         value.errorMessage = try reader["errorMessage"].readIfPresent() ?? ""
         return value
-    }
-}
-
-extension CloudTrailDataClientTypes.AuditEvent {
-
-    static func write(value: CloudTrailDataClientTypes.AuditEvent?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["eventData"].write(value.eventData)
-        try writer["eventDataChecksum"].write(value.eventDataChecksum)
-        try writer["id"].write(value.id)
     }
 }
 

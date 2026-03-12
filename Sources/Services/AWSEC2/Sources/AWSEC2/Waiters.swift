@@ -369,7 +369,7 @@ extension EC2Client {
                 guard case .success(let output) = result else { return false }
                 let images = output.images
                 let count = Double(images?.count ?? 0)
-                let number = Double(0.0)
+                let number = Double(0)
                 let comparison = SmithyWaitersAPI.JMESUtils.compare(count, >, number)
                 return SmithyWaitersAPI.JMESUtils.compare(comparison, ==, true)
             }),
@@ -500,7 +500,7 @@ extension EC2Client {
                 guard case .success(let output) = result else { return false }
                 let reservations = output.reservations
                 let count = Double(reservations?.count ?? 0)
-                let number = Double(0.0)
+                let number = Double(0)
                 let comparison = SmithyWaitersAPI.JMESUtils.compare(count, >, number)
                 return SmithyWaitersAPI.JMESUtils.compare(comparison, ==, true)
             }),
@@ -865,7 +865,7 @@ extension EC2Client {
                     return internetGatewayId
                 }
                 let count = Double(projection?.count ?? 0)
-                let number = Double(0.0)
+                let number = Double(0)
                 let comparison = SmithyWaitersAPI.JMESUtils.compare(count, >, number)
                 return SmithyWaitersAPI.JMESUtils.compare(comparison, ==, true)
             }),
@@ -906,7 +906,7 @@ extension EC2Client {
                     return keyName
                 }
                 let count = Double(projection?.count ?? 0)
-                let number = Double(0.0)
+                let number = Double(0)
                 let comparison = SmithyWaitersAPI.JMESUtils.compare(count, >, number)
                 return SmithyWaitersAPI.JMESUtils.compare(comparison, ==, true)
             }),
@@ -1289,7 +1289,7 @@ extension EC2Client {
                     return groupId
                 }
                 let count = Double(projection?.count ?? 0)
-                let number = Double(0.0)
+                let number = Double(0)
                 let comparison = SmithyWaitersAPI.JMESUtils.compare(count, >, number)
                 return SmithyWaitersAPI.JMESUtils.compare(comparison, ==, true)
             }),
@@ -1420,7 +1420,7 @@ extension EC2Client {
                 guard case .success(let output) = result else { return false }
                 let securityGroupVpcAssociations = output.securityGroupVpcAssociations
                 let count = Double(securityGroupVpcAssociations?.count ?? 0)
-                let number = Double(0.0)
+                let number = Double(0)
                 let comparison = SmithyWaitersAPI.JMESUtils.compare(count, ==, number)
                 return SmithyWaitersAPI.JMESUtils.compare(comparison, ==, true)
             }),
@@ -2066,7 +2066,7 @@ extension EC2Client {
                 guard case .success(let output) = result else { return false }
                 let passwordData = output.passwordData
                 let count = Double(passwordData?.count ?? 0)
-                let number = Double(0.0)
+                let number = Double(0)
                 let comparison = SmithyWaitersAPI.JMESUtils.compare(count, >, number)
                 return SmithyWaitersAPI.JMESUtils.compare(comparison, ==, true)
             }),

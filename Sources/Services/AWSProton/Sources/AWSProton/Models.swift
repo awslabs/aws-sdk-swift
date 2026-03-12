@@ -22,8 +22,8 @@ import protocol ClientRuntime.HTTPError
 import protocol ClientRuntime.ModeledError
 @_spi(SmithyReadWrite) import protocol SmithyReadWrite.SmithyReader
 @_spi(SmithyReadWrite) import protocol SmithyReadWrite.SmithyWriter
-@_spi(SmithyReadWrite) import struct AWSClientRuntime.AWSJSONError
 @_spi(UnknownAWSHTTPServiceError) import struct AWSClientRuntime.UnknownAWSHTTPServiceError
+@_spi(SmithyReadWrite) import struct ClientRuntime.AWSJSONError
 @_spi(SmithyReadWrite) import struct SmithyReadWrite.ReadingClosureBox
 @_spi(SmithyReadWrite) import struct SmithyReadWrite.WritingClosureBox
 @_spi(SmithyTimestamps) import struct SmithyTimestamps.TimestampFormatter
@@ -9210,7 +9210,7 @@ enum AcceptEnvironmentAccountConnectionOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
@@ -9229,7 +9229,7 @@ enum CancelComponentDeploymentOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
@@ -9248,7 +9248,7 @@ enum CancelEnvironmentDeploymentOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
@@ -9267,7 +9267,7 @@ enum CancelServiceInstanceDeploymentOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
@@ -9286,7 +9286,7 @@ enum CancelServicePipelineDeploymentOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
@@ -9305,7 +9305,7 @@ enum CreateComponentOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
@@ -9325,7 +9325,7 @@ enum CreateEnvironmentOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
@@ -9345,7 +9345,7 @@ enum CreateEnvironmentAccountConnectionOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
@@ -9364,7 +9364,7 @@ enum CreateEnvironmentTemplateOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
@@ -9383,7 +9383,7 @@ enum CreateEnvironmentTemplateVersionOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
@@ -9403,7 +9403,7 @@ enum CreateRepositoryOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
@@ -9422,7 +9422,7 @@ enum CreateServiceOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
@@ -9442,7 +9442,7 @@ enum CreateServiceInstanceOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
@@ -9461,7 +9461,7 @@ enum CreateServiceSyncConfigOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
@@ -9480,7 +9480,7 @@ enum CreateServiceTemplateOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
@@ -9499,7 +9499,7 @@ enum CreateServiceTemplateVersionOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
@@ -9519,7 +9519,7 @@ enum CreateTemplateSyncConfigOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
@@ -9538,7 +9538,7 @@ enum DeleteComponentOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
@@ -9557,7 +9557,7 @@ enum DeleteDeploymentOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
@@ -9575,7 +9575,7 @@ enum DeleteEnvironmentOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
@@ -9594,7 +9594,7 @@ enum DeleteEnvironmentAccountConnectionOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
@@ -9613,7 +9613,7 @@ enum DeleteEnvironmentTemplateOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
@@ -9632,7 +9632,7 @@ enum DeleteEnvironmentTemplateVersionOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
@@ -9651,7 +9651,7 @@ enum DeleteRepositoryOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
@@ -9670,7 +9670,7 @@ enum DeleteServiceOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
@@ -9689,7 +9689,7 @@ enum DeleteServiceSyncConfigOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
@@ -9708,7 +9708,7 @@ enum DeleteServiceTemplateOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
@@ -9727,7 +9727,7 @@ enum DeleteServiceTemplateVersionOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
@@ -9746,7 +9746,7 @@ enum DeleteTemplateSyncConfigOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
@@ -9765,7 +9765,7 @@ enum GetAccountSettingsOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
@@ -9783,7 +9783,7 @@ enum GetComponentOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
@@ -9801,7 +9801,7 @@ enum GetDeploymentOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
@@ -9819,7 +9819,7 @@ enum GetEnvironmentOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
@@ -9837,7 +9837,7 @@ enum GetEnvironmentAccountConnectionOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
@@ -9855,7 +9855,7 @@ enum GetEnvironmentTemplateOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
@@ -9873,7 +9873,7 @@ enum GetEnvironmentTemplateVersionOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
@@ -9891,7 +9891,7 @@ enum GetRepositoryOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
@@ -9909,7 +9909,7 @@ enum GetRepositorySyncStatusOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
@@ -9927,7 +9927,7 @@ enum GetResourcesSummaryOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
@@ -9944,7 +9944,7 @@ enum GetServiceOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
@@ -9962,7 +9962,7 @@ enum GetServiceInstanceOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
@@ -9980,7 +9980,7 @@ enum GetServiceInstanceSyncStatusOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
@@ -9998,7 +9998,7 @@ enum GetServiceSyncBlockerSummaryOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
@@ -10016,7 +10016,7 @@ enum GetServiceSyncConfigOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
@@ -10034,7 +10034,7 @@ enum GetServiceTemplateOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
@@ -10052,7 +10052,7 @@ enum GetServiceTemplateVersionOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
@@ -10070,7 +10070,7 @@ enum GetTemplateSyncConfigOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
@@ -10088,7 +10088,7 @@ enum GetTemplateSyncStatusOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
@@ -10106,7 +10106,7 @@ enum ListComponentOutputsOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
@@ -10124,7 +10124,7 @@ enum ListComponentProvisionedResourcesOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
@@ -10142,7 +10142,7 @@ enum ListComponentsOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
@@ -10159,7 +10159,7 @@ enum ListDeploymentsOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
@@ -10177,7 +10177,7 @@ enum ListEnvironmentAccountConnectionsOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
@@ -10194,7 +10194,7 @@ enum ListEnvironmentOutputsOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
@@ -10212,7 +10212,7 @@ enum ListEnvironmentProvisionedResourcesOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
@@ -10230,7 +10230,7 @@ enum ListEnvironmentsOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
@@ -10248,7 +10248,7 @@ enum ListEnvironmentTemplatesOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
@@ -10265,7 +10265,7 @@ enum ListEnvironmentTemplateVersionsOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
@@ -10283,7 +10283,7 @@ enum ListRepositoriesOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
@@ -10301,7 +10301,7 @@ enum ListRepositorySyncDefinitionsOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
@@ -10318,7 +10318,7 @@ enum ListServiceInstanceOutputsOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
@@ -10336,7 +10336,7 @@ enum ListServiceInstanceProvisionedResourcesOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
@@ -10354,7 +10354,7 @@ enum ListServiceInstancesOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
@@ -10372,7 +10372,7 @@ enum ListServicePipelineOutputsOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
@@ -10390,7 +10390,7 @@ enum ListServicePipelineProvisionedResourcesOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
@@ -10408,7 +10408,7 @@ enum ListServicesOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
@@ -10425,7 +10425,7 @@ enum ListServiceTemplatesOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
@@ -10442,7 +10442,7 @@ enum ListServiceTemplateVersionsOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
@@ -10460,7 +10460,7 @@ enum ListTagsForResourceOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
@@ -10478,7 +10478,7 @@ enum NotifyResourceDeploymentStatusChangeOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
@@ -10498,7 +10498,7 @@ enum RejectEnvironmentAccountConnectionOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
@@ -10517,7 +10517,7 @@ enum TagResourceOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
@@ -10536,7 +10536,7 @@ enum UntagResourceOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
@@ -10555,7 +10555,7 @@ enum UpdateAccountSettingsOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
@@ -10573,7 +10573,7 @@ enum UpdateComponentOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
@@ -10593,7 +10593,7 @@ enum UpdateEnvironmentOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
@@ -10612,7 +10612,7 @@ enum UpdateEnvironmentAccountConnectionOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
@@ -10631,7 +10631,7 @@ enum UpdateEnvironmentTemplateOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
@@ -10650,7 +10650,7 @@ enum UpdateEnvironmentTemplateVersionOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
@@ -10669,7 +10669,7 @@ enum UpdateServiceOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
@@ -10689,7 +10689,7 @@ enum UpdateServiceInstanceOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
@@ -10708,7 +10708,7 @@ enum UpdateServicePipelineOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
@@ -10727,7 +10727,7 @@ enum UpdateServiceSyncBlockerOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
@@ -10746,7 +10746,7 @@ enum UpdateServiceSyncConfigOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
@@ -10765,7 +10765,7 @@ enum UpdateServiceTemplateOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
@@ -10784,7 +10784,7 @@ enum UpdateServiceTemplateVersionOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
@@ -10803,7 +10803,7 @@ enum UpdateTemplateSyncConfigOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
@@ -10819,7 +10819,7 @@ enum UpdateTemplateSyncConfigOutputError {
 
 extension AccessDeniedException {
 
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> AccessDeniedException {
+    static func makeError(baseError: ClientRuntime.AWSJSONError) throws -> AccessDeniedException {
         let reader = baseError.errorBodyReader
         var value = AccessDeniedException()
         value.properties.message = try reader["message"].readIfPresent() ?? ""
@@ -10832,7 +10832,7 @@ extension AccessDeniedException {
 
 extension ConflictException {
 
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> ConflictException {
+    static func makeError(baseError: ClientRuntime.AWSJSONError) throws -> ConflictException {
         let reader = baseError.errorBodyReader
         var value = ConflictException()
         value.properties.message = try reader["message"].readIfPresent() ?? ""
@@ -10845,7 +10845,7 @@ extension ConflictException {
 
 extension InternalServerException {
 
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> InternalServerException {
+    static func makeError(baseError: ClientRuntime.AWSJSONError) throws -> InternalServerException {
         let reader = baseError.errorBodyReader
         var value = InternalServerException()
         value.properties.message = try reader["message"].readIfPresent() ?? ""
@@ -10858,7 +10858,7 @@ extension InternalServerException {
 
 extension ResourceNotFoundException {
 
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> ResourceNotFoundException {
+    static func makeError(baseError: ClientRuntime.AWSJSONError) throws -> ResourceNotFoundException {
         let reader = baseError.errorBodyReader
         var value = ResourceNotFoundException()
         value.properties.message = try reader["message"].readIfPresent() ?? ""
@@ -10871,7 +10871,7 @@ extension ResourceNotFoundException {
 
 extension ThrottlingException {
 
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> ThrottlingException {
+    static func makeError(baseError: ClientRuntime.AWSJSONError) throws -> ThrottlingException {
         let reader = baseError.errorBodyReader
         var value = ThrottlingException()
         value.properties.message = try reader["message"].readIfPresent() ?? ""
@@ -10884,7 +10884,7 @@ extension ThrottlingException {
 
 extension ValidationException {
 
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> ValidationException {
+    static func makeError(baseError: ClientRuntime.AWSJSONError) throws -> ValidationException {
         let reader = baseError.errorBodyReader
         var value = ValidationException()
         value.properties.message = try reader["message"].readIfPresent() ?? ""
@@ -10897,7 +10897,7 @@ extension ValidationException {
 
 extension ServiceQuotaExceededException {
 
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> ServiceQuotaExceededException {
+    static func makeError(baseError: ClientRuntime.AWSJSONError) throws -> ServiceQuotaExceededException {
         let reader = baseError.errorBodyReader
         var value = ServiceQuotaExceededException()
         value.properties.message = try reader["message"].readIfPresent() ?? ""
@@ -10908,23 +10908,35 @@ extension ServiceQuotaExceededException {
     }
 }
 
-extension ProtonClientTypes.EnvironmentAccountConnection {
+extension ProtonClientTypes.AccountSettings {
 
-    static func read(from reader: SmithyJSON.Reader) throws -> ProtonClientTypes.EnvironmentAccountConnection {
+    static func read(from reader: SmithyJSON.Reader) throws -> ProtonClientTypes.AccountSettings {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = ProtonClientTypes.EnvironmentAccountConnection()
-        value.id = try reader["id"].readIfPresent() ?? ""
-        value.arn = try reader["arn"].readIfPresent() ?? ""
-        value.managementAccountId = try reader["managementAccountId"].readIfPresent() ?? ""
-        value.environmentAccountId = try reader["environmentAccountId"].readIfPresent() ?? ""
-        value.roleArn = try reader["roleArn"].readIfPresent() ?? ""
-        value.environmentName = try reader["environmentName"].readIfPresent() ?? ""
-        value.requestedAt = try reader["requestedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
-        value.lastModifiedAt = try reader["lastModifiedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
-        value.status = try reader["status"].readIfPresent() ?? .sdkUnknown("")
-        value.componentRoleArn = try reader["componentRoleArn"].readIfPresent()
-        value.codebuildRoleArn = try reader["codebuildRoleArn"].readIfPresent()
+        var value = ProtonClientTypes.AccountSettings()
+        value.pipelineServiceRoleArn = try reader["pipelineServiceRoleArn"].readIfPresent()
+        value.pipelineProvisioningRepository = try reader["pipelineProvisioningRepository"].readIfPresent(with: ProtonClientTypes.RepositoryBranch.read(from:))
+        value.pipelineCodebuildRoleArn = try reader["pipelineCodebuildRoleArn"].readIfPresent()
         return value
+    }
+}
+
+extension ProtonClientTypes.CompatibleEnvironmentTemplate {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> ProtonClientTypes.CompatibleEnvironmentTemplate {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = ProtonClientTypes.CompatibleEnvironmentTemplate()
+        value.templateName = try reader["templateName"].readIfPresent() ?? ""
+        value.majorVersion = try reader["majorVersion"].readIfPresent() ?? ""
+        return value
+    }
+}
+
+extension ProtonClientTypes.CompatibleEnvironmentTemplateInput {
+
+    static func write(value: ProtonClientTypes.CompatibleEnvironmentTemplateInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["majorVersion"].write(value.majorVersion)
+        try writer["templateName"].write(value.templateName)
     }
 }
 
@@ -10953,245 +10965,53 @@ extension ProtonClientTypes.Component {
     }
 }
 
-extension ProtonClientTypes.Environment {
+extension ProtonClientTypes.ComponentState {
 
-    static func read(from reader: SmithyJSON.Reader) throws -> ProtonClientTypes.Environment {
+    static func read(from reader: SmithyJSON.Reader) throws -> ProtonClientTypes.ComponentState {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = ProtonClientTypes.Environment()
-        value.name = try reader["name"].readIfPresent() ?? ""
-        value.description = try reader["description"].readIfPresent()
-        value.createdAt = try reader["createdAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
-        value.lastDeploymentAttemptedAt = try reader["lastDeploymentAttemptedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
-        value.lastDeploymentSucceededAt = try reader["lastDeploymentSucceededAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
-        value.arn = try reader["arn"].readIfPresent() ?? ""
-        value.templateName = try reader["templateName"].readIfPresent() ?? ""
-        value.templateMajorVersion = try reader["templateMajorVersion"].readIfPresent() ?? ""
-        value.templateMinorVersion = try reader["templateMinorVersion"].readIfPresent() ?? ""
-        value.deploymentStatus = try reader["deploymentStatus"].readIfPresent() ?? .sdkUnknown("")
-        value.deploymentStatusMessage = try reader["deploymentStatusMessage"].readIfPresent()
-        value.protonServiceRoleArn = try reader["protonServiceRoleArn"].readIfPresent()
-        value.environmentAccountConnectionId = try reader["environmentAccountConnectionId"].readIfPresent()
-        value.environmentAccountId = try reader["environmentAccountId"].readIfPresent()
-        value.spec = try reader["spec"].readIfPresent()
-        value.provisioning = try reader["provisioning"].readIfPresent()
-        value.provisioningRepository = try reader["provisioningRepository"].readIfPresent(with: ProtonClientTypes.RepositoryBranch.read(from:))
-        value.componentRoleArn = try reader["componentRoleArn"].readIfPresent()
-        value.codebuildRoleArn = try reader["codebuildRoleArn"].readIfPresent()
-        value.lastAttemptedDeploymentId = try reader["lastAttemptedDeploymentId"].readIfPresent()
-        value.lastSucceededDeploymentId = try reader["lastSucceededDeploymentId"].readIfPresent()
+        var value = ProtonClientTypes.ComponentState()
+        value.serviceName = try reader["serviceName"].readIfPresent()
+        value.serviceInstanceName = try reader["serviceInstanceName"].readIfPresent()
+        value.serviceSpec = try reader["serviceSpec"].readIfPresent()
+        value.templateFile = try reader["templateFile"].readIfPresent()
         return value
     }
 }
 
-extension ProtonClientTypes.RepositoryBranch {
+extension ProtonClientTypes.ComponentSummary {
 
-    static func read(from reader: SmithyJSON.Reader) throws -> ProtonClientTypes.RepositoryBranch {
+    static func read(from reader: SmithyJSON.Reader) throws -> ProtonClientTypes.ComponentSummary {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = ProtonClientTypes.RepositoryBranch()
-        value.arn = try reader["arn"].readIfPresent() ?? ""
-        value.provider = try reader["provider"].readIfPresent() ?? .sdkUnknown("")
-        value.name = try reader["name"].readIfPresent() ?? ""
-        value.branch = try reader["branch"].readIfPresent() ?? ""
-        return value
-    }
-}
-
-extension ProtonClientTypes.ServiceInstance {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> ProtonClientTypes.ServiceInstance {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = ProtonClientTypes.ServiceInstance()
+        var value = ProtonClientTypes.ComponentSummary()
         value.name = try reader["name"].readIfPresent() ?? ""
         value.arn = try reader["arn"].readIfPresent() ?? ""
-        value.createdAt = try reader["createdAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
-        value.lastDeploymentAttemptedAt = try reader["lastDeploymentAttemptedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
-        value.lastDeploymentSucceededAt = try reader["lastDeploymentSucceededAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
-        value.serviceName = try reader["serviceName"].readIfPresent() ?? ""
         value.environmentName = try reader["environmentName"].readIfPresent() ?? ""
-        value.templateName = try reader["templateName"].readIfPresent() ?? ""
-        value.templateMajorVersion = try reader["templateMajorVersion"].readIfPresent() ?? ""
-        value.templateMinorVersion = try reader["templateMinorVersion"].readIfPresent() ?? ""
+        value.serviceName = try reader["serviceName"].readIfPresent()
+        value.serviceInstanceName = try reader["serviceInstanceName"].readIfPresent()
+        value.createdAt = try reader["createdAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        value.lastModifiedAt = try reader["lastModifiedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        value.lastDeploymentAttemptedAt = try reader["lastDeploymentAttemptedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.lastDeploymentSucceededAt = try reader["lastDeploymentSucceededAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
         value.deploymentStatus = try reader["deploymentStatus"].readIfPresent() ?? .sdkUnknown("")
         value.deploymentStatusMessage = try reader["deploymentStatusMessage"].readIfPresent()
-        value.spec = try reader["spec"].readIfPresent()
-        value.lastClientRequestToken = try reader["lastClientRequestToken"].readIfPresent()
         value.lastAttemptedDeploymentId = try reader["lastAttemptedDeploymentId"].readIfPresent()
         value.lastSucceededDeploymentId = try reader["lastSucceededDeploymentId"].readIfPresent()
         return value
     }
 }
 
-extension ProtonClientTypes.ServicePipeline {
+extension ProtonClientTypes.CountsSummary {
 
-    static func read(from reader: SmithyJSON.Reader) throws -> ProtonClientTypes.ServicePipeline {
+    static func read(from reader: SmithyJSON.Reader) throws -> ProtonClientTypes.CountsSummary {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = ProtonClientTypes.ServicePipeline()
-        value.arn = try reader["arn"].readIfPresent() ?? ""
-        value.createdAt = try reader["createdAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
-        value.lastDeploymentAttemptedAt = try reader["lastDeploymentAttemptedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
-        value.lastDeploymentSucceededAt = try reader["lastDeploymentSucceededAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
-        value.templateName = try reader["templateName"].readIfPresent() ?? ""
-        value.templateMajorVersion = try reader["templateMajorVersion"].readIfPresent() ?? ""
-        value.templateMinorVersion = try reader["templateMinorVersion"].readIfPresent() ?? ""
-        value.deploymentStatus = try reader["deploymentStatus"].readIfPresent() ?? .sdkUnknown("")
-        value.deploymentStatusMessage = try reader["deploymentStatusMessage"].readIfPresent()
-        value.spec = try reader["spec"].readIfPresent()
-        value.lastAttemptedDeploymentId = try reader["lastAttemptedDeploymentId"].readIfPresent()
-        value.lastSucceededDeploymentId = try reader["lastSucceededDeploymentId"].readIfPresent()
-        return value
-    }
-}
-
-extension ProtonClientTypes.EnvironmentTemplate {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> ProtonClientTypes.EnvironmentTemplate {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = ProtonClientTypes.EnvironmentTemplate()
-        value.name = try reader["name"].readIfPresent() ?? ""
-        value.arn = try reader["arn"].readIfPresent() ?? ""
-        value.createdAt = try reader["createdAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
-        value.lastModifiedAt = try reader["lastModifiedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
-        value.displayName = try reader["displayName"].readIfPresent()
-        value.description = try reader["description"].readIfPresent()
-        value.recommendedVersion = try reader["recommendedVersion"].readIfPresent()
-        value.encryptionKey = try reader["encryptionKey"].readIfPresent()
-        value.provisioning = try reader["provisioning"].readIfPresent()
-        return value
-    }
-}
-
-extension ProtonClientTypes.EnvironmentTemplateVersion {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> ProtonClientTypes.EnvironmentTemplateVersion {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = ProtonClientTypes.EnvironmentTemplateVersion()
-        value.templateName = try reader["templateName"].readIfPresent() ?? ""
-        value.majorVersion = try reader["majorVersion"].readIfPresent() ?? ""
-        value.minorVersion = try reader["minorVersion"].readIfPresent() ?? ""
-        value.recommendedMinorVersion = try reader["recommendedMinorVersion"].readIfPresent()
-        value.status = try reader["status"].readIfPresent() ?? .sdkUnknown("")
-        value.statusMessage = try reader["statusMessage"].readIfPresent()
-        value.description = try reader["description"].readIfPresent()
-        value.arn = try reader["arn"].readIfPresent() ?? ""
-        value.createdAt = try reader["createdAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
-        value.lastModifiedAt = try reader["lastModifiedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
-        value.schema = try reader["schema"].readIfPresent()
-        return value
-    }
-}
-
-extension ProtonClientTypes.Repository {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> ProtonClientTypes.Repository {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = ProtonClientTypes.Repository()
-        value.arn = try reader["arn"].readIfPresent() ?? ""
-        value.provider = try reader["provider"].readIfPresent() ?? .sdkUnknown("")
-        value.name = try reader["name"].readIfPresent() ?? ""
-        value.connectionArn = try reader["connectionArn"].readIfPresent() ?? ""
-        value.encryptionKey = try reader["encryptionKey"].readIfPresent()
-        return value
-    }
-}
-
-extension ProtonClientTypes.Service {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> ProtonClientTypes.Service {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = ProtonClientTypes.Service()
-        value.name = try reader["name"].readIfPresent() ?? ""
-        value.description = try reader["description"].readIfPresent()
-        value.arn = try reader["arn"].readIfPresent() ?? ""
-        value.templateName = try reader["templateName"].readIfPresent() ?? ""
-        value.createdAt = try reader["createdAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
-        value.lastModifiedAt = try reader["lastModifiedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
-        value.status = try reader["status"].readIfPresent() ?? .sdkUnknown("")
-        value.statusMessage = try reader["statusMessage"].readIfPresent()
-        value.spec = try reader["spec"].readIfPresent() ?? ""
-        value.pipeline = try reader["pipeline"].readIfPresent(with: ProtonClientTypes.ServicePipeline.read(from:))
-        value.repositoryConnectionArn = try reader["repositoryConnectionArn"].readIfPresent()
-        value.repositoryId = try reader["repositoryId"].readIfPresent()
-        value.branchName = try reader["branchName"].readIfPresent()
-        return value
-    }
-}
-
-extension ProtonClientTypes.ServiceSyncConfig {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> ProtonClientTypes.ServiceSyncConfig {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = ProtonClientTypes.ServiceSyncConfig()
-        value.serviceName = try reader["serviceName"].readIfPresent() ?? ""
-        value.repositoryProvider = try reader["repositoryProvider"].readIfPresent() ?? .sdkUnknown("")
-        value.repositoryName = try reader["repositoryName"].readIfPresent() ?? ""
-        value.branch = try reader["branch"].readIfPresent() ?? ""
-        value.filePath = try reader["filePath"].readIfPresent() ?? ""
-        return value
-    }
-}
-
-extension ProtonClientTypes.ServiceTemplate {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> ProtonClientTypes.ServiceTemplate {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = ProtonClientTypes.ServiceTemplate()
-        value.name = try reader["name"].readIfPresent() ?? ""
-        value.arn = try reader["arn"].readIfPresent() ?? ""
-        value.createdAt = try reader["createdAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
-        value.lastModifiedAt = try reader["lastModifiedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
-        value.displayName = try reader["displayName"].readIfPresent()
-        value.description = try reader["description"].readIfPresent()
-        value.recommendedVersion = try reader["recommendedVersion"].readIfPresent()
-        value.encryptionKey = try reader["encryptionKey"].readIfPresent()
-        value.pipelineProvisioning = try reader["pipelineProvisioning"].readIfPresent()
-        return value
-    }
-}
-
-extension ProtonClientTypes.ServiceTemplateVersion {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> ProtonClientTypes.ServiceTemplateVersion {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = ProtonClientTypes.ServiceTemplateVersion()
-        value.templateName = try reader["templateName"].readIfPresent() ?? ""
-        value.majorVersion = try reader["majorVersion"].readIfPresent() ?? ""
-        value.minorVersion = try reader["minorVersion"].readIfPresent() ?? ""
-        value.recommendedMinorVersion = try reader["recommendedMinorVersion"].readIfPresent()
-        value.status = try reader["status"].readIfPresent() ?? .sdkUnknown("")
-        value.statusMessage = try reader["statusMessage"].readIfPresent()
-        value.description = try reader["description"].readIfPresent()
-        value.arn = try reader["arn"].readIfPresent() ?? ""
-        value.createdAt = try reader["createdAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
-        value.lastModifiedAt = try reader["lastModifiedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
-        value.compatibleEnvironmentTemplates = try reader["compatibleEnvironmentTemplates"].readListIfPresent(memberReadingClosure: ProtonClientTypes.CompatibleEnvironmentTemplate.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
-        value.schema = try reader["schema"].readIfPresent()
-        value.supportedComponentSources = try reader["supportedComponentSources"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosureBox<ProtonClientTypes.ServiceTemplateSupportedComponentSourceType>().read(from:), memberNodeInfo: "member", isFlattened: false)
-        return value
-    }
-}
-
-extension ProtonClientTypes.CompatibleEnvironmentTemplate {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> ProtonClientTypes.CompatibleEnvironmentTemplate {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = ProtonClientTypes.CompatibleEnvironmentTemplate()
-        value.templateName = try reader["templateName"].readIfPresent() ?? ""
-        value.majorVersion = try reader["majorVersion"].readIfPresent() ?? ""
-        return value
-    }
-}
-
-extension ProtonClientTypes.TemplateSyncConfig {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> ProtonClientTypes.TemplateSyncConfig {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = ProtonClientTypes.TemplateSyncConfig()
-        value.templateName = try reader["templateName"].readIfPresent() ?? ""
-        value.templateType = try reader["templateType"].readIfPresent() ?? .sdkUnknown("")
-        value.repositoryProvider = try reader["repositoryProvider"].readIfPresent() ?? .sdkUnknown("")
-        value.repositoryName = try reader["repositoryName"].readIfPresent() ?? ""
-        value.branch = try reader["branch"].readIfPresent() ?? ""
-        value.subdirectory = try reader["subdirectory"].readIfPresent()
+        var value = ProtonClientTypes.CountsSummary()
+        value.components = try reader["components"].readIfPresent(with: ProtonClientTypes.ResourceCountsSummary.read(from:))
+        value.environments = try reader["environments"].readIfPresent(with: ProtonClientTypes.ResourceCountsSummary.read(from:))
+        value.environmentTemplates = try reader["environmentTemplates"].readIfPresent(with: ProtonClientTypes.ResourceCountsSummary.read(from:))
+        value.serviceInstances = try reader["serviceInstances"].readIfPresent(with: ProtonClientTypes.ResourceCountsSummary.read(from:))
+        value.services = try reader["services"].readIfPresent(with: ProtonClientTypes.ResourceCountsSummary.read(from:))
+        value.serviceTemplates = try reader["serviceTemplates"].readIfPresent(with: ProtonClientTypes.ResourceCountsSummary.read(from:))
+        value.pipelines = try reader["pipelines"].readIfPresent(with: ProtonClientTypes.ResourceCountsSummary.read(from:))
         return value
     }
 }
@@ -11243,28 +11063,95 @@ extension ProtonClientTypes.DeploymentState {
     }
 }
 
-extension ProtonClientTypes.ComponentState {
+extension ProtonClientTypes.DeploymentSummary {
 
-    static func read(from reader: SmithyJSON.Reader) throws -> ProtonClientTypes.ComponentState {
+    static func read(from reader: SmithyJSON.Reader) throws -> ProtonClientTypes.DeploymentSummary {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = ProtonClientTypes.ComponentState()
+        var value = ProtonClientTypes.DeploymentSummary()
+        value.id = try reader["id"].readIfPresent() ?? ""
+        value.arn = try reader["arn"].readIfPresent() ?? ""
+        value.targetArn = try reader["targetArn"].readIfPresent() ?? ""
+        value.targetResourceCreatedAt = try reader["targetResourceCreatedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        value.targetResourceType = try reader["targetResourceType"].readIfPresent() ?? .sdkUnknown("")
+        value.createdAt = try reader["createdAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        value.lastModifiedAt = try reader["lastModifiedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        value.completedAt = try reader["completedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.environmentName = try reader["environmentName"].readIfPresent() ?? ""
         value.serviceName = try reader["serviceName"].readIfPresent()
         value.serviceInstanceName = try reader["serviceInstanceName"].readIfPresent()
-        value.serviceSpec = try reader["serviceSpec"].readIfPresent()
-        value.templateFile = try reader["templateFile"].readIfPresent()
+        value.componentName = try reader["componentName"].readIfPresent()
+        value.lastAttemptedDeploymentId = try reader["lastAttemptedDeploymentId"].readIfPresent()
+        value.lastSucceededDeploymentId = try reader["lastSucceededDeploymentId"].readIfPresent()
+        value.deploymentStatus = try reader["deploymentStatus"].readIfPresent() ?? .sdkUnknown("")
         return value
     }
 }
 
-extension ProtonClientTypes.ServicePipelineState {
+extension ProtonClientTypes.Environment {
 
-    static func read(from reader: SmithyJSON.Reader) throws -> ProtonClientTypes.ServicePipelineState {
+    static func read(from reader: SmithyJSON.Reader) throws -> ProtonClientTypes.Environment {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = ProtonClientTypes.ServicePipelineState()
-        value.spec = try reader["spec"].readIfPresent()
+        var value = ProtonClientTypes.Environment()
+        value.name = try reader["name"].readIfPresent() ?? ""
+        value.description = try reader["description"].readIfPresent()
+        value.createdAt = try reader["createdAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        value.lastDeploymentAttemptedAt = try reader["lastDeploymentAttemptedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        value.lastDeploymentSucceededAt = try reader["lastDeploymentSucceededAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        value.arn = try reader["arn"].readIfPresent() ?? ""
         value.templateName = try reader["templateName"].readIfPresent() ?? ""
         value.templateMajorVersion = try reader["templateMajorVersion"].readIfPresent() ?? ""
         value.templateMinorVersion = try reader["templateMinorVersion"].readIfPresent() ?? ""
+        value.deploymentStatus = try reader["deploymentStatus"].readIfPresent() ?? .sdkUnknown("")
+        value.deploymentStatusMessage = try reader["deploymentStatusMessage"].readIfPresent()
+        value.protonServiceRoleArn = try reader["protonServiceRoleArn"].readIfPresent()
+        value.environmentAccountConnectionId = try reader["environmentAccountConnectionId"].readIfPresent()
+        value.environmentAccountId = try reader["environmentAccountId"].readIfPresent()
+        value.spec = try reader["spec"].readIfPresent()
+        value.provisioning = try reader["provisioning"].readIfPresent()
+        value.provisioningRepository = try reader["provisioningRepository"].readIfPresent(with: ProtonClientTypes.RepositoryBranch.read(from:))
+        value.componentRoleArn = try reader["componentRoleArn"].readIfPresent()
+        value.codebuildRoleArn = try reader["codebuildRoleArn"].readIfPresent()
+        value.lastAttemptedDeploymentId = try reader["lastAttemptedDeploymentId"].readIfPresent()
+        value.lastSucceededDeploymentId = try reader["lastSucceededDeploymentId"].readIfPresent()
+        return value
+    }
+}
+
+extension ProtonClientTypes.EnvironmentAccountConnection {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> ProtonClientTypes.EnvironmentAccountConnection {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = ProtonClientTypes.EnvironmentAccountConnection()
+        value.id = try reader["id"].readIfPresent() ?? ""
+        value.arn = try reader["arn"].readIfPresent() ?? ""
+        value.managementAccountId = try reader["managementAccountId"].readIfPresent() ?? ""
+        value.environmentAccountId = try reader["environmentAccountId"].readIfPresent() ?? ""
+        value.roleArn = try reader["roleArn"].readIfPresent() ?? ""
+        value.environmentName = try reader["environmentName"].readIfPresent() ?? ""
+        value.requestedAt = try reader["requestedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        value.lastModifiedAt = try reader["lastModifiedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        value.status = try reader["status"].readIfPresent() ?? .sdkUnknown("")
+        value.componentRoleArn = try reader["componentRoleArn"].readIfPresent()
+        value.codebuildRoleArn = try reader["codebuildRoleArn"].readIfPresent()
+        return value
+    }
+}
+
+extension ProtonClientTypes.EnvironmentAccountConnectionSummary {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> ProtonClientTypes.EnvironmentAccountConnectionSummary {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = ProtonClientTypes.EnvironmentAccountConnectionSummary()
+        value.id = try reader["id"].readIfPresent() ?? ""
+        value.arn = try reader["arn"].readIfPresent() ?? ""
+        value.managementAccountId = try reader["managementAccountId"].readIfPresent() ?? ""
+        value.environmentAccountId = try reader["environmentAccountId"].readIfPresent() ?? ""
+        value.roleArn = try reader["roleArn"].readIfPresent() ?? ""
+        value.environmentName = try reader["environmentName"].readIfPresent() ?? ""
+        value.requestedAt = try reader["requestedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        value.lastModifiedAt = try reader["lastModifiedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        value.status = try reader["status"].readIfPresent() ?? .sdkUnknown("")
+        value.componentRoleArn = try reader["componentRoleArn"].readIfPresent()
         return value
     }
 }
@@ -11282,30 +11169,200 @@ extension ProtonClientTypes.EnvironmentState {
     }
 }
 
-extension ProtonClientTypes.ServiceInstanceState {
+extension ProtonClientTypes.EnvironmentSummary {
 
-    static func read(from reader: SmithyJSON.Reader) throws -> ProtonClientTypes.ServiceInstanceState {
+    static func read(from reader: SmithyJSON.Reader) throws -> ProtonClientTypes.EnvironmentSummary {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = ProtonClientTypes.ServiceInstanceState()
-        value.spec = try reader["spec"].readIfPresent() ?? ""
+        var value = ProtonClientTypes.EnvironmentSummary()
+        value.name = try reader["name"].readIfPresent() ?? ""
+        value.description = try reader["description"].readIfPresent()
+        value.createdAt = try reader["createdAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        value.lastDeploymentAttemptedAt = try reader["lastDeploymentAttemptedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        value.lastDeploymentSucceededAt = try reader["lastDeploymentSucceededAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        value.arn = try reader["arn"].readIfPresent() ?? ""
         value.templateName = try reader["templateName"].readIfPresent() ?? ""
         value.templateMajorVersion = try reader["templateMajorVersion"].readIfPresent() ?? ""
         value.templateMinorVersion = try reader["templateMinorVersion"].readIfPresent() ?? ""
-        value.lastSuccessfulComponentDeploymentIds = try reader["lastSuccessfulComponentDeploymentIds"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
-        value.lastSuccessfulEnvironmentDeploymentId = try reader["lastSuccessfulEnvironmentDeploymentId"].readIfPresent()
-        value.lastSuccessfulServicePipelineDeploymentId = try reader["lastSuccessfulServicePipelineDeploymentId"].readIfPresent()
+        value.deploymentStatus = try reader["deploymentStatus"].readIfPresent() ?? .sdkUnknown("")
+        value.deploymentStatusMessage = try reader["deploymentStatusMessage"].readIfPresent()
+        value.protonServiceRoleArn = try reader["protonServiceRoleArn"].readIfPresent()
+        value.environmentAccountConnectionId = try reader["environmentAccountConnectionId"].readIfPresent()
+        value.environmentAccountId = try reader["environmentAccountId"].readIfPresent()
+        value.provisioning = try reader["provisioning"].readIfPresent()
+        value.componentRoleArn = try reader["componentRoleArn"].readIfPresent()
+        value.lastAttemptedDeploymentId = try reader["lastAttemptedDeploymentId"].readIfPresent()
+        value.lastSucceededDeploymentId = try reader["lastSucceededDeploymentId"].readIfPresent()
         return value
     }
 }
 
-extension ProtonClientTypes.AccountSettings {
+extension ProtonClientTypes.EnvironmentTemplate {
 
-    static func read(from reader: SmithyJSON.Reader) throws -> ProtonClientTypes.AccountSettings {
+    static func read(from reader: SmithyJSON.Reader) throws -> ProtonClientTypes.EnvironmentTemplate {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = ProtonClientTypes.AccountSettings()
-        value.pipelineServiceRoleArn = try reader["pipelineServiceRoleArn"].readIfPresent()
-        value.pipelineProvisioningRepository = try reader["pipelineProvisioningRepository"].readIfPresent(with: ProtonClientTypes.RepositoryBranch.read(from:))
-        value.pipelineCodebuildRoleArn = try reader["pipelineCodebuildRoleArn"].readIfPresent()
+        var value = ProtonClientTypes.EnvironmentTemplate()
+        value.name = try reader["name"].readIfPresent() ?? ""
+        value.arn = try reader["arn"].readIfPresent() ?? ""
+        value.createdAt = try reader["createdAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        value.lastModifiedAt = try reader["lastModifiedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        value.displayName = try reader["displayName"].readIfPresent()
+        value.description = try reader["description"].readIfPresent()
+        value.recommendedVersion = try reader["recommendedVersion"].readIfPresent()
+        value.encryptionKey = try reader["encryptionKey"].readIfPresent()
+        value.provisioning = try reader["provisioning"].readIfPresent()
+        return value
+    }
+}
+
+extension ProtonClientTypes.EnvironmentTemplateFilter {
+
+    static func write(value: ProtonClientTypes.EnvironmentTemplateFilter?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["majorVersion"].write(value.majorVersion)
+        try writer["templateName"].write(value.templateName)
+    }
+}
+
+extension ProtonClientTypes.EnvironmentTemplateSummary {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> ProtonClientTypes.EnvironmentTemplateSummary {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = ProtonClientTypes.EnvironmentTemplateSummary()
+        value.name = try reader["name"].readIfPresent() ?? ""
+        value.arn = try reader["arn"].readIfPresent() ?? ""
+        value.createdAt = try reader["createdAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        value.lastModifiedAt = try reader["lastModifiedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        value.displayName = try reader["displayName"].readIfPresent()
+        value.description = try reader["description"].readIfPresent()
+        value.recommendedVersion = try reader["recommendedVersion"].readIfPresent()
+        value.provisioning = try reader["provisioning"].readIfPresent()
+        return value
+    }
+}
+
+extension ProtonClientTypes.EnvironmentTemplateVersion {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> ProtonClientTypes.EnvironmentTemplateVersion {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = ProtonClientTypes.EnvironmentTemplateVersion()
+        value.templateName = try reader["templateName"].readIfPresent() ?? ""
+        value.majorVersion = try reader["majorVersion"].readIfPresent() ?? ""
+        value.minorVersion = try reader["minorVersion"].readIfPresent() ?? ""
+        value.recommendedMinorVersion = try reader["recommendedMinorVersion"].readIfPresent()
+        value.status = try reader["status"].readIfPresent() ?? .sdkUnknown("")
+        value.statusMessage = try reader["statusMessage"].readIfPresent()
+        value.description = try reader["description"].readIfPresent()
+        value.arn = try reader["arn"].readIfPresent() ?? ""
+        value.createdAt = try reader["createdAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        value.lastModifiedAt = try reader["lastModifiedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        value.schema = try reader["schema"].readIfPresent()
+        return value
+    }
+}
+
+extension ProtonClientTypes.EnvironmentTemplateVersionSummary {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> ProtonClientTypes.EnvironmentTemplateVersionSummary {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = ProtonClientTypes.EnvironmentTemplateVersionSummary()
+        value.templateName = try reader["templateName"].readIfPresent() ?? ""
+        value.majorVersion = try reader["majorVersion"].readIfPresent() ?? ""
+        value.minorVersion = try reader["minorVersion"].readIfPresent() ?? ""
+        value.recommendedMinorVersion = try reader["recommendedMinorVersion"].readIfPresent()
+        value.status = try reader["status"].readIfPresent() ?? .sdkUnknown("")
+        value.statusMessage = try reader["statusMessage"].readIfPresent()
+        value.description = try reader["description"].readIfPresent()
+        value.arn = try reader["arn"].readIfPresent() ?? ""
+        value.createdAt = try reader["createdAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        value.lastModifiedAt = try reader["lastModifiedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        return value
+    }
+}
+
+extension ProtonClientTypes.ListServiceInstancesFilter {
+
+    static func write(value: ProtonClientTypes.ListServiceInstancesFilter?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["key"].write(value.key)
+        try writer["value"].write(value.value)
+    }
+}
+
+extension ProtonClientTypes.Output {
+
+    static func write(value: ProtonClientTypes.Output?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["key"].write(value.key)
+        try writer["valueString"].write(value.valueString)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> ProtonClientTypes.Output {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = ProtonClientTypes.Output()
+        value.key = try reader["key"].readIfPresent()
+        value.valueString = try reader["valueString"].readIfPresent()
+        return value
+    }
+}
+
+extension ProtonClientTypes.ProvisionedResource {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> ProtonClientTypes.ProvisionedResource {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = ProtonClientTypes.ProvisionedResource()
+        value.name = try reader["name"].readIfPresent()
+        value.identifier = try reader["identifier"].readIfPresent()
+        value.provisioningEngine = try reader["provisioningEngine"].readIfPresent()
+        return value
+    }
+}
+
+extension ProtonClientTypes.Repository {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> ProtonClientTypes.Repository {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = ProtonClientTypes.Repository()
+        value.arn = try reader["arn"].readIfPresent() ?? ""
+        value.provider = try reader["provider"].readIfPresent() ?? .sdkUnknown("")
+        value.name = try reader["name"].readIfPresent() ?? ""
+        value.connectionArn = try reader["connectionArn"].readIfPresent() ?? ""
+        value.encryptionKey = try reader["encryptionKey"].readIfPresent()
+        return value
+    }
+}
+
+extension ProtonClientTypes.RepositoryBranch {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> ProtonClientTypes.RepositoryBranch {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = ProtonClientTypes.RepositoryBranch()
+        value.arn = try reader["arn"].readIfPresent() ?? ""
+        value.provider = try reader["provider"].readIfPresent() ?? .sdkUnknown("")
+        value.name = try reader["name"].readIfPresent() ?? ""
+        value.branch = try reader["branch"].readIfPresent() ?? ""
+        return value
+    }
+}
+
+extension ProtonClientTypes.RepositoryBranchInput {
+
+    static func write(value: ProtonClientTypes.RepositoryBranchInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["branch"].write(value.branch)
+        try writer["name"].write(value.name)
+        try writer["provider"].write(value.provider)
+    }
+}
+
+extension ProtonClientTypes.RepositorySummary {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> ProtonClientTypes.RepositorySummary {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = ProtonClientTypes.RepositorySummary()
+        value.arn = try reader["arn"].readIfPresent() ?? ""
+        value.provider = try reader["provider"].readIfPresent() ?? .sdkUnknown("")
+        value.name = try reader["name"].readIfPresent() ?? ""
+        value.connectionArn = try reader["connectionArn"].readIfPresent() ?? ""
         return value
     }
 }
@@ -11322,6 +11379,19 @@ extension ProtonClientTypes.RepositorySyncAttempt {
     }
 }
 
+extension ProtonClientTypes.RepositorySyncDefinition {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> ProtonClientTypes.RepositorySyncDefinition {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = ProtonClientTypes.RepositorySyncDefinition()
+        value.target = try reader["target"].readIfPresent() ?? ""
+        value.parent = try reader["parent"].readIfPresent() ?? ""
+        value.branch = try reader["branch"].readIfPresent() ?? ""
+        value.directory = try reader["directory"].readIfPresent() ?? ""
+        return value
+    }
+}
+
 extension ProtonClientTypes.RepositorySyncEvent {
 
     static func read(from reader: SmithyJSON.Reader) throws -> ProtonClientTypes.RepositorySyncEvent {
@@ -11331,22 +11401,6 @@ extension ProtonClientTypes.RepositorySyncEvent {
         value.externalId = try reader["externalId"].readIfPresent()
         value.time = try reader["time"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
         value.event = try reader["event"].readIfPresent() ?? ""
-        return value
-    }
-}
-
-extension ProtonClientTypes.CountsSummary {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> ProtonClientTypes.CountsSummary {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = ProtonClientTypes.CountsSummary()
-        value.components = try reader["components"].readIfPresent(with: ProtonClientTypes.ResourceCountsSummary.read(from:))
-        value.environments = try reader["environments"].readIfPresent(with: ProtonClientTypes.ResourceCountsSummary.read(from:))
-        value.environmentTemplates = try reader["environmentTemplates"].readIfPresent(with: ProtonClientTypes.ResourceCountsSummary.read(from:))
-        value.serviceInstances = try reader["serviceInstances"].readIfPresent(with: ProtonClientTypes.ResourceCountsSummary.read(from:))
-        value.services = try reader["services"].readIfPresent(with: ProtonClientTypes.ResourceCountsSummary.read(from:))
-        value.serviceTemplates = try reader["serviceTemplates"].readIfPresent(with: ProtonClientTypes.ResourceCountsSummary.read(from:))
-        value.pipelines = try reader["pipelines"].readIfPresent(with: ProtonClientTypes.ResourceCountsSummary.read(from:))
         return value
     }
 }
@@ -11407,6 +11461,152 @@ extension ProtonClientTypes.Revision {
     }
 }
 
+extension ProtonClientTypes.S3ObjectSource {
+
+    static func write(value: ProtonClientTypes.S3ObjectSource?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["bucket"].write(value.bucket)
+        try writer["key"].write(value.key)
+    }
+}
+
+extension ProtonClientTypes.Service {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> ProtonClientTypes.Service {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = ProtonClientTypes.Service()
+        value.name = try reader["name"].readIfPresent() ?? ""
+        value.description = try reader["description"].readIfPresent()
+        value.arn = try reader["arn"].readIfPresent() ?? ""
+        value.templateName = try reader["templateName"].readIfPresent() ?? ""
+        value.createdAt = try reader["createdAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        value.lastModifiedAt = try reader["lastModifiedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        value.status = try reader["status"].readIfPresent() ?? .sdkUnknown("")
+        value.statusMessage = try reader["statusMessage"].readIfPresent()
+        value.spec = try reader["spec"].readIfPresent() ?? ""
+        value.pipeline = try reader["pipeline"].readIfPresent(with: ProtonClientTypes.ServicePipeline.read(from:))
+        value.repositoryConnectionArn = try reader["repositoryConnectionArn"].readIfPresent()
+        value.repositoryId = try reader["repositoryId"].readIfPresent()
+        value.branchName = try reader["branchName"].readIfPresent()
+        return value
+    }
+}
+
+extension ProtonClientTypes.ServiceInstance {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> ProtonClientTypes.ServiceInstance {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = ProtonClientTypes.ServiceInstance()
+        value.name = try reader["name"].readIfPresent() ?? ""
+        value.arn = try reader["arn"].readIfPresent() ?? ""
+        value.createdAt = try reader["createdAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        value.lastDeploymentAttemptedAt = try reader["lastDeploymentAttemptedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        value.lastDeploymentSucceededAt = try reader["lastDeploymentSucceededAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        value.serviceName = try reader["serviceName"].readIfPresent() ?? ""
+        value.environmentName = try reader["environmentName"].readIfPresent() ?? ""
+        value.templateName = try reader["templateName"].readIfPresent() ?? ""
+        value.templateMajorVersion = try reader["templateMajorVersion"].readIfPresent() ?? ""
+        value.templateMinorVersion = try reader["templateMinorVersion"].readIfPresent() ?? ""
+        value.deploymentStatus = try reader["deploymentStatus"].readIfPresent() ?? .sdkUnknown("")
+        value.deploymentStatusMessage = try reader["deploymentStatusMessage"].readIfPresent()
+        value.spec = try reader["spec"].readIfPresent()
+        value.lastClientRequestToken = try reader["lastClientRequestToken"].readIfPresent()
+        value.lastAttemptedDeploymentId = try reader["lastAttemptedDeploymentId"].readIfPresent()
+        value.lastSucceededDeploymentId = try reader["lastSucceededDeploymentId"].readIfPresent()
+        return value
+    }
+}
+
+extension ProtonClientTypes.ServiceInstanceState {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> ProtonClientTypes.ServiceInstanceState {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = ProtonClientTypes.ServiceInstanceState()
+        value.spec = try reader["spec"].readIfPresent() ?? ""
+        value.templateName = try reader["templateName"].readIfPresent() ?? ""
+        value.templateMajorVersion = try reader["templateMajorVersion"].readIfPresent() ?? ""
+        value.templateMinorVersion = try reader["templateMinorVersion"].readIfPresent() ?? ""
+        value.lastSuccessfulComponentDeploymentIds = try reader["lastSuccessfulComponentDeploymentIds"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        value.lastSuccessfulEnvironmentDeploymentId = try reader["lastSuccessfulEnvironmentDeploymentId"].readIfPresent()
+        value.lastSuccessfulServicePipelineDeploymentId = try reader["lastSuccessfulServicePipelineDeploymentId"].readIfPresent()
+        return value
+    }
+}
+
+extension ProtonClientTypes.ServiceInstanceSummary {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> ProtonClientTypes.ServiceInstanceSummary {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = ProtonClientTypes.ServiceInstanceSummary()
+        value.name = try reader["name"].readIfPresent() ?? ""
+        value.arn = try reader["arn"].readIfPresent() ?? ""
+        value.createdAt = try reader["createdAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        value.lastDeploymentAttemptedAt = try reader["lastDeploymentAttemptedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        value.lastDeploymentSucceededAt = try reader["lastDeploymentSucceededAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        value.serviceName = try reader["serviceName"].readIfPresent() ?? ""
+        value.environmentName = try reader["environmentName"].readIfPresent() ?? ""
+        value.templateName = try reader["templateName"].readIfPresent() ?? ""
+        value.templateMajorVersion = try reader["templateMajorVersion"].readIfPresent() ?? ""
+        value.templateMinorVersion = try reader["templateMinorVersion"].readIfPresent() ?? ""
+        value.deploymentStatus = try reader["deploymentStatus"].readIfPresent() ?? .sdkUnknown("")
+        value.deploymentStatusMessage = try reader["deploymentStatusMessage"].readIfPresent()
+        value.lastAttemptedDeploymentId = try reader["lastAttemptedDeploymentId"].readIfPresent()
+        value.lastSucceededDeploymentId = try reader["lastSucceededDeploymentId"].readIfPresent()
+        return value
+    }
+}
+
+extension ProtonClientTypes.ServicePipeline {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> ProtonClientTypes.ServicePipeline {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = ProtonClientTypes.ServicePipeline()
+        value.arn = try reader["arn"].readIfPresent() ?? ""
+        value.createdAt = try reader["createdAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        value.lastDeploymentAttemptedAt = try reader["lastDeploymentAttemptedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        value.lastDeploymentSucceededAt = try reader["lastDeploymentSucceededAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        value.templateName = try reader["templateName"].readIfPresent() ?? ""
+        value.templateMajorVersion = try reader["templateMajorVersion"].readIfPresent() ?? ""
+        value.templateMinorVersion = try reader["templateMinorVersion"].readIfPresent() ?? ""
+        value.deploymentStatus = try reader["deploymentStatus"].readIfPresent() ?? .sdkUnknown("")
+        value.deploymentStatusMessage = try reader["deploymentStatusMessage"].readIfPresent()
+        value.spec = try reader["spec"].readIfPresent()
+        value.lastAttemptedDeploymentId = try reader["lastAttemptedDeploymentId"].readIfPresent()
+        value.lastSucceededDeploymentId = try reader["lastSucceededDeploymentId"].readIfPresent()
+        return value
+    }
+}
+
+extension ProtonClientTypes.ServicePipelineState {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> ProtonClientTypes.ServicePipelineState {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = ProtonClientTypes.ServicePipelineState()
+        value.spec = try reader["spec"].readIfPresent()
+        value.templateName = try reader["templateName"].readIfPresent() ?? ""
+        value.templateMajorVersion = try reader["templateMajorVersion"].readIfPresent() ?? ""
+        value.templateMinorVersion = try reader["templateMinorVersion"].readIfPresent() ?? ""
+        return value
+    }
+}
+
+extension ProtonClientTypes.ServiceSummary {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> ProtonClientTypes.ServiceSummary {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = ProtonClientTypes.ServiceSummary()
+        value.name = try reader["name"].readIfPresent() ?? ""
+        value.description = try reader["description"].readIfPresent()
+        value.arn = try reader["arn"].readIfPresent() ?? ""
+        value.templateName = try reader["templateName"].readIfPresent() ?? ""
+        value.createdAt = try reader["createdAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        value.lastModifiedAt = try reader["lastModifiedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        value.status = try reader["status"].readIfPresent() ?? .sdkUnknown("")
+        value.statusMessage = try reader["statusMessage"].readIfPresent()
+        return value
+    }
+}
+
 extension ProtonClientTypes.ServiceSyncBlockerSummary {
 
     static func read(from reader: SmithyJSON.Reader) throws -> ProtonClientTypes.ServiceSyncBlockerSummary {
@@ -11415,6 +11615,96 @@ extension ProtonClientTypes.ServiceSyncBlockerSummary {
         value.serviceName = try reader["serviceName"].readIfPresent() ?? ""
         value.serviceInstanceName = try reader["serviceInstanceName"].readIfPresent()
         value.latestBlockers = try reader["latestBlockers"].readListIfPresent(memberReadingClosure: ProtonClientTypes.SyncBlocker.read(from:), memberNodeInfo: "member", isFlattened: false)
+        return value
+    }
+}
+
+extension ProtonClientTypes.ServiceSyncConfig {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> ProtonClientTypes.ServiceSyncConfig {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = ProtonClientTypes.ServiceSyncConfig()
+        value.serviceName = try reader["serviceName"].readIfPresent() ?? ""
+        value.repositoryProvider = try reader["repositoryProvider"].readIfPresent() ?? .sdkUnknown("")
+        value.repositoryName = try reader["repositoryName"].readIfPresent() ?? ""
+        value.branch = try reader["branch"].readIfPresent() ?? ""
+        value.filePath = try reader["filePath"].readIfPresent() ?? ""
+        return value
+    }
+}
+
+extension ProtonClientTypes.ServiceTemplate {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> ProtonClientTypes.ServiceTemplate {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = ProtonClientTypes.ServiceTemplate()
+        value.name = try reader["name"].readIfPresent() ?? ""
+        value.arn = try reader["arn"].readIfPresent() ?? ""
+        value.createdAt = try reader["createdAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        value.lastModifiedAt = try reader["lastModifiedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        value.displayName = try reader["displayName"].readIfPresent()
+        value.description = try reader["description"].readIfPresent()
+        value.recommendedVersion = try reader["recommendedVersion"].readIfPresent()
+        value.encryptionKey = try reader["encryptionKey"].readIfPresent()
+        value.pipelineProvisioning = try reader["pipelineProvisioning"].readIfPresent()
+        return value
+    }
+}
+
+extension ProtonClientTypes.ServiceTemplateSummary {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> ProtonClientTypes.ServiceTemplateSummary {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = ProtonClientTypes.ServiceTemplateSummary()
+        value.name = try reader["name"].readIfPresent() ?? ""
+        value.arn = try reader["arn"].readIfPresent() ?? ""
+        value.createdAt = try reader["createdAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        value.lastModifiedAt = try reader["lastModifiedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        value.displayName = try reader["displayName"].readIfPresent()
+        value.description = try reader["description"].readIfPresent()
+        value.recommendedVersion = try reader["recommendedVersion"].readIfPresent()
+        value.pipelineProvisioning = try reader["pipelineProvisioning"].readIfPresent()
+        return value
+    }
+}
+
+extension ProtonClientTypes.ServiceTemplateVersion {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> ProtonClientTypes.ServiceTemplateVersion {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = ProtonClientTypes.ServiceTemplateVersion()
+        value.templateName = try reader["templateName"].readIfPresent() ?? ""
+        value.majorVersion = try reader["majorVersion"].readIfPresent() ?? ""
+        value.minorVersion = try reader["minorVersion"].readIfPresent() ?? ""
+        value.recommendedMinorVersion = try reader["recommendedMinorVersion"].readIfPresent()
+        value.status = try reader["status"].readIfPresent() ?? .sdkUnknown("")
+        value.statusMessage = try reader["statusMessage"].readIfPresent()
+        value.description = try reader["description"].readIfPresent()
+        value.arn = try reader["arn"].readIfPresent() ?? ""
+        value.createdAt = try reader["createdAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        value.lastModifiedAt = try reader["lastModifiedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        value.compatibleEnvironmentTemplates = try reader["compatibleEnvironmentTemplates"].readListIfPresent(memberReadingClosure: ProtonClientTypes.CompatibleEnvironmentTemplate.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        value.schema = try reader["schema"].readIfPresent()
+        value.supportedComponentSources = try reader["supportedComponentSources"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosureBox<ProtonClientTypes.ServiceTemplateSupportedComponentSourceType>().read(from:), memberNodeInfo: "member", isFlattened: false)
+        return value
+    }
+}
+
+extension ProtonClientTypes.ServiceTemplateVersionSummary {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> ProtonClientTypes.ServiceTemplateVersionSummary {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = ProtonClientTypes.ServiceTemplateVersionSummary()
+        value.templateName = try reader["templateName"].readIfPresent() ?? ""
+        value.majorVersion = try reader["majorVersion"].readIfPresent() ?? ""
+        value.minorVersion = try reader["minorVersion"].readIfPresent() ?? ""
+        value.recommendedMinorVersion = try reader["recommendedMinorVersion"].readIfPresent()
+        value.status = try reader["status"].readIfPresent() ?? .sdkUnknown("")
+        value.statusMessage = try reader["statusMessage"].readIfPresent()
+        value.description = try reader["description"].readIfPresent()
+        value.arn = try reader["arn"].readIfPresent() ?? ""
+        value.createdAt = try reader["createdAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        value.lastModifiedAt = try reader["lastModifiedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
         return value
     }
 }
@@ -11447,265 +11737,6 @@ extension ProtonClientTypes.SyncBlockerContext {
     }
 }
 
-extension ProtonClientTypes.Output {
-
-    static func write(value: ProtonClientTypes.Output?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["key"].write(value.key)
-        try writer["valueString"].write(value.valueString)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> ProtonClientTypes.Output {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = ProtonClientTypes.Output()
-        value.key = try reader["key"].readIfPresent()
-        value.valueString = try reader["valueString"].readIfPresent()
-        return value
-    }
-}
-
-extension ProtonClientTypes.ProvisionedResource {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> ProtonClientTypes.ProvisionedResource {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = ProtonClientTypes.ProvisionedResource()
-        value.name = try reader["name"].readIfPresent()
-        value.identifier = try reader["identifier"].readIfPresent()
-        value.provisioningEngine = try reader["provisioningEngine"].readIfPresent()
-        return value
-    }
-}
-
-extension ProtonClientTypes.ComponentSummary {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> ProtonClientTypes.ComponentSummary {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = ProtonClientTypes.ComponentSummary()
-        value.name = try reader["name"].readIfPresent() ?? ""
-        value.arn = try reader["arn"].readIfPresent() ?? ""
-        value.environmentName = try reader["environmentName"].readIfPresent() ?? ""
-        value.serviceName = try reader["serviceName"].readIfPresent()
-        value.serviceInstanceName = try reader["serviceInstanceName"].readIfPresent()
-        value.createdAt = try reader["createdAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
-        value.lastModifiedAt = try reader["lastModifiedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
-        value.lastDeploymentAttemptedAt = try reader["lastDeploymentAttemptedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
-        value.lastDeploymentSucceededAt = try reader["lastDeploymentSucceededAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
-        value.deploymentStatus = try reader["deploymentStatus"].readIfPresent() ?? .sdkUnknown("")
-        value.deploymentStatusMessage = try reader["deploymentStatusMessage"].readIfPresent()
-        value.lastAttemptedDeploymentId = try reader["lastAttemptedDeploymentId"].readIfPresent()
-        value.lastSucceededDeploymentId = try reader["lastSucceededDeploymentId"].readIfPresent()
-        return value
-    }
-}
-
-extension ProtonClientTypes.DeploymentSummary {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> ProtonClientTypes.DeploymentSummary {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = ProtonClientTypes.DeploymentSummary()
-        value.id = try reader["id"].readIfPresent() ?? ""
-        value.arn = try reader["arn"].readIfPresent() ?? ""
-        value.targetArn = try reader["targetArn"].readIfPresent() ?? ""
-        value.targetResourceCreatedAt = try reader["targetResourceCreatedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
-        value.targetResourceType = try reader["targetResourceType"].readIfPresent() ?? .sdkUnknown("")
-        value.createdAt = try reader["createdAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
-        value.lastModifiedAt = try reader["lastModifiedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
-        value.completedAt = try reader["completedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
-        value.environmentName = try reader["environmentName"].readIfPresent() ?? ""
-        value.serviceName = try reader["serviceName"].readIfPresent()
-        value.serviceInstanceName = try reader["serviceInstanceName"].readIfPresent()
-        value.componentName = try reader["componentName"].readIfPresent()
-        value.lastAttemptedDeploymentId = try reader["lastAttemptedDeploymentId"].readIfPresent()
-        value.lastSucceededDeploymentId = try reader["lastSucceededDeploymentId"].readIfPresent()
-        value.deploymentStatus = try reader["deploymentStatus"].readIfPresent() ?? .sdkUnknown("")
-        return value
-    }
-}
-
-extension ProtonClientTypes.EnvironmentAccountConnectionSummary {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> ProtonClientTypes.EnvironmentAccountConnectionSummary {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = ProtonClientTypes.EnvironmentAccountConnectionSummary()
-        value.id = try reader["id"].readIfPresent() ?? ""
-        value.arn = try reader["arn"].readIfPresent() ?? ""
-        value.managementAccountId = try reader["managementAccountId"].readIfPresent() ?? ""
-        value.environmentAccountId = try reader["environmentAccountId"].readIfPresent() ?? ""
-        value.roleArn = try reader["roleArn"].readIfPresent() ?? ""
-        value.environmentName = try reader["environmentName"].readIfPresent() ?? ""
-        value.requestedAt = try reader["requestedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
-        value.lastModifiedAt = try reader["lastModifiedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
-        value.status = try reader["status"].readIfPresent() ?? .sdkUnknown("")
-        value.componentRoleArn = try reader["componentRoleArn"].readIfPresent()
-        return value
-    }
-}
-
-extension ProtonClientTypes.EnvironmentSummary {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> ProtonClientTypes.EnvironmentSummary {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = ProtonClientTypes.EnvironmentSummary()
-        value.name = try reader["name"].readIfPresent() ?? ""
-        value.description = try reader["description"].readIfPresent()
-        value.createdAt = try reader["createdAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
-        value.lastDeploymentAttemptedAt = try reader["lastDeploymentAttemptedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
-        value.lastDeploymentSucceededAt = try reader["lastDeploymentSucceededAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
-        value.arn = try reader["arn"].readIfPresent() ?? ""
-        value.templateName = try reader["templateName"].readIfPresent() ?? ""
-        value.templateMajorVersion = try reader["templateMajorVersion"].readIfPresent() ?? ""
-        value.templateMinorVersion = try reader["templateMinorVersion"].readIfPresent() ?? ""
-        value.deploymentStatus = try reader["deploymentStatus"].readIfPresent() ?? .sdkUnknown("")
-        value.deploymentStatusMessage = try reader["deploymentStatusMessage"].readIfPresent()
-        value.protonServiceRoleArn = try reader["protonServiceRoleArn"].readIfPresent()
-        value.environmentAccountConnectionId = try reader["environmentAccountConnectionId"].readIfPresent()
-        value.environmentAccountId = try reader["environmentAccountId"].readIfPresent()
-        value.provisioning = try reader["provisioning"].readIfPresent()
-        value.componentRoleArn = try reader["componentRoleArn"].readIfPresent()
-        value.lastAttemptedDeploymentId = try reader["lastAttemptedDeploymentId"].readIfPresent()
-        value.lastSucceededDeploymentId = try reader["lastSucceededDeploymentId"].readIfPresent()
-        return value
-    }
-}
-
-extension ProtonClientTypes.EnvironmentTemplateSummary {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> ProtonClientTypes.EnvironmentTemplateSummary {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = ProtonClientTypes.EnvironmentTemplateSummary()
-        value.name = try reader["name"].readIfPresent() ?? ""
-        value.arn = try reader["arn"].readIfPresent() ?? ""
-        value.createdAt = try reader["createdAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
-        value.lastModifiedAt = try reader["lastModifiedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
-        value.displayName = try reader["displayName"].readIfPresent()
-        value.description = try reader["description"].readIfPresent()
-        value.recommendedVersion = try reader["recommendedVersion"].readIfPresent()
-        value.provisioning = try reader["provisioning"].readIfPresent()
-        return value
-    }
-}
-
-extension ProtonClientTypes.EnvironmentTemplateVersionSummary {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> ProtonClientTypes.EnvironmentTemplateVersionSummary {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = ProtonClientTypes.EnvironmentTemplateVersionSummary()
-        value.templateName = try reader["templateName"].readIfPresent() ?? ""
-        value.majorVersion = try reader["majorVersion"].readIfPresent() ?? ""
-        value.minorVersion = try reader["minorVersion"].readIfPresent() ?? ""
-        value.recommendedMinorVersion = try reader["recommendedMinorVersion"].readIfPresent()
-        value.status = try reader["status"].readIfPresent() ?? .sdkUnknown("")
-        value.statusMessage = try reader["statusMessage"].readIfPresent()
-        value.description = try reader["description"].readIfPresent()
-        value.arn = try reader["arn"].readIfPresent() ?? ""
-        value.createdAt = try reader["createdAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
-        value.lastModifiedAt = try reader["lastModifiedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
-        return value
-    }
-}
-
-extension ProtonClientTypes.RepositorySummary {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> ProtonClientTypes.RepositorySummary {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = ProtonClientTypes.RepositorySummary()
-        value.arn = try reader["arn"].readIfPresent() ?? ""
-        value.provider = try reader["provider"].readIfPresent() ?? .sdkUnknown("")
-        value.name = try reader["name"].readIfPresent() ?? ""
-        value.connectionArn = try reader["connectionArn"].readIfPresent() ?? ""
-        return value
-    }
-}
-
-extension ProtonClientTypes.RepositorySyncDefinition {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> ProtonClientTypes.RepositorySyncDefinition {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = ProtonClientTypes.RepositorySyncDefinition()
-        value.target = try reader["target"].readIfPresent() ?? ""
-        value.parent = try reader["parent"].readIfPresent() ?? ""
-        value.branch = try reader["branch"].readIfPresent() ?? ""
-        value.directory = try reader["directory"].readIfPresent() ?? ""
-        return value
-    }
-}
-
-extension ProtonClientTypes.ServiceInstanceSummary {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> ProtonClientTypes.ServiceInstanceSummary {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = ProtonClientTypes.ServiceInstanceSummary()
-        value.name = try reader["name"].readIfPresent() ?? ""
-        value.arn = try reader["arn"].readIfPresent() ?? ""
-        value.createdAt = try reader["createdAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
-        value.lastDeploymentAttemptedAt = try reader["lastDeploymentAttemptedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
-        value.lastDeploymentSucceededAt = try reader["lastDeploymentSucceededAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
-        value.serviceName = try reader["serviceName"].readIfPresent() ?? ""
-        value.environmentName = try reader["environmentName"].readIfPresent() ?? ""
-        value.templateName = try reader["templateName"].readIfPresent() ?? ""
-        value.templateMajorVersion = try reader["templateMajorVersion"].readIfPresent() ?? ""
-        value.templateMinorVersion = try reader["templateMinorVersion"].readIfPresent() ?? ""
-        value.deploymentStatus = try reader["deploymentStatus"].readIfPresent() ?? .sdkUnknown("")
-        value.deploymentStatusMessage = try reader["deploymentStatusMessage"].readIfPresent()
-        value.lastAttemptedDeploymentId = try reader["lastAttemptedDeploymentId"].readIfPresent()
-        value.lastSucceededDeploymentId = try reader["lastSucceededDeploymentId"].readIfPresent()
-        return value
-    }
-}
-
-extension ProtonClientTypes.ServiceSummary {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> ProtonClientTypes.ServiceSummary {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = ProtonClientTypes.ServiceSummary()
-        value.name = try reader["name"].readIfPresent() ?? ""
-        value.description = try reader["description"].readIfPresent()
-        value.arn = try reader["arn"].readIfPresent() ?? ""
-        value.templateName = try reader["templateName"].readIfPresent() ?? ""
-        value.createdAt = try reader["createdAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
-        value.lastModifiedAt = try reader["lastModifiedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
-        value.status = try reader["status"].readIfPresent() ?? .sdkUnknown("")
-        value.statusMessage = try reader["statusMessage"].readIfPresent()
-        return value
-    }
-}
-
-extension ProtonClientTypes.ServiceTemplateSummary {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> ProtonClientTypes.ServiceTemplateSummary {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = ProtonClientTypes.ServiceTemplateSummary()
-        value.name = try reader["name"].readIfPresent() ?? ""
-        value.arn = try reader["arn"].readIfPresent() ?? ""
-        value.createdAt = try reader["createdAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
-        value.lastModifiedAt = try reader["lastModifiedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
-        value.displayName = try reader["displayName"].readIfPresent()
-        value.description = try reader["description"].readIfPresent()
-        value.recommendedVersion = try reader["recommendedVersion"].readIfPresent()
-        value.pipelineProvisioning = try reader["pipelineProvisioning"].readIfPresent()
-        return value
-    }
-}
-
-extension ProtonClientTypes.ServiceTemplateVersionSummary {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> ProtonClientTypes.ServiceTemplateVersionSummary {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = ProtonClientTypes.ServiceTemplateVersionSummary()
-        value.templateName = try reader["templateName"].readIfPresent() ?? ""
-        value.majorVersion = try reader["majorVersion"].readIfPresent() ?? ""
-        value.minorVersion = try reader["minorVersion"].readIfPresent() ?? ""
-        value.recommendedMinorVersion = try reader["recommendedMinorVersion"].readIfPresent()
-        value.status = try reader["status"].readIfPresent() ?? .sdkUnknown("")
-        value.statusMessage = try reader["statusMessage"].readIfPresent()
-        value.description = try reader["description"].readIfPresent()
-        value.arn = try reader["arn"].readIfPresent() ?? ""
-        value.createdAt = try reader["createdAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
-        value.lastModifiedAt = try reader["lastModifiedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
-        return value
-    }
-}
-
 extension ProtonClientTypes.Tag {
 
     static func write(value: ProtonClientTypes.Tag?, to writer: SmithyJSON.Writer) throws {
@@ -11723,13 +11754,18 @@ extension ProtonClientTypes.Tag {
     }
 }
 
-extension ProtonClientTypes.RepositoryBranchInput {
+extension ProtonClientTypes.TemplateSyncConfig {
 
-    static func write(value: ProtonClientTypes.RepositoryBranchInput?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["branch"].write(value.branch)
-        try writer["name"].write(value.name)
-        try writer["provider"].write(value.provider)
+    static func read(from reader: SmithyJSON.Reader) throws -> ProtonClientTypes.TemplateSyncConfig {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = ProtonClientTypes.TemplateSyncConfig()
+        value.templateName = try reader["templateName"].readIfPresent() ?? ""
+        value.templateType = try reader["templateType"].readIfPresent() ?? .sdkUnknown("")
+        value.repositoryProvider = try reader["repositoryProvider"].readIfPresent() ?? .sdkUnknown("")
+        value.repositoryName = try reader["repositoryName"].readIfPresent() ?? ""
+        value.branch = try reader["branch"].readIfPresent() ?? ""
+        value.subdirectory = try reader["subdirectory"].readIfPresent()
+        return value
     }
 }
 
@@ -11743,42 +11779,6 @@ extension ProtonClientTypes.TemplateVersionSourceInput {
             case let .sdkUnknown(sdkUnknown):
                 try writer["sdkUnknown"].write(sdkUnknown)
         }
-    }
-}
-
-extension ProtonClientTypes.S3ObjectSource {
-
-    static func write(value: ProtonClientTypes.S3ObjectSource?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["bucket"].write(value.bucket)
-        try writer["key"].write(value.key)
-    }
-}
-
-extension ProtonClientTypes.CompatibleEnvironmentTemplateInput {
-
-    static func write(value: ProtonClientTypes.CompatibleEnvironmentTemplateInput?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["majorVersion"].write(value.majorVersion)
-        try writer["templateName"].write(value.templateName)
-    }
-}
-
-extension ProtonClientTypes.EnvironmentTemplateFilter {
-
-    static func write(value: ProtonClientTypes.EnvironmentTemplateFilter?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["majorVersion"].write(value.majorVersion)
-        try writer["templateName"].write(value.templateName)
-    }
-}
-
-extension ProtonClientTypes.ListServiceInstancesFilter {
-
-    static func write(value: ProtonClientTypes.ListServiceInstancesFilter?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["key"].write(value.key)
-        try writer["value"].write(value.value)
     }
 }
 

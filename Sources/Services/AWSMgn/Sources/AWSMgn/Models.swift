@@ -23,8 +23,8 @@ import protocol ClientRuntime.HTTPError
 import protocol ClientRuntime.ModeledError
 @_spi(SmithyReadWrite) import protocol SmithyReadWrite.SmithyReader
 @_spi(SmithyReadWrite) import protocol SmithyReadWrite.SmithyWriter
-@_spi(SmithyReadWrite) import struct AWSClientRuntime.RestJSONError
 @_spi(UnknownAWSHTTPServiceError) import struct AWSClientRuntime.UnknownAWSHTTPServiceError
+@_spi(SmithyReadWrite) import struct ClientRuntime.RestJSONError
 import struct Smithy.URIQueryItem
 @_spi(SmithyReadWrite) import struct SmithyReadWrite.WritingClosureBox
 
@@ -3852,6 +3852,8 @@ public struct CreateReplicationConfigurationTemplateInput: Swift.Sendable {
     /// Request to configure Staging Area tags during Replication Settings template creation.
     /// This member is required.
     public var stagingAreaTags: [Swift.String: Swift.String]?
+    /// Request to store snapshot on local zone during Replication Settings template creation.
+    public var storeSnapshotOnLocalZone: Swift.Bool?
     /// Request to configure tags during Replication Settings template creation.
     public var tags: [Swift.String: Swift.String]?
     /// Request to use Dedicated Replication Servers during Replication Settings template creation.
@@ -3873,6 +3875,7 @@ public struct CreateReplicationConfigurationTemplateInput: Swift.Sendable {
         replicationServersSecurityGroupsIDs: [Swift.String]? = nil,
         stagingAreaSubnetId: Swift.String? = nil,
         stagingAreaTags: [Swift.String: Swift.String]? = nil,
+        storeSnapshotOnLocalZone: Swift.Bool? = nil,
         tags: [Swift.String: Swift.String]? = nil,
         useDedicatedReplicationServer: Swift.Bool? = nil,
         useFipsEndpoint: Swift.Bool? = nil
@@ -3889,6 +3892,7 @@ public struct CreateReplicationConfigurationTemplateInput: Swift.Sendable {
         self.replicationServersSecurityGroupsIDs = replicationServersSecurityGroupsIDs
         self.stagingAreaSubnetId = stagingAreaSubnetId
         self.stagingAreaTags = stagingAreaTags
+        self.storeSnapshotOnLocalZone = storeSnapshotOnLocalZone
         self.tags = tags
         self.useDedicatedReplicationServer = useDedicatedReplicationServer
         self.useFipsEndpoint = useFipsEndpoint
@@ -3897,7 +3901,7 @@ public struct CreateReplicationConfigurationTemplateInput: Swift.Sendable {
 
 extension CreateReplicationConfigurationTemplateInput: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
-        "CreateReplicationConfigurationTemplateInput(associateDefaultSecurityGroup: \(Swift.String(describing: associateDefaultSecurityGroup)), bandwidthThrottling: \(Swift.String(describing: bandwidthThrottling)), createPublicIP: \(Swift.String(describing: createPublicIP)), dataPlaneRouting: \(Swift.String(describing: dataPlaneRouting)), defaultLargeStagingDiskType: \(Swift.String(describing: defaultLargeStagingDiskType)), ebsEncryption: \(Swift.String(describing: ebsEncryption)), ebsEncryptionKeyArn: \(Swift.String(describing: ebsEncryptionKeyArn)), internetProtocol: \(Swift.String(describing: internetProtocol)), replicationServerInstanceType: \(Swift.String(describing: replicationServerInstanceType)), replicationServersSecurityGroupsIDs: \(Swift.String(describing: replicationServersSecurityGroupsIDs)), stagingAreaSubnetId: \(Swift.String(describing: stagingAreaSubnetId)), useDedicatedReplicationServer: \(Swift.String(describing: useDedicatedReplicationServer)), useFipsEndpoint: \(Swift.String(describing: useFipsEndpoint)), stagingAreaTags: \"CONTENT_REDACTED\", tags: \"CONTENT_REDACTED\")"}
+        "CreateReplicationConfigurationTemplateInput(associateDefaultSecurityGroup: \(Swift.String(describing: associateDefaultSecurityGroup)), bandwidthThrottling: \(Swift.String(describing: bandwidthThrottling)), createPublicIP: \(Swift.String(describing: createPublicIP)), dataPlaneRouting: \(Swift.String(describing: dataPlaneRouting)), defaultLargeStagingDiskType: \(Swift.String(describing: defaultLargeStagingDiskType)), ebsEncryption: \(Swift.String(describing: ebsEncryption)), ebsEncryptionKeyArn: \(Swift.String(describing: ebsEncryptionKeyArn)), internetProtocol: \(Swift.String(describing: internetProtocol)), replicationServerInstanceType: \(Swift.String(describing: replicationServerInstanceType)), replicationServersSecurityGroupsIDs: \(Swift.String(describing: replicationServersSecurityGroupsIDs)), stagingAreaSubnetId: \(Swift.String(describing: stagingAreaSubnetId)), storeSnapshotOnLocalZone: \(Swift.String(describing: storeSnapshotOnLocalZone)), useDedicatedReplicationServer: \(Swift.String(describing: useDedicatedReplicationServer)), useFipsEndpoint: \(Swift.String(describing: useFipsEndpoint)), stagingAreaTags: \"CONTENT_REDACTED\", tags: \"CONTENT_REDACTED\")"}
 }
 
 public struct CreateReplicationConfigurationTemplateOutput: Swift.Sendable {
@@ -3930,6 +3934,8 @@ public struct CreateReplicationConfigurationTemplateOutput: Swift.Sendable {
     public var stagingAreaSubnetId: Swift.String?
     /// Replication Configuration template Staging Area Tags.
     public var stagingAreaTags: [Swift.String: Swift.String]?
+    /// Replication Configuration template store snapshot on local zone.
+    public var storeSnapshotOnLocalZone: Swift.Bool?
     /// Replication Configuration template Tags.
     public var tags: [Swift.String: Swift.String]?
     /// Replication Configuration template use Dedicated Replication Server.
@@ -3952,6 +3958,7 @@ public struct CreateReplicationConfigurationTemplateOutput: Swift.Sendable {
         replicationServersSecurityGroupsIDs: [Swift.String]? = nil,
         stagingAreaSubnetId: Swift.String? = nil,
         stagingAreaTags: [Swift.String: Swift.String]? = nil,
+        storeSnapshotOnLocalZone: Swift.Bool? = nil,
         tags: [Swift.String: Swift.String]? = nil,
         useDedicatedReplicationServer: Swift.Bool? = nil,
         useFipsEndpoint: Swift.Bool? = nil
@@ -3970,6 +3977,7 @@ public struct CreateReplicationConfigurationTemplateOutput: Swift.Sendable {
         self.replicationServersSecurityGroupsIDs = replicationServersSecurityGroupsIDs
         self.stagingAreaSubnetId = stagingAreaSubnetId
         self.stagingAreaTags = stagingAreaTags
+        self.storeSnapshotOnLocalZone = storeSnapshotOnLocalZone
         self.tags = tags
         self.useDedicatedReplicationServer = useDedicatedReplicationServer
         self.useFipsEndpoint = useFipsEndpoint
@@ -3978,7 +3986,7 @@ public struct CreateReplicationConfigurationTemplateOutput: Swift.Sendable {
 
 extension CreateReplicationConfigurationTemplateOutput: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
-        "CreateReplicationConfigurationTemplateOutput(arn: \(Swift.String(describing: arn)), associateDefaultSecurityGroup: \(Swift.String(describing: associateDefaultSecurityGroup)), bandwidthThrottling: \(Swift.String(describing: bandwidthThrottling)), createPublicIP: \(Swift.String(describing: createPublicIP)), dataPlaneRouting: \(Swift.String(describing: dataPlaneRouting)), defaultLargeStagingDiskType: \(Swift.String(describing: defaultLargeStagingDiskType)), ebsEncryption: \(Swift.String(describing: ebsEncryption)), ebsEncryptionKeyArn: \(Swift.String(describing: ebsEncryptionKeyArn)), internetProtocol: \(Swift.String(describing: internetProtocol)), replicationConfigurationTemplateID: \(Swift.String(describing: replicationConfigurationTemplateID)), replicationServerInstanceType: \(Swift.String(describing: replicationServerInstanceType)), replicationServersSecurityGroupsIDs: \(Swift.String(describing: replicationServersSecurityGroupsIDs)), stagingAreaSubnetId: \(Swift.String(describing: stagingAreaSubnetId)), useDedicatedReplicationServer: \(Swift.String(describing: useDedicatedReplicationServer)), useFipsEndpoint: \(Swift.String(describing: useFipsEndpoint)), stagingAreaTags: \"CONTENT_REDACTED\", tags: \"CONTENT_REDACTED\")"}
+        "CreateReplicationConfigurationTemplateOutput(arn: \(Swift.String(describing: arn)), associateDefaultSecurityGroup: \(Swift.String(describing: associateDefaultSecurityGroup)), bandwidthThrottling: \(Swift.String(describing: bandwidthThrottling)), createPublicIP: \(Swift.String(describing: createPublicIP)), dataPlaneRouting: \(Swift.String(describing: dataPlaneRouting)), defaultLargeStagingDiskType: \(Swift.String(describing: defaultLargeStagingDiskType)), ebsEncryption: \(Swift.String(describing: ebsEncryption)), ebsEncryptionKeyArn: \(Swift.String(describing: ebsEncryptionKeyArn)), internetProtocol: \(Swift.String(describing: internetProtocol)), replicationConfigurationTemplateID: \(Swift.String(describing: replicationConfigurationTemplateID)), replicationServerInstanceType: \(Swift.String(describing: replicationServerInstanceType)), replicationServersSecurityGroupsIDs: \(Swift.String(describing: replicationServersSecurityGroupsIDs)), stagingAreaSubnetId: \(Swift.String(describing: stagingAreaSubnetId)), storeSnapshotOnLocalZone: \(Swift.String(describing: storeSnapshotOnLocalZone)), useDedicatedReplicationServer: \(Swift.String(describing: useDedicatedReplicationServer)), useFipsEndpoint: \(Swift.String(describing: useFipsEndpoint)), stagingAreaTags: \"CONTENT_REDACTED\", tags: \"CONTENT_REDACTED\")"}
 }
 
 public struct DeleteReplicationConfigurationTemplateInput: Swift.Sendable {
@@ -4049,6 +4057,8 @@ extension MgnClientTypes {
         public var stagingAreaSubnetId: Swift.String?
         /// Replication Configuration template Staging Area Tags.
         public var stagingAreaTags: [Swift.String: Swift.String]?
+        /// Replication Configuration template store snapshot on local zone.
+        public var storeSnapshotOnLocalZone: Swift.Bool?
         /// Replication Configuration template Tags.
         public var tags: [Swift.String: Swift.String]?
         /// Replication Configuration template use Dedicated Replication Server.
@@ -4071,6 +4081,7 @@ extension MgnClientTypes {
             replicationServersSecurityGroupsIDs: [Swift.String]? = nil,
             stagingAreaSubnetId: Swift.String? = nil,
             stagingAreaTags: [Swift.String: Swift.String]? = nil,
+            storeSnapshotOnLocalZone: Swift.Bool? = nil,
             tags: [Swift.String: Swift.String]? = nil,
             useDedicatedReplicationServer: Swift.Bool? = nil,
             useFipsEndpoint: Swift.Bool? = nil
@@ -4089,6 +4100,7 @@ extension MgnClientTypes {
             self.replicationServersSecurityGroupsIDs = replicationServersSecurityGroupsIDs
             self.stagingAreaSubnetId = stagingAreaSubnetId
             self.stagingAreaTags = stagingAreaTags
+            self.storeSnapshotOnLocalZone = storeSnapshotOnLocalZone
             self.tags = tags
             self.useDedicatedReplicationServer = useDedicatedReplicationServer
             self.useFipsEndpoint = useFipsEndpoint
@@ -4098,7 +4110,7 @@ extension MgnClientTypes {
 
 extension MgnClientTypes.ReplicationConfigurationTemplate: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
-        "ReplicationConfigurationTemplate(arn: \(Swift.String(describing: arn)), associateDefaultSecurityGroup: \(Swift.String(describing: associateDefaultSecurityGroup)), bandwidthThrottling: \(Swift.String(describing: bandwidthThrottling)), createPublicIP: \(Swift.String(describing: createPublicIP)), dataPlaneRouting: \(Swift.String(describing: dataPlaneRouting)), defaultLargeStagingDiskType: \(Swift.String(describing: defaultLargeStagingDiskType)), ebsEncryption: \(Swift.String(describing: ebsEncryption)), ebsEncryptionKeyArn: \(Swift.String(describing: ebsEncryptionKeyArn)), internetProtocol: \(Swift.String(describing: internetProtocol)), replicationConfigurationTemplateID: \(Swift.String(describing: replicationConfigurationTemplateID)), replicationServerInstanceType: \(Swift.String(describing: replicationServerInstanceType)), replicationServersSecurityGroupsIDs: \(Swift.String(describing: replicationServersSecurityGroupsIDs)), stagingAreaSubnetId: \(Swift.String(describing: stagingAreaSubnetId)), useDedicatedReplicationServer: \(Swift.String(describing: useDedicatedReplicationServer)), useFipsEndpoint: \(Swift.String(describing: useFipsEndpoint)), stagingAreaTags: \"CONTENT_REDACTED\", tags: \"CONTENT_REDACTED\")"}
+        "ReplicationConfigurationTemplate(arn: \(Swift.String(describing: arn)), associateDefaultSecurityGroup: \(Swift.String(describing: associateDefaultSecurityGroup)), bandwidthThrottling: \(Swift.String(describing: bandwidthThrottling)), createPublicIP: \(Swift.String(describing: createPublicIP)), dataPlaneRouting: \(Swift.String(describing: dataPlaneRouting)), defaultLargeStagingDiskType: \(Swift.String(describing: defaultLargeStagingDiskType)), ebsEncryption: \(Swift.String(describing: ebsEncryption)), ebsEncryptionKeyArn: \(Swift.String(describing: ebsEncryptionKeyArn)), internetProtocol: \(Swift.String(describing: internetProtocol)), replicationConfigurationTemplateID: \(Swift.String(describing: replicationConfigurationTemplateID)), replicationServerInstanceType: \(Swift.String(describing: replicationServerInstanceType)), replicationServersSecurityGroupsIDs: \(Swift.String(describing: replicationServersSecurityGroupsIDs)), stagingAreaSubnetId: \(Swift.String(describing: stagingAreaSubnetId)), storeSnapshotOnLocalZone: \(Swift.String(describing: storeSnapshotOnLocalZone)), useDedicatedReplicationServer: \(Swift.String(describing: useDedicatedReplicationServer)), useFipsEndpoint: \(Swift.String(describing: useFipsEndpoint)), stagingAreaTags: \"CONTENT_REDACTED\", tags: \"CONTENT_REDACTED\")"}
 }
 
 public struct DescribeReplicationConfigurationTemplatesOutput: Swift.Sendable {
@@ -4146,6 +4158,8 @@ public struct UpdateReplicationConfigurationTemplateInput: Swift.Sendable {
     public var stagingAreaSubnetId: Swift.String?
     /// Update replication configuration template Staging Area Tags request.
     public var stagingAreaTags: [Swift.String: Swift.String]?
+    /// Update replication configuration template store snapshot on local zone request.
+    public var storeSnapshotOnLocalZone: Swift.Bool?
     /// Update replication configuration template use dedicated Replication Server request.
     public var useDedicatedReplicationServer: Swift.Bool?
     /// Update replication configuration template use Fips Endpoint request.
@@ -4166,6 +4180,7 @@ public struct UpdateReplicationConfigurationTemplateInput: Swift.Sendable {
         replicationServersSecurityGroupsIDs: [Swift.String]? = nil,
         stagingAreaSubnetId: Swift.String? = nil,
         stagingAreaTags: [Swift.String: Swift.String]? = nil,
+        storeSnapshotOnLocalZone: Swift.Bool? = nil,
         useDedicatedReplicationServer: Swift.Bool? = nil,
         useFipsEndpoint: Swift.Bool? = nil
     ) {
@@ -4183,6 +4198,7 @@ public struct UpdateReplicationConfigurationTemplateInput: Swift.Sendable {
         self.replicationServersSecurityGroupsIDs = replicationServersSecurityGroupsIDs
         self.stagingAreaSubnetId = stagingAreaSubnetId
         self.stagingAreaTags = stagingAreaTags
+        self.storeSnapshotOnLocalZone = storeSnapshotOnLocalZone
         self.useDedicatedReplicationServer = useDedicatedReplicationServer
         self.useFipsEndpoint = useFipsEndpoint
     }
@@ -4190,7 +4206,7 @@ public struct UpdateReplicationConfigurationTemplateInput: Swift.Sendable {
 
 extension UpdateReplicationConfigurationTemplateInput: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
-        "UpdateReplicationConfigurationTemplateInput(arn: \(Swift.String(describing: arn)), associateDefaultSecurityGroup: \(Swift.String(describing: associateDefaultSecurityGroup)), bandwidthThrottling: \(Swift.String(describing: bandwidthThrottling)), createPublicIP: \(Swift.String(describing: createPublicIP)), dataPlaneRouting: \(Swift.String(describing: dataPlaneRouting)), defaultLargeStagingDiskType: \(Swift.String(describing: defaultLargeStagingDiskType)), ebsEncryption: \(Swift.String(describing: ebsEncryption)), ebsEncryptionKeyArn: \(Swift.String(describing: ebsEncryptionKeyArn)), internetProtocol: \(Swift.String(describing: internetProtocol)), replicationConfigurationTemplateID: \(Swift.String(describing: replicationConfigurationTemplateID)), replicationServerInstanceType: \(Swift.String(describing: replicationServerInstanceType)), replicationServersSecurityGroupsIDs: \(Swift.String(describing: replicationServersSecurityGroupsIDs)), stagingAreaSubnetId: \(Swift.String(describing: stagingAreaSubnetId)), useDedicatedReplicationServer: \(Swift.String(describing: useDedicatedReplicationServer)), useFipsEndpoint: \(Swift.String(describing: useFipsEndpoint)), stagingAreaTags: \"CONTENT_REDACTED\")"}
+        "UpdateReplicationConfigurationTemplateInput(arn: \(Swift.String(describing: arn)), associateDefaultSecurityGroup: \(Swift.String(describing: associateDefaultSecurityGroup)), bandwidthThrottling: \(Swift.String(describing: bandwidthThrottling)), createPublicIP: \(Swift.String(describing: createPublicIP)), dataPlaneRouting: \(Swift.String(describing: dataPlaneRouting)), defaultLargeStagingDiskType: \(Swift.String(describing: defaultLargeStagingDiskType)), ebsEncryption: \(Swift.String(describing: ebsEncryption)), ebsEncryptionKeyArn: \(Swift.String(describing: ebsEncryptionKeyArn)), internetProtocol: \(Swift.String(describing: internetProtocol)), replicationConfigurationTemplateID: \(Swift.String(describing: replicationConfigurationTemplateID)), replicationServerInstanceType: \(Swift.String(describing: replicationServerInstanceType)), replicationServersSecurityGroupsIDs: \(Swift.String(describing: replicationServersSecurityGroupsIDs)), stagingAreaSubnetId: \(Swift.String(describing: stagingAreaSubnetId)), storeSnapshotOnLocalZone: \(Swift.String(describing: storeSnapshotOnLocalZone)), useDedicatedReplicationServer: \(Swift.String(describing: useDedicatedReplicationServer)), useFipsEndpoint: \(Swift.String(describing: useFipsEndpoint)), stagingAreaTags: \"CONTENT_REDACTED\")"}
 }
 
 public struct UpdateReplicationConfigurationTemplateOutput: Swift.Sendable {
@@ -4223,6 +4239,8 @@ public struct UpdateReplicationConfigurationTemplateOutput: Swift.Sendable {
     public var stagingAreaSubnetId: Swift.String?
     /// Replication Configuration template Staging Area Tags.
     public var stagingAreaTags: [Swift.String: Swift.String]?
+    /// Replication Configuration template store snapshot on local zone.
+    public var storeSnapshotOnLocalZone: Swift.Bool?
     /// Replication Configuration template Tags.
     public var tags: [Swift.String: Swift.String]?
     /// Replication Configuration template use Dedicated Replication Server.
@@ -4245,6 +4263,7 @@ public struct UpdateReplicationConfigurationTemplateOutput: Swift.Sendable {
         replicationServersSecurityGroupsIDs: [Swift.String]? = nil,
         stagingAreaSubnetId: Swift.String? = nil,
         stagingAreaTags: [Swift.String: Swift.String]? = nil,
+        storeSnapshotOnLocalZone: Swift.Bool? = nil,
         tags: [Swift.String: Swift.String]? = nil,
         useDedicatedReplicationServer: Swift.Bool? = nil,
         useFipsEndpoint: Swift.Bool? = nil
@@ -4263,6 +4282,7 @@ public struct UpdateReplicationConfigurationTemplateOutput: Swift.Sendable {
         self.replicationServersSecurityGroupsIDs = replicationServersSecurityGroupsIDs
         self.stagingAreaSubnetId = stagingAreaSubnetId
         self.stagingAreaTags = stagingAreaTags
+        self.storeSnapshotOnLocalZone = storeSnapshotOnLocalZone
         self.tags = tags
         self.useDedicatedReplicationServer = useDedicatedReplicationServer
         self.useFipsEndpoint = useFipsEndpoint
@@ -4271,7 +4291,7 @@ public struct UpdateReplicationConfigurationTemplateOutput: Swift.Sendable {
 
 extension UpdateReplicationConfigurationTemplateOutput: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
-        "UpdateReplicationConfigurationTemplateOutput(arn: \(Swift.String(describing: arn)), associateDefaultSecurityGroup: \(Swift.String(describing: associateDefaultSecurityGroup)), bandwidthThrottling: \(Swift.String(describing: bandwidthThrottling)), createPublicIP: \(Swift.String(describing: createPublicIP)), dataPlaneRouting: \(Swift.String(describing: dataPlaneRouting)), defaultLargeStagingDiskType: \(Swift.String(describing: defaultLargeStagingDiskType)), ebsEncryption: \(Swift.String(describing: ebsEncryption)), ebsEncryptionKeyArn: \(Swift.String(describing: ebsEncryptionKeyArn)), internetProtocol: \(Swift.String(describing: internetProtocol)), replicationConfigurationTemplateID: \(Swift.String(describing: replicationConfigurationTemplateID)), replicationServerInstanceType: \(Swift.String(describing: replicationServerInstanceType)), replicationServersSecurityGroupsIDs: \(Swift.String(describing: replicationServersSecurityGroupsIDs)), stagingAreaSubnetId: \(Swift.String(describing: stagingAreaSubnetId)), useDedicatedReplicationServer: \(Swift.String(describing: useDedicatedReplicationServer)), useFipsEndpoint: \(Swift.String(describing: useFipsEndpoint)), stagingAreaTags: \"CONTENT_REDACTED\", tags: \"CONTENT_REDACTED\")"}
+        "UpdateReplicationConfigurationTemplateOutput(arn: \(Swift.String(describing: arn)), associateDefaultSecurityGroup: \(Swift.String(describing: associateDefaultSecurityGroup)), bandwidthThrottling: \(Swift.String(describing: bandwidthThrottling)), createPublicIP: \(Swift.String(describing: createPublicIP)), dataPlaneRouting: \(Swift.String(describing: dataPlaneRouting)), defaultLargeStagingDiskType: \(Swift.String(describing: defaultLargeStagingDiskType)), ebsEncryption: \(Swift.String(describing: ebsEncryption)), ebsEncryptionKeyArn: \(Swift.String(describing: ebsEncryptionKeyArn)), internetProtocol: \(Swift.String(describing: internetProtocol)), replicationConfigurationTemplateID: \(Swift.String(describing: replicationConfigurationTemplateID)), replicationServerInstanceType: \(Swift.String(describing: replicationServerInstanceType)), replicationServersSecurityGroupsIDs: \(Swift.String(describing: replicationServersSecurityGroupsIDs)), stagingAreaSubnetId: \(Swift.String(describing: stagingAreaSubnetId)), storeSnapshotOnLocalZone: \(Swift.String(describing: storeSnapshotOnLocalZone)), useDedicatedReplicationServer: \(Swift.String(describing: useDedicatedReplicationServer)), useFipsEndpoint: \(Swift.String(describing: useFipsEndpoint)), stagingAreaTags: \"CONTENT_REDACTED\", tags: \"CONTENT_REDACTED\")"}
 }
 
 extension MgnClientTypes {
@@ -5787,6 +5807,8 @@ public struct GetReplicationConfigurationOutput: Swift.Sendable {
     public var stagingAreaSubnetId: Swift.String?
     /// Replication Configuration Staging Area tags.
     public var stagingAreaTags: [Swift.String: Swift.String]?
+    /// Replication Configuration store snapshot on local zone.
+    public var storeSnapshotOnLocalZone: Swift.Bool?
     /// Replication Configuration use Dedicated Replication Server.
     public var useDedicatedReplicationServer: Swift.Bool?
     /// Replication Configuration use Fips Endpoint.
@@ -5808,6 +5830,7 @@ public struct GetReplicationConfigurationOutput: Swift.Sendable {
         sourceServerID: Swift.String? = nil,
         stagingAreaSubnetId: Swift.String? = nil,
         stagingAreaTags: [Swift.String: Swift.String]? = nil,
+        storeSnapshotOnLocalZone: Swift.Bool? = nil,
         useDedicatedReplicationServer: Swift.Bool? = nil,
         useFipsEndpoint: Swift.Bool? = nil
     ) {
@@ -5826,6 +5849,7 @@ public struct GetReplicationConfigurationOutput: Swift.Sendable {
         self.sourceServerID = sourceServerID
         self.stagingAreaSubnetId = stagingAreaSubnetId
         self.stagingAreaTags = stagingAreaTags
+        self.storeSnapshotOnLocalZone = storeSnapshotOnLocalZone
         self.useDedicatedReplicationServer = useDedicatedReplicationServer
         self.useFipsEndpoint = useFipsEndpoint
     }
@@ -5833,7 +5857,7 @@ public struct GetReplicationConfigurationOutput: Swift.Sendable {
 
 extension GetReplicationConfigurationOutput: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
-        "GetReplicationConfigurationOutput(associateDefaultSecurityGroup: \(Swift.String(describing: associateDefaultSecurityGroup)), bandwidthThrottling: \(Swift.String(describing: bandwidthThrottling)), createPublicIP: \(Swift.String(describing: createPublicIP)), dataPlaneRouting: \(Swift.String(describing: dataPlaneRouting)), defaultLargeStagingDiskType: \(Swift.String(describing: defaultLargeStagingDiskType)), ebsEncryption: \(Swift.String(describing: ebsEncryption)), ebsEncryptionKeyArn: \(Swift.String(describing: ebsEncryptionKeyArn)), internetProtocol: \(Swift.String(describing: internetProtocol)), name: \(Swift.String(describing: name)), replicatedDisks: \(Swift.String(describing: replicatedDisks)), replicationServerInstanceType: \(Swift.String(describing: replicationServerInstanceType)), replicationServersSecurityGroupsIDs: \(Swift.String(describing: replicationServersSecurityGroupsIDs)), sourceServerID: \(Swift.String(describing: sourceServerID)), stagingAreaSubnetId: \(Swift.String(describing: stagingAreaSubnetId)), useDedicatedReplicationServer: \(Swift.String(describing: useDedicatedReplicationServer)), useFipsEndpoint: \(Swift.String(describing: useFipsEndpoint)), stagingAreaTags: \"CONTENT_REDACTED\")"}
+        "GetReplicationConfigurationOutput(associateDefaultSecurityGroup: \(Swift.String(describing: associateDefaultSecurityGroup)), bandwidthThrottling: \(Swift.String(describing: bandwidthThrottling)), createPublicIP: \(Swift.String(describing: createPublicIP)), dataPlaneRouting: \(Swift.String(describing: dataPlaneRouting)), defaultLargeStagingDiskType: \(Swift.String(describing: defaultLargeStagingDiskType)), ebsEncryption: \(Swift.String(describing: ebsEncryption)), ebsEncryptionKeyArn: \(Swift.String(describing: ebsEncryptionKeyArn)), internetProtocol: \(Swift.String(describing: internetProtocol)), name: \(Swift.String(describing: name)), replicatedDisks: \(Swift.String(describing: replicatedDisks)), replicationServerInstanceType: \(Swift.String(describing: replicationServerInstanceType)), replicationServersSecurityGroupsIDs: \(Swift.String(describing: replicationServersSecurityGroupsIDs)), sourceServerID: \(Swift.String(describing: sourceServerID)), stagingAreaSubnetId: \(Swift.String(describing: stagingAreaSubnetId)), storeSnapshotOnLocalZone: \(Swift.String(describing: storeSnapshotOnLocalZone)), useDedicatedReplicationServer: \(Swift.String(describing: useDedicatedReplicationServer)), useFipsEndpoint: \(Swift.String(describing: useFipsEndpoint)), stagingAreaTags: \"CONTENT_REDACTED\")"}
 }
 
 extension MgnClientTypes {
@@ -6858,6 +6882,8 @@ public struct UpdateReplicationConfigurationInput: Swift.Sendable {
     public var stagingAreaSubnetId: Swift.String?
     /// Update replication configuration Staging Area Tags request.
     public var stagingAreaTags: [Swift.String: Swift.String]?
+    /// Update replication configuration store snapshot on local zone.
+    public var storeSnapshotOnLocalZone: Swift.Bool?
     /// Update replication configuration use dedicated Replication Server request.
     public var useDedicatedReplicationServer: Swift.Bool?
     /// Update replication configuration use Fips Endpoint.
@@ -6880,6 +6906,7 @@ public struct UpdateReplicationConfigurationInput: Swift.Sendable {
         sourceServerID: Swift.String? = nil,
         stagingAreaSubnetId: Swift.String? = nil,
         stagingAreaTags: [Swift.String: Swift.String]? = nil,
+        storeSnapshotOnLocalZone: Swift.Bool? = nil,
         useDedicatedReplicationServer: Swift.Bool? = nil,
         useFipsEndpoint: Swift.Bool? = nil
     ) {
@@ -6899,6 +6926,7 @@ public struct UpdateReplicationConfigurationInput: Swift.Sendable {
         self.sourceServerID = sourceServerID
         self.stagingAreaSubnetId = stagingAreaSubnetId
         self.stagingAreaTags = stagingAreaTags
+        self.storeSnapshotOnLocalZone = storeSnapshotOnLocalZone
         self.useDedicatedReplicationServer = useDedicatedReplicationServer
         self.useFipsEndpoint = useFipsEndpoint
     }
@@ -6906,7 +6934,7 @@ public struct UpdateReplicationConfigurationInput: Swift.Sendable {
 
 extension UpdateReplicationConfigurationInput: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
-        "UpdateReplicationConfigurationInput(accountID: \(Swift.String(describing: accountID)), associateDefaultSecurityGroup: \(Swift.String(describing: associateDefaultSecurityGroup)), bandwidthThrottling: \(Swift.String(describing: bandwidthThrottling)), createPublicIP: \(Swift.String(describing: createPublicIP)), dataPlaneRouting: \(Swift.String(describing: dataPlaneRouting)), defaultLargeStagingDiskType: \(Swift.String(describing: defaultLargeStagingDiskType)), ebsEncryption: \(Swift.String(describing: ebsEncryption)), ebsEncryptionKeyArn: \(Swift.String(describing: ebsEncryptionKeyArn)), internetProtocol: \(Swift.String(describing: internetProtocol)), name: \(Swift.String(describing: name)), replicatedDisks: \(Swift.String(describing: replicatedDisks)), replicationServerInstanceType: \(Swift.String(describing: replicationServerInstanceType)), replicationServersSecurityGroupsIDs: \(Swift.String(describing: replicationServersSecurityGroupsIDs)), sourceServerID: \(Swift.String(describing: sourceServerID)), stagingAreaSubnetId: \(Swift.String(describing: stagingAreaSubnetId)), useDedicatedReplicationServer: \(Swift.String(describing: useDedicatedReplicationServer)), useFipsEndpoint: \(Swift.String(describing: useFipsEndpoint)), stagingAreaTags: \"CONTENT_REDACTED\")"}
+        "UpdateReplicationConfigurationInput(accountID: \(Swift.String(describing: accountID)), associateDefaultSecurityGroup: \(Swift.String(describing: associateDefaultSecurityGroup)), bandwidthThrottling: \(Swift.String(describing: bandwidthThrottling)), createPublicIP: \(Swift.String(describing: createPublicIP)), dataPlaneRouting: \(Swift.String(describing: dataPlaneRouting)), defaultLargeStagingDiskType: \(Swift.String(describing: defaultLargeStagingDiskType)), ebsEncryption: \(Swift.String(describing: ebsEncryption)), ebsEncryptionKeyArn: \(Swift.String(describing: ebsEncryptionKeyArn)), internetProtocol: \(Swift.String(describing: internetProtocol)), name: \(Swift.String(describing: name)), replicatedDisks: \(Swift.String(describing: replicatedDisks)), replicationServerInstanceType: \(Swift.String(describing: replicationServerInstanceType)), replicationServersSecurityGroupsIDs: \(Swift.String(describing: replicationServersSecurityGroupsIDs)), sourceServerID: \(Swift.String(describing: sourceServerID)), stagingAreaSubnetId: \(Swift.String(describing: stagingAreaSubnetId)), storeSnapshotOnLocalZone: \(Swift.String(describing: storeSnapshotOnLocalZone)), useDedicatedReplicationServer: \(Swift.String(describing: useDedicatedReplicationServer)), useFipsEndpoint: \(Swift.String(describing: useFipsEndpoint)), stagingAreaTags: \"CONTENT_REDACTED\")"}
 }
 
 public struct UpdateReplicationConfigurationOutput: Swift.Sendable {
@@ -6940,6 +6968,8 @@ public struct UpdateReplicationConfigurationOutput: Swift.Sendable {
     public var stagingAreaSubnetId: Swift.String?
     /// Replication Configuration Staging Area tags.
     public var stagingAreaTags: [Swift.String: Swift.String]?
+    /// Replication Configuration store snapshot on local zone.
+    public var storeSnapshotOnLocalZone: Swift.Bool?
     /// Replication Configuration use Dedicated Replication Server.
     public var useDedicatedReplicationServer: Swift.Bool?
     /// Replication Configuration use Fips Endpoint.
@@ -6961,6 +6991,7 @@ public struct UpdateReplicationConfigurationOutput: Swift.Sendable {
         sourceServerID: Swift.String? = nil,
         stagingAreaSubnetId: Swift.String? = nil,
         stagingAreaTags: [Swift.String: Swift.String]? = nil,
+        storeSnapshotOnLocalZone: Swift.Bool? = nil,
         useDedicatedReplicationServer: Swift.Bool? = nil,
         useFipsEndpoint: Swift.Bool? = nil
     ) {
@@ -6979,6 +7010,7 @@ public struct UpdateReplicationConfigurationOutput: Swift.Sendable {
         self.sourceServerID = sourceServerID
         self.stagingAreaSubnetId = stagingAreaSubnetId
         self.stagingAreaTags = stagingAreaTags
+        self.storeSnapshotOnLocalZone = storeSnapshotOnLocalZone
         self.useDedicatedReplicationServer = useDedicatedReplicationServer
         self.useFipsEndpoint = useFipsEndpoint
     }
@@ -6986,7 +7018,7 @@ public struct UpdateReplicationConfigurationOutput: Swift.Sendable {
 
 extension UpdateReplicationConfigurationOutput: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
-        "UpdateReplicationConfigurationOutput(associateDefaultSecurityGroup: \(Swift.String(describing: associateDefaultSecurityGroup)), bandwidthThrottling: \(Swift.String(describing: bandwidthThrottling)), createPublicIP: \(Swift.String(describing: createPublicIP)), dataPlaneRouting: \(Swift.String(describing: dataPlaneRouting)), defaultLargeStagingDiskType: \(Swift.String(describing: defaultLargeStagingDiskType)), ebsEncryption: \(Swift.String(describing: ebsEncryption)), ebsEncryptionKeyArn: \(Swift.String(describing: ebsEncryptionKeyArn)), internetProtocol: \(Swift.String(describing: internetProtocol)), name: \(Swift.String(describing: name)), replicatedDisks: \(Swift.String(describing: replicatedDisks)), replicationServerInstanceType: \(Swift.String(describing: replicationServerInstanceType)), replicationServersSecurityGroupsIDs: \(Swift.String(describing: replicationServersSecurityGroupsIDs)), sourceServerID: \(Swift.String(describing: sourceServerID)), stagingAreaSubnetId: \(Swift.String(describing: stagingAreaSubnetId)), useDedicatedReplicationServer: \(Swift.String(describing: useDedicatedReplicationServer)), useFipsEndpoint: \(Swift.String(describing: useFipsEndpoint)), stagingAreaTags: \"CONTENT_REDACTED\")"}
+        "UpdateReplicationConfigurationOutput(associateDefaultSecurityGroup: \(Swift.String(describing: associateDefaultSecurityGroup)), bandwidthThrottling: \(Swift.String(describing: bandwidthThrottling)), createPublicIP: \(Swift.String(describing: createPublicIP)), dataPlaneRouting: \(Swift.String(describing: dataPlaneRouting)), defaultLargeStagingDiskType: \(Swift.String(describing: defaultLargeStagingDiskType)), ebsEncryption: \(Swift.String(describing: ebsEncryption)), ebsEncryptionKeyArn: \(Swift.String(describing: ebsEncryptionKeyArn)), internetProtocol: \(Swift.String(describing: internetProtocol)), name: \(Swift.String(describing: name)), replicatedDisks: \(Swift.String(describing: replicatedDisks)), replicationServerInstanceType: \(Swift.String(describing: replicationServerInstanceType)), replicationServersSecurityGroupsIDs: \(Swift.String(describing: replicationServersSecurityGroupsIDs)), sourceServerID: \(Swift.String(describing: sourceServerID)), stagingAreaSubnetId: \(Swift.String(describing: stagingAreaSubnetId)), storeSnapshotOnLocalZone: \(Swift.String(describing: storeSnapshotOnLocalZone)), useDedicatedReplicationServer: \(Swift.String(describing: useDedicatedReplicationServer)), useFipsEndpoint: \(Swift.String(describing: useFipsEndpoint)), stagingAreaTags: \"CONTENT_REDACTED\")"}
 }
 
 public struct UpdateSourceServerInput: Swift.Sendable {
@@ -8493,6 +8525,7 @@ extension CreateReplicationConfigurationTemplateInput {
         try writer["replicationServersSecurityGroupsIDs"].writeList(value.replicationServersSecurityGroupsIDs, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["stagingAreaSubnetId"].write(value.stagingAreaSubnetId)
         try writer["stagingAreaTags"].writeMap(value.stagingAreaTags, valueWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+        try writer["storeSnapshotOnLocalZone"].write(value.storeSnapshotOnLocalZone)
         try writer["tags"].writeMap(value.tags, valueWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
         try writer["useDedicatedReplicationServer"].write(value.useDedicatedReplicationServer)
         try writer["useFipsEndpoint"].write(value.useFipsEndpoint)
@@ -9066,6 +9099,7 @@ extension UpdateReplicationConfigurationInput {
         try writer["sourceServerID"].write(value.sourceServerID)
         try writer["stagingAreaSubnetId"].write(value.stagingAreaSubnetId)
         try writer["stagingAreaTags"].writeMap(value.stagingAreaTags, valueWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+        try writer["storeSnapshotOnLocalZone"].write(value.storeSnapshotOnLocalZone)
         try writer["useDedicatedReplicationServer"].write(value.useDedicatedReplicationServer)
         try writer["useFipsEndpoint"].write(value.useFipsEndpoint)
     }
@@ -9089,6 +9123,7 @@ extension UpdateReplicationConfigurationTemplateInput {
         try writer["replicationServersSecurityGroupsIDs"].writeList(value.replicationServersSecurityGroupsIDs, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["stagingAreaSubnetId"].write(value.stagingAreaSubnetId)
         try writer["stagingAreaTags"].writeMap(value.stagingAreaTags, valueWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+        try writer["storeSnapshotOnLocalZone"].write(value.storeSnapshotOnLocalZone)
         try writer["useDedicatedReplicationServer"].write(value.useDedicatedReplicationServer)
         try writer["useFipsEndpoint"].write(value.useFipsEndpoint)
     }
@@ -9294,6 +9329,7 @@ extension CreateReplicationConfigurationTemplateOutput {
         value.replicationServersSecurityGroupsIDs = try reader["replicationServersSecurityGroupsIDs"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
         value.stagingAreaSubnetId = try reader["stagingAreaSubnetId"].readIfPresent()
         value.stagingAreaTags = try reader["stagingAreaTags"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+        value.storeSnapshotOnLocalZone = try reader["storeSnapshotOnLocalZone"].readIfPresent()
         value.tags = try reader["tags"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
         value.useDedicatedReplicationServer = try reader["useDedicatedReplicationServer"].readIfPresent()
         value.useFipsEndpoint = try reader["useFipsEndpoint"].readIfPresent()
@@ -9564,6 +9600,7 @@ extension GetReplicationConfigurationOutput {
         value.sourceServerID = try reader["sourceServerID"].readIfPresent()
         value.stagingAreaSubnetId = try reader["stagingAreaSubnetId"].readIfPresent()
         value.stagingAreaTags = try reader["stagingAreaTags"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+        value.storeSnapshotOnLocalZone = try reader["storeSnapshotOnLocalZone"].readIfPresent()
         value.useDedicatedReplicationServer = try reader["useDedicatedReplicationServer"].readIfPresent()
         value.useFipsEndpoint = try reader["useFipsEndpoint"].readIfPresent()
         return value
@@ -10158,6 +10195,7 @@ extension UpdateReplicationConfigurationOutput {
         value.sourceServerID = try reader["sourceServerID"].readIfPresent()
         value.stagingAreaSubnetId = try reader["stagingAreaSubnetId"].readIfPresent()
         value.stagingAreaTags = try reader["stagingAreaTags"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+        value.storeSnapshotOnLocalZone = try reader["storeSnapshotOnLocalZone"].readIfPresent()
         value.useDedicatedReplicationServer = try reader["useDedicatedReplicationServer"].readIfPresent()
         value.useFipsEndpoint = try reader["useFipsEndpoint"].readIfPresent()
         return value
@@ -10185,6 +10223,7 @@ extension UpdateReplicationConfigurationTemplateOutput {
         value.replicationServersSecurityGroupsIDs = try reader["replicationServersSecurityGroupsIDs"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
         value.stagingAreaSubnetId = try reader["stagingAreaSubnetId"].readIfPresent()
         value.stagingAreaTags = try reader["stagingAreaTags"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+        value.storeSnapshotOnLocalZone = try reader["storeSnapshotOnLocalZone"].readIfPresent()
         value.tags = try reader["tags"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
         value.useDedicatedReplicationServer = try reader["useDedicatedReplicationServer"].readIfPresent()
         value.useFipsEndpoint = try reader["useFipsEndpoint"].readIfPresent()
@@ -10267,7 +10306,7 @@ enum ArchiveApplicationOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "ConflictException": return try ConflictException.makeError(baseError: baseError)
@@ -10284,7 +10323,7 @@ enum ArchiveWaveOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "ConflictException": return try ConflictException.makeError(baseError: baseError)
@@ -10301,7 +10340,7 @@ enum AssociateApplicationsOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "ConflictException": return try ConflictException.makeError(baseError: baseError)
@@ -10318,7 +10357,7 @@ enum AssociateSourceServersOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "ConflictException": return try ConflictException.makeError(baseError: baseError)
@@ -10335,7 +10374,7 @@ enum ChangeServerLifeCycleStateOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "ConflictException": return try ConflictException.makeError(baseError: baseError)
@@ -10352,7 +10391,7 @@ enum CreateApplicationOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "ConflictException": return try ConflictException.makeError(baseError: baseError)
@@ -10368,7 +10407,7 @@ enum CreateConnectorOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "UninitializedAccountException": return try UninitializedAccountException.makeError(baseError: baseError)
@@ -10383,7 +10422,7 @@ enum CreateLaunchConfigurationTemplateOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
@@ -10399,7 +10438,7 @@ enum CreateReplicationConfigurationTemplateOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
@@ -10415,7 +10454,7 @@ enum CreateWaveOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "ConflictException": return try ConflictException.makeError(baseError: baseError)
@@ -10431,7 +10470,7 @@ enum DeleteApplicationOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "ConflictException": return try ConflictException.makeError(baseError: baseError)
@@ -10447,7 +10486,7 @@ enum DeleteConnectorOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
@@ -10463,7 +10502,7 @@ enum DeleteJobOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "ConflictException": return try ConflictException.makeError(baseError: baseError)
@@ -10479,7 +10518,7 @@ enum DeleteLaunchConfigurationTemplateOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "ConflictException": return try ConflictException.makeError(baseError: baseError)
@@ -10495,7 +10534,7 @@ enum DeleteReplicationConfigurationTemplateOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "ConflictException": return try ConflictException.makeError(baseError: baseError)
@@ -10511,7 +10550,7 @@ enum DeleteSourceServerOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "ConflictException": return try ConflictException.makeError(baseError: baseError)
@@ -10527,7 +10566,7 @@ enum DeleteVcenterClientOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
@@ -10543,7 +10582,7 @@ enum DeleteWaveOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "ConflictException": return try ConflictException.makeError(baseError: baseError)
@@ -10559,7 +10598,7 @@ enum DescribeJobLogItemsOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "UninitializedAccountException": return try UninitializedAccountException.makeError(baseError: baseError)
@@ -10574,7 +10613,7 @@ enum DescribeJobsOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "UninitializedAccountException": return try UninitializedAccountException.makeError(baseError: baseError)
@@ -10589,7 +10628,7 @@ enum DescribeLaunchConfigurationTemplatesOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
@@ -10605,7 +10644,7 @@ enum DescribeReplicationConfigurationTemplatesOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
@@ -10621,7 +10660,7 @@ enum DescribeSourceServersOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "UninitializedAccountException": return try UninitializedAccountException.makeError(baseError: baseError)
@@ -10636,7 +10675,7 @@ enum DescribeVcenterClientsOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
@@ -10652,7 +10691,7 @@ enum DisassociateApplicationsOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "ConflictException": return try ConflictException.makeError(baseError: baseError)
@@ -10668,7 +10707,7 @@ enum DisassociateSourceServersOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "ConflictException": return try ConflictException.makeError(baseError: baseError)
@@ -10684,7 +10723,7 @@ enum DisconnectFromServiceOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "ConflictException": return try ConflictException.makeError(baseError: baseError)
@@ -10700,7 +10739,7 @@ enum FinalizeCutoverOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "ConflictException": return try ConflictException.makeError(baseError: baseError)
@@ -10717,7 +10756,7 @@ enum GetLaunchConfigurationOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
@@ -10732,7 +10771,7 @@ enum GetReplicationConfigurationOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
@@ -10747,7 +10786,7 @@ enum InitializeServiceOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
@@ -10762,7 +10801,7 @@ enum ListApplicationsOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "UninitializedAccountException": return try UninitializedAccountException.makeError(baseError: baseError)
@@ -10776,7 +10815,7 @@ enum ListConnectorsOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "UninitializedAccountException": return try UninitializedAccountException.makeError(baseError: baseError)
@@ -10791,7 +10830,7 @@ enum ListExportErrorsOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "UninitializedAccountException": return try UninitializedAccountException.makeError(baseError: baseError)
@@ -10806,7 +10845,7 @@ enum ListExportsOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "UninitializedAccountException": return try UninitializedAccountException.makeError(baseError: baseError)
@@ -10820,7 +10859,7 @@ enum ListImportErrorsOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "UninitializedAccountException": return try UninitializedAccountException.makeError(baseError: baseError)
@@ -10835,7 +10874,7 @@ enum ListImportsOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "UninitializedAccountException": return try UninitializedAccountException.makeError(baseError: baseError)
@@ -10850,7 +10889,7 @@ enum ListManagedAccountsOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "UninitializedAccountException": return try UninitializedAccountException.makeError(baseError: baseError)
@@ -10865,7 +10904,7 @@ enum ListSourceServerActionsOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
@@ -10880,7 +10919,7 @@ enum ListTagsForResourceOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
@@ -10898,7 +10937,7 @@ enum ListTemplateActionsOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
@@ -10913,7 +10952,7 @@ enum ListWavesOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "UninitializedAccountException": return try UninitializedAccountException.makeError(baseError: baseError)
@@ -10927,7 +10966,7 @@ enum MarkAsArchivedOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "ConflictException": return try ConflictException.makeError(baseError: baseError)
@@ -10943,7 +10982,7 @@ enum PauseReplicationOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "ConflictException": return try ConflictException.makeError(baseError: baseError)
@@ -10961,7 +11000,7 @@ enum PutSourceServerActionOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "ConflictException": return try ConflictException.makeError(baseError: baseError)
@@ -10978,7 +11017,7 @@ enum PutTemplateActionOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "ConflictException": return try ConflictException.makeError(baseError: baseError)
@@ -10995,7 +11034,7 @@ enum RemoveSourceServerActionOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
@@ -11011,7 +11050,7 @@ enum RemoveTemplateActionOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
@@ -11027,7 +11066,7 @@ enum ResumeReplicationOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "ConflictException": return try ConflictException.makeError(baseError: baseError)
@@ -11045,7 +11084,7 @@ enum RetryDataReplicationOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
@@ -11061,7 +11100,7 @@ enum StartCutoverOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "ConflictException": return try ConflictException.makeError(baseError: baseError)
@@ -11077,7 +11116,7 @@ enum StartExportOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "ServiceQuotaExceededException": return try ServiceQuotaExceededException.makeError(baseError: baseError)
@@ -11093,7 +11132,7 @@ enum StartImportOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "ConflictException": return try ConflictException.makeError(baseError: baseError)
@@ -11111,7 +11150,7 @@ enum StartReplicationOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "ConflictException": return try ConflictException.makeError(baseError: baseError)
@@ -11129,7 +11168,7 @@ enum StartTestOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "ConflictException": return try ConflictException.makeError(baseError: baseError)
@@ -11145,7 +11184,7 @@ enum StopReplicationOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "ConflictException": return try ConflictException.makeError(baseError: baseError)
@@ -11163,7 +11202,7 @@ enum TagResourceOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
@@ -11181,7 +11220,7 @@ enum TerminateTargetInstancesOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "ConflictException": return try ConflictException.makeError(baseError: baseError)
@@ -11197,7 +11236,7 @@ enum UnarchiveApplicationOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
@@ -11213,7 +11252,7 @@ enum UnarchiveWaveOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
@@ -11229,7 +11268,7 @@ enum UntagResourceOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
@@ -11247,7 +11286,7 @@ enum UpdateApplicationOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "ConflictException": return try ConflictException.makeError(baseError: baseError)
@@ -11263,7 +11302,7 @@ enum UpdateConnectorOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
@@ -11279,7 +11318,7 @@ enum UpdateLaunchConfigurationOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "ConflictException": return try ConflictException.makeError(baseError: baseError)
@@ -11296,7 +11335,7 @@ enum UpdateLaunchConfigurationTemplateOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
@@ -11313,7 +11352,7 @@ enum UpdateReplicationConfigurationOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
@@ -11331,7 +11370,7 @@ enum UpdateReplicationConfigurationTemplateOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
@@ -11348,7 +11387,7 @@ enum UpdateSourceServerOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "ConflictException": return try ConflictException.makeError(baseError: baseError)
@@ -11364,7 +11403,7 @@ enum UpdateSourceServerReplicationTypeOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "ConflictException": return try ConflictException.makeError(baseError: baseError)
@@ -11381,7 +11420,7 @@ enum UpdateWaveOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "ConflictException": return try ConflictException.makeError(baseError: baseError)
@@ -11394,7 +11433,7 @@ enum UpdateWaveOutputError {
 
 extension ConflictException {
 
-    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> ConflictException {
+    static func makeError(baseError: ClientRuntime.RestJSONError) throws -> ConflictException {
         let reader = baseError.errorBodyReader
         var value = ConflictException()
         value.properties.code = try reader["code"].readIfPresent()
@@ -11411,7 +11450,7 @@ extension ConflictException {
 
 extension ResourceNotFoundException {
 
-    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> ResourceNotFoundException {
+    static func makeError(baseError: ClientRuntime.RestJSONError) throws -> ResourceNotFoundException {
         let reader = baseError.errorBodyReader
         var value = ResourceNotFoundException()
         value.properties.code = try reader["code"].readIfPresent()
@@ -11427,7 +11466,7 @@ extension ResourceNotFoundException {
 
 extension ServiceQuotaExceededException {
 
-    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> ServiceQuotaExceededException {
+    static func makeError(baseError: ClientRuntime.RestJSONError) throws -> ServiceQuotaExceededException {
         let reader = baseError.errorBodyReader
         var value = ServiceQuotaExceededException()
         value.properties.code = try reader["code"].readIfPresent()
@@ -11446,7 +11485,7 @@ extension ServiceQuotaExceededException {
 
 extension UninitializedAccountException {
 
-    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> UninitializedAccountException {
+    static func makeError(baseError: ClientRuntime.RestJSONError) throws -> UninitializedAccountException {
         let reader = baseError.errorBodyReader
         var value = UninitializedAccountException()
         value.properties.code = try reader["code"].readIfPresent()
@@ -11460,7 +11499,7 @@ extension UninitializedAccountException {
 
 extension ValidationException {
 
-    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> ValidationException {
+    static func makeError(baseError: ClientRuntime.RestJSONError) throws -> ValidationException {
         let reader = baseError.errorBodyReader
         var value = ValidationException()
         value.properties.code = try reader["code"].readIfPresent()
@@ -11476,7 +11515,7 @@ extension ValidationException {
 
 extension AccessDeniedException {
 
-    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> AccessDeniedException {
+    static func makeError(baseError: ClientRuntime.RestJSONError) throws -> AccessDeniedException {
         let reader = baseError.errorBodyReader
         var value = AccessDeniedException()
         value.properties.code = try reader["code"].readIfPresent()
@@ -11490,7 +11529,7 @@ extension AccessDeniedException {
 
 extension InternalServerException {
 
-    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> InternalServerException {
+    static func makeError(baseError: ClientRuntime.RestJSONError) throws -> InternalServerException {
         let reader = baseError.errorBodyReader
         let httpResponse = baseError.httpResponse
         var value = InternalServerException()
@@ -11507,7 +11546,7 @@ extension InternalServerException {
 
 extension ThrottlingException {
 
-    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> ThrottlingException {
+    static func makeError(baseError: ClientRuntime.RestJSONError) throws -> ThrottlingException {
         let reader = baseError.errorBodyReader
         let httpResponse = baseError.httpResponse
         var value = ThrottlingException()
@@ -11520,6 +11559,25 @@ extension ThrottlingException {
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
         value.message = baseError.message
+        return value
+    }
+}
+
+extension MgnClientTypes.Application {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> MgnClientTypes.Application {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = MgnClientTypes.Application()
+        value.applicationID = try reader["applicationID"].readIfPresent()
+        value.arn = try reader["arn"].readIfPresent()
+        value.name = try reader["name"].readIfPresent()
+        value.description = try reader["description"].readIfPresent()
+        value.isArchived = try reader["isArchived"].readIfPresent()
+        value.applicationAggregatedStatus = try reader["applicationAggregatedStatus"].readIfPresent(with: MgnClientTypes.ApplicationAggregatedStatus.read(from:))
+        value.creationDateTime = try reader["creationDateTime"].readIfPresent()
+        value.lastModifiedDateTime = try reader["lastModifiedDateTime"].readIfPresent()
+        value.tags = try reader["tags"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+        value.waveID = try reader["waveID"].readIfPresent()
         return value
     }
 }
@@ -11537,28 +11595,68 @@ extension MgnClientTypes.ApplicationAggregatedStatus {
     }
 }
 
-extension MgnClientTypes.WaveAggregatedStatus {
+extension MgnClientTypes.ChangeServerLifeCycleStateSourceServerLifecycle {
 
-    static func read(from reader: SmithyJSON.Reader) throws -> MgnClientTypes.WaveAggregatedStatus {
+    static func write(value: MgnClientTypes.ChangeServerLifeCycleStateSourceServerLifecycle?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["state"].write(value.state)
+    }
+}
+
+extension MgnClientTypes.Connector {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> MgnClientTypes.Connector {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = MgnClientTypes.WaveAggregatedStatus()
-        value.lastUpdateDateTime = try reader["lastUpdateDateTime"].readIfPresent()
-        value.replicationStartedDateTime = try reader["replicationStartedDateTime"].readIfPresent()
-        value.healthStatus = try reader["healthStatus"].readIfPresent()
-        value.progressStatus = try reader["progressStatus"].readIfPresent()
-        value.totalApplications = try reader["totalApplications"].readIfPresent() ?? 0
+        var value = MgnClientTypes.Connector()
+        value.connectorID = try reader["connectorID"].readIfPresent()
+        value.name = try reader["name"].readIfPresent()
+        value.ssmInstanceID = try reader["ssmInstanceID"].readIfPresent()
+        value.arn = try reader["arn"].readIfPresent()
+        value.tags = try reader["tags"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+        value.ssmCommandConfig = try reader["ssmCommandConfig"].readIfPresent(with: MgnClientTypes.ConnectorSsmCommandConfig.read(from:))
         return value
     }
 }
 
-extension MgnClientTypes.LaunchedInstance {
+extension MgnClientTypes.ConnectorSsmCommandConfig {
 
-    static func read(from reader: SmithyJSON.Reader) throws -> MgnClientTypes.LaunchedInstance {
+    static func write(value: MgnClientTypes.ConnectorSsmCommandConfig?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["cloudWatchLogGroupName"].write(value.cloudWatchLogGroupName)
+        try writer["cloudWatchOutputEnabled"].write(value.cloudWatchOutputEnabled)
+        try writer["outputS3BucketName"].write(value.outputS3BucketName)
+        try writer["s3OutputEnabled"].write(value.s3OutputEnabled)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> MgnClientTypes.ConnectorSsmCommandConfig {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = MgnClientTypes.LaunchedInstance()
-        value.ec2InstanceID = try reader["ec2InstanceID"].readIfPresent()
-        value.jobID = try reader["jobID"].readIfPresent()
-        value.firstBoot = try reader["firstBoot"].readIfPresent()
+        var value = MgnClientTypes.ConnectorSsmCommandConfig()
+        value.s3OutputEnabled = try reader["s3OutputEnabled"].readIfPresent() ?? false
+        value.outputS3BucketName = try reader["outputS3BucketName"].readIfPresent()
+        value.cloudWatchOutputEnabled = try reader["cloudWatchOutputEnabled"].readIfPresent() ?? false
+        value.cloudWatchLogGroupName = try reader["cloudWatchLogGroupName"].readIfPresent()
+        return value
+    }
+}
+
+extension MgnClientTypes.CPU {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> MgnClientTypes.CPU {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = MgnClientTypes.CPU()
+        value.cores = try reader["cores"].readIfPresent() ?? 0
+        value.modelName = try reader["modelName"].readIfPresent()
+        return value
+    }
+}
+
+extension MgnClientTypes.DataReplicationError {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> MgnClientTypes.DataReplicationError {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = MgnClientTypes.DataReplicationError()
+        value.error = try reader["error"].readIfPresent()
+        value.rawError = try reader["rawError"].readIfPresent()
         return value
     }
 }
@@ -11580,13 +11678,16 @@ extension MgnClientTypes.DataReplicationInfo {
     }
 }
 
-extension MgnClientTypes.DataReplicationError {
+extension MgnClientTypes.DataReplicationInfoReplicatedDisk {
 
-    static func read(from reader: SmithyJSON.Reader) throws -> MgnClientTypes.DataReplicationError {
+    static func read(from reader: SmithyJSON.Reader) throws -> MgnClientTypes.DataReplicationInfoReplicatedDisk {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = MgnClientTypes.DataReplicationError()
-        value.error = try reader["error"].readIfPresent()
-        value.rawError = try reader["rawError"].readIfPresent()
+        var value = MgnClientTypes.DataReplicationInfoReplicatedDisk()
+        value.deviceName = try reader["deviceName"].readIfPresent()
+        value.totalStorageBytes = try reader["totalStorageBytes"].readIfPresent() ?? 0
+        value.replicatedStorageBytes = try reader["replicatedStorageBytes"].readIfPresent() ?? 0
+        value.rescannedStorageBytes = try reader["rescannedStorageBytes"].readIfPresent() ?? 0
+        value.backloggedStorageBytes = try reader["backloggedStorageBytes"].readIfPresent() ?? 0
         return value
     }
 }
@@ -11614,16 +11715,339 @@ extension MgnClientTypes.DataReplicationInitiationStep {
     }
 }
 
-extension MgnClientTypes.DataReplicationInfoReplicatedDisk {
+extension MgnClientTypes.DescribeJobsRequestFilters {
 
-    static func read(from reader: SmithyJSON.Reader) throws -> MgnClientTypes.DataReplicationInfoReplicatedDisk {
+    static func write(value: MgnClientTypes.DescribeJobsRequestFilters?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["fromDate"].write(value.fromDate)
+        try writer["jobIDs"].writeList(value.jobIDs, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["toDate"].write(value.toDate)
+    }
+}
+
+extension MgnClientTypes.DescribeSourceServersRequestFilters {
+
+    static func write(value: MgnClientTypes.DescribeSourceServersRequestFilters?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["applicationIDs"].writeList(value.applicationIDs, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["isArchived"].write(value.isArchived)
+        try writer["lifeCycleStates"].writeList(value.lifeCycleStates, memberWritingClosure: SmithyReadWrite.WritingClosureBox<MgnClientTypes.LifeCycleState>().write(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["replicationTypes"].writeList(value.replicationTypes, memberWritingClosure: SmithyReadWrite.WritingClosureBox<MgnClientTypes.ReplicationType>().write(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["sourceServerIDs"].writeList(value.sourceServerIDs, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+    }
+}
+
+extension MgnClientTypes.Disk {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> MgnClientTypes.Disk {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = MgnClientTypes.DataReplicationInfoReplicatedDisk()
+        var value = MgnClientTypes.Disk()
         value.deviceName = try reader["deviceName"].readIfPresent()
-        value.totalStorageBytes = try reader["totalStorageBytes"].readIfPresent() ?? 0
-        value.replicatedStorageBytes = try reader["replicatedStorageBytes"].readIfPresent() ?? 0
-        value.rescannedStorageBytes = try reader["rescannedStorageBytes"].readIfPresent() ?? 0
-        value.backloggedStorageBytes = try reader["backloggedStorageBytes"].readIfPresent() ?? 0
+        value.bytes = try reader["bytes"].readIfPresent() ?? 0
+        return value
+    }
+}
+
+extension MgnClientTypes.ErrorDetails {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> MgnClientTypes.ErrorDetails {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = MgnClientTypes.ErrorDetails()
+        value.message = try reader["message"].readIfPresent()
+        value.code = try reader["code"].readIfPresent()
+        value.resourceId = try reader["resourceId"].readIfPresent()
+        value.resourceType = try reader["resourceType"].readIfPresent()
+        return value
+    }
+}
+
+extension MgnClientTypes.ExportErrorData {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> MgnClientTypes.ExportErrorData {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = MgnClientTypes.ExportErrorData()
+        value.rawError = try reader["rawError"].readIfPresent()
+        return value
+    }
+}
+
+extension MgnClientTypes.ExportTask {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> MgnClientTypes.ExportTask {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = MgnClientTypes.ExportTask()
+        value.exportID = try reader["exportID"].readIfPresent()
+        value.arn = try reader["arn"].readIfPresent()
+        value.s3Bucket = try reader["s3Bucket"].readIfPresent()
+        value.s3Key = try reader["s3Key"].readIfPresent()
+        value.s3BucketOwner = try reader["s3BucketOwner"].readIfPresent()
+        value.creationDateTime = try reader["creationDateTime"].readIfPresent()
+        value.endDateTime = try reader["endDateTime"].readIfPresent()
+        value.status = try reader["status"].readIfPresent()
+        value.progressPercentage = try reader["progressPercentage"].readIfPresent()
+        value.summary = try reader["summary"].readIfPresent(with: MgnClientTypes.ExportTaskSummary.read(from:))
+        value.tags = try reader["tags"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+        return value
+    }
+}
+
+extension MgnClientTypes.ExportTaskError {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> MgnClientTypes.ExportTaskError {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = MgnClientTypes.ExportTaskError()
+        value.errorDateTime = try reader["errorDateTime"].readIfPresent()
+        value.errorData = try reader["errorData"].readIfPresent(with: MgnClientTypes.ExportErrorData.read(from:))
+        return value
+    }
+}
+
+extension MgnClientTypes.ExportTaskSummary {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> MgnClientTypes.ExportTaskSummary {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = MgnClientTypes.ExportTaskSummary()
+        value.serversCount = try reader["serversCount"].readIfPresent() ?? 0
+        value.applicationsCount = try reader["applicationsCount"].readIfPresent() ?? 0
+        value.wavesCount = try reader["wavesCount"].readIfPresent() ?? 0
+        return value
+    }
+}
+
+extension MgnClientTypes.IdentificationHints {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> MgnClientTypes.IdentificationHints {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = MgnClientTypes.IdentificationHints()
+        value.fqdn = try reader["fqdn"].readIfPresent()
+        value.hostname = try reader["hostname"].readIfPresent()
+        value.vmWareUuid = try reader["vmWareUuid"].readIfPresent()
+        value.awsInstanceID = try reader["awsInstanceID"].readIfPresent()
+        value.vmPath = try reader["vmPath"].readIfPresent()
+        return value
+    }
+}
+
+extension MgnClientTypes.ImportErrorData {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> MgnClientTypes.ImportErrorData {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = MgnClientTypes.ImportErrorData()
+        value.sourceServerID = try reader["sourceServerID"].readIfPresent()
+        value.applicationID = try reader["applicationID"].readIfPresent()
+        value.waveID = try reader["waveID"].readIfPresent()
+        value.ec2LaunchTemplateID = try reader["ec2LaunchTemplateID"].readIfPresent()
+        value.rowNumber = try reader["rowNumber"].readIfPresent() ?? 0
+        value.rawError = try reader["rawError"].readIfPresent()
+        value.accountID = try reader["accountID"].readIfPresent()
+        return value
+    }
+}
+
+extension MgnClientTypes.ImportTask {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> MgnClientTypes.ImportTask {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = MgnClientTypes.ImportTask()
+        value.importID = try reader["importID"].readIfPresent()
+        value.arn = try reader["arn"].readIfPresent()
+        value.s3BucketSource = try reader["s3BucketSource"].readIfPresent(with: MgnClientTypes.S3BucketSource.read(from:))
+        value.creationDateTime = try reader["creationDateTime"].readIfPresent()
+        value.endDateTime = try reader["endDateTime"].readIfPresent()
+        value.status = try reader["status"].readIfPresent()
+        value.progressPercentage = try reader["progressPercentage"].readIfPresent()
+        value.summary = try reader["summary"].readIfPresent(with: MgnClientTypes.ImportTaskSummary.read(from:))
+        value.tags = try reader["tags"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+        return value
+    }
+}
+
+extension MgnClientTypes.ImportTaskError {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> MgnClientTypes.ImportTaskError {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = MgnClientTypes.ImportTaskError()
+        value.errorDateTime = try reader["errorDateTime"].readIfPresent()
+        value.errorType = try reader["errorType"].readIfPresent()
+        value.errorData = try reader["errorData"].readIfPresent(with: MgnClientTypes.ImportErrorData.read(from:))
+        return value
+    }
+}
+
+extension MgnClientTypes.ImportTaskSummary {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> MgnClientTypes.ImportTaskSummary {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = MgnClientTypes.ImportTaskSummary()
+        value.waves = try reader["waves"].readIfPresent(with: MgnClientTypes.ImportTaskSummaryWaves.read(from:))
+        value.applications = try reader["applications"].readIfPresent(with: MgnClientTypes.ImportTaskSummaryApplications.read(from:))
+        value.servers = try reader["servers"].readIfPresent(with: MgnClientTypes.ImportTaskSummaryServers.read(from:))
+        return value
+    }
+}
+
+extension MgnClientTypes.ImportTaskSummaryApplications {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> MgnClientTypes.ImportTaskSummaryApplications {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = MgnClientTypes.ImportTaskSummaryApplications()
+        value.createdCount = try reader["createdCount"].readIfPresent() ?? 0
+        value.modifiedCount = try reader["modifiedCount"].readIfPresent() ?? 0
+        return value
+    }
+}
+
+extension MgnClientTypes.ImportTaskSummaryServers {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> MgnClientTypes.ImportTaskSummaryServers {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = MgnClientTypes.ImportTaskSummaryServers()
+        value.createdCount = try reader["createdCount"].readIfPresent() ?? 0
+        value.modifiedCount = try reader["modifiedCount"].readIfPresent() ?? 0
+        return value
+    }
+}
+
+extension MgnClientTypes.ImportTaskSummaryWaves {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> MgnClientTypes.ImportTaskSummaryWaves {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = MgnClientTypes.ImportTaskSummaryWaves()
+        value.createdCount = try reader["createdCount"].readIfPresent() ?? 0
+        value.modifiedCount = try reader["modifiedCount"].readIfPresent() ?? 0
+        return value
+    }
+}
+
+extension MgnClientTypes.Job {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> MgnClientTypes.Job {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = MgnClientTypes.Job()
+        value.jobID = try reader["jobID"].readIfPresent() ?? ""
+        value.arn = try reader["arn"].readIfPresent()
+        value.type = try reader["type"].readIfPresent()
+        value.initiatedBy = try reader["initiatedBy"].readIfPresent()
+        value.creationDateTime = try reader["creationDateTime"].readIfPresent()
+        value.endDateTime = try reader["endDateTime"].readIfPresent()
+        value.status = try reader["status"].readIfPresent()
+        value.participatingServers = try reader["participatingServers"].readListIfPresent(memberReadingClosure: MgnClientTypes.ParticipatingServer.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.tags = try reader["tags"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+        return value
+    }
+}
+
+extension MgnClientTypes.JobLog {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> MgnClientTypes.JobLog {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = MgnClientTypes.JobLog()
+        value.logDateTime = try reader["logDateTime"].readIfPresent()
+        value.event = try reader["event"].readIfPresent()
+        value.eventData = try reader["eventData"].readIfPresent(with: MgnClientTypes.JobLogEventData.read(from:))
+        return value
+    }
+}
+
+extension MgnClientTypes.JobLogEventData {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> MgnClientTypes.JobLogEventData {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = MgnClientTypes.JobLogEventData()
+        value.sourceServerID = try reader["sourceServerID"].readIfPresent()
+        value.conversionServerID = try reader["conversionServerID"].readIfPresent()
+        value.targetInstanceID = try reader["targetInstanceID"].readIfPresent()
+        value.rawError = try reader["rawError"].readIfPresent()
+        value.attemptCount = try reader["attemptCount"].readIfPresent()
+        value.maxAttemptsCount = try reader["maxAttemptsCount"].readIfPresent()
+        return value
+    }
+}
+
+extension MgnClientTypes.JobPostLaunchActionsLaunchStatus {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> MgnClientTypes.JobPostLaunchActionsLaunchStatus {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = MgnClientTypes.JobPostLaunchActionsLaunchStatus()
+        value.ssmDocument = try reader["ssmDocument"].readIfPresent(with: MgnClientTypes.SsmDocument.read(from:))
+        value.ssmDocumentType = try reader["ssmDocumentType"].readIfPresent()
+        value.executionID = try reader["executionID"].readIfPresent()
+        value.executionStatus = try reader["executionStatus"].readIfPresent()
+        value.failureReason = try reader["failureReason"].readIfPresent()
+        return value
+    }
+}
+
+extension MgnClientTypes.LaunchConfigurationTemplate {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> MgnClientTypes.LaunchConfigurationTemplate {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = MgnClientTypes.LaunchConfigurationTemplate()
+        value.launchConfigurationTemplateID = try reader["launchConfigurationTemplateID"].readIfPresent() ?? ""
+        value.arn = try reader["arn"].readIfPresent()
+        value.postLaunchActions = try reader["postLaunchActions"].readIfPresent(with: MgnClientTypes.PostLaunchActions.read(from:))
+        value.enableMapAutoTagging = try reader["enableMapAutoTagging"].readIfPresent()
+        value.mapAutoTaggingMpeID = try reader["mapAutoTaggingMpeID"].readIfPresent()
+        value.tags = try reader["tags"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+        value.ec2LaunchTemplateID = try reader["ec2LaunchTemplateID"].readIfPresent()
+        value.launchDisposition = try reader["launchDisposition"].readIfPresent()
+        value.targetInstanceTypeRightSizingMethod = try reader["targetInstanceTypeRightSizingMethod"].readIfPresent()
+        value.copyPrivateIp = try reader["copyPrivateIp"].readIfPresent()
+        value.associatePublicIpAddress = try reader["associatePublicIpAddress"].readIfPresent()
+        value.copyTags = try reader["copyTags"].readIfPresent()
+        value.licensing = try reader["licensing"].readIfPresent(with: MgnClientTypes.Licensing.read(from:))
+        value.bootMode = try reader["bootMode"].readIfPresent()
+        value.smallVolumeMaxSize = try reader["smallVolumeMaxSize"].readIfPresent() ?? 0
+        value.smallVolumeConf = try reader["smallVolumeConf"].readIfPresent(with: MgnClientTypes.LaunchTemplateDiskConf.read(from:))
+        value.largeVolumeConf = try reader["largeVolumeConf"].readIfPresent(with: MgnClientTypes.LaunchTemplateDiskConf.read(from:))
+        value.enableParametersEncryption = try reader["enableParametersEncryption"].readIfPresent()
+        value.parametersEncryptionKey = try reader["parametersEncryptionKey"].readIfPresent()
+        return value
+    }
+}
+
+extension MgnClientTypes.LaunchedInstance {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> MgnClientTypes.LaunchedInstance {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = MgnClientTypes.LaunchedInstance()
+        value.ec2InstanceID = try reader["ec2InstanceID"].readIfPresent()
+        value.jobID = try reader["jobID"].readIfPresent()
+        value.firstBoot = try reader["firstBoot"].readIfPresent()
+        return value
+    }
+}
+
+extension MgnClientTypes.LaunchTemplateDiskConf {
+
+    static func write(value: MgnClientTypes.LaunchTemplateDiskConf?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["iops"].write(value.iops)
+        try writer["throughput"].write(value.throughput)
+        try writer["volumeType"].write(value.volumeType)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> MgnClientTypes.LaunchTemplateDiskConf {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = MgnClientTypes.LaunchTemplateDiskConf()
+        value.volumeType = try reader["volumeType"].readIfPresent()
+        value.iops = try reader["iops"].readIfPresent()
+        value.throughput = try reader["throughput"].readIfPresent()
+        return value
+    }
+}
+
+extension MgnClientTypes.Licensing {
+
+    static func write(value: MgnClientTypes.Licensing?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["osByol"].write(value.osByol)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> MgnClientTypes.Licensing {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = MgnClientTypes.Licensing()
+        value.osByol = try reader["osByol"].readIfPresent()
         return value
     }
 }
@@ -11666,16 +12090,6 @@ extension MgnClientTypes.LifeCycleLastCutoverFinalized {
     }
 }
 
-extension MgnClientTypes.LifeCycleLastCutoverReverted {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> MgnClientTypes.LifeCycleLastCutoverReverted {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = MgnClientTypes.LifeCycleLastCutoverReverted()
-        value.apiCallDateTime = try reader["apiCallDateTime"].readIfPresent()
-        return value
-    }
-}
-
 extension MgnClientTypes.LifeCycleLastCutoverInitiated {
 
     static func read(from reader: SmithyJSON.Reader) throws -> MgnClientTypes.LifeCycleLastCutoverInitiated {
@@ -11683,6 +12097,16 @@ extension MgnClientTypes.LifeCycleLastCutoverInitiated {
         var value = MgnClientTypes.LifeCycleLastCutoverInitiated()
         value.apiCallDateTime = try reader["apiCallDateTime"].readIfPresent()
         value.jobID = try reader["jobID"].readIfPresent()
+        return value
+    }
+}
+
+extension MgnClientTypes.LifeCycleLastCutoverReverted {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> MgnClientTypes.LifeCycleLastCutoverReverted {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = MgnClientTypes.LifeCycleLastCutoverReverted()
+        value.apiCallDateTime = try reader["apiCallDateTime"].readIfPresent()
         return value
     }
 }
@@ -11709,16 +12133,6 @@ extension MgnClientTypes.LifeCycleLastTestFinalized {
     }
 }
 
-extension MgnClientTypes.LifeCycleLastTestReverted {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> MgnClientTypes.LifeCycleLastTestReverted {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = MgnClientTypes.LifeCycleLastTestReverted()
-        value.apiCallDateTime = try reader["apiCallDateTime"].readIfPresent()
-        return value
-    }
-}
-
 extension MgnClientTypes.LifeCycleLastTestInitiated {
 
     static func read(from reader: SmithyJSON.Reader) throws -> MgnClientTypes.LifeCycleLastTestInitiated {
@@ -11730,51 +12144,65 @@ extension MgnClientTypes.LifeCycleLastTestInitiated {
     }
 }
 
-extension MgnClientTypes.SourceProperties {
+extension MgnClientTypes.LifeCycleLastTestReverted {
 
-    static func read(from reader: SmithyJSON.Reader) throws -> MgnClientTypes.SourceProperties {
+    static func read(from reader: SmithyJSON.Reader) throws -> MgnClientTypes.LifeCycleLastTestReverted {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = MgnClientTypes.SourceProperties()
-        value.lastUpdatedDateTime = try reader["lastUpdatedDateTime"].readIfPresent()
-        value.recommendedInstanceType = try reader["recommendedInstanceType"].readIfPresent()
-        value.identificationHints = try reader["identificationHints"].readIfPresent(with: MgnClientTypes.IdentificationHints.read(from:))
-        value.networkInterfaces = try reader["networkInterfaces"].readListIfPresent(memberReadingClosure: MgnClientTypes.NetworkInterface.read(from:), memberNodeInfo: "member", isFlattened: false)
-        value.disks = try reader["disks"].readListIfPresent(memberReadingClosure: MgnClientTypes.Disk.read(from:), memberNodeInfo: "member", isFlattened: false)
-        value.cpus = try reader["cpus"].readListIfPresent(memberReadingClosure: MgnClientTypes.CPU.read(from:), memberNodeInfo: "member", isFlattened: false)
-        value.ramBytes = try reader["ramBytes"].readIfPresent() ?? 0
-        value.os = try reader["os"].readIfPresent(with: MgnClientTypes.OS.read(from:))
+        var value = MgnClientTypes.LifeCycleLastTestReverted()
+        value.apiCallDateTime = try reader["apiCallDateTime"].readIfPresent()
         return value
     }
 }
 
-extension MgnClientTypes.OS {
+extension MgnClientTypes.ListApplicationsRequestFilters {
 
-    static func read(from reader: SmithyJSON.Reader) throws -> MgnClientTypes.OS {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = MgnClientTypes.OS()
-        value.fullString = try reader["fullString"].readIfPresent()
-        return value
+    static func write(value: MgnClientTypes.ListApplicationsRequestFilters?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["applicationIDs"].writeList(value.applicationIDs, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["isArchived"].write(value.isArchived)
+        try writer["waveIDs"].writeList(value.waveIDs, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
     }
 }
 
-extension MgnClientTypes.CPU {
+extension MgnClientTypes.ListConnectorsRequestFilters {
 
-    static func read(from reader: SmithyJSON.Reader) throws -> MgnClientTypes.CPU {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = MgnClientTypes.CPU()
-        value.cores = try reader["cores"].readIfPresent() ?? 0
-        value.modelName = try reader["modelName"].readIfPresent()
-        return value
+    static func write(value: MgnClientTypes.ListConnectorsRequestFilters?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["connectorIDs"].writeList(value.connectorIDs, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
     }
 }
 
-extension MgnClientTypes.Disk {
+extension MgnClientTypes.ListExportsRequestFilters {
 
-    static func read(from reader: SmithyJSON.Reader) throws -> MgnClientTypes.Disk {
+    static func write(value: MgnClientTypes.ListExportsRequestFilters?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["exportIDs"].writeList(value.exportIDs, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+    }
+}
+
+extension MgnClientTypes.ListImportsRequestFilters {
+
+    static func write(value: MgnClientTypes.ListImportsRequestFilters?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["importIDs"].writeList(value.importIDs, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+    }
+}
+
+extension MgnClientTypes.ListWavesRequestFilters {
+
+    static func write(value: MgnClientTypes.ListWavesRequestFilters?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["isArchived"].write(value.isArchived)
+        try writer["waveIDs"].writeList(value.waveIDs, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+    }
+}
+
+extension MgnClientTypes.ManagedAccount {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> MgnClientTypes.ManagedAccount {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = MgnClientTypes.Disk()
-        value.deviceName = try reader["deviceName"].readIfPresent()
-        value.bytes = try reader["bytes"].readIfPresent() ?? 0
+        var value = MgnClientTypes.ManagedAccount()
+        value.accountId = try reader["accountId"].readIfPresent()
         return value
     }
 }
@@ -11791,54 +12219,25 @@ extension MgnClientTypes.NetworkInterface {
     }
 }
 
-extension MgnClientTypes.IdentificationHints {
+extension MgnClientTypes.OS {
 
-    static func read(from reader: SmithyJSON.Reader) throws -> MgnClientTypes.IdentificationHints {
+    static func read(from reader: SmithyJSON.Reader) throws -> MgnClientTypes.OS {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = MgnClientTypes.IdentificationHints()
-        value.fqdn = try reader["fqdn"].readIfPresent()
-        value.hostname = try reader["hostname"].readIfPresent()
-        value.vmWareUuid = try reader["vmWareUuid"].readIfPresent()
-        value.awsInstanceID = try reader["awsInstanceID"].readIfPresent()
-        value.vmPath = try reader["vmPath"].readIfPresent()
+        var value = MgnClientTypes.OS()
+        value.fullString = try reader["fullString"].readIfPresent()
         return value
     }
 }
 
-extension MgnClientTypes.SourceServerConnectorAction {
+extension MgnClientTypes.ParticipatingServer {
 
-    static func write(value: MgnClientTypes.SourceServerConnectorAction?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["connectorArn"].write(value.connectorArn)
-        try writer["credentialsSecretArn"].write(value.credentialsSecretArn)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> MgnClientTypes.SourceServerConnectorAction {
+    static func read(from reader: SmithyJSON.Reader) throws -> MgnClientTypes.ParticipatingServer {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = MgnClientTypes.SourceServerConnectorAction()
-        value.credentialsSecretArn = try reader["credentialsSecretArn"].readIfPresent()
-        value.connectorArn = try reader["connectorArn"].readIfPresent()
-        return value
-    }
-}
-
-extension MgnClientTypes.ConnectorSsmCommandConfig {
-
-    static func write(value: MgnClientTypes.ConnectorSsmCommandConfig?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["cloudWatchLogGroupName"].write(value.cloudWatchLogGroupName)
-        try writer["cloudWatchOutputEnabled"].write(value.cloudWatchOutputEnabled)
-        try writer["outputS3BucketName"].write(value.outputS3BucketName)
-        try writer["s3OutputEnabled"].write(value.s3OutputEnabled)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> MgnClientTypes.ConnectorSsmCommandConfig {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = MgnClientTypes.ConnectorSsmCommandConfig()
-        value.s3OutputEnabled = try reader["s3OutputEnabled"].readIfPresent() ?? false
-        value.outputS3BucketName = try reader["outputS3BucketName"].readIfPresent()
-        value.cloudWatchOutputEnabled = try reader["cloudWatchOutputEnabled"].readIfPresent() ?? false
-        value.cloudWatchLogGroupName = try reader["cloudWatchLogGroupName"].readIfPresent()
+        var value = MgnClientTypes.ParticipatingServer()
+        value.sourceServerID = try reader["sourceServerID"].readIfPresent() ?? ""
+        value.launchStatus = try reader["launchStatus"].readIfPresent()
+        value.launchedEc2InstanceID = try reader["launchedEc2InstanceID"].readIfPresent()
+        value.postLaunchActionsStatus = try reader["postLaunchActionsStatus"].readIfPresent(with: MgnClientTypes.PostLaunchActionsStatus.read(from:))
         return value
     }
 }
@@ -11862,6 +12261,172 @@ extension MgnClientTypes.PostLaunchActions {
         value.s3OutputKeyPrefix = try reader["s3OutputKeyPrefix"].readIfPresent()
         value.cloudWatchLogGroupName = try reader["cloudWatchLogGroupName"].readIfPresent()
         value.ssmDocuments = try reader["ssmDocuments"].readListIfPresent(memberReadingClosure: MgnClientTypes.SsmDocument.read(from:), memberNodeInfo: "member", isFlattened: false)
+        return value
+    }
+}
+
+extension MgnClientTypes.PostLaunchActionsStatus {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> MgnClientTypes.PostLaunchActionsStatus {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = MgnClientTypes.PostLaunchActionsStatus()
+        value.ssmAgentDiscoveryDatetime = try reader["ssmAgentDiscoveryDatetime"].readIfPresent()
+        value.postLaunchActionsLaunchStatusList = try reader["postLaunchActionsLaunchStatusList"].readListIfPresent(memberReadingClosure: MgnClientTypes.JobPostLaunchActionsLaunchStatus.read(from:), memberNodeInfo: "member", isFlattened: false)
+        return value
+    }
+}
+
+extension MgnClientTypes.ReplicationConfigurationReplicatedDisk {
+
+    static func write(value: MgnClientTypes.ReplicationConfigurationReplicatedDisk?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["deviceName"].write(value.deviceName)
+        try writer["iops"].write(value.iops)
+        try writer["isBootDisk"].write(value.isBootDisk)
+        try writer["stagingDiskType"].write(value.stagingDiskType)
+        try writer["throughput"].write(value.throughput)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> MgnClientTypes.ReplicationConfigurationReplicatedDisk {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = MgnClientTypes.ReplicationConfigurationReplicatedDisk()
+        value.deviceName = try reader["deviceName"].readIfPresent()
+        value.isBootDisk = try reader["isBootDisk"].readIfPresent()
+        value.stagingDiskType = try reader["stagingDiskType"].readIfPresent()
+        value.iops = try reader["iops"].readIfPresent() ?? 0
+        value.throughput = try reader["throughput"].readIfPresent() ?? 0
+        return value
+    }
+}
+
+extension MgnClientTypes.ReplicationConfigurationTemplate {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> MgnClientTypes.ReplicationConfigurationTemplate {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = MgnClientTypes.ReplicationConfigurationTemplate()
+        value.replicationConfigurationTemplateID = try reader["replicationConfigurationTemplateID"].readIfPresent() ?? ""
+        value.arn = try reader["arn"].readIfPresent()
+        value.stagingAreaSubnetId = try reader["stagingAreaSubnetId"].readIfPresent()
+        value.associateDefaultSecurityGroup = try reader["associateDefaultSecurityGroup"].readIfPresent()
+        value.replicationServersSecurityGroupsIDs = try reader["replicationServersSecurityGroupsIDs"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        value.replicationServerInstanceType = try reader["replicationServerInstanceType"].readIfPresent()
+        value.useDedicatedReplicationServer = try reader["useDedicatedReplicationServer"].readIfPresent()
+        value.defaultLargeStagingDiskType = try reader["defaultLargeStagingDiskType"].readIfPresent()
+        value.ebsEncryption = try reader["ebsEncryption"].readIfPresent()
+        value.ebsEncryptionKeyArn = try reader["ebsEncryptionKeyArn"].readIfPresent()
+        value.bandwidthThrottling = try reader["bandwidthThrottling"].readIfPresent() ?? 0
+        value.dataPlaneRouting = try reader["dataPlaneRouting"].readIfPresent()
+        value.createPublicIP = try reader["createPublicIP"].readIfPresent()
+        value.stagingAreaTags = try reader["stagingAreaTags"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+        value.useFipsEndpoint = try reader["useFipsEndpoint"].readIfPresent()
+        value.tags = try reader["tags"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+        value.internetProtocol = try reader["internetProtocol"].readIfPresent()
+        value.storeSnapshotOnLocalZone = try reader["storeSnapshotOnLocalZone"].readIfPresent()
+        return value
+    }
+}
+
+extension MgnClientTypes.S3BucketSource {
+
+    static func write(value: MgnClientTypes.S3BucketSource?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["s3Bucket"].write(value.s3Bucket)
+        try writer["s3BucketOwner"].write(value.s3BucketOwner)
+        try writer["s3Key"].write(value.s3Key)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> MgnClientTypes.S3BucketSource {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = MgnClientTypes.S3BucketSource()
+        value.s3Bucket = try reader["s3Bucket"].readIfPresent() ?? ""
+        value.s3Key = try reader["s3Key"].readIfPresent() ?? ""
+        value.s3BucketOwner = try reader["s3BucketOwner"].readIfPresent()
+        return value
+    }
+}
+
+extension MgnClientTypes.SourceProperties {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> MgnClientTypes.SourceProperties {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = MgnClientTypes.SourceProperties()
+        value.lastUpdatedDateTime = try reader["lastUpdatedDateTime"].readIfPresent()
+        value.recommendedInstanceType = try reader["recommendedInstanceType"].readIfPresent()
+        value.identificationHints = try reader["identificationHints"].readIfPresent(with: MgnClientTypes.IdentificationHints.read(from:))
+        value.networkInterfaces = try reader["networkInterfaces"].readListIfPresent(memberReadingClosure: MgnClientTypes.NetworkInterface.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.disks = try reader["disks"].readListIfPresent(memberReadingClosure: MgnClientTypes.Disk.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.cpus = try reader["cpus"].readListIfPresent(memberReadingClosure: MgnClientTypes.CPU.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.ramBytes = try reader["ramBytes"].readIfPresent() ?? 0
+        value.os = try reader["os"].readIfPresent(with: MgnClientTypes.OS.read(from:))
+        return value
+    }
+}
+
+extension MgnClientTypes.SourceServer {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> MgnClientTypes.SourceServer {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = MgnClientTypes.SourceServer()
+        value.sourceServerID = try reader["sourceServerID"].readIfPresent()
+        value.arn = try reader["arn"].readIfPresent()
+        value.isArchived = try reader["isArchived"].readIfPresent()
+        value.tags = try reader["tags"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+        value.launchedInstance = try reader["launchedInstance"].readIfPresent(with: MgnClientTypes.LaunchedInstance.read(from:))
+        value.dataReplicationInfo = try reader["dataReplicationInfo"].readIfPresent(with: MgnClientTypes.DataReplicationInfo.read(from:))
+        value.lifeCycle = try reader["lifeCycle"].readIfPresent(with: MgnClientTypes.LifeCycle.read(from:))
+        value.sourceProperties = try reader["sourceProperties"].readIfPresent(with: MgnClientTypes.SourceProperties.read(from:))
+        value.replicationType = try reader["replicationType"].readIfPresent()
+        value.vcenterClientID = try reader["vcenterClientID"].readIfPresent()
+        value.applicationID = try reader["applicationID"].readIfPresent()
+        value.userProvidedID = try reader["userProvidedID"].readIfPresent()
+        value.fqdnForActionFramework = try reader["fqdnForActionFramework"].readIfPresent()
+        value.connectorAction = try reader["connectorAction"].readIfPresent(with: MgnClientTypes.SourceServerConnectorAction.read(from:))
+        return value
+    }
+}
+
+extension MgnClientTypes.SourceServerActionDocument {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> MgnClientTypes.SourceServerActionDocument {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = MgnClientTypes.SourceServerActionDocument()
+        value.actionID = try reader["actionID"].readIfPresent()
+        value.actionName = try reader["actionName"].readIfPresent()
+        value.documentIdentifier = try reader["documentIdentifier"].readIfPresent()
+        value.order = try reader["order"].readIfPresent()
+        value.documentVersion = try reader["documentVersion"].readIfPresent()
+        value.active = try reader["active"].readIfPresent()
+        value.timeoutSeconds = try reader["timeoutSeconds"].readIfPresent()
+        value.mustSucceedForCutover = try reader["mustSucceedForCutover"].readIfPresent()
+        value.parameters = try reader["parameters"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.listReadingClosure(memberReadingClosure: MgnClientTypes.SsmParameterStoreParameter.read(from:), memberNodeInfo: "member", isFlattened: false), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+        value.externalParameters = try reader["externalParameters"].readMapIfPresent(valueReadingClosure: MgnClientTypes.SsmExternalParameter.read(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+        value.description = try reader["description"].readIfPresent()
+        value.category = try reader["category"].readIfPresent()
+        return value
+    }
+}
+
+extension MgnClientTypes.SourceServerActionsRequestFilters {
+
+    static func write(value: MgnClientTypes.SourceServerActionsRequestFilters?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["actionIDs"].writeList(value.actionIDs, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+    }
+}
+
+extension MgnClientTypes.SourceServerConnectorAction {
+
+    static func write(value: MgnClientTypes.SourceServerConnectorAction?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["connectorArn"].write(value.connectorArn)
+        try writer["credentialsSecretArn"].write(value.credentialsSecretArn)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> MgnClientTypes.SourceServerConnectorAction {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = MgnClientTypes.SourceServerConnectorAction()
+        value.credentialsSecretArn = try reader["credentialsSecretArn"].readIfPresent()
+        value.connectorArn = try reader["connectorArn"].readIfPresent()
         return value
     }
 }
@@ -11932,468 +12497,6 @@ extension MgnClientTypes.SsmParameterStoreParameter {
     }
 }
 
-extension MgnClientTypes.Licensing {
-
-    static func write(value: MgnClientTypes.Licensing?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["osByol"].write(value.osByol)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> MgnClientTypes.Licensing {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = MgnClientTypes.Licensing()
-        value.osByol = try reader["osByol"].readIfPresent()
-        return value
-    }
-}
-
-extension MgnClientTypes.LaunchTemplateDiskConf {
-
-    static func write(value: MgnClientTypes.LaunchTemplateDiskConf?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["iops"].write(value.iops)
-        try writer["throughput"].write(value.throughput)
-        try writer["volumeType"].write(value.volumeType)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> MgnClientTypes.LaunchTemplateDiskConf {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = MgnClientTypes.LaunchTemplateDiskConf()
-        value.volumeType = try reader["volumeType"].readIfPresent()
-        value.iops = try reader["iops"].readIfPresent()
-        value.throughput = try reader["throughput"].readIfPresent()
-        return value
-    }
-}
-
-extension MgnClientTypes.JobLog {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> MgnClientTypes.JobLog {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = MgnClientTypes.JobLog()
-        value.logDateTime = try reader["logDateTime"].readIfPresent()
-        value.event = try reader["event"].readIfPresent()
-        value.eventData = try reader["eventData"].readIfPresent(with: MgnClientTypes.JobLogEventData.read(from:))
-        return value
-    }
-}
-
-extension MgnClientTypes.JobLogEventData {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> MgnClientTypes.JobLogEventData {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = MgnClientTypes.JobLogEventData()
-        value.sourceServerID = try reader["sourceServerID"].readIfPresent()
-        value.conversionServerID = try reader["conversionServerID"].readIfPresent()
-        value.targetInstanceID = try reader["targetInstanceID"].readIfPresent()
-        value.rawError = try reader["rawError"].readIfPresent()
-        value.attemptCount = try reader["attemptCount"].readIfPresent()
-        value.maxAttemptsCount = try reader["maxAttemptsCount"].readIfPresent()
-        return value
-    }
-}
-
-extension MgnClientTypes.Job {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> MgnClientTypes.Job {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = MgnClientTypes.Job()
-        value.jobID = try reader["jobID"].readIfPresent() ?? ""
-        value.arn = try reader["arn"].readIfPresent()
-        value.type = try reader["type"].readIfPresent()
-        value.initiatedBy = try reader["initiatedBy"].readIfPresent()
-        value.creationDateTime = try reader["creationDateTime"].readIfPresent()
-        value.endDateTime = try reader["endDateTime"].readIfPresent()
-        value.status = try reader["status"].readIfPresent()
-        value.participatingServers = try reader["participatingServers"].readListIfPresent(memberReadingClosure: MgnClientTypes.ParticipatingServer.read(from:), memberNodeInfo: "member", isFlattened: false)
-        value.tags = try reader["tags"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
-        return value
-    }
-}
-
-extension MgnClientTypes.ParticipatingServer {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> MgnClientTypes.ParticipatingServer {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = MgnClientTypes.ParticipatingServer()
-        value.sourceServerID = try reader["sourceServerID"].readIfPresent() ?? ""
-        value.launchStatus = try reader["launchStatus"].readIfPresent()
-        value.launchedEc2InstanceID = try reader["launchedEc2InstanceID"].readIfPresent()
-        value.postLaunchActionsStatus = try reader["postLaunchActionsStatus"].readIfPresent(with: MgnClientTypes.PostLaunchActionsStatus.read(from:))
-        return value
-    }
-}
-
-extension MgnClientTypes.PostLaunchActionsStatus {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> MgnClientTypes.PostLaunchActionsStatus {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = MgnClientTypes.PostLaunchActionsStatus()
-        value.ssmAgentDiscoveryDatetime = try reader["ssmAgentDiscoveryDatetime"].readIfPresent()
-        value.postLaunchActionsLaunchStatusList = try reader["postLaunchActionsLaunchStatusList"].readListIfPresent(memberReadingClosure: MgnClientTypes.JobPostLaunchActionsLaunchStatus.read(from:), memberNodeInfo: "member", isFlattened: false)
-        return value
-    }
-}
-
-extension MgnClientTypes.JobPostLaunchActionsLaunchStatus {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> MgnClientTypes.JobPostLaunchActionsLaunchStatus {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = MgnClientTypes.JobPostLaunchActionsLaunchStatus()
-        value.ssmDocument = try reader["ssmDocument"].readIfPresent(with: MgnClientTypes.SsmDocument.read(from:))
-        value.ssmDocumentType = try reader["ssmDocumentType"].readIfPresent()
-        value.executionID = try reader["executionID"].readIfPresent()
-        value.executionStatus = try reader["executionStatus"].readIfPresent()
-        value.failureReason = try reader["failureReason"].readIfPresent()
-        return value
-    }
-}
-
-extension MgnClientTypes.LaunchConfigurationTemplate {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> MgnClientTypes.LaunchConfigurationTemplate {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = MgnClientTypes.LaunchConfigurationTemplate()
-        value.launchConfigurationTemplateID = try reader["launchConfigurationTemplateID"].readIfPresent() ?? ""
-        value.arn = try reader["arn"].readIfPresent()
-        value.postLaunchActions = try reader["postLaunchActions"].readIfPresent(with: MgnClientTypes.PostLaunchActions.read(from:))
-        value.enableMapAutoTagging = try reader["enableMapAutoTagging"].readIfPresent()
-        value.mapAutoTaggingMpeID = try reader["mapAutoTaggingMpeID"].readIfPresent()
-        value.tags = try reader["tags"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
-        value.ec2LaunchTemplateID = try reader["ec2LaunchTemplateID"].readIfPresent()
-        value.launchDisposition = try reader["launchDisposition"].readIfPresent()
-        value.targetInstanceTypeRightSizingMethod = try reader["targetInstanceTypeRightSizingMethod"].readIfPresent()
-        value.copyPrivateIp = try reader["copyPrivateIp"].readIfPresent()
-        value.associatePublicIpAddress = try reader["associatePublicIpAddress"].readIfPresent()
-        value.copyTags = try reader["copyTags"].readIfPresent()
-        value.licensing = try reader["licensing"].readIfPresent(with: MgnClientTypes.Licensing.read(from:))
-        value.bootMode = try reader["bootMode"].readIfPresent()
-        value.smallVolumeMaxSize = try reader["smallVolumeMaxSize"].readIfPresent() ?? 0
-        value.smallVolumeConf = try reader["smallVolumeConf"].readIfPresent(with: MgnClientTypes.LaunchTemplateDiskConf.read(from:))
-        value.largeVolumeConf = try reader["largeVolumeConf"].readIfPresent(with: MgnClientTypes.LaunchTemplateDiskConf.read(from:))
-        value.enableParametersEncryption = try reader["enableParametersEncryption"].readIfPresent()
-        value.parametersEncryptionKey = try reader["parametersEncryptionKey"].readIfPresent()
-        return value
-    }
-}
-
-extension MgnClientTypes.ReplicationConfigurationTemplate {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> MgnClientTypes.ReplicationConfigurationTemplate {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = MgnClientTypes.ReplicationConfigurationTemplate()
-        value.replicationConfigurationTemplateID = try reader["replicationConfigurationTemplateID"].readIfPresent() ?? ""
-        value.arn = try reader["arn"].readIfPresent()
-        value.stagingAreaSubnetId = try reader["stagingAreaSubnetId"].readIfPresent()
-        value.associateDefaultSecurityGroup = try reader["associateDefaultSecurityGroup"].readIfPresent()
-        value.replicationServersSecurityGroupsIDs = try reader["replicationServersSecurityGroupsIDs"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
-        value.replicationServerInstanceType = try reader["replicationServerInstanceType"].readIfPresent()
-        value.useDedicatedReplicationServer = try reader["useDedicatedReplicationServer"].readIfPresent()
-        value.defaultLargeStagingDiskType = try reader["defaultLargeStagingDiskType"].readIfPresent()
-        value.ebsEncryption = try reader["ebsEncryption"].readIfPresent()
-        value.ebsEncryptionKeyArn = try reader["ebsEncryptionKeyArn"].readIfPresent()
-        value.bandwidthThrottling = try reader["bandwidthThrottling"].readIfPresent() ?? 0
-        value.dataPlaneRouting = try reader["dataPlaneRouting"].readIfPresent()
-        value.createPublicIP = try reader["createPublicIP"].readIfPresent()
-        value.stagingAreaTags = try reader["stagingAreaTags"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
-        value.useFipsEndpoint = try reader["useFipsEndpoint"].readIfPresent()
-        value.tags = try reader["tags"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
-        value.internetProtocol = try reader["internetProtocol"].readIfPresent()
-        return value
-    }
-}
-
-extension MgnClientTypes.SourceServer {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> MgnClientTypes.SourceServer {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = MgnClientTypes.SourceServer()
-        value.sourceServerID = try reader["sourceServerID"].readIfPresent()
-        value.arn = try reader["arn"].readIfPresent()
-        value.isArchived = try reader["isArchived"].readIfPresent()
-        value.tags = try reader["tags"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
-        value.launchedInstance = try reader["launchedInstance"].readIfPresent(with: MgnClientTypes.LaunchedInstance.read(from:))
-        value.dataReplicationInfo = try reader["dataReplicationInfo"].readIfPresent(with: MgnClientTypes.DataReplicationInfo.read(from:))
-        value.lifeCycle = try reader["lifeCycle"].readIfPresent(with: MgnClientTypes.LifeCycle.read(from:))
-        value.sourceProperties = try reader["sourceProperties"].readIfPresent(with: MgnClientTypes.SourceProperties.read(from:))
-        value.replicationType = try reader["replicationType"].readIfPresent()
-        value.vcenterClientID = try reader["vcenterClientID"].readIfPresent()
-        value.applicationID = try reader["applicationID"].readIfPresent()
-        value.userProvidedID = try reader["userProvidedID"].readIfPresent()
-        value.fqdnForActionFramework = try reader["fqdnForActionFramework"].readIfPresent()
-        value.connectorAction = try reader["connectorAction"].readIfPresent(with: MgnClientTypes.SourceServerConnectorAction.read(from:))
-        return value
-    }
-}
-
-extension MgnClientTypes.VcenterClient {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> MgnClientTypes.VcenterClient {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = MgnClientTypes.VcenterClient()
-        value.vcenterClientID = try reader["vcenterClientID"].readIfPresent()
-        value.arn = try reader["arn"].readIfPresent()
-        value.hostname = try reader["hostname"].readIfPresent()
-        value.vcenterUUID = try reader["vcenterUUID"].readIfPresent()
-        value.datacenterName = try reader["datacenterName"].readIfPresent()
-        value.lastSeenDatetime = try reader["lastSeenDatetime"].readIfPresent()
-        value.sourceServerTags = try reader["sourceServerTags"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
-        value.tags = try reader["tags"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
-        return value
-    }
-}
-
-extension MgnClientTypes.ReplicationConfigurationReplicatedDisk {
-
-    static func write(value: MgnClientTypes.ReplicationConfigurationReplicatedDisk?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["deviceName"].write(value.deviceName)
-        try writer["iops"].write(value.iops)
-        try writer["isBootDisk"].write(value.isBootDisk)
-        try writer["stagingDiskType"].write(value.stagingDiskType)
-        try writer["throughput"].write(value.throughput)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> MgnClientTypes.ReplicationConfigurationReplicatedDisk {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = MgnClientTypes.ReplicationConfigurationReplicatedDisk()
-        value.deviceName = try reader["deviceName"].readIfPresent()
-        value.isBootDisk = try reader["isBootDisk"].readIfPresent()
-        value.stagingDiskType = try reader["stagingDiskType"].readIfPresent()
-        value.iops = try reader["iops"].readIfPresent() ?? 0
-        value.throughput = try reader["throughput"].readIfPresent() ?? 0
-        return value
-    }
-}
-
-extension MgnClientTypes.Application {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> MgnClientTypes.Application {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = MgnClientTypes.Application()
-        value.applicationID = try reader["applicationID"].readIfPresent()
-        value.arn = try reader["arn"].readIfPresent()
-        value.name = try reader["name"].readIfPresent()
-        value.description = try reader["description"].readIfPresent()
-        value.isArchived = try reader["isArchived"].readIfPresent()
-        value.applicationAggregatedStatus = try reader["applicationAggregatedStatus"].readIfPresent(with: MgnClientTypes.ApplicationAggregatedStatus.read(from:))
-        value.creationDateTime = try reader["creationDateTime"].readIfPresent()
-        value.lastModifiedDateTime = try reader["lastModifiedDateTime"].readIfPresent()
-        value.tags = try reader["tags"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
-        value.waveID = try reader["waveID"].readIfPresent()
-        return value
-    }
-}
-
-extension MgnClientTypes.Connector {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> MgnClientTypes.Connector {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = MgnClientTypes.Connector()
-        value.connectorID = try reader["connectorID"].readIfPresent()
-        value.name = try reader["name"].readIfPresent()
-        value.ssmInstanceID = try reader["ssmInstanceID"].readIfPresent()
-        value.arn = try reader["arn"].readIfPresent()
-        value.tags = try reader["tags"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
-        value.ssmCommandConfig = try reader["ssmCommandConfig"].readIfPresent(with: MgnClientTypes.ConnectorSsmCommandConfig.read(from:))
-        return value
-    }
-}
-
-extension MgnClientTypes.ExportTaskError {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> MgnClientTypes.ExportTaskError {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = MgnClientTypes.ExportTaskError()
-        value.errorDateTime = try reader["errorDateTime"].readIfPresent()
-        value.errorData = try reader["errorData"].readIfPresent(with: MgnClientTypes.ExportErrorData.read(from:))
-        return value
-    }
-}
-
-extension MgnClientTypes.ExportErrorData {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> MgnClientTypes.ExportErrorData {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = MgnClientTypes.ExportErrorData()
-        value.rawError = try reader["rawError"].readIfPresent()
-        return value
-    }
-}
-
-extension MgnClientTypes.ExportTask {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> MgnClientTypes.ExportTask {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = MgnClientTypes.ExportTask()
-        value.exportID = try reader["exportID"].readIfPresent()
-        value.arn = try reader["arn"].readIfPresent()
-        value.s3Bucket = try reader["s3Bucket"].readIfPresent()
-        value.s3Key = try reader["s3Key"].readIfPresent()
-        value.s3BucketOwner = try reader["s3BucketOwner"].readIfPresent()
-        value.creationDateTime = try reader["creationDateTime"].readIfPresent()
-        value.endDateTime = try reader["endDateTime"].readIfPresent()
-        value.status = try reader["status"].readIfPresent()
-        value.progressPercentage = try reader["progressPercentage"].readIfPresent()
-        value.summary = try reader["summary"].readIfPresent(with: MgnClientTypes.ExportTaskSummary.read(from:))
-        value.tags = try reader["tags"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
-        return value
-    }
-}
-
-extension MgnClientTypes.ExportTaskSummary {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> MgnClientTypes.ExportTaskSummary {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = MgnClientTypes.ExportTaskSummary()
-        value.serversCount = try reader["serversCount"].readIfPresent() ?? 0
-        value.applicationsCount = try reader["applicationsCount"].readIfPresent() ?? 0
-        value.wavesCount = try reader["wavesCount"].readIfPresent() ?? 0
-        return value
-    }
-}
-
-extension MgnClientTypes.ImportTaskError {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> MgnClientTypes.ImportTaskError {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = MgnClientTypes.ImportTaskError()
-        value.errorDateTime = try reader["errorDateTime"].readIfPresent()
-        value.errorType = try reader["errorType"].readIfPresent()
-        value.errorData = try reader["errorData"].readIfPresent(with: MgnClientTypes.ImportErrorData.read(from:))
-        return value
-    }
-}
-
-extension MgnClientTypes.ImportErrorData {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> MgnClientTypes.ImportErrorData {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = MgnClientTypes.ImportErrorData()
-        value.sourceServerID = try reader["sourceServerID"].readIfPresent()
-        value.applicationID = try reader["applicationID"].readIfPresent()
-        value.waveID = try reader["waveID"].readIfPresent()
-        value.ec2LaunchTemplateID = try reader["ec2LaunchTemplateID"].readIfPresent()
-        value.rowNumber = try reader["rowNumber"].readIfPresent() ?? 0
-        value.rawError = try reader["rawError"].readIfPresent()
-        value.accountID = try reader["accountID"].readIfPresent()
-        return value
-    }
-}
-
-extension MgnClientTypes.ImportTask {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> MgnClientTypes.ImportTask {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = MgnClientTypes.ImportTask()
-        value.importID = try reader["importID"].readIfPresent()
-        value.arn = try reader["arn"].readIfPresent()
-        value.s3BucketSource = try reader["s3BucketSource"].readIfPresent(with: MgnClientTypes.S3BucketSource.read(from:))
-        value.creationDateTime = try reader["creationDateTime"].readIfPresent()
-        value.endDateTime = try reader["endDateTime"].readIfPresent()
-        value.status = try reader["status"].readIfPresent()
-        value.progressPercentage = try reader["progressPercentage"].readIfPresent()
-        value.summary = try reader["summary"].readIfPresent(with: MgnClientTypes.ImportTaskSummary.read(from:))
-        value.tags = try reader["tags"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
-        return value
-    }
-}
-
-extension MgnClientTypes.ImportTaskSummary {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> MgnClientTypes.ImportTaskSummary {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = MgnClientTypes.ImportTaskSummary()
-        value.waves = try reader["waves"].readIfPresent(with: MgnClientTypes.ImportTaskSummaryWaves.read(from:))
-        value.applications = try reader["applications"].readIfPresent(with: MgnClientTypes.ImportTaskSummaryApplications.read(from:))
-        value.servers = try reader["servers"].readIfPresent(with: MgnClientTypes.ImportTaskSummaryServers.read(from:))
-        return value
-    }
-}
-
-extension MgnClientTypes.ImportTaskSummaryServers {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> MgnClientTypes.ImportTaskSummaryServers {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = MgnClientTypes.ImportTaskSummaryServers()
-        value.createdCount = try reader["createdCount"].readIfPresent() ?? 0
-        value.modifiedCount = try reader["modifiedCount"].readIfPresent() ?? 0
-        return value
-    }
-}
-
-extension MgnClientTypes.ImportTaskSummaryApplications {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> MgnClientTypes.ImportTaskSummaryApplications {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = MgnClientTypes.ImportTaskSummaryApplications()
-        value.createdCount = try reader["createdCount"].readIfPresent() ?? 0
-        value.modifiedCount = try reader["modifiedCount"].readIfPresent() ?? 0
-        return value
-    }
-}
-
-extension MgnClientTypes.ImportTaskSummaryWaves {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> MgnClientTypes.ImportTaskSummaryWaves {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = MgnClientTypes.ImportTaskSummaryWaves()
-        value.createdCount = try reader["createdCount"].readIfPresent() ?? 0
-        value.modifiedCount = try reader["modifiedCount"].readIfPresent() ?? 0
-        return value
-    }
-}
-
-extension MgnClientTypes.S3BucketSource {
-
-    static func write(value: MgnClientTypes.S3BucketSource?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["s3Bucket"].write(value.s3Bucket)
-        try writer["s3BucketOwner"].write(value.s3BucketOwner)
-        try writer["s3Key"].write(value.s3Key)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> MgnClientTypes.S3BucketSource {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = MgnClientTypes.S3BucketSource()
-        value.s3Bucket = try reader["s3Bucket"].readIfPresent() ?? ""
-        value.s3Key = try reader["s3Key"].readIfPresent() ?? ""
-        value.s3BucketOwner = try reader["s3BucketOwner"].readIfPresent()
-        return value
-    }
-}
-
-extension MgnClientTypes.ManagedAccount {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> MgnClientTypes.ManagedAccount {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = MgnClientTypes.ManagedAccount()
-        value.accountId = try reader["accountId"].readIfPresent()
-        return value
-    }
-}
-
-extension MgnClientTypes.SourceServerActionDocument {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> MgnClientTypes.SourceServerActionDocument {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = MgnClientTypes.SourceServerActionDocument()
-        value.actionID = try reader["actionID"].readIfPresent()
-        value.actionName = try reader["actionName"].readIfPresent()
-        value.documentIdentifier = try reader["documentIdentifier"].readIfPresent()
-        value.order = try reader["order"].readIfPresent()
-        value.documentVersion = try reader["documentVersion"].readIfPresent()
-        value.active = try reader["active"].readIfPresent()
-        value.timeoutSeconds = try reader["timeoutSeconds"].readIfPresent()
-        value.mustSucceedForCutover = try reader["mustSucceedForCutover"].readIfPresent()
-        value.parameters = try reader["parameters"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.listReadingClosure(memberReadingClosure: MgnClientTypes.SsmParameterStoreParameter.read(from:), memberNodeInfo: "member", isFlattened: false), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
-        value.externalParameters = try reader["externalParameters"].readMapIfPresent(valueReadingClosure: MgnClientTypes.SsmExternalParameter.read(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
-        value.description = try reader["description"].readIfPresent()
-        value.category = try reader["category"].readIfPresent()
-        return value
-    }
-}
-
 extension MgnClientTypes.TemplateActionDocument {
 
     static func read(from reader: SmithyJSON.Reader) throws -> MgnClientTypes.TemplateActionDocument {
@@ -12416,6 +12519,42 @@ extension MgnClientTypes.TemplateActionDocument {
     }
 }
 
+extension MgnClientTypes.TemplateActionsRequestFilters {
+
+    static func write(value: MgnClientTypes.TemplateActionsRequestFilters?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["actionIDs"].writeList(value.actionIDs, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+    }
+}
+
+extension MgnClientTypes.ValidationExceptionField {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> MgnClientTypes.ValidationExceptionField {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = MgnClientTypes.ValidationExceptionField()
+        value.name = try reader["name"].readIfPresent()
+        value.message = try reader["message"].readIfPresent()
+        return value
+    }
+}
+
+extension MgnClientTypes.VcenterClient {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> MgnClientTypes.VcenterClient {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = MgnClientTypes.VcenterClient()
+        value.vcenterClientID = try reader["vcenterClientID"].readIfPresent()
+        value.arn = try reader["arn"].readIfPresent()
+        value.hostname = try reader["hostname"].readIfPresent()
+        value.vcenterUUID = try reader["vcenterUUID"].readIfPresent()
+        value.datacenterName = try reader["datacenterName"].readIfPresent()
+        value.lastSeenDatetime = try reader["lastSeenDatetime"].readIfPresent()
+        value.sourceServerTags = try reader["sourceServerTags"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+        value.tags = try reader["tags"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+        return value
+    }
+}
+
 extension MgnClientTypes.Wave {
 
     static func read(from reader: SmithyJSON.Reader) throws -> MgnClientTypes.Wave {
@@ -12434,116 +12573,17 @@ extension MgnClientTypes.Wave {
     }
 }
 
-extension MgnClientTypes.ErrorDetails {
+extension MgnClientTypes.WaveAggregatedStatus {
 
-    static func read(from reader: SmithyJSON.Reader) throws -> MgnClientTypes.ErrorDetails {
+    static func read(from reader: SmithyJSON.Reader) throws -> MgnClientTypes.WaveAggregatedStatus {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = MgnClientTypes.ErrorDetails()
-        value.message = try reader["message"].readIfPresent()
-        value.code = try reader["code"].readIfPresent()
-        value.resourceId = try reader["resourceId"].readIfPresent()
-        value.resourceType = try reader["resourceType"].readIfPresent()
+        var value = MgnClientTypes.WaveAggregatedStatus()
+        value.lastUpdateDateTime = try reader["lastUpdateDateTime"].readIfPresent()
+        value.replicationStartedDateTime = try reader["replicationStartedDateTime"].readIfPresent()
+        value.healthStatus = try reader["healthStatus"].readIfPresent()
+        value.progressStatus = try reader["progressStatus"].readIfPresent()
+        value.totalApplications = try reader["totalApplications"].readIfPresent() ?? 0
         return value
-    }
-}
-
-extension MgnClientTypes.ValidationExceptionField {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> MgnClientTypes.ValidationExceptionField {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = MgnClientTypes.ValidationExceptionField()
-        value.name = try reader["name"].readIfPresent()
-        value.message = try reader["message"].readIfPresent()
-        return value
-    }
-}
-
-extension MgnClientTypes.ChangeServerLifeCycleStateSourceServerLifecycle {
-
-    static func write(value: MgnClientTypes.ChangeServerLifeCycleStateSourceServerLifecycle?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["state"].write(value.state)
-    }
-}
-
-extension MgnClientTypes.DescribeJobsRequestFilters {
-
-    static func write(value: MgnClientTypes.DescribeJobsRequestFilters?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["fromDate"].write(value.fromDate)
-        try writer["jobIDs"].writeList(value.jobIDs, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["toDate"].write(value.toDate)
-    }
-}
-
-extension MgnClientTypes.DescribeSourceServersRequestFilters {
-
-    static func write(value: MgnClientTypes.DescribeSourceServersRequestFilters?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["applicationIDs"].writeList(value.applicationIDs, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["isArchived"].write(value.isArchived)
-        try writer["lifeCycleStates"].writeList(value.lifeCycleStates, memberWritingClosure: SmithyReadWrite.WritingClosureBox<MgnClientTypes.LifeCycleState>().write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["replicationTypes"].writeList(value.replicationTypes, memberWritingClosure: SmithyReadWrite.WritingClosureBox<MgnClientTypes.ReplicationType>().write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["sourceServerIDs"].writeList(value.sourceServerIDs, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
-    }
-}
-
-extension MgnClientTypes.ListApplicationsRequestFilters {
-
-    static func write(value: MgnClientTypes.ListApplicationsRequestFilters?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["applicationIDs"].writeList(value.applicationIDs, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["isArchived"].write(value.isArchived)
-        try writer["waveIDs"].writeList(value.waveIDs, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
-    }
-}
-
-extension MgnClientTypes.ListConnectorsRequestFilters {
-
-    static func write(value: MgnClientTypes.ListConnectorsRequestFilters?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["connectorIDs"].writeList(value.connectorIDs, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
-    }
-}
-
-extension MgnClientTypes.ListExportsRequestFilters {
-
-    static func write(value: MgnClientTypes.ListExportsRequestFilters?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["exportIDs"].writeList(value.exportIDs, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
-    }
-}
-
-extension MgnClientTypes.ListImportsRequestFilters {
-
-    static func write(value: MgnClientTypes.ListImportsRequestFilters?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["importIDs"].writeList(value.importIDs, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
-    }
-}
-
-extension MgnClientTypes.SourceServerActionsRequestFilters {
-
-    static func write(value: MgnClientTypes.SourceServerActionsRequestFilters?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["actionIDs"].writeList(value.actionIDs, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
-    }
-}
-
-extension MgnClientTypes.TemplateActionsRequestFilters {
-
-    static func write(value: MgnClientTypes.TemplateActionsRequestFilters?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["actionIDs"].writeList(value.actionIDs, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
-    }
-}
-
-extension MgnClientTypes.ListWavesRequestFilters {
-
-    static func write(value: MgnClientTypes.ListWavesRequestFilters?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["isArchived"].write(value.isArchived)
-        try writer["waveIDs"].writeList(value.waveIDs, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
     }
 }
 

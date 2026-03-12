@@ -20,8 +20,8 @@ import protocol ClientRuntime.HTTPError
 import protocol ClientRuntime.ModeledError
 @_spi(SmithyReadWrite) import protocol SmithyReadWrite.SmithyReader
 @_spi(SmithyReadWrite) import protocol SmithyReadWrite.SmithyWriter
-@_spi(SmithyReadWrite) import struct AWSClientRuntime.RestJSONError
 @_spi(UnknownAWSHTTPServiceError) import struct AWSClientRuntime.UnknownAWSHTTPServiceError
+@_spi(SmithyReadWrite) import struct ClientRuntime.RestJSONError
 import struct SmithyHTTPAPI.Header
 import struct SmithyHTTPAPI.Headers
 @_spi(SmithyReadWrite) import struct SmithyReadWrite.WritingClosureBox
@@ -1787,7 +1787,7 @@ enum CancelParticipantAuthenticationOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
@@ -1804,7 +1804,7 @@ enum CompleteAttachmentUploadOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
@@ -1823,7 +1823,7 @@ enum CreateParticipantConnectionOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
@@ -1840,7 +1840,7 @@ enum DescribeViewOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
@@ -1858,7 +1858,7 @@ enum DisconnectParticipantOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
@@ -1875,7 +1875,7 @@ enum GetAttachmentOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
@@ -1892,7 +1892,7 @@ enum GetAuthenticationUrlOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
@@ -1909,7 +1909,7 @@ enum GetTranscriptOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
@@ -1926,7 +1926,7 @@ enum SendEventOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
@@ -1944,7 +1944,7 @@ enum SendMessageOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
@@ -1961,7 +1961,7 @@ enum StartAttachmentUploadOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
@@ -1976,7 +1976,7 @@ enum StartAttachmentUploadOutputError {
 
 extension AccessDeniedException {
 
-    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> AccessDeniedException {
+    static func makeError(baseError: ClientRuntime.RestJSONError) throws -> AccessDeniedException {
         let reader = baseError.errorBodyReader
         var value = AccessDeniedException()
         value.properties.message = try reader["Message"].readIfPresent() ?? ""
@@ -1989,7 +1989,7 @@ extension AccessDeniedException {
 
 extension InternalServerException {
 
-    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> InternalServerException {
+    static func makeError(baseError: ClientRuntime.RestJSONError) throws -> InternalServerException {
         let reader = baseError.errorBodyReader
         var value = InternalServerException()
         value.properties.message = try reader["Message"].readIfPresent() ?? ""
@@ -2002,7 +2002,7 @@ extension InternalServerException {
 
 extension ThrottlingException {
 
-    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> ThrottlingException {
+    static func makeError(baseError: ClientRuntime.RestJSONError) throws -> ThrottlingException {
         let reader = baseError.errorBodyReader
         var value = ThrottlingException()
         value.properties.message = try reader["Message"].readIfPresent() ?? ""
@@ -2015,7 +2015,7 @@ extension ThrottlingException {
 
 extension ValidationException {
 
-    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> ValidationException {
+    static func makeError(baseError: ClientRuntime.RestJSONError) throws -> ValidationException {
         let reader = baseError.errorBodyReader
         var value = ValidationException()
         value.properties.message = try reader["Message"].readIfPresent() ?? ""
@@ -2028,7 +2028,7 @@ extension ValidationException {
 
 extension ConflictException {
 
-    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> ConflictException {
+    static func makeError(baseError: ClientRuntime.RestJSONError) throws -> ConflictException {
         let reader = baseError.errorBodyReader
         var value = ConflictException()
         value.properties.message = try reader["Message"].readIfPresent() ?? ""
@@ -2041,7 +2041,7 @@ extension ConflictException {
 
 extension ServiceQuotaExceededException {
 
-    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> ServiceQuotaExceededException {
+    static func makeError(baseError: ClientRuntime.RestJSONError) throws -> ServiceQuotaExceededException {
         let reader = baseError.errorBodyReader
         var value = ServiceQuotaExceededException()
         value.properties.message = try reader["Message"].readIfPresent() ?? ""
@@ -2054,7 +2054,7 @@ extension ServiceQuotaExceededException {
 
 extension ResourceNotFoundException {
 
-    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> ResourceNotFoundException {
+    static func makeError(baseError: ClientRuntime.RestJSONError) throws -> ResourceNotFoundException {
         let reader = baseError.errorBodyReader
         var value = ResourceNotFoundException()
         value.properties.message = try reader["Message"].readIfPresent()
@@ -2067,13 +2067,36 @@ extension ResourceNotFoundException {
     }
 }
 
-extension ConnectParticipantClientTypes.Websocket {
+extension ConnectParticipantClientTypes.AttachmentItem {
 
-    static func read(from reader: SmithyJSON.Reader) throws -> ConnectParticipantClientTypes.Websocket {
+    static func read(from reader: SmithyJSON.Reader) throws -> ConnectParticipantClientTypes.AttachmentItem {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = ConnectParticipantClientTypes.Websocket()
-        value.url = try reader["Url"].readIfPresent()
-        value.connectionExpiry = try reader["ConnectionExpiry"].readIfPresent()
+        var value = ConnectParticipantClientTypes.AttachmentItem()
+        value.contentType = try reader["ContentType"].readIfPresent()
+        value.attachmentId = try reader["AttachmentId"].readIfPresent()
+        value.attachmentName = try reader["AttachmentName"].readIfPresent()
+        value.status = try reader["Status"].readIfPresent()
+        return value
+    }
+}
+
+extension ConnectParticipantClientTypes.Attendee {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> ConnectParticipantClientTypes.Attendee {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = ConnectParticipantClientTypes.Attendee()
+        value.attendeeId = try reader["AttendeeId"].readIfPresent()
+        value.joinToken = try reader["JoinToken"].readIfPresent()
+        return value
+    }
+}
+
+extension ConnectParticipantClientTypes.AudioFeatures {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> ConnectParticipantClientTypes.AudioFeatures {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = ConnectParticipantClientTypes.AudioFeatures()
+        value.echoReduction = try reader["EchoReduction"].readIfPresent()
         return value
     }
 }
@@ -2089,25 +2112,23 @@ extension ConnectParticipantClientTypes.ConnectionCredentials {
     }
 }
 
-extension ConnectParticipantClientTypes.WebRTCConnection {
+extension ConnectParticipantClientTypes.Item {
 
-    static func read(from reader: SmithyJSON.Reader) throws -> ConnectParticipantClientTypes.WebRTCConnection {
+    static func read(from reader: SmithyJSON.Reader) throws -> ConnectParticipantClientTypes.Item {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = ConnectParticipantClientTypes.WebRTCConnection()
-        value.attendee = try reader["Attendee"].readIfPresent(with: ConnectParticipantClientTypes.Attendee.read(from:))
-        value.meeting = try reader["Meeting"].readIfPresent(with: ConnectParticipantClientTypes.WebRTCMeeting.read(from:))
-        return value
-    }
-}
-
-extension ConnectParticipantClientTypes.WebRTCMeeting {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> ConnectParticipantClientTypes.WebRTCMeeting {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = ConnectParticipantClientTypes.WebRTCMeeting()
-        value.mediaPlacement = try reader["MediaPlacement"].readIfPresent(with: ConnectParticipantClientTypes.WebRTCMediaPlacement.read(from:))
-        value.meetingFeatures = try reader["MeetingFeatures"].readIfPresent(with: ConnectParticipantClientTypes.MeetingFeaturesConfiguration.read(from:))
-        value.meetingId = try reader["MeetingId"].readIfPresent()
+        var value = ConnectParticipantClientTypes.Item()
+        value.absoluteTime = try reader["AbsoluteTime"].readIfPresent()
+        value.content = try reader["Content"].readIfPresent()
+        value.contentType = try reader["ContentType"].readIfPresent()
+        value.id = try reader["Id"].readIfPresent()
+        value.type = try reader["Type"].readIfPresent()
+        value.participantId = try reader["ParticipantId"].readIfPresent()
+        value.displayName = try reader["DisplayName"].readIfPresent()
+        value.participantRole = try reader["ParticipantRole"].readIfPresent()
+        value.attachments = try reader["Attachments"].readListIfPresent(memberReadingClosure: ConnectParticipantClientTypes.AttachmentItem.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.messageMetadata = try reader["MessageMetadata"].readIfPresent(with: ConnectParticipantClientTypes.MessageMetadata.read(from:))
+        value.relatedContactId = try reader["RelatedContactId"].readIfPresent()
+        value.contactId = try reader["ContactId"].readIfPresent()
         return value
     }
 }
@@ -2122,36 +2143,58 @@ extension ConnectParticipantClientTypes.MeetingFeaturesConfiguration {
     }
 }
 
-extension ConnectParticipantClientTypes.AudioFeatures {
+extension ConnectParticipantClientTypes.MessageMetadata {
 
-    static func read(from reader: SmithyJSON.Reader) throws -> ConnectParticipantClientTypes.AudioFeatures {
+    static func read(from reader: SmithyJSON.Reader) throws -> ConnectParticipantClientTypes.MessageMetadata {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = ConnectParticipantClientTypes.AudioFeatures()
-        value.echoReduction = try reader["EchoReduction"].readIfPresent()
+        var value = ConnectParticipantClientTypes.MessageMetadata()
+        value.messageId = try reader["MessageId"].readIfPresent()
+        value.receipts = try reader["Receipts"].readListIfPresent(memberReadingClosure: ConnectParticipantClientTypes.Receipt.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.messageProcessingStatus = try reader["MessageProcessingStatus"].readIfPresent()
         return value
     }
 }
 
-extension ConnectParticipantClientTypes.WebRTCMediaPlacement {
+extension ConnectParticipantClientTypes.MessageProcessingMetadata {
 
-    static func read(from reader: SmithyJSON.Reader) throws -> ConnectParticipantClientTypes.WebRTCMediaPlacement {
+    static func read(from reader: SmithyJSON.Reader) throws -> ConnectParticipantClientTypes.MessageProcessingMetadata {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = ConnectParticipantClientTypes.WebRTCMediaPlacement()
-        value.audioHostUrl = try reader["AudioHostUrl"].readIfPresent()
-        value.audioFallbackUrl = try reader["AudioFallbackUrl"].readIfPresent()
-        value.signalingUrl = try reader["SignalingUrl"].readIfPresent()
-        value.eventIngestionUrl = try reader["EventIngestionUrl"].readIfPresent()
+        var value = ConnectParticipantClientTypes.MessageProcessingMetadata()
+        value.messageProcessingStatus = try reader["MessageProcessingStatus"].readIfPresent()
         return value
     }
 }
 
-extension ConnectParticipantClientTypes.Attendee {
+extension ConnectParticipantClientTypes.Receipt {
 
-    static func read(from reader: SmithyJSON.Reader) throws -> ConnectParticipantClientTypes.Attendee {
+    static func read(from reader: SmithyJSON.Reader) throws -> ConnectParticipantClientTypes.Receipt {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = ConnectParticipantClientTypes.Attendee()
-        value.attendeeId = try reader["AttendeeId"].readIfPresent()
-        value.joinToken = try reader["JoinToken"].readIfPresent()
+        var value = ConnectParticipantClientTypes.Receipt()
+        value.deliveredTimestamp = try reader["DeliveredTimestamp"].readIfPresent()
+        value.readTimestamp = try reader["ReadTimestamp"].readIfPresent()
+        value.recipientParticipantId = try reader["RecipientParticipantId"].readIfPresent()
+        return value
+    }
+}
+
+extension ConnectParticipantClientTypes.StartPosition {
+
+    static func write(value: ConnectParticipantClientTypes.StartPosition?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["AbsoluteTime"].write(value.absoluteTime)
+        try writer["Id"].write(value.id)
+        try writer["MostRecent"].write(value.mostRecent)
+    }
+}
+
+extension ConnectParticipantClientTypes.UploadMetadata {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> ConnectParticipantClientTypes.UploadMetadata {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = ConnectParticipantClientTypes.UploadMetadata()
+        value.url = try reader["Url"].readIfPresent()
+        value.urlExpiry = try reader["UrlExpiry"].readIfPresent()
+        value.headersToInclude = try reader["HeadersToInclude"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
         return value
     }
 }
@@ -2182,93 +2225,50 @@ extension ConnectParticipantClientTypes.ViewContent {
     }
 }
 
-extension ConnectParticipantClientTypes.Item {
+extension ConnectParticipantClientTypes.WebRTCConnection {
 
-    static func read(from reader: SmithyJSON.Reader) throws -> ConnectParticipantClientTypes.Item {
+    static func read(from reader: SmithyJSON.Reader) throws -> ConnectParticipantClientTypes.WebRTCConnection {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = ConnectParticipantClientTypes.Item()
-        value.absoluteTime = try reader["AbsoluteTime"].readIfPresent()
-        value.content = try reader["Content"].readIfPresent()
-        value.contentType = try reader["ContentType"].readIfPresent()
-        value.id = try reader["Id"].readIfPresent()
-        value.type = try reader["Type"].readIfPresent()
-        value.participantId = try reader["ParticipantId"].readIfPresent()
-        value.displayName = try reader["DisplayName"].readIfPresent()
-        value.participantRole = try reader["ParticipantRole"].readIfPresent()
-        value.attachments = try reader["Attachments"].readListIfPresent(memberReadingClosure: ConnectParticipantClientTypes.AttachmentItem.read(from:), memberNodeInfo: "member", isFlattened: false)
-        value.messageMetadata = try reader["MessageMetadata"].readIfPresent(with: ConnectParticipantClientTypes.MessageMetadata.read(from:))
-        value.relatedContactId = try reader["RelatedContactId"].readIfPresent()
-        value.contactId = try reader["ContactId"].readIfPresent()
+        var value = ConnectParticipantClientTypes.WebRTCConnection()
+        value.attendee = try reader["Attendee"].readIfPresent(with: ConnectParticipantClientTypes.Attendee.read(from:))
+        value.meeting = try reader["Meeting"].readIfPresent(with: ConnectParticipantClientTypes.WebRTCMeeting.read(from:))
         return value
     }
 }
 
-extension ConnectParticipantClientTypes.MessageMetadata {
+extension ConnectParticipantClientTypes.WebRTCMediaPlacement {
 
-    static func read(from reader: SmithyJSON.Reader) throws -> ConnectParticipantClientTypes.MessageMetadata {
+    static func read(from reader: SmithyJSON.Reader) throws -> ConnectParticipantClientTypes.WebRTCMediaPlacement {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = ConnectParticipantClientTypes.MessageMetadata()
-        value.messageId = try reader["MessageId"].readIfPresent()
-        value.receipts = try reader["Receipts"].readListIfPresent(memberReadingClosure: ConnectParticipantClientTypes.Receipt.read(from:), memberNodeInfo: "member", isFlattened: false)
-        value.messageProcessingStatus = try reader["MessageProcessingStatus"].readIfPresent()
+        var value = ConnectParticipantClientTypes.WebRTCMediaPlacement()
+        value.audioHostUrl = try reader["AudioHostUrl"].readIfPresent()
+        value.audioFallbackUrl = try reader["AudioFallbackUrl"].readIfPresent()
+        value.signalingUrl = try reader["SignalingUrl"].readIfPresent()
+        value.eventIngestionUrl = try reader["EventIngestionUrl"].readIfPresent()
         return value
     }
 }
 
-extension ConnectParticipantClientTypes.Receipt {
+extension ConnectParticipantClientTypes.WebRTCMeeting {
 
-    static func read(from reader: SmithyJSON.Reader) throws -> ConnectParticipantClientTypes.Receipt {
+    static func read(from reader: SmithyJSON.Reader) throws -> ConnectParticipantClientTypes.WebRTCMeeting {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = ConnectParticipantClientTypes.Receipt()
-        value.deliveredTimestamp = try reader["DeliveredTimestamp"].readIfPresent()
-        value.readTimestamp = try reader["ReadTimestamp"].readIfPresent()
-        value.recipientParticipantId = try reader["RecipientParticipantId"].readIfPresent()
+        var value = ConnectParticipantClientTypes.WebRTCMeeting()
+        value.mediaPlacement = try reader["MediaPlacement"].readIfPresent(with: ConnectParticipantClientTypes.WebRTCMediaPlacement.read(from:))
+        value.meetingFeatures = try reader["MeetingFeatures"].readIfPresent(with: ConnectParticipantClientTypes.MeetingFeaturesConfiguration.read(from:))
+        value.meetingId = try reader["MeetingId"].readIfPresent()
         return value
     }
 }
 
-extension ConnectParticipantClientTypes.AttachmentItem {
+extension ConnectParticipantClientTypes.Websocket {
 
-    static func read(from reader: SmithyJSON.Reader) throws -> ConnectParticipantClientTypes.AttachmentItem {
+    static func read(from reader: SmithyJSON.Reader) throws -> ConnectParticipantClientTypes.Websocket {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = ConnectParticipantClientTypes.AttachmentItem()
-        value.contentType = try reader["ContentType"].readIfPresent()
-        value.attachmentId = try reader["AttachmentId"].readIfPresent()
-        value.attachmentName = try reader["AttachmentName"].readIfPresent()
-        value.status = try reader["Status"].readIfPresent()
-        return value
-    }
-}
-
-extension ConnectParticipantClientTypes.MessageProcessingMetadata {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> ConnectParticipantClientTypes.MessageProcessingMetadata {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = ConnectParticipantClientTypes.MessageProcessingMetadata()
-        value.messageProcessingStatus = try reader["MessageProcessingStatus"].readIfPresent()
-        return value
-    }
-}
-
-extension ConnectParticipantClientTypes.UploadMetadata {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> ConnectParticipantClientTypes.UploadMetadata {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = ConnectParticipantClientTypes.UploadMetadata()
+        var value = ConnectParticipantClientTypes.Websocket()
         value.url = try reader["Url"].readIfPresent()
-        value.urlExpiry = try reader["UrlExpiry"].readIfPresent()
-        value.headersToInclude = try reader["HeadersToInclude"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+        value.connectionExpiry = try reader["ConnectionExpiry"].readIfPresent()
         return value
-    }
-}
-
-extension ConnectParticipantClientTypes.StartPosition {
-
-    static func write(value: ConnectParticipantClientTypes.StartPosition?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["AbsoluteTime"].write(value.absoluteTime)
-        try writer["Id"].write(value.id)
-        try writer["MostRecent"].write(value.mostRecent)
     }
 }
 

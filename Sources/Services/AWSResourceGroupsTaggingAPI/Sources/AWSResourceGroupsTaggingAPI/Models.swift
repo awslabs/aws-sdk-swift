@@ -20,8 +20,8 @@ import protocol ClientRuntime.HTTPError
 import protocol ClientRuntime.ModeledError
 @_spi(SmithyReadWrite) import protocol SmithyReadWrite.SmithyReader
 @_spi(SmithyReadWrite) import protocol SmithyReadWrite.SmithyWriter
-@_spi(SmithyReadWrite) import struct AWSClientRuntime.AWSJSONError
 @_spi(UnknownAWSHTTPServiceError) import struct AWSClientRuntime.UnknownAWSHTTPServiceError
+@_spi(SmithyReadWrite) import struct ClientRuntime.AWSJSONError
 @_spi(SmithyReadWrite) import struct SmithyReadWrite.WritingClosureBox
 
 extension ResourceGroupsTaggingAPIClientTypes {
@@ -1040,7 +1040,7 @@ enum DescribeReportCreationOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "ConstraintViolationException": return try ConstraintViolationException.makeError(baseError: baseError)
@@ -1057,7 +1057,7 @@ enum GetComplianceSummaryOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "ConstraintViolationException": return try ConstraintViolationException.makeError(baseError: baseError)
@@ -1074,7 +1074,7 @@ enum GetResourcesOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "InternalServiceException": return try InternalServiceException.makeError(baseError: baseError)
@@ -1091,7 +1091,7 @@ enum GetTagKeysOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "InternalServiceException": return try InternalServiceException.makeError(baseError: baseError)
@@ -1108,7 +1108,7 @@ enum GetTagValuesOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "InternalServiceException": return try InternalServiceException.makeError(baseError: baseError)
@@ -1125,7 +1125,7 @@ enum ListRequiredTagsOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "InternalServiceException": return try InternalServiceException.makeError(baseError: baseError)
@@ -1142,7 +1142,7 @@ enum StartReportCreationOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "ConcurrentModificationException": return try ConcurrentModificationException.makeError(baseError: baseError)
@@ -1160,7 +1160,7 @@ enum TagResourcesOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "InternalServiceException": return try InternalServiceException.makeError(baseError: baseError)
@@ -1176,7 +1176,7 @@ enum UntagResourcesOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "InternalServiceException": return try InternalServiceException.makeError(baseError: baseError)
@@ -1189,7 +1189,7 @@ enum UntagResourcesOutputError {
 
 extension ConstraintViolationException {
 
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> ConstraintViolationException {
+    static func makeError(baseError: ClientRuntime.AWSJSONError) throws -> ConstraintViolationException {
         let reader = baseError.errorBodyReader
         var value = ConstraintViolationException()
         value.properties.message = try reader["Message"].readIfPresent()
@@ -1202,7 +1202,7 @@ extension ConstraintViolationException {
 
 extension InternalServiceException {
 
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> InternalServiceException {
+    static func makeError(baseError: ClientRuntime.AWSJSONError) throws -> InternalServiceException {
         let reader = baseError.errorBodyReader
         var value = InternalServiceException()
         value.properties.message = try reader["Message"].readIfPresent()
@@ -1215,7 +1215,7 @@ extension InternalServiceException {
 
 extension InvalidParameterException {
 
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> InvalidParameterException {
+    static func makeError(baseError: ClientRuntime.AWSJSONError) throws -> InvalidParameterException {
         let reader = baseError.errorBodyReader
         var value = InvalidParameterException()
         value.properties.message = try reader["Message"].readIfPresent()
@@ -1228,7 +1228,7 @@ extension InvalidParameterException {
 
 extension ThrottledException {
 
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> ThrottledException {
+    static func makeError(baseError: ClientRuntime.AWSJSONError) throws -> ThrottledException {
         let reader = baseError.errorBodyReader
         var value = ThrottledException()
         value.properties.message = try reader["Message"].readIfPresent()
@@ -1241,7 +1241,7 @@ extension ThrottledException {
 
 extension PaginationTokenExpiredException {
 
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> PaginationTokenExpiredException {
+    static func makeError(baseError: ClientRuntime.AWSJSONError) throws -> PaginationTokenExpiredException {
         let reader = baseError.errorBodyReader
         var value = PaginationTokenExpiredException()
         value.properties.message = try reader["Message"].readIfPresent()
@@ -1254,13 +1254,61 @@ extension PaginationTokenExpiredException {
 
 extension ConcurrentModificationException {
 
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> ConcurrentModificationException {
+    static func makeError(baseError: ClientRuntime.AWSJSONError) throws -> ConcurrentModificationException {
         let reader = baseError.errorBodyReader
         var value = ConcurrentModificationException()
         value.properties.message = try reader["Message"].readIfPresent()
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
         value.message = baseError.message
+        return value
+    }
+}
+
+extension ResourceGroupsTaggingAPIClientTypes.ComplianceDetails {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> ResourceGroupsTaggingAPIClientTypes.ComplianceDetails {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = ResourceGroupsTaggingAPIClientTypes.ComplianceDetails()
+        value.noncompliantKeys = try reader["NoncompliantKeys"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        value.keysWithNoncompliantValues = try reader["KeysWithNoncompliantValues"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        value.complianceStatus = try reader["ComplianceStatus"].readIfPresent()
+        return value
+    }
+}
+
+extension ResourceGroupsTaggingAPIClientTypes.FailureInfo {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> ResourceGroupsTaggingAPIClientTypes.FailureInfo {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = ResourceGroupsTaggingAPIClientTypes.FailureInfo()
+        value.statusCode = try reader["StatusCode"].readIfPresent() ?? 0
+        value.errorCode = try reader["ErrorCode"].readIfPresent()
+        value.errorMessage = try reader["ErrorMessage"].readIfPresent()
+        return value
+    }
+}
+
+extension ResourceGroupsTaggingAPIClientTypes.RequiredTag {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> ResourceGroupsTaggingAPIClientTypes.RequiredTag {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = ResourceGroupsTaggingAPIClientTypes.RequiredTag()
+        value.resourceType = try reader["ResourceType"].readIfPresent()
+        value.cloudFormationResourceTypes = try reader["CloudFormationResourceTypes"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        value.reportingTagKeys = try reader["ReportingTagKeys"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        return value
+    }
+}
+
+extension ResourceGroupsTaggingAPIClientTypes.ResourceTagMapping {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> ResourceGroupsTaggingAPIClientTypes.ResourceTagMapping {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = ResourceGroupsTaggingAPIClientTypes.ResourceTagMapping()
+        value.resourceARN = try reader["ResourceARN"].readIfPresent()
+        value.tags = try reader["Tags"].readListIfPresent(memberReadingClosure: ResourceGroupsTaggingAPIClientTypes.Tag.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.complianceDetails = try reader["ComplianceDetails"].readIfPresent(with: ResourceGroupsTaggingAPIClientTypes.ComplianceDetails.read(from:))
         return value
     }
 }
@@ -1280,30 +1328,6 @@ extension ResourceGroupsTaggingAPIClientTypes.Summary {
     }
 }
 
-extension ResourceGroupsTaggingAPIClientTypes.ResourceTagMapping {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> ResourceGroupsTaggingAPIClientTypes.ResourceTagMapping {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = ResourceGroupsTaggingAPIClientTypes.ResourceTagMapping()
-        value.resourceARN = try reader["ResourceARN"].readIfPresent()
-        value.tags = try reader["Tags"].readListIfPresent(memberReadingClosure: ResourceGroupsTaggingAPIClientTypes.Tag.read(from:), memberNodeInfo: "member", isFlattened: false)
-        value.complianceDetails = try reader["ComplianceDetails"].readIfPresent(with: ResourceGroupsTaggingAPIClientTypes.ComplianceDetails.read(from:))
-        return value
-    }
-}
-
-extension ResourceGroupsTaggingAPIClientTypes.ComplianceDetails {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> ResourceGroupsTaggingAPIClientTypes.ComplianceDetails {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = ResourceGroupsTaggingAPIClientTypes.ComplianceDetails()
-        value.noncompliantKeys = try reader["NoncompliantKeys"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
-        value.keysWithNoncompliantValues = try reader["KeysWithNoncompliantValues"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
-        value.complianceStatus = try reader["ComplianceStatus"].readIfPresent()
-        return value
-    }
-}
-
 extension ResourceGroupsTaggingAPIClientTypes.Tag {
 
     static func read(from reader: SmithyJSON.Reader) throws -> ResourceGroupsTaggingAPIClientTypes.Tag {
@@ -1311,30 +1335,6 @@ extension ResourceGroupsTaggingAPIClientTypes.Tag {
         var value = ResourceGroupsTaggingAPIClientTypes.Tag()
         value.key = try reader["Key"].readIfPresent() ?? ""
         value.value = try reader["Value"].readIfPresent() ?? ""
-        return value
-    }
-}
-
-extension ResourceGroupsTaggingAPIClientTypes.RequiredTag {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> ResourceGroupsTaggingAPIClientTypes.RequiredTag {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = ResourceGroupsTaggingAPIClientTypes.RequiredTag()
-        value.resourceType = try reader["ResourceType"].readIfPresent()
-        value.cloudFormationResourceTypes = try reader["CloudFormationResourceTypes"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
-        value.reportingTagKeys = try reader["ReportingTagKeys"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
-        return value
-    }
-}
-
-extension ResourceGroupsTaggingAPIClientTypes.FailureInfo {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> ResourceGroupsTaggingAPIClientTypes.FailureInfo {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = ResourceGroupsTaggingAPIClientTypes.FailureInfo()
-        value.statusCode = try reader["StatusCode"].readIfPresent() ?? 0
-        value.errorCode = try reader["ErrorCode"].readIfPresent()
-        value.errorMessage = try reader["ErrorMessage"].readIfPresent()
         return value
     }
 }

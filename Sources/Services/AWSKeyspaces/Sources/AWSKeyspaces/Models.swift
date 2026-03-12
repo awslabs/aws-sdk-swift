@@ -22,8 +22,8 @@ import protocol ClientRuntime.HTTPError
 import protocol ClientRuntime.ModeledError
 @_spi(SmithyReadWrite) import protocol SmithyReadWrite.SmithyReader
 @_spi(SmithyReadWrite) import protocol SmithyReadWrite.SmithyWriter
-@_spi(SmithyReadWrite) import struct AWSClientRuntime.AWSJSONError
 @_spi(UnknownAWSHTTPServiceError) import struct AWSClientRuntime.UnknownAWSHTTPServiceError
+@_spi(SmithyReadWrite) import struct ClientRuntime.AWSJSONError
 
 /// You don't have sufficient access permissions to perform this action.
 public struct AccessDeniedException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
@@ -2919,7 +2919,7 @@ enum CreateKeyspaceOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
@@ -2937,7 +2937,7 @@ enum CreateTableOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
@@ -2956,7 +2956,7 @@ enum CreateTypeOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
@@ -2975,7 +2975,7 @@ enum DeleteKeyspaceOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
@@ -2994,7 +2994,7 @@ enum DeleteTableOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
@@ -3013,7 +3013,7 @@ enum DeleteTypeOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
@@ -3032,7 +3032,7 @@ enum GetKeyspaceOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
@@ -3050,7 +3050,7 @@ enum GetTableOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
@@ -3068,7 +3068,7 @@ enum GetTableAutoScalingSettingsOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
@@ -3086,7 +3086,7 @@ enum GetTypeOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
@@ -3104,7 +3104,7 @@ enum ListKeyspacesOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
@@ -3122,7 +3122,7 @@ enum ListTablesOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
@@ -3140,7 +3140,7 @@ enum ListTagsForResourceOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
@@ -3158,7 +3158,7 @@ enum ListTypesOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
@@ -3176,7 +3176,7 @@ enum RestoreTableOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
@@ -3195,7 +3195,7 @@ enum TagResourceOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
@@ -3214,7 +3214,7 @@ enum UntagResourceOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
@@ -3233,7 +3233,7 @@ enum UpdateKeyspaceOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
@@ -3252,7 +3252,7 @@ enum UpdateTableOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
@@ -3268,7 +3268,7 @@ enum UpdateTableOutputError {
 
 extension AccessDeniedException {
 
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> AccessDeniedException {
+    static func makeError(baseError: ClientRuntime.AWSJSONError) throws -> AccessDeniedException {
         let reader = baseError.errorBodyReader
         var value = AccessDeniedException()
         value.properties.message = try reader["message"].readIfPresent()
@@ -3281,7 +3281,7 @@ extension AccessDeniedException {
 
 extension ConflictException {
 
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> ConflictException {
+    static func makeError(baseError: ClientRuntime.AWSJSONError) throws -> ConflictException {
         let reader = baseError.errorBodyReader
         var value = ConflictException()
         value.properties.message = try reader["message"].readIfPresent()
@@ -3294,7 +3294,7 @@ extension ConflictException {
 
 extension InternalServerException {
 
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> InternalServerException {
+    static func makeError(baseError: ClientRuntime.AWSJSONError) throws -> InternalServerException {
         let reader = baseError.errorBodyReader
         var value = InternalServerException()
         value.properties.message = try reader["message"].readIfPresent()
@@ -3307,7 +3307,7 @@ extension InternalServerException {
 
 extension ServiceQuotaExceededException {
 
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> ServiceQuotaExceededException {
+    static func makeError(baseError: ClientRuntime.AWSJSONError) throws -> ServiceQuotaExceededException {
         let reader = baseError.errorBodyReader
         var value = ServiceQuotaExceededException()
         value.properties.message = try reader["message"].readIfPresent()
@@ -3320,7 +3320,7 @@ extension ServiceQuotaExceededException {
 
 extension ValidationException {
 
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> ValidationException {
+    static func makeError(baseError: ClientRuntime.AWSJSONError) throws -> ValidationException {
         let reader = baseError.errorBodyReader
         var value = ValidationException()
         value.properties.message = try reader["message"].readIfPresent()
@@ -3333,7 +3333,7 @@ extension ValidationException {
 
 extension ResourceNotFoundException {
 
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> ResourceNotFoundException {
+    static func makeError(baseError: ClientRuntime.AWSJSONError) throws -> ResourceNotFoundException {
         let reader = baseError.errorBodyReader
         var value = ResourceNotFoundException()
         value.properties.message = try reader["message"].readIfPresent()
@@ -3341,6 +3341,283 @@ extension ResourceNotFoundException {
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
         value.message = baseError.message
+        return value
+    }
+}
+
+extension KeyspacesClientTypes.AutoScalingPolicy {
+
+    static func write(value: KeyspacesClientTypes.AutoScalingPolicy?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["targetTrackingScalingPolicyConfiguration"].write(value.targetTrackingScalingPolicyConfiguration, with: KeyspacesClientTypes.TargetTrackingScalingPolicyConfiguration.write(value:to:))
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> KeyspacesClientTypes.AutoScalingPolicy {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = KeyspacesClientTypes.AutoScalingPolicy()
+        value.targetTrackingScalingPolicyConfiguration = try reader["targetTrackingScalingPolicyConfiguration"].readIfPresent(with: KeyspacesClientTypes.TargetTrackingScalingPolicyConfiguration.read(from:))
+        return value
+    }
+}
+
+extension KeyspacesClientTypes.AutoScalingSettings {
+
+    static func write(value: KeyspacesClientTypes.AutoScalingSettings?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["autoScalingDisabled"].write(value.autoScalingDisabled)
+        try writer["maximumUnits"].write(value.maximumUnits)
+        try writer["minimumUnits"].write(value.minimumUnits)
+        try writer["scalingPolicy"].write(value.scalingPolicy, with: KeyspacesClientTypes.AutoScalingPolicy.write(value:to:))
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> KeyspacesClientTypes.AutoScalingSettings {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = KeyspacesClientTypes.AutoScalingSettings()
+        value.autoScalingDisabled = try reader["autoScalingDisabled"].readIfPresent() ?? false
+        value.minimumUnits = try reader["minimumUnits"].readIfPresent()
+        value.maximumUnits = try reader["maximumUnits"].readIfPresent()
+        value.scalingPolicy = try reader["scalingPolicy"].readIfPresent(with: KeyspacesClientTypes.AutoScalingPolicy.read(from:))
+        return value
+    }
+}
+
+extension KeyspacesClientTypes.AutoScalingSpecification {
+
+    static func write(value: KeyspacesClientTypes.AutoScalingSpecification?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["readCapacityAutoScaling"].write(value.readCapacityAutoScaling, with: KeyspacesClientTypes.AutoScalingSettings.write(value:to:))
+        try writer["writeCapacityAutoScaling"].write(value.writeCapacityAutoScaling, with: KeyspacesClientTypes.AutoScalingSettings.write(value:to:))
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> KeyspacesClientTypes.AutoScalingSpecification {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = KeyspacesClientTypes.AutoScalingSpecification()
+        value.writeCapacityAutoScaling = try reader["writeCapacityAutoScaling"].readIfPresent(with: KeyspacesClientTypes.AutoScalingSettings.read(from:))
+        value.readCapacityAutoScaling = try reader["readCapacityAutoScaling"].readIfPresent(with: KeyspacesClientTypes.AutoScalingSettings.read(from:))
+        return value
+    }
+}
+
+extension KeyspacesClientTypes.CapacitySpecification {
+
+    static func write(value: KeyspacesClientTypes.CapacitySpecification?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["readCapacityUnits"].write(value.readCapacityUnits)
+        try writer["throughputMode"].write(value.throughputMode)
+        try writer["writeCapacityUnits"].write(value.writeCapacityUnits)
+    }
+}
+
+extension KeyspacesClientTypes.CapacitySpecificationSummary {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> KeyspacesClientTypes.CapacitySpecificationSummary {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = KeyspacesClientTypes.CapacitySpecificationSummary()
+        value.throughputMode = try reader["throughputMode"].readIfPresent() ?? .sdkUnknown("")
+        value.readCapacityUnits = try reader["readCapacityUnits"].readIfPresent()
+        value.writeCapacityUnits = try reader["writeCapacityUnits"].readIfPresent()
+        value.lastUpdateToPayPerRequestTimestamp = try reader["lastUpdateToPayPerRequestTimestamp"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        return value
+    }
+}
+
+extension KeyspacesClientTypes.CdcSpecification {
+
+    static func write(value: KeyspacesClientTypes.CdcSpecification?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["propagateTags"].write(value.propagateTags)
+        try writer["status"].write(value.status)
+        try writer["tags"].writeList(value.tags, memberWritingClosure: KeyspacesClientTypes.Tag.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["viewType"].write(value.viewType)
+    }
+}
+
+extension KeyspacesClientTypes.CdcSpecificationSummary {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> KeyspacesClientTypes.CdcSpecificationSummary {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = KeyspacesClientTypes.CdcSpecificationSummary()
+        value.status = try reader["status"].readIfPresent() ?? .sdkUnknown("")
+        value.viewType = try reader["viewType"].readIfPresent()
+        return value
+    }
+}
+
+extension KeyspacesClientTypes.ClientSideTimestamps {
+
+    static func write(value: KeyspacesClientTypes.ClientSideTimestamps?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["status"].write(value.status)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> KeyspacesClientTypes.ClientSideTimestamps {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = KeyspacesClientTypes.ClientSideTimestamps()
+        value.status = try reader["status"].readIfPresent() ?? .sdkUnknown("")
+        return value
+    }
+}
+
+extension KeyspacesClientTypes.ClusteringKey {
+
+    static func write(value: KeyspacesClientTypes.ClusteringKey?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["name"].write(value.name)
+        try writer["orderBy"].write(value.orderBy)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> KeyspacesClientTypes.ClusteringKey {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = KeyspacesClientTypes.ClusteringKey()
+        value.name = try reader["name"].readIfPresent() ?? ""
+        value.orderBy = try reader["orderBy"].readIfPresent() ?? .sdkUnknown("")
+        return value
+    }
+}
+
+extension KeyspacesClientTypes.ColumnDefinition {
+
+    static func write(value: KeyspacesClientTypes.ColumnDefinition?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["name"].write(value.name)
+        try writer["type"].write(value.type)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> KeyspacesClientTypes.ColumnDefinition {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = KeyspacesClientTypes.ColumnDefinition()
+        value.name = try reader["name"].readIfPresent() ?? ""
+        value.type = try reader["type"].readIfPresent() ?? ""
+        return value
+    }
+}
+
+extension KeyspacesClientTypes.Comment {
+
+    static func write(value: KeyspacesClientTypes.Comment?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["message"].write(value.message)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> KeyspacesClientTypes.Comment {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = KeyspacesClientTypes.Comment()
+        value.message = try reader["message"].readIfPresent() ?? ""
+        return value
+    }
+}
+
+extension KeyspacesClientTypes.EncryptionSpecification {
+
+    static func write(value: KeyspacesClientTypes.EncryptionSpecification?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["kmsKeyIdentifier"].write(value.kmsKeyIdentifier)
+        try writer["type"].write(value.type)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> KeyspacesClientTypes.EncryptionSpecification {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = KeyspacesClientTypes.EncryptionSpecification()
+        value.type = try reader["type"].readIfPresent() ?? .sdkUnknown("")
+        value.kmsKeyIdentifier = try reader["kmsKeyIdentifier"].readIfPresent()
+        return value
+    }
+}
+
+extension KeyspacesClientTypes.FieldDefinition {
+
+    static func write(value: KeyspacesClientTypes.FieldDefinition?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["name"].write(value.name)
+        try writer["type"].write(value.type)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> KeyspacesClientTypes.FieldDefinition {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = KeyspacesClientTypes.FieldDefinition()
+        value.name = try reader["name"].readIfPresent() ?? ""
+        value.type = try reader["type"].readIfPresent() ?? ""
+        return value
+    }
+}
+
+extension KeyspacesClientTypes.KeyspaceSummary {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> KeyspacesClientTypes.KeyspaceSummary {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = KeyspacesClientTypes.KeyspaceSummary()
+        value.keyspaceName = try reader["keyspaceName"].readIfPresent() ?? ""
+        value.resourceArn = try reader["resourceArn"].readIfPresent() ?? ""
+        value.replicationStrategy = try reader["replicationStrategy"].readIfPresent() ?? .sdkUnknown("")
+        value.replicationRegions = try reader["replicationRegions"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        return value
+    }
+}
+
+extension KeyspacesClientTypes.PartitionKey {
+
+    static func write(value: KeyspacesClientTypes.PartitionKey?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["name"].write(value.name)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> KeyspacesClientTypes.PartitionKey {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = KeyspacesClientTypes.PartitionKey()
+        value.name = try reader["name"].readIfPresent() ?? ""
+        return value
+    }
+}
+
+extension KeyspacesClientTypes.PointInTimeRecovery {
+
+    static func write(value: KeyspacesClientTypes.PointInTimeRecovery?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["status"].write(value.status)
+    }
+}
+
+extension KeyspacesClientTypes.PointInTimeRecoverySummary {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> KeyspacesClientTypes.PointInTimeRecoverySummary {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = KeyspacesClientTypes.PointInTimeRecoverySummary()
+        value.status = try reader["status"].readIfPresent() ?? .sdkUnknown("")
+        value.earliestRestorableTimestamp = try reader["earliestRestorableTimestamp"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        return value
+    }
+}
+
+extension KeyspacesClientTypes.ReplicaAutoScalingSpecification {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> KeyspacesClientTypes.ReplicaAutoScalingSpecification {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = KeyspacesClientTypes.ReplicaAutoScalingSpecification()
+        value.region = try reader["region"].readIfPresent()
+        value.autoScalingSpecification = try reader["autoScalingSpecification"].readIfPresent(with: KeyspacesClientTypes.AutoScalingSpecification.read(from:))
+        return value
+    }
+}
+
+extension KeyspacesClientTypes.ReplicaSpecification {
+
+    static func write(value: KeyspacesClientTypes.ReplicaSpecification?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["readCapacityAutoScaling"].write(value.readCapacityAutoScaling, with: KeyspacesClientTypes.AutoScalingSettings.write(value:to:))
+        try writer["readCapacityUnits"].write(value.readCapacityUnits)
+        try writer["region"].write(value.region)
+    }
+}
+
+extension KeyspacesClientTypes.ReplicaSpecificationSummary {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> KeyspacesClientTypes.ReplicaSpecificationSummary {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = KeyspacesClientTypes.ReplicaSpecificationSummary()
+        value.region = try reader["region"].readIfPresent()
+        value.status = try reader["status"].readIfPresent()
+        value.capacitySpecification = try reader["capacitySpecification"].readIfPresent(with: KeyspacesClientTypes.CapacitySpecificationSummary.read(from:))
+        value.warmThroughputSpecification = try reader["warmThroughputSpecification"].readIfPresent(with: KeyspacesClientTypes.WarmThroughputSpecificationSummary.read(from:))
         return value
     }
 }
@@ -3354,6 +3631,15 @@ extension KeyspacesClientTypes.ReplicationGroupStatus {
         value.keyspaceStatus = try reader["keyspaceStatus"].readIfPresent() ?? .sdkUnknown("")
         value.tablesReplicationProgress = try reader["tablesReplicationProgress"].readIfPresent()
         return value
+    }
+}
+
+extension KeyspacesClientTypes.ReplicationSpecification {
+
+    static func write(value: KeyspacesClientTypes.ReplicationSpecification?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["regionList"].writeList(value.regionList, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["replicationStrategy"].write(value.replicationStrategy)
     }
 }
 
@@ -3393,292 +3679,6 @@ extension KeyspacesClientTypes.StaticColumn {
     }
 }
 
-extension KeyspacesClientTypes.ClusteringKey {
-
-    static func write(value: KeyspacesClientTypes.ClusteringKey?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["name"].write(value.name)
-        try writer["orderBy"].write(value.orderBy)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> KeyspacesClientTypes.ClusteringKey {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = KeyspacesClientTypes.ClusteringKey()
-        value.name = try reader["name"].readIfPresent() ?? ""
-        value.orderBy = try reader["orderBy"].readIfPresent() ?? .sdkUnknown("")
-        return value
-    }
-}
-
-extension KeyspacesClientTypes.PartitionKey {
-
-    static func write(value: KeyspacesClientTypes.PartitionKey?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["name"].write(value.name)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> KeyspacesClientTypes.PartitionKey {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = KeyspacesClientTypes.PartitionKey()
-        value.name = try reader["name"].readIfPresent() ?? ""
-        return value
-    }
-}
-
-extension KeyspacesClientTypes.ColumnDefinition {
-
-    static func write(value: KeyspacesClientTypes.ColumnDefinition?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["name"].write(value.name)
-        try writer["type"].write(value.type)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> KeyspacesClientTypes.ColumnDefinition {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = KeyspacesClientTypes.ColumnDefinition()
-        value.name = try reader["name"].readIfPresent() ?? ""
-        value.type = try reader["type"].readIfPresent() ?? ""
-        return value
-    }
-}
-
-extension KeyspacesClientTypes.CapacitySpecificationSummary {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> KeyspacesClientTypes.CapacitySpecificationSummary {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = KeyspacesClientTypes.CapacitySpecificationSummary()
-        value.throughputMode = try reader["throughputMode"].readIfPresent() ?? .sdkUnknown("")
-        value.readCapacityUnits = try reader["readCapacityUnits"].readIfPresent()
-        value.writeCapacityUnits = try reader["writeCapacityUnits"].readIfPresent()
-        value.lastUpdateToPayPerRequestTimestamp = try reader["lastUpdateToPayPerRequestTimestamp"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
-        return value
-    }
-}
-
-extension KeyspacesClientTypes.EncryptionSpecification {
-
-    static func write(value: KeyspacesClientTypes.EncryptionSpecification?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["kmsKeyIdentifier"].write(value.kmsKeyIdentifier)
-        try writer["type"].write(value.type)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> KeyspacesClientTypes.EncryptionSpecification {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = KeyspacesClientTypes.EncryptionSpecification()
-        value.type = try reader["type"].readIfPresent() ?? .sdkUnknown("")
-        value.kmsKeyIdentifier = try reader["kmsKeyIdentifier"].readIfPresent()
-        return value
-    }
-}
-
-extension KeyspacesClientTypes.PointInTimeRecoverySummary {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> KeyspacesClientTypes.PointInTimeRecoverySummary {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = KeyspacesClientTypes.PointInTimeRecoverySummary()
-        value.status = try reader["status"].readIfPresent() ?? .sdkUnknown("")
-        value.earliestRestorableTimestamp = try reader["earliestRestorableTimestamp"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
-        return value
-    }
-}
-
-extension KeyspacesClientTypes.TimeToLive {
-
-    static func write(value: KeyspacesClientTypes.TimeToLive?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["status"].write(value.status)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> KeyspacesClientTypes.TimeToLive {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = KeyspacesClientTypes.TimeToLive()
-        value.status = try reader["status"].readIfPresent() ?? .sdkUnknown("")
-        return value
-    }
-}
-
-extension KeyspacesClientTypes.Comment {
-
-    static func write(value: KeyspacesClientTypes.Comment?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["message"].write(value.message)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> KeyspacesClientTypes.Comment {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = KeyspacesClientTypes.Comment()
-        value.message = try reader["message"].readIfPresent() ?? ""
-        return value
-    }
-}
-
-extension KeyspacesClientTypes.ClientSideTimestamps {
-
-    static func write(value: KeyspacesClientTypes.ClientSideTimestamps?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["status"].write(value.status)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> KeyspacesClientTypes.ClientSideTimestamps {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = KeyspacesClientTypes.ClientSideTimestamps()
-        value.status = try reader["status"].readIfPresent() ?? .sdkUnknown("")
-        return value
-    }
-}
-
-extension KeyspacesClientTypes.ReplicaSpecificationSummary {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> KeyspacesClientTypes.ReplicaSpecificationSummary {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = KeyspacesClientTypes.ReplicaSpecificationSummary()
-        value.region = try reader["region"].readIfPresent()
-        value.status = try reader["status"].readIfPresent()
-        value.capacitySpecification = try reader["capacitySpecification"].readIfPresent(with: KeyspacesClientTypes.CapacitySpecificationSummary.read(from:))
-        value.warmThroughputSpecification = try reader["warmThroughputSpecification"].readIfPresent(with: KeyspacesClientTypes.WarmThroughputSpecificationSummary.read(from:))
-        return value
-    }
-}
-
-extension KeyspacesClientTypes.WarmThroughputSpecificationSummary {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> KeyspacesClientTypes.WarmThroughputSpecificationSummary {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = KeyspacesClientTypes.WarmThroughputSpecificationSummary()
-        value.readUnitsPerSecond = try reader["readUnitsPerSecond"].readIfPresent() ?? 0
-        value.writeUnitsPerSecond = try reader["writeUnitsPerSecond"].readIfPresent() ?? 0
-        value.status = try reader["status"].readIfPresent() ?? .sdkUnknown("")
-        return value
-    }
-}
-
-extension KeyspacesClientTypes.CdcSpecificationSummary {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> KeyspacesClientTypes.CdcSpecificationSummary {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = KeyspacesClientTypes.CdcSpecificationSummary()
-        value.status = try reader["status"].readIfPresent() ?? .sdkUnknown("")
-        value.viewType = try reader["viewType"].readIfPresent()
-        return value
-    }
-}
-
-extension KeyspacesClientTypes.AutoScalingSpecification {
-
-    static func write(value: KeyspacesClientTypes.AutoScalingSpecification?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["readCapacityAutoScaling"].write(value.readCapacityAutoScaling, with: KeyspacesClientTypes.AutoScalingSettings.write(value:to:))
-        try writer["writeCapacityAutoScaling"].write(value.writeCapacityAutoScaling, with: KeyspacesClientTypes.AutoScalingSettings.write(value:to:))
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> KeyspacesClientTypes.AutoScalingSpecification {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = KeyspacesClientTypes.AutoScalingSpecification()
-        value.writeCapacityAutoScaling = try reader["writeCapacityAutoScaling"].readIfPresent(with: KeyspacesClientTypes.AutoScalingSettings.read(from:))
-        value.readCapacityAutoScaling = try reader["readCapacityAutoScaling"].readIfPresent(with: KeyspacesClientTypes.AutoScalingSettings.read(from:))
-        return value
-    }
-}
-
-extension KeyspacesClientTypes.AutoScalingSettings {
-
-    static func write(value: KeyspacesClientTypes.AutoScalingSettings?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["autoScalingDisabled"].write(value.autoScalingDisabled)
-        try writer["maximumUnits"].write(value.maximumUnits)
-        try writer["minimumUnits"].write(value.minimumUnits)
-        try writer["scalingPolicy"].write(value.scalingPolicy, with: KeyspacesClientTypes.AutoScalingPolicy.write(value:to:))
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> KeyspacesClientTypes.AutoScalingSettings {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = KeyspacesClientTypes.AutoScalingSettings()
-        value.autoScalingDisabled = try reader["autoScalingDisabled"].readIfPresent() ?? false
-        value.minimumUnits = try reader["minimumUnits"].readIfPresent()
-        value.maximumUnits = try reader["maximumUnits"].readIfPresent()
-        value.scalingPolicy = try reader["scalingPolicy"].readIfPresent(with: KeyspacesClientTypes.AutoScalingPolicy.read(from:))
-        return value
-    }
-}
-
-extension KeyspacesClientTypes.AutoScalingPolicy {
-
-    static func write(value: KeyspacesClientTypes.AutoScalingPolicy?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["targetTrackingScalingPolicyConfiguration"].write(value.targetTrackingScalingPolicyConfiguration, with: KeyspacesClientTypes.TargetTrackingScalingPolicyConfiguration.write(value:to:))
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> KeyspacesClientTypes.AutoScalingPolicy {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = KeyspacesClientTypes.AutoScalingPolicy()
-        value.targetTrackingScalingPolicyConfiguration = try reader["targetTrackingScalingPolicyConfiguration"].readIfPresent(with: KeyspacesClientTypes.TargetTrackingScalingPolicyConfiguration.read(from:))
-        return value
-    }
-}
-
-extension KeyspacesClientTypes.TargetTrackingScalingPolicyConfiguration {
-
-    static func write(value: KeyspacesClientTypes.TargetTrackingScalingPolicyConfiguration?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["disableScaleIn"].write(value.disableScaleIn)
-        try writer["scaleInCooldown"].write(value.scaleInCooldown)
-        try writer["scaleOutCooldown"].write(value.scaleOutCooldown)
-        try writer["targetValue"].write(value.targetValue)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> KeyspacesClientTypes.TargetTrackingScalingPolicyConfiguration {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = KeyspacesClientTypes.TargetTrackingScalingPolicyConfiguration()
-        value.disableScaleIn = try reader["disableScaleIn"].readIfPresent() ?? false
-        value.scaleInCooldown = try reader["scaleInCooldown"].readIfPresent() ?? 0
-        value.scaleOutCooldown = try reader["scaleOutCooldown"].readIfPresent() ?? 0
-        value.targetValue = try reader["targetValue"].readIfPresent() ?? 0
-        return value
-    }
-}
-
-extension KeyspacesClientTypes.ReplicaAutoScalingSpecification {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> KeyspacesClientTypes.ReplicaAutoScalingSpecification {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = KeyspacesClientTypes.ReplicaAutoScalingSpecification()
-        value.region = try reader["region"].readIfPresent()
-        value.autoScalingSpecification = try reader["autoScalingSpecification"].readIfPresent(with: KeyspacesClientTypes.AutoScalingSpecification.read(from:))
-        return value
-    }
-}
-
-extension KeyspacesClientTypes.FieldDefinition {
-
-    static func write(value: KeyspacesClientTypes.FieldDefinition?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["name"].write(value.name)
-        try writer["type"].write(value.type)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> KeyspacesClientTypes.FieldDefinition {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = KeyspacesClientTypes.FieldDefinition()
-        value.name = try reader["name"].readIfPresent() ?? ""
-        value.type = try reader["type"].readIfPresent() ?? ""
-        return value
-    }
-}
-
-extension KeyspacesClientTypes.KeyspaceSummary {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> KeyspacesClientTypes.KeyspaceSummary {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = KeyspacesClientTypes.KeyspaceSummary()
-        value.keyspaceName = try reader["keyspaceName"].readIfPresent() ?? ""
-        value.resourceArn = try reader["resourceArn"].readIfPresent() ?? ""
-        value.replicationStrategy = try reader["replicationStrategy"].readIfPresent() ?? .sdkUnknown("")
-        value.replicationRegions = try reader["replicationRegions"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
-        return value
-    }
-}
-
 extension KeyspacesClientTypes.TableSummary {
 
     static func read(from reader: SmithyJSON.Reader) throws -> KeyspacesClientTypes.TableSummary {
@@ -3708,51 +3708,39 @@ extension KeyspacesClientTypes.Tag {
     }
 }
 
-extension KeyspacesClientTypes.ReplicationSpecification {
+extension KeyspacesClientTypes.TargetTrackingScalingPolicyConfiguration {
 
-    static func write(value: KeyspacesClientTypes.ReplicationSpecification?, to writer: SmithyJSON.Writer) throws {
+    static func write(value: KeyspacesClientTypes.TargetTrackingScalingPolicyConfiguration?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
-        try writer["regionList"].writeList(value.regionList, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["replicationStrategy"].write(value.replicationStrategy)
+        try writer["disableScaleIn"].write(value.disableScaleIn)
+        try writer["scaleInCooldown"].write(value.scaleInCooldown)
+        try writer["scaleOutCooldown"].write(value.scaleOutCooldown)
+        try writer["targetValue"].write(value.targetValue)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> KeyspacesClientTypes.TargetTrackingScalingPolicyConfiguration {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = KeyspacesClientTypes.TargetTrackingScalingPolicyConfiguration()
+        value.disableScaleIn = try reader["disableScaleIn"].readIfPresent() ?? false
+        value.scaleInCooldown = try reader["scaleInCooldown"].readIfPresent() ?? 0
+        value.scaleOutCooldown = try reader["scaleOutCooldown"].readIfPresent() ?? 0
+        value.targetValue = try reader["targetValue"].readIfPresent() ?? 0
+        return value
     }
 }
 
-extension KeyspacesClientTypes.CapacitySpecification {
+extension KeyspacesClientTypes.TimeToLive {
 
-    static func write(value: KeyspacesClientTypes.CapacitySpecification?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["readCapacityUnits"].write(value.readCapacityUnits)
-        try writer["throughputMode"].write(value.throughputMode)
-        try writer["writeCapacityUnits"].write(value.writeCapacityUnits)
-    }
-}
-
-extension KeyspacesClientTypes.PointInTimeRecovery {
-
-    static func write(value: KeyspacesClientTypes.PointInTimeRecovery?, to writer: SmithyJSON.Writer) throws {
+    static func write(value: KeyspacesClientTypes.TimeToLive?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
         try writer["status"].write(value.status)
     }
-}
 
-extension KeyspacesClientTypes.ReplicaSpecification {
-
-    static func write(value: KeyspacesClientTypes.ReplicaSpecification?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["readCapacityAutoScaling"].write(value.readCapacityAutoScaling, with: KeyspacesClientTypes.AutoScalingSettings.write(value:to:))
-        try writer["readCapacityUnits"].write(value.readCapacityUnits)
-        try writer["region"].write(value.region)
-    }
-}
-
-extension KeyspacesClientTypes.CdcSpecification {
-
-    static func write(value: KeyspacesClientTypes.CdcSpecification?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["propagateTags"].write(value.propagateTags)
-        try writer["status"].write(value.status)
-        try writer["tags"].writeList(value.tags, memberWritingClosure: KeyspacesClientTypes.Tag.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["viewType"].write(value.viewType)
+    static func read(from reader: SmithyJSON.Reader) throws -> KeyspacesClientTypes.TimeToLive {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = KeyspacesClientTypes.TimeToLive()
+        value.status = try reader["status"].readIfPresent() ?? .sdkUnknown("")
+        return value
     }
 }
 
@@ -3762,6 +3750,18 @@ extension KeyspacesClientTypes.WarmThroughputSpecification {
         guard let value else { return }
         try writer["readUnitsPerSecond"].write(value.readUnitsPerSecond)
         try writer["writeUnitsPerSecond"].write(value.writeUnitsPerSecond)
+    }
+}
+
+extension KeyspacesClientTypes.WarmThroughputSpecificationSummary {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> KeyspacesClientTypes.WarmThroughputSpecificationSummary {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = KeyspacesClientTypes.WarmThroughputSpecificationSummary()
+        value.readUnitsPerSecond = try reader["readUnitsPerSecond"].readIfPresent() ?? 0
+        value.writeUnitsPerSecond = try reader["writeUnitsPerSecond"].readIfPresent() ?? 0
+        value.status = try reader["status"].readIfPresent() ?? .sdkUnknown("")
+        return value
     }
 }
 

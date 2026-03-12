@@ -22,8 +22,8 @@ import protocol ClientRuntime.HTTPError
 import protocol ClientRuntime.ModeledError
 @_spi(SmithyReadWrite) import protocol SmithyReadWrite.SmithyReader
 @_spi(SmithyReadWrite) import protocol SmithyReadWrite.SmithyWriter
-@_spi(SmithyReadWrite) import struct AWSClientRuntime.RestJSONError
 @_spi(UnknownAWSHTTPServiceError) import struct AWSClientRuntime.UnknownAWSHTTPServiceError
+@_spi(SmithyReadWrite) import struct ClientRuntime.RestJSONError
 import struct Smithy.URIQueryItem
 
 
@@ -2622,7 +2622,7 @@ enum CancelTagSyncTaskOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "BadRequestException": return try BadRequestException.makeError(baseError: baseError)
@@ -2641,7 +2641,7 @@ enum CreateGroupOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "BadRequestException": return try BadRequestException.makeError(baseError: baseError)
@@ -2659,7 +2659,7 @@ enum DeleteGroupOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "BadRequestException": return try BadRequestException.makeError(baseError: baseError)
@@ -2678,7 +2678,7 @@ enum GetAccountSettingsOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "BadRequestException": return try BadRequestException.makeError(baseError: baseError)
@@ -2696,7 +2696,7 @@ enum GetGroupOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "BadRequestException": return try BadRequestException.makeError(baseError: baseError)
@@ -2715,7 +2715,7 @@ enum GetGroupConfigurationOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "BadRequestException": return try BadRequestException.makeError(baseError: baseError)
@@ -2734,7 +2734,7 @@ enum GetGroupQueryOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "BadRequestException": return try BadRequestException.makeError(baseError: baseError)
@@ -2753,7 +2753,7 @@ enum GetTagsOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "BadRequestException": return try BadRequestException.makeError(baseError: baseError)
@@ -2772,7 +2772,7 @@ enum GetTagSyncTaskOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "BadRequestException": return try BadRequestException.makeError(baseError: baseError)
@@ -2792,7 +2792,7 @@ enum GroupResourcesOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "BadRequestException": return try BadRequestException.makeError(baseError: baseError)
@@ -2811,7 +2811,7 @@ enum ListGroupingStatusesOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "BadRequestException": return try BadRequestException.makeError(baseError: baseError)
@@ -2829,7 +2829,7 @@ enum ListGroupResourcesOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "BadRequestException": return try BadRequestException.makeError(baseError: baseError)
@@ -2849,7 +2849,7 @@ enum ListGroupsOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "BadRequestException": return try BadRequestException.makeError(baseError: baseError)
@@ -2867,7 +2867,7 @@ enum ListTagSyncTasksOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "BadRequestException": return try BadRequestException.makeError(baseError: baseError)
@@ -2886,7 +2886,7 @@ enum PutGroupConfigurationOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "BadRequestException": return try BadRequestException.makeError(baseError: baseError)
@@ -2905,7 +2905,7 @@ enum SearchResourcesOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "BadRequestException": return try BadRequestException.makeError(baseError: baseError)
@@ -2924,7 +2924,7 @@ enum StartTagSyncTaskOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "BadRequestException": return try BadRequestException.makeError(baseError: baseError)
@@ -2944,7 +2944,7 @@ enum TagOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "BadRequestException": return try BadRequestException.makeError(baseError: baseError)
@@ -2963,7 +2963,7 @@ enum UngroupResourcesOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "BadRequestException": return try BadRequestException.makeError(baseError: baseError)
@@ -2982,7 +2982,7 @@ enum UntagOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "BadRequestException": return try BadRequestException.makeError(baseError: baseError)
@@ -3001,7 +3001,7 @@ enum UpdateAccountSettingsOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "BadRequestException": return try BadRequestException.makeError(baseError: baseError)
@@ -3019,7 +3019,7 @@ enum UpdateGroupOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "BadRequestException": return try BadRequestException.makeError(baseError: baseError)
@@ -3038,7 +3038,7 @@ enum UpdateGroupQueryOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "BadRequestException": return try BadRequestException.makeError(baseError: baseError)
@@ -3054,7 +3054,7 @@ enum UpdateGroupQueryOutputError {
 
 extension BadRequestException {
 
-    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> BadRequestException {
+    static func makeError(baseError: ClientRuntime.RestJSONError) throws -> BadRequestException {
         let reader = baseError.errorBodyReader
         var value = BadRequestException()
         value.properties.message = try reader["Message"].readIfPresent()
@@ -3067,7 +3067,7 @@ extension BadRequestException {
 
 extension ForbiddenException {
 
-    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> ForbiddenException {
+    static func makeError(baseError: ClientRuntime.RestJSONError) throws -> ForbiddenException {
         let reader = baseError.errorBodyReader
         var value = ForbiddenException()
         value.properties.message = try reader["Message"].readIfPresent()
@@ -3080,7 +3080,7 @@ extension ForbiddenException {
 
 extension InternalServerErrorException {
 
-    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> InternalServerErrorException {
+    static func makeError(baseError: ClientRuntime.RestJSONError) throws -> InternalServerErrorException {
         let reader = baseError.errorBodyReader
         var value = InternalServerErrorException()
         value.properties.message = try reader["Message"].readIfPresent()
@@ -3093,7 +3093,7 @@ extension InternalServerErrorException {
 
 extension MethodNotAllowedException {
 
-    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> MethodNotAllowedException {
+    static func makeError(baseError: ClientRuntime.RestJSONError) throws -> MethodNotAllowedException {
         let reader = baseError.errorBodyReader
         var value = MethodNotAllowedException()
         value.properties.message = try reader["Message"].readIfPresent()
@@ -3106,7 +3106,7 @@ extension MethodNotAllowedException {
 
 extension TooManyRequestsException {
 
-    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> TooManyRequestsException {
+    static func makeError(baseError: ClientRuntime.RestJSONError) throws -> TooManyRequestsException {
         let reader = baseError.errorBodyReader
         var value = TooManyRequestsException()
         value.properties.message = try reader["Message"].readIfPresent()
@@ -3119,7 +3119,7 @@ extension TooManyRequestsException {
 
 extension UnauthorizedException {
 
-    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> UnauthorizedException {
+    static func makeError(baseError: ClientRuntime.RestJSONError) throws -> UnauthorizedException {
         let reader = baseError.errorBodyReader
         var value = UnauthorizedException()
         value.properties.message = try reader["Message"].readIfPresent()
@@ -3132,13 +3132,37 @@ extension UnauthorizedException {
 
 extension NotFoundException {
 
-    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> NotFoundException {
+    static func makeError(baseError: ClientRuntime.RestJSONError) throws -> NotFoundException {
         let reader = baseError.errorBodyReader
         var value = NotFoundException()
         value.properties.message = try reader["Message"].readIfPresent()
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
         value.message = baseError.message
+        return value
+    }
+}
+
+extension ResourceGroupsClientTypes.AccountSettings {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> ResourceGroupsClientTypes.AccountSettings {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = ResourceGroupsClientTypes.AccountSettings()
+        value.groupLifecycleEventsDesiredStatus = try reader["GroupLifecycleEventsDesiredStatus"].readIfPresent()
+        value.groupLifecycleEventsStatus = try reader["GroupLifecycleEventsStatus"].readIfPresent()
+        value.groupLifecycleEventsStatusMessage = try reader["GroupLifecycleEventsStatusMessage"].readIfPresent()
+        return value
+    }
+}
+
+extension ResourceGroupsClientTypes.FailedResource {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> ResourceGroupsClientTypes.FailedResource {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = ResourceGroupsClientTypes.FailedResource()
+        value.resourceArn = try reader["ResourceArn"].readIfPresent()
+        value.errorMessage = try reader["ErrorMessage"].readIfPresent()
+        value.errorCode = try reader["ErrorCode"].readIfPresent()
         return value
     }
 }
@@ -3155,23 +3179,6 @@ extension ResourceGroupsClientTypes.Group {
         value.owner = try reader["Owner"].readIfPresent()
         value.displayName = try reader["DisplayName"].readIfPresent()
         value.applicationTag = try reader["ApplicationTag"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
-        return value
-    }
-}
-
-extension ResourceGroupsClientTypes.ResourceQuery {
-
-    static func write(value: ResourceGroupsClientTypes.ResourceQuery?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["Query"].write(value.query)
-        try writer["Type"].write(value.type)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> ResourceGroupsClientTypes.ResourceQuery {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = ResourceGroupsClientTypes.ResourceQuery()
-        value.type = try reader["Type"].readIfPresent() ?? .sdkUnknown("")
-        value.query = try reader["Query"].readIfPresent() ?? ""
         return value
     }
 }
@@ -3223,47 +3230,26 @@ extension ResourceGroupsClientTypes.GroupConfigurationParameter {
     }
 }
 
-extension ResourceGroupsClientTypes.AccountSettings {
+extension ResourceGroupsClientTypes.GroupFilter {
 
-    static func read(from reader: SmithyJSON.Reader) throws -> ResourceGroupsClientTypes.AccountSettings {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = ResourceGroupsClientTypes.AccountSettings()
-        value.groupLifecycleEventsDesiredStatus = try reader["GroupLifecycleEventsDesiredStatus"].readIfPresent()
-        value.groupLifecycleEventsStatus = try reader["GroupLifecycleEventsStatus"].readIfPresent()
-        value.groupLifecycleEventsStatusMessage = try reader["GroupLifecycleEventsStatusMessage"].readIfPresent()
-        return value
+    static func write(value: ResourceGroupsClientTypes.GroupFilter?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["Name"].write(value.name)
+        try writer["Values"].writeList(value.values, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
     }
 }
 
-extension ResourceGroupsClientTypes.GroupQuery {
+extension ResourceGroupsClientTypes.GroupIdentifier {
 
-    static func read(from reader: SmithyJSON.Reader) throws -> ResourceGroupsClientTypes.GroupQuery {
+    static func read(from reader: SmithyJSON.Reader) throws -> ResourceGroupsClientTypes.GroupIdentifier {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = ResourceGroupsClientTypes.GroupQuery()
-        value.groupName = try reader["GroupName"].readIfPresent() ?? ""
-        value.resourceQuery = try reader["ResourceQuery"].readIfPresent(with: ResourceGroupsClientTypes.ResourceQuery.read(from:))
-        return value
-    }
-}
-
-extension ResourceGroupsClientTypes.FailedResource {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> ResourceGroupsClientTypes.FailedResource {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = ResourceGroupsClientTypes.FailedResource()
-        value.resourceArn = try reader["ResourceArn"].readIfPresent()
-        value.errorMessage = try reader["ErrorMessage"].readIfPresent()
-        value.errorCode = try reader["ErrorCode"].readIfPresent()
-        return value
-    }
-}
-
-extension ResourceGroupsClientTypes.PendingResource {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> ResourceGroupsClientTypes.PendingResource {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = ResourceGroupsClientTypes.PendingResource()
-        value.resourceArn = try reader["ResourceArn"].readIfPresent()
+        var value = ResourceGroupsClientTypes.GroupIdentifier()
+        value.groupName = try reader["GroupName"].readIfPresent()
+        value.groupArn = try reader["GroupArn"].readIfPresent()
+        value.description = try reader["Description"].readIfPresent()
+        value.criticality = try reader["Criticality"].readIfPresent()
+        value.owner = try reader["Owner"].readIfPresent()
+        value.displayName = try reader["DisplayName"].readIfPresent()
         return value
     }
 }
@@ -3283,6 +3269,26 @@ extension ResourceGroupsClientTypes.GroupingStatusesItem {
     }
 }
 
+extension ResourceGroupsClientTypes.GroupQuery {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> ResourceGroupsClientTypes.GroupQuery {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = ResourceGroupsClientTypes.GroupQuery()
+        value.groupName = try reader["GroupName"].readIfPresent() ?? ""
+        value.resourceQuery = try reader["ResourceQuery"].readIfPresent(with: ResourceGroupsClientTypes.ResourceQuery.read(from:))
+        return value
+    }
+}
+
+extension ResourceGroupsClientTypes.ListGroupingStatusesFilter {
+
+    static func write(value: ResourceGroupsClientTypes.ListGroupingStatusesFilter?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["Name"].write(value.name)
+        try writer["Values"].writeList(value.values, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+    }
+}
+
 extension ResourceGroupsClientTypes.ListGroupResourcesItem {
 
     static func read(from reader: SmithyJSON.Reader) throws -> ResourceGroupsClientTypes.ListGroupResourcesItem {
@@ -3294,23 +3300,21 @@ extension ResourceGroupsClientTypes.ListGroupResourcesItem {
     }
 }
 
-extension ResourceGroupsClientTypes.ResourceStatus {
+extension ResourceGroupsClientTypes.ListTagSyncTasksFilter {
 
-    static func read(from reader: SmithyJSON.Reader) throws -> ResourceGroupsClientTypes.ResourceStatus {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = ResourceGroupsClientTypes.ResourceStatus()
-        value.name = try reader["Name"].readIfPresent()
-        return value
+    static func write(value: ResourceGroupsClientTypes.ListTagSyncTasksFilter?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["GroupArn"].write(value.groupArn)
+        try writer["GroupName"].write(value.groupName)
     }
 }
 
-extension ResourceGroupsClientTypes.ResourceIdentifier {
+extension ResourceGroupsClientTypes.PendingResource {
 
-    static func read(from reader: SmithyJSON.Reader) throws -> ResourceGroupsClientTypes.ResourceIdentifier {
+    static func read(from reader: SmithyJSON.Reader) throws -> ResourceGroupsClientTypes.PendingResource {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = ResourceGroupsClientTypes.ResourceIdentifier()
+        var value = ResourceGroupsClientTypes.PendingResource()
         value.resourceArn = try reader["ResourceArn"].readIfPresent()
-        value.resourceType = try reader["ResourceType"].readIfPresent()
         return value
     }
 }
@@ -3326,17 +3330,49 @@ extension ResourceGroupsClientTypes.QueryError {
     }
 }
 
-extension ResourceGroupsClientTypes.GroupIdentifier {
+extension ResourceGroupsClientTypes.ResourceFilter {
 
-    static func read(from reader: SmithyJSON.Reader) throws -> ResourceGroupsClientTypes.GroupIdentifier {
+    static func write(value: ResourceGroupsClientTypes.ResourceFilter?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["Name"].write(value.name)
+        try writer["Values"].writeList(value.values, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+    }
+}
+
+extension ResourceGroupsClientTypes.ResourceIdentifier {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> ResourceGroupsClientTypes.ResourceIdentifier {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = ResourceGroupsClientTypes.GroupIdentifier()
-        value.groupName = try reader["GroupName"].readIfPresent()
-        value.groupArn = try reader["GroupArn"].readIfPresent()
-        value.description = try reader["Description"].readIfPresent()
-        value.criticality = try reader["Criticality"].readIfPresent()
-        value.owner = try reader["Owner"].readIfPresent()
-        value.displayName = try reader["DisplayName"].readIfPresent()
+        var value = ResourceGroupsClientTypes.ResourceIdentifier()
+        value.resourceArn = try reader["ResourceArn"].readIfPresent()
+        value.resourceType = try reader["ResourceType"].readIfPresent()
+        return value
+    }
+}
+
+extension ResourceGroupsClientTypes.ResourceQuery {
+
+    static func write(value: ResourceGroupsClientTypes.ResourceQuery?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["Query"].write(value.query)
+        try writer["Type"].write(value.type)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> ResourceGroupsClientTypes.ResourceQuery {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = ResourceGroupsClientTypes.ResourceQuery()
+        value.type = try reader["Type"].readIfPresent() ?? .sdkUnknown("")
+        value.query = try reader["Query"].readIfPresent() ?? ""
+        return value
+    }
+}
+
+extension ResourceGroupsClientTypes.ResourceStatus {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> ResourceGroupsClientTypes.ResourceStatus {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = ResourceGroupsClientTypes.ResourceStatus()
+        value.name = try reader["Name"].readIfPresent()
         return value
     }
 }
@@ -3357,42 +3393,6 @@ extension ResourceGroupsClientTypes.TagSyncTaskItem {
         value.errorMessage = try reader["ErrorMessage"].readIfPresent()
         value.createdAt = try reader["CreatedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
         return value
-    }
-}
-
-extension ResourceGroupsClientTypes.ListGroupingStatusesFilter {
-
-    static func write(value: ResourceGroupsClientTypes.ListGroupingStatusesFilter?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["Name"].write(value.name)
-        try writer["Values"].writeList(value.values, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
-    }
-}
-
-extension ResourceGroupsClientTypes.ResourceFilter {
-
-    static func write(value: ResourceGroupsClientTypes.ResourceFilter?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["Name"].write(value.name)
-        try writer["Values"].writeList(value.values, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
-    }
-}
-
-extension ResourceGroupsClientTypes.GroupFilter {
-
-    static func write(value: ResourceGroupsClientTypes.GroupFilter?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["Name"].write(value.name)
-        try writer["Values"].writeList(value.values, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
-    }
-}
-
-extension ResourceGroupsClientTypes.ListTagSyncTasksFilter {
-
-    static func write(value: ResourceGroupsClientTypes.ListTagSyncTasksFilter?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["GroupArn"].write(value.groupArn)
-        try writer["GroupName"].write(value.groupName)
     }
 }
 

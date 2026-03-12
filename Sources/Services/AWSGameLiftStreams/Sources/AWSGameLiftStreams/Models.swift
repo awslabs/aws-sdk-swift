@@ -23,8 +23,8 @@ import protocol ClientRuntime.HTTPError
 import protocol ClientRuntime.ModeledError
 @_spi(SmithyReadWrite) import protocol SmithyReadWrite.SmithyReader
 @_spi(SmithyReadWrite) import protocol SmithyReadWrite.SmithyWriter
-@_spi(SmithyReadWrite) import struct AWSClientRuntime.RestJSONError
 @_spi(UnknownAWSHTTPServiceError) import struct AWSClientRuntime.UnknownAWSHTTPServiceError
+@_spi(SmithyReadWrite) import struct ClientRuntime.RestJSONError
 import struct Smithy.URIQueryItem
 
 
@@ -406,12 +406,14 @@ extension GameLiftStreamsClientTypes {
     public enum ApplicationStatusReason: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case accessDenied
         case internalError
+        case sourceModified
         case sdkUnknown(Swift.String)
 
         public static var allCases: [ApplicationStatusReason] {
             return [
                 .accessDenied,
-                .internalError
+                .internalError,
+                .sourceModified
             ]
         }
 
@@ -424,6 +426,7 @@ extension GameLiftStreamsClientTypes {
             switch self {
             case .accessDenied: return "accessDenied"
             case .internalError: return "internalError"
+            case .sourceModified: return "sourceModified"
             case let .sdkUnknown(s): return s
             }
         }
@@ -1092,11 +1095,15 @@ extension GameLiftStreamsClientTypes {
         case gen5nHigh
         case gen5nUltra
         case gen5nWin2022
+        case gen6ePro
+        case gen6eProWin2022
         case gen6nHigh
         case gen6nMedium
+        case gen6nMediumWin2022
         case gen6nPro
         case gen6nProWin2022
         case gen6nSmall
+        case gen6nSmallWin2022
         case gen6nUltra
         case gen6nUltraWin2022
         case sdkUnknown(Swift.String)
@@ -1109,11 +1116,15 @@ extension GameLiftStreamsClientTypes {
                 .gen5nHigh,
                 .gen5nUltra,
                 .gen5nWin2022,
+                .gen6ePro,
+                .gen6eProWin2022,
                 .gen6nHigh,
                 .gen6nMedium,
+                .gen6nMediumWin2022,
                 .gen6nPro,
                 .gen6nProWin2022,
                 .gen6nSmall,
+                .gen6nSmallWin2022,
                 .gen6nUltra,
                 .gen6nUltraWin2022
             ]
@@ -1132,11 +1143,15 @@ extension GameLiftStreamsClientTypes {
             case .gen5nHigh: return "gen5n_high"
             case .gen5nUltra: return "gen5n_ultra"
             case .gen5nWin2022: return "gen5n_win2022"
+            case .gen6ePro: return "gen6e_pro"
+            case .gen6eProWin2022: return "gen6e_pro_win2022"
             case .gen6nHigh: return "gen6n_high"
             case .gen6nMedium: return "gen6n_medium"
+            case .gen6nMediumWin2022: return "gen6n_medium_win2022"
             case .gen6nPro: return "gen6n_pro"
             case .gen6nProWin2022: return "gen6n_pro_win2022"
             case .gen6nSmall: return "gen6n_small"
+            case .gen6nSmallWin2022: return "gen6n_small_win2022"
             case .gen6nUltra: return "gen6n_ultra"
             case .gen6nUltraWin2022: return "gen6n_ultra_win2022"
             case let .sdkUnknown(s): return s
@@ -1244,6 +1259,32 @@ public struct CreateStreamGroupInput: Swift.Sendable {
     /// * Workload specifications: 1 vCPUs, 4 GB RAM, 2 GB VRAM
     ///
     /// * Tenancy: Supports up to 12 concurrent stream sessions
+    ///
+    ///
+    ///
+    ///
+    /// * gen6n_medium_win2022 (NVIDIA, medium) Supports applications with low 3D scene complexity. Uses NVIDIA L4 Tensor Core GPU.
+    ///
+    /// * Reference resolution: 1080p
+    ///
+    /// * Reference frame rate: 60 fps
+    ///
+    /// * Workload specifications: 8 vCPUs, 32 GB RAM, 6 GB VRAM
+    ///
+    /// * Tenancy: Supports 1 concurrent stream session
+    ///
+    ///
+    ///
+    ///
+    /// * gen6n_small_win2022 (NVIDIA, small) Supports applications with low 3D scene complexity. Uses NVIDIA L4 Tensor Core GPU.
+    ///
+    /// * Reference resolution: 1080p
+    ///
+    /// * Reference frame rate: 60 fps
+    ///
+    /// * Workload specifications: 2 vCPUs, 8 GB RAM, 3 GB VRAM
+    ///
+    /// * Tenancy: Supports 1 concurrent stream session
     ///
     ///
     ///
@@ -1575,6 +1616,32 @@ public struct CreateStreamGroupOutput: Swift.Sendable {
     /// * Workload specifications: 1 vCPUs, 4 GB RAM, 2 GB VRAM
     ///
     /// * Tenancy: Supports up to 12 concurrent stream sessions
+    ///
+    ///
+    ///
+    ///
+    /// * gen6n_medium_win2022 (NVIDIA, medium) Supports applications with low 3D scene complexity. Uses NVIDIA L4 Tensor Core GPU.
+    ///
+    /// * Reference resolution: 1080p
+    ///
+    /// * Reference frame rate: 60 fps
+    ///
+    /// * Workload specifications: 8 vCPUs, 32 GB RAM, 6 GB VRAM
+    ///
+    /// * Tenancy: Supports 1 concurrent stream session
+    ///
+    ///
+    ///
+    ///
+    /// * gen6n_small_win2022 (NVIDIA, small) Supports applications with low 3D scene complexity. Uses NVIDIA L4 Tensor Core GPU.
+    ///
+    /// * Reference resolution: 1080p
+    ///
+    /// * Reference frame rate: 60 fps
+    ///
+    /// * Workload specifications: 2 vCPUs, 8 GB RAM, 3 GB VRAM
+    ///
+    /// * Tenancy: Supports 1 concurrent stream session
     ///
     ///
     ///
@@ -2085,8 +2152,6 @@ public struct GetStreamSessionOutput: Swift.Sendable {
     ///
     /// * connectionTimeout: The stream session was terminated because the client failed to connect within the connection timeout period specified by ConnectionTimeoutSeconds.
     ///
-    /// * idleTimeout: The stream session was terminated because it exceeded the idle timeout period of 60 minutes with no user input activity.
-    ///
     /// * maxSessionLengthTimeout: The stream session was terminated because it exceeded the maximum session length timeout period specified by SessionLengthSeconds.
     ///
     /// * reconnectionTimeout: The stream session was terminated because the client failed to reconnect within the reconnection timeout period specified by ConnectionTimeoutSeconds after losing connection.
@@ -2238,8 +2303,6 @@ extension GameLiftStreamsClientTypes {
         /// * applicationExit: The streaming application exited or crashed. The stream session was terminated because the application is no longer running.
         ///
         /// * connectionTimeout: The stream session was terminated because the client failed to connect within the connection timeout period specified by ConnectionTimeoutSeconds.
-        ///
-        /// * idleTimeout: The stream session was terminated because it exceeded the idle timeout period of 60 minutes with no user input activity.
         ///
         /// * maxSessionLengthTimeout: The stream session was terminated because it exceeded the maximum session length timeout period specified by SessionLengthSeconds.
         ///
@@ -2505,8 +2568,6 @@ public struct StartStreamSessionOutput: Swift.Sendable {
     ///
     /// * connectionTimeout: The stream session was terminated because the client failed to connect within the connection timeout period specified by ConnectionTimeoutSeconds.
     ///
-    /// * idleTimeout: The stream session was terminated because it exceeded the idle timeout period of 60 minutes with no user input activity.
-    ///
     /// * maxSessionLengthTimeout: The stream session was terminated because it exceeded the maximum session length timeout period specified by SessionLengthSeconds.
     ///
     /// * reconnectionTimeout: The stream session was terminated because the client failed to reconnect within the reconnection timeout period specified by ConnectionTimeoutSeconds after losing connection.
@@ -2721,6 +2782,32 @@ public struct GetStreamGroupOutput: Swift.Sendable {
     /// * Workload specifications: 1 vCPUs, 4 GB RAM, 2 GB VRAM
     ///
     /// * Tenancy: Supports up to 12 concurrent stream sessions
+    ///
+    ///
+    ///
+    ///
+    /// * gen6n_medium_win2022 (NVIDIA, medium) Supports applications with low 3D scene complexity. Uses NVIDIA L4 Tensor Core GPU.
+    ///
+    /// * Reference resolution: 1080p
+    ///
+    /// * Reference frame rate: 60 fps
+    ///
+    /// * Workload specifications: 8 vCPUs, 32 GB RAM, 6 GB VRAM
+    ///
+    /// * Tenancy: Supports 1 concurrent stream session
+    ///
+    ///
+    ///
+    ///
+    /// * gen6n_small_win2022 (NVIDIA, small) Supports applications with low 3D scene complexity. Uses NVIDIA L4 Tensor Core GPU.
+    ///
+    /// * Reference resolution: 1080p
+    ///
+    /// * Reference frame rate: 60 fps
+    ///
+    /// * Workload specifications: 2 vCPUs, 8 GB RAM, 3 GB VRAM
+    ///
+    /// * Tenancy: Supports 1 concurrent stream session
     ///
     ///
     ///
@@ -2969,6 +3056,32 @@ extension GameLiftStreamsClientTypes {
         /// * Workload specifications: 1 vCPUs, 4 GB RAM, 2 GB VRAM
         ///
         /// * Tenancy: Supports up to 12 concurrent stream sessions
+        ///
+        ///
+        ///
+        ///
+        /// * gen6n_medium_win2022 (NVIDIA, medium) Supports applications with low 3D scene complexity. Uses NVIDIA L4 Tensor Core GPU.
+        ///
+        /// * Reference resolution: 1080p
+        ///
+        /// * Reference frame rate: 60 fps
+        ///
+        /// * Workload specifications: 8 vCPUs, 32 GB RAM, 6 GB VRAM
+        ///
+        /// * Tenancy: Supports 1 concurrent stream session
+        ///
+        ///
+        ///
+        ///
+        /// * gen6n_small_win2022 (NVIDIA, small) Supports applications with low 3D scene complexity. Uses NVIDIA L4 Tensor Core GPU.
+        ///
+        /// * Reference resolution: 1080p
+        ///
+        /// * Reference frame rate: 60 fps
+        ///
+        /// * Workload specifications: 2 vCPUs, 8 GB RAM, 3 GB VRAM
+        ///
+        /// * Tenancy: Supports 1 concurrent stream session
         ///
         ///
         ///
@@ -3251,6 +3364,32 @@ public struct UpdateStreamGroupOutput: Swift.Sendable {
     /// * Workload specifications: 1 vCPUs, 4 GB RAM, 2 GB VRAM
     ///
     /// * Tenancy: Supports up to 12 concurrent stream sessions
+    ///
+    ///
+    ///
+    ///
+    /// * gen6n_medium_win2022 (NVIDIA, medium) Supports applications with low 3D scene complexity. Uses NVIDIA L4 Tensor Core GPU.
+    ///
+    /// * Reference resolution: 1080p
+    ///
+    /// * Reference frame rate: 60 fps
+    ///
+    /// * Workload specifications: 8 vCPUs, 32 GB RAM, 6 GB VRAM
+    ///
+    /// * Tenancy: Supports 1 concurrent stream session
+    ///
+    ///
+    ///
+    ///
+    /// * gen6n_small_win2022 (NVIDIA, small) Supports applications with low 3D scene complexity. Uses NVIDIA L4 Tensor Core GPU.
+    ///
+    /// * Reference resolution: 1080p
+    ///
+    /// * Reference frame rate: 60 fps
+    ///
+    /// * Workload specifications: 2 vCPUs, 8 GB RAM, 3 GB VRAM
+    ///
+    /// * Tenancy: Supports 1 concurrent stream session
     ///
     ///
     ///
@@ -4263,7 +4402,7 @@ enum AddStreamGroupLocationsOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
@@ -4282,7 +4421,7 @@ enum AssociateApplicationsOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
@@ -4301,7 +4440,7 @@ enum CreateApplicationOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
@@ -4320,7 +4459,7 @@ enum CreateStreamGroupOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
@@ -4340,7 +4479,7 @@ enum CreateStreamSessionConnectionOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
@@ -4359,7 +4498,7 @@ enum DeleteApplicationOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
@@ -4378,7 +4517,7 @@ enum DeleteStreamGroupOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
@@ -4397,7 +4536,7 @@ enum DisassociateApplicationsOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
@@ -4415,7 +4554,7 @@ enum ExportStreamSessionFilesOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
@@ -4433,7 +4572,7 @@ enum GetApplicationOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
@@ -4451,7 +4590,7 @@ enum GetStreamGroupOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
@@ -4469,7 +4608,7 @@ enum GetStreamSessionOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
@@ -4487,7 +4626,7 @@ enum ListApplicationsOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
@@ -4504,7 +4643,7 @@ enum ListStreamGroupsOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
@@ -4521,7 +4660,7 @@ enum ListStreamSessionsOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
@@ -4539,7 +4678,7 @@ enum ListStreamSessionsByAccountOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
@@ -4556,7 +4695,7 @@ enum ListTagsForResourceOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
@@ -4573,7 +4712,7 @@ enum RemoveStreamGroupLocationsOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
@@ -4591,7 +4730,7 @@ enum StartStreamSessionOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
@@ -4610,7 +4749,7 @@ enum TagResourceOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
@@ -4627,7 +4766,7 @@ enum TerminateStreamSessionOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
@@ -4645,7 +4784,7 @@ enum UntagResourceOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
@@ -4662,7 +4801,7 @@ enum UpdateApplicationOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
@@ -4680,7 +4819,7 @@ enum UpdateStreamGroupOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
@@ -4697,7 +4836,7 @@ enum UpdateStreamGroupOutputError {
 
 extension AccessDeniedException {
 
-    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> AccessDeniedException {
+    static func makeError(baseError: ClientRuntime.RestJSONError) throws -> AccessDeniedException {
         let reader = baseError.errorBodyReader
         var value = AccessDeniedException()
         value.properties.message = try reader["Message"].readIfPresent() ?? ""
@@ -4710,7 +4849,7 @@ extension AccessDeniedException {
 
 extension InternalServerException {
 
-    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> InternalServerException {
+    static func makeError(baseError: ClientRuntime.RestJSONError) throws -> InternalServerException {
         let reader = baseError.errorBodyReader
         var value = InternalServerException()
         value.properties.message = try reader["Message"].readIfPresent() ?? ""
@@ -4723,7 +4862,7 @@ extension InternalServerException {
 
 extension ResourceNotFoundException {
 
-    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> ResourceNotFoundException {
+    static func makeError(baseError: ClientRuntime.RestJSONError) throws -> ResourceNotFoundException {
         let reader = baseError.errorBodyReader
         var value = ResourceNotFoundException()
         value.properties.message = try reader["Message"].readIfPresent() ?? ""
@@ -4736,7 +4875,7 @@ extension ResourceNotFoundException {
 
 extension ServiceQuotaExceededException {
 
-    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> ServiceQuotaExceededException {
+    static func makeError(baseError: ClientRuntime.RestJSONError) throws -> ServiceQuotaExceededException {
         let reader = baseError.errorBodyReader
         var value = ServiceQuotaExceededException()
         value.properties.message = try reader["Message"].readIfPresent() ?? ""
@@ -4749,7 +4888,7 @@ extension ServiceQuotaExceededException {
 
 extension ThrottlingException {
 
-    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> ThrottlingException {
+    static func makeError(baseError: ClientRuntime.RestJSONError) throws -> ThrottlingException {
         let reader = baseError.errorBodyReader
         var value = ThrottlingException()
         value.properties.message = try reader["Message"].readIfPresent() ?? ""
@@ -4762,7 +4901,7 @@ extension ThrottlingException {
 
 extension ValidationException {
 
-    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> ValidationException {
+    static func makeError(baseError: ClientRuntime.RestJSONError) throws -> ValidationException {
         let reader = baseError.errorBodyReader
         var value = ValidationException()
         value.properties.message = try reader["Message"].readIfPresent() ?? ""
@@ -4775,7 +4914,7 @@ extension ValidationException {
 
 extension ConflictException {
 
-    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> ConflictException {
+    static func makeError(baseError: ClientRuntime.RestJSONError) throws -> ConflictException {
         let reader = baseError.errorBodyReader
         var value = ConflictException()
         value.properties.message = try reader["Message"].readIfPresent() ?? ""
@@ -4783,6 +4922,57 @@ extension ConflictException {
         value.requestID = baseError.requestID
         value.message = baseError.message
         return value
+    }
+}
+
+extension GameLiftStreamsClientTypes.ApplicationSummary {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> GameLiftStreamsClientTypes.ApplicationSummary {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = GameLiftStreamsClientTypes.ApplicationSummary()
+        value.arn = try reader["Arn"].readIfPresent() ?? ""
+        value.id = try reader["Id"].readIfPresent()
+        value.description = try reader["Description"].readIfPresent()
+        value.status = try reader["Status"].readIfPresent()
+        value.createdAt = try reader["CreatedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.lastUpdatedAt = try reader["LastUpdatedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.runtimeEnvironment = try reader["RuntimeEnvironment"].readIfPresent(with: GameLiftStreamsClientTypes.RuntimeEnvironment.read(from:))
+        return value
+    }
+}
+
+extension GameLiftStreamsClientTypes.DefaultApplication {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> GameLiftStreamsClientTypes.DefaultApplication {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = GameLiftStreamsClientTypes.DefaultApplication()
+        value.id = try reader["Id"].readIfPresent()
+        value.arn = try reader["Arn"].readIfPresent()
+        return value
+    }
+}
+
+extension GameLiftStreamsClientTypes.ExportFilesMetadata {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> GameLiftStreamsClientTypes.ExportFilesMetadata {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = GameLiftStreamsClientTypes.ExportFilesMetadata()
+        value.status = try reader["Status"].readIfPresent()
+        value.statusReason = try reader["StatusReason"].readIfPresent()
+        value.outputUri = try reader["OutputUri"].readIfPresent()
+        return value
+    }
+}
+
+extension GameLiftStreamsClientTypes.LocationConfiguration {
+
+    static func write(value: GameLiftStreamsClientTypes.LocationConfiguration?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["AlwaysOnCapacity"].write(value.alwaysOnCapacity)
+        try writer["LocationName"].write(value.locationName)
+        try writer["MaximumCapacity"].write(value.maximumCapacity)
+        try writer["OnDemandCapacity"].write(value.onDemandCapacity)
+        try writer["TargetIdleCapacity"].write(value.targetIdleCapacity)
     }
 }
 
@@ -4804,45 +4994,6 @@ extension GameLiftStreamsClientTypes.LocationState {
     }
 }
 
-extension GameLiftStreamsClientTypes.RuntimeEnvironment {
-
-    static func write(value: GameLiftStreamsClientTypes.RuntimeEnvironment?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["Type"].write(value.type)
-        try writer["Version"].write(value.version)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> GameLiftStreamsClientTypes.RuntimeEnvironment {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = GameLiftStreamsClientTypes.RuntimeEnvironment()
-        value.type = try reader["Type"].readIfPresent() ?? .sdkUnknown("")
-        value.version = try reader["Version"].readIfPresent() ?? ""
-        return value
-    }
-}
-
-extension GameLiftStreamsClientTypes.ReplicationStatus {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> GameLiftStreamsClientTypes.ReplicationStatus {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = GameLiftStreamsClientTypes.ReplicationStatus()
-        value.location = try reader["Location"].readIfPresent()
-        value.status = try reader["Status"].readIfPresent()
-        return value
-    }
-}
-
-extension GameLiftStreamsClientTypes.DefaultApplication {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> GameLiftStreamsClientTypes.DefaultApplication {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = GameLiftStreamsClientTypes.DefaultApplication()
-        value.id = try reader["Id"].readIfPresent()
-        value.arn = try reader["Arn"].readIfPresent()
-        return value
-    }
-}
-
 extension GameLiftStreamsClientTypes.PerformanceStatsConfiguration {
 
     static func write(value: GameLiftStreamsClientTypes.PerformanceStatsConfiguration?, to writer: SmithyJSON.Writer) throws {
@@ -4858,30 +5009,30 @@ extension GameLiftStreamsClientTypes.PerformanceStatsConfiguration {
     }
 }
 
-extension GameLiftStreamsClientTypes.ExportFilesMetadata {
+extension GameLiftStreamsClientTypes.ReplicationStatus {
 
-    static func read(from reader: SmithyJSON.Reader) throws -> GameLiftStreamsClientTypes.ExportFilesMetadata {
+    static func read(from reader: SmithyJSON.Reader) throws -> GameLiftStreamsClientTypes.ReplicationStatus {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = GameLiftStreamsClientTypes.ExportFilesMetadata()
+        var value = GameLiftStreamsClientTypes.ReplicationStatus()
+        value.location = try reader["Location"].readIfPresent()
         value.status = try reader["Status"].readIfPresent()
-        value.statusReason = try reader["StatusReason"].readIfPresent()
-        value.outputUri = try reader["OutputUri"].readIfPresent()
         return value
     }
 }
 
-extension GameLiftStreamsClientTypes.ApplicationSummary {
+extension GameLiftStreamsClientTypes.RuntimeEnvironment {
 
-    static func read(from reader: SmithyJSON.Reader) throws -> GameLiftStreamsClientTypes.ApplicationSummary {
+    static func write(value: GameLiftStreamsClientTypes.RuntimeEnvironment?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["Type"].write(value.type)
+        try writer["Version"].write(value.version)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> GameLiftStreamsClientTypes.RuntimeEnvironment {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = GameLiftStreamsClientTypes.ApplicationSummary()
-        value.arn = try reader["Arn"].readIfPresent() ?? ""
-        value.id = try reader["Id"].readIfPresent()
-        value.description = try reader["Description"].readIfPresent()
-        value.status = try reader["Status"].readIfPresent()
-        value.createdAt = try reader["CreatedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
-        value.lastUpdatedAt = try reader["LastUpdatedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
-        value.runtimeEnvironment = try reader["RuntimeEnvironment"].readIfPresent(with: GameLiftStreamsClientTypes.RuntimeEnvironment.read(from:))
+        var value = GameLiftStreamsClientTypes.RuntimeEnvironment()
+        value.type = try reader["Type"].readIfPresent() ?? .sdkUnknown("")
+        value.version = try reader["Version"].readIfPresent() ?? ""
         return value
     }
 }
@@ -4920,18 +5071,6 @@ extension GameLiftStreamsClientTypes.StreamSessionSummary {
         value.exportFilesMetadata = try reader["ExportFilesMetadata"].readIfPresent(with: GameLiftStreamsClientTypes.ExportFilesMetadata.read(from:))
         value.location = try reader["Location"].readIfPresent()
         return value
-    }
-}
-
-extension GameLiftStreamsClientTypes.LocationConfiguration {
-
-    static func write(value: GameLiftStreamsClientTypes.LocationConfiguration?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["AlwaysOnCapacity"].write(value.alwaysOnCapacity)
-        try writer["LocationName"].write(value.locationName)
-        try writer["MaximumCapacity"].write(value.maximumCapacity)
-        try writer["OnDemandCapacity"].write(value.onDemandCapacity)
-        try writer["TargetIdleCapacity"].write(value.targetIdleCapacity)
     }
 }
 

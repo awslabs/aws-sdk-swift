@@ -22,8 +22,8 @@ import protocol ClientRuntime.HTTPError
 import protocol ClientRuntime.ModeledError
 @_spi(SmithyReadWrite) import protocol SmithyReadWrite.SmithyReader
 @_spi(SmithyReadWrite) import protocol SmithyReadWrite.SmithyWriter
-@_spi(SmithyReadWrite) import struct AWSClientRuntime.AWSJSONError
 @_spi(UnknownAWSHTTPServiceError) import struct AWSClientRuntime.UnknownAWSHTTPServiceError
+@_spi(SmithyReadWrite) import struct ClientRuntime.AWSJSONError
 @_spi(SmithyReadWrite) import struct SmithyReadWrite.WritingClosureBox
 
 
@@ -3590,7 +3590,7 @@ extension DatabaseMigrationClientTypes {
         public var explicitIds: Swift.Bool?
         /// The number of threads used to upload a single file. This parameter accepts a value from 1 through 64. It defaults to 10. The number of parallel streams used to upload a single .csv file to an S3 bucket using S3 Multipart Upload. For more information, see [Multipart upload overview](https://docs.aws.amazon.com/AmazonS3/latest/dev/mpuoverview.html). FileTransferUploadStreams accepts a value from 1 through 64. It defaults to 10.
         public var fileTransferUploadStreams: Swift.Int?
-        /// The amount of time to wait (in milliseconds) before timing out of operations performed by DMS on a Redshift cluster, such as Redshift COPY, INSERT, DELETE, and UPDATE.
+        /// The amount of time to wait (in seconds) before timing out of operations performed by DMS on a Redshift cluster, such as Redshift COPY, INSERT, DELETE, and UPDATE.
         public var loadTimeout: Swift.Int?
         /// When true, lets Redshift migrate the boolean type as boolean. By default, Redshift migrates booleans as varchar(1). You must set this setting on both the source and target endpoints for it to take effect.
         public var mapBooleanAsBoolean: Swift.Bool?
@@ -15632,7 +15632,7 @@ enum AddTagsToResourceOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "InvalidResourceStateFault": return try InvalidResourceStateFault.makeError(baseError: baseError)
@@ -15647,7 +15647,7 @@ enum ApplyPendingMaintenanceActionOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "ResourceNotFoundFault": return try ResourceNotFoundFault.makeError(baseError: baseError)
@@ -15661,7 +15661,7 @@ enum BatchStartRecommendationsOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AccessDeniedFault": return try AccessDeniedFault.makeError(baseError: baseError)
@@ -15677,7 +15677,7 @@ enum CancelMetadataModelConversionOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AccessDeniedFault": return try AccessDeniedFault.makeError(baseError: baseError)
@@ -15693,7 +15693,7 @@ enum CancelMetadataModelCreationOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AccessDeniedFault": return try AccessDeniedFault.makeError(baseError: baseError)
@@ -15709,7 +15709,7 @@ enum CancelReplicationTaskAssessmentRunOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AccessDeniedFault": return try AccessDeniedFault.makeError(baseError: baseError)
@@ -15725,7 +15725,7 @@ enum CreateDataMigrationOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "FailedDependencyFault": return try FailedDependencyFault.makeError(baseError: baseError)
@@ -15743,7 +15743,7 @@ enum CreateDataProviderOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AccessDeniedFault": return try AccessDeniedFault.makeError(baseError: baseError)
@@ -15760,7 +15760,7 @@ enum CreateEndpointOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AccessDeniedFault": return try AccessDeniedFault.makeError(baseError: baseError)
@@ -15780,7 +15780,7 @@ enum CreateEventSubscriptionOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "KMSAccessDeniedFault": return try KMSAccessDeniedFault.makeError(baseError: baseError)
@@ -15803,7 +15803,7 @@ enum CreateFleetAdvisorCollectorOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AccessDeniedFault": return try AccessDeniedFault.makeError(baseError: baseError)
@@ -15821,7 +15821,7 @@ enum CreateInstanceProfileOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AccessDeniedFault": return try AccessDeniedFault.makeError(baseError: baseError)
@@ -15843,7 +15843,7 @@ enum CreateMigrationProjectOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AccessDeniedFault": return try AccessDeniedFault.makeError(baseError: baseError)
@@ -15863,7 +15863,7 @@ enum CreateReplicationConfigOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AccessDeniedFault": return try AccessDeniedFault.makeError(baseError: baseError)
@@ -15884,7 +15884,7 @@ enum CreateReplicationInstanceOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AccessDeniedFault": return try AccessDeniedFault.makeError(baseError: baseError)
@@ -15907,7 +15907,7 @@ enum CreateReplicationSubnetGroupOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AccessDeniedFault": return try AccessDeniedFault.makeError(baseError: baseError)
@@ -15926,7 +15926,7 @@ enum CreateReplicationTaskOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AccessDeniedFault": return try AccessDeniedFault.makeError(baseError: baseError)
@@ -15945,7 +15945,7 @@ enum DeleteCertificateOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "InvalidResourceStateFault": return try InvalidResourceStateFault.makeError(baseError: baseError)
@@ -15960,7 +15960,7 @@ enum DeleteConnectionOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AccessDeniedFault": return try AccessDeniedFault.makeError(baseError: baseError)
@@ -15976,7 +15976,7 @@ enum DeleteDataMigrationOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "FailedDependencyFault": return try FailedDependencyFault.makeError(baseError: baseError)
@@ -15992,7 +15992,7 @@ enum DeleteDataProviderOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AccessDeniedFault": return try AccessDeniedFault.makeError(baseError: baseError)
@@ -16009,7 +16009,7 @@ enum DeleteEndpointOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "InvalidResourceStateFault": return try InvalidResourceStateFault.makeError(baseError: baseError)
@@ -16024,7 +16024,7 @@ enum DeleteEventSubscriptionOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AccessDeniedFault": return try AccessDeniedFault.makeError(baseError: baseError)
@@ -16040,7 +16040,7 @@ enum DeleteFleetAdvisorCollectorOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AccessDeniedFault": return try AccessDeniedFault.makeError(baseError: baseError)
@@ -16056,7 +16056,7 @@ enum DeleteFleetAdvisorDatabasesOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AccessDeniedFault": return try AccessDeniedFault.makeError(baseError: baseError)
@@ -16072,7 +16072,7 @@ enum DeleteInstanceProfileOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AccessDeniedFault": return try AccessDeniedFault.makeError(baseError: baseError)
@@ -16089,7 +16089,7 @@ enum DeleteMigrationProjectOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AccessDeniedFault": return try AccessDeniedFault.makeError(baseError: baseError)
@@ -16106,7 +16106,7 @@ enum DeleteReplicationConfigOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AccessDeniedFault": return try AccessDeniedFault.makeError(baseError: baseError)
@@ -16122,7 +16122,7 @@ enum DeleteReplicationInstanceOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "InvalidResourceStateFault": return try InvalidResourceStateFault.makeError(baseError: baseError)
@@ -16137,7 +16137,7 @@ enum DeleteReplicationSubnetGroupOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AccessDeniedFault": return try AccessDeniedFault.makeError(baseError: baseError)
@@ -16153,7 +16153,7 @@ enum DeleteReplicationTaskOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "InvalidResourceStateFault": return try InvalidResourceStateFault.makeError(baseError: baseError)
@@ -16168,7 +16168,7 @@ enum DeleteReplicationTaskAssessmentRunOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AccessDeniedFault": return try AccessDeniedFault.makeError(baseError: baseError)
@@ -16184,7 +16184,7 @@ enum DescribeAccountAttributesOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
@@ -16197,7 +16197,7 @@ enum DescribeApplicableIndividualAssessmentsOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AccessDeniedFault": return try AccessDeniedFault.makeError(baseError: baseError)
@@ -16213,7 +16213,7 @@ enum DescribeCertificatesOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "ResourceNotFoundFault": return try ResourceNotFoundFault.makeError(baseError: baseError)
@@ -16227,7 +16227,7 @@ enum DescribeConnectionsOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "ResourceNotFoundFault": return try ResourceNotFoundFault.makeError(baseError: baseError)
@@ -16241,7 +16241,7 @@ enum DescribeConversionConfigurationOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "ResourceNotFoundFault": return try ResourceNotFoundFault.makeError(baseError: baseError)
@@ -16255,7 +16255,7 @@ enum DescribeDataMigrationsOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "FailedDependencyFault": return try FailedDependencyFault.makeError(baseError: baseError)
@@ -16271,7 +16271,7 @@ enum DescribeDataProvidersOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AccessDeniedFault": return try AccessDeniedFault.makeError(baseError: baseError)
@@ -16287,7 +16287,7 @@ enum DescribeEndpointsOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "ResourceNotFoundFault": return try ResourceNotFoundFault.makeError(baseError: baseError)
@@ -16301,7 +16301,7 @@ enum DescribeEndpointSettingsOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
@@ -16314,7 +16314,7 @@ enum DescribeEndpointTypesOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
@@ -16327,7 +16327,7 @@ enum DescribeEngineVersionsOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
@@ -16340,7 +16340,7 @@ enum DescribeEventCategoriesOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
@@ -16353,7 +16353,7 @@ enum DescribeEventsOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
@@ -16366,7 +16366,7 @@ enum DescribeEventSubscriptionsOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "ResourceNotFoundFault": return try ResourceNotFoundFault.makeError(baseError: baseError)
@@ -16380,7 +16380,7 @@ enum DescribeExtensionPackAssociationsOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
@@ -16393,7 +16393,7 @@ enum DescribeFleetAdvisorCollectorsOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "InvalidResourceStateFault": return try InvalidResourceStateFault.makeError(baseError: baseError)
@@ -16407,7 +16407,7 @@ enum DescribeFleetAdvisorDatabasesOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "InvalidResourceStateFault": return try InvalidResourceStateFault.makeError(baseError: baseError)
@@ -16421,7 +16421,7 @@ enum DescribeFleetAdvisorLsaAnalysisOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "InvalidResourceStateFault": return try InvalidResourceStateFault.makeError(baseError: baseError)
@@ -16435,7 +16435,7 @@ enum DescribeFleetAdvisorSchemaObjectSummaryOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "InvalidResourceStateFault": return try InvalidResourceStateFault.makeError(baseError: baseError)
@@ -16449,7 +16449,7 @@ enum DescribeFleetAdvisorSchemasOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "InvalidResourceStateFault": return try InvalidResourceStateFault.makeError(baseError: baseError)
@@ -16463,7 +16463,7 @@ enum DescribeInstanceProfilesOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AccessDeniedFault": return try AccessDeniedFault.makeError(baseError: baseError)
@@ -16479,7 +16479,7 @@ enum DescribeMetadataModelOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AccessDeniedFault": return try AccessDeniedFault.makeError(baseError: baseError)
@@ -16494,7 +16494,7 @@ enum DescribeMetadataModelAssessmentsOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "ResourceNotFoundFault": return try ResourceNotFoundFault.makeError(baseError: baseError)
@@ -16508,7 +16508,7 @@ enum DescribeMetadataModelChildrenOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AccessDeniedFault": return try AccessDeniedFault.makeError(baseError: baseError)
@@ -16523,7 +16523,7 @@ enum DescribeMetadataModelConversionsOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "ResourceNotFoundFault": return try ResourceNotFoundFault.makeError(baseError: baseError)
@@ -16537,7 +16537,7 @@ enum DescribeMetadataModelCreationsOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AccessDeniedFault": return try AccessDeniedFault.makeError(baseError: baseError)
@@ -16552,7 +16552,7 @@ enum DescribeMetadataModelExportsAsScriptOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "ResourceNotFoundFault": return try ResourceNotFoundFault.makeError(baseError: baseError)
@@ -16566,7 +16566,7 @@ enum DescribeMetadataModelExportsToTargetOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "ResourceNotFoundFault": return try ResourceNotFoundFault.makeError(baseError: baseError)
@@ -16580,7 +16580,7 @@ enum DescribeMetadataModelImportsOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "ResourceNotFoundFault": return try ResourceNotFoundFault.makeError(baseError: baseError)
@@ -16594,7 +16594,7 @@ enum DescribeMigrationProjectsOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AccessDeniedFault": return try AccessDeniedFault.makeError(baseError: baseError)
@@ -16610,7 +16610,7 @@ enum DescribeOrderableReplicationInstancesOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
@@ -16623,7 +16623,7 @@ enum DescribePendingMaintenanceActionsOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "ResourceNotFoundFault": return try ResourceNotFoundFault.makeError(baseError: baseError)
@@ -16637,7 +16637,7 @@ enum DescribeRecommendationLimitationsOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AccessDeniedFault": return try AccessDeniedFault.makeError(baseError: baseError)
@@ -16652,7 +16652,7 @@ enum DescribeRecommendationsOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AccessDeniedFault": return try AccessDeniedFault.makeError(baseError: baseError)
@@ -16667,7 +16667,7 @@ enum DescribeRefreshSchemasStatusOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "InvalidResourceStateFault": return try InvalidResourceStateFault.makeError(baseError: baseError)
@@ -16682,7 +16682,7 @@ enum DescribeReplicationConfigsOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "ResourceNotFoundFault": return try ResourceNotFoundFault.makeError(baseError: baseError)
@@ -16696,7 +16696,7 @@ enum DescribeReplicationInstancesOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "ResourceNotFoundFault": return try ResourceNotFoundFault.makeError(baseError: baseError)
@@ -16710,7 +16710,7 @@ enum DescribeReplicationInstanceTaskLogsOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "InvalidResourceStateFault": return try InvalidResourceStateFault.makeError(baseError: baseError)
@@ -16725,7 +16725,7 @@ enum DescribeReplicationsOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "ResourceNotFoundFault": return try ResourceNotFoundFault.makeError(baseError: baseError)
@@ -16739,7 +16739,7 @@ enum DescribeReplicationSubnetGroupsOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "ResourceNotFoundFault": return try ResourceNotFoundFault.makeError(baseError: baseError)
@@ -16753,7 +16753,7 @@ enum DescribeReplicationTableStatisticsOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "InvalidResourceStateFault": return try InvalidResourceStateFault.makeError(baseError: baseError)
@@ -16768,7 +16768,7 @@ enum DescribeReplicationTaskAssessmentResultsOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "ResourceNotFoundFault": return try ResourceNotFoundFault.makeError(baseError: baseError)
@@ -16782,7 +16782,7 @@ enum DescribeReplicationTaskAssessmentRunsOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "ResourceNotFoundFault": return try ResourceNotFoundFault.makeError(baseError: baseError)
@@ -16796,7 +16796,7 @@ enum DescribeReplicationTaskIndividualAssessmentsOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "ResourceNotFoundFault": return try ResourceNotFoundFault.makeError(baseError: baseError)
@@ -16810,7 +16810,7 @@ enum DescribeReplicationTasksOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "ResourceNotFoundFault": return try ResourceNotFoundFault.makeError(baseError: baseError)
@@ -16824,7 +16824,7 @@ enum DescribeSchemasOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "InvalidResourceStateFault": return try InvalidResourceStateFault.makeError(baseError: baseError)
@@ -16839,7 +16839,7 @@ enum DescribeTableStatisticsOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AccessDeniedFault": return try AccessDeniedFault.makeError(baseError: baseError)
@@ -16855,7 +16855,7 @@ enum ExportMetadataModelAssessmentOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "ResourceNotFoundFault": return try ResourceNotFoundFault.makeError(baseError: baseError)
@@ -16869,7 +16869,7 @@ enum GetTargetSelectionRulesOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AccessDeniedFault": return try AccessDeniedFault.makeError(baseError: baseError)
@@ -16885,7 +16885,7 @@ enum ImportCertificateOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "InvalidCertificateFault": return try InvalidCertificateFault.makeError(baseError: baseError)
@@ -16902,7 +16902,7 @@ enum ListTagsForResourceOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "InvalidResourceStateFault": return try InvalidResourceStateFault.makeError(baseError: baseError)
@@ -16917,7 +16917,7 @@ enum ModifyConversionConfigurationOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "InvalidResourceStateFault": return try InvalidResourceStateFault.makeError(baseError: baseError)
@@ -16932,7 +16932,7 @@ enum ModifyDataMigrationOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "FailedDependencyFault": return try FailedDependencyFault.makeError(baseError: baseError)
@@ -16948,7 +16948,7 @@ enum ModifyDataProviderOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AccessDeniedFault": return try AccessDeniedFault.makeError(baseError: baseError)
@@ -16965,7 +16965,7 @@ enum ModifyEndpointOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AccessDeniedFault": return try AccessDeniedFault.makeError(baseError: baseError)
@@ -16983,7 +16983,7 @@ enum ModifyEventSubscriptionOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AccessDeniedFault": return try AccessDeniedFault.makeError(baseError: baseError)
@@ -17006,7 +17006,7 @@ enum ModifyInstanceProfileOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AccessDeniedFault": return try AccessDeniedFault.makeError(baseError: baseError)
@@ -17026,7 +17026,7 @@ enum ModifyMigrationProjectOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AccessDeniedFault": return try AccessDeniedFault.makeError(baseError: baseError)
@@ -17045,7 +17045,7 @@ enum ModifyReplicationConfigOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AccessDeniedFault": return try AccessDeniedFault.makeError(baseError: baseError)
@@ -17064,7 +17064,7 @@ enum ModifyReplicationInstanceOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AccessDeniedFault": return try AccessDeniedFault.makeError(baseError: baseError)
@@ -17084,7 +17084,7 @@ enum ModifyReplicationSubnetGroupOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AccessDeniedFault": return try AccessDeniedFault.makeError(baseError: baseError)
@@ -17103,7 +17103,7 @@ enum ModifyReplicationTaskOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "InvalidResourceStateFault": return try InvalidResourceStateFault.makeError(baseError: baseError)
@@ -17120,7 +17120,7 @@ enum MoveReplicationTaskOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AccessDeniedFault": return try AccessDeniedFault.makeError(baseError: baseError)
@@ -17138,7 +17138,7 @@ enum RebootReplicationInstanceOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "InvalidResourceStateFault": return try InvalidResourceStateFault.makeError(baseError: baseError)
@@ -17153,7 +17153,7 @@ enum RefreshSchemasOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "InvalidResourceStateFault": return try InvalidResourceStateFault.makeError(baseError: baseError)
@@ -17170,7 +17170,7 @@ enum ReloadReplicationTablesOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "InvalidResourceStateFault": return try InvalidResourceStateFault.makeError(baseError: baseError)
@@ -17185,7 +17185,7 @@ enum ReloadTablesOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "InvalidResourceStateFault": return try InvalidResourceStateFault.makeError(baseError: baseError)
@@ -17200,7 +17200,7 @@ enum RemoveTagsFromResourceOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "InvalidResourceStateFault": return try InvalidResourceStateFault.makeError(baseError: baseError)
@@ -17215,7 +17215,7 @@ enum RunFleetAdvisorLsaAnalysisOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "InvalidResourceStateFault": return try InvalidResourceStateFault.makeError(baseError: baseError)
@@ -17230,7 +17230,7 @@ enum StartDataMigrationOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "FailedDependencyFault": return try FailedDependencyFault.makeError(baseError: baseError)
@@ -17248,7 +17248,7 @@ enum StartExtensionPackAssociationOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AccessDeniedFault": return try AccessDeniedFault.makeError(baseError: baseError)
@@ -17269,7 +17269,7 @@ enum StartMetadataModelAssessmentOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AccessDeniedFault": return try AccessDeniedFault.makeError(baseError: baseError)
@@ -17290,7 +17290,7 @@ enum StartMetadataModelConversionOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AccessDeniedFault": return try AccessDeniedFault.makeError(baseError: baseError)
@@ -17311,7 +17311,7 @@ enum StartMetadataModelCreationOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AccessDeniedFault": return try AccessDeniedFault.makeError(baseError: baseError)
@@ -17328,7 +17328,7 @@ enum StartMetadataModelExportAsScriptOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AccessDeniedFault": return try AccessDeniedFault.makeError(baseError: baseError)
@@ -17349,7 +17349,7 @@ enum StartMetadataModelExportToTargetOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AccessDeniedFault": return try AccessDeniedFault.makeError(baseError: baseError)
@@ -17370,7 +17370,7 @@ enum StartMetadataModelImportOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AccessDeniedFault": return try AccessDeniedFault.makeError(baseError: baseError)
@@ -17391,7 +17391,7 @@ enum StartRecommendationsOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AccessDeniedFault": return try AccessDeniedFault.makeError(baseError: baseError)
@@ -17407,7 +17407,7 @@ enum StartReplicationOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AccessDeniedFault": return try AccessDeniedFault.makeError(baseError: baseError)
@@ -17423,7 +17423,7 @@ enum StartReplicationTaskOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AccessDeniedFault": return try AccessDeniedFault.makeError(baseError: baseError)
@@ -17439,7 +17439,7 @@ enum StartReplicationTaskAssessmentOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "InvalidResourceStateFault": return try InvalidResourceStateFault.makeError(baseError: baseError)
@@ -17454,7 +17454,7 @@ enum StartReplicationTaskAssessmentRunOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AccessDeniedFault": return try AccessDeniedFault.makeError(baseError: baseError)
@@ -17479,7 +17479,7 @@ enum StopDataMigrationOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "FailedDependencyFault": return try FailedDependencyFault.makeError(baseError: baseError)
@@ -17495,7 +17495,7 @@ enum StopReplicationOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AccessDeniedFault": return try AccessDeniedFault.makeError(baseError: baseError)
@@ -17511,7 +17511,7 @@ enum StopReplicationTaskOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "InvalidResourceStateFault": return try InvalidResourceStateFault.makeError(baseError: baseError)
@@ -17526,7 +17526,7 @@ enum TestConnectionOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AccessDeniedFault": return try AccessDeniedFault.makeError(baseError: baseError)
@@ -17544,7 +17544,7 @@ enum UpdateSubscriptionsToEventBridgeOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AccessDeniedFault": return try AccessDeniedFault.makeError(baseError: baseError)
@@ -17556,7 +17556,7 @@ enum UpdateSubscriptionsToEventBridgeOutputError {
 
 extension InvalidResourceStateFault {
 
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> InvalidResourceStateFault {
+    static func makeError(baseError: ClientRuntime.AWSJSONError) throws -> InvalidResourceStateFault {
         let reader = baseError.errorBodyReader
         var value = InvalidResourceStateFault()
         value.properties.message = try reader["message"].readIfPresent()
@@ -17569,7 +17569,7 @@ extension InvalidResourceStateFault {
 
 extension ResourceNotFoundFault {
 
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> ResourceNotFoundFault {
+    static func makeError(baseError: ClientRuntime.AWSJSONError) throws -> ResourceNotFoundFault {
         let reader = baseError.errorBodyReader
         var value = ResourceNotFoundFault()
         value.properties.message = try reader["message"].readIfPresent()
@@ -17582,7 +17582,7 @@ extension ResourceNotFoundFault {
 
 extension AccessDeniedFault {
 
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> AccessDeniedFault {
+    static func makeError(baseError: ClientRuntime.AWSJSONError) throws -> AccessDeniedFault {
         let reader = baseError.errorBodyReader
         var value = AccessDeniedFault()
         value.properties.message = try reader["message"].readIfPresent()
@@ -17595,7 +17595,7 @@ extension AccessDeniedFault {
 
 extension FailedDependencyFault {
 
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> FailedDependencyFault {
+    static func makeError(baseError: ClientRuntime.AWSJSONError) throws -> FailedDependencyFault {
         let reader = baseError.errorBodyReader
         var value = FailedDependencyFault()
         value.properties.message = try reader["message"].readIfPresent()
@@ -17608,7 +17608,7 @@ extension FailedDependencyFault {
 
 extension InvalidOperationFault {
 
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> InvalidOperationFault {
+    static func makeError(baseError: ClientRuntime.AWSJSONError) throws -> InvalidOperationFault {
         let reader = baseError.errorBodyReader
         var value = InvalidOperationFault()
         value.properties.message = try reader["message"].readIfPresent()
@@ -17621,7 +17621,7 @@ extension InvalidOperationFault {
 
 extension ResourceAlreadyExistsFault {
 
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> ResourceAlreadyExistsFault {
+    static func makeError(baseError: ClientRuntime.AWSJSONError) throws -> ResourceAlreadyExistsFault {
         let reader = baseError.errorBodyReader
         var value = ResourceAlreadyExistsFault()
         value.properties.message = try reader["message"].readIfPresent()
@@ -17635,7 +17635,7 @@ extension ResourceAlreadyExistsFault {
 
 extension ResourceQuotaExceededFault {
 
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> ResourceQuotaExceededFault {
+    static func makeError(baseError: ClientRuntime.AWSJSONError) throws -> ResourceQuotaExceededFault {
         let reader = baseError.errorBodyReader
         var value = ResourceQuotaExceededFault()
         value.properties.message = try reader["message"].readIfPresent()
@@ -17648,7 +17648,7 @@ extension ResourceQuotaExceededFault {
 
 extension KMSKeyNotAccessibleFault {
 
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> KMSKeyNotAccessibleFault {
+    static func makeError(baseError: ClientRuntime.AWSJSONError) throws -> KMSKeyNotAccessibleFault {
         let reader = baseError.errorBodyReader
         var value = KMSKeyNotAccessibleFault()
         value.properties.message = try reader["message"].readIfPresent()
@@ -17661,7 +17661,7 @@ extension KMSKeyNotAccessibleFault {
 
 extension S3AccessDeniedFault {
 
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> S3AccessDeniedFault {
+    static func makeError(baseError: ClientRuntime.AWSJSONError) throws -> S3AccessDeniedFault {
         let reader = baseError.errorBodyReader
         var value = S3AccessDeniedFault()
         value.properties.message = try reader["message"].readIfPresent()
@@ -17674,7 +17674,7 @@ extension S3AccessDeniedFault {
 
 extension KMSAccessDeniedFault {
 
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> KMSAccessDeniedFault {
+    static func makeError(baseError: ClientRuntime.AWSJSONError) throws -> KMSAccessDeniedFault {
         let reader = baseError.errorBodyReader
         var value = KMSAccessDeniedFault()
         value.properties.message = try reader["message"].readIfPresent()
@@ -17687,7 +17687,7 @@ extension KMSAccessDeniedFault {
 
 extension KMSDisabledFault {
 
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> KMSDisabledFault {
+    static func makeError(baseError: ClientRuntime.AWSJSONError) throws -> KMSDisabledFault {
         let reader = baseError.errorBodyReader
         var value = KMSDisabledFault()
         value.properties.message = try reader["message"].readIfPresent()
@@ -17700,7 +17700,7 @@ extension KMSDisabledFault {
 
 extension KMSInvalidStateFault {
 
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> KMSInvalidStateFault {
+    static func makeError(baseError: ClientRuntime.AWSJSONError) throws -> KMSInvalidStateFault {
         let reader = baseError.errorBodyReader
         var value = KMSInvalidStateFault()
         value.properties.message = try reader["message"].readIfPresent()
@@ -17713,7 +17713,7 @@ extension KMSInvalidStateFault {
 
 extension KMSNotFoundFault {
 
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> KMSNotFoundFault {
+    static func makeError(baseError: ClientRuntime.AWSJSONError) throws -> KMSNotFoundFault {
         let reader = baseError.errorBodyReader
         var value = KMSNotFoundFault()
         value.properties.message = try reader["message"].readIfPresent()
@@ -17726,7 +17726,7 @@ extension KMSNotFoundFault {
 
 extension KMSThrottlingFault {
 
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> KMSThrottlingFault {
+    static func makeError(baseError: ClientRuntime.AWSJSONError) throws -> KMSThrottlingFault {
         let reader = baseError.errorBodyReader
         var value = KMSThrottlingFault()
         value.properties.message = try reader["message"].readIfPresent()
@@ -17739,7 +17739,7 @@ extension KMSThrottlingFault {
 
 extension SNSInvalidTopicFault {
 
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> SNSInvalidTopicFault {
+    static func makeError(baseError: ClientRuntime.AWSJSONError) throws -> SNSInvalidTopicFault {
         let reader = baseError.errorBodyReader
         var value = SNSInvalidTopicFault()
         value.properties.message = try reader["message"].readIfPresent()
@@ -17752,7 +17752,7 @@ extension SNSInvalidTopicFault {
 
 extension SNSNoAuthorizationFault {
 
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> SNSNoAuthorizationFault {
+    static func makeError(baseError: ClientRuntime.AWSJSONError) throws -> SNSNoAuthorizationFault {
         let reader = baseError.errorBodyReader
         var value = SNSNoAuthorizationFault()
         value.properties.message = try reader["message"].readIfPresent()
@@ -17765,7 +17765,7 @@ extension SNSNoAuthorizationFault {
 
 extension S3ResourceNotFoundFault {
 
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> S3ResourceNotFoundFault {
+    static func makeError(baseError: ClientRuntime.AWSJSONError) throws -> S3ResourceNotFoundFault {
         let reader = baseError.errorBodyReader
         var value = S3ResourceNotFoundFault()
         value.properties.message = try reader["message"].readIfPresent()
@@ -17778,7 +17778,7 @@ extension S3ResourceNotFoundFault {
 
 extension InvalidSubnet {
 
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> InvalidSubnet {
+    static func makeError(baseError: ClientRuntime.AWSJSONError) throws -> InvalidSubnet {
         let reader = baseError.errorBodyReader
         var value = InvalidSubnet()
         value.properties.message = try reader["message"].readIfPresent()
@@ -17791,7 +17791,7 @@ extension InvalidSubnet {
 
 extension ReplicationSubnetGroupDoesNotCoverEnoughAZs {
 
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> ReplicationSubnetGroupDoesNotCoverEnoughAZs {
+    static func makeError(baseError: ClientRuntime.AWSJSONError) throws -> ReplicationSubnetGroupDoesNotCoverEnoughAZs {
         let reader = baseError.errorBodyReader
         var value = ReplicationSubnetGroupDoesNotCoverEnoughAZs()
         value.properties.message = try reader["message"].readIfPresent()
@@ -17804,7 +17804,7 @@ extension ReplicationSubnetGroupDoesNotCoverEnoughAZs {
 
 extension InsufficientResourceCapacityFault {
 
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> InsufficientResourceCapacityFault {
+    static func makeError(baseError: ClientRuntime.AWSJSONError) throws -> InsufficientResourceCapacityFault {
         let reader = baseError.errorBodyReader
         var value = InsufficientResourceCapacityFault()
         value.properties.message = try reader["message"].readIfPresent()
@@ -17817,7 +17817,7 @@ extension InsufficientResourceCapacityFault {
 
 extension StorageQuotaExceededFault {
 
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> StorageQuotaExceededFault {
+    static func makeError(baseError: ClientRuntime.AWSJSONError) throws -> StorageQuotaExceededFault {
         let reader = baseError.errorBodyReader
         var value = StorageQuotaExceededFault()
         value.properties.message = try reader["message"].readIfPresent()
@@ -17830,7 +17830,7 @@ extension StorageQuotaExceededFault {
 
 extension CollectorNotFoundFault {
 
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> CollectorNotFoundFault {
+    static func makeError(baseError: ClientRuntime.AWSJSONError) throws -> CollectorNotFoundFault {
         let reader = baseError.errorBodyReader
         var value = CollectorNotFoundFault()
         value.properties.message = try reader["message"].readIfPresent()
@@ -17843,7 +17843,7 @@ extension CollectorNotFoundFault {
 
 extension InvalidCertificateFault {
 
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> InvalidCertificateFault {
+    static func makeError(baseError: ClientRuntime.AWSJSONError) throws -> InvalidCertificateFault {
         let reader = baseError.errorBodyReader
         var value = InvalidCertificateFault()
         value.properties.message = try reader["message"].readIfPresent()
@@ -17856,7 +17856,7 @@ extension InvalidCertificateFault {
 
 extension UpgradeDependencyFailureFault {
 
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> UpgradeDependencyFailureFault {
+    static func makeError(baseError: ClientRuntime.AWSJSONError) throws -> UpgradeDependencyFailureFault {
         let reader = baseError.errorBodyReader
         var value = UpgradeDependencyFailureFault()
         value.properties.message = try reader["message"].readIfPresent()
@@ -17869,7 +17869,7 @@ extension UpgradeDependencyFailureFault {
 
 extension SubnetAlreadyInUse {
 
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> SubnetAlreadyInUse {
+    static func makeError(baseError: ClientRuntime.AWSJSONError) throws -> SubnetAlreadyInUse {
         let reader = baseError.errorBodyReader
         var value = SubnetAlreadyInUse()
         value.properties.message = try reader["message"].readIfPresent()
@@ -17882,7 +17882,7 @@ extension SubnetAlreadyInUse {
 
 extension KMSFault {
 
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> KMSFault {
+    static func makeError(baseError: ClientRuntime.AWSJSONError) throws -> KMSFault {
         let reader = baseError.errorBodyReader
         var value = KMSFault()
         value.properties.message = try reader["message"].readIfPresent()
@@ -17893,28 +17893,24 @@ extension KMSFault {
     }
 }
 
-extension DatabaseMigrationClientTypes.ResourcePendingMaintenanceActions {
+extension DatabaseMigrationClientTypes.AccountQuota {
 
-    static func read(from reader: SmithyJSON.Reader) throws -> DatabaseMigrationClientTypes.ResourcePendingMaintenanceActions {
+    static func read(from reader: SmithyJSON.Reader) throws -> DatabaseMigrationClientTypes.AccountQuota {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = DatabaseMigrationClientTypes.ResourcePendingMaintenanceActions()
-        value.resourceIdentifier = try reader["ResourceIdentifier"].readIfPresent()
-        value.pendingMaintenanceActionDetails = try reader["PendingMaintenanceActionDetails"].readListIfPresent(memberReadingClosure: DatabaseMigrationClientTypes.PendingMaintenanceAction.read(from:), memberNodeInfo: "member", isFlattened: false)
+        var value = DatabaseMigrationClientTypes.AccountQuota()
+        value.accountQuotaName = try reader["AccountQuotaName"].readIfPresent()
+        value.used = try reader["Used"].readIfPresent() ?? 0
+        value.max = try reader["Max"].readIfPresent() ?? 0
         return value
     }
 }
 
-extension DatabaseMigrationClientTypes.PendingMaintenanceAction {
+extension DatabaseMigrationClientTypes.AvailabilityZone {
 
-    static func read(from reader: SmithyJSON.Reader) throws -> DatabaseMigrationClientTypes.PendingMaintenanceAction {
+    static func read(from reader: SmithyJSON.Reader) throws -> DatabaseMigrationClientTypes.AvailabilityZone {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = DatabaseMigrationClientTypes.PendingMaintenanceAction()
-        value.action = try reader["Action"].readIfPresent()
-        value.autoAppliedAfterDate = try reader["AutoAppliedAfterDate"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
-        value.forcedApplyDate = try reader["ForcedApplyDate"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
-        value.optInStatus = try reader["OptInStatus"].readIfPresent()
-        value.currentApplyDate = try reader["CurrentApplyDate"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
-        value.description = try reader["Description"].readIfPresent()
+        var value = DatabaseMigrationClientTypes.AvailabilityZone()
+        value.name = try reader["Name"].readIfPresent()
         return value
     }
 }
@@ -17931,126 +17927,159 @@ extension DatabaseMigrationClientTypes.BatchStartRecommendationsErrorEntry {
     }
 }
 
-extension DatabaseMigrationClientTypes.SchemaConversionRequest {
+extension DatabaseMigrationClientTypes.Certificate {
 
-    static func read(from reader: SmithyJSON.Reader) throws -> DatabaseMigrationClientTypes.SchemaConversionRequest {
+    static func read(from reader: SmithyJSON.Reader) throws -> DatabaseMigrationClientTypes.Certificate {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = DatabaseMigrationClientTypes.SchemaConversionRequest()
-        value.status = try reader["Status"].readIfPresent()
-        value.requestIdentifier = try reader["RequestIdentifier"].readIfPresent()
-        value.migrationProjectArn = try reader["MigrationProjectArn"].readIfPresent()
-        value.error = try reader["Error"].readIfPresent(with: DatabaseMigrationClientTypes.ErrorDetails.read(from:))
-        value.exportSqlDetails = try reader["ExportSqlDetails"].readIfPresent(with: DatabaseMigrationClientTypes.ExportSqlDetails.read(from:))
-        value.progress = try reader["Progress"].readIfPresent(with: DatabaseMigrationClientTypes.Progress.read(from:))
+        var value = DatabaseMigrationClientTypes.Certificate()
+        value.certificateIdentifier = try reader["CertificateIdentifier"].readIfPresent()
+        value.certificateCreationDate = try reader["CertificateCreationDate"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.certificatePem = try reader["CertificatePem"].readIfPresent()
+        value.certificateWallet = try reader["CertificateWallet"].readIfPresent()
+        value.certificateArn = try reader["CertificateArn"].readIfPresent()
+        value.certificateOwner = try reader["CertificateOwner"].readIfPresent()
+        value.validFromDate = try reader["ValidFromDate"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.validToDate = try reader["ValidToDate"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.signingAlgorithm = try reader["SigningAlgorithm"].readIfPresent()
+        value.keyLength = try reader["KeyLength"].readIfPresent()
+        value.kmsKeyId = try reader["KmsKeyId"].readIfPresent()
         return value
     }
 }
 
-extension DatabaseMigrationClientTypes.Progress {
+extension DatabaseMigrationClientTypes.CollectorHealthCheck {
 
-    static func read(from reader: SmithyJSON.Reader) throws -> DatabaseMigrationClientTypes.Progress {
+    static func read(from reader: SmithyJSON.Reader) throws -> DatabaseMigrationClientTypes.CollectorHealthCheck {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = DatabaseMigrationClientTypes.Progress()
-        value.progressPercent = try reader["ProgressPercent"].readIfPresent()
-        value.totalObjects = try reader["TotalObjects"].readIfPresent() ?? 0
-        value.progressStep = try reader["ProgressStep"].readIfPresent()
-        value.processedObject = try reader["ProcessedObject"].readIfPresent(with: DatabaseMigrationClientTypes.ProcessedObject.read(from:))
+        var value = DatabaseMigrationClientTypes.CollectorHealthCheck()
+        value.collectorStatus = try reader["CollectorStatus"].readIfPresent()
+        value.localCollectorS3Access = try reader["LocalCollectorS3Access"].readIfPresent()
+        value.webCollectorS3Access = try reader["WebCollectorS3Access"].readIfPresent()
+        value.webCollectorGrantedRoleBasedAccess = try reader["WebCollectorGrantedRoleBasedAccess"].readIfPresent()
         return value
     }
 }
 
-extension DatabaseMigrationClientTypes.ProcessedObject {
+extension DatabaseMigrationClientTypes.CollectorResponse {
 
-    static func read(from reader: SmithyJSON.Reader) throws -> DatabaseMigrationClientTypes.ProcessedObject {
+    static func read(from reader: SmithyJSON.Reader) throws -> DatabaseMigrationClientTypes.CollectorResponse {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = DatabaseMigrationClientTypes.ProcessedObject()
-        value.name = try reader["Name"].readIfPresent()
-        value.type = try reader["Type"].readIfPresent()
-        value.endpointType = try reader["EndpointType"].readIfPresent()
-        return value
-    }
-}
-
-extension DatabaseMigrationClientTypes.ExportSqlDetails {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> DatabaseMigrationClientTypes.ExportSqlDetails {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = DatabaseMigrationClientTypes.ExportSqlDetails()
-        value.s3ObjectKey = try reader["S3ObjectKey"].readIfPresent()
-        value.objectURL = try reader["ObjectURL"].readIfPresent()
-        return value
-    }
-}
-
-extension DatabaseMigrationClientTypes.ErrorDetails {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> DatabaseMigrationClientTypes.ErrorDetails {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        let name = reader.children.filter { $0.hasContent && $0.nodeInfo.name != "__type" }.first?.nodeInfo.name
-        switch name {
-            case "defaultErrorDetails":
-                return .defaulterrordetails(try reader["defaultErrorDetails"].read(with: DatabaseMigrationClientTypes.DefaultErrorDetails.read(from:)))
-            default:
-                return .sdkUnknown(name ?? "")
-        }
-    }
-}
-
-extension DatabaseMigrationClientTypes.DefaultErrorDetails {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> DatabaseMigrationClientTypes.DefaultErrorDetails {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = DatabaseMigrationClientTypes.DefaultErrorDetails()
-        value.message = try reader["Message"].readIfPresent()
-        return value
-    }
-}
-
-extension DatabaseMigrationClientTypes.ReplicationTaskAssessmentRun {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> DatabaseMigrationClientTypes.ReplicationTaskAssessmentRun {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = DatabaseMigrationClientTypes.ReplicationTaskAssessmentRun()
-        value.replicationTaskAssessmentRunArn = try reader["ReplicationTaskAssessmentRunArn"].readIfPresent()
-        value.replicationTaskArn = try reader["ReplicationTaskArn"].readIfPresent()
-        value.status = try reader["Status"].readIfPresent()
-        value.replicationTaskAssessmentRunCreationDate = try reader["ReplicationTaskAssessmentRunCreationDate"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
-        value.assessmentProgress = try reader["AssessmentProgress"].readIfPresent(with: DatabaseMigrationClientTypes.ReplicationTaskAssessmentRunProgress.read(from:))
-        value.lastFailureMessage = try reader["LastFailureMessage"].readIfPresent()
+        var value = DatabaseMigrationClientTypes.CollectorResponse()
+        value.collectorReferencedId = try reader["CollectorReferencedId"].readIfPresent()
+        value.collectorName = try reader["CollectorName"].readIfPresent()
+        value.collectorVersion = try reader["CollectorVersion"].readIfPresent()
+        value.versionStatus = try reader["VersionStatus"].readIfPresent()
+        value.description = try reader["Description"].readIfPresent()
+        value.s3BucketName = try reader["S3BucketName"].readIfPresent()
         value.serviceAccessRoleArn = try reader["ServiceAccessRoleArn"].readIfPresent()
-        value.resultLocationBucket = try reader["ResultLocationBucket"].readIfPresent()
-        value.resultLocationFolder = try reader["ResultLocationFolder"].readIfPresent()
-        value.resultEncryptionMode = try reader["ResultEncryptionMode"].readIfPresent()
-        value.resultKmsKeyArn = try reader["ResultKmsKeyArn"].readIfPresent()
-        value.assessmentRunName = try reader["AssessmentRunName"].readIfPresent()
-        value.isLatestTaskAssessmentRun = try reader["IsLatestTaskAssessmentRun"].readIfPresent() ?? false
-        value.resultStatistic = try reader["ResultStatistic"].readIfPresent(with: DatabaseMigrationClientTypes.ReplicationTaskAssessmentRunResultStatistic.read(from:))
+        value.collectorHealthCheck = try reader["CollectorHealthCheck"].readIfPresent(with: DatabaseMigrationClientTypes.CollectorHealthCheck.read(from:))
+        value.lastDataReceived = try reader["LastDataReceived"].readIfPresent()
+        value.registeredDate = try reader["RegisteredDate"].readIfPresent()
+        value.createdDate = try reader["CreatedDate"].readIfPresent()
+        value.modifiedDate = try reader["ModifiedDate"].readIfPresent()
+        value.inventoryData = try reader["InventoryData"].readIfPresent(with: DatabaseMigrationClientTypes.InventoryData.read(from:))
         return value
     }
 }
 
-extension DatabaseMigrationClientTypes.ReplicationTaskAssessmentRunResultStatistic {
+extension DatabaseMigrationClientTypes.CollectorShortInfoResponse {
 
-    static func read(from reader: SmithyJSON.Reader) throws -> DatabaseMigrationClientTypes.ReplicationTaskAssessmentRunResultStatistic {
+    static func read(from reader: SmithyJSON.Reader) throws -> DatabaseMigrationClientTypes.CollectorShortInfoResponse {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = DatabaseMigrationClientTypes.ReplicationTaskAssessmentRunResultStatistic()
-        value.passed = try reader["Passed"].readIfPresent() ?? 0
-        value.failed = try reader["Failed"].readIfPresent() ?? 0
-        value.error = try reader["Error"].readIfPresent() ?? 0
-        value.warning = try reader["Warning"].readIfPresent() ?? 0
-        value.cancelled = try reader["Cancelled"].readIfPresent() ?? 0
-        value.skipped = try reader["Skipped"].readIfPresent() ?? 0
+        var value = DatabaseMigrationClientTypes.CollectorShortInfoResponse()
+        value.collectorReferencedId = try reader["CollectorReferencedId"].readIfPresent()
+        value.collectorName = try reader["CollectorName"].readIfPresent()
         return value
     }
 }
 
-extension DatabaseMigrationClientTypes.ReplicationTaskAssessmentRunProgress {
+extension DatabaseMigrationClientTypes.ComputeConfig {
 
-    static func read(from reader: SmithyJSON.Reader) throws -> DatabaseMigrationClientTypes.ReplicationTaskAssessmentRunProgress {
+    static func write(value: DatabaseMigrationClientTypes.ComputeConfig?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["AvailabilityZone"].write(value.availabilityZone)
+        try writer["DnsNameServers"].write(value.dnsNameServers)
+        try writer["KmsKeyId"].write(value.kmsKeyId)
+        try writer["MaxCapacityUnits"].write(value.maxCapacityUnits)
+        try writer["MinCapacityUnits"].write(value.minCapacityUnits)
+        try writer["MultiAZ"].write(value.multiAZ)
+        try writer["PreferredMaintenanceWindow"].write(value.preferredMaintenanceWindow)
+        try writer["ReplicationSubnetGroupId"].write(value.replicationSubnetGroupId)
+        try writer["VpcSecurityGroupIds"].writeList(value.vpcSecurityGroupIds, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> DatabaseMigrationClientTypes.ComputeConfig {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = DatabaseMigrationClientTypes.ReplicationTaskAssessmentRunProgress()
-        value.individualAssessmentCount = try reader["IndividualAssessmentCount"].readIfPresent() ?? 0
-        value.individualAssessmentCompletedCount = try reader["IndividualAssessmentCompletedCount"].readIfPresent() ?? 0
+        var value = DatabaseMigrationClientTypes.ComputeConfig()
+        value.availabilityZone = try reader["AvailabilityZone"].readIfPresent()
+        value.dnsNameServers = try reader["DnsNameServers"].readIfPresent()
+        value.kmsKeyId = try reader["KmsKeyId"].readIfPresent()
+        value.maxCapacityUnits = try reader["MaxCapacityUnits"].readIfPresent()
+        value.minCapacityUnits = try reader["MinCapacityUnits"].readIfPresent()
+        value.multiAZ = try reader["MultiAZ"].readIfPresent()
+        value.preferredMaintenanceWindow = try reader["PreferredMaintenanceWindow"].readIfPresent()
+        value.replicationSubnetGroupId = try reader["ReplicationSubnetGroupId"].readIfPresent()
+        value.vpcSecurityGroupIds = try reader["VpcSecurityGroupIds"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        return value
+    }
+}
+
+extension DatabaseMigrationClientTypes.Connection {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> DatabaseMigrationClientTypes.Connection {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = DatabaseMigrationClientTypes.Connection()
+        value.replicationInstanceArn = try reader["ReplicationInstanceArn"].readIfPresent()
+        value.endpointArn = try reader["EndpointArn"].readIfPresent()
+        value.status = try reader["Status"].readIfPresent()
+        value.lastFailureMessage = try reader["LastFailureMessage"].readIfPresent()
+        value.endpointIdentifier = try reader["EndpointIdentifier"].readIfPresent()
+        value.replicationInstanceIdentifier = try reader["ReplicationInstanceIdentifier"].readIfPresent()
+        return value
+    }
+}
+
+extension DatabaseMigrationClientTypes.DatabaseInstanceSoftwareDetailsResponse {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> DatabaseMigrationClientTypes.DatabaseInstanceSoftwareDetailsResponse {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = DatabaseMigrationClientTypes.DatabaseInstanceSoftwareDetailsResponse()
+        value.engine = try reader["Engine"].readIfPresent()
+        value.engineVersion = try reader["EngineVersion"].readIfPresent()
+        value.engineEdition = try reader["EngineEdition"].readIfPresent()
+        value.servicePack = try reader["ServicePack"].readIfPresent()
+        value.supportLevel = try reader["SupportLevel"].readIfPresent()
+        value.osArchitecture = try reader["OsArchitecture"].readIfPresent()
+        value.tooltip = try reader["Tooltip"].readIfPresent()
+        return value
+    }
+}
+
+extension DatabaseMigrationClientTypes.DatabaseResponse {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> DatabaseMigrationClientTypes.DatabaseResponse {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = DatabaseMigrationClientTypes.DatabaseResponse()
+        value.databaseId = try reader["DatabaseId"].readIfPresent()
+        value.databaseName = try reader["DatabaseName"].readIfPresent()
+        value.ipAddress = try reader["IpAddress"].readIfPresent()
+        value.numberOfSchemas = try reader["NumberOfSchemas"].readIfPresent()
+        value.server = try reader["Server"].readIfPresent(with: DatabaseMigrationClientTypes.ServerShortInfoResponse.read(from:))
+        value.softwareDetails = try reader["SoftwareDetails"].readIfPresent(with: DatabaseMigrationClientTypes.DatabaseInstanceSoftwareDetailsResponse.read(from:))
+        value.collectors = try reader["Collectors"].readListIfPresent(memberReadingClosure: DatabaseMigrationClientTypes.CollectorShortInfoResponse.read(from:), memberNodeInfo: "member", isFlattened: false)
+        return value
+    }
+}
+
+extension DatabaseMigrationClientTypes.DatabaseShortInfoResponse {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> DatabaseMigrationClientTypes.DatabaseShortInfoResponse {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = DatabaseMigrationClientTypes.DatabaseShortInfoResponse()
+        value.databaseId = try reader["DatabaseId"].readIfPresent()
+        value.databaseName = try reader["DatabaseName"].readIfPresent()
+        value.databaseIpAddress = try reader["DatabaseIpAddress"].readIfPresent()
+        value.databaseEngine = try reader["DatabaseEngine"].readIfPresent()
         return value
     }
 }
@@ -18081,6 +18110,18 @@ extension DatabaseMigrationClientTypes.DataMigration {
     }
 }
 
+extension DatabaseMigrationClientTypes.DataMigrationSettings {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> DatabaseMigrationClientTypes.DataMigrationSettings {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = DatabaseMigrationClientTypes.DataMigrationSettings()
+        value.numberOfJobs = try reader["NumberOfJobs"].readIfPresent()
+        value.cloudwatchLogsEnabled = try reader["CloudwatchLogsEnabled"].readIfPresent()
+        value.selectionRules = try reader["SelectionRules"].readIfPresent()
+        return value
+    }
+}
+
 extension DatabaseMigrationClientTypes.DataMigrationStatistics {
 
     static func read(from reader: SmithyJSON.Reader) throws -> DatabaseMigrationClientTypes.DataMigrationStatistics {
@@ -18099,54 +18140,6 @@ extension DatabaseMigrationClientTypes.DataMigrationStatistics {
     }
 }
 
-extension DatabaseMigrationClientTypes.TargetDataSetting {
-
-    static func write(value: DatabaseMigrationClientTypes.TargetDataSetting?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["TablePreparationMode"].write(value.tablePreparationMode)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> DatabaseMigrationClientTypes.TargetDataSetting {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = DatabaseMigrationClientTypes.TargetDataSetting()
-        value.tablePreparationMode = try reader["TablePreparationMode"].readIfPresent()
-        return value
-    }
-}
-
-extension DatabaseMigrationClientTypes.SourceDataSetting {
-
-    static func write(value: DatabaseMigrationClientTypes.SourceDataSetting?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["CDCStartPosition"].write(value.cdcStartPosition)
-        try writer["CDCStartTime"].writeTimestamp(value.cdcStartTime, format: SmithyTimestamps.TimestampFormat.dateTime)
-        try writer["CDCStopTime"].writeTimestamp(value.cdcStopTime, format: SmithyTimestamps.TimestampFormat.dateTime)
-        try writer["SlotName"].write(value.slotName)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> DatabaseMigrationClientTypes.SourceDataSetting {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = DatabaseMigrationClientTypes.SourceDataSetting()
-        value.cdcStartPosition = try reader["CDCStartPosition"].readIfPresent()
-        value.cdcStartTime = try reader["CDCStartTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
-        value.cdcStopTime = try reader["CDCStopTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
-        value.slotName = try reader["SlotName"].readIfPresent()
-        return value
-    }
-}
-
-extension DatabaseMigrationClientTypes.DataMigrationSettings {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> DatabaseMigrationClientTypes.DataMigrationSettings {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = DatabaseMigrationClientTypes.DataMigrationSettings()
-        value.numberOfJobs = try reader["NumberOfJobs"].readIfPresent()
-        value.cloudwatchLogsEnabled = try reader["CloudwatchLogsEnabled"].readIfPresent()
-        value.selectionRules = try reader["SelectionRules"].readIfPresent()
-        return value
-    }
-}
-
 extension DatabaseMigrationClientTypes.DataProvider {
 
     static func read(from reader: SmithyJSON.Reader) throws -> DatabaseMigrationClientTypes.DataProvider {
@@ -18160,6 +18153,29 @@ extension DatabaseMigrationClientTypes.DataProvider {
         value.virtual = try reader["Virtual"].readIfPresent()
         value.settings = try reader["Settings"].readIfPresent(with: DatabaseMigrationClientTypes.DataProviderSettings.read(from:))
         return value
+    }
+}
+
+extension DatabaseMigrationClientTypes.DataProviderDescriptor {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> DatabaseMigrationClientTypes.DataProviderDescriptor {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = DatabaseMigrationClientTypes.DataProviderDescriptor()
+        value.secretsManagerSecretId = try reader["SecretsManagerSecretId"].readIfPresent()
+        value.secretsManagerAccessRoleArn = try reader["SecretsManagerAccessRoleArn"].readIfPresent()
+        value.dataProviderName = try reader["DataProviderName"].readIfPresent()
+        value.dataProviderArn = try reader["DataProviderArn"].readIfPresent()
+        return value
+    }
+}
+
+extension DatabaseMigrationClientTypes.DataProviderDescriptorDefinition {
+
+    static func write(value: DatabaseMigrationClientTypes.DataProviderDescriptorDefinition?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["DataProviderIdentifier"].write(value.dataProviderIdentifier)
+        try writer["SecretsManagerAccessRoleArn"].write(value.secretsManagerAccessRoleArn)
+        try writer["SecretsManagerSecretId"].write(value.secretsManagerSecretId)
     }
 }
 
@@ -18227,110 +18243,29 @@ extension DatabaseMigrationClientTypes.DataProviderSettings {
     }
 }
 
-extension DatabaseMigrationClientTypes.MongoDbDataProviderSettings {
+extension DatabaseMigrationClientTypes.DefaultErrorDetails {
 
-    static func write(value: DatabaseMigrationClientTypes.MongoDbDataProviderSettings?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["AuthMechanism"].write(value.authMechanism)
-        try writer["AuthSource"].write(value.authSource)
-        try writer["AuthType"].write(value.authType)
-        try writer["CertificateArn"].write(value.certificateArn)
-        try writer["DatabaseName"].write(value.databaseName)
-        try writer["Port"].write(value.port)
-        try writer["ServerName"].write(value.serverName)
-        try writer["SslMode"].write(value.sslMode)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> DatabaseMigrationClientTypes.MongoDbDataProviderSettings {
+    static func read(from reader: SmithyJSON.Reader) throws -> DatabaseMigrationClientTypes.DefaultErrorDetails {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = DatabaseMigrationClientTypes.MongoDbDataProviderSettings()
-        value.serverName = try reader["ServerName"].readIfPresent()
-        value.port = try reader["Port"].readIfPresent()
-        value.databaseName = try reader["DatabaseName"].readIfPresent()
-        value.sslMode = try reader["SslMode"].readIfPresent()
-        value.certificateArn = try reader["CertificateArn"].readIfPresent()
-        value.authType = try reader["AuthType"].readIfPresent()
-        value.authSource = try reader["AuthSource"].readIfPresent()
-        value.authMechanism = try reader["AuthMechanism"].readIfPresent()
+        var value = DatabaseMigrationClientTypes.DefaultErrorDetails()
+        value.message = try reader["Message"].readIfPresent()
         return value
     }
 }
 
-extension DatabaseMigrationClientTypes.IbmDb2zOsDataProviderSettings {
+extension DatabaseMigrationClientTypes.DmsTransferSettings {
 
-    static func write(value: DatabaseMigrationClientTypes.IbmDb2zOsDataProviderSettings?, to writer: SmithyJSON.Writer) throws {
+    static func write(value: DatabaseMigrationClientTypes.DmsTransferSettings?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
-        try writer["CertificateArn"].write(value.certificateArn)
-        try writer["DatabaseName"].write(value.databaseName)
-        try writer["Port"].write(value.port)
-        try writer["S3AccessRoleArn"].write(value.s3AccessRoleArn)
-        try writer["S3Path"].write(value.s3Path)
-        try writer["ServerName"].write(value.serverName)
-        try writer["SslMode"].write(value.sslMode)
+        try writer["BucketName"].write(value.bucketName)
+        try writer["ServiceAccessRoleArn"].write(value.serviceAccessRoleArn)
     }
 
-    static func read(from reader: SmithyJSON.Reader) throws -> DatabaseMigrationClientTypes.IbmDb2zOsDataProviderSettings {
+    static func read(from reader: SmithyJSON.Reader) throws -> DatabaseMigrationClientTypes.DmsTransferSettings {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = DatabaseMigrationClientTypes.IbmDb2zOsDataProviderSettings()
-        value.serverName = try reader["ServerName"].readIfPresent()
-        value.port = try reader["Port"].readIfPresent()
-        value.databaseName = try reader["DatabaseName"].readIfPresent()
-        value.sslMode = try reader["SslMode"].readIfPresent()
-        value.certificateArn = try reader["CertificateArn"].readIfPresent()
-        value.s3Path = try reader["S3Path"].readIfPresent()
-        value.s3AccessRoleArn = try reader["S3AccessRoleArn"].readIfPresent()
-        return value
-    }
-}
-
-extension DatabaseMigrationClientTypes.IbmDb2LuwDataProviderSettings {
-
-    static func write(value: DatabaseMigrationClientTypes.IbmDb2LuwDataProviderSettings?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["CertificateArn"].write(value.certificateArn)
-        try writer["DatabaseName"].write(value.databaseName)
-        try writer["Port"].write(value.port)
-        try writer["S3AccessRoleArn"].write(value.s3AccessRoleArn)
-        try writer["S3Path"].write(value.s3Path)
-        try writer["ServerName"].write(value.serverName)
-        try writer["SslMode"].write(value.sslMode)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> DatabaseMigrationClientTypes.IbmDb2LuwDataProviderSettings {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = DatabaseMigrationClientTypes.IbmDb2LuwDataProviderSettings()
-        value.serverName = try reader["ServerName"].readIfPresent()
-        value.port = try reader["Port"].readIfPresent()
-        value.databaseName = try reader["DatabaseName"].readIfPresent()
-        value.sslMode = try reader["SslMode"].readIfPresent()
-        value.certificateArn = try reader["CertificateArn"].readIfPresent()
-        value.s3Path = try reader["S3Path"].readIfPresent()
-        value.s3AccessRoleArn = try reader["S3AccessRoleArn"].readIfPresent()
-        return value
-    }
-}
-
-extension DatabaseMigrationClientTypes.MariaDbDataProviderSettings {
-
-    static func write(value: DatabaseMigrationClientTypes.MariaDbDataProviderSettings?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["CertificateArn"].write(value.certificateArn)
-        try writer["Port"].write(value.port)
-        try writer["S3AccessRoleArn"].write(value.s3AccessRoleArn)
-        try writer["S3Path"].write(value.s3Path)
-        try writer["ServerName"].write(value.serverName)
-        try writer["SslMode"].write(value.sslMode)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> DatabaseMigrationClientTypes.MariaDbDataProviderSettings {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = DatabaseMigrationClientTypes.MariaDbDataProviderSettings()
-        value.serverName = try reader["ServerName"].readIfPresent()
-        value.port = try reader["Port"].readIfPresent()
-        value.sslMode = try reader["SslMode"].readIfPresent()
-        value.certificateArn = try reader["CertificateArn"].readIfPresent()
-        value.s3Path = try reader["S3Path"].readIfPresent()
-        value.s3AccessRoleArn = try reader["S3AccessRoleArn"].readIfPresent()
+        var value = DatabaseMigrationClientTypes.DmsTransferSettings()
+        value.serviceAccessRoleArn = try reader["ServiceAccessRoleArn"].readIfPresent()
+        value.bucketName = try reader["BucketName"].readIfPresent()
         return value
     }
 }
@@ -18358,166 +18293,79 @@ extension DatabaseMigrationClientTypes.DocDbDataProviderSettings {
     }
 }
 
-extension DatabaseMigrationClientTypes.MicrosoftSqlServerDataProviderSettings {
+extension DatabaseMigrationClientTypes.DocDbSettings {
 
-    static func write(value: DatabaseMigrationClientTypes.MicrosoftSqlServerDataProviderSettings?, to writer: SmithyJSON.Writer) throws {
+    static func write(value: DatabaseMigrationClientTypes.DocDbSettings?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
-        try writer["CertificateArn"].write(value.certificateArn)
         try writer["DatabaseName"].write(value.databaseName)
+        try writer["DocsToInvestigate"].write(value.docsToInvestigate)
+        try writer["ExtractDocId"].write(value.extractDocId)
+        try writer["KmsKeyId"].write(value.kmsKeyId)
+        try writer["NestingLevel"].write(value.nestingLevel)
+        try writer["Password"].write(value.password)
         try writer["Port"].write(value.port)
-        try writer["S3AccessRoleArn"].write(value.s3AccessRoleArn)
-        try writer["S3Path"].write(value.s3Path)
+        try writer["ReplicateShardCollections"].write(value.replicateShardCollections)
+        try writer["SecretsManagerAccessRoleArn"].write(value.secretsManagerAccessRoleArn)
+        try writer["SecretsManagerSecretId"].write(value.secretsManagerSecretId)
         try writer["ServerName"].write(value.serverName)
-        try writer["SslMode"].write(value.sslMode)
+        try writer["UseUpdateLookUp"].write(value.useUpdateLookUp)
+        try writer["Username"].write(value.username)
     }
 
-    static func read(from reader: SmithyJSON.Reader) throws -> DatabaseMigrationClientTypes.MicrosoftSqlServerDataProviderSettings {
+    static func read(from reader: SmithyJSON.Reader) throws -> DatabaseMigrationClientTypes.DocDbSettings {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = DatabaseMigrationClientTypes.MicrosoftSqlServerDataProviderSettings()
+        var value = DatabaseMigrationClientTypes.DocDbSettings()
+        value.username = try reader["Username"].readIfPresent()
+        value.password = try reader["Password"].readIfPresent()
         value.serverName = try reader["ServerName"].readIfPresent()
         value.port = try reader["Port"].readIfPresent()
         value.databaseName = try reader["DatabaseName"].readIfPresent()
-        value.sslMode = try reader["SslMode"].readIfPresent()
-        value.certificateArn = try reader["CertificateArn"].readIfPresent()
-        value.s3Path = try reader["S3Path"].readIfPresent()
-        value.s3AccessRoleArn = try reader["S3AccessRoleArn"].readIfPresent()
+        value.nestingLevel = try reader["NestingLevel"].readIfPresent()
+        value.extractDocId = try reader["ExtractDocId"].readIfPresent()
+        value.docsToInvestigate = try reader["DocsToInvestigate"].readIfPresent()
+        value.kmsKeyId = try reader["KmsKeyId"].readIfPresent()
+        value.secretsManagerAccessRoleArn = try reader["SecretsManagerAccessRoleArn"].readIfPresent()
+        value.secretsManagerSecretId = try reader["SecretsManagerSecretId"].readIfPresent()
+        value.useUpdateLookUp = try reader["UseUpdateLookUp"].readIfPresent()
+        value.replicateShardCollections = try reader["ReplicateShardCollections"].readIfPresent()
         return value
     }
 }
 
-extension DatabaseMigrationClientTypes.SybaseAseDataProviderSettings {
+extension DatabaseMigrationClientTypes.DynamoDbSettings {
 
-    static func write(value: DatabaseMigrationClientTypes.SybaseAseDataProviderSettings?, to writer: SmithyJSON.Writer) throws {
+    static func write(value: DatabaseMigrationClientTypes.DynamoDbSettings?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
-        try writer["CertificateArn"].write(value.certificateArn)
-        try writer["DatabaseName"].write(value.databaseName)
-        try writer["EncryptPassword"].write(value.encryptPassword)
-        try writer["Port"].write(value.port)
-        try writer["ServerName"].write(value.serverName)
-        try writer["SslMode"].write(value.sslMode)
+        try writer["ServiceAccessRoleArn"].write(value.serviceAccessRoleArn)
     }
 
-    static func read(from reader: SmithyJSON.Reader) throws -> DatabaseMigrationClientTypes.SybaseAseDataProviderSettings {
+    static func read(from reader: SmithyJSON.Reader) throws -> DatabaseMigrationClientTypes.DynamoDbSettings {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = DatabaseMigrationClientTypes.SybaseAseDataProviderSettings()
-        value.serverName = try reader["ServerName"].readIfPresent()
-        value.port = try reader["Port"].readIfPresent()
-        value.databaseName = try reader["DatabaseName"].readIfPresent()
-        value.sslMode = try reader["SslMode"].readIfPresent()
-        value.encryptPassword = try reader["EncryptPassword"].readIfPresent()
-        value.certificateArn = try reader["CertificateArn"].readIfPresent()
+        var value = DatabaseMigrationClientTypes.DynamoDbSettings()
+        value.serviceAccessRoleArn = try reader["ServiceAccessRoleArn"].readIfPresent() ?? ""
         return value
     }
 }
 
-extension DatabaseMigrationClientTypes.OracleDataProviderSettings {
+extension DatabaseMigrationClientTypes.ElasticsearchSettings {
 
-    static func write(value: DatabaseMigrationClientTypes.OracleDataProviderSettings?, to writer: SmithyJSON.Writer) throws {
+    static func write(value: DatabaseMigrationClientTypes.ElasticsearchSettings?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
-        try writer["AsmServer"].write(value.asmServer)
-        try writer["CertificateArn"].write(value.certificateArn)
-        try writer["DatabaseName"].write(value.databaseName)
-        try writer["Port"].write(value.port)
-        try writer["S3AccessRoleArn"].write(value.s3AccessRoleArn)
-        try writer["S3Path"].write(value.s3Path)
-        try writer["SecretsManagerOracleAsmAccessRoleArn"].write(value.secretsManagerOracleAsmAccessRoleArn)
-        try writer["SecretsManagerOracleAsmSecretId"].write(value.secretsManagerOracleAsmSecretId)
-        try writer["SecretsManagerSecurityDbEncryptionAccessRoleArn"].write(value.secretsManagerSecurityDbEncryptionAccessRoleArn)
-        try writer["SecretsManagerSecurityDbEncryptionSecretId"].write(value.secretsManagerSecurityDbEncryptionSecretId)
-        try writer["ServerName"].write(value.serverName)
-        try writer["SslMode"].write(value.sslMode)
+        try writer["EndpointUri"].write(value.endpointUri)
+        try writer["ErrorRetryDuration"].write(value.errorRetryDuration)
+        try writer["FullLoadErrorPercentage"].write(value.fullLoadErrorPercentage)
+        try writer["ServiceAccessRoleArn"].write(value.serviceAccessRoleArn)
+        try writer["UseNewMappingType"].write(value.useNewMappingType)
     }
 
-    static func read(from reader: SmithyJSON.Reader) throws -> DatabaseMigrationClientTypes.OracleDataProviderSettings {
+    static func read(from reader: SmithyJSON.Reader) throws -> DatabaseMigrationClientTypes.ElasticsearchSettings {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = DatabaseMigrationClientTypes.OracleDataProviderSettings()
-        value.serverName = try reader["ServerName"].readIfPresent()
-        value.port = try reader["Port"].readIfPresent()
-        value.databaseName = try reader["DatabaseName"].readIfPresent()
-        value.sslMode = try reader["SslMode"].readIfPresent()
-        value.certificateArn = try reader["CertificateArn"].readIfPresent()
-        value.asmServer = try reader["AsmServer"].readIfPresent()
-        value.secretsManagerOracleAsmSecretId = try reader["SecretsManagerOracleAsmSecretId"].readIfPresent()
-        value.secretsManagerOracleAsmAccessRoleArn = try reader["SecretsManagerOracleAsmAccessRoleArn"].readIfPresent()
-        value.secretsManagerSecurityDbEncryptionSecretId = try reader["SecretsManagerSecurityDbEncryptionSecretId"].readIfPresent()
-        value.secretsManagerSecurityDbEncryptionAccessRoleArn = try reader["SecretsManagerSecurityDbEncryptionAccessRoleArn"].readIfPresent()
-        value.s3Path = try reader["S3Path"].readIfPresent()
-        value.s3AccessRoleArn = try reader["S3AccessRoleArn"].readIfPresent()
-        return value
-    }
-}
-
-extension DatabaseMigrationClientTypes.MySqlDataProviderSettings {
-
-    static func write(value: DatabaseMigrationClientTypes.MySqlDataProviderSettings?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["CertificateArn"].write(value.certificateArn)
-        try writer["Port"].write(value.port)
-        try writer["S3AccessRoleArn"].write(value.s3AccessRoleArn)
-        try writer["S3Path"].write(value.s3Path)
-        try writer["ServerName"].write(value.serverName)
-        try writer["SslMode"].write(value.sslMode)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> DatabaseMigrationClientTypes.MySqlDataProviderSettings {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = DatabaseMigrationClientTypes.MySqlDataProviderSettings()
-        value.serverName = try reader["ServerName"].readIfPresent()
-        value.port = try reader["Port"].readIfPresent()
-        value.sslMode = try reader["SslMode"].readIfPresent()
-        value.certificateArn = try reader["CertificateArn"].readIfPresent()
-        value.s3Path = try reader["S3Path"].readIfPresent()
-        value.s3AccessRoleArn = try reader["S3AccessRoleArn"].readIfPresent()
-        return value
-    }
-}
-
-extension DatabaseMigrationClientTypes.PostgreSqlDataProviderSettings {
-
-    static func write(value: DatabaseMigrationClientTypes.PostgreSqlDataProviderSettings?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["CertificateArn"].write(value.certificateArn)
-        try writer["DatabaseName"].write(value.databaseName)
-        try writer["Port"].write(value.port)
-        try writer["S3AccessRoleArn"].write(value.s3AccessRoleArn)
-        try writer["S3Path"].write(value.s3Path)
-        try writer["ServerName"].write(value.serverName)
-        try writer["SslMode"].write(value.sslMode)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> DatabaseMigrationClientTypes.PostgreSqlDataProviderSettings {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = DatabaseMigrationClientTypes.PostgreSqlDataProviderSettings()
-        value.serverName = try reader["ServerName"].readIfPresent()
-        value.port = try reader["Port"].readIfPresent()
-        value.databaseName = try reader["DatabaseName"].readIfPresent()
-        value.sslMode = try reader["SslMode"].readIfPresent()
-        value.certificateArn = try reader["CertificateArn"].readIfPresent()
-        value.s3Path = try reader["S3Path"].readIfPresent()
-        value.s3AccessRoleArn = try reader["S3AccessRoleArn"].readIfPresent()
-        return value
-    }
-}
-
-extension DatabaseMigrationClientTypes.RedshiftDataProviderSettings {
-
-    static func write(value: DatabaseMigrationClientTypes.RedshiftDataProviderSettings?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["DatabaseName"].write(value.databaseName)
-        try writer["Port"].write(value.port)
-        try writer["S3AccessRoleArn"].write(value.s3AccessRoleArn)
-        try writer["S3Path"].write(value.s3Path)
-        try writer["ServerName"].write(value.serverName)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> DatabaseMigrationClientTypes.RedshiftDataProviderSettings {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = DatabaseMigrationClientTypes.RedshiftDataProviderSettings()
-        value.serverName = try reader["ServerName"].readIfPresent()
-        value.port = try reader["Port"].readIfPresent()
-        value.databaseName = try reader["DatabaseName"].readIfPresent()
-        value.s3Path = try reader["S3Path"].readIfPresent()
-        value.s3AccessRoleArn = try reader["S3AccessRoleArn"].readIfPresent()
+        var value = DatabaseMigrationClientTypes.ElasticsearchSettings()
+        value.serviceAccessRoleArn = try reader["ServiceAccessRoleArn"].readIfPresent() ?? ""
+        value.endpointUri = try reader["EndpointUri"].readIfPresent() ?? ""
+        value.fullLoadErrorPercentage = try reader["FullLoadErrorPercentage"].readIfPresent()
+        value.errorRetryDuration = try reader["ErrorRetryDuration"].readIfPresent()
+        value.useNewMappingType = try reader["UseNewMappingType"].readIfPresent()
         return value
     }
 }
@@ -18569,35 +18417,150 @@ extension DatabaseMigrationClientTypes.Endpoint {
     }
 }
 
-extension DatabaseMigrationClientTypes.LakehouseSettings {
+extension DatabaseMigrationClientTypes.EndpointSetting {
 
-    static func read(from reader: SmithyJSON.Reader) throws -> DatabaseMigrationClientTypes.LakehouseSettings {
+    static func read(from reader: SmithyJSON.Reader) throws -> DatabaseMigrationClientTypes.EndpointSetting {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = DatabaseMigrationClientTypes.LakehouseSettings()
-        value.arn = try reader["Arn"].readIfPresent() ?? ""
+        var value = DatabaseMigrationClientTypes.EndpointSetting()
+        value.name = try reader["Name"].readIfPresent()
+        value.type = try reader["Type"].readIfPresent()
+        value.enumValues = try reader["EnumValues"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        value.sensitive = try reader["Sensitive"].readIfPresent()
+        value.units = try reader["Units"].readIfPresent()
+        value.applicability = try reader["Applicability"].readIfPresent()
+        value.intValueMin = try reader["IntValueMin"].readIfPresent()
+        value.intValueMax = try reader["IntValueMax"].readIfPresent()
+        value.defaultValue = try reader["DefaultValue"].readIfPresent()
         return value
     }
 }
 
-extension DatabaseMigrationClientTypes.TimestreamSettings {
+extension DatabaseMigrationClientTypes.EngineVersion {
 
-    static func write(value: DatabaseMigrationClientTypes.TimestreamSettings?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["CdcInsertsAndUpdates"].write(value.cdcInsertsAndUpdates)
-        try writer["DatabaseName"].write(value.databaseName)
-        try writer["EnableMagneticStoreWrites"].write(value.enableMagneticStoreWrites)
-        try writer["MagneticDuration"].write(value.magneticDuration)
-        try writer["MemoryDuration"].write(value.memoryDuration)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> DatabaseMigrationClientTypes.TimestreamSettings {
+    static func read(from reader: SmithyJSON.Reader) throws -> DatabaseMigrationClientTypes.EngineVersion {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = DatabaseMigrationClientTypes.TimestreamSettings()
-        value.databaseName = try reader["DatabaseName"].readIfPresent() ?? ""
-        value.memoryDuration = try reader["MemoryDuration"].readIfPresent() ?? 0
-        value.magneticDuration = try reader["MagneticDuration"].readIfPresent() ?? 0
-        value.cdcInsertsAndUpdates = try reader["CdcInsertsAndUpdates"].readIfPresent()
-        value.enableMagneticStoreWrites = try reader["EnableMagneticStoreWrites"].readIfPresent()
+        var value = DatabaseMigrationClientTypes.EngineVersion()
+        value.version = try reader["Version"].readIfPresent()
+        value.lifecycle = try reader["Lifecycle"].readIfPresent()
+        value.releaseStatus = try reader["ReleaseStatus"].readIfPresent()
+        value.launchDate = try reader["LaunchDate"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.autoUpgradeDate = try reader["AutoUpgradeDate"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.deprecationDate = try reader["DeprecationDate"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.forceUpgradeDate = try reader["ForceUpgradeDate"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.availableUpgrades = try reader["AvailableUpgrades"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        return value
+    }
+}
+
+extension DatabaseMigrationClientTypes.ErrorDetails {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> DatabaseMigrationClientTypes.ErrorDetails {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        let name = reader.children.filter { $0.hasContent && $0.nodeInfo.name != "__type" }.first?.nodeInfo.name
+        switch name {
+            case "defaultErrorDetails":
+                return .defaulterrordetails(try reader["defaultErrorDetails"].read(with: DatabaseMigrationClientTypes.DefaultErrorDetails.read(from:)))
+            default:
+                return .sdkUnknown(name ?? "")
+        }
+    }
+}
+
+extension DatabaseMigrationClientTypes.Event {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> DatabaseMigrationClientTypes.Event {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = DatabaseMigrationClientTypes.Event()
+        value.sourceIdentifier = try reader["SourceIdentifier"].readIfPresent()
+        value.sourceType = try reader["SourceType"].readIfPresent()
+        value.message = try reader["Message"].readIfPresent()
+        value.eventCategories = try reader["EventCategories"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        value.date = try reader["Date"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        return value
+    }
+}
+
+extension DatabaseMigrationClientTypes.EventCategoryGroup {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> DatabaseMigrationClientTypes.EventCategoryGroup {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = DatabaseMigrationClientTypes.EventCategoryGroup()
+        value.sourceType = try reader["SourceType"].readIfPresent()
+        value.eventCategories = try reader["EventCategories"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        return value
+    }
+}
+
+extension DatabaseMigrationClientTypes.EventSubscription {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> DatabaseMigrationClientTypes.EventSubscription {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = DatabaseMigrationClientTypes.EventSubscription()
+        value.customerAwsId = try reader["CustomerAwsId"].readIfPresent()
+        value.custSubscriptionId = try reader["CustSubscriptionId"].readIfPresent()
+        value.snsTopicArn = try reader["SnsTopicArn"].readIfPresent()
+        value.status = try reader["Status"].readIfPresent()
+        value.subscriptionCreationTime = try reader["SubscriptionCreationTime"].readIfPresent()
+        value.sourceType = try reader["SourceType"].readIfPresent()
+        value.sourceIdsList = try reader["SourceIdsList"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        value.eventCategoriesList = try reader["EventCategoriesList"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        value.enabled = try reader["Enabled"].readIfPresent() ?? false
+        return value
+    }
+}
+
+extension DatabaseMigrationClientTypes.ExportMetadataModelAssessmentResultEntry {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> DatabaseMigrationClientTypes.ExportMetadataModelAssessmentResultEntry {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = DatabaseMigrationClientTypes.ExportMetadataModelAssessmentResultEntry()
+        value.s3ObjectKey = try reader["S3ObjectKey"].readIfPresent()
+        value.objectURL = try reader["ObjectURL"].readIfPresent()
+        return value
+    }
+}
+
+extension DatabaseMigrationClientTypes.ExportSqlDetails {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> DatabaseMigrationClientTypes.ExportSqlDetails {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = DatabaseMigrationClientTypes.ExportSqlDetails()
+        value.s3ObjectKey = try reader["S3ObjectKey"].readIfPresent()
+        value.objectURL = try reader["ObjectURL"].readIfPresent()
+        return value
+    }
+}
+
+extension DatabaseMigrationClientTypes.Filter {
+
+    static func write(value: DatabaseMigrationClientTypes.Filter?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["Name"].write(value.name)
+        try writer["Values"].writeList(value.values, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+    }
+}
+
+extension DatabaseMigrationClientTypes.FleetAdvisorLsaAnalysisResponse {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> DatabaseMigrationClientTypes.FleetAdvisorLsaAnalysisResponse {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = DatabaseMigrationClientTypes.FleetAdvisorLsaAnalysisResponse()
+        value.lsaAnalysisId = try reader["LsaAnalysisId"].readIfPresent()
+        value.status = try reader["Status"].readIfPresent()
+        return value
+    }
+}
+
+extension DatabaseMigrationClientTypes.FleetAdvisorSchemaObjectResponse {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> DatabaseMigrationClientTypes.FleetAdvisorSchemaObjectResponse {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = DatabaseMigrationClientTypes.FleetAdvisorSchemaObjectResponse()
+        value.schemaId = try reader["SchemaId"].readIfPresent()
+        value.objectType = try reader["ObjectType"].readIfPresent()
+        value.numberOfObjects = try reader["NumberOfObjects"].readIfPresent()
+        value.codeLineCount = try reader["CodeLineCount"].readIfPresent()
+        value.codeSize = try reader["CodeSize"].readIfPresent()
         return value
     }
 }
@@ -18643,68 +18606,29 @@ extension DatabaseMigrationClientTypes.GcpMySQLSettings {
     }
 }
 
-extension DatabaseMigrationClientTypes.RedisSettings {
+extension DatabaseMigrationClientTypes.IbmDb2LuwDataProviderSettings {
 
-    static func write(value: DatabaseMigrationClientTypes.RedisSettings?, to writer: SmithyJSON.Writer) throws {
+    static func write(value: DatabaseMigrationClientTypes.IbmDb2LuwDataProviderSettings?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
-        try writer["AuthPassword"].write(value.authPassword)
-        try writer["AuthType"].write(value.authType)
-        try writer["AuthUserName"].write(value.authUserName)
-        try writer["Port"].write(value.port)
-        try writer["ServerName"].write(value.serverName)
-        try writer["SslCaCertificateArn"].write(value.sslCaCertificateArn)
-        try writer["SslSecurityProtocol"].write(value.sslSecurityProtocol)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> DatabaseMigrationClientTypes.RedisSettings {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = DatabaseMigrationClientTypes.RedisSettings()
-        value.serverName = try reader["ServerName"].readIfPresent() ?? ""
-        value.port = try reader["Port"].readIfPresent() ?? 0
-        value.sslSecurityProtocol = try reader["SslSecurityProtocol"].readIfPresent()
-        value.authType = try reader["AuthType"].readIfPresent()
-        value.authUserName = try reader["AuthUserName"].readIfPresent()
-        value.authPassword = try reader["AuthPassword"].readIfPresent()
-        value.sslCaCertificateArn = try reader["SslCaCertificateArn"].readIfPresent()
-        return value
-    }
-}
-
-extension DatabaseMigrationClientTypes.DocDbSettings {
-
-    static func write(value: DatabaseMigrationClientTypes.DocDbSettings?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
+        try writer["CertificateArn"].write(value.certificateArn)
         try writer["DatabaseName"].write(value.databaseName)
-        try writer["DocsToInvestigate"].write(value.docsToInvestigate)
-        try writer["ExtractDocId"].write(value.extractDocId)
-        try writer["KmsKeyId"].write(value.kmsKeyId)
-        try writer["NestingLevel"].write(value.nestingLevel)
-        try writer["Password"].write(value.password)
         try writer["Port"].write(value.port)
-        try writer["ReplicateShardCollections"].write(value.replicateShardCollections)
-        try writer["SecretsManagerAccessRoleArn"].write(value.secretsManagerAccessRoleArn)
-        try writer["SecretsManagerSecretId"].write(value.secretsManagerSecretId)
+        try writer["S3AccessRoleArn"].write(value.s3AccessRoleArn)
+        try writer["S3Path"].write(value.s3Path)
         try writer["ServerName"].write(value.serverName)
-        try writer["UseUpdateLookUp"].write(value.useUpdateLookUp)
-        try writer["Username"].write(value.username)
+        try writer["SslMode"].write(value.sslMode)
     }
 
-    static func read(from reader: SmithyJSON.Reader) throws -> DatabaseMigrationClientTypes.DocDbSettings {
+    static func read(from reader: SmithyJSON.Reader) throws -> DatabaseMigrationClientTypes.IbmDb2LuwDataProviderSettings {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = DatabaseMigrationClientTypes.DocDbSettings()
-        value.username = try reader["Username"].readIfPresent()
-        value.password = try reader["Password"].readIfPresent()
+        var value = DatabaseMigrationClientTypes.IbmDb2LuwDataProviderSettings()
         value.serverName = try reader["ServerName"].readIfPresent()
         value.port = try reader["Port"].readIfPresent()
         value.databaseName = try reader["DatabaseName"].readIfPresent()
-        value.nestingLevel = try reader["NestingLevel"].readIfPresent()
-        value.extractDocId = try reader["ExtractDocId"].readIfPresent()
-        value.docsToInvestigate = try reader["DocsToInvestigate"].readIfPresent()
-        value.kmsKeyId = try reader["KmsKeyId"].readIfPresent()
-        value.secretsManagerAccessRoleArn = try reader["SecretsManagerAccessRoleArn"].readIfPresent()
-        value.secretsManagerSecretId = try reader["SecretsManagerSecretId"].readIfPresent()
-        value.useUpdateLookUp = try reader["UseUpdateLookUp"].readIfPresent()
-        value.replicateShardCollections = try reader["ReplicateShardCollections"].readIfPresent()
+        value.sslMode = try reader["SslMode"].readIfPresent()
+        value.certificateArn = try reader["CertificateArn"].readIfPresent()
+        value.s3Path = try reader["S3Path"].readIfPresent()
+        value.s3AccessRoleArn = try reader["S3AccessRoleArn"].readIfPresent()
         return value
     }
 }
@@ -18746,6 +18670,273 @@ extension DatabaseMigrationClientTypes.IBMDb2Settings {
         value.writeBufferSize = try reader["WriteBufferSize"].readIfPresent()
         value.maxFileSize = try reader["MaxFileSize"].readIfPresent()
         value.keepCsvFiles = try reader["KeepCsvFiles"].readIfPresent()
+        return value
+    }
+}
+
+extension DatabaseMigrationClientTypes.IbmDb2zOsDataProviderSettings {
+
+    static func write(value: DatabaseMigrationClientTypes.IbmDb2zOsDataProviderSettings?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["CertificateArn"].write(value.certificateArn)
+        try writer["DatabaseName"].write(value.databaseName)
+        try writer["Port"].write(value.port)
+        try writer["S3AccessRoleArn"].write(value.s3AccessRoleArn)
+        try writer["S3Path"].write(value.s3Path)
+        try writer["ServerName"].write(value.serverName)
+        try writer["SslMode"].write(value.sslMode)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> DatabaseMigrationClientTypes.IbmDb2zOsDataProviderSettings {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = DatabaseMigrationClientTypes.IbmDb2zOsDataProviderSettings()
+        value.serverName = try reader["ServerName"].readIfPresent()
+        value.port = try reader["Port"].readIfPresent()
+        value.databaseName = try reader["DatabaseName"].readIfPresent()
+        value.sslMode = try reader["SslMode"].readIfPresent()
+        value.certificateArn = try reader["CertificateArn"].readIfPresent()
+        value.s3Path = try reader["S3Path"].readIfPresent()
+        value.s3AccessRoleArn = try reader["S3AccessRoleArn"].readIfPresent()
+        return value
+    }
+}
+
+extension DatabaseMigrationClientTypes.InstanceProfile {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> DatabaseMigrationClientTypes.InstanceProfile {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = DatabaseMigrationClientTypes.InstanceProfile()
+        value.instanceProfileArn = try reader["InstanceProfileArn"].readIfPresent()
+        value.availabilityZone = try reader["AvailabilityZone"].readIfPresent()
+        value.kmsKeyArn = try reader["KmsKeyArn"].readIfPresent()
+        value.publiclyAccessible = try reader["PubliclyAccessible"].readIfPresent()
+        value.networkType = try reader["NetworkType"].readIfPresent()
+        value.instanceProfileName = try reader["InstanceProfileName"].readIfPresent()
+        value.description = try reader["Description"].readIfPresent()
+        value.instanceProfileCreationTime = try reader["InstanceProfileCreationTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
+        value.subnetGroupIdentifier = try reader["SubnetGroupIdentifier"].readIfPresent()
+        value.vpcSecurityGroups = try reader["VpcSecurityGroups"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        return value
+    }
+}
+
+extension DatabaseMigrationClientTypes.InventoryData {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> DatabaseMigrationClientTypes.InventoryData {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = DatabaseMigrationClientTypes.InventoryData()
+        value.numberOfDatabases = try reader["NumberOfDatabases"].readIfPresent()
+        value.numberOfSchemas = try reader["NumberOfSchemas"].readIfPresent()
+        return value
+    }
+}
+
+extension DatabaseMigrationClientTypes.KafkaSettings {
+
+    static func write(value: DatabaseMigrationClientTypes.KafkaSettings?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["Broker"].write(value.broker)
+        try writer["IncludeControlDetails"].write(value.includeControlDetails)
+        try writer["IncludeNullAndEmpty"].write(value.includeNullAndEmpty)
+        try writer["IncludePartitionValue"].write(value.includePartitionValue)
+        try writer["IncludeTableAlterOperations"].write(value.includeTableAlterOperations)
+        try writer["IncludeTransactionDetails"].write(value.includeTransactionDetails)
+        try writer["MessageFormat"].write(value.messageFormat)
+        try writer["MessageMaxBytes"].write(value.messageMaxBytes)
+        try writer["NoHexPrefix"].write(value.noHexPrefix)
+        try writer["PartitionIncludeSchemaTable"].write(value.partitionIncludeSchemaTable)
+        try writer["SaslMechanism"].write(value.saslMechanism)
+        try writer["SaslPassword"].write(value.saslPassword)
+        try writer["SaslUsername"].write(value.saslUsername)
+        try writer["SecurityProtocol"].write(value.securityProtocol)
+        try writer["SslCaCertificateArn"].write(value.sslCaCertificateArn)
+        try writer["SslClientCertificateArn"].write(value.sslClientCertificateArn)
+        try writer["SslClientKeyArn"].write(value.sslClientKeyArn)
+        try writer["SslClientKeyPassword"].write(value.sslClientKeyPassword)
+        try writer["SslEndpointIdentificationAlgorithm"].write(value.sslEndpointIdentificationAlgorithm)
+        try writer["Topic"].write(value.topic)
+        try writer["UseLargeIntegerValue"].write(value.useLargeIntegerValue)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> DatabaseMigrationClientTypes.KafkaSettings {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = DatabaseMigrationClientTypes.KafkaSettings()
+        value.broker = try reader["Broker"].readIfPresent()
+        value.topic = try reader["Topic"].readIfPresent()
+        value.messageFormat = try reader["MessageFormat"].readIfPresent()
+        value.includeTransactionDetails = try reader["IncludeTransactionDetails"].readIfPresent()
+        value.includePartitionValue = try reader["IncludePartitionValue"].readIfPresent()
+        value.partitionIncludeSchemaTable = try reader["PartitionIncludeSchemaTable"].readIfPresent()
+        value.includeTableAlterOperations = try reader["IncludeTableAlterOperations"].readIfPresent()
+        value.includeControlDetails = try reader["IncludeControlDetails"].readIfPresent()
+        value.messageMaxBytes = try reader["MessageMaxBytes"].readIfPresent()
+        value.includeNullAndEmpty = try reader["IncludeNullAndEmpty"].readIfPresent()
+        value.securityProtocol = try reader["SecurityProtocol"].readIfPresent()
+        value.sslClientCertificateArn = try reader["SslClientCertificateArn"].readIfPresent()
+        value.sslClientKeyArn = try reader["SslClientKeyArn"].readIfPresent()
+        value.sslClientKeyPassword = try reader["SslClientKeyPassword"].readIfPresent()
+        value.sslCaCertificateArn = try reader["SslCaCertificateArn"].readIfPresent()
+        value.saslUsername = try reader["SaslUsername"].readIfPresent()
+        value.saslPassword = try reader["SaslPassword"].readIfPresent()
+        value.noHexPrefix = try reader["NoHexPrefix"].readIfPresent()
+        value.saslMechanism = try reader["SaslMechanism"].readIfPresent()
+        value.sslEndpointIdentificationAlgorithm = try reader["SslEndpointIdentificationAlgorithm"].readIfPresent()
+        value.useLargeIntegerValue = try reader["UseLargeIntegerValue"].readIfPresent()
+        return value
+    }
+}
+
+extension DatabaseMigrationClientTypes.KerberosAuthenticationSettings {
+
+    static func write(value: DatabaseMigrationClientTypes.KerberosAuthenticationSettings?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["KeyCacheSecretIamArn"].write(value.keyCacheSecretIamArn)
+        try writer["KeyCacheSecretId"].write(value.keyCacheSecretId)
+        try writer["Krb5FileContents"].write(value.krb5FileContents)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> DatabaseMigrationClientTypes.KerberosAuthenticationSettings {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = DatabaseMigrationClientTypes.KerberosAuthenticationSettings()
+        value.keyCacheSecretId = try reader["KeyCacheSecretId"].readIfPresent()
+        value.keyCacheSecretIamArn = try reader["KeyCacheSecretIamArn"].readIfPresent()
+        value.krb5FileContents = try reader["Krb5FileContents"].readIfPresent()
+        return value
+    }
+}
+
+extension DatabaseMigrationClientTypes.KinesisSettings {
+
+    static func write(value: DatabaseMigrationClientTypes.KinesisSettings?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["IncludeControlDetails"].write(value.includeControlDetails)
+        try writer["IncludeNullAndEmpty"].write(value.includeNullAndEmpty)
+        try writer["IncludePartitionValue"].write(value.includePartitionValue)
+        try writer["IncludeTableAlterOperations"].write(value.includeTableAlterOperations)
+        try writer["IncludeTransactionDetails"].write(value.includeTransactionDetails)
+        try writer["MessageFormat"].write(value.messageFormat)
+        try writer["NoHexPrefix"].write(value.noHexPrefix)
+        try writer["PartitionIncludeSchemaTable"].write(value.partitionIncludeSchemaTable)
+        try writer["ServiceAccessRoleArn"].write(value.serviceAccessRoleArn)
+        try writer["StreamArn"].write(value.streamArn)
+        try writer["UseLargeIntegerValue"].write(value.useLargeIntegerValue)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> DatabaseMigrationClientTypes.KinesisSettings {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = DatabaseMigrationClientTypes.KinesisSettings()
+        value.streamArn = try reader["StreamArn"].readIfPresent()
+        value.messageFormat = try reader["MessageFormat"].readIfPresent()
+        value.serviceAccessRoleArn = try reader["ServiceAccessRoleArn"].readIfPresent()
+        value.includeTransactionDetails = try reader["IncludeTransactionDetails"].readIfPresent()
+        value.includePartitionValue = try reader["IncludePartitionValue"].readIfPresent()
+        value.partitionIncludeSchemaTable = try reader["PartitionIncludeSchemaTable"].readIfPresent()
+        value.includeTableAlterOperations = try reader["IncludeTableAlterOperations"].readIfPresent()
+        value.includeControlDetails = try reader["IncludeControlDetails"].readIfPresent()
+        value.includeNullAndEmpty = try reader["IncludeNullAndEmpty"].readIfPresent()
+        value.noHexPrefix = try reader["NoHexPrefix"].readIfPresent()
+        value.useLargeIntegerValue = try reader["UseLargeIntegerValue"].readIfPresent()
+        return value
+    }
+}
+
+extension DatabaseMigrationClientTypes.LakehouseSettings {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> DatabaseMigrationClientTypes.LakehouseSettings {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = DatabaseMigrationClientTypes.LakehouseSettings()
+        value.arn = try reader["Arn"].readIfPresent() ?? ""
+        return value
+    }
+}
+
+extension DatabaseMigrationClientTypes.Limitation {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> DatabaseMigrationClientTypes.Limitation {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = DatabaseMigrationClientTypes.Limitation()
+        value.databaseId = try reader["DatabaseId"].readIfPresent()
+        value.engineName = try reader["EngineName"].readIfPresent()
+        value.name = try reader["Name"].readIfPresent()
+        value.description = try reader["Description"].readIfPresent()
+        value.impact = try reader["Impact"].readIfPresent()
+        value.type = try reader["Type"].readIfPresent()
+        return value
+    }
+}
+
+extension DatabaseMigrationClientTypes.MariaDbDataProviderSettings {
+
+    static func write(value: DatabaseMigrationClientTypes.MariaDbDataProviderSettings?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["CertificateArn"].write(value.certificateArn)
+        try writer["Port"].write(value.port)
+        try writer["S3AccessRoleArn"].write(value.s3AccessRoleArn)
+        try writer["S3Path"].write(value.s3Path)
+        try writer["ServerName"].write(value.serverName)
+        try writer["SslMode"].write(value.sslMode)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> DatabaseMigrationClientTypes.MariaDbDataProviderSettings {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = DatabaseMigrationClientTypes.MariaDbDataProviderSettings()
+        value.serverName = try reader["ServerName"].readIfPresent()
+        value.port = try reader["Port"].readIfPresent()
+        value.sslMode = try reader["SslMode"].readIfPresent()
+        value.certificateArn = try reader["CertificateArn"].readIfPresent()
+        value.s3Path = try reader["S3Path"].readIfPresent()
+        value.s3AccessRoleArn = try reader["S3AccessRoleArn"].readIfPresent()
+        return value
+    }
+}
+
+extension DatabaseMigrationClientTypes.MetadataModelProperties {
+
+    static func write(value: DatabaseMigrationClientTypes.MetadataModelProperties?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        switch value {
+            case let .statementproperties(statementproperties):
+                try writer["StatementProperties"].write(statementproperties, with: DatabaseMigrationClientTypes.StatementProperties.write(value:to:))
+            case let .sdkUnknown(sdkUnknown):
+                try writer["sdkUnknown"].write(sdkUnknown)
+        }
+    }
+}
+
+extension DatabaseMigrationClientTypes.MetadataModelReference {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> DatabaseMigrationClientTypes.MetadataModelReference {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = DatabaseMigrationClientTypes.MetadataModelReference()
+        value.metadataModelName = try reader["MetadataModelName"].readIfPresent()
+        value.selectionRules = try reader["SelectionRules"].readIfPresent()
+        return value
+    }
+}
+
+extension DatabaseMigrationClientTypes.MicrosoftSqlServerDataProviderSettings {
+
+    static func write(value: DatabaseMigrationClientTypes.MicrosoftSqlServerDataProviderSettings?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["CertificateArn"].write(value.certificateArn)
+        try writer["DatabaseName"].write(value.databaseName)
+        try writer["Port"].write(value.port)
+        try writer["S3AccessRoleArn"].write(value.s3AccessRoleArn)
+        try writer["S3Path"].write(value.s3Path)
+        try writer["ServerName"].write(value.serverName)
+        try writer["SslMode"].write(value.sslMode)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> DatabaseMigrationClientTypes.MicrosoftSqlServerDataProviderSettings {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = DatabaseMigrationClientTypes.MicrosoftSqlServerDataProviderSettings()
+        value.serverName = try reader["ServerName"].readIfPresent()
+        value.port = try reader["Port"].readIfPresent()
+        value.databaseName = try reader["DatabaseName"].readIfPresent()
+        value.sslMode = try reader["SslMode"].readIfPresent()
+        value.certificateArn = try reader["CertificateArn"].readIfPresent()
+        value.s3Path = try reader["S3Path"].readIfPresent()
+        value.s3AccessRoleArn = try reader["S3AccessRoleArn"].readIfPresent()
         return value
     }
 }
@@ -18799,29 +18990,231 @@ extension DatabaseMigrationClientTypes.MicrosoftSQLServerSettings {
     }
 }
 
-extension DatabaseMigrationClientTypes.SybaseSettings {
+extension DatabaseMigrationClientTypes.MigrationProject {
 
-    static func write(value: DatabaseMigrationClientTypes.SybaseSettings?, to writer: SmithyJSON.Writer) throws {
+    static func read(from reader: SmithyJSON.Reader) throws -> DatabaseMigrationClientTypes.MigrationProject {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = DatabaseMigrationClientTypes.MigrationProject()
+        value.migrationProjectName = try reader["MigrationProjectName"].readIfPresent()
+        value.migrationProjectArn = try reader["MigrationProjectArn"].readIfPresent()
+        value.migrationProjectCreationTime = try reader["MigrationProjectCreationTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
+        value.sourceDataProviderDescriptors = try reader["SourceDataProviderDescriptors"].readListIfPresent(memberReadingClosure: DatabaseMigrationClientTypes.DataProviderDescriptor.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.targetDataProviderDescriptors = try reader["TargetDataProviderDescriptors"].readListIfPresent(memberReadingClosure: DatabaseMigrationClientTypes.DataProviderDescriptor.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.instanceProfileArn = try reader["InstanceProfileArn"].readIfPresent()
+        value.instanceProfileName = try reader["InstanceProfileName"].readIfPresent()
+        value.transformationRules = try reader["TransformationRules"].readIfPresent()
+        value.description = try reader["Description"].readIfPresent()
+        value.schemaConversionApplicationAttributes = try reader["SchemaConversionApplicationAttributes"].readIfPresent(with: DatabaseMigrationClientTypes.SCApplicationAttributes.read(from:))
+        return value
+    }
+}
+
+extension DatabaseMigrationClientTypes.MongoDbDataProviderSettings {
+
+    static func write(value: DatabaseMigrationClientTypes.MongoDbDataProviderSettings?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
+        try writer["AuthMechanism"].write(value.authMechanism)
+        try writer["AuthSource"].write(value.authSource)
+        try writer["AuthType"].write(value.authType)
+        try writer["CertificateArn"].write(value.certificateArn)
         try writer["DatabaseName"].write(value.databaseName)
+        try writer["Port"].write(value.port)
+        try writer["ServerName"].write(value.serverName)
+        try writer["SslMode"].write(value.sslMode)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> DatabaseMigrationClientTypes.MongoDbDataProviderSettings {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = DatabaseMigrationClientTypes.MongoDbDataProviderSettings()
+        value.serverName = try reader["ServerName"].readIfPresent()
+        value.port = try reader["Port"].readIfPresent()
+        value.databaseName = try reader["DatabaseName"].readIfPresent()
+        value.sslMode = try reader["SslMode"].readIfPresent()
+        value.certificateArn = try reader["CertificateArn"].readIfPresent()
+        value.authType = try reader["AuthType"].readIfPresent()
+        value.authSource = try reader["AuthSource"].readIfPresent()
+        value.authMechanism = try reader["AuthMechanism"].readIfPresent()
+        return value
+    }
+}
+
+extension DatabaseMigrationClientTypes.MongoDbSettings {
+
+    static func write(value: DatabaseMigrationClientTypes.MongoDbSettings?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["AuthMechanism"].write(value.authMechanism)
+        try writer["AuthSource"].write(value.authSource)
+        try writer["AuthType"].write(value.authType)
+        try writer["DatabaseName"].write(value.databaseName)
+        try writer["DocsToInvestigate"].write(value.docsToInvestigate)
+        try writer["ExtractDocId"].write(value.extractDocId)
+        try writer["KmsKeyId"].write(value.kmsKeyId)
+        try writer["NestingLevel"].write(value.nestingLevel)
+        try writer["Password"].write(value.password)
+        try writer["Port"].write(value.port)
+        try writer["ReplicateShardCollections"].write(value.replicateShardCollections)
+        try writer["SecretsManagerAccessRoleArn"].write(value.secretsManagerAccessRoleArn)
+        try writer["SecretsManagerSecretId"].write(value.secretsManagerSecretId)
+        try writer["ServerName"].write(value.serverName)
+        try writer["UseUpdateLookUp"].write(value.useUpdateLookUp)
+        try writer["Username"].write(value.username)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> DatabaseMigrationClientTypes.MongoDbSettings {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = DatabaseMigrationClientTypes.MongoDbSettings()
+        value.username = try reader["Username"].readIfPresent()
+        value.password = try reader["Password"].readIfPresent()
+        value.serverName = try reader["ServerName"].readIfPresent()
+        value.port = try reader["Port"].readIfPresent()
+        value.databaseName = try reader["DatabaseName"].readIfPresent()
+        value.authType = try reader["AuthType"].readIfPresent()
+        value.authMechanism = try reader["AuthMechanism"].readIfPresent()
+        value.nestingLevel = try reader["NestingLevel"].readIfPresent()
+        value.extractDocId = try reader["ExtractDocId"].readIfPresent()
+        value.docsToInvestigate = try reader["DocsToInvestigate"].readIfPresent()
+        value.authSource = try reader["AuthSource"].readIfPresent()
+        value.kmsKeyId = try reader["KmsKeyId"].readIfPresent()
+        value.secretsManagerAccessRoleArn = try reader["SecretsManagerAccessRoleArn"].readIfPresent()
+        value.secretsManagerSecretId = try reader["SecretsManagerSecretId"].readIfPresent()
+        value.useUpdateLookUp = try reader["UseUpdateLookUp"].readIfPresent()
+        value.replicateShardCollections = try reader["ReplicateShardCollections"].readIfPresent()
+        return value
+    }
+}
+
+extension DatabaseMigrationClientTypes.MySqlDataProviderSettings {
+
+    static func write(value: DatabaseMigrationClientTypes.MySqlDataProviderSettings?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["CertificateArn"].write(value.certificateArn)
+        try writer["Port"].write(value.port)
+        try writer["S3AccessRoleArn"].write(value.s3AccessRoleArn)
+        try writer["S3Path"].write(value.s3Path)
+        try writer["ServerName"].write(value.serverName)
+        try writer["SslMode"].write(value.sslMode)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> DatabaseMigrationClientTypes.MySqlDataProviderSettings {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = DatabaseMigrationClientTypes.MySqlDataProviderSettings()
+        value.serverName = try reader["ServerName"].readIfPresent()
+        value.port = try reader["Port"].readIfPresent()
+        value.sslMode = try reader["SslMode"].readIfPresent()
+        value.certificateArn = try reader["CertificateArn"].readIfPresent()
+        value.s3Path = try reader["S3Path"].readIfPresent()
+        value.s3AccessRoleArn = try reader["S3AccessRoleArn"].readIfPresent()
+        return value
+    }
+}
+
+extension DatabaseMigrationClientTypes.MySQLSettings {
+
+    static func write(value: DatabaseMigrationClientTypes.MySQLSettings?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["AfterConnectScript"].write(value.afterConnectScript)
+        try writer["AuthenticationMethod"].write(value.authenticationMethod)
+        try writer["CleanSourceMetadataOnMismatch"].write(value.cleanSourceMetadataOnMismatch)
+        try writer["DatabaseName"].write(value.databaseName)
+        try writer["EventsPollInterval"].write(value.eventsPollInterval)
+        try writer["ExecuteTimeout"].write(value.executeTimeout)
+        try writer["MaxFileSize"].write(value.maxFileSize)
+        try writer["ParallelLoadThreads"].write(value.parallelLoadThreads)
         try writer["Password"].write(value.password)
         try writer["Port"].write(value.port)
         try writer["SecretsManagerAccessRoleArn"].write(value.secretsManagerAccessRoleArn)
         try writer["SecretsManagerSecretId"].write(value.secretsManagerSecretId)
         try writer["ServerName"].write(value.serverName)
+        try writer["ServerTimezone"].write(value.serverTimezone)
+        try writer["ServiceAccessRoleArn"].write(value.serviceAccessRoleArn)
+        try writer["TargetDbType"].write(value.targetDbType)
         try writer["Username"].write(value.username)
     }
 
-    static func read(from reader: SmithyJSON.Reader) throws -> DatabaseMigrationClientTypes.SybaseSettings {
+    static func read(from reader: SmithyJSON.Reader) throws -> DatabaseMigrationClientTypes.MySQLSettings {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = DatabaseMigrationClientTypes.SybaseSettings()
+        var value = DatabaseMigrationClientTypes.MySQLSettings()
+        value.afterConnectScript = try reader["AfterConnectScript"].readIfPresent()
+        value.cleanSourceMetadataOnMismatch = try reader["CleanSourceMetadataOnMismatch"].readIfPresent()
         value.databaseName = try reader["DatabaseName"].readIfPresent()
+        value.eventsPollInterval = try reader["EventsPollInterval"].readIfPresent()
+        value.targetDbType = try reader["TargetDbType"].readIfPresent()
+        value.maxFileSize = try reader["MaxFileSize"].readIfPresent()
+        value.parallelLoadThreads = try reader["ParallelLoadThreads"].readIfPresent()
         value.password = try reader["Password"].readIfPresent()
         value.port = try reader["Port"].readIfPresent()
         value.serverName = try reader["ServerName"].readIfPresent()
+        value.serverTimezone = try reader["ServerTimezone"].readIfPresent()
         value.username = try reader["Username"].readIfPresent()
         value.secretsManagerAccessRoleArn = try reader["SecretsManagerAccessRoleArn"].readIfPresent()
         value.secretsManagerSecretId = try reader["SecretsManagerSecretId"].readIfPresent()
+        value.executeTimeout = try reader["ExecuteTimeout"].readIfPresent()
+        value.serviceAccessRoleArn = try reader["ServiceAccessRoleArn"].readIfPresent()
+        value.authenticationMethod = try reader["AuthenticationMethod"].readIfPresent()
+        return value
+    }
+}
+
+extension DatabaseMigrationClientTypes.NeptuneSettings {
+
+    static func write(value: DatabaseMigrationClientTypes.NeptuneSettings?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["ErrorRetryDuration"].write(value.errorRetryDuration)
+        try writer["IamAuthEnabled"].write(value.iamAuthEnabled)
+        try writer["MaxFileSize"].write(value.maxFileSize)
+        try writer["MaxRetryCount"].write(value.maxRetryCount)
+        try writer["S3BucketFolder"].write(value.s3BucketFolder)
+        try writer["S3BucketName"].write(value.s3BucketName)
+        try writer["ServiceAccessRoleArn"].write(value.serviceAccessRoleArn)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> DatabaseMigrationClientTypes.NeptuneSettings {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = DatabaseMigrationClientTypes.NeptuneSettings()
+        value.serviceAccessRoleArn = try reader["ServiceAccessRoleArn"].readIfPresent()
+        value.s3BucketName = try reader["S3BucketName"].readIfPresent() ?? ""
+        value.s3BucketFolder = try reader["S3BucketFolder"].readIfPresent() ?? ""
+        value.errorRetryDuration = try reader["ErrorRetryDuration"].readIfPresent()
+        value.maxFileSize = try reader["MaxFileSize"].readIfPresent()
+        value.maxRetryCount = try reader["MaxRetryCount"].readIfPresent()
+        value.iamAuthEnabled = try reader["IamAuthEnabled"].readIfPresent()
+        return value
+    }
+}
+
+extension DatabaseMigrationClientTypes.OracleDataProviderSettings {
+
+    static func write(value: DatabaseMigrationClientTypes.OracleDataProviderSettings?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["AsmServer"].write(value.asmServer)
+        try writer["CertificateArn"].write(value.certificateArn)
+        try writer["DatabaseName"].write(value.databaseName)
+        try writer["Port"].write(value.port)
+        try writer["S3AccessRoleArn"].write(value.s3AccessRoleArn)
+        try writer["S3Path"].write(value.s3Path)
+        try writer["SecretsManagerOracleAsmAccessRoleArn"].write(value.secretsManagerOracleAsmAccessRoleArn)
+        try writer["SecretsManagerOracleAsmSecretId"].write(value.secretsManagerOracleAsmSecretId)
+        try writer["SecretsManagerSecurityDbEncryptionAccessRoleArn"].write(value.secretsManagerSecurityDbEncryptionAccessRoleArn)
+        try writer["SecretsManagerSecurityDbEncryptionSecretId"].write(value.secretsManagerSecurityDbEncryptionSecretId)
+        try writer["ServerName"].write(value.serverName)
+        try writer["SslMode"].write(value.sslMode)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> DatabaseMigrationClientTypes.OracleDataProviderSettings {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = DatabaseMigrationClientTypes.OracleDataProviderSettings()
+        value.serverName = try reader["ServerName"].readIfPresent()
+        value.port = try reader["Port"].readIfPresent()
+        value.databaseName = try reader["DatabaseName"].readIfPresent()
+        value.sslMode = try reader["SslMode"].readIfPresent()
+        value.certificateArn = try reader["CertificateArn"].readIfPresent()
+        value.asmServer = try reader["AsmServer"].readIfPresent()
+        value.secretsManagerOracleAsmSecretId = try reader["SecretsManagerOracleAsmSecretId"].readIfPresent()
+        value.secretsManagerOracleAsmAccessRoleArn = try reader["SecretsManagerOracleAsmAccessRoleArn"].readIfPresent()
+        value.secretsManagerSecurityDbEncryptionSecretId = try reader["SecretsManagerSecurityDbEncryptionSecretId"].readIfPresent()
+        value.secretsManagerSecurityDbEncryptionAccessRoleArn = try reader["SecretsManagerSecurityDbEncryptionAccessRoleArn"].readIfPresent()
+        value.s3Path = try reader["S3Path"].readIfPresent()
+        value.s3AccessRoleArn = try reader["S3AccessRoleArn"].readIfPresent()
         return value
     }
 }
@@ -18927,49 +19320,62 @@ extension DatabaseMigrationClientTypes.OracleSettings {
     }
 }
 
-extension DatabaseMigrationClientTypes.MySQLSettings {
+extension DatabaseMigrationClientTypes.OrderableReplicationInstance {
 
-    static func write(value: DatabaseMigrationClientTypes.MySQLSettings?, to writer: SmithyJSON.Writer) throws {
+    static func read(from reader: SmithyJSON.Reader) throws -> DatabaseMigrationClientTypes.OrderableReplicationInstance {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = DatabaseMigrationClientTypes.OrderableReplicationInstance()
+        value.engineVersion = try reader["EngineVersion"].readIfPresent()
+        value.replicationInstanceClass = try reader["ReplicationInstanceClass"].readIfPresent()
+        value.storageType = try reader["StorageType"].readIfPresent()
+        value.minAllocatedStorage = try reader["MinAllocatedStorage"].readIfPresent() ?? 0
+        value.maxAllocatedStorage = try reader["MaxAllocatedStorage"].readIfPresent() ?? 0
+        value.defaultAllocatedStorage = try reader["DefaultAllocatedStorage"].readIfPresent() ?? 0
+        value.includedAllocatedStorage = try reader["IncludedAllocatedStorage"].readIfPresent() ?? 0
+        value.availabilityZones = try reader["AvailabilityZones"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        value.releaseStatus = try reader["ReleaseStatus"].readIfPresent()
+        return value
+    }
+}
+
+extension DatabaseMigrationClientTypes.PendingMaintenanceAction {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> DatabaseMigrationClientTypes.PendingMaintenanceAction {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = DatabaseMigrationClientTypes.PendingMaintenanceAction()
+        value.action = try reader["Action"].readIfPresent()
+        value.autoAppliedAfterDate = try reader["AutoAppliedAfterDate"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.forcedApplyDate = try reader["ForcedApplyDate"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.optInStatus = try reader["OptInStatus"].readIfPresent()
+        value.currentApplyDate = try reader["CurrentApplyDate"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.description = try reader["Description"].readIfPresent()
+        return value
+    }
+}
+
+extension DatabaseMigrationClientTypes.PostgreSqlDataProviderSettings {
+
+    static func write(value: DatabaseMigrationClientTypes.PostgreSqlDataProviderSettings?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
-        try writer["AfterConnectScript"].write(value.afterConnectScript)
-        try writer["AuthenticationMethod"].write(value.authenticationMethod)
-        try writer["CleanSourceMetadataOnMismatch"].write(value.cleanSourceMetadataOnMismatch)
+        try writer["CertificateArn"].write(value.certificateArn)
         try writer["DatabaseName"].write(value.databaseName)
-        try writer["EventsPollInterval"].write(value.eventsPollInterval)
-        try writer["ExecuteTimeout"].write(value.executeTimeout)
-        try writer["MaxFileSize"].write(value.maxFileSize)
-        try writer["ParallelLoadThreads"].write(value.parallelLoadThreads)
-        try writer["Password"].write(value.password)
         try writer["Port"].write(value.port)
-        try writer["SecretsManagerAccessRoleArn"].write(value.secretsManagerAccessRoleArn)
-        try writer["SecretsManagerSecretId"].write(value.secretsManagerSecretId)
+        try writer["S3AccessRoleArn"].write(value.s3AccessRoleArn)
+        try writer["S3Path"].write(value.s3Path)
         try writer["ServerName"].write(value.serverName)
-        try writer["ServerTimezone"].write(value.serverTimezone)
-        try writer["ServiceAccessRoleArn"].write(value.serviceAccessRoleArn)
-        try writer["TargetDbType"].write(value.targetDbType)
-        try writer["Username"].write(value.username)
+        try writer["SslMode"].write(value.sslMode)
     }
 
-    static func read(from reader: SmithyJSON.Reader) throws -> DatabaseMigrationClientTypes.MySQLSettings {
+    static func read(from reader: SmithyJSON.Reader) throws -> DatabaseMigrationClientTypes.PostgreSqlDataProviderSettings {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = DatabaseMigrationClientTypes.MySQLSettings()
-        value.afterConnectScript = try reader["AfterConnectScript"].readIfPresent()
-        value.cleanSourceMetadataOnMismatch = try reader["CleanSourceMetadataOnMismatch"].readIfPresent()
-        value.databaseName = try reader["DatabaseName"].readIfPresent()
-        value.eventsPollInterval = try reader["EventsPollInterval"].readIfPresent()
-        value.targetDbType = try reader["TargetDbType"].readIfPresent()
-        value.maxFileSize = try reader["MaxFileSize"].readIfPresent()
-        value.parallelLoadThreads = try reader["ParallelLoadThreads"].readIfPresent()
-        value.password = try reader["Password"].readIfPresent()
-        value.port = try reader["Port"].readIfPresent()
+        var value = DatabaseMigrationClientTypes.PostgreSqlDataProviderSettings()
         value.serverName = try reader["ServerName"].readIfPresent()
-        value.serverTimezone = try reader["ServerTimezone"].readIfPresent()
-        value.username = try reader["Username"].readIfPresent()
-        value.secretsManagerAccessRoleArn = try reader["SecretsManagerAccessRoleArn"].readIfPresent()
-        value.secretsManagerSecretId = try reader["SecretsManagerSecretId"].readIfPresent()
-        value.executeTimeout = try reader["ExecuteTimeout"].readIfPresent()
-        value.serviceAccessRoleArn = try reader["ServiceAccessRoleArn"].readIfPresent()
-        value.authenticationMethod = try reader["AuthenticationMethod"].readIfPresent()
+        value.port = try reader["Port"].readIfPresent()
+        value.databaseName = try reader["DatabaseName"].readIfPresent()
+        value.sslMode = try reader["SslMode"].readIfPresent()
+        value.certificateArn = try reader["CertificateArn"].readIfPresent()
+        value.s3Path = try reader["S3Path"].readIfPresent()
+        value.s3AccessRoleArn = try reader["S3AccessRoleArn"].readIfPresent()
         return value
     }
 }
@@ -19037,6 +19443,204 @@ extension DatabaseMigrationClientTypes.PostgreSQLSettings {
         value.disableUnicodeSourceFilter = try reader["DisableUnicodeSourceFilter"].readIfPresent()
         value.serviceAccessRoleArn = try reader["ServiceAccessRoleArn"].readIfPresent()
         value.authenticationMethod = try reader["AuthenticationMethod"].readIfPresent()
+        return value
+    }
+}
+
+extension DatabaseMigrationClientTypes.PremigrationAssessmentStatus {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> DatabaseMigrationClientTypes.PremigrationAssessmentStatus {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = DatabaseMigrationClientTypes.PremigrationAssessmentStatus()
+        value.premigrationAssessmentRunArn = try reader["PremigrationAssessmentRunArn"].readIfPresent()
+        value.failOnAssessmentFailure = try reader["FailOnAssessmentFailure"].readIfPresent() ?? false
+        value.status = try reader["Status"].readIfPresent()
+        value.premigrationAssessmentRunCreationDate = try reader["PremigrationAssessmentRunCreationDate"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.assessmentProgress = try reader["AssessmentProgress"].readIfPresent(with: DatabaseMigrationClientTypes.ReplicationTaskAssessmentRunProgress.read(from:))
+        value.lastFailureMessage = try reader["LastFailureMessage"].readIfPresent()
+        value.resultLocationBucket = try reader["ResultLocationBucket"].readIfPresent()
+        value.resultLocationFolder = try reader["ResultLocationFolder"].readIfPresent()
+        value.resultEncryptionMode = try reader["ResultEncryptionMode"].readIfPresent()
+        value.resultKmsKeyArn = try reader["ResultKmsKeyArn"].readIfPresent()
+        value.resultStatistic = try reader["ResultStatistic"].readIfPresent(with: DatabaseMigrationClientTypes.ReplicationTaskAssessmentRunResultStatistic.read(from:))
+        return value
+    }
+}
+
+extension DatabaseMigrationClientTypes.ProcessedObject {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> DatabaseMigrationClientTypes.ProcessedObject {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = DatabaseMigrationClientTypes.ProcessedObject()
+        value.name = try reader["Name"].readIfPresent()
+        value.type = try reader["Type"].readIfPresent()
+        value.endpointType = try reader["EndpointType"].readIfPresent()
+        return value
+    }
+}
+
+extension DatabaseMigrationClientTypes.Progress {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> DatabaseMigrationClientTypes.Progress {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = DatabaseMigrationClientTypes.Progress()
+        value.progressPercent = try reader["ProgressPercent"].readIfPresent()
+        value.totalObjects = try reader["TotalObjects"].readIfPresent() ?? 0
+        value.progressStep = try reader["ProgressStep"].readIfPresent()
+        value.processedObject = try reader["ProcessedObject"].readIfPresent(with: DatabaseMigrationClientTypes.ProcessedObject.read(from:))
+        return value
+    }
+}
+
+extension DatabaseMigrationClientTypes.ProvisionData {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> DatabaseMigrationClientTypes.ProvisionData {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = DatabaseMigrationClientTypes.ProvisionData()
+        value.provisionState = try reader["ProvisionState"].readIfPresent()
+        value.provisionedCapacityUnits = try reader["ProvisionedCapacityUnits"].readIfPresent() ?? 0
+        value.dateProvisioned = try reader["DateProvisioned"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.isNewProvisioningAvailable = try reader["IsNewProvisioningAvailable"].readIfPresent() ?? false
+        value.dateNewProvisioningDataAvailable = try reader["DateNewProvisioningDataAvailable"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.reasonForNewProvisioningData = try reader["ReasonForNewProvisioningData"].readIfPresent()
+        return value
+    }
+}
+
+extension DatabaseMigrationClientTypes.RdsConfiguration {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> DatabaseMigrationClientTypes.RdsConfiguration {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = DatabaseMigrationClientTypes.RdsConfiguration()
+        value.engineEdition = try reader["EngineEdition"].readIfPresent()
+        value.instanceType = try reader["InstanceType"].readIfPresent()
+        value.instanceVcpu = try reader["InstanceVcpu"].readIfPresent()
+        value.instanceMemory = try reader["InstanceMemory"].readIfPresent()
+        value.storageType = try reader["StorageType"].readIfPresent()
+        value.storageSize = try reader["StorageSize"].readIfPresent()
+        value.storageIops = try reader["StorageIops"].readIfPresent()
+        value.deploymentOption = try reader["DeploymentOption"].readIfPresent()
+        value.engineVersion = try reader["EngineVersion"].readIfPresent()
+        return value
+    }
+}
+
+extension DatabaseMigrationClientTypes.RdsRecommendation {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> DatabaseMigrationClientTypes.RdsRecommendation {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = DatabaseMigrationClientTypes.RdsRecommendation()
+        value.requirementsToTarget = try reader["RequirementsToTarget"].readIfPresent(with: DatabaseMigrationClientTypes.RdsRequirements.read(from:))
+        value.targetConfiguration = try reader["TargetConfiguration"].readIfPresent(with: DatabaseMigrationClientTypes.RdsConfiguration.read(from:))
+        return value
+    }
+}
+
+extension DatabaseMigrationClientTypes.RdsRequirements {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> DatabaseMigrationClientTypes.RdsRequirements {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = DatabaseMigrationClientTypes.RdsRequirements()
+        value.engineEdition = try reader["EngineEdition"].readIfPresent()
+        value.instanceVcpu = try reader["InstanceVcpu"].readIfPresent()
+        value.instanceMemory = try reader["InstanceMemory"].readIfPresent()
+        value.storageSize = try reader["StorageSize"].readIfPresent()
+        value.storageIops = try reader["StorageIops"].readIfPresent()
+        value.deploymentOption = try reader["DeploymentOption"].readIfPresent()
+        value.engineVersion = try reader["EngineVersion"].readIfPresent()
+        return value
+    }
+}
+
+extension DatabaseMigrationClientTypes.Recommendation {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> DatabaseMigrationClientTypes.Recommendation {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = DatabaseMigrationClientTypes.Recommendation()
+        value.databaseId = try reader["DatabaseId"].readIfPresent()
+        value.engineName = try reader["EngineName"].readIfPresent()
+        value.createdDate = try reader["CreatedDate"].readIfPresent()
+        value.status = try reader["Status"].readIfPresent()
+        value.preferred = try reader["Preferred"].readIfPresent()
+        value.settings = try reader["Settings"].readIfPresent(with: DatabaseMigrationClientTypes.RecommendationSettings.read(from:))
+        value.data = try reader["Data"].readIfPresent(with: DatabaseMigrationClientTypes.RecommendationData.read(from:))
+        return value
+    }
+}
+
+extension DatabaseMigrationClientTypes.RecommendationData {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> DatabaseMigrationClientTypes.RecommendationData {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = DatabaseMigrationClientTypes.RecommendationData()
+        value.rdsEngine = try reader["RdsEngine"].readIfPresent(with: DatabaseMigrationClientTypes.RdsRecommendation.read(from:))
+        return value
+    }
+}
+
+extension DatabaseMigrationClientTypes.RecommendationSettings {
+
+    static func write(value: DatabaseMigrationClientTypes.RecommendationSettings?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["InstanceSizingType"].write(value.instanceSizingType)
+        try writer["WorkloadType"].write(value.workloadType)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> DatabaseMigrationClientTypes.RecommendationSettings {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = DatabaseMigrationClientTypes.RecommendationSettings()
+        value.instanceSizingType = try reader["InstanceSizingType"].readIfPresent() ?? ""
+        value.workloadType = try reader["WorkloadType"].readIfPresent() ?? ""
+        return value
+    }
+}
+
+extension DatabaseMigrationClientTypes.RedisSettings {
+
+    static func write(value: DatabaseMigrationClientTypes.RedisSettings?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["AuthPassword"].write(value.authPassword)
+        try writer["AuthType"].write(value.authType)
+        try writer["AuthUserName"].write(value.authUserName)
+        try writer["Port"].write(value.port)
+        try writer["ServerName"].write(value.serverName)
+        try writer["SslCaCertificateArn"].write(value.sslCaCertificateArn)
+        try writer["SslSecurityProtocol"].write(value.sslSecurityProtocol)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> DatabaseMigrationClientTypes.RedisSettings {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = DatabaseMigrationClientTypes.RedisSettings()
+        value.serverName = try reader["ServerName"].readIfPresent() ?? ""
+        value.port = try reader["Port"].readIfPresent() ?? 0
+        value.sslSecurityProtocol = try reader["SslSecurityProtocol"].readIfPresent()
+        value.authType = try reader["AuthType"].readIfPresent()
+        value.authUserName = try reader["AuthUserName"].readIfPresent()
+        value.authPassword = try reader["AuthPassword"].readIfPresent()
+        value.sslCaCertificateArn = try reader["SslCaCertificateArn"].readIfPresent()
+        return value
+    }
+}
+
+extension DatabaseMigrationClientTypes.RedshiftDataProviderSettings {
+
+    static func write(value: DatabaseMigrationClientTypes.RedshiftDataProviderSettings?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["DatabaseName"].write(value.databaseName)
+        try writer["Port"].write(value.port)
+        try writer["S3AccessRoleArn"].write(value.s3AccessRoleArn)
+        try writer["S3Path"].write(value.s3Path)
+        try writer["ServerName"].write(value.serverName)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> DatabaseMigrationClientTypes.RedshiftDataProviderSettings {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = DatabaseMigrationClientTypes.RedshiftDataProviderSettings()
+        value.serverName = try reader["ServerName"].readIfPresent()
+        value.port = try reader["Port"].readIfPresent()
+        value.databaseName = try reader["DatabaseName"].readIfPresent()
+        value.s3Path = try reader["S3Path"].readIfPresent()
+        value.s3AccessRoleArn = try reader["S3AccessRoleArn"].readIfPresent()
         return value
     }
 }
@@ -19116,204 +19720,302 @@ extension DatabaseMigrationClientTypes.RedshiftSettings {
     }
 }
 
-extension DatabaseMigrationClientTypes.NeptuneSettings {
+extension DatabaseMigrationClientTypes.RefreshSchemasStatus {
 
-    static func write(value: DatabaseMigrationClientTypes.NeptuneSettings?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["ErrorRetryDuration"].write(value.errorRetryDuration)
-        try writer["IamAuthEnabled"].write(value.iamAuthEnabled)
-        try writer["MaxFileSize"].write(value.maxFileSize)
-        try writer["MaxRetryCount"].write(value.maxRetryCount)
-        try writer["S3BucketFolder"].write(value.s3BucketFolder)
-        try writer["S3BucketName"].write(value.s3BucketName)
-        try writer["ServiceAccessRoleArn"].write(value.serviceAccessRoleArn)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> DatabaseMigrationClientTypes.NeptuneSettings {
+    static func read(from reader: SmithyJSON.Reader) throws -> DatabaseMigrationClientTypes.RefreshSchemasStatus {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = DatabaseMigrationClientTypes.NeptuneSettings()
-        value.serviceAccessRoleArn = try reader["ServiceAccessRoleArn"].readIfPresent()
-        value.s3BucketName = try reader["S3BucketName"].readIfPresent() ?? ""
-        value.s3BucketFolder = try reader["S3BucketFolder"].readIfPresent() ?? ""
-        value.errorRetryDuration = try reader["ErrorRetryDuration"].readIfPresent()
-        value.maxFileSize = try reader["MaxFileSize"].readIfPresent()
-        value.maxRetryCount = try reader["MaxRetryCount"].readIfPresent()
-        value.iamAuthEnabled = try reader["IamAuthEnabled"].readIfPresent()
+        var value = DatabaseMigrationClientTypes.RefreshSchemasStatus()
+        value.endpointArn = try reader["EndpointArn"].readIfPresent()
+        value.replicationInstanceArn = try reader["ReplicationInstanceArn"].readIfPresent()
+        value.status = try reader["Status"].readIfPresent()
+        value.lastRefreshDate = try reader["LastRefreshDate"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.lastFailureMessage = try reader["LastFailureMessage"].readIfPresent()
         return value
     }
 }
 
-extension DatabaseMigrationClientTypes.ElasticsearchSettings {
+extension DatabaseMigrationClientTypes.Replication {
 
-    static func write(value: DatabaseMigrationClientTypes.ElasticsearchSettings?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["EndpointUri"].write(value.endpointUri)
-        try writer["ErrorRetryDuration"].write(value.errorRetryDuration)
-        try writer["FullLoadErrorPercentage"].write(value.fullLoadErrorPercentage)
-        try writer["ServiceAccessRoleArn"].write(value.serviceAccessRoleArn)
-        try writer["UseNewMappingType"].write(value.useNewMappingType)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> DatabaseMigrationClientTypes.ElasticsearchSettings {
+    static func read(from reader: SmithyJSON.Reader) throws -> DatabaseMigrationClientTypes.Replication {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = DatabaseMigrationClientTypes.ElasticsearchSettings()
-        value.serviceAccessRoleArn = try reader["ServiceAccessRoleArn"].readIfPresent() ?? ""
-        value.endpointUri = try reader["EndpointUri"].readIfPresent() ?? ""
-        value.fullLoadErrorPercentage = try reader["FullLoadErrorPercentage"].readIfPresent()
-        value.errorRetryDuration = try reader["ErrorRetryDuration"].readIfPresent()
-        value.useNewMappingType = try reader["UseNewMappingType"].readIfPresent()
+        var value = DatabaseMigrationClientTypes.Replication()
+        value.replicationConfigIdentifier = try reader["ReplicationConfigIdentifier"].readIfPresent()
+        value.replicationConfigArn = try reader["ReplicationConfigArn"].readIfPresent()
+        value.sourceEndpointArn = try reader["SourceEndpointArn"].readIfPresent()
+        value.targetEndpointArn = try reader["TargetEndpointArn"].readIfPresent()
+        value.replicationType = try reader["ReplicationType"].readIfPresent()
+        value.status = try reader["Status"].readIfPresent()
+        value.provisionData = try reader["ProvisionData"].readIfPresent(with: DatabaseMigrationClientTypes.ProvisionData.read(from:))
+        value.premigrationAssessmentStatuses = try reader["PremigrationAssessmentStatuses"].readListIfPresent(memberReadingClosure: DatabaseMigrationClientTypes.PremigrationAssessmentStatus.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.stopReason = try reader["StopReason"].readIfPresent()
+        value.failureMessages = try reader["FailureMessages"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        value.replicationStats = try reader["ReplicationStats"].readIfPresent(with: DatabaseMigrationClientTypes.ReplicationStats.read(from:))
+        value.startReplicationType = try reader["StartReplicationType"].readIfPresent()
+        value.cdcStartTime = try reader["CdcStartTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.cdcStartPosition = try reader["CdcStartPosition"].readIfPresent()
+        value.cdcStopPosition = try reader["CdcStopPosition"].readIfPresent()
+        value.recoveryCheckpoint = try reader["RecoveryCheckpoint"].readIfPresent()
+        value.replicationCreateTime = try reader["ReplicationCreateTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.replicationUpdateTime = try reader["ReplicationUpdateTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.replicationLastStopTime = try reader["ReplicationLastStopTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.replicationDeprovisionTime = try reader["ReplicationDeprovisionTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.isReadOnly = try reader["IsReadOnly"].readIfPresent()
         return value
     }
 }
 
-extension DatabaseMigrationClientTypes.KafkaSettings {
+extension DatabaseMigrationClientTypes.ReplicationConfig {
 
-    static func write(value: DatabaseMigrationClientTypes.KafkaSettings?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["Broker"].write(value.broker)
-        try writer["IncludeControlDetails"].write(value.includeControlDetails)
-        try writer["IncludeNullAndEmpty"].write(value.includeNullAndEmpty)
-        try writer["IncludePartitionValue"].write(value.includePartitionValue)
-        try writer["IncludeTableAlterOperations"].write(value.includeTableAlterOperations)
-        try writer["IncludeTransactionDetails"].write(value.includeTransactionDetails)
-        try writer["MessageFormat"].write(value.messageFormat)
-        try writer["MessageMaxBytes"].write(value.messageMaxBytes)
-        try writer["NoHexPrefix"].write(value.noHexPrefix)
-        try writer["PartitionIncludeSchemaTable"].write(value.partitionIncludeSchemaTable)
-        try writer["SaslMechanism"].write(value.saslMechanism)
-        try writer["SaslPassword"].write(value.saslPassword)
-        try writer["SaslUsername"].write(value.saslUsername)
-        try writer["SecurityProtocol"].write(value.securityProtocol)
-        try writer["SslCaCertificateArn"].write(value.sslCaCertificateArn)
-        try writer["SslClientCertificateArn"].write(value.sslClientCertificateArn)
-        try writer["SslClientKeyArn"].write(value.sslClientKeyArn)
-        try writer["SslClientKeyPassword"].write(value.sslClientKeyPassword)
-        try writer["SslEndpointIdentificationAlgorithm"].write(value.sslEndpointIdentificationAlgorithm)
-        try writer["Topic"].write(value.topic)
-        try writer["UseLargeIntegerValue"].write(value.useLargeIntegerValue)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> DatabaseMigrationClientTypes.KafkaSettings {
+    static func read(from reader: SmithyJSON.Reader) throws -> DatabaseMigrationClientTypes.ReplicationConfig {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = DatabaseMigrationClientTypes.KafkaSettings()
-        value.broker = try reader["Broker"].readIfPresent()
-        value.topic = try reader["Topic"].readIfPresent()
-        value.messageFormat = try reader["MessageFormat"].readIfPresent()
-        value.includeTransactionDetails = try reader["IncludeTransactionDetails"].readIfPresent()
-        value.includePartitionValue = try reader["IncludePartitionValue"].readIfPresent()
-        value.partitionIncludeSchemaTable = try reader["PartitionIncludeSchemaTable"].readIfPresent()
-        value.includeTableAlterOperations = try reader["IncludeTableAlterOperations"].readIfPresent()
-        value.includeControlDetails = try reader["IncludeControlDetails"].readIfPresent()
-        value.messageMaxBytes = try reader["MessageMaxBytes"].readIfPresent()
-        value.includeNullAndEmpty = try reader["IncludeNullAndEmpty"].readIfPresent()
-        value.securityProtocol = try reader["SecurityProtocol"].readIfPresent()
-        value.sslClientCertificateArn = try reader["SslClientCertificateArn"].readIfPresent()
-        value.sslClientKeyArn = try reader["SslClientKeyArn"].readIfPresent()
-        value.sslClientKeyPassword = try reader["SslClientKeyPassword"].readIfPresent()
-        value.sslCaCertificateArn = try reader["SslCaCertificateArn"].readIfPresent()
-        value.saslUsername = try reader["SaslUsername"].readIfPresent()
-        value.saslPassword = try reader["SaslPassword"].readIfPresent()
-        value.noHexPrefix = try reader["NoHexPrefix"].readIfPresent()
-        value.saslMechanism = try reader["SaslMechanism"].readIfPresent()
-        value.sslEndpointIdentificationAlgorithm = try reader["SslEndpointIdentificationAlgorithm"].readIfPresent()
-        value.useLargeIntegerValue = try reader["UseLargeIntegerValue"].readIfPresent()
+        var value = DatabaseMigrationClientTypes.ReplicationConfig()
+        value.replicationConfigIdentifier = try reader["ReplicationConfigIdentifier"].readIfPresent()
+        value.replicationConfigArn = try reader["ReplicationConfigArn"].readIfPresent()
+        value.sourceEndpointArn = try reader["SourceEndpointArn"].readIfPresent()
+        value.targetEndpointArn = try reader["TargetEndpointArn"].readIfPresent()
+        value.replicationType = try reader["ReplicationType"].readIfPresent()
+        value.computeConfig = try reader["ComputeConfig"].readIfPresent(with: DatabaseMigrationClientTypes.ComputeConfig.read(from:))
+        value.replicationSettings = try reader["ReplicationSettings"].readIfPresent()
+        value.supplementalSettings = try reader["SupplementalSettings"].readIfPresent()
+        value.tableMappings = try reader["TableMappings"].readIfPresent()
+        value.replicationConfigCreateTime = try reader["ReplicationConfigCreateTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.replicationConfigUpdateTime = try reader["ReplicationConfigUpdateTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.isReadOnly = try reader["IsReadOnly"].readIfPresent()
         return value
     }
 }
 
-extension DatabaseMigrationClientTypes.KinesisSettings {
+extension DatabaseMigrationClientTypes.ReplicationInstance {
 
-    static func write(value: DatabaseMigrationClientTypes.KinesisSettings?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["IncludeControlDetails"].write(value.includeControlDetails)
-        try writer["IncludeNullAndEmpty"].write(value.includeNullAndEmpty)
-        try writer["IncludePartitionValue"].write(value.includePartitionValue)
-        try writer["IncludeTableAlterOperations"].write(value.includeTableAlterOperations)
-        try writer["IncludeTransactionDetails"].write(value.includeTransactionDetails)
-        try writer["MessageFormat"].write(value.messageFormat)
-        try writer["NoHexPrefix"].write(value.noHexPrefix)
-        try writer["PartitionIncludeSchemaTable"].write(value.partitionIncludeSchemaTable)
-        try writer["ServiceAccessRoleArn"].write(value.serviceAccessRoleArn)
-        try writer["StreamArn"].write(value.streamArn)
-        try writer["UseLargeIntegerValue"].write(value.useLargeIntegerValue)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> DatabaseMigrationClientTypes.KinesisSettings {
+    static func read(from reader: SmithyJSON.Reader) throws -> DatabaseMigrationClientTypes.ReplicationInstance {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = DatabaseMigrationClientTypes.KinesisSettings()
-        value.streamArn = try reader["StreamArn"].readIfPresent()
-        value.messageFormat = try reader["MessageFormat"].readIfPresent()
-        value.serviceAccessRoleArn = try reader["ServiceAccessRoleArn"].readIfPresent()
-        value.includeTransactionDetails = try reader["IncludeTransactionDetails"].readIfPresent()
-        value.includePartitionValue = try reader["IncludePartitionValue"].readIfPresent()
-        value.partitionIncludeSchemaTable = try reader["PartitionIncludeSchemaTable"].readIfPresent()
-        value.includeTableAlterOperations = try reader["IncludeTableAlterOperations"].readIfPresent()
-        value.includeControlDetails = try reader["IncludeControlDetails"].readIfPresent()
-        value.includeNullAndEmpty = try reader["IncludeNullAndEmpty"].readIfPresent()
-        value.noHexPrefix = try reader["NoHexPrefix"].readIfPresent()
-        value.useLargeIntegerValue = try reader["UseLargeIntegerValue"].readIfPresent()
-        return value
-    }
-}
-
-extension DatabaseMigrationClientTypes.MongoDbSettings {
-
-    static func write(value: DatabaseMigrationClientTypes.MongoDbSettings?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["AuthMechanism"].write(value.authMechanism)
-        try writer["AuthSource"].write(value.authSource)
-        try writer["AuthType"].write(value.authType)
-        try writer["DatabaseName"].write(value.databaseName)
-        try writer["DocsToInvestigate"].write(value.docsToInvestigate)
-        try writer["ExtractDocId"].write(value.extractDocId)
-        try writer["KmsKeyId"].write(value.kmsKeyId)
-        try writer["NestingLevel"].write(value.nestingLevel)
-        try writer["Password"].write(value.password)
-        try writer["Port"].write(value.port)
-        try writer["ReplicateShardCollections"].write(value.replicateShardCollections)
-        try writer["SecretsManagerAccessRoleArn"].write(value.secretsManagerAccessRoleArn)
-        try writer["SecretsManagerSecretId"].write(value.secretsManagerSecretId)
-        try writer["ServerName"].write(value.serverName)
-        try writer["UseUpdateLookUp"].write(value.useUpdateLookUp)
-        try writer["Username"].write(value.username)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> DatabaseMigrationClientTypes.MongoDbSettings {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = DatabaseMigrationClientTypes.MongoDbSettings()
-        value.username = try reader["Username"].readIfPresent()
-        value.password = try reader["Password"].readIfPresent()
-        value.serverName = try reader["ServerName"].readIfPresent()
-        value.port = try reader["Port"].readIfPresent()
-        value.databaseName = try reader["DatabaseName"].readIfPresent()
-        value.authType = try reader["AuthType"].readIfPresent()
-        value.authMechanism = try reader["AuthMechanism"].readIfPresent()
-        value.nestingLevel = try reader["NestingLevel"].readIfPresent()
-        value.extractDocId = try reader["ExtractDocId"].readIfPresent()
-        value.docsToInvestigate = try reader["DocsToInvestigate"].readIfPresent()
-        value.authSource = try reader["AuthSource"].readIfPresent()
+        var value = DatabaseMigrationClientTypes.ReplicationInstance()
+        value.replicationInstanceIdentifier = try reader["ReplicationInstanceIdentifier"].readIfPresent()
+        value.replicationInstanceClass = try reader["ReplicationInstanceClass"].readIfPresent()
+        value.replicationInstanceStatus = try reader["ReplicationInstanceStatus"].readIfPresent()
+        value.allocatedStorage = try reader["AllocatedStorage"].readIfPresent() ?? 0
+        value.instanceCreateTime = try reader["InstanceCreateTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.vpcSecurityGroups = try reader["VpcSecurityGroups"].readListIfPresent(memberReadingClosure: DatabaseMigrationClientTypes.VpcSecurityGroupMembership.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.availabilityZone = try reader["AvailabilityZone"].readIfPresent()
+        value.replicationSubnetGroup = try reader["ReplicationSubnetGroup"].readIfPresent(with: DatabaseMigrationClientTypes.ReplicationSubnetGroup.read(from:))
+        value.preferredMaintenanceWindow = try reader["PreferredMaintenanceWindow"].readIfPresent()
+        value.pendingModifiedValues = try reader["PendingModifiedValues"].readIfPresent(with: DatabaseMigrationClientTypes.ReplicationPendingModifiedValues.read(from:))
+        value.multiAZ = try reader["MultiAZ"].readIfPresent() ?? false
+        value.engineVersion = try reader["EngineVersion"].readIfPresent()
+        value.autoMinorVersionUpgrade = try reader["AutoMinorVersionUpgrade"].readIfPresent() ?? false
         value.kmsKeyId = try reader["KmsKeyId"].readIfPresent()
-        value.secretsManagerAccessRoleArn = try reader["SecretsManagerAccessRoleArn"].readIfPresent()
-        value.secretsManagerSecretId = try reader["SecretsManagerSecretId"].readIfPresent()
-        value.useUpdateLookUp = try reader["UseUpdateLookUp"].readIfPresent()
-        value.replicateShardCollections = try reader["ReplicateShardCollections"].readIfPresent()
+        value.replicationInstanceArn = try reader["ReplicationInstanceArn"].readIfPresent()
+        value.replicationInstancePublicIpAddress = try reader["ReplicationInstancePublicIpAddress"].readIfPresent()
+        value.replicationInstancePrivateIpAddress = try reader["ReplicationInstancePrivateIpAddress"].readIfPresent()
+        value.replicationInstancePublicIpAddresses = try reader["ReplicationInstancePublicIpAddresses"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        value.replicationInstancePrivateIpAddresses = try reader["ReplicationInstancePrivateIpAddresses"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        value.replicationInstanceIpv6Addresses = try reader["ReplicationInstanceIpv6Addresses"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        value.publiclyAccessible = try reader["PubliclyAccessible"].readIfPresent() ?? false
+        value.secondaryAvailabilityZone = try reader["SecondaryAvailabilityZone"].readIfPresent()
+        value.freeUntil = try reader["FreeUntil"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.dnsNameServers = try reader["DnsNameServers"].readIfPresent()
+        value.networkType = try reader["NetworkType"].readIfPresent()
+        value.kerberosAuthenticationSettings = try reader["KerberosAuthenticationSettings"].readIfPresent(with: DatabaseMigrationClientTypes.KerberosAuthenticationSettings.read(from:))
         return value
     }
 }
 
-extension DatabaseMigrationClientTypes.DmsTransferSettings {
+extension DatabaseMigrationClientTypes.ReplicationInstanceTaskLog {
 
-    static func write(value: DatabaseMigrationClientTypes.DmsTransferSettings?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["BucketName"].write(value.bucketName)
-        try writer["ServiceAccessRoleArn"].write(value.serviceAccessRoleArn)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> DatabaseMigrationClientTypes.DmsTransferSettings {
+    static func read(from reader: SmithyJSON.Reader) throws -> DatabaseMigrationClientTypes.ReplicationInstanceTaskLog {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = DatabaseMigrationClientTypes.DmsTransferSettings()
+        var value = DatabaseMigrationClientTypes.ReplicationInstanceTaskLog()
+        value.replicationTaskName = try reader["ReplicationTaskName"].readIfPresent()
+        value.replicationTaskArn = try reader["ReplicationTaskArn"].readIfPresent()
+        value.replicationInstanceTaskLogSize = try reader["ReplicationInstanceTaskLogSize"].readIfPresent() ?? 0
+        return value
+    }
+}
+
+extension DatabaseMigrationClientTypes.ReplicationPendingModifiedValues {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> DatabaseMigrationClientTypes.ReplicationPendingModifiedValues {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = DatabaseMigrationClientTypes.ReplicationPendingModifiedValues()
+        value.replicationInstanceClass = try reader["ReplicationInstanceClass"].readIfPresent()
+        value.allocatedStorage = try reader["AllocatedStorage"].readIfPresent()
+        value.multiAZ = try reader["MultiAZ"].readIfPresent()
+        value.engineVersion = try reader["EngineVersion"].readIfPresent()
+        value.networkType = try reader["NetworkType"].readIfPresent()
+        return value
+    }
+}
+
+extension DatabaseMigrationClientTypes.ReplicationStats {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> DatabaseMigrationClientTypes.ReplicationStats {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = DatabaseMigrationClientTypes.ReplicationStats()
+        value.fullLoadProgressPercent = try reader["FullLoadProgressPercent"].readIfPresent() ?? 0
+        value.elapsedTimeMillis = try reader["ElapsedTimeMillis"].readIfPresent() ?? 0
+        value.tablesLoaded = try reader["TablesLoaded"].readIfPresent() ?? 0
+        value.tablesLoading = try reader["TablesLoading"].readIfPresent() ?? 0
+        value.tablesQueued = try reader["TablesQueued"].readIfPresent() ?? 0
+        value.tablesErrored = try reader["TablesErrored"].readIfPresent() ?? 0
+        value.freshStartDate = try reader["FreshStartDate"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.startDate = try reader["StartDate"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.stopDate = try reader["StopDate"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.fullLoadStartDate = try reader["FullLoadStartDate"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.fullLoadFinishDate = try reader["FullLoadFinishDate"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        return value
+    }
+}
+
+extension DatabaseMigrationClientTypes.ReplicationSubnetGroup {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> DatabaseMigrationClientTypes.ReplicationSubnetGroup {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = DatabaseMigrationClientTypes.ReplicationSubnetGroup()
+        value.replicationSubnetGroupIdentifier = try reader["ReplicationSubnetGroupIdentifier"].readIfPresent()
+        value.replicationSubnetGroupDescription = try reader["ReplicationSubnetGroupDescription"].readIfPresent()
+        value.vpcId = try reader["VpcId"].readIfPresent()
+        value.subnetGroupStatus = try reader["SubnetGroupStatus"].readIfPresent()
+        value.subnets = try reader["Subnets"].readListIfPresent(memberReadingClosure: DatabaseMigrationClientTypes.Subnet.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.supportedNetworkTypes = try reader["SupportedNetworkTypes"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        value.isReadOnly = try reader["IsReadOnly"].readIfPresent()
+        return value
+    }
+}
+
+extension DatabaseMigrationClientTypes.ReplicationTask {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> DatabaseMigrationClientTypes.ReplicationTask {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = DatabaseMigrationClientTypes.ReplicationTask()
+        value.replicationTaskIdentifier = try reader["ReplicationTaskIdentifier"].readIfPresent()
+        value.sourceEndpointArn = try reader["SourceEndpointArn"].readIfPresent()
+        value.targetEndpointArn = try reader["TargetEndpointArn"].readIfPresent()
+        value.replicationInstanceArn = try reader["ReplicationInstanceArn"].readIfPresent()
+        value.migrationType = try reader["MigrationType"].readIfPresent()
+        value.tableMappings = try reader["TableMappings"].readIfPresent()
+        value.replicationTaskSettings = try reader["ReplicationTaskSettings"].readIfPresent()
+        value.status = try reader["Status"].readIfPresent()
+        value.lastFailureMessage = try reader["LastFailureMessage"].readIfPresent()
+        value.stopReason = try reader["StopReason"].readIfPresent()
+        value.replicationTaskCreationDate = try reader["ReplicationTaskCreationDate"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.replicationTaskStartDate = try reader["ReplicationTaskStartDate"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.cdcStartPosition = try reader["CdcStartPosition"].readIfPresent()
+        value.cdcStopPosition = try reader["CdcStopPosition"].readIfPresent()
+        value.recoveryCheckpoint = try reader["RecoveryCheckpoint"].readIfPresent()
+        value.replicationTaskArn = try reader["ReplicationTaskArn"].readIfPresent()
+        value.replicationTaskStats = try reader["ReplicationTaskStats"].readIfPresent(with: DatabaseMigrationClientTypes.ReplicationTaskStats.read(from:))
+        value.taskData = try reader["TaskData"].readIfPresent()
+        value.targetReplicationInstanceArn = try reader["TargetReplicationInstanceArn"].readIfPresent()
+        return value
+    }
+}
+
+extension DatabaseMigrationClientTypes.ReplicationTaskAssessmentResult {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> DatabaseMigrationClientTypes.ReplicationTaskAssessmentResult {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = DatabaseMigrationClientTypes.ReplicationTaskAssessmentResult()
+        value.replicationTaskIdentifier = try reader["ReplicationTaskIdentifier"].readIfPresent()
+        value.replicationTaskArn = try reader["ReplicationTaskArn"].readIfPresent()
+        value.replicationTaskLastAssessmentDate = try reader["ReplicationTaskLastAssessmentDate"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.assessmentStatus = try reader["AssessmentStatus"].readIfPresent()
+        value.assessmentResultsFile = try reader["AssessmentResultsFile"].readIfPresent()
+        value.assessmentResults = try reader["AssessmentResults"].readIfPresent()
+        value.s3ObjectUrl = try reader["S3ObjectUrl"].readIfPresent()
+        return value
+    }
+}
+
+extension DatabaseMigrationClientTypes.ReplicationTaskAssessmentRun {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> DatabaseMigrationClientTypes.ReplicationTaskAssessmentRun {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = DatabaseMigrationClientTypes.ReplicationTaskAssessmentRun()
+        value.replicationTaskAssessmentRunArn = try reader["ReplicationTaskAssessmentRunArn"].readIfPresent()
+        value.replicationTaskArn = try reader["ReplicationTaskArn"].readIfPresent()
+        value.status = try reader["Status"].readIfPresent()
+        value.replicationTaskAssessmentRunCreationDate = try reader["ReplicationTaskAssessmentRunCreationDate"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.assessmentProgress = try reader["AssessmentProgress"].readIfPresent(with: DatabaseMigrationClientTypes.ReplicationTaskAssessmentRunProgress.read(from:))
+        value.lastFailureMessage = try reader["LastFailureMessage"].readIfPresent()
         value.serviceAccessRoleArn = try reader["ServiceAccessRoleArn"].readIfPresent()
-        value.bucketName = try reader["BucketName"].readIfPresent()
+        value.resultLocationBucket = try reader["ResultLocationBucket"].readIfPresent()
+        value.resultLocationFolder = try reader["ResultLocationFolder"].readIfPresent()
+        value.resultEncryptionMode = try reader["ResultEncryptionMode"].readIfPresent()
+        value.resultKmsKeyArn = try reader["ResultKmsKeyArn"].readIfPresent()
+        value.assessmentRunName = try reader["AssessmentRunName"].readIfPresent()
+        value.isLatestTaskAssessmentRun = try reader["IsLatestTaskAssessmentRun"].readIfPresent() ?? false
+        value.resultStatistic = try reader["ResultStatistic"].readIfPresent(with: DatabaseMigrationClientTypes.ReplicationTaskAssessmentRunResultStatistic.read(from:))
+        return value
+    }
+}
+
+extension DatabaseMigrationClientTypes.ReplicationTaskAssessmentRunProgress {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> DatabaseMigrationClientTypes.ReplicationTaskAssessmentRunProgress {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = DatabaseMigrationClientTypes.ReplicationTaskAssessmentRunProgress()
+        value.individualAssessmentCount = try reader["IndividualAssessmentCount"].readIfPresent() ?? 0
+        value.individualAssessmentCompletedCount = try reader["IndividualAssessmentCompletedCount"].readIfPresent() ?? 0
+        return value
+    }
+}
+
+extension DatabaseMigrationClientTypes.ReplicationTaskAssessmentRunResultStatistic {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> DatabaseMigrationClientTypes.ReplicationTaskAssessmentRunResultStatistic {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = DatabaseMigrationClientTypes.ReplicationTaskAssessmentRunResultStatistic()
+        value.passed = try reader["Passed"].readIfPresent() ?? 0
+        value.failed = try reader["Failed"].readIfPresent() ?? 0
+        value.error = try reader["Error"].readIfPresent() ?? 0
+        value.warning = try reader["Warning"].readIfPresent() ?? 0
+        value.cancelled = try reader["Cancelled"].readIfPresent() ?? 0
+        value.skipped = try reader["Skipped"].readIfPresent() ?? 0
+        return value
+    }
+}
+
+extension DatabaseMigrationClientTypes.ReplicationTaskIndividualAssessment {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> DatabaseMigrationClientTypes.ReplicationTaskIndividualAssessment {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = DatabaseMigrationClientTypes.ReplicationTaskIndividualAssessment()
+        value.replicationTaskIndividualAssessmentArn = try reader["ReplicationTaskIndividualAssessmentArn"].readIfPresent()
+        value.replicationTaskAssessmentRunArn = try reader["ReplicationTaskAssessmentRunArn"].readIfPresent()
+        value.individualAssessmentName = try reader["IndividualAssessmentName"].readIfPresent()
+        value.status = try reader["Status"].readIfPresent()
+        value.replicationTaskIndividualAssessmentStartDate = try reader["ReplicationTaskIndividualAssessmentStartDate"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        return value
+    }
+}
+
+extension DatabaseMigrationClientTypes.ReplicationTaskStats {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> DatabaseMigrationClientTypes.ReplicationTaskStats {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = DatabaseMigrationClientTypes.ReplicationTaskStats()
+        value.fullLoadProgressPercent = try reader["FullLoadProgressPercent"].readIfPresent() ?? 0
+        value.elapsedTimeMillis = try reader["ElapsedTimeMillis"].readIfPresent() ?? 0
+        value.tablesLoaded = try reader["TablesLoaded"].readIfPresent() ?? 0
+        value.tablesLoading = try reader["TablesLoading"].readIfPresent() ?? 0
+        value.tablesQueued = try reader["TablesQueued"].readIfPresent() ?? 0
+        value.tablesErrored = try reader["TablesErrored"].readIfPresent() ?? 0
+        value.freshStartDate = try reader["FreshStartDate"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.startDate = try reader["StartDate"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.stopDate = try reader["StopDate"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.fullLoadStartDate = try reader["FullLoadStartDate"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.fullLoadFinishDate = try reader["FullLoadFinishDate"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        return value
+    }
+}
+
+extension DatabaseMigrationClientTypes.ResourcePendingMaintenanceActions {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> DatabaseMigrationClientTypes.ResourcePendingMaintenanceActions {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = DatabaseMigrationClientTypes.ResourcePendingMaintenanceActions()
+        value.resourceIdentifier = try reader["ResourceIdentifier"].readIfPresent()
+        value.pendingMaintenanceActionDetails = try reader["PendingMaintenanceActionDetails"].readListIfPresent(memberReadingClosure: DatabaseMigrationClientTypes.PendingMaintenanceAction.read(from:), memberNodeInfo: "member", isFlattened: false)
         return value
     }
 }
@@ -19413,77 +20115,6 @@ extension DatabaseMigrationClientTypes.S3Settings {
     }
 }
 
-extension DatabaseMigrationClientTypes.DynamoDbSettings {
-
-    static func write(value: DatabaseMigrationClientTypes.DynamoDbSettings?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["ServiceAccessRoleArn"].write(value.serviceAccessRoleArn)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> DatabaseMigrationClientTypes.DynamoDbSettings {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = DatabaseMigrationClientTypes.DynamoDbSettings()
-        value.serviceAccessRoleArn = try reader["ServiceAccessRoleArn"].readIfPresent() ?? ""
-        return value
-    }
-}
-
-extension DatabaseMigrationClientTypes.EventSubscription {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> DatabaseMigrationClientTypes.EventSubscription {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = DatabaseMigrationClientTypes.EventSubscription()
-        value.customerAwsId = try reader["CustomerAwsId"].readIfPresent()
-        value.custSubscriptionId = try reader["CustSubscriptionId"].readIfPresent()
-        value.snsTopicArn = try reader["SnsTopicArn"].readIfPresent()
-        value.status = try reader["Status"].readIfPresent()
-        value.subscriptionCreationTime = try reader["SubscriptionCreationTime"].readIfPresent()
-        value.sourceType = try reader["SourceType"].readIfPresent()
-        value.sourceIdsList = try reader["SourceIdsList"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
-        value.eventCategoriesList = try reader["EventCategoriesList"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
-        value.enabled = try reader["Enabled"].readIfPresent() ?? false
-        return value
-    }
-}
-
-extension DatabaseMigrationClientTypes.InstanceProfile {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> DatabaseMigrationClientTypes.InstanceProfile {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = DatabaseMigrationClientTypes.InstanceProfile()
-        value.instanceProfileArn = try reader["InstanceProfileArn"].readIfPresent()
-        value.availabilityZone = try reader["AvailabilityZone"].readIfPresent()
-        value.kmsKeyArn = try reader["KmsKeyArn"].readIfPresent()
-        value.publiclyAccessible = try reader["PubliclyAccessible"].readIfPresent()
-        value.networkType = try reader["NetworkType"].readIfPresent()
-        value.instanceProfileName = try reader["InstanceProfileName"].readIfPresent()
-        value.description = try reader["Description"].readIfPresent()
-        value.instanceProfileCreationTime = try reader["InstanceProfileCreationTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
-        value.subnetGroupIdentifier = try reader["SubnetGroupIdentifier"].readIfPresent()
-        value.vpcSecurityGroups = try reader["VpcSecurityGroups"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
-        return value
-    }
-}
-
-extension DatabaseMigrationClientTypes.MigrationProject {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> DatabaseMigrationClientTypes.MigrationProject {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = DatabaseMigrationClientTypes.MigrationProject()
-        value.migrationProjectName = try reader["MigrationProjectName"].readIfPresent()
-        value.migrationProjectArn = try reader["MigrationProjectArn"].readIfPresent()
-        value.migrationProjectCreationTime = try reader["MigrationProjectCreationTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
-        value.sourceDataProviderDescriptors = try reader["SourceDataProviderDescriptors"].readListIfPresent(memberReadingClosure: DatabaseMigrationClientTypes.DataProviderDescriptor.read(from:), memberNodeInfo: "member", isFlattened: false)
-        value.targetDataProviderDescriptors = try reader["TargetDataProviderDescriptors"].readListIfPresent(memberReadingClosure: DatabaseMigrationClientTypes.DataProviderDescriptor.read(from:), memberNodeInfo: "member", isFlattened: false)
-        value.instanceProfileArn = try reader["InstanceProfileArn"].readIfPresent()
-        value.instanceProfileName = try reader["InstanceProfileName"].readIfPresent()
-        value.transformationRules = try reader["TransformationRules"].readIfPresent()
-        value.description = try reader["Description"].readIfPresent()
-        value.schemaConversionApplicationAttributes = try reader["SchemaConversionApplicationAttributes"].readIfPresent(with: DatabaseMigrationClientTypes.SCApplicationAttributes.read(from:))
-        return value
-    }
-}
-
 extension DatabaseMigrationClientTypes.SCApplicationAttributes {
 
     static func write(value: DatabaseMigrationClientTypes.SCApplicationAttributes?, to writer: SmithyJSON.Writer) throws {
@@ -19501,479 +20132,17 @@ extension DatabaseMigrationClientTypes.SCApplicationAttributes {
     }
 }
 
-extension DatabaseMigrationClientTypes.DataProviderDescriptor {
+extension DatabaseMigrationClientTypes.SchemaConversionRequest {
 
-    static func read(from reader: SmithyJSON.Reader) throws -> DatabaseMigrationClientTypes.DataProviderDescriptor {
+    static func read(from reader: SmithyJSON.Reader) throws -> DatabaseMigrationClientTypes.SchemaConversionRequest {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = DatabaseMigrationClientTypes.DataProviderDescriptor()
-        value.secretsManagerSecretId = try reader["SecretsManagerSecretId"].readIfPresent()
-        value.secretsManagerAccessRoleArn = try reader["SecretsManagerAccessRoleArn"].readIfPresent()
-        value.dataProviderName = try reader["DataProviderName"].readIfPresent()
-        value.dataProviderArn = try reader["DataProviderArn"].readIfPresent()
-        return value
-    }
-}
-
-extension DatabaseMigrationClientTypes.ReplicationConfig {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> DatabaseMigrationClientTypes.ReplicationConfig {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = DatabaseMigrationClientTypes.ReplicationConfig()
-        value.replicationConfigIdentifier = try reader["ReplicationConfigIdentifier"].readIfPresent()
-        value.replicationConfigArn = try reader["ReplicationConfigArn"].readIfPresent()
-        value.sourceEndpointArn = try reader["SourceEndpointArn"].readIfPresent()
-        value.targetEndpointArn = try reader["TargetEndpointArn"].readIfPresent()
-        value.replicationType = try reader["ReplicationType"].readIfPresent()
-        value.computeConfig = try reader["ComputeConfig"].readIfPresent(with: DatabaseMigrationClientTypes.ComputeConfig.read(from:))
-        value.replicationSettings = try reader["ReplicationSettings"].readIfPresent()
-        value.supplementalSettings = try reader["SupplementalSettings"].readIfPresent()
-        value.tableMappings = try reader["TableMappings"].readIfPresent()
-        value.replicationConfigCreateTime = try reader["ReplicationConfigCreateTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
-        value.replicationConfigUpdateTime = try reader["ReplicationConfigUpdateTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
-        value.isReadOnly = try reader["IsReadOnly"].readIfPresent()
-        return value
-    }
-}
-
-extension DatabaseMigrationClientTypes.ComputeConfig {
-
-    static func write(value: DatabaseMigrationClientTypes.ComputeConfig?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["AvailabilityZone"].write(value.availabilityZone)
-        try writer["DnsNameServers"].write(value.dnsNameServers)
-        try writer["KmsKeyId"].write(value.kmsKeyId)
-        try writer["MaxCapacityUnits"].write(value.maxCapacityUnits)
-        try writer["MinCapacityUnits"].write(value.minCapacityUnits)
-        try writer["MultiAZ"].write(value.multiAZ)
-        try writer["PreferredMaintenanceWindow"].write(value.preferredMaintenanceWindow)
-        try writer["ReplicationSubnetGroupId"].write(value.replicationSubnetGroupId)
-        try writer["VpcSecurityGroupIds"].writeList(value.vpcSecurityGroupIds, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> DatabaseMigrationClientTypes.ComputeConfig {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = DatabaseMigrationClientTypes.ComputeConfig()
-        value.availabilityZone = try reader["AvailabilityZone"].readIfPresent()
-        value.dnsNameServers = try reader["DnsNameServers"].readIfPresent()
-        value.kmsKeyId = try reader["KmsKeyId"].readIfPresent()
-        value.maxCapacityUnits = try reader["MaxCapacityUnits"].readIfPresent()
-        value.minCapacityUnits = try reader["MinCapacityUnits"].readIfPresent()
-        value.multiAZ = try reader["MultiAZ"].readIfPresent()
-        value.preferredMaintenanceWindow = try reader["PreferredMaintenanceWindow"].readIfPresent()
-        value.replicationSubnetGroupId = try reader["ReplicationSubnetGroupId"].readIfPresent()
-        value.vpcSecurityGroupIds = try reader["VpcSecurityGroupIds"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
-        return value
-    }
-}
-
-extension DatabaseMigrationClientTypes.ReplicationInstance {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> DatabaseMigrationClientTypes.ReplicationInstance {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = DatabaseMigrationClientTypes.ReplicationInstance()
-        value.replicationInstanceIdentifier = try reader["ReplicationInstanceIdentifier"].readIfPresent()
-        value.replicationInstanceClass = try reader["ReplicationInstanceClass"].readIfPresent()
-        value.replicationInstanceStatus = try reader["ReplicationInstanceStatus"].readIfPresent()
-        value.allocatedStorage = try reader["AllocatedStorage"].readIfPresent() ?? 0
-        value.instanceCreateTime = try reader["InstanceCreateTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
-        value.vpcSecurityGroups = try reader["VpcSecurityGroups"].readListIfPresent(memberReadingClosure: DatabaseMigrationClientTypes.VpcSecurityGroupMembership.read(from:), memberNodeInfo: "member", isFlattened: false)
-        value.availabilityZone = try reader["AvailabilityZone"].readIfPresent()
-        value.replicationSubnetGroup = try reader["ReplicationSubnetGroup"].readIfPresent(with: DatabaseMigrationClientTypes.ReplicationSubnetGroup.read(from:))
-        value.preferredMaintenanceWindow = try reader["PreferredMaintenanceWindow"].readIfPresent()
-        value.pendingModifiedValues = try reader["PendingModifiedValues"].readIfPresent(with: DatabaseMigrationClientTypes.ReplicationPendingModifiedValues.read(from:))
-        value.multiAZ = try reader["MultiAZ"].readIfPresent() ?? false
-        value.engineVersion = try reader["EngineVersion"].readIfPresent()
-        value.autoMinorVersionUpgrade = try reader["AutoMinorVersionUpgrade"].readIfPresent() ?? false
-        value.kmsKeyId = try reader["KmsKeyId"].readIfPresent()
-        value.replicationInstanceArn = try reader["ReplicationInstanceArn"].readIfPresent()
-        value.replicationInstancePublicIpAddress = try reader["ReplicationInstancePublicIpAddress"].readIfPresent()
-        value.replicationInstancePrivateIpAddress = try reader["ReplicationInstancePrivateIpAddress"].readIfPresent()
-        value.replicationInstancePublicIpAddresses = try reader["ReplicationInstancePublicIpAddresses"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
-        value.replicationInstancePrivateIpAddresses = try reader["ReplicationInstancePrivateIpAddresses"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
-        value.replicationInstanceIpv6Addresses = try reader["ReplicationInstanceIpv6Addresses"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
-        value.publiclyAccessible = try reader["PubliclyAccessible"].readIfPresent() ?? false
-        value.secondaryAvailabilityZone = try reader["SecondaryAvailabilityZone"].readIfPresent()
-        value.freeUntil = try reader["FreeUntil"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
-        value.dnsNameServers = try reader["DnsNameServers"].readIfPresent()
-        value.networkType = try reader["NetworkType"].readIfPresent()
-        value.kerberosAuthenticationSettings = try reader["KerberosAuthenticationSettings"].readIfPresent(with: DatabaseMigrationClientTypes.KerberosAuthenticationSettings.read(from:))
-        return value
-    }
-}
-
-extension DatabaseMigrationClientTypes.KerberosAuthenticationSettings {
-
-    static func write(value: DatabaseMigrationClientTypes.KerberosAuthenticationSettings?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["KeyCacheSecretIamArn"].write(value.keyCacheSecretIamArn)
-        try writer["KeyCacheSecretId"].write(value.keyCacheSecretId)
-        try writer["Krb5FileContents"].write(value.krb5FileContents)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> DatabaseMigrationClientTypes.KerberosAuthenticationSettings {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = DatabaseMigrationClientTypes.KerberosAuthenticationSettings()
-        value.keyCacheSecretId = try reader["KeyCacheSecretId"].readIfPresent()
-        value.keyCacheSecretIamArn = try reader["KeyCacheSecretIamArn"].readIfPresent()
-        value.krb5FileContents = try reader["Krb5FileContents"].readIfPresent()
-        return value
-    }
-}
-
-extension DatabaseMigrationClientTypes.ReplicationPendingModifiedValues {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> DatabaseMigrationClientTypes.ReplicationPendingModifiedValues {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = DatabaseMigrationClientTypes.ReplicationPendingModifiedValues()
-        value.replicationInstanceClass = try reader["ReplicationInstanceClass"].readIfPresent()
-        value.allocatedStorage = try reader["AllocatedStorage"].readIfPresent()
-        value.multiAZ = try reader["MultiAZ"].readIfPresent()
-        value.engineVersion = try reader["EngineVersion"].readIfPresent()
-        value.networkType = try reader["NetworkType"].readIfPresent()
-        return value
-    }
-}
-
-extension DatabaseMigrationClientTypes.ReplicationSubnetGroup {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> DatabaseMigrationClientTypes.ReplicationSubnetGroup {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = DatabaseMigrationClientTypes.ReplicationSubnetGroup()
-        value.replicationSubnetGroupIdentifier = try reader["ReplicationSubnetGroupIdentifier"].readIfPresent()
-        value.replicationSubnetGroupDescription = try reader["ReplicationSubnetGroupDescription"].readIfPresent()
-        value.vpcId = try reader["VpcId"].readIfPresent()
-        value.subnetGroupStatus = try reader["SubnetGroupStatus"].readIfPresent()
-        value.subnets = try reader["Subnets"].readListIfPresent(memberReadingClosure: DatabaseMigrationClientTypes.Subnet.read(from:), memberNodeInfo: "member", isFlattened: false)
-        value.supportedNetworkTypes = try reader["SupportedNetworkTypes"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
-        value.isReadOnly = try reader["IsReadOnly"].readIfPresent()
-        return value
-    }
-}
-
-extension DatabaseMigrationClientTypes.Subnet {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> DatabaseMigrationClientTypes.Subnet {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = DatabaseMigrationClientTypes.Subnet()
-        value.subnetIdentifier = try reader["SubnetIdentifier"].readIfPresent()
-        value.subnetAvailabilityZone = try reader["SubnetAvailabilityZone"].readIfPresent(with: DatabaseMigrationClientTypes.AvailabilityZone.read(from:))
-        value.subnetStatus = try reader["SubnetStatus"].readIfPresent()
-        return value
-    }
-}
-
-extension DatabaseMigrationClientTypes.AvailabilityZone {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> DatabaseMigrationClientTypes.AvailabilityZone {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = DatabaseMigrationClientTypes.AvailabilityZone()
-        value.name = try reader["Name"].readIfPresent()
-        return value
-    }
-}
-
-extension DatabaseMigrationClientTypes.VpcSecurityGroupMembership {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> DatabaseMigrationClientTypes.VpcSecurityGroupMembership {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = DatabaseMigrationClientTypes.VpcSecurityGroupMembership()
-        value.vpcSecurityGroupId = try reader["VpcSecurityGroupId"].readIfPresent()
+        var value = DatabaseMigrationClientTypes.SchemaConversionRequest()
         value.status = try reader["Status"].readIfPresent()
-        return value
-    }
-}
-
-extension DatabaseMigrationClientTypes.ReplicationTask {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> DatabaseMigrationClientTypes.ReplicationTask {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = DatabaseMigrationClientTypes.ReplicationTask()
-        value.replicationTaskIdentifier = try reader["ReplicationTaskIdentifier"].readIfPresent()
-        value.sourceEndpointArn = try reader["SourceEndpointArn"].readIfPresent()
-        value.targetEndpointArn = try reader["TargetEndpointArn"].readIfPresent()
-        value.replicationInstanceArn = try reader["ReplicationInstanceArn"].readIfPresent()
-        value.migrationType = try reader["MigrationType"].readIfPresent()
-        value.tableMappings = try reader["TableMappings"].readIfPresent()
-        value.replicationTaskSettings = try reader["ReplicationTaskSettings"].readIfPresent()
-        value.status = try reader["Status"].readIfPresent()
-        value.lastFailureMessage = try reader["LastFailureMessage"].readIfPresent()
-        value.stopReason = try reader["StopReason"].readIfPresent()
-        value.replicationTaskCreationDate = try reader["ReplicationTaskCreationDate"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
-        value.replicationTaskStartDate = try reader["ReplicationTaskStartDate"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
-        value.cdcStartPosition = try reader["CdcStartPosition"].readIfPresent()
-        value.cdcStopPosition = try reader["CdcStopPosition"].readIfPresent()
-        value.recoveryCheckpoint = try reader["RecoveryCheckpoint"].readIfPresent()
-        value.replicationTaskArn = try reader["ReplicationTaskArn"].readIfPresent()
-        value.replicationTaskStats = try reader["ReplicationTaskStats"].readIfPresent(with: DatabaseMigrationClientTypes.ReplicationTaskStats.read(from:))
-        value.taskData = try reader["TaskData"].readIfPresent()
-        value.targetReplicationInstanceArn = try reader["TargetReplicationInstanceArn"].readIfPresent()
-        return value
-    }
-}
-
-extension DatabaseMigrationClientTypes.ReplicationTaskStats {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> DatabaseMigrationClientTypes.ReplicationTaskStats {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = DatabaseMigrationClientTypes.ReplicationTaskStats()
-        value.fullLoadProgressPercent = try reader["FullLoadProgressPercent"].readIfPresent() ?? 0
-        value.elapsedTimeMillis = try reader["ElapsedTimeMillis"].readIfPresent() ?? 0
-        value.tablesLoaded = try reader["TablesLoaded"].readIfPresent() ?? 0
-        value.tablesLoading = try reader["TablesLoading"].readIfPresent() ?? 0
-        value.tablesQueued = try reader["TablesQueued"].readIfPresent() ?? 0
-        value.tablesErrored = try reader["TablesErrored"].readIfPresent() ?? 0
-        value.freshStartDate = try reader["FreshStartDate"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
-        value.startDate = try reader["StartDate"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
-        value.stopDate = try reader["StopDate"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
-        value.fullLoadStartDate = try reader["FullLoadStartDate"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
-        value.fullLoadFinishDate = try reader["FullLoadFinishDate"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
-        return value
-    }
-}
-
-extension DatabaseMigrationClientTypes.Certificate {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> DatabaseMigrationClientTypes.Certificate {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = DatabaseMigrationClientTypes.Certificate()
-        value.certificateIdentifier = try reader["CertificateIdentifier"].readIfPresent()
-        value.certificateCreationDate = try reader["CertificateCreationDate"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
-        value.certificatePem = try reader["CertificatePem"].readIfPresent()
-        value.certificateWallet = try reader["CertificateWallet"].readIfPresent()
-        value.certificateArn = try reader["CertificateArn"].readIfPresent()
-        value.certificateOwner = try reader["CertificateOwner"].readIfPresent()
-        value.validFromDate = try reader["ValidFromDate"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
-        value.validToDate = try reader["ValidToDate"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
-        value.signingAlgorithm = try reader["SigningAlgorithm"].readIfPresent()
-        value.keyLength = try reader["KeyLength"].readIfPresent()
-        value.kmsKeyId = try reader["KmsKeyId"].readIfPresent()
-        return value
-    }
-}
-
-extension DatabaseMigrationClientTypes.Connection {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> DatabaseMigrationClientTypes.Connection {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = DatabaseMigrationClientTypes.Connection()
-        value.replicationInstanceArn = try reader["ReplicationInstanceArn"].readIfPresent()
-        value.endpointArn = try reader["EndpointArn"].readIfPresent()
-        value.status = try reader["Status"].readIfPresent()
-        value.lastFailureMessage = try reader["LastFailureMessage"].readIfPresent()
-        value.endpointIdentifier = try reader["EndpointIdentifier"].readIfPresent()
-        value.replicationInstanceIdentifier = try reader["ReplicationInstanceIdentifier"].readIfPresent()
-        return value
-    }
-}
-
-extension DatabaseMigrationClientTypes.AccountQuota {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> DatabaseMigrationClientTypes.AccountQuota {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = DatabaseMigrationClientTypes.AccountQuota()
-        value.accountQuotaName = try reader["AccountQuotaName"].readIfPresent()
-        value.used = try reader["Used"].readIfPresent() ?? 0
-        value.max = try reader["Max"].readIfPresent() ?? 0
-        return value
-    }
-}
-
-extension DatabaseMigrationClientTypes.EndpointSetting {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> DatabaseMigrationClientTypes.EndpointSetting {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = DatabaseMigrationClientTypes.EndpointSetting()
-        value.name = try reader["Name"].readIfPresent()
-        value.type = try reader["Type"].readIfPresent()
-        value.enumValues = try reader["EnumValues"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
-        value.sensitive = try reader["Sensitive"].readIfPresent()
-        value.units = try reader["Units"].readIfPresent()
-        value.applicability = try reader["Applicability"].readIfPresent()
-        value.intValueMin = try reader["IntValueMin"].readIfPresent()
-        value.intValueMax = try reader["IntValueMax"].readIfPresent()
-        value.defaultValue = try reader["DefaultValue"].readIfPresent()
-        return value
-    }
-}
-
-extension DatabaseMigrationClientTypes.SupportedEndpointType {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> DatabaseMigrationClientTypes.SupportedEndpointType {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = DatabaseMigrationClientTypes.SupportedEndpointType()
-        value.engineName = try reader["EngineName"].readIfPresent()
-        value.supportsCDC = try reader["SupportsCDC"].readIfPresent() ?? false
-        value.endpointType = try reader["EndpointType"].readIfPresent()
-        value.replicationInstanceEngineMinimumVersion = try reader["ReplicationInstanceEngineMinimumVersion"].readIfPresent()
-        value.engineDisplayName = try reader["EngineDisplayName"].readIfPresent()
-        return value
-    }
-}
-
-extension DatabaseMigrationClientTypes.EngineVersion {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> DatabaseMigrationClientTypes.EngineVersion {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = DatabaseMigrationClientTypes.EngineVersion()
-        value.version = try reader["Version"].readIfPresent()
-        value.lifecycle = try reader["Lifecycle"].readIfPresent()
-        value.releaseStatus = try reader["ReleaseStatus"].readIfPresent()
-        value.launchDate = try reader["LaunchDate"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
-        value.autoUpgradeDate = try reader["AutoUpgradeDate"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
-        value.deprecationDate = try reader["DeprecationDate"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
-        value.forceUpgradeDate = try reader["ForceUpgradeDate"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
-        value.availableUpgrades = try reader["AvailableUpgrades"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
-        return value
-    }
-}
-
-extension DatabaseMigrationClientTypes.EventCategoryGroup {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> DatabaseMigrationClientTypes.EventCategoryGroup {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = DatabaseMigrationClientTypes.EventCategoryGroup()
-        value.sourceType = try reader["SourceType"].readIfPresent()
-        value.eventCategories = try reader["EventCategories"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
-        return value
-    }
-}
-
-extension DatabaseMigrationClientTypes.Event {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> DatabaseMigrationClientTypes.Event {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = DatabaseMigrationClientTypes.Event()
-        value.sourceIdentifier = try reader["SourceIdentifier"].readIfPresent()
-        value.sourceType = try reader["SourceType"].readIfPresent()
-        value.message = try reader["Message"].readIfPresent()
-        value.eventCategories = try reader["EventCategories"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
-        value.date = try reader["Date"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
-        return value
-    }
-}
-
-extension DatabaseMigrationClientTypes.CollectorResponse {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> DatabaseMigrationClientTypes.CollectorResponse {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = DatabaseMigrationClientTypes.CollectorResponse()
-        value.collectorReferencedId = try reader["CollectorReferencedId"].readIfPresent()
-        value.collectorName = try reader["CollectorName"].readIfPresent()
-        value.collectorVersion = try reader["CollectorVersion"].readIfPresent()
-        value.versionStatus = try reader["VersionStatus"].readIfPresent()
-        value.description = try reader["Description"].readIfPresent()
-        value.s3BucketName = try reader["S3BucketName"].readIfPresent()
-        value.serviceAccessRoleArn = try reader["ServiceAccessRoleArn"].readIfPresent()
-        value.collectorHealthCheck = try reader["CollectorHealthCheck"].readIfPresent(with: DatabaseMigrationClientTypes.CollectorHealthCheck.read(from:))
-        value.lastDataReceived = try reader["LastDataReceived"].readIfPresent()
-        value.registeredDate = try reader["RegisteredDate"].readIfPresent()
-        value.createdDate = try reader["CreatedDate"].readIfPresent()
-        value.modifiedDate = try reader["ModifiedDate"].readIfPresent()
-        value.inventoryData = try reader["InventoryData"].readIfPresent(with: DatabaseMigrationClientTypes.InventoryData.read(from:))
-        return value
-    }
-}
-
-extension DatabaseMigrationClientTypes.InventoryData {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> DatabaseMigrationClientTypes.InventoryData {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = DatabaseMigrationClientTypes.InventoryData()
-        value.numberOfDatabases = try reader["NumberOfDatabases"].readIfPresent()
-        value.numberOfSchemas = try reader["NumberOfSchemas"].readIfPresent()
-        return value
-    }
-}
-
-extension DatabaseMigrationClientTypes.CollectorHealthCheck {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> DatabaseMigrationClientTypes.CollectorHealthCheck {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = DatabaseMigrationClientTypes.CollectorHealthCheck()
-        value.collectorStatus = try reader["CollectorStatus"].readIfPresent()
-        value.localCollectorS3Access = try reader["LocalCollectorS3Access"].readIfPresent()
-        value.webCollectorS3Access = try reader["WebCollectorS3Access"].readIfPresent()
-        value.webCollectorGrantedRoleBasedAccess = try reader["WebCollectorGrantedRoleBasedAccess"].readIfPresent()
-        return value
-    }
-}
-
-extension DatabaseMigrationClientTypes.DatabaseResponse {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> DatabaseMigrationClientTypes.DatabaseResponse {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = DatabaseMigrationClientTypes.DatabaseResponse()
-        value.databaseId = try reader["DatabaseId"].readIfPresent()
-        value.databaseName = try reader["DatabaseName"].readIfPresent()
-        value.ipAddress = try reader["IpAddress"].readIfPresent()
-        value.numberOfSchemas = try reader["NumberOfSchemas"].readIfPresent()
-        value.server = try reader["Server"].readIfPresent(with: DatabaseMigrationClientTypes.ServerShortInfoResponse.read(from:))
-        value.softwareDetails = try reader["SoftwareDetails"].readIfPresent(with: DatabaseMigrationClientTypes.DatabaseInstanceSoftwareDetailsResponse.read(from:))
-        value.collectors = try reader["Collectors"].readListIfPresent(memberReadingClosure: DatabaseMigrationClientTypes.CollectorShortInfoResponse.read(from:), memberNodeInfo: "member", isFlattened: false)
-        return value
-    }
-}
-
-extension DatabaseMigrationClientTypes.CollectorShortInfoResponse {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> DatabaseMigrationClientTypes.CollectorShortInfoResponse {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = DatabaseMigrationClientTypes.CollectorShortInfoResponse()
-        value.collectorReferencedId = try reader["CollectorReferencedId"].readIfPresent()
-        value.collectorName = try reader["CollectorName"].readIfPresent()
-        return value
-    }
-}
-
-extension DatabaseMigrationClientTypes.DatabaseInstanceSoftwareDetailsResponse {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> DatabaseMigrationClientTypes.DatabaseInstanceSoftwareDetailsResponse {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = DatabaseMigrationClientTypes.DatabaseInstanceSoftwareDetailsResponse()
-        value.engine = try reader["Engine"].readIfPresent()
-        value.engineVersion = try reader["EngineVersion"].readIfPresent()
-        value.engineEdition = try reader["EngineEdition"].readIfPresent()
-        value.servicePack = try reader["ServicePack"].readIfPresent()
-        value.supportLevel = try reader["SupportLevel"].readIfPresent()
-        value.osArchitecture = try reader["OsArchitecture"].readIfPresent()
-        value.tooltip = try reader["Tooltip"].readIfPresent()
-        return value
-    }
-}
-
-extension DatabaseMigrationClientTypes.ServerShortInfoResponse {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> DatabaseMigrationClientTypes.ServerShortInfoResponse {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = DatabaseMigrationClientTypes.ServerShortInfoResponse()
-        value.serverId = try reader["ServerId"].readIfPresent()
-        value.ipAddress = try reader["IpAddress"].readIfPresent()
-        value.serverName = try reader["ServerName"].readIfPresent()
-        return value
-    }
-}
-
-extension DatabaseMigrationClientTypes.FleetAdvisorLsaAnalysisResponse {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> DatabaseMigrationClientTypes.FleetAdvisorLsaAnalysisResponse {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = DatabaseMigrationClientTypes.FleetAdvisorLsaAnalysisResponse()
-        value.lsaAnalysisId = try reader["LsaAnalysisId"].readIfPresent()
-        value.status = try reader["Status"].readIfPresent()
-        return value
-    }
-}
-
-extension DatabaseMigrationClientTypes.FleetAdvisorSchemaObjectResponse {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> DatabaseMigrationClientTypes.FleetAdvisorSchemaObjectResponse {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = DatabaseMigrationClientTypes.FleetAdvisorSchemaObjectResponse()
-        value.schemaId = try reader["SchemaId"].readIfPresent()
-        value.objectType = try reader["ObjectType"].readIfPresent()
-        value.numberOfObjects = try reader["NumberOfObjects"].readIfPresent()
-        value.codeLineCount = try reader["CodeLineCount"].readIfPresent()
-        value.codeSize = try reader["CodeSize"].readIfPresent()
+        value.requestIdentifier = try reader["RequestIdentifier"].readIfPresent()
+        value.migrationProjectArn = try reader["MigrationProjectArn"].readIfPresent()
+        value.error = try reader["Error"].readIfPresent(with: DatabaseMigrationClientTypes.ErrorDetails.read(from:))
+        value.exportSqlDetails = try reader["ExportSqlDetails"].readIfPresent(with: DatabaseMigrationClientTypes.ExportSqlDetails.read(from:))
+        value.progress = try reader["Progress"].readIfPresent(with: DatabaseMigrationClientTypes.Progress.read(from:))
         return value
     }
 }
@@ -20010,258 +20179,130 @@ extension DatabaseMigrationClientTypes.SchemaShortInfoResponse {
     }
 }
 
-extension DatabaseMigrationClientTypes.DatabaseShortInfoResponse {
+extension DatabaseMigrationClientTypes.ServerShortInfoResponse {
 
-    static func read(from reader: SmithyJSON.Reader) throws -> DatabaseMigrationClientTypes.DatabaseShortInfoResponse {
+    static func read(from reader: SmithyJSON.Reader) throws -> DatabaseMigrationClientTypes.ServerShortInfoResponse {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = DatabaseMigrationClientTypes.DatabaseShortInfoResponse()
-        value.databaseId = try reader["DatabaseId"].readIfPresent()
-        value.databaseName = try reader["DatabaseName"].readIfPresent()
-        value.databaseIpAddress = try reader["DatabaseIpAddress"].readIfPresent()
-        value.databaseEngine = try reader["DatabaseEngine"].readIfPresent()
+        var value = DatabaseMigrationClientTypes.ServerShortInfoResponse()
+        value.serverId = try reader["ServerId"].readIfPresent()
+        value.ipAddress = try reader["IpAddress"].readIfPresent()
+        value.serverName = try reader["ServerName"].readIfPresent()
         return value
     }
 }
 
-extension DatabaseMigrationClientTypes.MetadataModelReference {
+extension DatabaseMigrationClientTypes.SourceDataSetting {
 
-    static func read(from reader: SmithyJSON.Reader) throws -> DatabaseMigrationClientTypes.MetadataModelReference {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = DatabaseMigrationClientTypes.MetadataModelReference()
-        value.metadataModelName = try reader["MetadataModelName"].readIfPresent()
-        value.selectionRules = try reader["SelectionRules"].readIfPresent()
-        return value
-    }
-}
-
-extension DatabaseMigrationClientTypes.OrderableReplicationInstance {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> DatabaseMigrationClientTypes.OrderableReplicationInstance {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = DatabaseMigrationClientTypes.OrderableReplicationInstance()
-        value.engineVersion = try reader["EngineVersion"].readIfPresent()
-        value.replicationInstanceClass = try reader["ReplicationInstanceClass"].readIfPresent()
-        value.storageType = try reader["StorageType"].readIfPresent()
-        value.minAllocatedStorage = try reader["MinAllocatedStorage"].readIfPresent() ?? 0
-        value.maxAllocatedStorage = try reader["MaxAllocatedStorage"].readIfPresent() ?? 0
-        value.defaultAllocatedStorage = try reader["DefaultAllocatedStorage"].readIfPresent() ?? 0
-        value.includedAllocatedStorage = try reader["IncludedAllocatedStorage"].readIfPresent() ?? 0
-        value.availabilityZones = try reader["AvailabilityZones"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
-        value.releaseStatus = try reader["ReleaseStatus"].readIfPresent()
-        return value
-    }
-}
-
-extension DatabaseMigrationClientTypes.Limitation {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> DatabaseMigrationClientTypes.Limitation {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = DatabaseMigrationClientTypes.Limitation()
-        value.databaseId = try reader["DatabaseId"].readIfPresent()
-        value.engineName = try reader["EngineName"].readIfPresent()
-        value.name = try reader["Name"].readIfPresent()
-        value.description = try reader["Description"].readIfPresent()
-        value.impact = try reader["Impact"].readIfPresent()
-        value.type = try reader["Type"].readIfPresent()
-        return value
-    }
-}
-
-extension DatabaseMigrationClientTypes.Recommendation {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> DatabaseMigrationClientTypes.Recommendation {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = DatabaseMigrationClientTypes.Recommendation()
-        value.databaseId = try reader["DatabaseId"].readIfPresent()
-        value.engineName = try reader["EngineName"].readIfPresent()
-        value.createdDate = try reader["CreatedDate"].readIfPresent()
-        value.status = try reader["Status"].readIfPresent()
-        value.preferred = try reader["Preferred"].readIfPresent()
-        value.settings = try reader["Settings"].readIfPresent(with: DatabaseMigrationClientTypes.RecommendationSettings.read(from:))
-        value.data = try reader["Data"].readIfPresent(with: DatabaseMigrationClientTypes.RecommendationData.read(from:))
-        return value
-    }
-}
-
-extension DatabaseMigrationClientTypes.RecommendationData {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> DatabaseMigrationClientTypes.RecommendationData {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = DatabaseMigrationClientTypes.RecommendationData()
-        value.rdsEngine = try reader["RdsEngine"].readIfPresent(with: DatabaseMigrationClientTypes.RdsRecommendation.read(from:))
-        return value
-    }
-}
-
-extension DatabaseMigrationClientTypes.RdsRecommendation {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> DatabaseMigrationClientTypes.RdsRecommendation {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = DatabaseMigrationClientTypes.RdsRecommendation()
-        value.requirementsToTarget = try reader["RequirementsToTarget"].readIfPresent(with: DatabaseMigrationClientTypes.RdsRequirements.read(from:))
-        value.targetConfiguration = try reader["TargetConfiguration"].readIfPresent(with: DatabaseMigrationClientTypes.RdsConfiguration.read(from:))
-        return value
-    }
-}
-
-extension DatabaseMigrationClientTypes.RdsConfiguration {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> DatabaseMigrationClientTypes.RdsConfiguration {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = DatabaseMigrationClientTypes.RdsConfiguration()
-        value.engineEdition = try reader["EngineEdition"].readIfPresent()
-        value.instanceType = try reader["InstanceType"].readIfPresent()
-        value.instanceVcpu = try reader["InstanceVcpu"].readIfPresent()
-        value.instanceMemory = try reader["InstanceMemory"].readIfPresent()
-        value.storageType = try reader["StorageType"].readIfPresent()
-        value.storageSize = try reader["StorageSize"].readIfPresent()
-        value.storageIops = try reader["StorageIops"].readIfPresent()
-        value.deploymentOption = try reader["DeploymentOption"].readIfPresent()
-        value.engineVersion = try reader["EngineVersion"].readIfPresent()
-        return value
-    }
-}
-
-extension DatabaseMigrationClientTypes.RdsRequirements {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> DatabaseMigrationClientTypes.RdsRequirements {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = DatabaseMigrationClientTypes.RdsRequirements()
-        value.engineEdition = try reader["EngineEdition"].readIfPresent()
-        value.instanceVcpu = try reader["InstanceVcpu"].readIfPresent()
-        value.instanceMemory = try reader["InstanceMemory"].readIfPresent()
-        value.storageSize = try reader["StorageSize"].readIfPresent()
-        value.storageIops = try reader["StorageIops"].readIfPresent()
-        value.deploymentOption = try reader["DeploymentOption"].readIfPresent()
-        value.engineVersion = try reader["EngineVersion"].readIfPresent()
-        return value
-    }
-}
-
-extension DatabaseMigrationClientTypes.RecommendationSettings {
-
-    static func write(value: DatabaseMigrationClientTypes.RecommendationSettings?, to writer: SmithyJSON.Writer) throws {
+    static func write(value: DatabaseMigrationClientTypes.SourceDataSetting?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
-        try writer["InstanceSizingType"].write(value.instanceSizingType)
-        try writer["WorkloadType"].write(value.workloadType)
+        try writer["CDCStartPosition"].write(value.cdcStartPosition)
+        try writer["CDCStartTime"].writeTimestamp(value.cdcStartTime, format: SmithyTimestamps.TimestampFormat.dateTime)
+        try writer["CDCStopTime"].writeTimestamp(value.cdcStopTime, format: SmithyTimestamps.TimestampFormat.dateTime)
+        try writer["SlotName"].write(value.slotName)
     }
 
-    static func read(from reader: SmithyJSON.Reader) throws -> DatabaseMigrationClientTypes.RecommendationSettings {
+    static func read(from reader: SmithyJSON.Reader) throws -> DatabaseMigrationClientTypes.SourceDataSetting {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = DatabaseMigrationClientTypes.RecommendationSettings()
-        value.instanceSizingType = try reader["InstanceSizingType"].readIfPresent() ?? ""
-        value.workloadType = try reader["WorkloadType"].readIfPresent() ?? ""
+        var value = DatabaseMigrationClientTypes.SourceDataSetting()
+        value.cdcStartPosition = try reader["CDCStartPosition"].readIfPresent()
+        value.cdcStartTime = try reader["CDCStartTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
+        value.cdcStopTime = try reader["CDCStopTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
+        value.slotName = try reader["SlotName"].readIfPresent()
         return value
     }
 }
 
-extension DatabaseMigrationClientTypes.RefreshSchemasStatus {
+extension DatabaseMigrationClientTypes.StartRecommendationsRequestEntry {
 
-    static func read(from reader: SmithyJSON.Reader) throws -> DatabaseMigrationClientTypes.RefreshSchemasStatus {
+    static func write(value: DatabaseMigrationClientTypes.StartRecommendationsRequestEntry?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["DatabaseId"].write(value.databaseId)
+        try writer["Settings"].write(value.settings, with: DatabaseMigrationClientTypes.RecommendationSettings.write(value:to:))
+    }
+}
+
+extension DatabaseMigrationClientTypes.StatementProperties {
+
+    static func write(value: DatabaseMigrationClientTypes.StatementProperties?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["Definition"].write(value.definition)
+    }
+}
+
+extension DatabaseMigrationClientTypes.Subnet {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> DatabaseMigrationClientTypes.Subnet {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = DatabaseMigrationClientTypes.RefreshSchemasStatus()
-        value.endpointArn = try reader["EndpointArn"].readIfPresent()
-        value.replicationInstanceArn = try reader["ReplicationInstanceArn"].readIfPresent()
-        value.status = try reader["Status"].readIfPresent()
-        value.lastRefreshDate = try reader["LastRefreshDate"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
-        value.lastFailureMessage = try reader["LastFailureMessage"].readIfPresent()
+        var value = DatabaseMigrationClientTypes.Subnet()
+        value.subnetIdentifier = try reader["SubnetIdentifier"].readIfPresent()
+        value.subnetAvailabilityZone = try reader["SubnetAvailabilityZone"].readIfPresent(with: DatabaseMigrationClientTypes.AvailabilityZone.read(from:))
+        value.subnetStatus = try reader["SubnetStatus"].readIfPresent()
         return value
     }
 }
 
-extension DatabaseMigrationClientTypes.ReplicationInstanceTaskLog {
+extension DatabaseMigrationClientTypes.SupportedEndpointType {
 
-    static func read(from reader: SmithyJSON.Reader) throws -> DatabaseMigrationClientTypes.ReplicationInstanceTaskLog {
+    static func read(from reader: SmithyJSON.Reader) throws -> DatabaseMigrationClientTypes.SupportedEndpointType {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = DatabaseMigrationClientTypes.ReplicationInstanceTaskLog()
-        value.replicationTaskName = try reader["ReplicationTaskName"].readIfPresent()
-        value.replicationTaskArn = try reader["ReplicationTaskArn"].readIfPresent()
-        value.replicationInstanceTaskLogSize = try reader["ReplicationInstanceTaskLogSize"].readIfPresent() ?? 0
+        var value = DatabaseMigrationClientTypes.SupportedEndpointType()
+        value.engineName = try reader["EngineName"].readIfPresent()
+        value.supportsCDC = try reader["SupportsCDC"].readIfPresent() ?? false
+        value.endpointType = try reader["EndpointType"].readIfPresent()
+        value.replicationInstanceEngineMinimumVersion = try reader["ReplicationInstanceEngineMinimumVersion"].readIfPresent()
+        value.engineDisplayName = try reader["EngineDisplayName"].readIfPresent()
         return value
     }
 }
 
-extension DatabaseMigrationClientTypes.Replication {
+extension DatabaseMigrationClientTypes.SybaseAseDataProviderSettings {
 
-    static func read(from reader: SmithyJSON.Reader) throws -> DatabaseMigrationClientTypes.Replication {
+    static func write(value: DatabaseMigrationClientTypes.SybaseAseDataProviderSettings?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["CertificateArn"].write(value.certificateArn)
+        try writer["DatabaseName"].write(value.databaseName)
+        try writer["EncryptPassword"].write(value.encryptPassword)
+        try writer["Port"].write(value.port)
+        try writer["ServerName"].write(value.serverName)
+        try writer["SslMode"].write(value.sslMode)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> DatabaseMigrationClientTypes.SybaseAseDataProviderSettings {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = DatabaseMigrationClientTypes.Replication()
-        value.replicationConfigIdentifier = try reader["ReplicationConfigIdentifier"].readIfPresent()
-        value.replicationConfigArn = try reader["ReplicationConfigArn"].readIfPresent()
-        value.sourceEndpointArn = try reader["SourceEndpointArn"].readIfPresent()
-        value.targetEndpointArn = try reader["TargetEndpointArn"].readIfPresent()
-        value.replicationType = try reader["ReplicationType"].readIfPresent()
-        value.status = try reader["Status"].readIfPresent()
-        value.provisionData = try reader["ProvisionData"].readIfPresent(with: DatabaseMigrationClientTypes.ProvisionData.read(from:))
-        value.premigrationAssessmentStatuses = try reader["PremigrationAssessmentStatuses"].readListIfPresent(memberReadingClosure: DatabaseMigrationClientTypes.PremigrationAssessmentStatus.read(from:), memberNodeInfo: "member", isFlattened: false)
-        value.stopReason = try reader["StopReason"].readIfPresent()
-        value.failureMessages = try reader["FailureMessages"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
-        value.replicationStats = try reader["ReplicationStats"].readIfPresent(with: DatabaseMigrationClientTypes.ReplicationStats.read(from:))
-        value.startReplicationType = try reader["StartReplicationType"].readIfPresent()
-        value.cdcStartTime = try reader["CdcStartTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
-        value.cdcStartPosition = try reader["CdcStartPosition"].readIfPresent()
-        value.cdcStopPosition = try reader["CdcStopPosition"].readIfPresent()
-        value.recoveryCheckpoint = try reader["RecoveryCheckpoint"].readIfPresent()
-        value.replicationCreateTime = try reader["ReplicationCreateTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
-        value.replicationUpdateTime = try reader["ReplicationUpdateTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
-        value.replicationLastStopTime = try reader["ReplicationLastStopTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
-        value.replicationDeprovisionTime = try reader["ReplicationDeprovisionTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
-        value.isReadOnly = try reader["IsReadOnly"].readIfPresent()
+        var value = DatabaseMigrationClientTypes.SybaseAseDataProviderSettings()
+        value.serverName = try reader["ServerName"].readIfPresent()
+        value.port = try reader["Port"].readIfPresent()
+        value.databaseName = try reader["DatabaseName"].readIfPresent()
+        value.sslMode = try reader["SslMode"].readIfPresent()
+        value.encryptPassword = try reader["EncryptPassword"].readIfPresent()
+        value.certificateArn = try reader["CertificateArn"].readIfPresent()
         return value
     }
 }
 
-extension DatabaseMigrationClientTypes.ReplicationStats {
+extension DatabaseMigrationClientTypes.SybaseSettings {
 
-    static func read(from reader: SmithyJSON.Reader) throws -> DatabaseMigrationClientTypes.ReplicationStats {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = DatabaseMigrationClientTypes.ReplicationStats()
-        value.fullLoadProgressPercent = try reader["FullLoadProgressPercent"].readIfPresent() ?? 0
-        value.elapsedTimeMillis = try reader["ElapsedTimeMillis"].readIfPresent() ?? 0
-        value.tablesLoaded = try reader["TablesLoaded"].readIfPresent() ?? 0
-        value.tablesLoading = try reader["TablesLoading"].readIfPresent() ?? 0
-        value.tablesQueued = try reader["TablesQueued"].readIfPresent() ?? 0
-        value.tablesErrored = try reader["TablesErrored"].readIfPresent() ?? 0
-        value.freshStartDate = try reader["FreshStartDate"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
-        value.startDate = try reader["StartDate"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
-        value.stopDate = try reader["StopDate"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
-        value.fullLoadStartDate = try reader["FullLoadStartDate"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
-        value.fullLoadFinishDate = try reader["FullLoadFinishDate"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
-        return value
+    static func write(value: DatabaseMigrationClientTypes.SybaseSettings?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["DatabaseName"].write(value.databaseName)
+        try writer["Password"].write(value.password)
+        try writer["Port"].write(value.port)
+        try writer["SecretsManagerAccessRoleArn"].write(value.secretsManagerAccessRoleArn)
+        try writer["SecretsManagerSecretId"].write(value.secretsManagerSecretId)
+        try writer["ServerName"].write(value.serverName)
+        try writer["Username"].write(value.username)
     }
-}
 
-extension DatabaseMigrationClientTypes.PremigrationAssessmentStatus {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> DatabaseMigrationClientTypes.PremigrationAssessmentStatus {
+    static func read(from reader: SmithyJSON.Reader) throws -> DatabaseMigrationClientTypes.SybaseSettings {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = DatabaseMigrationClientTypes.PremigrationAssessmentStatus()
-        value.premigrationAssessmentRunArn = try reader["PremigrationAssessmentRunArn"].readIfPresent()
-        value.failOnAssessmentFailure = try reader["FailOnAssessmentFailure"].readIfPresent() ?? false
-        value.status = try reader["Status"].readIfPresent()
-        value.premigrationAssessmentRunCreationDate = try reader["PremigrationAssessmentRunCreationDate"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
-        value.assessmentProgress = try reader["AssessmentProgress"].readIfPresent(with: DatabaseMigrationClientTypes.ReplicationTaskAssessmentRunProgress.read(from:))
-        value.lastFailureMessage = try reader["LastFailureMessage"].readIfPresent()
-        value.resultLocationBucket = try reader["ResultLocationBucket"].readIfPresent()
-        value.resultLocationFolder = try reader["ResultLocationFolder"].readIfPresent()
-        value.resultEncryptionMode = try reader["ResultEncryptionMode"].readIfPresent()
-        value.resultKmsKeyArn = try reader["ResultKmsKeyArn"].readIfPresent()
-        value.resultStatistic = try reader["ResultStatistic"].readIfPresent(with: DatabaseMigrationClientTypes.ReplicationTaskAssessmentRunResultStatistic.read(from:))
-        return value
-    }
-}
-
-extension DatabaseMigrationClientTypes.ProvisionData {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> DatabaseMigrationClientTypes.ProvisionData {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = DatabaseMigrationClientTypes.ProvisionData()
-        value.provisionState = try reader["ProvisionState"].readIfPresent()
-        value.provisionedCapacityUnits = try reader["ProvisionedCapacityUnits"].readIfPresent() ?? 0
-        value.dateProvisioned = try reader["DateProvisioned"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
-        value.isNewProvisioningAvailable = try reader["IsNewProvisioningAvailable"].readIfPresent() ?? false
-        value.dateNewProvisioningDataAvailable = try reader["DateNewProvisioningDataAvailable"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
-        value.reasonForNewProvisioningData = try reader["ReasonForNewProvisioningData"].readIfPresent()
+        var value = DatabaseMigrationClientTypes.SybaseSettings()
+        value.databaseName = try reader["DatabaseName"].readIfPresent()
+        value.password = try reader["Password"].readIfPresent()
+        value.port = try reader["Port"].readIfPresent()
+        value.serverName = try reader["ServerName"].readIfPresent()
+        value.username = try reader["Username"].readIfPresent()
+        value.secretsManagerAccessRoleArn = try reader["SecretsManagerAccessRoleArn"].readIfPresent()
+        value.secretsManagerSecretId = try reader["SecretsManagerSecretId"].readIfPresent()
         return value
     }
 }
@@ -20303,44 +20344,12 @@ extension DatabaseMigrationClientTypes.TableStatistics {
     }
 }
 
-extension DatabaseMigrationClientTypes.ReplicationTaskAssessmentResult {
+extension DatabaseMigrationClientTypes.TableToReload {
 
-    static func read(from reader: SmithyJSON.Reader) throws -> DatabaseMigrationClientTypes.ReplicationTaskAssessmentResult {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = DatabaseMigrationClientTypes.ReplicationTaskAssessmentResult()
-        value.replicationTaskIdentifier = try reader["ReplicationTaskIdentifier"].readIfPresent()
-        value.replicationTaskArn = try reader["ReplicationTaskArn"].readIfPresent()
-        value.replicationTaskLastAssessmentDate = try reader["ReplicationTaskLastAssessmentDate"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
-        value.assessmentStatus = try reader["AssessmentStatus"].readIfPresent()
-        value.assessmentResultsFile = try reader["AssessmentResultsFile"].readIfPresent()
-        value.assessmentResults = try reader["AssessmentResults"].readIfPresent()
-        value.s3ObjectUrl = try reader["S3ObjectUrl"].readIfPresent()
-        return value
-    }
-}
-
-extension DatabaseMigrationClientTypes.ReplicationTaskIndividualAssessment {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> DatabaseMigrationClientTypes.ReplicationTaskIndividualAssessment {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = DatabaseMigrationClientTypes.ReplicationTaskIndividualAssessment()
-        value.replicationTaskIndividualAssessmentArn = try reader["ReplicationTaskIndividualAssessmentArn"].readIfPresent()
-        value.replicationTaskAssessmentRunArn = try reader["ReplicationTaskAssessmentRunArn"].readIfPresent()
-        value.individualAssessmentName = try reader["IndividualAssessmentName"].readIfPresent()
-        value.status = try reader["Status"].readIfPresent()
-        value.replicationTaskIndividualAssessmentStartDate = try reader["ReplicationTaskIndividualAssessmentStartDate"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
-        return value
-    }
-}
-
-extension DatabaseMigrationClientTypes.ExportMetadataModelAssessmentResultEntry {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> DatabaseMigrationClientTypes.ExportMetadataModelAssessmentResultEntry {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = DatabaseMigrationClientTypes.ExportMetadataModelAssessmentResultEntry()
-        value.s3ObjectKey = try reader["S3ObjectKey"].readIfPresent()
-        value.objectURL = try reader["ObjectURL"].readIfPresent()
-        return value
+    static func write(value: DatabaseMigrationClientTypes.TableToReload?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["SchemaName"].write(value.schemaName)
+        try writer["TableName"].write(value.tableName)
     }
 }
 
@@ -20363,61 +20372,52 @@ extension DatabaseMigrationClientTypes.Tag {
     }
 }
 
-extension DatabaseMigrationClientTypes.StartRecommendationsRequestEntry {
+extension DatabaseMigrationClientTypes.TargetDataSetting {
 
-    static func write(value: DatabaseMigrationClientTypes.StartRecommendationsRequestEntry?, to writer: SmithyJSON.Writer) throws {
+    static func write(value: DatabaseMigrationClientTypes.TargetDataSetting?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
-        try writer["DatabaseId"].write(value.databaseId)
-        try writer["Settings"].write(value.settings, with: DatabaseMigrationClientTypes.RecommendationSettings.write(value:to:))
+        try writer["TablePreparationMode"].write(value.tablePreparationMode)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> DatabaseMigrationClientTypes.TargetDataSetting {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = DatabaseMigrationClientTypes.TargetDataSetting()
+        value.tablePreparationMode = try reader["TablePreparationMode"].readIfPresent()
+        return value
     }
 }
 
-extension DatabaseMigrationClientTypes.DataProviderDescriptorDefinition {
+extension DatabaseMigrationClientTypes.TimestreamSettings {
 
-    static func write(value: DatabaseMigrationClientTypes.DataProviderDescriptorDefinition?, to writer: SmithyJSON.Writer) throws {
+    static func write(value: DatabaseMigrationClientTypes.TimestreamSettings?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
-        try writer["DataProviderIdentifier"].write(value.dataProviderIdentifier)
-        try writer["SecretsManagerAccessRoleArn"].write(value.secretsManagerAccessRoleArn)
-        try writer["SecretsManagerSecretId"].write(value.secretsManagerSecretId)
+        try writer["CdcInsertsAndUpdates"].write(value.cdcInsertsAndUpdates)
+        try writer["DatabaseName"].write(value.databaseName)
+        try writer["EnableMagneticStoreWrites"].write(value.enableMagneticStoreWrites)
+        try writer["MagneticDuration"].write(value.magneticDuration)
+        try writer["MemoryDuration"].write(value.memoryDuration)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> DatabaseMigrationClientTypes.TimestreamSettings {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = DatabaseMigrationClientTypes.TimestreamSettings()
+        value.databaseName = try reader["DatabaseName"].readIfPresent() ?? ""
+        value.memoryDuration = try reader["MemoryDuration"].readIfPresent() ?? 0
+        value.magneticDuration = try reader["MagneticDuration"].readIfPresent() ?? 0
+        value.cdcInsertsAndUpdates = try reader["CdcInsertsAndUpdates"].readIfPresent()
+        value.enableMagneticStoreWrites = try reader["EnableMagneticStoreWrites"].readIfPresent()
+        return value
     }
 }
 
-extension DatabaseMigrationClientTypes.Filter {
+extension DatabaseMigrationClientTypes.VpcSecurityGroupMembership {
 
-    static func write(value: DatabaseMigrationClientTypes.Filter?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["Name"].write(value.name)
-        try writer["Values"].writeList(value.values, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
-    }
-}
-
-extension DatabaseMigrationClientTypes.TableToReload {
-
-    static func write(value: DatabaseMigrationClientTypes.TableToReload?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["SchemaName"].write(value.schemaName)
-        try writer["TableName"].write(value.tableName)
-    }
-}
-
-extension DatabaseMigrationClientTypes.MetadataModelProperties {
-
-    static func write(value: DatabaseMigrationClientTypes.MetadataModelProperties?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        switch value {
-            case let .statementproperties(statementproperties):
-                try writer["StatementProperties"].write(statementproperties, with: DatabaseMigrationClientTypes.StatementProperties.write(value:to:))
-            case let .sdkUnknown(sdkUnknown):
-                try writer["sdkUnknown"].write(sdkUnknown)
-        }
-    }
-}
-
-extension DatabaseMigrationClientTypes.StatementProperties {
-
-    static func write(value: DatabaseMigrationClientTypes.StatementProperties?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["Definition"].write(value.definition)
+    static func read(from reader: SmithyJSON.Reader) throws -> DatabaseMigrationClientTypes.VpcSecurityGroupMembership {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = DatabaseMigrationClientTypes.VpcSecurityGroupMembership()
+        value.vpcSecurityGroupId = try reader["VpcSecurityGroupId"].readIfPresent()
+        value.status = try reader["Status"].readIfPresent()
+        return value
     }
 }
 

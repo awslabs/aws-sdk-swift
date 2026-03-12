@@ -21,8 +21,8 @@ import protocol ClientRuntime.HTTPError
 import protocol ClientRuntime.ModeledError
 @_spi(SmithyReadWrite) import protocol SmithyReadWrite.SmithyReader
 @_spi(SmithyReadWrite) import protocol SmithyReadWrite.SmithyWriter
-@_spi(SmithyReadWrite) import struct AWSClientRuntime.AWSJSONError
 @_spi(UnknownAWSHTTPServiceError) import struct AWSClientRuntime.UnknownAWSHTTPServiceError
+@_spi(SmithyReadWrite) import struct ClientRuntime.AWSJSONError
 @_spi(SmithyReadWrite) import struct SmithyReadWrite.WritingClosureBox
 
 /// The request was denied due to insufficient permissions.
@@ -1412,22 +1412,6 @@ extension PartnerCentralChannelClientTypes {
 
 extension PartnerCentralChannelClientTypes {
 
-    /// Configuration for resold business support plans.
-    public struct ResoldBusiness: Swift.Sendable {
-        /// The coverage level for resold business support.
-        /// This member is required.
-        public var coverage: PartnerCentralChannelClientTypes.Coverage?
-
-        public init(
-            coverage: PartnerCentralChannelClientTypes.Coverage? = nil
-        ) {
-            self.coverage = coverage
-        }
-    }
-}
-
-extension PartnerCentralChannelClientTypes {
-
     /// Configuration for resold enterprise support plans.
     public struct ResoldEnterprise: Swift.Sendable {
         /// The AWS account ID to charge for the support plan.
@@ -1453,14 +1437,39 @@ extension PartnerCentralChannelClientTypes {
 
 extension PartnerCentralChannelClientTypes {
 
+    /// Configuration for resold unified operations support plans.
+    public struct ResoldUnifiedOperations: Swift.Sendable {
+        /// The AWS account ID to charge for the support plan.
+        public var chargeAccountId: Swift.String?
+        /// The coverage level for resold unified operations support.
+        /// This member is required.
+        public var coverage: PartnerCentralChannelClientTypes.Coverage?
+        /// The location of the Technical Account Manager (TAM).
+        /// This member is required.
+        public var tamLocation: Swift.String?
+
+        public init(
+            chargeAccountId: Swift.String? = nil,
+            coverage: PartnerCentralChannelClientTypes.Coverage? = nil,
+            tamLocation: Swift.String? = nil
+        ) {
+            self.chargeAccountId = chargeAccountId
+            self.coverage = coverage
+            self.tamLocation = tamLocation
+        }
+    }
+}
+
+extension PartnerCentralChannelClientTypes {
+
     /// Configuration for different types of support plans.
     public enum SupportPlan: Swift.Sendable {
-        /// Configuration for resold business support plans.
-        case resoldbusiness(PartnerCentralChannelClientTypes.ResoldBusiness)
         /// Configuration for resold enterprise support plans.
         case resoldenterprise(PartnerCentralChannelClientTypes.ResoldEnterprise)
         /// Configuration for partner-led support plans.
         case partnerledsupport(PartnerCentralChannelClientTypes.PartnerLedSupport)
+        /// Configuration for resold unified operations support plans.
+        case resoldunifiedoperations(PartnerCentralChannelClientTypes.ResoldUnifiedOperations)
         case sdkUnknown(Swift.String)
     }
 }
@@ -2820,7 +2829,7 @@ extension UpdateRelationshipOutput {
     }
 }
 
-func httpServiceError(baseError: AWSClientRuntime.AWSJSONError) throws -> Swift.Error? {
+func httpServiceError(baseError: ClientRuntime.AWSJSONError) throws -> Swift.Error? {
     switch baseError.code {
         case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
         case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
@@ -2836,7 +2845,7 @@ enum AcceptChannelHandshakeOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         if let error = try httpServiceError(baseError: baseError) { return error }
         switch baseError.code {
@@ -2855,7 +2864,7 @@ enum CancelChannelHandshakeOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         if let error = try httpServiceError(baseError: baseError) { return error }
         switch baseError.code {
@@ -2874,7 +2883,7 @@ enum CreateChannelHandshakeOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         if let error = try httpServiceError(baseError: baseError) { return error }
         switch baseError.code {
@@ -2895,7 +2904,7 @@ enum CreateProgramManagementAccountOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         if let error = try httpServiceError(baseError: baseError) { return error }
         switch baseError.code {
@@ -2916,7 +2925,7 @@ enum CreateRelationshipOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         if let error = try httpServiceError(baseError: baseError) { return error }
         switch baseError.code {
@@ -2937,7 +2946,7 @@ enum DeleteProgramManagementAccountOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         if let error = try httpServiceError(baseError: baseError) { return error }
         switch baseError.code {
@@ -2957,7 +2966,7 @@ enum DeleteRelationshipOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         if let error = try httpServiceError(baseError: baseError) { return error }
         switch baseError.code {
@@ -2977,7 +2986,7 @@ enum GetRelationshipOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         if let error = try httpServiceError(baseError: baseError) { return error }
         switch baseError.code {
@@ -2996,7 +3005,7 @@ enum ListChannelHandshakesOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         if let error = try httpServiceError(baseError: baseError) { return error }
         switch baseError.code {
@@ -3015,7 +3024,7 @@ enum ListProgramManagementAccountsOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         if let error = try httpServiceError(baseError: baseError) { return error }
         switch baseError.code {
@@ -3034,7 +3043,7 @@ enum ListRelationshipsOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         if let error = try httpServiceError(baseError: baseError) { return error }
         switch baseError.code {
@@ -3053,7 +3062,7 @@ enum ListTagsForResourceOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         if let error = try httpServiceError(baseError: baseError) { return error }
         switch baseError.code {
@@ -3072,7 +3081,7 @@ enum RejectChannelHandshakeOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         if let error = try httpServiceError(baseError: baseError) { return error }
         switch baseError.code {
@@ -3091,7 +3100,7 @@ enum TagResourceOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         if let error = try httpServiceError(baseError: baseError) { return error }
         switch baseError.code {
@@ -3111,7 +3120,7 @@ enum UntagResourceOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         if let error = try httpServiceError(baseError: baseError) { return error }
         switch baseError.code {
@@ -3131,7 +3140,7 @@ enum UpdateProgramManagementAccountOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         if let error = try httpServiceError(baseError: baseError) { return error }
         switch baseError.code {
@@ -3151,7 +3160,7 @@ enum UpdateRelationshipOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         if let error = try httpServiceError(baseError: baseError) { return error }
         switch baseError.code {
@@ -3168,7 +3177,7 @@ enum UpdateRelationshipOutputError {
 
 extension AccessDeniedException {
 
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> AccessDeniedException {
+    static func makeError(baseError: ClientRuntime.AWSJSONError) throws -> AccessDeniedException {
         let reader = baseError.errorBodyReader
         var value = AccessDeniedException()
         value.properties.message = try reader["message"].readIfPresent() ?? ""
@@ -3182,7 +3191,7 @@ extension AccessDeniedException {
 
 extension InternalServerException {
 
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> InternalServerException {
+    static func makeError(baseError: ClientRuntime.AWSJSONError) throws -> InternalServerException {
         let reader = baseError.errorBodyReader
         var value = InternalServerException()
         value.properties.message = try reader["message"].readIfPresent() ?? ""
@@ -3195,7 +3204,7 @@ extension InternalServerException {
 
 extension ResourceNotFoundException {
 
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> ResourceNotFoundException {
+    static func makeError(baseError: ClientRuntime.AWSJSONError) throws -> ResourceNotFoundException {
         let reader = baseError.errorBodyReader
         var value = ResourceNotFoundException()
         value.properties.message = try reader["message"].readIfPresent() ?? ""
@@ -3210,7 +3219,7 @@ extension ResourceNotFoundException {
 
 extension ThrottlingException {
 
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> ThrottlingException {
+    static func makeError(baseError: ClientRuntime.AWSJSONError) throws -> ThrottlingException {
         let reader = baseError.errorBodyReader
         var value = ThrottlingException()
         value.properties.message = try reader["message"].readIfPresent() ?? ""
@@ -3225,7 +3234,7 @@ extension ThrottlingException {
 
 extension ValidationException {
 
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> ValidationException {
+    static func makeError(baseError: ClientRuntime.AWSJSONError) throws -> ValidationException {
         let reader = baseError.errorBodyReader
         var value = ValidationException()
         value.properties.fieldList = try reader["fieldList"].readListIfPresent(memberReadingClosure: PartnerCentralChannelClientTypes.ValidationExceptionField.read(from:), memberNodeInfo: "member", isFlattened: false)
@@ -3240,7 +3249,7 @@ extension ValidationException {
 
 extension ConflictException {
 
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> ConflictException {
+    static func makeError(baseError: ClientRuntime.AWSJSONError) throws -> ConflictException {
         let reader = baseError.errorBodyReader
         var value = ConflictException()
         value.properties.message = try reader["message"].readIfPresent() ?? ""
@@ -3255,7 +3264,7 @@ extension ConflictException {
 
 extension ServiceQuotaExceededException {
 
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> ServiceQuotaExceededException {
+    static func makeError(baseError: ClientRuntime.AWSJSONError) throws -> ServiceQuotaExceededException {
         let reader = baseError.errorBodyReader
         var value = ServiceQuotaExceededException()
         value.properties.message = try reader["message"].readIfPresent() ?? ""
@@ -3288,6 +3297,43 @@ extension PartnerCentralChannelClientTypes.CancelChannelHandshakeDetail {
         var value = PartnerCentralChannelClientTypes.CancelChannelHandshakeDetail()
         value.id = try reader["id"].readIfPresent()
         value.arn = try reader["arn"].readIfPresent()
+        value.status = try reader["status"].readIfPresent()
+        return value
+    }
+}
+
+extension PartnerCentralChannelClientTypes.ChannelHandshakePayload {
+
+    static func write(value: PartnerCentralChannelClientTypes.ChannelHandshakePayload?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        switch value {
+            case let .revokeserviceperiodpayload(revokeserviceperiodpayload):
+                try writer["revokeServicePeriodPayload"].write(revokeserviceperiodpayload, with: PartnerCentralChannelClientTypes.RevokeServicePeriodPayload.write(value:to:))
+            case let .startserviceperiodpayload(startserviceperiodpayload):
+                try writer["startServicePeriodPayload"].write(startserviceperiodpayload, with: PartnerCentralChannelClientTypes.StartServicePeriodPayload.write(value:to:))
+            case let .sdkUnknown(sdkUnknown):
+                try writer["sdkUnknown"].write(sdkUnknown)
+        }
+    }
+}
+
+extension PartnerCentralChannelClientTypes.ChannelHandshakeSummary {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> PartnerCentralChannelClientTypes.ChannelHandshakeSummary {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = PartnerCentralChannelClientTypes.ChannelHandshakeSummary()
+        value.id = try reader["id"].readIfPresent()
+        value.arn = try reader["arn"].readIfPresent()
+        value.catalog = try reader["catalog"].readIfPresent()
+        value.handshakeType = try reader["handshakeType"].readIfPresent()
+        value.ownerAccountId = try reader["ownerAccountId"].readIfPresent()
+        value.senderAccountId = try reader["senderAccountId"].readIfPresent()
+        value.senderDisplayName = try reader["senderDisplayName"].readIfPresent()
+        value.receiverAccountId = try reader["receiverAccountId"].readIfPresent()
+        value.associatedResourceId = try reader["associatedResourceId"].readIfPresent()
+        value.detail = try reader["detail"].readIfPresent(with: PartnerCentralChannelClientTypes.HandshakeDetail.read(from:))
+        value.createdAt = try reader["createdAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
+        value.updatedAt = try reader["updatedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
         value.status = try reader["status"].readIfPresent()
         return value
     }
@@ -3326,50 +3372,6 @@ extension PartnerCentralChannelClientTypes.CreateRelationshipDetail {
     }
 }
 
-extension PartnerCentralChannelClientTypes.RelationshipDetail {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> PartnerCentralChannelClientTypes.RelationshipDetail {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = PartnerCentralChannelClientTypes.RelationshipDetail()
-        value.arn = try reader["arn"].readIfPresent()
-        value.id = try reader["id"].readIfPresent()
-        value.revision = try reader["revision"].readIfPresent()
-        value.catalog = try reader["catalog"].readIfPresent()
-        value.associationType = try reader["associationType"].readIfPresent()
-        value.programManagementAccountId = try reader["programManagementAccountId"].readIfPresent()
-        value.associatedAccountId = try reader["associatedAccountId"].readIfPresent()
-        value.displayName = try reader["displayName"].readIfPresent()
-        value.resaleAccountModel = try reader["resaleAccountModel"].readIfPresent()
-        value.sector = try reader["sector"].readIfPresent()
-        value.createdAt = try reader["createdAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
-        value.updatedAt = try reader["updatedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
-        value.startDate = try reader["startDate"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
-        return value
-    }
-}
-
-extension PartnerCentralChannelClientTypes.ChannelHandshakeSummary {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> PartnerCentralChannelClientTypes.ChannelHandshakeSummary {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = PartnerCentralChannelClientTypes.ChannelHandshakeSummary()
-        value.id = try reader["id"].readIfPresent()
-        value.arn = try reader["arn"].readIfPresent()
-        value.catalog = try reader["catalog"].readIfPresent()
-        value.handshakeType = try reader["handshakeType"].readIfPresent()
-        value.ownerAccountId = try reader["ownerAccountId"].readIfPresent()
-        value.senderAccountId = try reader["senderAccountId"].readIfPresent()
-        value.senderDisplayName = try reader["senderDisplayName"].readIfPresent()
-        value.receiverAccountId = try reader["receiverAccountId"].readIfPresent()
-        value.associatedResourceId = try reader["associatedResourceId"].readIfPresent()
-        value.detail = try reader["detail"].readIfPresent(with: PartnerCentralChannelClientTypes.HandshakeDetail.read(from:))
-        value.createdAt = try reader["createdAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
-        value.updatedAt = try reader["updatedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
-        value.status = try reader["status"].readIfPresent()
-        return value
-    }
-}
-
 extension PartnerCentralChannelClientTypes.HandshakeDetail {
 
     static func read(from reader: SmithyJSON.Reader) throws -> PartnerCentralChannelClientTypes.HandshakeDetail {
@@ -3388,40 +3390,74 @@ extension PartnerCentralChannelClientTypes.HandshakeDetail {
     }
 }
 
+extension PartnerCentralChannelClientTypes.ListChannelHandshakesTypeFilters {
+
+    static func write(value: PartnerCentralChannelClientTypes.ListChannelHandshakesTypeFilters?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        switch value {
+            case let .programmanagementaccounttypefilters(programmanagementaccounttypefilters):
+                try writer["programManagementAccountTypeFilters"].write(programmanagementaccounttypefilters, with: PartnerCentralChannelClientTypes.ProgramManagementAccountTypeFilters.write(value:to:))
+            case let .revokeserviceperiodtypefilters(revokeserviceperiodtypefilters):
+                try writer["revokeServicePeriodTypeFilters"].write(revokeserviceperiodtypefilters, with: PartnerCentralChannelClientTypes.RevokeServicePeriodTypeFilters.write(value:to:))
+            case let .startserviceperiodtypefilters(startserviceperiodtypefilters):
+                try writer["startServicePeriodTypeFilters"].write(startserviceperiodtypefilters, with: PartnerCentralChannelClientTypes.StartServicePeriodTypeFilters.write(value:to:))
+            case let .sdkUnknown(sdkUnknown):
+                try writer["sdkUnknown"].write(sdkUnknown)
+        }
+    }
+}
+
+extension PartnerCentralChannelClientTypes.ListChannelHandshakesTypeSort {
+
+    static func write(value: PartnerCentralChannelClientTypes.ListChannelHandshakesTypeSort?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        switch value {
+            case let .programmanagementaccounttypesort(programmanagementaccounttypesort):
+                try writer["programManagementAccountTypeSort"].write(programmanagementaccounttypesort, with: PartnerCentralChannelClientTypes.ProgramManagementAccountTypeSort.write(value:to:))
+            case let .revokeserviceperiodtypesort(revokeserviceperiodtypesort):
+                try writer["revokeServicePeriodTypeSort"].write(revokeserviceperiodtypesort, with: PartnerCentralChannelClientTypes.RevokeServicePeriodTypeSort.write(value:to:))
+            case let .startserviceperiodtypesort(startserviceperiodtypesort):
+                try writer["startServicePeriodTypeSort"].write(startserviceperiodtypesort, with: PartnerCentralChannelClientTypes.StartServicePeriodTypeSort.write(value:to:))
+            case let .sdkUnknown(sdkUnknown):
+                try writer["sdkUnknown"].write(sdkUnknown)
+        }
+    }
+}
+
+extension PartnerCentralChannelClientTypes.ListProgramManagementAccountsSortBase {
+
+    static func write(value: PartnerCentralChannelClientTypes.ListProgramManagementAccountsSortBase?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["sortBy"].write(value.sortBy)
+        try writer["sortOrder"].write(value.sortOrder)
+    }
+}
+
+extension PartnerCentralChannelClientTypes.ListRelationshipsSortBase {
+
+    static func write(value: PartnerCentralChannelClientTypes.ListRelationshipsSortBase?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["sortBy"].write(value.sortBy)
+        try writer["sortOrder"].write(value.sortOrder)
+    }
+}
+
+extension PartnerCentralChannelClientTypes.PartnerLedSupport {
+
+    static func write(value: PartnerCentralChannelClientTypes.PartnerLedSupport?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["coverage"].write(value.coverage)
+        try writer["provider"].write(value.provider)
+        try writer["tamLocation"].write(value.tamLocation)
+    }
+}
+
 extension PartnerCentralChannelClientTypes.ProgramManagementAccountHandshakeDetail {
 
     static func read(from reader: SmithyJSON.Reader) throws -> PartnerCentralChannelClientTypes.ProgramManagementAccountHandshakeDetail {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = PartnerCentralChannelClientTypes.ProgramManagementAccountHandshakeDetail()
         value.program = try reader["program"].readIfPresent()
-        return value
-    }
-}
-
-extension PartnerCentralChannelClientTypes.RevokeServicePeriodHandshakeDetail {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> PartnerCentralChannelClientTypes.RevokeServicePeriodHandshakeDetail {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = PartnerCentralChannelClientTypes.RevokeServicePeriodHandshakeDetail()
-        value.note = try reader["note"].readIfPresent()
-        value.servicePeriodType = try reader["servicePeriodType"].readIfPresent()
-        value.minimumNoticeDays = try reader["minimumNoticeDays"].readIfPresent()
-        value.startDate = try reader["startDate"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
-        value.endDate = try reader["endDate"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
-        return value
-    }
-}
-
-extension PartnerCentralChannelClientTypes.StartServicePeriodHandshakeDetail {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> PartnerCentralChannelClientTypes.StartServicePeriodHandshakeDetail {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = PartnerCentralChannelClientTypes.StartServicePeriodHandshakeDetail()
-        value.note = try reader["note"].readIfPresent()
-        value.servicePeriodType = try reader["servicePeriodType"].readIfPresent()
-        value.minimumNoticeDays = try reader["minimumNoticeDays"].readIfPresent()
-        value.startDate = try reader["startDate"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
-        value.endDate = try reader["endDate"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
         return value
     }
 }
@@ -3442,6 +3478,57 @@ extension PartnerCentralChannelClientTypes.ProgramManagementAccountSummary {
         value.updatedAt = try reader["updatedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
         value.startDate = try reader["startDate"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
         value.status = try reader["status"].readIfPresent()
+        return value
+    }
+}
+
+extension PartnerCentralChannelClientTypes.ProgramManagementAccountTypeFilters {
+
+    static func write(value: PartnerCentralChannelClientTypes.ProgramManagementAccountTypeFilters?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["programs"].writeList(value.programs, memberWritingClosure: SmithyReadWrite.WritingClosureBox<PartnerCentralChannelClientTypes.Program>().write(value:to:), memberNodeInfo: "member", isFlattened: false)
+    }
+}
+
+extension PartnerCentralChannelClientTypes.ProgramManagementAccountTypeSort {
+
+    static func write(value: PartnerCentralChannelClientTypes.ProgramManagementAccountTypeSort?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["sortBy"].write(value.sortBy)
+        try writer["sortOrder"].write(value.sortOrder)
+    }
+}
+
+extension PartnerCentralChannelClientTypes.RejectChannelHandshakeDetail {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> PartnerCentralChannelClientTypes.RejectChannelHandshakeDetail {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = PartnerCentralChannelClientTypes.RejectChannelHandshakeDetail()
+        value.id = try reader["id"].readIfPresent()
+        value.arn = try reader["arn"].readIfPresent()
+        value.status = try reader["status"].readIfPresent()
+        return value
+    }
+}
+
+extension PartnerCentralChannelClientTypes.RelationshipDetail {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> PartnerCentralChannelClientTypes.RelationshipDetail {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = PartnerCentralChannelClientTypes.RelationshipDetail()
+        value.arn = try reader["arn"].readIfPresent()
+        value.id = try reader["id"].readIfPresent()
+        value.revision = try reader["revision"].readIfPresent()
+        value.catalog = try reader["catalog"].readIfPresent()
+        value.associationType = try reader["associationType"].readIfPresent()
+        value.programManagementAccountId = try reader["programManagementAccountId"].readIfPresent()
+        value.associatedAccountId = try reader["associatedAccountId"].readIfPresent()
+        value.displayName = try reader["displayName"].readIfPresent()
+        value.resaleAccountModel = try reader["resaleAccountModel"].readIfPresent()
+        value.sector = try reader["sector"].readIfPresent()
+        value.createdAt = try reader["createdAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
+        value.updatedAt = try reader["updatedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
+        value.startDate = try reader["startDate"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
         return value
     }
 }
@@ -3467,6 +3554,126 @@ extension PartnerCentralChannelClientTypes.RelationshipSummary {
     }
 }
 
+extension PartnerCentralChannelClientTypes.ResoldEnterprise {
+
+    static func write(value: PartnerCentralChannelClientTypes.ResoldEnterprise?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["chargeAccountId"].write(value.chargeAccountId)
+        try writer["coverage"].write(value.coverage)
+        try writer["tamLocation"].write(value.tamLocation)
+    }
+}
+
+extension PartnerCentralChannelClientTypes.ResoldUnifiedOperations {
+
+    static func write(value: PartnerCentralChannelClientTypes.ResoldUnifiedOperations?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["chargeAccountId"].write(value.chargeAccountId)
+        try writer["coverage"].write(value.coverage)
+        try writer["tamLocation"].write(value.tamLocation)
+    }
+}
+
+extension PartnerCentralChannelClientTypes.RevokeServicePeriodHandshakeDetail {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> PartnerCentralChannelClientTypes.RevokeServicePeriodHandshakeDetail {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = PartnerCentralChannelClientTypes.RevokeServicePeriodHandshakeDetail()
+        value.note = try reader["note"].readIfPresent()
+        value.servicePeriodType = try reader["servicePeriodType"].readIfPresent()
+        value.minimumNoticeDays = try reader["minimumNoticeDays"].readIfPresent()
+        value.startDate = try reader["startDate"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
+        value.endDate = try reader["endDate"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
+        return value
+    }
+}
+
+extension PartnerCentralChannelClientTypes.RevokeServicePeriodPayload {
+
+    static func write(value: PartnerCentralChannelClientTypes.RevokeServicePeriodPayload?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["note"].write(value.note)
+        try writer["programManagementAccountIdentifier"].write(value.programManagementAccountIdentifier)
+    }
+}
+
+extension PartnerCentralChannelClientTypes.RevokeServicePeriodTypeFilters {
+
+    static func write(value: PartnerCentralChannelClientTypes.RevokeServicePeriodTypeFilters?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["servicePeriodTypes"].writeList(value.servicePeriodTypes, memberWritingClosure: SmithyReadWrite.WritingClosureBox<PartnerCentralChannelClientTypes.ServicePeriodType>().write(value:to:), memberNodeInfo: "member", isFlattened: false)
+    }
+}
+
+extension PartnerCentralChannelClientTypes.RevokeServicePeriodTypeSort {
+
+    static func write(value: PartnerCentralChannelClientTypes.RevokeServicePeriodTypeSort?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["sortBy"].write(value.sortBy)
+        try writer["sortOrder"].write(value.sortOrder)
+    }
+}
+
+extension PartnerCentralChannelClientTypes.StartServicePeriodHandshakeDetail {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> PartnerCentralChannelClientTypes.StartServicePeriodHandshakeDetail {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = PartnerCentralChannelClientTypes.StartServicePeriodHandshakeDetail()
+        value.note = try reader["note"].readIfPresent()
+        value.servicePeriodType = try reader["servicePeriodType"].readIfPresent()
+        value.minimumNoticeDays = try reader["minimumNoticeDays"].readIfPresent()
+        value.startDate = try reader["startDate"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
+        value.endDate = try reader["endDate"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
+        return value
+    }
+}
+
+extension PartnerCentralChannelClientTypes.StartServicePeriodPayload {
+
+    static func write(value: PartnerCentralChannelClientTypes.StartServicePeriodPayload?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["endDate"].writeTimestamp(value.endDate, format: SmithyTimestamps.TimestampFormat.dateTime)
+        try writer["minimumNoticeDays"].write(value.minimumNoticeDays)
+        try writer["note"].write(value.note)
+        try writer["programManagementAccountIdentifier"].write(value.programManagementAccountIdentifier)
+        try writer["servicePeriodType"].write(value.servicePeriodType)
+    }
+}
+
+extension PartnerCentralChannelClientTypes.StartServicePeriodTypeFilters {
+
+    static func write(value: PartnerCentralChannelClientTypes.StartServicePeriodTypeFilters?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["servicePeriodTypes"].writeList(value.servicePeriodTypes, memberWritingClosure: SmithyReadWrite.WritingClosureBox<PartnerCentralChannelClientTypes.ServicePeriodType>().write(value:to:), memberNodeInfo: "member", isFlattened: false)
+    }
+}
+
+extension PartnerCentralChannelClientTypes.StartServicePeriodTypeSort {
+
+    static func write(value: PartnerCentralChannelClientTypes.StartServicePeriodTypeSort?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["sortBy"].write(value.sortBy)
+        try writer["sortOrder"].write(value.sortOrder)
+    }
+}
+
+extension PartnerCentralChannelClientTypes.SupportPlan {
+
+    static func write(value: PartnerCentralChannelClientTypes.SupportPlan?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        switch value {
+            case let .partnerledsupport(partnerledsupport):
+                try writer["partnerLedSupport"].write(partnerledsupport, with: PartnerCentralChannelClientTypes.PartnerLedSupport.write(value:to:))
+            case let .resoldenterprise(resoldenterprise):
+                try writer["resoldEnterprise"].write(resoldenterprise, with: PartnerCentralChannelClientTypes.ResoldEnterprise.write(value:to:))
+            case let .resoldunifiedoperations(resoldunifiedoperations):
+                try writer["resoldUnifiedOperations"].write(resoldunifiedoperations, with: PartnerCentralChannelClientTypes.ResoldUnifiedOperations.write(value:to:))
+            case let .sdkUnknown(sdkUnknown):
+                try writer["sdkUnknown"].write(sdkUnknown)
+        }
+    }
+}
+
 extension PartnerCentralChannelClientTypes.Tag {
 
     static func write(value: PartnerCentralChannelClientTypes.Tag?, to writer: SmithyJSON.Writer) throws {
@@ -3480,18 +3687,6 @@ extension PartnerCentralChannelClientTypes.Tag {
         var value = PartnerCentralChannelClientTypes.Tag()
         value.key = try reader["key"].readIfPresent() ?? ""
         value.value = try reader["value"].readIfPresent() ?? ""
-        return value
-    }
-}
-
-extension PartnerCentralChannelClientTypes.RejectChannelHandshakeDetail {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> PartnerCentralChannelClientTypes.RejectChannelHandshakeDetail {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = PartnerCentralChannelClientTypes.RejectChannelHandshakeDetail()
-        value.id = try reader["id"].readIfPresent()
-        value.arn = try reader["arn"].readIfPresent()
-        value.status = try reader["status"].readIfPresent()
         return value
     }
 }
@@ -3531,190 +3726,6 @@ extension PartnerCentralChannelClientTypes.ValidationExceptionField {
         value.code = try reader["code"].readIfPresent() ?? ""
         value.message = try reader["message"].readIfPresent() ?? ""
         return value
-    }
-}
-
-extension PartnerCentralChannelClientTypes.ChannelHandshakePayload {
-
-    static func write(value: PartnerCentralChannelClientTypes.ChannelHandshakePayload?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        switch value {
-            case let .revokeserviceperiodpayload(revokeserviceperiodpayload):
-                try writer["revokeServicePeriodPayload"].write(revokeserviceperiodpayload, with: PartnerCentralChannelClientTypes.RevokeServicePeriodPayload.write(value:to:))
-            case let .startserviceperiodpayload(startserviceperiodpayload):
-                try writer["startServicePeriodPayload"].write(startserviceperiodpayload, with: PartnerCentralChannelClientTypes.StartServicePeriodPayload.write(value:to:))
-            case let .sdkUnknown(sdkUnknown):
-                try writer["sdkUnknown"].write(sdkUnknown)
-        }
-    }
-}
-
-extension PartnerCentralChannelClientTypes.RevokeServicePeriodPayload {
-
-    static func write(value: PartnerCentralChannelClientTypes.RevokeServicePeriodPayload?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["note"].write(value.note)
-        try writer["programManagementAccountIdentifier"].write(value.programManagementAccountIdentifier)
-    }
-}
-
-extension PartnerCentralChannelClientTypes.StartServicePeriodPayload {
-
-    static func write(value: PartnerCentralChannelClientTypes.StartServicePeriodPayload?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["endDate"].writeTimestamp(value.endDate, format: SmithyTimestamps.TimestampFormat.dateTime)
-        try writer["minimumNoticeDays"].write(value.minimumNoticeDays)
-        try writer["note"].write(value.note)
-        try writer["programManagementAccountIdentifier"].write(value.programManagementAccountIdentifier)
-        try writer["servicePeriodType"].write(value.servicePeriodType)
-    }
-}
-
-extension PartnerCentralChannelClientTypes.SupportPlan {
-
-    static func write(value: PartnerCentralChannelClientTypes.SupportPlan?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        switch value {
-            case let .partnerledsupport(partnerledsupport):
-                try writer["partnerLedSupport"].write(partnerledsupport, with: PartnerCentralChannelClientTypes.PartnerLedSupport.write(value:to:))
-            case let .resoldbusiness(resoldbusiness):
-                try writer["resoldBusiness"].write(resoldbusiness, with: PartnerCentralChannelClientTypes.ResoldBusiness.write(value:to:))
-            case let .resoldenterprise(resoldenterprise):
-                try writer["resoldEnterprise"].write(resoldenterprise, with: PartnerCentralChannelClientTypes.ResoldEnterprise.write(value:to:))
-            case let .sdkUnknown(sdkUnknown):
-                try writer["sdkUnknown"].write(sdkUnknown)
-        }
-    }
-}
-
-extension PartnerCentralChannelClientTypes.PartnerLedSupport {
-
-    static func write(value: PartnerCentralChannelClientTypes.PartnerLedSupport?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["coverage"].write(value.coverage)
-        try writer["provider"].write(value.provider)
-        try writer["tamLocation"].write(value.tamLocation)
-    }
-}
-
-extension PartnerCentralChannelClientTypes.ResoldEnterprise {
-
-    static func write(value: PartnerCentralChannelClientTypes.ResoldEnterprise?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["chargeAccountId"].write(value.chargeAccountId)
-        try writer["coverage"].write(value.coverage)
-        try writer["tamLocation"].write(value.tamLocation)
-    }
-}
-
-extension PartnerCentralChannelClientTypes.ResoldBusiness {
-
-    static func write(value: PartnerCentralChannelClientTypes.ResoldBusiness?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["coverage"].write(value.coverage)
-    }
-}
-
-extension PartnerCentralChannelClientTypes.ListChannelHandshakesTypeFilters {
-
-    static func write(value: PartnerCentralChannelClientTypes.ListChannelHandshakesTypeFilters?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        switch value {
-            case let .programmanagementaccounttypefilters(programmanagementaccounttypefilters):
-                try writer["programManagementAccountTypeFilters"].write(programmanagementaccounttypefilters, with: PartnerCentralChannelClientTypes.ProgramManagementAccountTypeFilters.write(value:to:))
-            case let .revokeserviceperiodtypefilters(revokeserviceperiodtypefilters):
-                try writer["revokeServicePeriodTypeFilters"].write(revokeserviceperiodtypefilters, with: PartnerCentralChannelClientTypes.RevokeServicePeriodTypeFilters.write(value:to:))
-            case let .startserviceperiodtypefilters(startserviceperiodtypefilters):
-                try writer["startServicePeriodTypeFilters"].write(startserviceperiodtypefilters, with: PartnerCentralChannelClientTypes.StartServicePeriodTypeFilters.write(value:to:))
-            case let .sdkUnknown(sdkUnknown):
-                try writer["sdkUnknown"].write(sdkUnknown)
-        }
-    }
-}
-
-extension PartnerCentralChannelClientTypes.ProgramManagementAccountTypeFilters {
-
-    static func write(value: PartnerCentralChannelClientTypes.ProgramManagementAccountTypeFilters?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["programs"].writeList(value.programs, memberWritingClosure: SmithyReadWrite.WritingClosureBox<PartnerCentralChannelClientTypes.Program>().write(value:to:), memberNodeInfo: "member", isFlattened: false)
-    }
-}
-
-extension PartnerCentralChannelClientTypes.RevokeServicePeriodTypeFilters {
-
-    static func write(value: PartnerCentralChannelClientTypes.RevokeServicePeriodTypeFilters?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["servicePeriodTypes"].writeList(value.servicePeriodTypes, memberWritingClosure: SmithyReadWrite.WritingClosureBox<PartnerCentralChannelClientTypes.ServicePeriodType>().write(value:to:), memberNodeInfo: "member", isFlattened: false)
-    }
-}
-
-extension PartnerCentralChannelClientTypes.StartServicePeriodTypeFilters {
-
-    static func write(value: PartnerCentralChannelClientTypes.StartServicePeriodTypeFilters?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["servicePeriodTypes"].writeList(value.servicePeriodTypes, memberWritingClosure: SmithyReadWrite.WritingClosureBox<PartnerCentralChannelClientTypes.ServicePeriodType>().write(value:to:), memberNodeInfo: "member", isFlattened: false)
-    }
-}
-
-extension PartnerCentralChannelClientTypes.ListChannelHandshakesTypeSort {
-
-    static func write(value: PartnerCentralChannelClientTypes.ListChannelHandshakesTypeSort?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        switch value {
-            case let .programmanagementaccounttypesort(programmanagementaccounttypesort):
-                try writer["programManagementAccountTypeSort"].write(programmanagementaccounttypesort, with: PartnerCentralChannelClientTypes.ProgramManagementAccountTypeSort.write(value:to:))
-            case let .revokeserviceperiodtypesort(revokeserviceperiodtypesort):
-                try writer["revokeServicePeriodTypeSort"].write(revokeserviceperiodtypesort, with: PartnerCentralChannelClientTypes.RevokeServicePeriodTypeSort.write(value:to:))
-            case let .startserviceperiodtypesort(startserviceperiodtypesort):
-                try writer["startServicePeriodTypeSort"].write(startserviceperiodtypesort, with: PartnerCentralChannelClientTypes.StartServicePeriodTypeSort.write(value:to:))
-            case let .sdkUnknown(sdkUnknown):
-                try writer["sdkUnknown"].write(sdkUnknown)
-        }
-    }
-}
-
-extension PartnerCentralChannelClientTypes.ProgramManagementAccountTypeSort {
-
-    static func write(value: PartnerCentralChannelClientTypes.ProgramManagementAccountTypeSort?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["sortBy"].write(value.sortBy)
-        try writer["sortOrder"].write(value.sortOrder)
-    }
-}
-
-extension PartnerCentralChannelClientTypes.RevokeServicePeriodTypeSort {
-
-    static func write(value: PartnerCentralChannelClientTypes.RevokeServicePeriodTypeSort?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["sortBy"].write(value.sortBy)
-        try writer["sortOrder"].write(value.sortOrder)
-    }
-}
-
-extension PartnerCentralChannelClientTypes.StartServicePeriodTypeSort {
-
-    static func write(value: PartnerCentralChannelClientTypes.StartServicePeriodTypeSort?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["sortBy"].write(value.sortBy)
-        try writer["sortOrder"].write(value.sortOrder)
-    }
-}
-
-extension PartnerCentralChannelClientTypes.ListProgramManagementAccountsSortBase {
-
-    static func write(value: PartnerCentralChannelClientTypes.ListProgramManagementAccountsSortBase?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["sortBy"].write(value.sortBy)
-        try writer["sortOrder"].write(value.sortOrder)
-    }
-}
-
-extension PartnerCentralChannelClientTypes.ListRelationshipsSortBase {
-
-    static func write(value: PartnerCentralChannelClientTypes.ListRelationshipsSortBase?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["sortBy"].write(value.sortBy)
-        try writer["sortOrder"].write(value.sortOrder)
     }
 }
 

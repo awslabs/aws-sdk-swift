@@ -22,8 +22,8 @@ import protocol ClientRuntime.HTTPError
 import protocol ClientRuntime.ModeledError
 @_spi(SmithyReadWrite) import protocol SmithyReadWrite.SmithyReader
 @_spi(SmithyReadWrite) import protocol SmithyReadWrite.SmithyWriter
-@_spi(SmithyReadWrite) import struct AWSClientRuntime.AWSJSONError
 @_spi(UnknownAWSHTTPServiceError) import struct AWSClientRuntime.UnknownAWSHTTPServiceError
+@_spi(SmithyReadWrite) import struct ClientRuntime.AWSJSONError
 @_spi(SmithyReadWrite) import struct SmithyReadWrite.ReadingClosureBox
 
 
@@ -3480,7 +3480,7 @@ enum AssociateFraudsterOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
@@ -3500,7 +3500,7 @@ enum CreateDomainOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
@@ -3520,7 +3520,7 @@ enum CreateWatchlistOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
@@ -3540,7 +3540,7 @@ enum DeleteDomainOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
@@ -3559,7 +3559,7 @@ enum DeleteFraudsterOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
@@ -3578,7 +3578,7 @@ enum DeleteSpeakerOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
@@ -3597,7 +3597,7 @@ enum DeleteWatchlistOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
@@ -3616,7 +3616,7 @@ enum DescribeDomainOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
@@ -3634,7 +3634,7 @@ enum DescribeFraudsterOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
@@ -3652,7 +3652,7 @@ enum DescribeFraudsterRegistrationJobOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
@@ -3670,7 +3670,7 @@ enum DescribeSpeakerOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
@@ -3688,7 +3688,7 @@ enum DescribeSpeakerEnrollmentJobOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
@@ -3706,7 +3706,7 @@ enum DescribeWatchlistOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
@@ -3724,7 +3724,7 @@ enum DisassociateFraudsterOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
@@ -3743,7 +3743,7 @@ enum EvaluateSessionOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
@@ -3762,7 +3762,7 @@ enum ListDomainsOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
@@ -3779,7 +3779,7 @@ enum ListFraudsterRegistrationJobsOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
@@ -3797,7 +3797,7 @@ enum ListFraudstersOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
@@ -3815,7 +3815,7 @@ enum ListSpeakerEnrollmentJobsOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
@@ -3833,7 +3833,7 @@ enum ListSpeakersOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
@@ -3851,7 +3851,7 @@ enum ListTagsForResourceOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
@@ -3869,7 +3869,7 @@ enum ListWatchlistsOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
@@ -3887,7 +3887,7 @@ enum OptOutSpeakerOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
@@ -3907,7 +3907,7 @@ enum StartFraudsterRegistrationJobOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
@@ -3927,7 +3927,7 @@ enum StartSpeakerEnrollmentJobOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
@@ -3947,7 +3947,7 @@ enum TagResourceOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
@@ -3966,7 +3966,7 @@ enum UntagResourceOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
@@ -3985,7 +3985,7 @@ enum UpdateDomainOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
@@ -4004,7 +4004,7 @@ enum UpdateWatchlistOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
@@ -4020,7 +4020,7 @@ enum UpdateWatchlistOutputError {
 
 extension AccessDeniedException {
 
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> AccessDeniedException {
+    static func makeError(baseError: ClientRuntime.AWSJSONError) throws -> AccessDeniedException {
         let reader = baseError.errorBodyReader
         var value = AccessDeniedException()
         value.properties.message = try reader["Message"].readIfPresent()
@@ -4033,7 +4033,7 @@ extension AccessDeniedException {
 
 extension ConflictException {
 
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> ConflictException {
+    static func makeError(baseError: ClientRuntime.AWSJSONError) throws -> ConflictException {
         let reader = baseError.errorBodyReader
         var value = ConflictException()
         value.properties.conflictType = try reader["ConflictType"].readIfPresent()
@@ -4047,7 +4047,7 @@ extension ConflictException {
 
 extension InternalServerException {
 
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> InternalServerException {
+    static func makeError(baseError: ClientRuntime.AWSJSONError) throws -> InternalServerException {
         let reader = baseError.errorBodyReader
         var value = InternalServerException()
         value.properties.message = try reader["Message"].readIfPresent()
@@ -4060,7 +4060,7 @@ extension InternalServerException {
 
 extension ResourceNotFoundException {
 
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> ResourceNotFoundException {
+    static func makeError(baseError: ClientRuntime.AWSJSONError) throws -> ResourceNotFoundException {
         let reader = baseError.errorBodyReader
         var value = ResourceNotFoundException()
         value.properties.message = try reader["Message"].readIfPresent()
@@ -4074,7 +4074,7 @@ extension ResourceNotFoundException {
 
 extension ServiceQuotaExceededException {
 
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> ServiceQuotaExceededException {
+    static func makeError(baseError: ClientRuntime.AWSJSONError) throws -> ServiceQuotaExceededException {
         let reader = baseError.errorBodyReader
         var value = ServiceQuotaExceededException()
         value.properties.message = try reader["Message"].readIfPresent()
@@ -4087,7 +4087,7 @@ extension ServiceQuotaExceededException {
 
 extension ThrottlingException {
 
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> ThrottlingException {
+    static func makeError(baseError: ClientRuntime.AWSJSONError) throws -> ThrottlingException {
         let reader = baseError.errorBodyReader
         var value = ThrottlingException()
         value.properties.message = try reader["Message"].readIfPresent()
@@ -4100,7 +4100,7 @@ extension ThrottlingException {
 
 extension ValidationException {
 
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> ValidationException {
+    static func makeError(baseError: ClientRuntime.AWSJSONError) throws -> ValidationException {
         let reader = baseError.errorBodyReader
         var value = ValidationException()
         value.properties.message = try reader["Message"].readIfPresent()
@@ -4111,15 +4111,29 @@ extension ValidationException {
     }
 }
 
-extension VoiceIDClientTypes.Fraudster {
+extension VoiceIDClientTypes.AuthenticationConfiguration {
 
-    static func read(from reader: SmithyJSON.Reader) throws -> VoiceIDClientTypes.Fraudster {
+    static func read(from reader: SmithyJSON.Reader) throws -> VoiceIDClientTypes.AuthenticationConfiguration {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = VoiceIDClientTypes.Fraudster()
-        value.domainId = try reader["DomainId"].readIfPresent()
-        value.generatedFraudsterId = try reader["GeneratedFraudsterId"].readIfPresent()
-        value.createdAt = try reader["CreatedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
-        value.watchlistIds = try reader["WatchlistIds"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        var value = VoiceIDClientTypes.AuthenticationConfiguration()
+        value.acceptanceThreshold = try reader["AcceptanceThreshold"].readIfPresent() ?? 0
+        return value
+    }
+}
+
+extension VoiceIDClientTypes.AuthenticationResult {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> VoiceIDClientTypes.AuthenticationResult {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = VoiceIDClientTypes.AuthenticationResult()
+        value.authenticationResultId = try reader["AuthenticationResultId"].readIfPresent()
+        value.audioAggregationStartedAt = try reader["AudioAggregationStartedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.audioAggregationEndedAt = try reader["AudioAggregationEndedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.customerSpeakerId = try reader["CustomerSpeakerId"].readIfPresent()
+        value.generatedSpeakerId = try reader["GeneratedSpeakerId"].readIfPresent()
+        value.decision = try reader["Decision"].readIfPresent()
+        value.score = try reader["Score"].readIfPresent()
+        value.configuration = try reader["Configuration"].readIfPresent(with: VoiceIDClientTypes.AuthenticationConfiguration.read(from:))
         return value
     }
 }
@@ -4143,185 +4157,21 @@ extension VoiceIDClientTypes.Domain {
     }
 }
 
-extension VoiceIDClientTypes.WatchlistDetails {
+extension VoiceIDClientTypes.DomainSummary {
 
-    static func read(from reader: SmithyJSON.Reader) throws -> VoiceIDClientTypes.WatchlistDetails {
+    static func read(from reader: SmithyJSON.Reader) throws -> VoiceIDClientTypes.DomainSummary {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = VoiceIDClientTypes.WatchlistDetails()
-        value.defaultWatchlistId = try reader["DefaultWatchlistId"].readIfPresent() ?? ""
-        return value
-    }
-}
-
-extension VoiceIDClientTypes.ServerSideEncryptionUpdateDetails {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> VoiceIDClientTypes.ServerSideEncryptionUpdateDetails {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = VoiceIDClientTypes.ServerSideEncryptionUpdateDetails()
-        value.oldKmsKeyId = try reader["OldKmsKeyId"].readIfPresent()
-        value.updateStatus = try reader["UpdateStatus"].readIfPresent()
-        value.message = try reader["Message"].readIfPresent()
-        return value
-    }
-}
-
-extension VoiceIDClientTypes.ServerSideEncryptionConfiguration {
-
-    static func write(value: VoiceIDClientTypes.ServerSideEncryptionConfiguration?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["KmsKeyId"].write(value.kmsKeyId)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> VoiceIDClientTypes.ServerSideEncryptionConfiguration {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = VoiceIDClientTypes.ServerSideEncryptionConfiguration()
-        value.kmsKeyId = try reader["KmsKeyId"].readIfPresent() ?? ""
-        return value
-    }
-}
-
-extension VoiceIDClientTypes.Watchlist {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> VoiceIDClientTypes.Watchlist {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = VoiceIDClientTypes.Watchlist()
+        var value = VoiceIDClientTypes.DomainSummary()
         value.domainId = try reader["DomainId"].readIfPresent()
-        value.watchlistId = try reader["WatchlistId"].readIfPresent()
+        value.arn = try reader["Arn"].readIfPresent()
         value.name = try reader["Name"].readIfPresent()
         value.description = try reader["Description"].readIfPresent()
-        value.defaultWatchlist = try reader["DefaultWatchlist"].readIfPresent() ?? false
+        value.domainStatus = try reader["DomainStatus"].readIfPresent()
+        value.serverSideEncryptionConfiguration = try reader["ServerSideEncryptionConfiguration"].readIfPresent(with: VoiceIDClientTypes.ServerSideEncryptionConfiguration.read(from:))
         value.createdAt = try reader["CreatedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
         value.updatedAt = try reader["UpdatedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
-        return value
-    }
-}
-
-extension VoiceIDClientTypes.FraudsterRegistrationJob {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> VoiceIDClientTypes.FraudsterRegistrationJob {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = VoiceIDClientTypes.FraudsterRegistrationJob()
-        value.jobName = try reader["JobName"].readIfPresent()
-        value.jobId = try reader["JobId"].readIfPresent()
-        value.jobStatus = try reader["JobStatus"].readIfPresent()
-        value.domainId = try reader["DomainId"].readIfPresent()
-        value.dataAccessRoleArn = try reader["DataAccessRoleArn"].readIfPresent()
-        value.registrationConfig = try reader["RegistrationConfig"].readIfPresent(with: VoiceIDClientTypes.RegistrationConfig.read(from:))
-        value.inputDataConfig = try reader["InputDataConfig"].readIfPresent(with: VoiceIDClientTypes.InputDataConfig.read(from:))
-        value.outputDataConfig = try reader["OutputDataConfig"].readIfPresent(with: VoiceIDClientTypes.OutputDataConfig.read(from:))
-        value.createdAt = try reader["CreatedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
-        value.endedAt = try reader["EndedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
-        value.failureDetails = try reader["FailureDetails"].readIfPresent(with: VoiceIDClientTypes.FailureDetails.read(from:))
-        value.jobProgress = try reader["JobProgress"].readIfPresent(with: VoiceIDClientTypes.JobProgress.read(from:))
-        return value
-    }
-}
-
-extension VoiceIDClientTypes.JobProgress {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> VoiceIDClientTypes.JobProgress {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = VoiceIDClientTypes.JobProgress()
-        value.percentComplete = try reader["PercentComplete"].readIfPresent()
-        return value
-    }
-}
-
-extension VoiceIDClientTypes.FailureDetails {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> VoiceIDClientTypes.FailureDetails {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = VoiceIDClientTypes.FailureDetails()
-        value.statusCode = try reader["StatusCode"].readIfPresent()
-        value.message = try reader["Message"].readIfPresent()
-        return value
-    }
-}
-
-extension VoiceIDClientTypes.OutputDataConfig {
-
-    static func write(value: VoiceIDClientTypes.OutputDataConfig?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["KmsKeyId"].write(value.kmsKeyId)
-        try writer["S3Uri"].write(value.s3Uri)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> VoiceIDClientTypes.OutputDataConfig {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = VoiceIDClientTypes.OutputDataConfig()
-        value.s3Uri = try reader["S3Uri"].readIfPresent() ?? ""
-        value.kmsKeyId = try reader["KmsKeyId"].readIfPresent()
-        return value
-    }
-}
-
-extension VoiceIDClientTypes.InputDataConfig {
-
-    static func write(value: VoiceIDClientTypes.InputDataConfig?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["S3Uri"].write(value.s3Uri)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> VoiceIDClientTypes.InputDataConfig {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = VoiceIDClientTypes.InputDataConfig()
-        value.s3Uri = try reader["S3Uri"].readIfPresent() ?? ""
-        return value
-    }
-}
-
-extension VoiceIDClientTypes.RegistrationConfig {
-
-    static func write(value: VoiceIDClientTypes.RegistrationConfig?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["DuplicateRegistrationAction"].write(value.duplicateRegistrationAction)
-        try writer["FraudsterSimilarityThreshold"].write(value.fraudsterSimilarityThreshold)
-        try writer["WatchlistIds"].writeList(value.watchlistIds, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> VoiceIDClientTypes.RegistrationConfig {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = VoiceIDClientTypes.RegistrationConfig()
-        value.duplicateRegistrationAction = try reader["DuplicateRegistrationAction"].readIfPresent()
-        value.fraudsterSimilarityThreshold = try reader["FraudsterSimilarityThreshold"].readIfPresent()
-        value.watchlistIds = try reader["WatchlistIds"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
-        return value
-    }
-}
-
-extension VoiceIDClientTypes.Speaker {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> VoiceIDClientTypes.Speaker {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = VoiceIDClientTypes.Speaker()
-        value.domainId = try reader["DomainId"].readIfPresent()
-        value.customerSpeakerId = try reader["CustomerSpeakerId"].readIfPresent()
-        value.generatedSpeakerId = try reader["GeneratedSpeakerId"].readIfPresent()
-        value.status = try reader["Status"].readIfPresent()
-        value.createdAt = try reader["CreatedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
-        value.updatedAt = try reader["UpdatedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
-        value.lastAccessedAt = try reader["LastAccessedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
-        return value
-    }
-}
-
-extension VoiceIDClientTypes.SpeakerEnrollmentJob {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> VoiceIDClientTypes.SpeakerEnrollmentJob {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = VoiceIDClientTypes.SpeakerEnrollmentJob()
-        value.jobName = try reader["JobName"].readIfPresent()
-        value.jobId = try reader["JobId"].readIfPresent()
-        value.jobStatus = try reader["JobStatus"].readIfPresent()
-        value.domainId = try reader["DomainId"].readIfPresent()
-        value.dataAccessRoleArn = try reader["DataAccessRoleArn"].readIfPresent()
-        value.enrollmentConfig = try reader["EnrollmentConfig"].readIfPresent(with: VoiceIDClientTypes.EnrollmentConfig.read(from:))
-        value.inputDataConfig = try reader["InputDataConfig"].readIfPresent(with: VoiceIDClientTypes.InputDataConfig.read(from:))
-        value.outputDataConfig = try reader["OutputDataConfig"].readIfPresent(with: VoiceIDClientTypes.OutputDataConfig.read(from:))
-        value.createdAt = try reader["CreatedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
-        value.endedAt = try reader["EndedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
-        value.failureDetails = try reader["FailureDetails"].readIfPresent(with: VoiceIDClientTypes.FailureDetails.read(from:))
-        value.jobProgress = try reader["JobProgress"].readIfPresent(with: VoiceIDClientTypes.JobProgress.read(from:))
+        value.serverSideEncryptionUpdateDetails = try reader["ServerSideEncryptionUpdateDetails"].readIfPresent(with: VoiceIDClientTypes.ServerSideEncryptionUpdateDetails.read(from:))
+        value.watchlistDetails = try reader["WatchlistDetails"].readIfPresent(with: VoiceIDClientTypes.WatchlistDetails.read(from:))
         return value
     }
 }
@@ -4362,29 +4212,24 @@ extension VoiceIDClientTypes.EnrollmentJobFraudDetectionConfig {
     }
 }
 
-extension VoiceIDClientTypes.AuthenticationResult {
+extension VoiceIDClientTypes.FailureDetails {
 
-    static func read(from reader: SmithyJSON.Reader) throws -> VoiceIDClientTypes.AuthenticationResult {
+    static func read(from reader: SmithyJSON.Reader) throws -> VoiceIDClientTypes.FailureDetails {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = VoiceIDClientTypes.AuthenticationResult()
-        value.authenticationResultId = try reader["AuthenticationResultId"].readIfPresent()
-        value.audioAggregationStartedAt = try reader["AudioAggregationStartedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
-        value.audioAggregationEndedAt = try reader["AudioAggregationEndedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
-        value.customerSpeakerId = try reader["CustomerSpeakerId"].readIfPresent()
-        value.generatedSpeakerId = try reader["GeneratedSpeakerId"].readIfPresent()
-        value.decision = try reader["Decision"].readIfPresent()
-        value.score = try reader["Score"].readIfPresent()
-        value.configuration = try reader["Configuration"].readIfPresent(with: VoiceIDClientTypes.AuthenticationConfiguration.read(from:))
+        var value = VoiceIDClientTypes.FailureDetails()
+        value.statusCode = try reader["StatusCode"].readIfPresent()
+        value.message = try reader["Message"].readIfPresent()
         return value
     }
 }
 
-extension VoiceIDClientTypes.AuthenticationConfiguration {
+extension VoiceIDClientTypes.FraudDetectionConfiguration {
 
-    static func read(from reader: SmithyJSON.Reader) throws -> VoiceIDClientTypes.AuthenticationConfiguration {
+    static func read(from reader: SmithyJSON.Reader) throws -> VoiceIDClientTypes.FraudDetectionConfiguration {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = VoiceIDClientTypes.AuthenticationConfiguration()
-        value.acceptanceThreshold = try reader["AcceptanceThreshold"].readIfPresent() ?? 0
+        var value = VoiceIDClientTypes.FraudDetectionConfiguration()
+        value.riskThreshold = try reader["RiskThreshold"].readIfPresent()
+        value.watchlistId = try reader["WatchlistId"].readIfPresent()
         return value
     }
 }
@@ -4416,53 +4261,36 @@ extension VoiceIDClientTypes.FraudRiskDetails {
     }
 }
 
-extension VoiceIDClientTypes.VoiceSpoofingRisk {
+extension VoiceIDClientTypes.Fraudster {
 
-    static func read(from reader: SmithyJSON.Reader) throws -> VoiceIDClientTypes.VoiceSpoofingRisk {
+    static func read(from reader: SmithyJSON.Reader) throws -> VoiceIDClientTypes.Fraudster {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = VoiceIDClientTypes.VoiceSpoofingRisk()
-        value.riskScore = try reader["RiskScore"].readIfPresent() ?? 0
-        return value
-    }
-}
-
-extension VoiceIDClientTypes.KnownFraudsterRisk {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> VoiceIDClientTypes.KnownFraudsterRisk {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = VoiceIDClientTypes.KnownFraudsterRisk()
-        value.riskScore = try reader["RiskScore"].readIfPresent() ?? 0
-        value.generatedFraudsterId = try reader["GeneratedFraudsterId"].readIfPresent()
-        return value
-    }
-}
-
-extension VoiceIDClientTypes.FraudDetectionConfiguration {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> VoiceIDClientTypes.FraudDetectionConfiguration {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = VoiceIDClientTypes.FraudDetectionConfiguration()
-        value.riskThreshold = try reader["RiskThreshold"].readIfPresent()
-        value.watchlistId = try reader["WatchlistId"].readIfPresent()
-        return value
-    }
-}
-
-extension VoiceIDClientTypes.DomainSummary {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> VoiceIDClientTypes.DomainSummary {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = VoiceIDClientTypes.DomainSummary()
+        var value = VoiceIDClientTypes.Fraudster()
         value.domainId = try reader["DomainId"].readIfPresent()
-        value.arn = try reader["Arn"].readIfPresent()
-        value.name = try reader["Name"].readIfPresent()
-        value.description = try reader["Description"].readIfPresent()
-        value.domainStatus = try reader["DomainStatus"].readIfPresent()
-        value.serverSideEncryptionConfiguration = try reader["ServerSideEncryptionConfiguration"].readIfPresent(with: VoiceIDClientTypes.ServerSideEncryptionConfiguration.read(from:))
+        value.generatedFraudsterId = try reader["GeneratedFraudsterId"].readIfPresent()
         value.createdAt = try reader["CreatedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
-        value.updatedAt = try reader["UpdatedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
-        value.serverSideEncryptionUpdateDetails = try reader["ServerSideEncryptionUpdateDetails"].readIfPresent(with: VoiceIDClientTypes.ServerSideEncryptionUpdateDetails.read(from:))
-        value.watchlistDetails = try reader["WatchlistDetails"].readIfPresent(with: VoiceIDClientTypes.WatchlistDetails.read(from:))
+        value.watchlistIds = try reader["WatchlistIds"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        return value
+    }
+}
+
+extension VoiceIDClientTypes.FraudsterRegistrationJob {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> VoiceIDClientTypes.FraudsterRegistrationJob {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = VoiceIDClientTypes.FraudsterRegistrationJob()
+        value.jobName = try reader["JobName"].readIfPresent()
+        value.jobId = try reader["JobId"].readIfPresent()
+        value.jobStatus = try reader["JobStatus"].readIfPresent()
+        value.domainId = try reader["DomainId"].readIfPresent()
+        value.dataAccessRoleArn = try reader["DataAccessRoleArn"].readIfPresent()
+        value.registrationConfig = try reader["RegistrationConfig"].readIfPresent(with: VoiceIDClientTypes.RegistrationConfig.read(from:))
+        value.inputDataConfig = try reader["InputDataConfig"].readIfPresent(with: VoiceIDClientTypes.InputDataConfig.read(from:))
+        value.outputDataConfig = try reader["OutputDataConfig"].readIfPresent(with: VoiceIDClientTypes.OutputDataConfig.read(from:))
+        value.createdAt = try reader["CreatedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.endedAt = try reader["EndedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.failureDetails = try reader["FailureDetails"].readIfPresent(with: VoiceIDClientTypes.FailureDetails.read(from:))
+        value.jobProgress = try reader["JobProgress"].readIfPresent(with: VoiceIDClientTypes.JobProgress.read(from:))
         return value
     }
 }
@@ -4493,6 +4321,142 @@ extension VoiceIDClientTypes.FraudsterSummary {
         value.generatedFraudsterId = try reader["GeneratedFraudsterId"].readIfPresent()
         value.createdAt = try reader["CreatedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
         value.watchlistIds = try reader["WatchlistIds"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        return value
+    }
+}
+
+extension VoiceIDClientTypes.InputDataConfig {
+
+    static func write(value: VoiceIDClientTypes.InputDataConfig?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["S3Uri"].write(value.s3Uri)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> VoiceIDClientTypes.InputDataConfig {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = VoiceIDClientTypes.InputDataConfig()
+        value.s3Uri = try reader["S3Uri"].readIfPresent() ?? ""
+        return value
+    }
+}
+
+extension VoiceIDClientTypes.JobProgress {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> VoiceIDClientTypes.JobProgress {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = VoiceIDClientTypes.JobProgress()
+        value.percentComplete = try reader["PercentComplete"].readIfPresent()
+        return value
+    }
+}
+
+extension VoiceIDClientTypes.KnownFraudsterRisk {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> VoiceIDClientTypes.KnownFraudsterRisk {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = VoiceIDClientTypes.KnownFraudsterRisk()
+        value.riskScore = try reader["RiskScore"].readIfPresent() ?? 0
+        value.generatedFraudsterId = try reader["GeneratedFraudsterId"].readIfPresent()
+        return value
+    }
+}
+
+extension VoiceIDClientTypes.OutputDataConfig {
+
+    static func write(value: VoiceIDClientTypes.OutputDataConfig?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["KmsKeyId"].write(value.kmsKeyId)
+        try writer["S3Uri"].write(value.s3Uri)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> VoiceIDClientTypes.OutputDataConfig {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = VoiceIDClientTypes.OutputDataConfig()
+        value.s3Uri = try reader["S3Uri"].readIfPresent() ?? ""
+        value.kmsKeyId = try reader["KmsKeyId"].readIfPresent()
+        return value
+    }
+}
+
+extension VoiceIDClientTypes.RegistrationConfig {
+
+    static func write(value: VoiceIDClientTypes.RegistrationConfig?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["DuplicateRegistrationAction"].write(value.duplicateRegistrationAction)
+        try writer["FraudsterSimilarityThreshold"].write(value.fraudsterSimilarityThreshold)
+        try writer["WatchlistIds"].writeList(value.watchlistIds, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> VoiceIDClientTypes.RegistrationConfig {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = VoiceIDClientTypes.RegistrationConfig()
+        value.duplicateRegistrationAction = try reader["DuplicateRegistrationAction"].readIfPresent()
+        value.fraudsterSimilarityThreshold = try reader["FraudsterSimilarityThreshold"].readIfPresent()
+        value.watchlistIds = try reader["WatchlistIds"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        return value
+    }
+}
+
+extension VoiceIDClientTypes.ServerSideEncryptionConfiguration {
+
+    static func write(value: VoiceIDClientTypes.ServerSideEncryptionConfiguration?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["KmsKeyId"].write(value.kmsKeyId)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> VoiceIDClientTypes.ServerSideEncryptionConfiguration {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = VoiceIDClientTypes.ServerSideEncryptionConfiguration()
+        value.kmsKeyId = try reader["KmsKeyId"].readIfPresent() ?? ""
+        return value
+    }
+}
+
+extension VoiceIDClientTypes.ServerSideEncryptionUpdateDetails {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> VoiceIDClientTypes.ServerSideEncryptionUpdateDetails {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = VoiceIDClientTypes.ServerSideEncryptionUpdateDetails()
+        value.oldKmsKeyId = try reader["OldKmsKeyId"].readIfPresent()
+        value.updateStatus = try reader["UpdateStatus"].readIfPresent()
+        value.message = try reader["Message"].readIfPresent()
+        return value
+    }
+}
+
+extension VoiceIDClientTypes.Speaker {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> VoiceIDClientTypes.Speaker {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = VoiceIDClientTypes.Speaker()
+        value.domainId = try reader["DomainId"].readIfPresent()
+        value.customerSpeakerId = try reader["CustomerSpeakerId"].readIfPresent()
+        value.generatedSpeakerId = try reader["GeneratedSpeakerId"].readIfPresent()
+        value.status = try reader["Status"].readIfPresent()
+        value.createdAt = try reader["CreatedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.updatedAt = try reader["UpdatedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.lastAccessedAt = try reader["LastAccessedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        return value
+    }
+}
+
+extension VoiceIDClientTypes.SpeakerEnrollmentJob {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> VoiceIDClientTypes.SpeakerEnrollmentJob {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = VoiceIDClientTypes.SpeakerEnrollmentJob()
+        value.jobName = try reader["JobName"].readIfPresent()
+        value.jobId = try reader["JobId"].readIfPresent()
+        value.jobStatus = try reader["JobStatus"].readIfPresent()
+        value.domainId = try reader["DomainId"].readIfPresent()
+        value.dataAccessRoleArn = try reader["DataAccessRoleArn"].readIfPresent()
+        value.enrollmentConfig = try reader["EnrollmentConfig"].readIfPresent(with: VoiceIDClientTypes.EnrollmentConfig.read(from:))
+        value.inputDataConfig = try reader["InputDataConfig"].readIfPresent(with: VoiceIDClientTypes.InputDataConfig.read(from:))
+        value.outputDataConfig = try reader["OutputDataConfig"].readIfPresent(with: VoiceIDClientTypes.OutputDataConfig.read(from:))
+        value.createdAt = try reader["CreatedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.endedAt = try reader["EndedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.failureDetails = try reader["FailureDetails"].readIfPresent(with: VoiceIDClientTypes.FailureDetails.read(from:))
+        value.jobProgress = try reader["JobProgress"].readIfPresent(with: VoiceIDClientTypes.JobProgress.read(from:))
         return value
     }
 }
@@ -4543,6 +4507,42 @@ extension VoiceIDClientTypes.Tag {
         var value = VoiceIDClientTypes.Tag()
         value.key = try reader["Key"].readIfPresent() ?? ""
         value.value = try reader["Value"].readIfPresent() ?? ""
+        return value
+    }
+}
+
+extension VoiceIDClientTypes.VoiceSpoofingRisk {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> VoiceIDClientTypes.VoiceSpoofingRisk {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = VoiceIDClientTypes.VoiceSpoofingRisk()
+        value.riskScore = try reader["RiskScore"].readIfPresent() ?? 0
+        return value
+    }
+}
+
+extension VoiceIDClientTypes.Watchlist {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> VoiceIDClientTypes.Watchlist {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = VoiceIDClientTypes.Watchlist()
+        value.domainId = try reader["DomainId"].readIfPresent()
+        value.watchlistId = try reader["WatchlistId"].readIfPresent()
+        value.name = try reader["Name"].readIfPresent()
+        value.description = try reader["Description"].readIfPresent()
+        value.defaultWatchlist = try reader["DefaultWatchlist"].readIfPresent() ?? false
+        value.createdAt = try reader["CreatedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.updatedAt = try reader["UpdatedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        return value
+    }
+}
+
+extension VoiceIDClientTypes.WatchlistDetails {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> VoiceIDClientTypes.WatchlistDetails {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = VoiceIDClientTypes.WatchlistDetails()
+        value.defaultWatchlistId = try reader["DefaultWatchlistId"].readIfPresent() ?? ""
         return value
     }
 }

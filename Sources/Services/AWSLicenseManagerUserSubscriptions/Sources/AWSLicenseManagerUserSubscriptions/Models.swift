@@ -23,8 +23,8 @@ import protocol ClientRuntime.HTTPError
 import protocol ClientRuntime.ModeledError
 @_spi(SmithyReadWrite) import protocol SmithyReadWrite.SmithyReader
 @_spi(SmithyReadWrite) import protocol SmithyReadWrite.SmithyWriter
-@_spi(SmithyReadWrite) import struct AWSClientRuntime.RestJSONError
 @_spi(UnknownAWSHTTPServiceError) import struct AWSClientRuntime.UnknownAWSHTTPServiceError
+@_spi(SmithyReadWrite) import struct ClientRuntime.RestJSONError
 import struct Smithy.URIQueryItem
 
 /// You don't have sufficient access to perform this action.
@@ -1989,7 +1989,7 @@ enum AssociateUserOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
@@ -2009,7 +2009,7 @@ enum CreateLicenseServerEndpointOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
@@ -2029,7 +2029,7 @@ enum DeleteLicenseServerEndpointOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
@@ -2049,7 +2049,7 @@ enum DeregisterIdentityProviderOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
@@ -2069,7 +2069,7 @@ enum DisassociateUserOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
@@ -2089,7 +2089,7 @@ enum ListIdentityProvidersOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
@@ -2109,7 +2109,7 @@ enum ListInstancesOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
@@ -2129,7 +2129,7 @@ enum ListLicenseServerEndpointsOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
@@ -2148,7 +2148,7 @@ enum ListProductSubscriptionsOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
@@ -2168,7 +2168,7 @@ enum ListTagsForResourceOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
@@ -2184,7 +2184,7 @@ enum ListUserAssociationsOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
@@ -2204,7 +2204,7 @@ enum RegisterIdentityProviderOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
@@ -2224,7 +2224,7 @@ enum StartProductSubscriptionOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
@@ -2244,7 +2244,7 @@ enum StopProductSubscriptionOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
@@ -2264,7 +2264,7 @@ enum TagResourceOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
@@ -2280,7 +2280,7 @@ enum UntagResourceOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
@@ -2295,7 +2295,7 @@ enum UpdateIdentityProviderSettingsOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
@@ -2309,7 +2309,7 @@ enum UpdateIdentityProviderSettingsOutputError {
 
 extension AccessDeniedException {
 
-    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> AccessDeniedException {
+    static func makeError(baseError: ClientRuntime.RestJSONError) throws -> AccessDeniedException {
         let reader = baseError.errorBodyReader
         var value = AccessDeniedException()
         value.properties.message = try reader["message"].readIfPresent()
@@ -2322,7 +2322,7 @@ extension AccessDeniedException {
 
 extension ConflictException {
 
-    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> ConflictException {
+    static func makeError(baseError: ClientRuntime.RestJSONError) throws -> ConflictException {
         let reader = baseError.errorBodyReader
         var value = ConflictException()
         value.properties.message = try reader["message"].readIfPresent()
@@ -2335,7 +2335,7 @@ extension ConflictException {
 
 extension InternalServerException {
 
-    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> InternalServerException {
+    static func makeError(baseError: ClientRuntime.RestJSONError) throws -> InternalServerException {
         let reader = baseError.errorBodyReader
         var value = InternalServerException()
         value.properties.message = try reader["message"].readIfPresent()
@@ -2348,7 +2348,7 @@ extension InternalServerException {
 
 extension ResourceNotFoundException {
 
-    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> ResourceNotFoundException {
+    static func makeError(baseError: ClientRuntime.RestJSONError) throws -> ResourceNotFoundException {
         let reader = baseError.errorBodyReader
         var value = ResourceNotFoundException()
         value.properties.message = try reader["message"].readIfPresent()
@@ -2361,7 +2361,7 @@ extension ResourceNotFoundException {
 
 extension ServiceQuotaExceededException {
 
-    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> ServiceQuotaExceededException {
+    static func makeError(baseError: ClientRuntime.RestJSONError) throws -> ServiceQuotaExceededException {
         let reader = baseError.errorBodyReader
         var value = ServiceQuotaExceededException()
         value.properties.message = try reader["message"].readIfPresent()
@@ -2374,7 +2374,7 @@ extension ServiceQuotaExceededException {
 
 extension ThrottlingException {
 
-    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> ThrottlingException {
+    static func makeError(baseError: ClientRuntime.RestJSONError) throws -> ThrottlingException {
         let reader = baseError.errorBodyReader
         var value = ThrottlingException()
         value.properties.message = try reader["message"].readIfPresent()
@@ -2387,7 +2387,7 @@ extension ThrottlingException {
 
 extension ValidationException {
 
-    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> ValidationException {
+    static func makeError(baseError: ClientRuntime.RestJSONError) throws -> ValidationException {
         let reader = baseError.errorBodyReader
         var value = ValidationException()
         value.properties.message = try reader["message"].readIfPresent()
@@ -2395,48 +2395,6 @@ extension ValidationException {
         value.requestID = baseError.requestID
         value.message = baseError.message
         return value
-    }
-}
-
-extension LicenseManagerUserSubscriptionsClientTypes.InstanceUserSummary {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> LicenseManagerUserSubscriptionsClientTypes.InstanceUserSummary {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = LicenseManagerUserSubscriptionsClientTypes.InstanceUserSummary()
-        value.username = try reader["Username"].readIfPresent() ?? ""
-        value.instanceId = try reader["InstanceId"].readIfPresent() ?? ""
-        value.identityProvider = try reader["IdentityProvider"].readIfPresent(with: LicenseManagerUserSubscriptionsClientTypes.IdentityProvider.read(from:))
-        value.status = try reader["Status"].readIfPresent() ?? ""
-        value.instanceUserArn = try reader["InstanceUserArn"].readIfPresent()
-        value.statusMessage = try reader["StatusMessage"].readIfPresent()
-        value.domain = try reader["Domain"].readIfPresent()
-        value.associationDate = try reader["AssociationDate"].readIfPresent()
-        value.disassociationDate = try reader["DisassociationDate"].readIfPresent()
-        return value
-    }
-}
-
-extension LicenseManagerUserSubscriptionsClientTypes.IdentityProvider {
-
-    static func write(value: LicenseManagerUserSubscriptionsClientTypes.IdentityProvider?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        switch value {
-            case let .activedirectoryidentityprovider(activedirectoryidentityprovider):
-                try writer["ActiveDirectoryIdentityProvider"].write(activedirectoryidentityprovider, with: LicenseManagerUserSubscriptionsClientTypes.ActiveDirectoryIdentityProvider.write(value:to:))
-            case let .sdkUnknown(sdkUnknown):
-                try writer["sdkUnknown"].write(sdkUnknown)
-        }
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> LicenseManagerUserSubscriptionsClientTypes.IdentityProvider {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        let name = reader.children.filter { $0.hasContent && $0.nodeInfo.name != "__type" }.first?.nodeInfo.name
-        switch name {
-            case "ActiveDirectoryIdentityProvider":
-                return .activedirectoryidentityprovider(try reader["ActiveDirectoryIdentityProvider"].read(with: LicenseManagerUserSubscriptionsClientTypes.ActiveDirectoryIdentityProvider.read(from:)))
-            default:
-                return .sdkUnknown(name ?? "")
-        }
     }
 }
 
@@ -2484,21 +2442,6 @@ extension LicenseManagerUserSubscriptionsClientTypes.ActiveDirectorySettings {
     }
 }
 
-extension LicenseManagerUserSubscriptionsClientTypes.DomainNetworkSettings {
-
-    static func write(value: LicenseManagerUserSubscriptionsClientTypes.DomainNetworkSettings?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["Subnets"].writeList(value.subnets, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> LicenseManagerUserSubscriptionsClientTypes.DomainNetworkSettings {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = LicenseManagerUserSubscriptionsClientTypes.DomainNetworkSettings()
-        value.subnets = try reader["Subnets"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false) ?? []
-        return value
-    }
-}
-
 extension LicenseManagerUserSubscriptionsClientTypes.CredentialsProvider {
 
     static func write(value: LicenseManagerUserSubscriptionsClientTypes.CredentialsProvider?, to writer: SmithyJSON.Writer) throws {
@@ -2523,17 +2466,114 @@ extension LicenseManagerUserSubscriptionsClientTypes.CredentialsProvider {
     }
 }
 
-extension LicenseManagerUserSubscriptionsClientTypes.SecretsManagerCredentialsProvider {
+extension LicenseManagerUserSubscriptionsClientTypes.DomainNetworkSettings {
 
-    static func write(value: LicenseManagerUserSubscriptionsClientTypes.SecretsManagerCredentialsProvider?, to writer: SmithyJSON.Writer) throws {
+    static func write(value: LicenseManagerUserSubscriptionsClientTypes.DomainNetworkSettings?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
-        try writer["SecretId"].write(value.secretId)
+        try writer["Subnets"].writeList(value.subnets, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
     }
 
-    static func read(from reader: SmithyJSON.Reader) throws -> LicenseManagerUserSubscriptionsClientTypes.SecretsManagerCredentialsProvider {
+    static func read(from reader: SmithyJSON.Reader) throws -> LicenseManagerUserSubscriptionsClientTypes.DomainNetworkSettings {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = LicenseManagerUserSubscriptionsClientTypes.SecretsManagerCredentialsProvider()
-        value.secretId = try reader["SecretId"].readIfPresent()
+        var value = LicenseManagerUserSubscriptionsClientTypes.DomainNetworkSettings()
+        value.subnets = try reader["Subnets"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        return value
+    }
+}
+
+extension LicenseManagerUserSubscriptionsClientTypes.Filter {
+
+    static func write(value: LicenseManagerUserSubscriptionsClientTypes.Filter?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["Attribute"].write(value.attribute)
+        try writer["Operation"].write(value.operation)
+        try writer["Value"].write(value.value)
+    }
+}
+
+extension LicenseManagerUserSubscriptionsClientTypes.IdentityProvider {
+
+    static func write(value: LicenseManagerUserSubscriptionsClientTypes.IdentityProvider?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        switch value {
+            case let .activedirectoryidentityprovider(activedirectoryidentityprovider):
+                try writer["ActiveDirectoryIdentityProvider"].write(activedirectoryidentityprovider, with: LicenseManagerUserSubscriptionsClientTypes.ActiveDirectoryIdentityProvider.write(value:to:))
+            case let .sdkUnknown(sdkUnknown):
+                try writer["sdkUnknown"].write(sdkUnknown)
+        }
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> LicenseManagerUserSubscriptionsClientTypes.IdentityProvider {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        let name = reader.children.filter { $0.hasContent && $0.nodeInfo.name != "__type" }.first?.nodeInfo.name
+        switch name {
+            case "ActiveDirectoryIdentityProvider":
+                return .activedirectoryidentityprovider(try reader["ActiveDirectoryIdentityProvider"].read(with: LicenseManagerUserSubscriptionsClientTypes.ActiveDirectoryIdentityProvider.read(from:)))
+            default:
+                return .sdkUnknown(name ?? "")
+        }
+    }
+}
+
+extension LicenseManagerUserSubscriptionsClientTypes.IdentityProviderSummary {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> LicenseManagerUserSubscriptionsClientTypes.IdentityProviderSummary {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = LicenseManagerUserSubscriptionsClientTypes.IdentityProviderSummary()
+        value.identityProvider = try reader["IdentityProvider"].readIfPresent(with: LicenseManagerUserSubscriptionsClientTypes.IdentityProvider.read(from:))
+        value.settings = try reader["Settings"].readIfPresent(with: LicenseManagerUserSubscriptionsClientTypes.Settings.read(from:))
+        value.product = try reader["Product"].readIfPresent() ?? ""
+        value.status = try reader["Status"].readIfPresent() ?? ""
+        value.identityProviderArn = try reader["IdentityProviderArn"].readIfPresent()
+        value.failureMessage = try reader["FailureMessage"].readIfPresent()
+        value.ownerAccountId = try reader["OwnerAccountId"].readIfPresent()
+        return value
+    }
+}
+
+extension LicenseManagerUserSubscriptionsClientTypes.InstanceSummary {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> LicenseManagerUserSubscriptionsClientTypes.InstanceSummary {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = LicenseManagerUserSubscriptionsClientTypes.InstanceSummary()
+        value.instanceId = try reader["InstanceId"].readIfPresent() ?? ""
+        value.status = try reader["Status"].readIfPresent() ?? ""
+        value.products = try reader["Products"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        value.lastStatusCheckDate = try reader["LastStatusCheckDate"].readIfPresent()
+        value.statusMessage = try reader["StatusMessage"].readIfPresent()
+        value.ownerAccountId = try reader["OwnerAccountId"].readIfPresent()
+        value.identityProvider = try reader["IdentityProvider"].readIfPresent(with: LicenseManagerUserSubscriptionsClientTypes.IdentityProvider.read(from:))
+        return value
+    }
+}
+
+extension LicenseManagerUserSubscriptionsClientTypes.InstanceUserSummary {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> LicenseManagerUserSubscriptionsClientTypes.InstanceUserSummary {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = LicenseManagerUserSubscriptionsClientTypes.InstanceUserSummary()
+        value.username = try reader["Username"].readIfPresent() ?? ""
+        value.instanceId = try reader["InstanceId"].readIfPresent() ?? ""
+        value.identityProvider = try reader["IdentityProvider"].readIfPresent(with: LicenseManagerUserSubscriptionsClientTypes.IdentityProvider.read(from:))
+        value.status = try reader["Status"].readIfPresent() ?? ""
+        value.instanceUserArn = try reader["InstanceUserArn"].readIfPresent()
+        value.statusMessage = try reader["StatusMessage"].readIfPresent()
+        value.domain = try reader["Domain"].readIfPresent()
+        value.associationDate = try reader["AssociationDate"].readIfPresent()
+        value.disassociationDate = try reader["DisassociationDate"].readIfPresent()
+        return value
+    }
+}
+
+extension LicenseManagerUserSubscriptionsClientTypes.LicenseServer {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> LicenseManagerUserSubscriptionsClientTypes.LicenseServer {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = LicenseManagerUserSubscriptionsClientTypes.LicenseServer()
+        value.provisioningStatus = try reader["ProvisioningStatus"].readIfPresent()
+        value.healthStatus = try reader["HealthStatus"].readIfPresent()
+        value.ipv4Address = try reader["Ipv4Address"].readIfPresent()
+        value.ipv6Address = try reader["Ipv6Address"].readIfPresent()
         return value
     }
 }
@@ -2556,75 +2596,12 @@ extension LicenseManagerUserSubscriptionsClientTypes.LicenseServerEndpoint {
     }
 }
 
-extension LicenseManagerUserSubscriptionsClientTypes.LicenseServer {
+extension LicenseManagerUserSubscriptionsClientTypes.LicenseServerSettings {
 
-    static func read(from reader: SmithyJSON.Reader) throws -> LicenseManagerUserSubscriptionsClientTypes.LicenseServer {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = LicenseManagerUserSubscriptionsClientTypes.LicenseServer()
-        value.provisioningStatus = try reader["ProvisioningStatus"].readIfPresent()
-        value.healthStatus = try reader["HealthStatus"].readIfPresent()
-        value.ipv4Address = try reader["Ipv4Address"].readIfPresent()
-        value.ipv6Address = try reader["Ipv6Address"].readIfPresent()
-        return value
-    }
-}
-
-extension LicenseManagerUserSubscriptionsClientTypes.ServerEndpoint {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> LicenseManagerUserSubscriptionsClientTypes.ServerEndpoint {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = LicenseManagerUserSubscriptionsClientTypes.ServerEndpoint()
-        value.endpoint = try reader["Endpoint"].readIfPresent()
-        return value
-    }
-}
-
-extension LicenseManagerUserSubscriptionsClientTypes.IdentityProviderSummary {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> LicenseManagerUserSubscriptionsClientTypes.IdentityProviderSummary {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = LicenseManagerUserSubscriptionsClientTypes.IdentityProviderSummary()
-        value.identityProvider = try reader["IdentityProvider"].readIfPresent(with: LicenseManagerUserSubscriptionsClientTypes.IdentityProvider.read(from:))
-        value.settings = try reader["Settings"].readIfPresent(with: LicenseManagerUserSubscriptionsClientTypes.Settings.read(from:))
-        value.product = try reader["Product"].readIfPresent() ?? ""
-        value.status = try reader["Status"].readIfPresent() ?? ""
-        value.identityProviderArn = try reader["IdentityProviderArn"].readIfPresent()
-        value.failureMessage = try reader["FailureMessage"].readIfPresent()
-        value.ownerAccountId = try reader["OwnerAccountId"].readIfPresent()
-        return value
-    }
-}
-
-extension LicenseManagerUserSubscriptionsClientTypes.Settings {
-
-    static func write(value: LicenseManagerUserSubscriptionsClientTypes.Settings?, to writer: SmithyJSON.Writer) throws {
+    static func write(value: LicenseManagerUserSubscriptionsClientTypes.LicenseServerSettings?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
-        try writer["SecurityGroupId"].write(value.securityGroupId)
-        try writer["Subnets"].writeList(value.subnets, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> LicenseManagerUserSubscriptionsClientTypes.Settings {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = LicenseManagerUserSubscriptionsClientTypes.Settings()
-        value.subnets = try reader["Subnets"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false) ?? []
-        value.securityGroupId = try reader["SecurityGroupId"].readIfPresent() ?? ""
-        return value
-    }
-}
-
-extension LicenseManagerUserSubscriptionsClientTypes.InstanceSummary {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> LicenseManagerUserSubscriptionsClientTypes.InstanceSummary {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = LicenseManagerUserSubscriptionsClientTypes.InstanceSummary()
-        value.instanceId = try reader["InstanceId"].readIfPresent() ?? ""
-        value.status = try reader["Status"].readIfPresent() ?? ""
-        value.products = try reader["Products"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false) ?? []
-        value.lastStatusCheckDate = try reader["LastStatusCheckDate"].readIfPresent()
-        value.statusMessage = try reader["StatusMessage"].readIfPresent()
-        value.ownerAccountId = try reader["OwnerAccountId"].readIfPresent()
-        value.identityProvider = try reader["IdentityProvider"].readIfPresent(with: LicenseManagerUserSubscriptionsClientTypes.IdentityProvider.read(from:))
-        return value
+        try writer["ServerSettings"].write(value.serverSettings, with: LicenseManagerUserSubscriptionsClientTypes.ServerSettings.write(value:to:))
+        try writer["ServerType"].write(value.serverType)
     }
 }
 
@@ -2646,12 +2623,36 @@ extension LicenseManagerUserSubscriptionsClientTypes.ProductUserSummary {
     }
 }
 
-extension LicenseManagerUserSubscriptionsClientTypes.LicenseServerSettings {
+extension LicenseManagerUserSubscriptionsClientTypes.RdsSalSettings {
 
-    static func write(value: LicenseManagerUserSubscriptionsClientTypes.LicenseServerSettings?, to writer: SmithyJSON.Writer) throws {
+    static func write(value: LicenseManagerUserSubscriptionsClientTypes.RdsSalSettings?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
-        try writer["ServerSettings"].write(value.serverSettings, with: LicenseManagerUserSubscriptionsClientTypes.ServerSettings.write(value:to:))
-        try writer["ServerType"].write(value.serverType)
+        try writer["RdsSalCredentialsProvider"].write(value.rdsSalCredentialsProvider, with: LicenseManagerUserSubscriptionsClientTypes.CredentialsProvider.write(value:to:))
+    }
+}
+
+extension LicenseManagerUserSubscriptionsClientTypes.SecretsManagerCredentialsProvider {
+
+    static func write(value: LicenseManagerUserSubscriptionsClientTypes.SecretsManagerCredentialsProvider?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["SecretId"].write(value.secretId)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> LicenseManagerUserSubscriptionsClientTypes.SecretsManagerCredentialsProvider {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = LicenseManagerUserSubscriptionsClientTypes.SecretsManagerCredentialsProvider()
+        value.secretId = try reader["SecretId"].readIfPresent()
+        return value
+    }
+}
+
+extension LicenseManagerUserSubscriptionsClientTypes.ServerEndpoint {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> LicenseManagerUserSubscriptionsClientTypes.ServerEndpoint {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = LicenseManagerUserSubscriptionsClientTypes.ServerEndpoint()
+        value.endpoint = try reader["Endpoint"].readIfPresent()
+        return value
     }
 }
 
@@ -2668,21 +2669,20 @@ extension LicenseManagerUserSubscriptionsClientTypes.ServerSettings {
     }
 }
 
-extension LicenseManagerUserSubscriptionsClientTypes.RdsSalSettings {
+extension LicenseManagerUserSubscriptionsClientTypes.Settings {
 
-    static func write(value: LicenseManagerUserSubscriptionsClientTypes.RdsSalSettings?, to writer: SmithyJSON.Writer) throws {
+    static func write(value: LicenseManagerUserSubscriptionsClientTypes.Settings?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
-        try writer["RdsSalCredentialsProvider"].write(value.rdsSalCredentialsProvider, with: LicenseManagerUserSubscriptionsClientTypes.CredentialsProvider.write(value:to:))
+        try writer["SecurityGroupId"].write(value.securityGroupId)
+        try writer["Subnets"].writeList(value.subnets, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
     }
-}
 
-extension LicenseManagerUserSubscriptionsClientTypes.Filter {
-
-    static func write(value: LicenseManagerUserSubscriptionsClientTypes.Filter?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["Attribute"].write(value.attribute)
-        try writer["Operation"].write(value.operation)
-        try writer["Value"].write(value.value)
+    static func read(from reader: SmithyJSON.Reader) throws -> LicenseManagerUserSubscriptionsClientTypes.Settings {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = LicenseManagerUserSubscriptionsClientTypes.Settings()
+        value.subnets = try reader["Subnets"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        value.securityGroupId = try reader["SecurityGroupId"].readIfPresent() ?? ""
+        return value
     }
 }
 

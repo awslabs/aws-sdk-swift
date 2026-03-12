@@ -38,7 +38,6 @@ import protocol Smithy.RequestMessageSerializer
 @_spi(SmithyReadWrite) import protocol SmithyReadWrite.SmithyWriter
 @_spi(AWSEndpointResolverMiddleware) import struct AWSClientRuntime.AWSEndpointResolverMiddleware
 import struct AWSClientRuntime.AmzSdkInvocationIdMiddleware
-@_spi(SmithyReadWrite) import struct AWSClientRuntime.RestJSONError
 @_spi(UnknownAWSHTTPServiceError) import struct AWSClientRuntime.UnknownAWSHTTPServiceError
 import struct AWSClientRuntime.UserAgentMiddleware
 import struct ClientRuntime.AuthSchemeMiddleware
@@ -47,6 +46,7 @@ import struct ClientRuntime.ContentLengthMiddleware
 import struct ClientRuntime.ContentTypeMiddleware
 @_spi(SmithyReadWrite) import struct ClientRuntime.DeserializeMiddleware
 import struct ClientRuntime.LoggerMiddleware
+@_spi(SmithyReadWrite) import struct ClientRuntime.RestJSONError
 import struct ClientRuntime.SignerMiddleware
 import struct ClientRuntime.URLHostMiddleware
 import struct ClientRuntime.URLPathMiddleware
@@ -383,6 +383,7 @@ extension PollyClientTypes {
     public enum VoiceId: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case aditi
         case adriano
+        case ambre
         case amy
         case andres
         case aria
@@ -390,6 +391,7 @@ extension PollyClientTypes {
         case arthur
         case astrid
         case ayanda
+        case beatrice
         case bianca
         case brian
         case burcu
@@ -408,6 +410,7 @@ extension PollyClientTypes {
         case enrique
         case ewa
         case filiz
+        case florian
         case gabrielle
         case geraint
         case giorgio
@@ -437,9 +440,11 @@ extension PollyClientTypes {
         case kimberly
         case laura
         case lea
+        case lennart
         case liam
         case lisa
         case liv
+        case lorenzo
         case lotte
         case lucia
         case lupe
@@ -475,6 +480,7 @@ extension PollyClientTypes {
         case takumi
         case tatyana
         case thiago
+        case tiffany
         case tomoko
         case vicki
         case vitoria
@@ -487,6 +493,7 @@ extension PollyClientTypes {
             return [
                 .aditi,
                 .adriano,
+                .ambre,
                 .amy,
                 .andres,
                 .aria,
@@ -494,6 +501,7 @@ extension PollyClientTypes {
                 .arthur,
                 .astrid,
                 .ayanda,
+                .beatrice,
                 .bianca,
                 .brian,
                 .burcu,
@@ -512,6 +520,7 @@ extension PollyClientTypes {
                 .enrique,
                 .ewa,
                 .filiz,
+                .florian,
                 .gabrielle,
                 .geraint,
                 .giorgio,
@@ -541,9 +550,11 @@ extension PollyClientTypes {
                 .kimberly,
                 .laura,
                 .lea,
+                .lennart,
                 .liam,
                 .lisa,
                 .liv,
+                .lorenzo,
                 .lotte,
                 .lucia,
                 .lupe,
@@ -579,6 +590,7 @@ extension PollyClientTypes {
                 .takumi,
                 .tatyana,
                 .thiago,
+                .tiffany,
                 .tomoko,
                 .vicki,
                 .vitoria,
@@ -597,6 +609,7 @@ extension PollyClientTypes {
             switch self {
             case .aditi: return "Aditi"
             case .adriano: return "Adriano"
+            case .ambre: return "Ambre"
             case .amy: return "Amy"
             case .andres: return "Andres"
             case .aria: return "Aria"
@@ -604,6 +617,7 @@ extension PollyClientTypes {
             case .arthur: return "Arthur"
             case .astrid: return "Astrid"
             case .ayanda: return "Ayanda"
+            case .beatrice: return "Beatrice"
             case .bianca: return "Bianca"
             case .brian: return "Brian"
             case .burcu: return "Burcu"
@@ -622,6 +636,7 @@ extension PollyClientTypes {
             case .enrique: return "Enrique"
             case .ewa: return "Ewa"
             case .filiz: return "Filiz"
+            case .florian: return "Florian"
             case .gabrielle: return "Gabrielle"
             case .geraint: return "Geraint"
             case .giorgio: return "Giorgio"
@@ -651,9 +666,11 @@ extension PollyClientTypes {
             case .kimberly: return "Kimberly"
             case .laura: return "Laura"
             case .lea: return "Lea"
+            case .lennart: return "Lennart"
             case .liam: return "Liam"
             case .lisa: return "Lisa"
             case .liv: return "Liv"
+            case .lorenzo: return "Lorenzo"
             case .lotte: return "Lotte"
             case .lucia: return "Lucia"
             case .lupe: return "Lupe"
@@ -689,6 +706,7 @@ extension PollyClientTypes {
             case .takumi: return "Takumi"
             case .tatyana: return "Tatyana"
             case .thiago: return "Thiago"
+            case .tiffany: return "Tiffany"
             case .tomoko: return "Tomoko"
             case .vicki: return "Vicki"
             case .vitoria: return "Vitoria"
@@ -2026,7 +2044,7 @@ enum DeleteLexiconOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "LexiconNotFoundException": return try LexiconNotFoundException.makeError(baseError: baseError)
@@ -2041,7 +2059,7 @@ enum DescribeVoicesOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "InvalidNextTokenException": return try InvalidNextTokenException.makeError(baseError: baseError)
@@ -2056,7 +2074,7 @@ enum GetLexiconOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "LexiconNotFoundException": return try LexiconNotFoundException.makeError(baseError: baseError)
@@ -2071,7 +2089,7 @@ enum GetSpeechSynthesisTaskOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "InvalidTaskIdException": return try InvalidTaskIdException.makeError(baseError: baseError)
@@ -2087,7 +2105,7 @@ enum ListLexiconsOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "InvalidNextTokenException": return try InvalidNextTokenException.makeError(baseError: baseError)
@@ -2102,7 +2120,7 @@ enum ListSpeechSynthesisTasksOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "InvalidNextTokenException": return try InvalidNextTokenException.makeError(baseError: baseError)
@@ -2117,7 +2135,7 @@ enum PutLexiconOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "InvalidLexiconException": return try InvalidLexiconException.makeError(baseError: baseError)
@@ -2137,7 +2155,7 @@ enum StartSpeechSynthesisTaskOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "EngineNotSupportedException": return try EngineNotSupportedException.makeError(baseError: baseError)
@@ -2162,7 +2180,7 @@ enum SynthesizeSpeechOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "EngineNotSupportedException": return try EngineNotSupportedException.makeError(baseError: baseError)
@@ -2181,7 +2199,7 @@ enum SynthesizeSpeechOutputError {
 
 extension LexiconNotFoundException {
 
-    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> LexiconNotFoundException {
+    static func makeError(baseError: ClientRuntime.RestJSONError) throws -> LexiconNotFoundException {
         let reader = baseError.errorBodyReader
         var value = LexiconNotFoundException()
         value.properties.message = try reader["message"].readIfPresent()
@@ -2194,7 +2212,7 @@ extension LexiconNotFoundException {
 
 extension ServiceFailureException {
 
-    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> ServiceFailureException {
+    static func makeError(baseError: ClientRuntime.RestJSONError) throws -> ServiceFailureException {
         let reader = baseError.errorBodyReader
         var value = ServiceFailureException()
         value.properties.message = try reader["message"].readIfPresent()
@@ -2207,7 +2225,7 @@ extension ServiceFailureException {
 
 extension InvalidNextTokenException {
 
-    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> InvalidNextTokenException {
+    static func makeError(baseError: ClientRuntime.RestJSONError) throws -> InvalidNextTokenException {
         let reader = baseError.errorBodyReader
         var value = InvalidNextTokenException()
         value.properties.message = try reader["message"].readIfPresent()
@@ -2220,7 +2238,7 @@ extension InvalidNextTokenException {
 
 extension InvalidTaskIdException {
 
-    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> InvalidTaskIdException {
+    static func makeError(baseError: ClientRuntime.RestJSONError) throws -> InvalidTaskIdException {
         let reader = baseError.errorBodyReader
         var value = InvalidTaskIdException()
         value.properties.message = try reader["message"].readIfPresent()
@@ -2233,7 +2251,7 @@ extension InvalidTaskIdException {
 
 extension SynthesisTaskNotFoundException {
 
-    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> SynthesisTaskNotFoundException {
+    static func makeError(baseError: ClientRuntime.RestJSONError) throws -> SynthesisTaskNotFoundException {
         let reader = baseError.errorBodyReader
         var value = SynthesisTaskNotFoundException()
         value.properties.message = try reader["message"].readIfPresent()
@@ -2246,7 +2264,7 @@ extension SynthesisTaskNotFoundException {
 
 extension InvalidLexiconException {
 
-    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> InvalidLexiconException {
+    static func makeError(baseError: ClientRuntime.RestJSONError) throws -> InvalidLexiconException {
         let reader = baseError.errorBodyReader
         var value = InvalidLexiconException()
         value.properties.message = try reader["message"].readIfPresent()
@@ -2259,7 +2277,7 @@ extension InvalidLexiconException {
 
 extension LexiconSizeExceededException {
 
-    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> LexiconSizeExceededException {
+    static func makeError(baseError: ClientRuntime.RestJSONError) throws -> LexiconSizeExceededException {
         let reader = baseError.errorBodyReader
         var value = LexiconSizeExceededException()
         value.properties.message = try reader["message"].readIfPresent()
@@ -2272,7 +2290,7 @@ extension LexiconSizeExceededException {
 
 extension MaxLexemeLengthExceededException {
 
-    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> MaxLexemeLengthExceededException {
+    static func makeError(baseError: ClientRuntime.RestJSONError) throws -> MaxLexemeLengthExceededException {
         let reader = baseError.errorBodyReader
         var value = MaxLexemeLengthExceededException()
         value.properties.message = try reader["message"].readIfPresent()
@@ -2285,7 +2303,7 @@ extension MaxLexemeLengthExceededException {
 
 extension MaxLexiconsNumberExceededException {
 
-    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> MaxLexiconsNumberExceededException {
+    static func makeError(baseError: ClientRuntime.RestJSONError) throws -> MaxLexiconsNumberExceededException {
         let reader = baseError.errorBodyReader
         var value = MaxLexiconsNumberExceededException()
         value.properties.message = try reader["message"].readIfPresent()
@@ -2298,7 +2316,7 @@ extension MaxLexiconsNumberExceededException {
 
 extension UnsupportedPlsAlphabetException {
 
-    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> UnsupportedPlsAlphabetException {
+    static func makeError(baseError: ClientRuntime.RestJSONError) throws -> UnsupportedPlsAlphabetException {
         let reader = baseError.errorBodyReader
         var value = UnsupportedPlsAlphabetException()
         value.properties.message = try reader["message"].readIfPresent()
@@ -2311,7 +2329,7 @@ extension UnsupportedPlsAlphabetException {
 
 extension UnsupportedPlsLanguageException {
 
-    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> UnsupportedPlsLanguageException {
+    static func makeError(baseError: ClientRuntime.RestJSONError) throws -> UnsupportedPlsLanguageException {
         let reader = baseError.errorBodyReader
         var value = UnsupportedPlsLanguageException()
         value.properties.message = try reader["message"].readIfPresent()
@@ -2324,7 +2342,7 @@ extension UnsupportedPlsLanguageException {
 
 extension EngineNotSupportedException {
 
-    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> EngineNotSupportedException {
+    static func makeError(baseError: ClientRuntime.RestJSONError) throws -> EngineNotSupportedException {
         let reader = baseError.errorBodyReader
         var value = EngineNotSupportedException()
         value.properties.message = try reader["message"].readIfPresent()
@@ -2337,7 +2355,7 @@ extension EngineNotSupportedException {
 
 extension InvalidS3BucketException {
 
-    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> InvalidS3BucketException {
+    static func makeError(baseError: ClientRuntime.RestJSONError) throws -> InvalidS3BucketException {
         let reader = baseError.errorBodyReader
         var value = InvalidS3BucketException()
         value.properties.message = try reader["message"].readIfPresent()
@@ -2350,7 +2368,7 @@ extension InvalidS3BucketException {
 
 extension InvalidS3KeyException {
 
-    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> InvalidS3KeyException {
+    static func makeError(baseError: ClientRuntime.RestJSONError) throws -> InvalidS3KeyException {
         let reader = baseError.errorBodyReader
         var value = InvalidS3KeyException()
         value.properties.message = try reader["message"].readIfPresent()
@@ -2363,7 +2381,7 @@ extension InvalidS3KeyException {
 
 extension InvalidSampleRateException {
 
-    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> InvalidSampleRateException {
+    static func makeError(baseError: ClientRuntime.RestJSONError) throws -> InvalidSampleRateException {
         let reader = baseError.errorBodyReader
         var value = InvalidSampleRateException()
         value.properties.message = try reader["message"].readIfPresent()
@@ -2376,7 +2394,7 @@ extension InvalidSampleRateException {
 
 extension InvalidSnsTopicArnException {
 
-    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> InvalidSnsTopicArnException {
+    static func makeError(baseError: ClientRuntime.RestJSONError) throws -> InvalidSnsTopicArnException {
         let reader = baseError.errorBodyReader
         var value = InvalidSnsTopicArnException()
         value.properties.message = try reader["message"].readIfPresent()
@@ -2389,7 +2407,7 @@ extension InvalidSnsTopicArnException {
 
 extension InvalidSsmlException {
 
-    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> InvalidSsmlException {
+    static func makeError(baseError: ClientRuntime.RestJSONError) throws -> InvalidSsmlException {
         let reader = baseError.errorBodyReader
         var value = InvalidSsmlException()
         value.properties.message = try reader["message"].readIfPresent()
@@ -2402,7 +2420,7 @@ extension InvalidSsmlException {
 
 extension LanguageNotSupportedException {
 
-    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> LanguageNotSupportedException {
+    static func makeError(baseError: ClientRuntime.RestJSONError) throws -> LanguageNotSupportedException {
         let reader = baseError.errorBodyReader
         var value = LanguageNotSupportedException()
         value.properties.message = try reader["message"].readIfPresent()
@@ -2415,7 +2433,7 @@ extension LanguageNotSupportedException {
 
 extension MarksNotSupportedForFormatException {
 
-    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> MarksNotSupportedForFormatException {
+    static func makeError(baseError: ClientRuntime.RestJSONError) throws -> MarksNotSupportedForFormatException {
         let reader = baseError.errorBodyReader
         var value = MarksNotSupportedForFormatException()
         value.properties.message = try reader["message"].readIfPresent()
@@ -2428,7 +2446,7 @@ extension MarksNotSupportedForFormatException {
 
 extension SsmlMarksNotSupportedForTextTypeException {
 
-    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> SsmlMarksNotSupportedForTextTypeException {
+    static func makeError(baseError: ClientRuntime.RestJSONError) throws -> SsmlMarksNotSupportedForTextTypeException {
         let reader = baseError.errorBodyReader
         var value = SsmlMarksNotSupportedForTextTypeException()
         value.properties.message = try reader["message"].readIfPresent()
@@ -2441,29 +2459,13 @@ extension SsmlMarksNotSupportedForTextTypeException {
 
 extension TextLengthExceededException {
 
-    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> TextLengthExceededException {
+    static func makeError(baseError: ClientRuntime.RestJSONError) throws -> TextLengthExceededException {
         let reader = baseError.errorBodyReader
         var value = TextLengthExceededException()
         value.properties.message = try reader["message"].readIfPresent()
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
         value.message = baseError.message
-        return value
-    }
-}
-
-extension PollyClientTypes.Voice {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> PollyClientTypes.Voice {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = PollyClientTypes.Voice()
-        value.gender = try reader["Gender"].readIfPresent()
-        value.id = try reader["Id"].readIfPresent()
-        value.languageCode = try reader["LanguageCode"].readIfPresent()
-        value.languageName = try reader["LanguageName"].readIfPresent()
-        value.name = try reader["Name"].readIfPresent()
-        value.additionalLanguageCodes = try reader["AdditionalLanguageCodes"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosureBox<PollyClientTypes.LanguageCode>().read(from:), memberNodeInfo: "member", isFlattened: false)
-        value.supportedEngines = try reader["SupportedEngines"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosureBox<PollyClientTypes.Engine>().read(from:), memberNodeInfo: "member", isFlattened: false)
         return value
     }
 }
@@ -2494,6 +2496,17 @@ extension PollyClientTypes.LexiconAttributes {
     }
 }
 
+extension PollyClientTypes.LexiconDescription {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> PollyClientTypes.LexiconDescription {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = PollyClientTypes.LexiconDescription()
+        value.name = try reader["Name"].readIfPresent()
+        value.attributes = try reader["Attributes"].readIfPresent(with: PollyClientTypes.LexiconAttributes.read(from:))
+        return value
+    }
+}
+
 extension PollyClientTypes.SynthesisTask {
 
     static func read(from reader: SmithyJSON.Reader) throws -> PollyClientTypes.SynthesisTask {
@@ -2518,13 +2531,18 @@ extension PollyClientTypes.SynthesisTask {
     }
 }
 
-extension PollyClientTypes.LexiconDescription {
+extension PollyClientTypes.Voice {
 
-    static func read(from reader: SmithyJSON.Reader) throws -> PollyClientTypes.LexiconDescription {
+    static func read(from reader: SmithyJSON.Reader) throws -> PollyClientTypes.Voice {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = PollyClientTypes.LexiconDescription()
+        var value = PollyClientTypes.Voice()
+        value.gender = try reader["Gender"].readIfPresent()
+        value.id = try reader["Id"].readIfPresent()
+        value.languageCode = try reader["LanguageCode"].readIfPresent()
+        value.languageName = try reader["LanguageName"].readIfPresent()
         value.name = try reader["Name"].readIfPresent()
-        value.attributes = try reader["Attributes"].readIfPresent(with: PollyClientTypes.LexiconAttributes.read(from:))
+        value.additionalLanguageCodes = try reader["AdditionalLanguageCodes"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosureBox<PollyClientTypes.LanguageCode>().read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.supportedEngines = try reader["SupportedEngines"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosureBox<PollyClientTypes.Engine>().read(from:), memberNodeInfo: "member", isFlattened: false)
         return value
     }
 }

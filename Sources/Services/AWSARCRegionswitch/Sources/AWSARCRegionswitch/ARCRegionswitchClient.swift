@@ -1699,7 +1699,7 @@ extension ARCRegionswitchClient {
 
     /// Performs the `StartPlanExecution` operation on the `ARCRegionswitch` service.
     ///
-    /// Starts the execution of a Region switch plan. You can execute a plan in either PRACTICE or RECOVERY mode. In PRACTICE mode, the execution simulates the steps without making actual changes to your application's traffic routing. In RECOVERY mode, the execution performs actual changes to shift traffic between Regions.
+    /// Starts the execution of a Region switch plan. You can execute a plan in either graceful or ungraceful mode. Specifing ungraceful mode either changes the behavior of the execution blocks in a workflow or skips specific execution blocks.
     ///
     /// - Parameter input: [no documentation found] (Type: `StartPlanExecutionInput`)
     ///

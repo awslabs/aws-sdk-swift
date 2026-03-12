@@ -25,8 +25,8 @@ import protocol ClientRuntime.HTTPError
 import protocol ClientRuntime.ModeledError
 @_spi(SmithyReadWrite) import protocol SmithyReadWrite.SmithyReader
 @_spi(SmithyReadWrite) import protocol SmithyReadWrite.SmithyWriter
-@_spi(SmithyReadWrite) import struct AWSClientRuntime.RestJSONError
 @_spi(UnknownAWSHTTPServiceError) import struct AWSClientRuntime.UnknownAWSHTTPServiceError
+@_spi(SmithyReadWrite) import struct ClientRuntime.RestJSONError
 import struct Smithy.URIQueryItem
 @_spi(SmithyTimestamps) import struct SmithyTimestamps.TimestampFormatter
 
@@ -210,7 +210,7 @@ extension ConnectCasesClientTypes {
 
 extension ConnectCasesClientTypes {
 
-    /// Object to store union of Field values. The Summary system field accepts 3000 characters while all other fields accept 500 characters.
+    /// Object to store union of Field values. The Summary system field accepts up to 3000 characters, while all other fields accept up to 4100 characters. If you use multi-byte characters, the effective character limit may be lower.
     public enum FieldValueUnion: Swift.Sendable {
         /// String value type.
         case stringvalue(Swift.String)
@@ -1617,125 +1617,6 @@ extension ConnectCasesClientTypes {
 
 extension ConnectCasesClientTypes {
 
-    /// Boolean condition for a rule. In the Amazon Connect admin website, case rules are known as case field conditions. For more information about case field conditions, see [Add case field conditions to a case template](https://docs.aws.amazon.com/connect/latest/adminguide/case-field-conditions.html).
-    public enum BooleanCondition: Swift.Sendable {
-        /// Tests that operandOne is equal to operandTwo.
-        case equalto(ConnectCasesClientTypes.BooleanOperands)
-        /// Tests that operandOne is not equal to operandTwo.
-        case notequalto(ConnectCasesClientTypes.BooleanOperands)
-        case sdkUnknown(Swift.String)
-    }
-}
-
-extension ConnectCasesClientTypes {
-
-    /// A rule that controls field visibility based on conditions. Fields can be shown or hidden dynamically based on values in other fields.
-    public struct HiddenCaseRule: Swift.Sendable {
-        /// A list of conditions that determine field visibility.
-        /// This member is required.
-        public var conditions: [ConnectCasesClientTypes.BooleanCondition]?
-        /// Whether the field is hidden when no conditions match.
-        /// This member is required.
-        public var defaultValue: Swift.Bool?
-
-        public init(
-            conditions: [ConnectCasesClientTypes.BooleanCondition]? = nil,
-            defaultValue: Swift.Bool? = nil
-        ) {
-            self.conditions = conditions
-            self.defaultValue = defaultValue
-        }
-    }
-}
-
-extension ConnectCasesClientTypes {
-
-    /// Required rule type, used to indicate whether a field is required. In the Amazon Connect admin website, case rules are known as case field conditions. For more information about case field conditions, see [Add case field conditions to a case template](https://docs.aws.amazon.com/connect/latest/adminguide/case-field-conditions.html).
-    public struct RequiredCaseRule: Swift.Sendable {
-        /// List of conditions for the required rule; the first condition to evaluate to true dictates the value of the rule.
-        /// This member is required.
-        public var conditions: [ConnectCasesClientTypes.BooleanCondition]?
-        /// The value of the rule (that is, whether the field is required) should none of the conditions evaluate to true.
-        /// This member is required.
-        public var defaultValue: Swift.Bool?
-
-        public init(
-            conditions: [ConnectCasesClientTypes.BooleanCondition]? = nil,
-            defaultValue: Swift.Bool? = nil
-        ) {
-            self.conditions = conditions
-            self.defaultValue = defaultValue
-        }
-    }
-}
-
-extension ConnectCasesClientTypes {
-
-    /// Represents what rule type should take place, under what conditions. In the Amazon Connect admin website, case rules are known as case field conditions. For more information about case field conditions, see [Add case field conditions to a case template](https://docs.aws.amazon.com/connect/latest/adminguide/case-field-conditions.html).
-    public enum CaseRuleDetails: Swift.Sendable {
-        /// Required rule type, used to indicate whether a field is required.
-        case `required`(ConnectCasesClientTypes.RequiredCaseRule)
-        /// Which options are available in a child field based on the selected value in a parent field.
-        case fieldoptions(ConnectCasesClientTypes.FieldOptionsCaseRule)
-        /// Whether a field is visible, based on values in other fields.
-        case hidden(ConnectCasesClientTypes.HiddenCaseRule)
-        case sdkUnknown(Swift.String)
-    }
-}
-
-extension ConnectCasesClientTypes {
-
-    /// Detailed case rule information. In the Amazon Connect admin website, case rules are known as case field conditions. For more information about case field conditions, see [Add case field conditions to a case template](https://docs.aws.amazon.com/connect/latest/adminguide/case-field-conditions.html).
-    public struct GetCaseRuleResponse: Swift.Sendable {
-        /// The Amazon Resource Name (ARN) of the case rule.
-        /// This member is required.
-        public var caseRuleArn: Swift.String?
-        /// Unique identifier of a case rule.
-        /// This member is required.
-        public var caseRuleId: Swift.String?
-        /// Timestamp when the resource was created.
-        public var createdTime: Foundation.Date?
-        /// Indicates whether the resource has been deleted.
-        public var deleted: Swift.Bool
-        /// Description of a case rule.
-        public var description: Swift.String?
-        /// Timestamp when the resource was created or last modified.
-        public var lastModifiedTime: Foundation.Date?
-        /// Name of the case rule.
-        /// This member is required.
-        public var name: Swift.String?
-        /// Represents what rule type should take place, under what conditions.
-        /// This member is required.
-        public var rule: ConnectCasesClientTypes.CaseRuleDetails?
-        /// A map of of key-value pairs that represent tags on a resource. Tags are used to organize, track, or control access for this resource.
-        public var tags: [Swift.String: Swift.String?]?
-
-        public init(
-            caseRuleArn: Swift.String? = nil,
-            caseRuleId: Swift.String? = nil,
-            createdTime: Foundation.Date? = nil,
-            deleted: Swift.Bool = false,
-            description: Swift.String? = nil,
-            lastModifiedTime: Foundation.Date? = nil,
-            name: Swift.String? = nil,
-            rule: ConnectCasesClientTypes.CaseRuleDetails? = nil,
-            tags: [Swift.String: Swift.String?]? = nil
-        ) {
-            self.caseRuleArn = caseRuleArn
-            self.caseRuleId = caseRuleId
-            self.createdTime = createdTime
-            self.deleted = deleted
-            self.description = description
-            self.lastModifiedTime = lastModifiedTime
-            self.name = name
-            self.rule = rule
-            self.tags = tags
-        }
-    }
-}
-
-extension ConnectCasesClientTypes {
-
     /// Error for batch describe case rules API failure. In the Amazon Connect admin website, case rules are known as case field conditions. For more information about case field conditions, see [Add case field conditions to a case template](https://docs.aws.amazon.com/connect/latest/adminguide/case-field-conditions.html).
     public struct CaseRuleError: Swift.Sendable {
         /// Error code from getting a case rule.
@@ -1756,53 +1637,6 @@ extension ConnectCasesClientTypes {
             self.id = id
             self.message = message
         }
-    }
-}
-
-public struct BatchGetCaseRuleOutput: Swift.Sendable {
-    /// A list of detailed case rule information.
-    /// This member is required.
-    public var caseRules: [ConnectCasesClientTypes.GetCaseRuleResponse]?
-    /// A list of case rule errors.
-    /// This member is required.
-    public var errors: [ConnectCasesClientTypes.CaseRuleError]?
-    /// A list of unprocessed case rule identifiers.
-    public var unprocessedCaseRules: [Swift.String]?
-
-    public init(
-        caseRules: [ConnectCasesClientTypes.GetCaseRuleResponse]? = nil,
-        errors: [ConnectCasesClientTypes.CaseRuleError]? = nil,
-        unprocessedCaseRules: [Swift.String]? = nil
-    ) {
-        self.caseRules = caseRules
-        self.errors = errors
-        self.unprocessedCaseRules = unprocessedCaseRules
-    }
-}
-
-public struct CreateCaseRuleInput: Swift.Sendable {
-    /// The description of a case rule.
-    public var description: Swift.String?
-    /// Unique identifier of a Cases domain.
-    /// This member is required.
-    public var domainId: Swift.String?
-    /// Name of the case rule.
-    /// This member is required.
-    public var name: Swift.String?
-    /// Represents what rule type should take place, under what conditions.
-    /// This member is required.
-    public var rule: ConnectCasesClientTypes.CaseRuleDetails?
-
-    public init(
-        description: Swift.String? = nil,
-        domainId: Swift.String? = nil,
-        name: Swift.String? = nil,
-        rule: ConnectCasesClientTypes.CaseRuleDetails? = nil
-    ) {
-        self.description = description
-        self.domainId = domainId
-        self.name = name
-        self.rule = rule
     }
 }
 
@@ -1945,35 +1779,6 @@ public struct ListCaseRulesOutput: Swift.Sendable {
     ) {
         self.caseRules = caseRules
         self.nextToken = nextToken
-    }
-}
-
-public struct UpdateCaseRuleInput: Swift.Sendable {
-    /// Unique identifier of a case rule.
-    /// This member is required.
-    public var caseRuleId: Swift.String?
-    /// Description of a case rule.
-    public var description: Swift.String?
-    /// Unique identifier of a Cases domain.
-    /// This member is required.
-    public var domainId: Swift.String?
-    /// Name of the case rule.
-    public var name: Swift.String?
-    /// Represents what rule type should take place, under what conditions.
-    public var rule: ConnectCasesClientTypes.CaseRuleDetails?
-
-    public init(
-        caseRuleId: Swift.String? = nil,
-        description: Swift.String? = nil,
-        domainId: Swift.String? = nil,
-        name: Swift.String? = nil,
-        rule: ConnectCasesClientTypes.CaseRuleDetails? = nil
-    ) {
-        self.caseRuleId = caseRuleId
-        self.description = description
-        self.domainId = domainId
-        self.name = name
-        self.rule = rule
     }
 }
 
@@ -3733,6 +3538,38 @@ extension ConnectCasesClientTypes {
 
 extension ConnectCasesClientTypes {
 
+    /// Boolean condition for a rule. In the Amazon Connect admin website, case rules are known as case field conditions. For more information about case field conditions, see [Add case field conditions to a case template](https://docs.aws.amazon.com/connect/latest/adminguide/case-field-conditions.html).
+    public indirect enum BooleanCondition: Swift.Sendable {
+        /// Tests that operandOne is equal to operandTwo.
+        case equalto(ConnectCasesClientTypes.BooleanOperands)
+        /// Tests that operandOne is not equal to operandTwo.
+        case notequalto(ConnectCasesClientTypes.BooleanOperands)
+        /// Combines multiple conditions with AND operator. All conditions must be true for the compound condition to be true.
+        case andall(ConnectCasesClientTypes.CompoundCondition)
+        /// Combines multiple conditions with OR operator. At least one condition must be true for the compound condition to be true.
+        case orall(ConnectCasesClientTypes.CompoundCondition)
+        case sdkUnknown(Swift.String)
+    }
+}
+
+extension ConnectCasesClientTypes {
+
+    /// A compound condition that combines multiple boolean conditions using logical operators. In the Amazon Connect admin website, case rules are known as case field conditions. For more information about case field conditions, see [Add case field conditions to a case template](https://docs.aws.amazon.com/connect/latest/adminguide/case-field-conditions.html).
+    public struct CompoundCondition: Swift.Sendable {
+        /// The list of conditions to combine using the logical operator.
+        /// This member is required.
+        public var conditions: [ConnectCasesClientTypes.BooleanCondition]?
+
+        public init(
+            conditions: [ConnectCasesClientTypes.BooleanCondition]? = nil
+        ) {
+            self.conditions = conditions
+        }
+    }
+}
+
+extension ConnectCasesClientTypes {
+
     /// A filter for related items of type Custom.
     public struct CustomFilter: Swift.Sendable {
         /// Filter conditions for custom fields.
@@ -3742,6 +3579,48 @@ extension ConnectCasesClientTypes {
             fields: ConnectCasesClientTypes.CustomFieldsFilter? = nil
         ) {
             self.fields = fields
+        }
+    }
+}
+
+extension ConnectCasesClientTypes {
+
+    /// A rule that controls field visibility based on conditions. Fields can be shown or hidden dynamically based on values in other fields.
+    public struct HiddenCaseRule: Swift.Sendable {
+        /// A list of conditions that determine field visibility.
+        /// This member is required.
+        public var conditions: [ConnectCasesClientTypes.BooleanCondition]?
+        /// Whether the field is hidden when no conditions match.
+        /// This member is required.
+        public var defaultValue: Swift.Bool?
+
+        public init(
+            conditions: [ConnectCasesClientTypes.BooleanCondition]? = nil,
+            defaultValue: Swift.Bool? = nil
+        ) {
+            self.conditions = conditions
+            self.defaultValue = defaultValue
+        }
+    }
+}
+
+extension ConnectCasesClientTypes {
+
+    /// Required rule type, used to indicate whether a field is required. In the Amazon Connect admin website, case rules are known as case field conditions. For more information about case field conditions, see [Add case field conditions to a case template](https://docs.aws.amazon.com/connect/latest/adminguide/case-field-conditions.html).
+    public struct RequiredCaseRule: Swift.Sendable {
+        /// List of conditions for the required rule; the first condition to evaluate to true dictates the value of the rule.
+        /// This member is required.
+        public var conditions: [ConnectCasesClientTypes.BooleanCondition]?
+        /// The value of the rule (that is, whether the field is required) should none of the conditions evaluate to true.
+        /// This member is required.
+        public var defaultValue: Swift.Bool?
+
+        public init(
+            conditions: [ConnectCasesClientTypes.BooleanCondition]? = nil,
+            defaultValue: Swift.Bool? = nil
+        ) {
+            self.conditions = conditions
+            self.defaultValue = defaultValue
         }
     }
 }
@@ -3856,6 +3735,147 @@ public struct SearchRelatedItemsInput: Swift.Sendable {
         self.filters = filters
         self.maxResults = maxResults
         self.nextToken = nextToken
+    }
+}
+
+extension ConnectCasesClientTypes {
+
+    /// Represents what rule type should take place, under what conditions. In the Amazon Connect admin website, case rules are known as case field conditions. For more information about case field conditions, see [Add case field conditions to a case template](https://docs.aws.amazon.com/connect/latest/adminguide/case-field-conditions.html).
+    public indirect enum CaseRuleDetails: Swift.Sendable {
+        /// Required rule type, used to indicate whether a field is required.
+        case `required`(ConnectCasesClientTypes.RequiredCaseRule)
+        /// Which options are available in a child field based on the selected value in a parent field.
+        case fieldoptions(ConnectCasesClientTypes.FieldOptionsCaseRule)
+        /// Whether a field is visible, based on values in other fields.
+        case hidden(ConnectCasesClientTypes.HiddenCaseRule)
+        case sdkUnknown(Swift.String)
+    }
+}
+
+extension ConnectCasesClientTypes {
+
+    /// Detailed case rule information. In the Amazon Connect admin website, case rules are known as case field conditions. For more information about case field conditions, see [Add case field conditions to a case template](https://docs.aws.amazon.com/connect/latest/adminguide/case-field-conditions.html).
+    public struct GetCaseRuleResponse: Swift.Sendable {
+        /// The Amazon Resource Name (ARN) of the case rule.
+        /// This member is required.
+        public var caseRuleArn: Swift.String?
+        /// Unique identifier of a case rule.
+        /// This member is required.
+        public var caseRuleId: Swift.String?
+        /// Timestamp when the resource was created.
+        public var createdTime: Foundation.Date?
+        /// Indicates whether the resource has been deleted.
+        public var deleted: Swift.Bool
+        /// Description of a case rule.
+        public var description: Swift.String?
+        /// Timestamp when the resource was created or last modified.
+        public var lastModifiedTime: Foundation.Date?
+        /// Name of the case rule.
+        /// This member is required.
+        public var name: Swift.String?
+        /// Represents what rule type should take place, under what conditions.
+        /// This member is required.
+        public var rule: ConnectCasesClientTypes.CaseRuleDetails?
+        /// A map of of key-value pairs that represent tags on a resource. Tags are used to organize, track, or control access for this resource.
+        public var tags: [Swift.String: Swift.String?]?
+
+        public init(
+            caseRuleArn: Swift.String? = nil,
+            caseRuleId: Swift.String? = nil,
+            createdTime: Foundation.Date? = nil,
+            deleted: Swift.Bool = false,
+            description: Swift.String? = nil,
+            lastModifiedTime: Foundation.Date? = nil,
+            name: Swift.String? = nil,
+            rule: ConnectCasesClientTypes.CaseRuleDetails? = nil,
+            tags: [Swift.String: Swift.String?]? = nil
+        ) {
+            self.caseRuleArn = caseRuleArn
+            self.caseRuleId = caseRuleId
+            self.createdTime = createdTime
+            self.deleted = deleted
+            self.description = description
+            self.lastModifiedTime = lastModifiedTime
+            self.name = name
+            self.rule = rule
+            self.tags = tags
+        }
+    }
+}
+
+public struct CreateCaseRuleInput: Swift.Sendable {
+    /// The description of a case rule.
+    public var description: Swift.String?
+    /// Unique identifier of a Cases domain.
+    /// This member is required.
+    public var domainId: Swift.String?
+    /// Name of the case rule.
+    /// This member is required.
+    public var name: Swift.String?
+    /// Represents what rule type should take place, under what conditions.
+    /// This member is required.
+    public var rule: ConnectCasesClientTypes.CaseRuleDetails?
+
+    public init(
+        description: Swift.String? = nil,
+        domainId: Swift.String? = nil,
+        name: Swift.String? = nil,
+        rule: ConnectCasesClientTypes.CaseRuleDetails? = nil
+    ) {
+        self.description = description
+        self.domainId = domainId
+        self.name = name
+        self.rule = rule
+    }
+}
+
+public struct UpdateCaseRuleInput: Swift.Sendable {
+    /// Unique identifier of a case rule.
+    /// This member is required.
+    public var caseRuleId: Swift.String?
+    /// Description of a case rule.
+    public var description: Swift.String?
+    /// Unique identifier of a Cases domain.
+    /// This member is required.
+    public var domainId: Swift.String?
+    /// Name of the case rule.
+    public var name: Swift.String?
+    /// Represents what rule type should take place, under what conditions.
+    public var rule: ConnectCasesClientTypes.CaseRuleDetails?
+
+    public init(
+        caseRuleId: Swift.String? = nil,
+        description: Swift.String? = nil,
+        domainId: Swift.String? = nil,
+        name: Swift.String? = nil,
+        rule: ConnectCasesClientTypes.CaseRuleDetails? = nil
+    ) {
+        self.caseRuleId = caseRuleId
+        self.description = description
+        self.domainId = domainId
+        self.name = name
+        self.rule = rule
+    }
+}
+
+public struct BatchGetCaseRuleOutput: Swift.Sendable {
+    /// A list of detailed case rule information.
+    /// This member is required.
+    public var caseRules: [ConnectCasesClientTypes.GetCaseRuleResponse]?
+    /// A list of case rule errors.
+    /// This member is required.
+    public var errors: [ConnectCasesClientTypes.CaseRuleError]?
+    /// A list of unprocessed case rule identifiers.
+    public var unprocessedCaseRules: [Swift.String]?
+
+    public init(
+        caseRules: [ConnectCasesClientTypes.GetCaseRuleResponse]? = nil,
+        errors: [ConnectCasesClientTypes.CaseRuleError]? = nil,
+        unprocessedCaseRules: [Swift.String]? = nil
+    ) {
+        self.caseRules = caseRules
+        self.errors = errors
+        self.unprocessedCaseRules = unprocessedCaseRules
     }
 }
 
@@ -5169,7 +5189,7 @@ enum BatchGetCaseRuleOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
@@ -5187,7 +5207,7 @@ enum BatchGetFieldOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
@@ -5205,7 +5225,7 @@ enum BatchPutFieldOptionsOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
@@ -5224,7 +5244,7 @@ enum CreateCaseOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
@@ -5243,7 +5263,7 @@ enum CreateCaseRuleOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
@@ -5263,7 +5283,7 @@ enum CreateDomainOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
@@ -5282,7 +5302,7 @@ enum CreateFieldOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
@@ -5302,7 +5322,7 @@ enum CreateLayoutOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
@@ -5322,7 +5342,7 @@ enum CreateRelatedItemOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
@@ -5341,7 +5361,7 @@ enum CreateTemplateOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
@@ -5361,7 +5381,7 @@ enum DeleteCaseOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
@@ -5379,7 +5399,7 @@ enum DeleteCaseRuleOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
@@ -5397,7 +5417,7 @@ enum DeleteDomainOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
@@ -5416,7 +5436,7 @@ enum DeleteFieldOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
@@ -5436,7 +5456,7 @@ enum DeleteLayoutOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
@@ -5455,7 +5475,7 @@ enum DeleteRelatedItemOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
@@ -5473,7 +5493,7 @@ enum DeleteTemplateOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
@@ -5492,7 +5512,7 @@ enum GetCaseOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
@@ -5510,7 +5530,7 @@ enum GetCaseAuditEventsOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
@@ -5528,7 +5548,7 @@ enum GetCaseEventConfigurationOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
@@ -5546,7 +5566,7 @@ enum GetDomainOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
@@ -5564,7 +5584,7 @@ enum GetLayoutOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
@@ -5582,7 +5602,7 @@ enum GetTemplateOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
@@ -5600,7 +5620,7 @@ enum ListCaseRulesOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
@@ -5618,7 +5638,7 @@ enum ListCasesForContactOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
@@ -5636,7 +5656,7 @@ enum ListDomainsOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
@@ -5653,7 +5673,7 @@ enum ListFieldOptionsOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
@@ -5671,7 +5691,7 @@ enum ListFieldsOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
@@ -5689,7 +5709,7 @@ enum ListLayoutsOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
@@ -5707,7 +5727,7 @@ enum ListTagsForResourceOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
@@ -5725,7 +5745,7 @@ enum ListTemplatesOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
@@ -5743,7 +5763,7 @@ enum PutCaseEventConfigurationOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
@@ -5762,7 +5782,7 @@ enum SearchAllRelatedItemsOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
@@ -5780,7 +5800,7 @@ enum SearchCasesOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
@@ -5798,7 +5818,7 @@ enum SearchRelatedItemsOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
@@ -5816,7 +5836,7 @@ enum TagResourceOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
@@ -5834,7 +5854,7 @@ enum UntagResourceOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
@@ -5852,7 +5872,7 @@ enum UpdateCaseOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
@@ -5870,7 +5890,7 @@ enum UpdateCaseRuleOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
@@ -5890,7 +5910,7 @@ enum UpdateFieldOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
@@ -5909,7 +5929,7 @@ enum UpdateLayoutOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
@@ -5929,7 +5949,7 @@ enum UpdateTemplateOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
@@ -5946,7 +5966,7 @@ enum UpdateTemplateOutputError {
 
 extension AccessDeniedException {
 
-    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> AccessDeniedException {
+    static func makeError(baseError: ClientRuntime.RestJSONError) throws -> AccessDeniedException {
         let reader = baseError.errorBodyReader
         var value = AccessDeniedException()
         value.properties.message = try reader["message"].readIfPresent() ?? ""
@@ -5959,7 +5979,7 @@ extension AccessDeniedException {
 
 extension InternalServerException {
 
-    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> InternalServerException {
+    static func makeError(baseError: ClientRuntime.RestJSONError) throws -> InternalServerException {
         let reader = baseError.errorBodyReader
         let httpResponse = baseError.httpResponse
         var value = InternalServerException()
@@ -5976,7 +5996,7 @@ extension InternalServerException {
 
 extension ResourceNotFoundException {
 
-    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> ResourceNotFoundException {
+    static func makeError(baseError: ClientRuntime.RestJSONError) throws -> ResourceNotFoundException {
         let reader = baseError.errorBodyReader
         var value = ResourceNotFoundException()
         value.properties.message = try reader["message"].readIfPresent() ?? ""
@@ -5991,7 +6011,7 @@ extension ResourceNotFoundException {
 
 extension ThrottlingException {
 
-    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> ThrottlingException {
+    static func makeError(baseError: ClientRuntime.RestJSONError) throws -> ThrottlingException {
         let reader = baseError.errorBodyReader
         var value = ThrottlingException()
         value.properties.message = try reader["message"].readIfPresent() ?? ""
@@ -6004,7 +6024,7 @@ extension ThrottlingException {
 
 extension ValidationException {
 
-    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> ValidationException {
+    static func makeError(baseError: ClientRuntime.RestJSONError) throws -> ValidationException {
         let reader = baseError.errorBodyReader
         var value = ValidationException()
         value.properties.message = try reader["message"].readIfPresent() ?? ""
@@ -6017,7 +6037,7 @@ extension ValidationException {
 
 extension ServiceQuotaExceededException {
 
-    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> ServiceQuotaExceededException {
+    static func makeError(baseError: ClientRuntime.RestJSONError) throws -> ServiceQuotaExceededException {
         let reader = baseError.errorBodyReader
         var value = ServiceQuotaExceededException()
         value.properties.message = try reader["message"].readIfPresent() ?? ""
@@ -6030,7 +6050,7 @@ extension ServiceQuotaExceededException {
 
 extension ConflictException {
 
-    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> ConflictException {
+    static func makeError(baseError: ClientRuntime.RestJSONError) throws -> ConflictException {
         let reader = baseError.errorBodyReader
         var value = ConflictException()
         value.properties.message = try reader["message"].readIfPresent() ?? ""
@@ -6041,21 +6061,171 @@ extension ConflictException {
     }
 }
 
-extension ConnectCasesClientTypes.GetCaseRuleResponse {
+extension ConnectCasesClientTypes.AuditEvent {
 
-    static func read(from reader: SmithyJSON.Reader) throws -> ConnectCasesClientTypes.GetCaseRuleResponse {
+    static func read(from reader: SmithyJSON.Reader) throws -> ConnectCasesClientTypes.AuditEvent {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = ConnectCasesClientTypes.GetCaseRuleResponse()
-        value.caseRuleId = try reader["caseRuleId"].readIfPresent() ?? ""
-        value.name = try reader["name"].readIfPresent() ?? ""
-        value.caseRuleArn = try reader["caseRuleArn"].readIfPresent() ?? ""
-        value.rule = try reader["rule"].readIfPresent(with: ConnectCasesClientTypes.CaseRuleDetails.read(from:))
-        value.description = try reader["description"].readIfPresent()
-        value.deleted = try reader["deleted"].readIfPresent() ?? false
-        value.createdTime = try reader["createdTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
-        value.lastModifiedTime = try reader["lastModifiedTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
-        value.tags = try reader["tags"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.optionalFormOf(readingClosure: SmithyReadWrite.ReadingClosures.readString(from:)), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+        var value = ConnectCasesClientTypes.AuditEvent()
+        value.eventId = try reader["eventId"].readIfPresent() ?? ""
+        value.type = try reader["type"].readIfPresent() ?? .sdkUnknown("")
+        value.relatedItemType = try reader["relatedItemType"].readIfPresent()
+        value.performedTime = try reader["performedTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        value.fields = try reader["fields"].readListIfPresent(memberReadingClosure: SmithyReadWrite.optionalFormOf(readingClosure: ConnectCasesClientTypes.AuditEventField.read(from:)), memberNodeInfo: "member", isFlattened: false) ?? []
+        value.performedBy = try reader["performedBy"].readIfPresent(with: ConnectCasesClientTypes.AuditEventPerformedBy.read(from:))
         return value
+    }
+}
+
+extension ConnectCasesClientTypes.AuditEventField {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> ConnectCasesClientTypes.AuditEventField {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = ConnectCasesClientTypes.AuditEventField()
+        value.eventFieldId = try reader["eventFieldId"].readIfPresent() ?? ""
+        value.oldValue = try reader["oldValue"].readIfPresent(with: ConnectCasesClientTypes.AuditEventFieldValueUnion.read(from:))
+        value.newValue = try reader["newValue"].readIfPresent(with: ConnectCasesClientTypes.AuditEventFieldValueUnion.read(from:))
+        return value
+    }
+}
+
+extension ConnectCasesClientTypes.AuditEventFieldValueUnion {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> ConnectCasesClientTypes.AuditEventFieldValueUnion {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        let name = reader.children.filter { $0.hasContent && $0.nodeInfo.name != "__type" }.first?.nodeInfo.name
+        switch name {
+            case "stringValue":
+                return .stringvalue(try reader["stringValue"].read())
+            case "doubleValue":
+                return .doublevalue(try reader["doubleValue"].read())
+            case "booleanValue":
+                return .booleanvalue(try reader["booleanValue"].read())
+            case "emptyValue":
+                return .emptyvalue(try reader["emptyValue"].read(with: ConnectCasesClientTypes.EmptyFieldValue.read(from:)))
+            case "userArnValue":
+                return .userarnvalue(try reader["userArnValue"].read())
+            default:
+                return .sdkUnknown(name ?? "")
+        }
+    }
+}
+
+extension ConnectCasesClientTypes.AuditEventPerformedBy {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> ConnectCasesClientTypes.AuditEventPerformedBy {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = ConnectCasesClientTypes.AuditEventPerformedBy()
+        value.user = try reader["user"].readIfPresent(with: ConnectCasesClientTypes.UserUnion.read(from:))
+        value.iamPrincipalArn = try reader["iamPrincipalArn"].readIfPresent() ?? ""
+        return value
+    }
+}
+
+extension ConnectCasesClientTypes.BasicLayout {
+
+    static func write(value: ConnectCasesClientTypes.BasicLayout?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["moreInfo"].write(value.moreInfo, with: ConnectCasesClientTypes.LayoutSections.write(value:to:))
+        try writer["topPanel"].write(value.topPanel, with: ConnectCasesClientTypes.LayoutSections.write(value:to:))
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> ConnectCasesClientTypes.BasicLayout {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = ConnectCasesClientTypes.BasicLayout()
+        value.topPanel = try reader["topPanel"].readIfPresent(with: ConnectCasesClientTypes.LayoutSections.read(from:))
+        value.moreInfo = try reader["moreInfo"].readIfPresent(with: ConnectCasesClientTypes.LayoutSections.read(from:))
+        return value
+    }
+}
+
+extension ConnectCasesClientTypes.BooleanCondition {
+
+    static func write(value: ConnectCasesClientTypes.BooleanCondition?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        switch value {
+            case let .andall(andall):
+                try writer["andAll"].write(andall, with: ConnectCasesClientTypes.CompoundCondition.write(value:to:))
+            case let .equalto(equalto):
+                try writer["equalTo"].write(equalto, with: ConnectCasesClientTypes.BooleanOperands.write(value:to:))
+            case let .notequalto(notequalto):
+                try writer["notEqualTo"].write(notequalto, with: ConnectCasesClientTypes.BooleanOperands.write(value:to:))
+            case let .orall(orall):
+                try writer["orAll"].write(orall, with: ConnectCasesClientTypes.CompoundCondition.write(value:to:))
+            case let .sdkUnknown(sdkUnknown):
+                try writer["sdkUnknown"].write(sdkUnknown)
+        }
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> ConnectCasesClientTypes.BooleanCondition {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        let name = reader.children.filter { $0.hasContent && $0.nodeInfo.name != "__type" }.first?.nodeInfo.name
+        switch name {
+            case "equalTo":
+                return .equalto(try reader["equalTo"].read(with: ConnectCasesClientTypes.BooleanOperands.read(from:)))
+            case "notEqualTo":
+                return .notequalto(try reader["notEqualTo"].read(with: ConnectCasesClientTypes.BooleanOperands.read(from:)))
+            case "andAll":
+                return .andall(try reader["andAll"].read(with: ConnectCasesClientTypes.CompoundCondition.read(from:)))
+            case "orAll":
+                return .orall(try reader["orAll"].read(with: ConnectCasesClientTypes.CompoundCondition.read(from:)))
+            default:
+                return .sdkUnknown(name ?? "")
+        }
+    }
+}
+
+extension ConnectCasesClientTypes.BooleanOperands {
+
+    static func write(value: ConnectCasesClientTypes.BooleanOperands?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["operandOne"].write(value.operandOne, with: ConnectCasesClientTypes.OperandOne.write(value:to:))
+        try writer["operandTwo"].write(value.operandTwo, with: ConnectCasesClientTypes.OperandTwo.write(value:to:))
+        try writer["result"].write(value.result)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> ConnectCasesClientTypes.BooleanOperands {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = ConnectCasesClientTypes.BooleanOperands()
+        value.operandOne = try reader["operandOne"].readIfPresent(with: ConnectCasesClientTypes.OperandOne.read(from:))
+        value.operandTwo = try reader["operandTwo"].readIfPresent(with: ConnectCasesClientTypes.OperandTwo.read(from:))
+        value.result = try reader["result"].readIfPresent() ?? false
+        return value
+    }
+}
+
+extension ConnectCasesClientTypes.CaseEventIncludedData {
+
+    static func write(value: ConnectCasesClientTypes.CaseEventIncludedData?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["fields"].writeList(value.fields, memberWritingClosure: ConnectCasesClientTypes.FieldIdentifier.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> ConnectCasesClientTypes.CaseEventIncludedData {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = ConnectCasesClientTypes.CaseEventIncludedData()
+        value.fields = try reader["fields"].readListIfPresent(memberReadingClosure: ConnectCasesClientTypes.FieldIdentifier.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        return value
+    }
+}
+
+extension ConnectCasesClientTypes.CaseFilter {
+
+    static func write(value: ConnectCasesClientTypes.CaseFilter?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        switch value {
+            case let .andall(andall):
+                try writer["andAll"].writeList(andall, memberWritingClosure: ConnectCasesClientTypes.CaseFilter.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+            case let .field(field):
+                try writer["field"].write(field, with: ConnectCasesClientTypes.FieldFilter.write(value:to:))
+            case let .not(not):
+                try writer["not"].write(not, with: ConnectCasesClientTypes.CaseFilter.write(value:to:))
+            case let .orall(orall):
+                try writer["orAll"].writeList(orall, memberWritingClosure: ConnectCasesClientTypes.CaseFilter.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+            case let .tag(tag):
+                try writer["tag"].write(tag, with: ConnectCasesClientTypes.TagFilter.write(value:to:))
+            case let .sdkUnknown(sdkUnknown):
+                try writer["sdkUnknown"].write(sdkUnknown)
+        }
     }
 }
 
@@ -6091,103 +6261,213 @@ extension ConnectCasesClientTypes.CaseRuleDetails {
     }
 }
 
-extension ConnectCasesClientTypes.HiddenCaseRule {
+extension ConnectCasesClientTypes.CaseRuleError {
 
-    static func write(value: ConnectCasesClientTypes.HiddenCaseRule?, to writer: SmithyJSON.Writer) throws {
+    static func read(from reader: SmithyJSON.Reader) throws -> ConnectCasesClientTypes.CaseRuleError {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = ConnectCasesClientTypes.CaseRuleError()
+        value.id = try reader["id"].readIfPresent() ?? ""
+        value.errorCode = try reader["errorCode"].readIfPresent() ?? ""
+        value.message = try reader["message"].readIfPresent()
+        return value
+    }
+}
+
+extension ConnectCasesClientTypes.CaseRuleIdentifier {
+
+    static func write(value: ConnectCasesClientTypes.CaseRuleIdentifier?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
-        try writer["conditions"].writeList(value.conditions, memberWritingClosure: ConnectCasesClientTypes.BooleanCondition.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["defaultValue"].write(value.defaultValue)
+        try writer["id"].write(value.id)
+    }
+}
+
+extension ConnectCasesClientTypes.CaseRuleSummary {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> ConnectCasesClientTypes.CaseRuleSummary {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = ConnectCasesClientTypes.CaseRuleSummary()
+        value.caseRuleId = try reader["caseRuleId"].readIfPresent() ?? ""
+        value.name = try reader["name"].readIfPresent() ?? ""
+        value.caseRuleArn = try reader["caseRuleArn"].readIfPresent() ?? ""
+        value.ruleType = try reader["ruleType"].readIfPresent() ?? .sdkUnknown("")
+        value.description = try reader["description"].readIfPresent()
+        return value
+    }
+}
+
+extension ConnectCasesClientTypes.CaseSummary {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> ConnectCasesClientTypes.CaseSummary {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = ConnectCasesClientTypes.CaseSummary()
+        value.caseId = try reader["caseId"].readIfPresent() ?? ""
+        value.templateId = try reader["templateId"].readIfPresent() ?? ""
+        return value
+    }
+}
+
+extension ConnectCasesClientTypes.CommentContent {
+
+    static func write(value: ConnectCasesClientTypes.CommentContent?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["body"].write(value.body)
+        try writer["contentType"].write(value.contentType)
     }
 
-    static func read(from reader: SmithyJSON.Reader) throws -> ConnectCasesClientTypes.HiddenCaseRule {
+    static func read(from reader: SmithyJSON.Reader) throws -> ConnectCasesClientTypes.CommentContent {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = ConnectCasesClientTypes.HiddenCaseRule()
-        value.defaultValue = try reader["defaultValue"].readIfPresent() ?? false
+        var value = ConnectCasesClientTypes.CommentContent()
+        value.body = try reader["body"].readIfPresent() ?? ""
+        value.contentType = try reader["contentType"].readIfPresent() ?? .sdkUnknown("")
+        return value
+    }
+}
+
+extension ConnectCasesClientTypes.CommentFilter {
+
+    static func write(value: ConnectCasesClientTypes.CommentFilter?, to writer: SmithyJSON.Writer) throws {
+        guard value != nil else { return }
+        _ = writer[""]  // create an empty structure
+    }
+}
+
+extension ConnectCasesClientTypes.CompoundCondition {
+
+    static func write(value: ConnectCasesClientTypes.CompoundCondition?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["conditions"].writeList(value.conditions, memberWritingClosure: ConnectCasesClientTypes.BooleanCondition.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> ConnectCasesClientTypes.CompoundCondition {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = ConnectCasesClientTypes.CompoundCondition()
         value.conditions = try reader["conditions"].readListIfPresent(memberReadingClosure: ConnectCasesClientTypes.BooleanCondition.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
         return value
     }
 }
 
-extension ConnectCasesClientTypes.BooleanCondition {
+extension ConnectCasesClientTypes.ConnectCaseContent {
 
-    static func write(value: ConnectCasesClientTypes.BooleanCondition?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        switch value {
-            case let .equalto(equalto):
-                try writer["equalTo"].write(equalto, with: ConnectCasesClientTypes.BooleanOperands.write(value:to:))
-            case let .notequalto(notequalto):
-                try writer["notEqualTo"].write(notequalto, with: ConnectCasesClientTypes.BooleanOperands.write(value:to:))
-            case let .sdkUnknown(sdkUnknown):
-                try writer["sdkUnknown"].write(sdkUnknown)
-        }
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> ConnectCasesClientTypes.BooleanCondition {
+    static func read(from reader: SmithyJSON.Reader) throws -> ConnectCasesClientTypes.ConnectCaseContent {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        let name = reader.children.filter { $0.hasContent && $0.nodeInfo.name != "__type" }.first?.nodeInfo.name
-        switch name {
-            case "equalTo":
-                return .equalto(try reader["equalTo"].read(with: ConnectCasesClientTypes.BooleanOperands.read(from:)))
-            case "notEqualTo":
-                return .notequalto(try reader["notEqualTo"].read(with: ConnectCasesClientTypes.BooleanOperands.read(from:)))
-            default:
-                return .sdkUnknown(name ?? "")
-        }
-    }
-}
-
-extension ConnectCasesClientTypes.BooleanOperands {
-
-    static func write(value: ConnectCasesClientTypes.BooleanOperands?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["operandOne"].write(value.operandOne, with: ConnectCasesClientTypes.OperandOne.write(value:to:))
-        try writer["operandTwo"].write(value.operandTwo, with: ConnectCasesClientTypes.OperandTwo.write(value:to:))
-        try writer["result"].write(value.result)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> ConnectCasesClientTypes.BooleanOperands {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = ConnectCasesClientTypes.BooleanOperands()
-        value.operandOne = try reader["operandOne"].readIfPresent(with: ConnectCasesClientTypes.OperandOne.read(from:))
-        value.operandTwo = try reader["operandTwo"].readIfPresent(with: ConnectCasesClientTypes.OperandTwo.read(from:))
-        value.result = try reader["result"].readIfPresent() ?? false
+        var value = ConnectCasesClientTypes.ConnectCaseContent()
+        value.caseId = try reader["caseId"].readIfPresent() ?? ""
         return value
     }
 }
 
-extension ConnectCasesClientTypes.OperandTwo {
+extension ConnectCasesClientTypes.ConnectCaseFilter {
 
-    static func write(value: ConnectCasesClientTypes.OperandTwo?, to writer: SmithyJSON.Writer) throws {
+    static func write(value: ConnectCasesClientTypes.ConnectCaseFilter?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["caseId"].write(value.caseId)
+    }
+}
+
+extension ConnectCasesClientTypes.ConnectCaseInputContent {
+
+    static func write(value: ConnectCasesClientTypes.ConnectCaseInputContent?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["caseId"].write(value.caseId)
+    }
+}
+
+extension ConnectCasesClientTypes.Contact {
+
+    static func write(value: ConnectCasesClientTypes.Contact?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["contactArn"].write(value.contactArn)
+    }
+}
+
+extension ConnectCasesClientTypes.ContactContent {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> ConnectCasesClientTypes.ContactContent {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = ConnectCasesClientTypes.ContactContent()
+        value.contactArn = try reader["contactArn"].readIfPresent() ?? ""
+        value.channel = try reader["channel"].readIfPresent() ?? ""
+        value.connectedToSystemTime = try reader["connectedToSystemTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        return value
+    }
+}
+
+extension ConnectCasesClientTypes.ContactFilter {
+
+    static func write(value: ConnectCasesClientTypes.ContactFilter?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["channel"].writeList(value.channel, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["contactArn"].write(value.contactArn)
+    }
+}
+
+extension ConnectCasesClientTypes.CustomContent {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> ConnectCasesClientTypes.CustomContent {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = ConnectCasesClientTypes.CustomContent()
+        value.fields = try reader["fields"].readListIfPresent(memberReadingClosure: ConnectCasesClientTypes.FieldValue.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        return value
+    }
+}
+
+extension ConnectCasesClientTypes.CustomFieldsFilter {
+
+    static func write(value: ConnectCasesClientTypes.CustomFieldsFilter?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
         switch value {
-            case let .booleanvalue(booleanvalue):
-                try writer["booleanValue"].write(booleanvalue)
-            case let .doublevalue(doublevalue):
-                try writer["doubleValue"].write(doublevalue)
-            case let .emptyvalue(emptyvalue):
-                try writer["emptyValue"].write(emptyvalue, with: ConnectCasesClientTypes.EmptyOperandValue.write(value:to:))
-            case let .stringvalue(stringvalue):
-                try writer["stringValue"].write(stringvalue)
+            case let .andall(andall):
+                try writer["andAll"].writeList(andall, memberWritingClosure: ConnectCasesClientTypes.CustomFieldsFilter.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+            case let .field(field):
+                try writer["field"].write(field, with: ConnectCasesClientTypes.FieldFilter.write(value:to:))
+            case let .not(not):
+                try writer["not"].write(not, with: ConnectCasesClientTypes.CustomFieldsFilter.write(value:to:))
+            case let .orall(orall):
+                try writer["orAll"].writeList(orall, memberWritingClosure: ConnectCasesClientTypes.CustomFieldsFilter.write(value:to:), memberNodeInfo: "member", isFlattened: false)
             case let .sdkUnknown(sdkUnknown):
                 try writer["sdkUnknown"].write(sdkUnknown)
         }
     }
+}
 
-    static func read(from reader: SmithyJSON.Reader) throws -> ConnectCasesClientTypes.OperandTwo {
+extension ConnectCasesClientTypes.CustomFilter {
+
+    static func write(value: ConnectCasesClientTypes.CustomFilter?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["fields"].write(value.fields, with: ConnectCasesClientTypes.CustomFieldsFilter.write(value:to:))
+    }
+}
+
+extension ConnectCasesClientTypes.CustomInputContent {
+
+    static func write(value: ConnectCasesClientTypes.CustomInputContent?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["fields"].writeList(value.fields, memberWritingClosure: ConnectCasesClientTypes.FieldValue.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+    }
+}
+
+extension ConnectCasesClientTypes.DomainSummary {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> ConnectCasesClientTypes.DomainSummary {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        let name = reader.children.filter { $0.hasContent && $0.nodeInfo.name != "__type" }.first?.nodeInfo.name
-        switch name {
-            case "stringValue":
-                return .stringvalue(try reader["stringValue"].read())
-            case "booleanValue":
-                return .booleanvalue(try reader["booleanValue"].read())
-            case "doubleValue":
-                return .doublevalue(try reader["doubleValue"].read())
-            case "emptyValue":
-                return .emptyvalue(try reader["emptyValue"].read(with: ConnectCasesClientTypes.EmptyOperandValue.read(from:)))
-            default:
-                return .sdkUnknown(name ?? "")
-        }
+        var value = ConnectCasesClientTypes.DomainSummary()
+        value.domainId = try reader["domainId"].readIfPresent() ?? ""
+        value.domainArn = try reader["domainArn"].readIfPresent() ?? ""
+        value.name = try reader["name"].readIfPresent() ?? ""
+        return value
+    }
+}
+
+extension ConnectCasesClientTypes.EmptyFieldValue {
+
+    static func write(value: ConnectCasesClientTypes.EmptyFieldValue?, to writer: SmithyJSON.Writer) throws {
+        guard value != nil else { return }
+        _ = writer[""]  // create an empty structure
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> ConnectCasesClientTypes.EmptyFieldValue {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        return ConnectCasesClientTypes.EmptyFieldValue()
     }
 }
 
@@ -6204,111 +6484,36 @@ extension ConnectCasesClientTypes.EmptyOperandValue {
     }
 }
 
-extension ConnectCasesClientTypes.OperandOne {
+extension ConnectCasesClientTypes.EventBridgeConfiguration {
 
-    static func write(value: ConnectCasesClientTypes.OperandOne?, to writer: SmithyJSON.Writer) throws {
+    static func write(value: ConnectCasesClientTypes.EventBridgeConfiguration?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
-        switch value {
-            case let .fieldid(fieldid):
-                try writer["fieldId"].write(fieldid)
-            case let .sdkUnknown(sdkUnknown):
-                try writer["sdkUnknown"].write(sdkUnknown)
-        }
+        try writer["enabled"].write(value.enabled)
+        try writer["includedData"].write(value.includedData, with: ConnectCasesClientTypes.EventIncludedData.write(value:to:))
     }
 
-    static func read(from reader: SmithyJSON.Reader) throws -> ConnectCasesClientTypes.OperandOne {
+    static func read(from reader: SmithyJSON.Reader) throws -> ConnectCasesClientTypes.EventBridgeConfiguration {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        let name = reader.children.filter { $0.hasContent && $0.nodeInfo.name != "__type" }.first?.nodeInfo.name
-        switch name {
-            case "fieldId":
-                return .fieldid(try reader["fieldId"].read())
-            default:
-                return .sdkUnknown(name ?? "")
-        }
-    }
-}
-
-extension ConnectCasesClientTypes.FieldOptionsCaseRule {
-
-    static func write(value: ConnectCasesClientTypes.FieldOptionsCaseRule?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["childFieldId"].write(value.childFieldId)
-        try writer["parentChildFieldOptionsMappings"].writeList(value.parentChildFieldOptionsMappings, memberWritingClosure: ConnectCasesClientTypes.ParentChildFieldOptionsMapping.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["parentFieldId"].write(value.parentFieldId)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> ConnectCasesClientTypes.FieldOptionsCaseRule {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = ConnectCasesClientTypes.FieldOptionsCaseRule()
-        value.parentFieldId = try reader["parentFieldId"].readIfPresent()
-        value.childFieldId = try reader["childFieldId"].readIfPresent()
-        value.parentChildFieldOptionsMappings = try reader["parentChildFieldOptionsMappings"].readListIfPresent(memberReadingClosure: ConnectCasesClientTypes.ParentChildFieldOptionsMapping.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        var value = ConnectCasesClientTypes.EventBridgeConfiguration()
+        value.enabled = try reader["enabled"].readIfPresent() ?? false
+        value.includedData = try reader["includedData"].readIfPresent(with: ConnectCasesClientTypes.EventIncludedData.read(from:))
         return value
     }
 }
 
-extension ConnectCasesClientTypes.ParentChildFieldOptionsMapping {
+extension ConnectCasesClientTypes.EventIncludedData {
 
-    static func write(value: ConnectCasesClientTypes.ParentChildFieldOptionsMapping?, to writer: SmithyJSON.Writer) throws {
+    static func write(value: ConnectCasesClientTypes.EventIncludedData?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
-        try writer["childFieldOptionValues"].writeList(value.childFieldOptionValues, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["parentFieldOptionValue"].write(value.parentFieldOptionValue)
+        try writer["caseData"].write(value.caseData, with: ConnectCasesClientTypes.CaseEventIncludedData.write(value:to:))
+        try writer["relatedItemData"].write(value.relatedItemData, with: ConnectCasesClientTypes.RelatedItemEventIncludedData.write(value:to:))
     }
 
-    static func read(from reader: SmithyJSON.Reader) throws -> ConnectCasesClientTypes.ParentChildFieldOptionsMapping {
+    static func read(from reader: SmithyJSON.Reader) throws -> ConnectCasesClientTypes.EventIncludedData {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = ConnectCasesClientTypes.ParentChildFieldOptionsMapping()
-        value.parentFieldOptionValue = try reader["parentFieldOptionValue"].readIfPresent() ?? ""
-        value.childFieldOptionValues = try reader["childFieldOptionValues"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false) ?? []
-        return value
-    }
-}
-
-extension ConnectCasesClientTypes.RequiredCaseRule {
-
-    static func write(value: ConnectCasesClientTypes.RequiredCaseRule?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["conditions"].writeList(value.conditions, memberWritingClosure: ConnectCasesClientTypes.BooleanCondition.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["defaultValue"].write(value.defaultValue)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> ConnectCasesClientTypes.RequiredCaseRule {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = ConnectCasesClientTypes.RequiredCaseRule()
-        value.defaultValue = try reader["defaultValue"].readIfPresent() ?? false
-        value.conditions = try reader["conditions"].readListIfPresent(memberReadingClosure: ConnectCasesClientTypes.BooleanCondition.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
-        return value
-    }
-}
-
-extension ConnectCasesClientTypes.CaseRuleError {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> ConnectCasesClientTypes.CaseRuleError {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = ConnectCasesClientTypes.CaseRuleError()
-        value.id = try reader["id"].readIfPresent() ?? ""
-        value.errorCode = try reader["errorCode"].readIfPresent() ?? ""
-        value.message = try reader["message"].readIfPresent()
-        return value
-    }
-}
-
-extension ConnectCasesClientTypes.GetFieldResponse {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> ConnectCasesClientTypes.GetFieldResponse {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = ConnectCasesClientTypes.GetFieldResponse()
-        value.fieldId = try reader["fieldId"].readIfPresent() ?? ""
-        value.name = try reader["name"].readIfPresent() ?? ""
-        value.fieldArn = try reader["fieldArn"].readIfPresent() ?? ""
-        value.description = try reader["description"].readIfPresent()
-        value.type = try reader["type"].readIfPresent() ?? .sdkUnknown("")
-        value.namespace = try reader["namespace"].readIfPresent() ?? .sdkUnknown("")
-        value.tags = try reader["tags"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.optionalFormOf(readingClosure: SmithyReadWrite.ReadingClosures.readString(from:)), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
-        value.deleted = try reader["deleted"].readIfPresent() ?? false
-        value.createdTime = try reader["createdTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
-        value.lastModifiedTime = try reader["lastModifiedTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
-        value.attributes = try reader["attributes"].readIfPresent(with: ConnectCasesClientTypes.FieldAttributes.read(from:))
+        var value = ConnectCasesClientTypes.EventIncludedData()
+        value.caseData = try reader["caseData"].readIfPresent(with: ConnectCasesClientTypes.CaseEventIncludedData.read(from:))
+        value.relatedItemData = try reader["relatedItemData"].readIfPresent(with: ConnectCasesClientTypes.RelatedItemEventIncludedData.read(from:))
         return value
     }
 }
@@ -6337,21 +6542,6 @@ extension ConnectCasesClientTypes.FieldAttributes {
     }
 }
 
-extension ConnectCasesClientTypes.TextAttributes {
-
-    static func write(value: ConnectCasesClientTypes.TextAttributes?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["isMultiline"].write(value.isMultiline)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> ConnectCasesClientTypes.TextAttributes {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = ConnectCasesClientTypes.TextAttributes()
-        value.isMultiline = try reader["isMultiline"].readIfPresent() ?? false
-        return value
-    }
-}
-
 extension ConnectCasesClientTypes.FieldError {
 
     static func read(from reader: SmithyJSON.Reader) throws -> ConnectCasesClientTypes.FieldError {
@@ -6364,6 +6554,95 @@ extension ConnectCasesClientTypes.FieldError {
     }
 }
 
+extension ConnectCasesClientTypes.FieldFilter {
+
+    static func write(value: ConnectCasesClientTypes.FieldFilter?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        switch value {
+            case let .contains(contains):
+                try writer["contains"].write(contains, with: ConnectCasesClientTypes.FieldValue.write(value:to:))
+            case let .equalto(equalto):
+                try writer["equalTo"].write(equalto, with: ConnectCasesClientTypes.FieldValue.write(value:to:))
+            case let .greaterthan(greaterthan):
+                try writer["greaterThan"].write(greaterthan, with: ConnectCasesClientTypes.FieldValue.write(value:to:))
+            case let .greaterthanorequalto(greaterthanorequalto):
+                try writer["greaterThanOrEqualTo"].write(greaterthanorequalto, with: ConnectCasesClientTypes.FieldValue.write(value:to:))
+            case let .lessthan(lessthan):
+                try writer["lessThan"].write(lessthan, with: ConnectCasesClientTypes.FieldValue.write(value:to:))
+            case let .lessthanorequalto(lessthanorequalto):
+                try writer["lessThanOrEqualTo"].write(lessthanorequalto, with: ConnectCasesClientTypes.FieldValue.write(value:to:))
+            case let .sdkUnknown(sdkUnknown):
+                try writer["sdkUnknown"].write(sdkUnknown)
+        }
+    }
+}
+
+extension ConnectCasesClientTypes.FieldGroup {
+
+    static func write(value: ConnectCasesClientTypes.FieldGroup?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["fields"].writeList(value.fields, memberWritingClosure: ConnectCasesClientTypes.FieldItem.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["name"].write(value.name)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> ConnectCasesClientTypes.FieldGroup {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = ConnectCasesClientTypes.FieldGroup()
+        value.name = try reader["name"].readIfPresent()
+        value.fields = try reader["fields"].readListIfPresent(memberReadingClosure: ConnectCasesClientTypes.FieldItem.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        return value
+    }
+}
+
+extension ConnectCasesClientTypes.FieldIdentifier {
+
+    static func write(value: ConnectCasesClientTypes.FieldIdentifier?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["id"].write(value.id)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> ConnectCasesClientTypes.FieldIdentifier {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = ConnectCasesClientTypes.FieldIdentifier()
+        value.id = try reader["id"].readIfPresent() ?? ""
+        return value
+    }
+}
+
+extension ConnectCasesClientTypes.FieldItem {
+
+    static func write(value: ConnectCasesClientTypes.FieldItem?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["id"].write(value.id)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> ConnectCasesClientTypes.FieldItem {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = ConnectCasesClientTypes.FieldItem()
+        value.id = try reader["id"].readIfPresent() ?? ""
+        return value
+    }
+}
+
+extension ConnectCasesClientTypes.FieldOption {
+
+    static func write(value: ConnectCasesClientTypes.FieldOption?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["active"].write(value.active)
+        try writer["name"].write(value.name)
+        try writer["value"].write(value.value)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> ConnectCasesClientTypes.FieldOption {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = ConnectCasesClientTypes.FieldOption()
+        value.name = try reader["name"].readIfPresent() ?? ""
+        value.value = try reader["value"].readIfPresent() ?? ""
+        value.active = try reader["active"].readIfPresent() ?? false
+        return value
+    }
+}
+
 extension ConnectCasesClientTypes.FieldOptionError {
 
     static func read(from reader: SmithyJSON.Reader) throws -> ConnectCasesClientTypes.FieldOptionError {
@@ -6372,6 +6651,40 @@ extension ConnectCasesClientTypes.FieldOptionError {
         value.message = try reader["message"].readIfPresent() ?? ""
         value.errorCode = try reader["errorCode"].readIfPresent() ?? ""
         value.value = try reader["value"].readIfPresent() ?? ""
+        return value
+    }
+}
+
+extension ConnectCasesClientTypes.FieldOptionsCaseRule {
+
+    static func write(value: ConnectCasesClientTypes.FieldOptionsCaseRule?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["childFieldId"].write(value.childFieldId)
+        try writer["parentChildFieldOptionsMappings"].writeList(value.parentChildFieldOptionsMappings, memberWritingClosure: ConnectCasesClientTypes.ParentChildFieldOptionsMapping.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["parentFieldId"].write(value.parentFieldId)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> ConnectCasesClientTypes.FieldOptionsCaseRule {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = ConnectCasesClientTypes.FieldOptionsCaseRule()
+        value.parentFieldId = try reader["parentFieldId"].readIfPresent()
+        value.childFieldId = try reader["childFieldId"].readIfPresent()
+        value.parentChildFieldOptionsMappings = try reader["parentChildFieldOptionsMappings"].readListIfPresent(memberReadingClosure: ConnectCasesClientTypes.ParentChildFieldOptionsMapping.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        return value
+    }
+}
+
+extension ConnectCasesClientTypes.FieldSummary {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> ConnectCasesClientTypes.FieldSummary {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = ConnectCasesClientTypes.FieldSummary()
+        value.fieldId = try reader["fieldId"].readIfPresent() ?? ""
+        value.fieldArn = try reader["fieldArn"].readIfPresent() ?? ""
+        value.name = try reader["name"].readIfPresent() ?? ""
+        value.type = try reader["type"].readIfPresent() ?? .sdkUnknown("")
+        value.namespace = try reader["namespace"].readIfPresent() ?? .sdkUnknown("")
+        value.attributes = try reader["attributes"].readIfPresent(with: ConnectCasesClientTypes.FieldAttributes.read(from:))
         return value
     }
 }
@@ -6433,182 +6746,95 @@ extension ConnectCasesClientTypes.FieldValueUnion {
     }
 }
 
-extension ConnectCasesClientTypes.EmptyFieldValue {
+extension ConnectCasesClientTypes.FileContent {
 
-    static func write(value: ConnectCasesClientTypes.EmptyFieldValue?, to writer: SmithyJSON.Writer) throws {
-        guard value != nil else { return }
-        _ = writer[""]  // create an empty structure
+    static func write(value: ConnectCasesClientTypes.FileContent?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["fileArn"].write(value.fileArn)
     }
 
-    static func read(from reader: SmithyJSON.Reader) throws -> ConnectCasesClientTypes.EmptyFieldValue {
+    static func read(from reader: SmithyJSON.Reader) throws -> ConnectCasesClientTypes.FileContent {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        return ConnectCasesClientTypes.EmptyFieldValue()
+        var value = ConnectCasesClientTypes.FileContent()
+        value.fileArn = try reader["fileArn"].readIfPresent() ?? ""
+        return value
     }
 }
 
-extension ConnectCasesClientTypes.AuditEvent {
+extension ConnectCasesClientTypes.FileFilter {
 
-    static func read(from reader: SmithyJSON.Reader) throws -> ConnectCasesClientTypes.AuditEvent {
+    static func write(value: ConnectCasesClientTypes.FileFilter?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["fileArn"].write(value.fileArn)
+    }
+}
+
+extension ConnectCasesClientTypes.GetCaseRuleResponse {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> ConnectCasesClientTypes.GetCaseRuleResponse {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = ConnectCasesClientTypes.AuditEvent()
-        value.eventId = try reader["eventId"].readIfPresent() ?? ""
+        var value = ConnectCasesClientTypes.GetCaseRuleResponse()
+        value.caseRuleId = try reader["caseRuleId"].readIfPresent() ?? ""
+        value.name = try reader["name"].readIfPresent() ?? ""
+        value.caseRuleArn = try reader["caseRuleArn"].readIfPresent() ?? ""
+        value.rule = try reader["rule"].readIfPresent(with: ConnectCasesClientTypes.CaseRuleDetails.read(from:))
+        value.description = try reader["description"].readIfPresent()
+        value.deleted = try reader["deleted"].readIfPresent() ?? false
+        value.createdTime = try reader["createdTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
+        value.lastModifiedTime = try reader["lastModifiedTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
+        value.tags = try reader["tags"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.optionalFormOf(readingClosure: SmithyReadWrite.ReadingClosures.readString(from:)), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+        return value
+    }
+}
+
+extension ConnectCasesClientTypes.GetFieldResponse {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> ConnectCasesClientTypes.GetFieldResponse {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = ConnectCasesClientTypes.GetFieldResponse()
+        value.fieldId = try reader["fieldId"].readIfPresent() ?? ""
+        value.name = try reader["name"].readIfPresent() ?? ""
+        value.fieldArn = try reader["fieldArn"].readIfPresent() ?? ""
+        value.description = try reader["description"].readIfPresent()
         value.type = try reader["type"].readIfPresent() ?? .sdkUnknown("")
-        value.relatedItemType = try reader["relatedItemType"].readIfPresent()
-        value.performedTime = try reader["performedTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
-        value.fields = try reader["fields"].readListIfPresent(memberReadingClosure: SmithyReadWrite.optionalFormOf(readingClosure: ConnectCasesClientTypes.AuditEventField.read(from:)), memberNodeInfo: "member", isFlattened: false) ?? []
-        value.performedBy = try reader["performedBy"].readIfPresent(with: ConnectCasesClientTypes.AuditEventPerformedBy.read(from:))
+        value.namespace = try reader["namespace"].readIfPresent() ?? .sdkUnknown("")
+        value.tags = try reader["tags"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.optionalFormOf(readingClosure: SmithyReadWrite.ReadingClosures.readString(from:)), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+        value.deleted = try reader["deleted"].readIfPresent() ?? false
+        value.createdTime = try reader["createdTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
+        value.lastModifiedTime = try reader["lastModifiedTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
+        value.attributes = try reader["attributes"].readIfPresent(with: ConnectCasesClientTypes.FieldAttributes.read(from:))
         return value
     }
 }
 
-extension ConnectCasesClientTypes.AuditEventPerformedBy {
+extension ConnectCasesClientTypes.HiddenCaseRule {
 
-    static func read(from reader: SmithyJSON.Reader) throws -> ConnectCasesClientTypes.AuditEventPerformedBy {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = ConnectCasesClientTypes.AuditEventPerformedBy()
-        value.user = try reader["user"].readIfPresent(with: ConnectCasesClientTypes.UserUnion.read(from:))
-        value.iamPrincipalArn = try reader["iamPrincipalArn"].readIfPresent() ?? ""
-        return value
-    }
-}
-
-extension ConnectCasesClientTypes.UserUnion {
-
-    static func write(value: ConnectCasesClientTypes.UserUnion?, to writer: SmithyJSON.Writer) throws {
+    static func write(value: ConnectCasesClientTypes.HiddenCaseRule?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
-        switch value {
-            case let .customentity(customentity):
-                try writer["customEntity"].write(customentity)
-            case let .userarn(userarn):
-                try writer["userArn"].write(userarn)
-            case let .sdkUnknown(sdkUnknown):
-                try writer["sdkUnknown"].write(sdkUnknown)
-        }
+        try writer["conditions"].writeList(value.conditions, memberWritingClosure: ConnectCasesClientTypes.BooleanCondition.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["defaultValue"].write(value.defaultValue)
     }
 
-    static func read(from reader: SmithyJSON.Reader) throws -> ConnectCasesClientTypes.UserUnion {
+    static func read(from reader: SmithyJSON.Reader) throws -> ConnectCasesClientTypes.HiddenCaseRule {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        let name = reader.children.filter { $0.hasContent && $0.nodeInfo.name != "__type" }.first?.nodeInfo.name
-        switch name {
-            case "userArn":
-                return .userarn(try reader["userArn"].read())
-            case "customEntity":
-                return .customentity(try reader["customEntity"].read())
-            default:
-                return .sdkUnknown(name ?? "")
-        }
-    }
-}
-
-extension ConnectCasesClientTypes.AuditEventField {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> ConnectCasesClientTypes.AuditEventField {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = ConnectCasesClientTypes.AuditEventField()
-        value.eventFieldId = try reader["eventFieldId"].readIfPresent() ?? ""
-        value.oldValue = try reader["oldValue"].readIfPresent(with: ConnectCasesClientTypes.AuditEventFieldValueUnion.read(from:))
-        value.newValue = try reader["newValue"].readIfPresent(with: ConnectCasesClientTypes.AuditEventFieldValueUnion.read(from:))
+        var value = ConnectCasesClientTypes.HiddenCaseRule()
+        value.defaultValue = try reader["defaultValue"].readIfPresent() ?? false
+        value.conditions = try reader["conditions"].readListIfPresent(memberReadingClosure: ConnectCasesClientTypes.BooleanCondition.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
         return value
     }
 }
 
-extension ConnectCasesClientTypes.AuditEventFieldValueUnion {
+extension ConnectCasesClientTypes.LayoutConfiguration {
 
-    static func read(from reader: SmithyJSON.Reader) throws -> ConnectCasesClientTypes.AuditEventFieldValueUnion {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        let name = reader.children.filter { $0.hasContent && $0.nodeInfo.name != "__type" }.first?.nodeInfo.name
-        switch name {
-            case "stringValue":
-                return .stringvalue(try reader["stringValue"].read())
-            case "doubleValue":
-                return .doublevalue(try reader["doubleValue"].read())
-            case "booleanValue":
-                return .booleanvalue(try reader["booleanValue"].read())
-            case "emptyValue":
-                return .emptyvalue(try reader["emptyValue"].read(with: ConnectCasesClientTypes.EmptyFieldValue.read(from:)))
-            case "userArnValue":
-                return .userarnvalue(try reader["userArnValue"].read())
-            default:
-                return .sdkUnknown(name ?? "")
-        }
-    }
-}
-
-extension ConnectCasesClientTypes.EventBridgeConfiguration {
-
-    static func write(value: ConnectCasesClientTypes.EventBridgeConfiguration?, to writer: SmithyJSON.Writer) throws {
+    static func write(value: ConnectCasesClientTypes.LayoutConfiguration?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
-        try writer["enabled"].write(value.enabled)
-        try writer["includedData"].write(value.includedData, with: ConnectCasesClientTypes.EventIncludedData.write(value:to:))
+        try writer["defaultLayout"].write(value.defaultLayout)
     }
 
-    static func read(from reader: SmithyJSON.Reader) throws -> ConnectCasesClientTypes.EventBridgeConfiguration {
+    static func read(from reader: SmithyJSON.Reader) throws -> ConnectCasesClientTypes.LayoutConfiguration {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = ConnectCasesClientTypes.EventBridgeConfiguration()
-        value.enabled = try reader["enabled"].readIfPresent() ?? false
-        value.includedData = try reader["includedData"].readIfPresent(with: ConnectCasesClientTypes.EventIncludedData.read(from:))
-        return value
-    }
-}
-
-extension ConnectCasesClientTypes.EventIncludedData {
-
-    static func write(value: ConnectCasesClientTypes.EventIncludedData?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["caseData"].write(value.caseData, with: ConnectCasesClientTypes.CaseEventIncludedData.write(value:to:))
-        try writer["relatedItemData"].write(value.relatedItemData, with: ConnectCasesClientTypes.RelatedItemEventIncludedData.write(value:to:))
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> ConnectCasesClientTypes.EventIncludedData {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = ConnectCasesClientTypes.EventIncludedData()
-        value.caseData = try reader["caseData"].readIfPresent(with: ConnectCasesClientTypes.CaseEventIncludedData.read(from:))
-        value.relatedItemData = try reader["relatedItemData"].readIfPresent(with: ConnectCasesClientTypes.RelatedItemEventIncludedData.read(from:))
-        return value
-    }
-}
-
-extension ConnectCasesClientTypes.RelatedItemEventIncludedData {
-
-    static func write(value: ConnectCasesClientTypes.RelatedItemEventIncludedData?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["includeContent"].write(value.includeContent)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> ConnectCasesClientTypes.RelatedItemEventIncludedData {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = ConnectCasesClientTypes.RelatedItemEventIncludedData()
-        value.includeContent = try reader["includeContent"].readIfPresent() ?? false
-        return value
-    }
-}
-
-extension ConnectCasesClientTypes.CaseEventIncludedData {
-
-    static func write(value: ConnectCasesClientTypes.CaseEventIncludedData?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["fields"].writeList(value.fields, memberWritingClosure: ConnectCasesClientTypes.FieldIdentifier.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> ConnectCasesClientTypes.CaseEventIncludedData {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = ConnectCasesClientTypes.CaseEventIncludedData()
-        value.fields = try reader["fields"].readListIfPresent(memberReadingClosure: ConnectCasesClientTypes.FieldIdentifier.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
-        return value
-    }
-}
-
-extension ConnectCasesClientTypes.FieldIdentifier {
-
-    static func write(value: ConnectCasesClientTypes.FieldIdentifier?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["id"].write(value.id)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> ConnectCasesClientTypes.FieldIdentifier {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = ConnectCasesClientTypes.FieldIdentifier()
-        value.id = try reader["id"].readIfPresent() ?? ""
+        var value = ConnectCasesClientTypes.LayoutConfiguration()
+        value.defaultLayout = try reader["defaultLayout"].readIfPresent()
         return value
     }
 }
@@ -6637,23 +6863,6 @@ extension ConnectCasesClientTypes.LayoutContent {
     }
 }
 
-extension ConnectCasesClientTypes.BasicLayout {
-
-    static func write(value: ConnectCasesClientTypes.BasicLayout?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["moreInfo"].write(value.moreInfo, with: ConnectCasesClientTypes.LayoutSections.write(value:to:))
-        try writer["topPanel"].write(value.topPanel, with: ConnectCasesClientTypes.LayoutSections.write(value:to:))
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> ConnectCasesClientTypes.BasicLayout {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = ConnectCasesClientTypes.BasicLayout()
-        value.topPanel = try reader["topPanel"].readIfPresent(with: ConnectCasesClientTypes.LayoutSections.read(from:))
-        value.moreInfo = try reader["moreInfo"].readIfPresent(with: ConnectCasesClientTypes.LayoutSections.read(from:))
-        return value
-    }
-}
-
 extension ConnectCasesClientTypes.LayoutSections {
 
     static func write(value: ConnectCasesClientTypes.LayoutSections?, to writer: SmithyJSON.Writer) throws {
@@ -6665,197 +6874,6 @@ extension ConnectCasesClientTypes.LayoutSections {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = ConnectCasesClientTypes.LayoutSections()
         value.sections = try reader["sections"].readListIfPresent(memberReadingClosure: ConnectCasesClientTypes.Section.read(from:), memberNodeInfo: "member", isFlattened: false)
-        return value
-    }
-}
-
-extension ConnectCasesClientTypes.Section {
-
-    static func write(value: ConnectCasesClientTypes.Section?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        switch value {
-            case let .fieldgroup(fieldgroup):
-                try writer["fieldGroup"].write(fieldgroup, with: ConnectCasesClientTypes.FieldGroup.write(value:to:))
-            case let .sdkUnknown(sdkUnknown):
-                try writer["sdkUnknown"].write(sdkUnknown)
-        }
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> ConnectCasesClientTypes.Section {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        let name = reader.children.filter { $0.hasContent && $0.nodeInfo.name != "__type" }.first?.nodeInfo.name
-        switch name {
-            case "fieldGroup":
-                return .fieldgroup(try reader["fieldGroup"].read(with: ConnectCasesClientTypes.FieldGroup.read(from:)))
-            default:
-                return .sdkUnknown(name ?? "")
-        }
-    }
-}
-
-extension ConnectCasesClientTypes.FieldGroup {
-
-    static func write(value: ConnectCasesClientTypes.FieldGroup?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["fields"].writeList(value.fields, memberWritingClosure: ConnectCasesClientTypes.FieldItem.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["name"].write(value.name)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> ConnectCasesClientTypes.FieldGroup {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = ConnectCasesClientTypes.FieldGroup()
-        value.name = try reader["name"].readIfPresent()
-        value.fields = try reader["fields"].readListIfPresent(memberReadingClosure: ConnectCasesClientTypes.FieldItem.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
-        return value
-    }
-}
-
-extension ConnectCasesClientTypes.FieldItem {
-
-    static func write(value: ConnectCasesClientTypes.FieldItem?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["id"].write(value.id)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> ConnectCasesClientTypes.FieldItem {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = ConnectCasesClientTypes.FieldItem()
-        value.id = try reader["id"].readIfPresent() ?? ""
-        return value
-    }
-}
-
-extension ConnectCasesClientTypes.LayoutConfiguration {
-
-    static func write(value: ConnectCasesClientTypes.LayoutConfiguration?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["defaultLayout"].write(value.defaultLayout)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> ConnectCasesClientTypes.LayoutConfiguration {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = ConnectCasesClientTypes.LayoutConfiguration()
-        value.defaultLayout = try reader["defaultLayout"].readIfPresent()
-        return value
-    }
-}
-
-extension ConnectCasesClientTypes.RequiredField {
-
-    static func write(value: ConnectCasesClientTypes.RequiredField?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["fieldId"].write(value.fieldId)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> ConnectCasesClientTypes.RequiredField {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = ConnectCasesClientTypes.RequiredField()
-        value.fieldId = try reader["fieldId"].readIfPresent() ?? ""
-        return value
-    }
-}
-
-extension ConnectCasesClientTypes.TemplateRule {
-
-    static func write(value: ConnectCasesClientTypes.TemplateRule?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["caseRuleId"].write(value.caseRuleId)
-        try writer["fieldId"].write(value.fieldId)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> ConnectCasesClientTypes.TemplateRule {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = ConnectCasesClientTypes.TemplateRule()
-        value.caseRuleId = try reader["caseRuleId"].readIfPresent() ?? ""
-        value.fieldId = try reader["fieldId"].readIfPresent() ?? "NULL"
-        return value
-    }
-}
-
-extension ConnectCasesClientTypes.TagPropagationConfiguration {
-
-    static func write(value: ConnectCasesClientTypes.TagPropagationConfiguration?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["resourceType"].write(value.resourceType)
-        try writer["tagMap"].writeMap(value.tagMap, valueWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> ConnectCasesClientTypes.TagPropagationConfiguration {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = ConnectCasesClientTypes.TagPropagationConfiguration()
-        value.resourceType = try reader["resourceType"].readIfPresent() ?? .sdkUnknown("")
-        value.tagMap = try reader["tagMap"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false) ?? [:]
-        return value
-    }
-}
-
-extension ConnectCasesClientTypes.CaseRuleSummary {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> ConnectCasesClientTypes.CaseRuleSummary {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = ConnectCasesClientTypes.CaseRuleSummary()
-        value.caseRuleId = try reader["caseRuleId"].readIfPresent() ?? ""
-        value.name = try reader["name"].readIfPresent() ?? ""
-        value.caseRuleArn = try reader["caseRuleArn"].readIfPresent() ?? ""
-        value.ruleType = try reader["ruleType"].readIfPresent() ?? .sdkUnknown("")
-        value.description = try reader["description"].readIfPresent()
-        return value
-    }
-}
-
-extension ConnectCasesClientTypes.CaseSummary {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> ConnectCasesClientTypes.CaseSummary {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = ConnectCasesClientTypes.CaseSummary()
-        value.caseId = try reader["caseId"].readIfPresent() ?? ""
-        value.templateId = try reader["templateId"].readIfPresent() ?? ""
-        return value
-    }
-}
-
-extension ConnectCasesClientTypes.DomainSummary {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> ConnectCasesClientTypes.DomainSummary {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = ConnectCasesClientTypes.DomainSummary()
-        value.domainId = try reader["domainId"].readIfPresent() ?? ""
-        value.domainArn = try reader["domainArn"].readIfPresent() ?? ""
-        value.name = try reader["name"].readIfPresent() ?? ""
-        return value
-    }
-}
-
-extension ConnectCasesClientTypes.FieldOption {
-
-    static func write(value: ConnectCasesClientTypes.FieldOption?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["active"].write(value.active)
-        try writer["name"].write(value.name)
-        try writer["value"].write(value.value)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> ConnectCasesClientTypes.FieldOption {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = ConnectCasesClientTypes.FieldOption()
-        value.name = try reader["name"].readIfPresent() ?? ""
-        value.value = try reader["value"].readIfPresent() ?? ""
-        value.active = try reader["active"].readIfPresent() ?? false
-        return value
-    }
-}
-
-extension ConnectCasesClientTypes.FieldSummary {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> ConnectCasesClientTypes.FieldSummary {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = ConnectCasesClientTypes.FieldSummary()
-        value.fieldId = try reader["fieldId"].readIfPresent() ?? ""
-        value.fieldArn = try reader["fieldArn"].readIfPresent() ?? ""
-        value.name = try reader["name"].readIfPresent() ?? ""
-        value.type = try reader["type"].readIfPresent() ?? .sdkUnknown("")
-        value.namespace = try reader["namespace"].readIfPresent() ?? .sdkUnknown("")
-        value.attributes = try reader["attributes"].readIfPresent(with: ConnectCasesClientTypes.FieldAttributes.read(from:))
         return value
     }
 }
@@ -6872,32 +6890,79 @@ extension ConnectCasesClientTypes.LayoutSummary {
     }
 }
 
-extension ConnectCasesClientTypes.TemplateSummary {
+extension ConnectCasesClientTypes.OperandOne {
 
-    static func read(from reader: SmithyJSON.Reader) throws -> ConnectCasesClientTypes.TemplateSummary {
+    static func write(value: ConnectCasesClientTypes.OperandOne?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        switch value {
+            case let .fieldid(fieldid):
+                try writer["fieldId"].write(fieldid)
+            case let .sdkUnknown(sdkUnknown):
+                try writer["sdkUnknown"].write(sdkUnknown)
+        }
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> ConnectCasesClientTypes.OperandOne {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = ConnectCasesClientTypes.TemplateSummary()
-        value.templateId = try reader["templateId"].readIfPresent() ?? ""
-        value.templateArn = try reader["templateArn"].readIfPresent() ?? ""
-        value.name = try reader["name"].readIfPresent() ?? ""
-        value.status = try reader["status"].readIfPresent() ?? .sdkUnknown("")
-        value.tagPropagationConfigurations = try reader["tagPropagationConfigurations"].readListIfPresent(memberReadingClosure: ConnectCasesClientTypes.TagPropagationConfiguration.read(from:), memberNodeInfo: "member", isFlattened: false)
-        return value
+        let name = reader.children.filter { $0.hasContent && $0.nodeInfo.name != "__type" }.first?.nodeInfo.name
+        switch name {
+            case "fieldId":
+                return .fieldid(try reader["fieldId"].read())
+            default:
+                return .sdkUnknown(name ?? "")
+        }
     }
 }
 
-extension ConnectCasesClientTypes.SearchAllRelatedItemsResponseItem {
+extension ConnectCasesClientTypes.OperandTwo {
 
-    static func read(from reader: SmithyJSON.Reader) throws -> ConnectCasesClientTypes.SearchAllRelatedItemsResponseItem {
+    static func write(value: ConnectCasesClientTypes.OperandTwo?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        switch value {
+            case let .booleanvalue(booleanvalue):
+                try writer["booleanValue"].write(booleanvalue)
+            case let .doublevalue(doublevalue):
+                try writer["doubleValue"].write(doublevalue)
+            case let .emptyvalue(emptyvalue):
+                try writer["emptyValue"].write(emptyvalue, with: ConnectCasesClientTypes.EmptyOperandValue.write(value:to:))
+            case let .stringvalue(stringvalue):
+                try writer["stringValue"].write(stringvalue)
+            case let .sdkUnknown(sdkUnknown):
+                try writer["sdkUnknown"].write(sdkUnknown)
+        }
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> ConnectCasesClientTypes.OperandTwo {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = ConnectCasesClientTypes.SearchAllRelatedItemsResponseItem()
-        value.relatedItemId = try reader["relatedItemId"].readIfPresent() ?? ""
-        value.caseId = try reader["caseId"].readIfPresent() ?? ""
-        value.type = try reader["type"].readIfPresent() ?? .sdkUnknown("")
-        value.associationTime = try reader["associationTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
-        value.content = try reader["content"].readIfPresent(with: ConnectCasesClientTypes.RelatedItemContent.read(from:))
-        value.performedBy = try reader["performedBy"].readIfPresent(with: ConnectCasesClientTypes.UserUnion.read(from:))
-        value.tags = try reader["tags"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.optionalFormOf(readingClosure: SmithyReadWrite.ReadingClosures.readString(from:)), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+        let name = reader.children.filter { $0.hasContent && $0.nodeInfo.name != "__type" }.first?.nodeInfo.name
+        switch name {
+            case "stringValue":
+                return .stringvalue(try reader["stringValue"].read())
+            case "booleanValue":
+                return .booleanvalue(try reader["booleanValue"].read())
+            case "doubleValue":
+                return .doublevalue(try reader["doubleValue"].read())
+            case "emptyValue":
+                return .emptyvalue(try reader["emptyValue"].read(with: ConnectCasesClientTypes.EmptyOperandValue.read(from:)))
+            default:
+                return .sdkUnknown(name ?? "")
+        }
+    }
+}
+
+extension ConnectCasesClientTypes.ParentChildFieldOptionsMapping {
+
+    static func write(value: ConnectCasesClientTypes.ParentChildFieldOptionsMapping?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["childFieldOptionValues"].writeList(value.childFieldOptionValues, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["parentFieldOptionValue"].write(value.parentFieldOptionValue)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> ConnectCasesClientTypes.ParentChildFieldOptionsMapping {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = ConnectCasesClientTypes.ParentChildFieldOptionsMapping()
+        value.parentFieldOptionValue = try reader["parentFieldOptionValue"].readIfPresent() ?? ""
+        value.childFieldOptionValues = try reader["childFieldOptionValues"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false) ?? []
         return value
     }
 }
@@ -6926,93 +6991,121 @@ extension ConnectCasesClientTypes.RelatedItemContent {
     }
 }
 
-extension ConnectCasesClientTypes.CustomContent {
+extension ConnectCasesClientTypes.RelatedItemEventIncludedData {
 
-    static func read(from reader: SmithyJSON.Reader) throws -> ConnectCasesClientTypes.CustomContent {
+    static func write(value: ConnectCasesClientTypes.RelatedItemEventIncludedData?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["includeContent"].write(value.includeContent)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> ConnectCasesClientTypes.RelatedItemEventIncludedData {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = ConnectCasesClientTypes.CustomContent()
-        value.fields = try reader["fields"].readListIfPresent(memberReadingClosure: ConnectCasesClientTypes.FieldValue.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        var value = ConnectCasesClientTypes.RelatedItemEventIncludedData()
+        value.includeContent = try reader["includeContent"].readIfPresent() ?? false
         return value
     }
 }
 
-extension ConnectCasesClientTypes.ConnectCaseContent {
+extension ConnectCasesClientTypes.RelatedItemInputContent {
 
-    static func read(from reader: SmithyJSON.Reader) throws -> ConnectCasesClientTypes.ConnectCaseContent {
+    static func write(value: ConnectCasesClientTypes.RelatedItemInputContent?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        switch value {
+            case let .comment(comment):
+                try writer["comment"].write(comment, with: ConnectCasesClientTypes.CommentContent.write(value:to:))
+            case let .connectcase(connectcase):
+                try writer["connectCase"].write(connectcase, with: ConnectCasesClientTypes.ConnectCaseInputContent.write(value:to:))
+            case let .contact(contact):
+                try writer["contact"].write(contact, with: ConnectCasesClientTypes.Contact.write(value:to:))
+            case let .custom(custom):
+                try writer["custom"].write(custom, with: ConnectCasesClientTypes.CustomInputContent.write(value:to:))
+            case let .file(file):
+                try writer["file"].write(file, with: ConnectCasesClientTypes.FileContent.write(value:to:))
+            case let .sla(sla):
+                try writer["sla"].write(sla, with: ConnectCasesClientTypes.SlaInputContent.write(value:to:))
+            case let .sdkUnknown(sdkUnknown):
+                try writer["sdkUnknown"].write(sdkUnknown)
+        }
+    }
+}
+
+extension ConnectCasesClientTypes.RelatedItemTypeFilter {
+
+    static func write(value: ConnectCasesClientTypes.RelatedItemTypeFilter?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        switch value {
+            case let .comment(comment):
+                try writer["comment"].write(comment, with: ConnectCasesClientTypes.CommentFilter.write(value:to:))
+            case let .connectcase(connectcase):
+                try writer["connectCase"].write(connectcase, with: ConnectCasesClientTypes.ConnectCaseFilter.write(value:to:))
+            case let .contact(contact):
+                try writer["contact"].write(contact, with: ConnectCasesClientTypes.ContactFilter.write(value:to:))
+            case let .custom(custom):
+                try writer["custom"].write(custom, with: ConnectCasesClientTypes.CustomFilter.write(value:to:))
+            case let .file(file):
+                try writer["file"].write(file, with: ConnectCasesClientTypes.FileFilter.write(value:to:))
+            case let .sla(sla):
+                try writer["sla"].write(sla, with: ConnectCasesClientTypes.SlaFilter.write(value:to:))
+            case let .sdkUnknown(sdkUnknown):
+                try writer["sdkUnknown"].write(sdkUnknown)
+        }
+    }
+}
+
+extension ConnectCasesClientTypes.RequiredCaseRule {
+
+    static func write(value: ConnectCasesClientTypes.RequiredCaseRule?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["conditions"].writeList(value.conditions, memberWritingClosure: ConnectCasesClientTypes.BooleanCondition.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["defaultValue"].write(value.defaultValue)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> ConnectCasesClientTypes.RequiredCaseRule {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = ConnectCasesClientTypes.ConnectCaseContent()
+        var value = ConnectCasesClientTypes.RequiredCaseRule()
+        value.defaultValue = try reader["defaultValue"].readIfPresent() ?? false
+        value.conditions = try reader["conditions"].readListIfPresent(memberReadingClosure: ConnectCasesClientTypes.BooleanCondition.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        return value
+    }
+}
+
+extension ConnectCasesClientTypes.RequiredField {
+
+    static func write(value: ConnectCasesClientTypes.RequiredField?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["fieldId"].write(value.fieldId)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> ConnectCasesClientTypes.RequiredField {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = ConnectCasesClientTypes.RequiredField()
+        value.fieldId = try reader["fieldId"].readIfPresent() ?? ""
+        return value
+    }
+}
+
+extension ConnectCasesClientTypes.SearchAllRelatedItemsResponseItem {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> ConnectCasesClientTypes.SearchAllRelatedItemsResponseItem {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = ConnectCasesClientTypes.SearchAllRelatedItemsResponseItem()
+        value.relatedItemId = try reader["relatedItemId"].readIfPresent() ?? ""
         value.caseId = try reader["caseId"].readIfPresent() ?? ""
-        return value
-    }
-}
-
-extension ConnectCasesClientTypes.SlaContent {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> ConnectCasesClientTypes.SlaContent {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = ConnectCasesClientTypes.SlaContent()
-        value.slaConfiguration = try reader["slaConfiguration"].readIfPresent(with: ConnectCasesClientTypes.SlaConfiguration.read(from:))
-        return value
-    }
-}
-
-extension ConnectCasesClientTypes.SlaConfiguration {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> ConnectCasesClientTypes.SlaConfiguration {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = ConnectCasesClientTypes.SlaConfiguration()
-        value.name = try reader["name"].readIfPresent() ?? ""
         value.type = try reader["type"].readIfPresent() ?? .sdkUnknown("")
-        value.status = try reader["status"].readIfPresent() ?? .sdkUnknown("")
-        value.fieldId = try reader["fieldId"].readIfPresent()
-        value.targetFieldValues = try reader["targetFieldValues"].readListIfPresent(memberReadingClosure: ConnectCasesClientTypes.FieldValueUnion.read(from:), memberNodeInfo: "member", isFlattened: false)
-        value.targetTime = try reader["targetTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
-        value.completionTime = try reader["completionTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
+        value.associationTime = try reader["associationTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        value.content = try reader["content"].readIfPresent(with: ConnectCasesClientTypes.RelatedItemContent.read(from:))
+        value.performedBy = try reader["performedBy"].readIfPresent(with: ConnectCasesClientTypes.UserUnion.read(from:))
+        value.tags = try reader["tags"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.optionalFormOf(readingClosure: SmithyReadWrite.ReadingClosures.readString(from:)), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
         return value
     }
 }
 
-extension ConnectCasesClientTypes.FileContent {
+extension ConnectCasesClientTypes.SearchAllRelatedItemsSort {
 
-    static func write(value: ConnectCasesClientTypes.FileContent?, to writer: SmithyJSON.Writer) throws {
+    static func write(value: ConnectCasesClientTypes.SearchAllRelatedItemsSort?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
-        try writer["fileArn"].write(value.fileArn)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> ConnectCasesClientTypes.FileContent {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = ConnectCasesClientTypes.FileContent()
-        value.fileArn = try reader["fileArn"].readIfPresent() ?? ""
-        return value
-    }
-}
-
-extension ConnectCasesClientTypes.CommentContent {
-
-    static func write(value: ConnectCasesClientTypes.CommentContent?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["body"].write(value.body)
-        try writer["contentType"].write(value.contentType)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> ConnectCasesClientTypes.CommentContent {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = ConnectCasesClientTypes.CommentContent()
-        value.body = try reader["body"].readIfPresent() ?? ""
-        value.contentType = try reader["contentType"].readIfPresent() ?? .sdkUnknown("")
-        return value
-    }
-}
-
-extension ConnectCasesClientTypes.ContactContent {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> ConnectCasesClientTypes.ContactContent {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = ConnectCasesClientTypes.ContactContent()
-        value.contactArn = try reader["contactArn"].readIfPresent() ?? ""
-        value.channel = try reader["channel"].readIfPresent() ?? ""
-        value.connectedToSystemTime = try reader["connectedToSystemTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
-        return value
+        try writer["sortOrder"].write(value.sortOrder)
+        try writer["sortProperty"].write(value.sortProperty)
     }
 }
 
@@ -7044,50 +7137,74 @@ extension ConnectCasesClientTypes.SearchRelatedItemsResponseItem {
     }
 }
 
-extension ConnectCasesClientTypes.CaseRuleIdentifier {
+extension ConnectCasesClientTypes.Section {
 
-    static func write(value: ConnectCasesClientTypes.CaseRuleIdentifier?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["id"].write(value.id)
-    }
-}
-
-extension ConnectCasesClientTypes.RelatedItemInputContent {
-
-    static func write(value: ConnectCasesClientTypes.RelatedItemInputContent?, to writer: SmithyJSON.Writer) throws {
+    static func write(value: ConnectCasesClientTypes.Section?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
         switch value {
-            case let .comment(comment):
-                try writer["comment"].write(comment, with: ConnectCasesClientTypes.CommentContent.write(value:to:))
-            case let .connectcase(connectcase):
-                try writer["connectCase"].write(connectcase, with: ConnectCasesClientTypes.ConnectCaseInputContent.write(value:to:))
-            case let .contact(contact):
-                try writer["contact"].write(contact, with: ConnectCasesClientTypes.Contact.write(value:to:))
-            case let .custom(custom):
-                try writer["custom"].write(custom, with: ConnectCasesClientTypes.CustomInputContent.write(value:to:))
-            case let .file(file):
-                try writer["file"].write(file, with: ConnectCasesClientTypes.FileContent.write(value:to:))
-            case let .sla(sla):
-                try writer["sla"].write(sla, with: ConnectCasesClientTypes.SlaInputContent.write(value:to:))
+            case let .fieldgroup(fieldgroup):
+                try writer["fieldGroup"].write(fieldgroup, with: ConnectCasesClientTypes.FieldGroup.write(value:to:))
             case let .sdkUnknown(sdkUnknown):
                 try writer["sdkUnknown"].write(sdkUnknown)
         }
     }
-}
 
-extension ConnectCasesClientTypes.CustomInputContent {
-
-    static func write(value: ConnectCasesClientTypes.CustomInputContent?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["fields"].writeList(value.fields, memberWritingClosure: ConnectCasesClientTypes.FieldValue.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+    static func read(from reader: SmithyJSON.Reader) throws -> ConnectCasesClientTypes.Section {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        let name = reader.children.filter { $0.hasContent && $0.nodeInfo.name != "__type" }.first?.nodeInfo.name
+        switch name {
+            case "fieldGroup":
+                return .fieldgroup(try reader["fieldGroup"].read(with: ConnectCasesClientTypes.FieldGroup.read(from:)))
+            default:
+                return .sdkUnknown(name ?? "")
+        }
     }
 }
 
-extension ConnectCasesClientTypes.ConnectCaseInputContent {
+extension ConnectCasesClientTypes.SlaConfiguration {
 
-    static func write(value: ConnectCasesClientTypes.ConnectCaseInputContent?, to writer: SmithyJSON.Writer) throws {
+    static func read(from reader: SmithyJSON.Reader) throws -> ConnectCasesClientTypes.SlaConfiguration {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = ConnectCasesClientTypes.SlaConfiguration()
+        value.name = try reader["name"].readIfPresent() ?? ""
+        value.type = try reader["type"].readIfPresent() ?? .sdkUnknown("")
+        value.status = try reader["status"].readIfPresent() ?? .sdkUnknown("")
+        value.fieldId = try reader["fieldId"].readIfPresent()
+        value.targetFieldValues = try reader["targetFieldValues"].readListIfPresent(memberReadingClosure: ConnectCasesClientTypes.FieldValueUnion.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.targetTime = try reader["targetTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        value.completionTime = try reader["completionTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
+        return value
+    }
+}
+
+extension ConnectCasesClientTypes.SlaContent {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> ConnectCasesClientTypes.SlaContent {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = ConnectCasesClientTypes.SlaContent()
+        value.slaConfiguration = try reader["slaConfiguration"].readIfPresent(with: ConnectCasesClientTypes.SlaConfiguration.read(from:))
+        return value
+    }
+}
+
+extension ConnectCasesClientTypes.SlaFilter {
+
+    static func write(value: ConnectCasesClientTypes.SlaFilter?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
-        try writer["caseId"].write(value.caseId)
+        try writer["name"].write(value.name)
+        try writer["status"].write(value.status)
+    }
+}
+
+extension ConnectCasesClientTypes.SlaInputConfiguration {
+
+    static func write(value: ConnectCasesClientTypes.SlaInputConfiguration?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["fieldId"].write(value.fieldId)
+        try writer["name"].write(value.name)
+        try writer["targetFieldValues"].writeList(value.targetFieldValues, memberWritingClosure: ConnectCasesClientTypes.FieldValueUnion.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["targetSlaMinutes"].write(value.targetSlaMinutes)
+        try writer["type"].write(value.type)
     }
 }
 
@@ -7104,168 +7221,12 @@ extension ConnectCasesClientTypes.SlaInputContent {
     }
 }
 
-extension ConnectCasesClientTypes.SlaInputConfiguration {
+extension ConnectCasesClientTypes.Sort {
 
-    static func write(value: ConnectCasesClientTypes.SlaInputConfiguration?, to writer: SmithyJSON.Writer) throws {
+    static func write(value: ConnectCasesClientTypes.Sort?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
         try writer["fieldId"].write(value.fieldId)
-        try writer["name"].write(value.name)
-        try writer["targetFieldValues"].writeList(value.targetFieldValues, memberWritingClosure: ConnectCasesClientTypes.FieldValueUnion.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["targetSlaMinutes"].write(value.targetSlaMinutes)
-        try writer["type"].write(value.type)
-    }
-}
-
-extension ConnectCasesClientTypes.Contact {
-
-    static func write(value: ConnectCasesClientTypes.Contact?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["contactArn"].write(value.contactArn)
-    }
-}
-
-extension ConnectCasesClientTypes.RelatedItemTypeFilter {
-
-    static func write(value: ConnectCasesClientTypes.RelatedItemTypeFilter?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        switch value {
-            case let .comment(comment):
-                try writer["comment"].write(comment, with: ConnectCasesClientTypes.CommentFilter.write(value:to:))
-            case let .connectcase(connectcase):
-                try writer["connectCase"].write(connectcase, with: ConnectCasesClientTypes.ConnectCaseFilter.write(value:to:))
-            case let .contact(contact):
-                try writer["contact"].write(contact, with: ConnectCasesClientTypes.ContactFilter.write(value:to:))
-            case let .custom(custom):
-                try writer["custom"].write(custom, with: ConnectCasesClientTypes.CustomFilter.write(value:to:))
-            case let .file(file):
-                try writer["file"].write(file, with: ConnectCasesClientTypes.FileFilter.write(value:to:))
-            case let .sla(sla):
-                try writer["sla"].write(sla, with: ConnectCasesClientTypes.SlaFilter.write(value:to:))
-            case let .sdkUnknown(sdkUnknown):
-                try writer["sdkUnknown"].write(sdkUnknown)
-        }
-    }
-}
-
-extension ConnectCasesClientTypes.CustomFilter {
-
-    static func write(value: ConnectCasesClientTypes.CustomFilter?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["fields"].write(value.fields, with: ConnectCasesClientTypes.CustomFieldsFilter.write(value:to:))
-    }
-}
-
-extension ConnectCasesClientTypes.CustomFieldsFilter {
-
-    static func write(value: ConnectCasesClientTypes.CustomFieldsFilter?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        switch value {
-            case let .andall(andall):
-                try writer["andAll"].writeList(andall, memberWritingClosure: ConnectCasesClientTypes.CustomFieldsFilter.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-            case let .field(field):
-                try writer["field"].write(field, with: ConnectCasesClientTypes.FieldFilter.write(value:to:))
-            case let .not(not):
-                try writer["not"].write(not, with: ConnectCasesClientTypes.CustomFieldsFilter.write(value:to:))
-            case let .orall(orall):
-                try writer["orAll"].writeList(orall, memberWritingClosure: ConnectCasesClientTypes.CustomFieldsFilter.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-            case let .sdkUnknown(sdkUnknown):
-                try writer["sdkUnknown"].write(sdkUnknown)
-        }
-    }
-}
-
-extension ConnectCasesClientTypes.FieldFilter {
-
-    static func write(value: ConnectCasesClientTypes.FieldFilter?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        switch value {
-            case let .contains(contains):
-                try writer["contains"].write(contains, with: ConnectCasesClientTypes.FieldValue.write(value:to:))
-            case let .equalto(equalto):
-                try writer["equalTo"].write(equalto, with: ConnectCasesClientTypes.FieldValue.write(value:to:))
-            case let .greaterthan(greaterthan):
-                try writer["greaterThan"].write(greaterthan, with: ConnectCasesClientTypes.FieldValue.write(value:to:))
-            case let .greaterthanorequalto(greaterthanorequalto):
-                try writer["greaterThanOrEqualTo"].write(greaterthanorequalto, with: ConnectCasesClientTypes.FieldValue.write(value:to:))
-            case let .lessthan(lessthan):
-                try writer["lessThan"].write(lessthan, with: ConnectCasesClientTypes.FieldValue.write(value:to:))
-            case let .lessthanorequalto(lessthanorequalto):
-                try writer["lessThanOrEqualTo"].write(lessthanorequalto, with: ConnectCasesClientTypes.FieldValue.write(value:to:))
-            case let .sdkUnknown(sdkUnknown):
-                try writer["sdkUnknown"].write(sdkUnknown)
-        }
-    }
-}
-
-extension ConnectCasesClientTypes.ConnectCaseFilter {
-
-    static func write(value: ConnectCasesClientTypes.ConnectCaseFilter?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["caseId"].write(value.caseId)
-    }
-}
-
-extension ConnectCasesClientTypes.SlaFilter {
-
-    static func write(value: ConnectCasesClientTypes.SlaFilter?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["name"].write(value.name)
-        try writer["status"].write(value.status)
-    }
-}
-
-extension ConnectCasesClientTypes.FileFilter {
-
-    static func write(value: ConnectCasesClientTypes.FileFilter?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["fileArn"].write(value.fileArn)
-    }
-}
-
-extension ConnectCasesClientTypes.CommentFilter {
-
-    static func write(value: ConnectCasesClientTypes.CommentFilter?, to writer: SmithyJSON.Writer) throws {
-        guard value != nil else { return }
-        _ = writer[""]  // create an empty structure
-    }
-}
-
-extension ConnectCasesClientTypes.ContactFilter {
-
-    static func write(value: ConnectCasesClientTypes.ContactFilter?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["channel"].writeList(value.channel, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["contactArn"].write(value.contactArn)
-    }
-}
-
-extension ConnectCasesClientTypes.SearchAllRelatedItemsSort {
-
-    static func write(value: ConnectCasesClientTypes.SearchAllRelatedItemsSort?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
         try writer["sortOrder"].write(value.sortOrder)
-        try writer["sortProperty"].write(value.sortProperty)
-    }
-}
-
-extension ConnectCasesClientTypes.CaseFilter {
-
-    static func write(value: ConnectCasesClientTypes.CaseFilter?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        switch value {
-            case let .andall(andall):
-                try writer["andAll"].writeList(andall, memberWritingClosure: ConnectCasesClientTypes.CaseFilter.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-            case let .field(field):
-                try writer["field"].write(field, with: ConnectCasesClientTypes.FieldFilter.write(value:to:))
-            case let .not(not):
-                try writer["not"].write(not, with: ConnectCasesClientTypes.CaseFilter.write(value:to:))
-            case let .orall(orall):
-                try writer["orAll"].writeList(orall, memberWritingClosure: ConnectCasesClientTypes.CaseFilter.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-            case let .tag(tag):
-                try writer["tag"].write(tag, with: ConnectCasesClientTypes.TagFilter.write(value:to:))
-            case let .sdkUnknown(sdkUnknown):
-                try writer["sdkUnknown"].write(sdkUnknown)
-        }
     }
 }
 
@@ -7282,6 +7243,23 @@ extension ConnectCasesClientTypes.TagFilter {
     }
 }
 
+extension ConnectCasesClientTypes.TagPropagationConfiguration {
+
+    static func write(value: ConnectCasesClientTypes.TagPropagationConfiguration?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["resourceType"].write(value.resourceType)
+        try writer["tagMap"].writeMap(value.tagMap, valueWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> ConnectCasesClientTypes.TagPropagationConfiguration {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = ConnectCasesClientTypes.TagPropagationConfiguration()
+        value.resourceType = try reader["resourceType"].readIfPresent() ?? .sdkUnknown("")
+        value.tagMap = try reader["tagMap"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false) ?? [:]
+        return value
+    }
+}
+
 extension ConnectCasesClientTypes.TagValue {
 
     static func write(value: ConnectCasesClientTypes.TagValue?, to writer: SmithyJSON.Writer) throws {
@@ -7291,12 +7269,77 @@ extension ConnectCasesClientTypes.TagValue {
     }
 }
 
-extension ConnectCasesClientTypes.Sort {
+extension ConnectCasesClientTypes.TemplateRule {
 
-    static func write(value: ConnectCasesClientTypes.Sort?, to writer: SmithyJSON.Writer) throws {
+    static func write(value: ConnectCasesClientTypes.TemplateRule?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
+        try writer["caseRuleId"].write(value.caseRuleId)
         try writer["fieldId"].write(value.fieldId)
-        try writer["sortOrder"].write(value.sortOrder)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> ConnectCasesClientTypes.TemplateRule {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = ConnectCasesClientTypes.TemplateRule()
+        value.caseRuleId = try reader["caseRuleId"].readIfPresent() ?? ""
+        value.fieldId = try reader["fieldId"].readIfPresent() ?? "NULL"
+        return value
+    }
+}
+
+extension ConnectCasesClientTypes.TemplateSummary {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> ConnectCasesClientTypes.TemplateSummary {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = ConnectCasesClientTypes.TemplateSummary()
+        value.templateId = try reader["templateId"].readIfPresent() ?? ""
+        value.templateArn = try reader["templateArn"].readIfPresent() ?? ""
+        value.name = try reader["name"].readIfPresent() ?? ""
+        value.status = try reader["status"].readIfPresent() ?? .sdkUnknown("")
+        value.tagPropagationConfigurations = try reader["tagPropagationConfigurations"].readListIfPresent(memberReadingClosure: ConnectCasesClientTypes.TagPropagationConfiguration.read(from:), memberNodeInfo: "member", isFlattened: false)
+        return value
+    }
+}
+
+extension ConnectCasesClientTypes.TextAttributes {
+
+    static func write(value: ConnectCasesClientTypes.TextAttributes?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["isMultiline"].write(value.isMultiline)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> ConnectCasesClientTypes.TextAttributes {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = ConnectCasesClientTypes.TextAttributes()
+        value.isMultiline = try reader["isMultiline"].readIfPresent() ?? false
+        return value
+    }
+}
+
+extension ConnectCasesClientTypes.UserUnion {
+
+    static func write(value: ConnectCasesClientTypes.UserUnion?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        switch value {
+            case let .customentity(customentity):
+                try writer["customEntity"].write(customentity)
+            case let .userarn(userarn):
+                try writer["userArn"].write(userarn)
+            case let .sdkUnknown(sdkUnknown):
+                try writer["sdkUnknown"].write(sdkUnknown)
+        }
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> ConnectCasesClientTypes.UserUnion {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        let name = reader.children.filter { $0.hasContent && $0.nodeInfo.name != "__type" }.first?.nodeInfo.name
+        switch name {
+            case "userArn":
+                return .userarn(try reader["userArn"].read())
+            case "customEntity":
+                return .customentity(try reader["customEntity"].read())
+            default:
+                return .sdkUnknown(name ?? "")
+        }
     }
 }
 

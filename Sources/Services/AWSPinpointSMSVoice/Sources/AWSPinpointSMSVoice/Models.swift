@@ -19,8 +19,8 @@ import protocol ClientRuntime.HTTPError
 import protocol ClientRuntime.ModeledError
 @_spi(SmithyReadWrite) import protocol SmithyReadWrite.SmithyReader
 @_spi(SmithyReadWrite) import protocol SmithyReadWrite.SmithyWriter
-@_spi(SmithyReadWrite) import struct AWSClientRuntime.RestJSONError
 @_spi(UnknownAWSHTTPServiceError) import struct AWSClientRuntime.UnknownAWSHTTPServiceError
+@_spi(SmithyReadWrite) import struct ClientRuntime.RestJSONError
 import struct Smithy.URIQueryItem
 @_spi(SmithyReadWrite) import struct SmithyReadWrite.ReadingClosureBox
 @_spi(SmithyReadWrite) import struct SmithyReadWrite.WritingClosureBox
@@ -827,7 +827,7 @@ enum CreateConfigurationSetOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AlreadyExistsException": return try AlreadyExistsException.makeError(baseError: baseError)
@@ -845,7 +845,7 @@ enum CreateConfigurationSetEventDestinationOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AlreadyExistsException": return try AlreadyExistsException.makeError(baseError: baseError)
@@ -864,7 +864,7 @@ enum DeleteConfigurationSetOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "BadRequestException": return try BadRequestException.makeError(baseError: baseError)
@@ -881,7 +881,7 @@ enum DeleteConfigurationSetEventDestinationOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "BadRequestException": return try BadRequestException.makeError(baseError: baseError)
@@ -898,7 +898,7 @@ enum GetConfigurationSetEventDestinationsOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "BadRequestException": return try BadRequestException.makeError(baseError: baseError)
@@ -915,7 +915,7 @@ enum ListConfigurationSetsOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "BadRequestException": return try BadRequestException.makeError(baseError: baseError)
@@ -931,7 +931,7 @@ enum SendVoiceMessageOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "BadRequestException": return try BadRequestException.makeError(baseError: baseError)
@@ -947,7 +947,7 @@ enum UpdateConfigurationSetEventDestinationOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "BadRequestException": return try BadRequestException.makeError(baseError: baseError)
@@ -961,7 +961,7 @@ enum UpdateConfigurationSetEventDestinationOutputError {
 
 extension AlreadyExistsException {
 
-    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> AlreadyExistsException {
+    static func makeError(baseError: ClientRuntime.RestJSONError) throws -> AlreadyExistsException {
         let reader = baseError.errorBodyReader
         var value = AlreadyExistsException()
         value.properties.message = try reader["Message"].readIfPresent()
@@ -974,7 +974,7 @@ extension AlreadyExistsException {
 
 extension BadRequestException {
 
-    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> BadRequestException {
+    static func makeError(baseError: ClientRuntime.RestJSONError) throws -> BadRequestException {
         let reader = baseError.errorBodyReader
         var value = BadRequestException()
         value.properties.message = try reader["Message"].readIfPresent()
@@ -987,7 +987,7 @@ extension BadRequestException {
 
 extension InternalServiceErrorException {
 
-    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> InternalServiceErrorException {
+    static func makeError(baseError: ClientRuntime.RestJSONError) throws -> InternalServiceErrorException {
         let reader = baseError.errorBodyReader
         var value = InternalServiceErrorException()
         value.properties.message = try reader["Message"].readIfPresent()
@@ -1000,7 +1000,7 @@ extension InternalServiceErrorException {
 
 extension LimitExceededException {
 
-    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> LimitExceededException {
+    static func makeError(baseError: ClientRuntime.RestJSONError) throws -> LimitExceededException {
         let reader = baseError.errorBodyReader
         var value = LimitExceededException()
         value.properties.message = try reader["Message"].readIfPresent()
@@ -1013,7 +1013,7 @@ extension LimitExceededException {
 
 extension TooManyRequestsException {
 
-    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> TooManyRequestsException {
+    static func makeError(baseError: ClientRuntime.RestJSONError) throws -> TooManyRequestsException {
         let reader = baseError.errorBodyReader
         var value = TooManyRequestsException()
         value.properties.message = try reader["Message"].readIfPresent()
@@ -1026,7 +1026,7 @@ extension TooManyRequestsException {
 
 extension NotFoundException {
 
-    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> NotFoundException {
+    static func makeError(baseError: ClientRuntime.RestJSONError) throws -> NotFoundException {
         let reader = baseError.errorBodyReader
         var value = NotFoundException()
         value.properties.message = try reader["Message"].readIfPresent()
@@ -1037,50 +1037,11 @@ extension NotFoundException {
     }
 }
 
-extension PinpointSMSVoiceClientTypes.EventDestination {
+extension PinpointSMSVoiceClientTypes.CallInstructionsMessageType {
 
-    static func read(from reader: SmithyJSON.Reader) throws -> PinpointSMSVoiceClientTypes.EventDestination {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = PinpointSMSVoiceClientTypes.EventDestination()
-        value.cloudWatchLogsDestination = try reader["CloudWatchLogsDestination"].readIfPresent(with: PinpointSMSVoiceClientTypes.CloudWatchLogsDestination.read(from:))
-        value.enabled = try reader["Enabled"].readIfPresent()
-        value.kinesisFirehoseDestination = try reader["KinesisFirehoseDestination"].readIfPresent(with: PinpointSMSVoiceClientTypes.KinesisFirehoseDestination.read(from:))
-        value.matchingEventTypes = try reader["MatchingEventTypes"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosureBox<PinpointSMSVoiceClientTypes.EventType>().read(from:), memberNodeInfo: "member", isFlattened: false)
-        value.name = try reader["Name"].readIfPresent()
-        value.snsDestination = try reader["SnsDestination"].readIfPresent(with: PinpointSMSVoiceClientTypes.SnsDestination.read(from:))
-        return value
-    }
-}
-
-extension PinpointSMSVoiceClientTypes.SnsDestination {
-
-    static func write(value: PinpointSMSVoiceClientTypes.SnsDestination?, to writer: SmithyJSON.Writer) throws {
+    static func write(value: PinpointSMSVoiceClientTypes.CallInstructionsMessageType?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
-        try writer["TopicArn"].write(value.topicArn)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> PinpointSMSVoiceClientTypes.SnsDestination {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = PinpointSMSVoiceClientTypes.SnsDestination()
-        value.topicArn = try reader["TopicArn"].readIfPresent()
-        return value
-    }
-}
-
-extension PinpointSMSVoiceClientTypes.KinesisFirehoseDestination {
-
-    static func write(value: PinpointSMSVoiceClientTypes.KinesisFirehoseDestination?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["DeliveryStreamArn"].write(value.deliveryStreamArn)
-        try writer["IamRoleArn"].write(value.iamRoleArn)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> PinpointSMSVoiceClientTypes.KinesisFirehoseDestination {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = PinpointSMSVoiceClientTypes.KinesisFirehoseDestination()
-        value.deliveryStreamArn = try reader["DeliveryStreamArn"].readIfPresent()
-        value.iamRoleArn = try reader["IamRoleArn"].readIfPresent()
-        return value
+        try writer["Text"].write(value.text)
     }
 }
 
@@ -1101,6 +1062,21 @@ extension PinpointSMSVoiceClientTypes.CloudWatchLogsDestination {
     }
 }
 
+extension PinpointSMSVoiceClientTypes.EventDestination {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> PinpointSMSVoiceClientTypes.EventDestination {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = PinpointSMSVoiceClientTypes.EventDestination()
+        value.cloudWatchLogsDestination = try reader["CloudWatchLogsDestination"].readIfPresent(with: PinpointSMSVoiceClientTypes.CloudWatchLogsDestination.read(from:))
+        value.enabled = try reader["Enabled"].readIfPresent()
+        value.kinesisFirehoseDestination = try reader["KinesisFirehoseDestination"].readIfPresent(with: PinpointSMSVoiceClientTypes.KinesisFirehoseDestination.read(from:))
+        value.matchingEventTypes = try reader["MatchingEventTypes"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosureBox<PinpointSMSVoiceClientTypes.EventType>().read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.name = try reader["Name"].readIfPresent()
+        value.snsDestination = try reader["SnsDestination"].readIfPresent(with: PinpointSMSVoiceClientTypes.SnsDestination.read(from:))
+        return value
+    }
+}
+
 extension PinpointSMSVoiceClientTypes.EventDestinationDefinition {
 
     static func write(value: PinpointSMSVoiceClientTypes.EventDestinationDefinition?, to writer: SmithyJSON.Writer) throws {
@@ -1113,23 +1089,20 @@ extension PinpointSMSVoiceClientTypes.EventDestinationDefinition {
     }
 }
 
-extension PinpointSMSVoiceClientTypes.VoiceMessageContent {
+extension PinpointSMSVoiceClientTypes.KinesisFirehoseDestination {
 
-    static func write(value: PinpointSMSVoiceClientTypes.VoiceMessageContent?, to writer: SmithyJSON.Writer) throws {
+    static func write(value: PinpointSMSVoiceClientTypes.KinesisFirehoseDestination?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
-        try writer["CallInstructionsMessage"].write(value.callInstructionsMessage, with: PinpointSMSVoiceClientTypes.CallInstructionsMessageType.write(value:to:))
-        try writer["PlainTextMessage"].write(value.plainTextMessage, with: PinpointSMSVoiceClientTypes.PlainTextMessageType.write(value:to:))
-        try writer["SSMLMessage"].write(value.ssmlMessage, with: PinpointSMSVoiceClientTypes.SSMLMessageType.write(value:to:))
+        try writer["DeliveryStreamArn"].write(value.deliveryStreamArn)
+        try writer["IamRoleArn"].write(value.iamRoleArn)
     }
-}
 
-extension PinpointSMSVoiceClientTypes.SSMLMessageType {
-
-    static func write(value: PinpointSMSVoiceClientTypes.SSMLMessageType?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["LanguageCode"].write(value.languageCode)
-        try writer["Text"].write(value.text)
-        try writer["VoiceId"].write(value.voiceId)
+    static func read(from reader: SmithyJSON.Reader) throws -> PinpointSMSVoiceClientTypes.KinesisFirehoseDestination {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = PinpointSMSVoiceClientTypes.KinesisFirehoseDestination()
+        value.deliveryStreamArn = try reader["DeliveryStreamArn"].readIfPresent()
+        value.iamRoleArn = try reader["IamRoleArn"].readIfPresent()
+        return value
     }
 }
 
@@ -1143,11 +1116,38 @@ extension PinpointSMSVoiceClientTypes.PlainTextMessageType {
     }
 }
 
-extension PinpointSMSVoiceClientTypes.CallInstructionsMessageType {
+extension PinpointSMSVoiceClientTypes.SnsDestination {
 
-    static func write(value: PinpointSMSVoiceClientTypes.CallInstructionsMessageType?, to writer: SmithyJSON.Writer) throws {
+    static func write(value: PinpointSMSVoiceClientTypes.SnsDestination?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
+        try writer["TopicArn"].write(value.topicArn)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> PinpointSMSVoiceClientTypes.SnsDestination {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = PinpointSMSVoiceClientTypes.SnsDestination()
+        value.topicArn = try reader["TopicArn"].readIfPresent()
+        return value
+    }
+}
+
+extension PinpointSMSVoiceClientTypes.SSMLMessageType {
+
+    static func write(value: PinpointSMSVoiceClientTypes.SSMLMessageType?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["LanguageCode"].write(value.languageCode)
         try writer["Text"].write(value.text)
+        try writer["VoiceId"].write(value.voiceId)
+    }
+}
+
+extension PinpointSMSVoiceClientTypes.VoiceMessageContent {
+
+    static func write(value: PinpointSMSVoiceClientTypes.VoiceMessageContent?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["CallInstructionsMessage"].write(value.callInstructionsMessage, with: PinpointSMSVoiceClientTypes.CallInstructionsMessageType.write(value:to:))
+        try writer["PlainTextMessage"].write(value.plainTextMessage, with: PinpointSMSVoiceClientTypes.PlainTextMessageType.write(value:to:))
+        try writer["SSMLMessage"].write(value.ssmlMessage, with: PinpointSMSVoiceClientTypes.SSMLMessageType.write(value:to:))
     }
 }
 

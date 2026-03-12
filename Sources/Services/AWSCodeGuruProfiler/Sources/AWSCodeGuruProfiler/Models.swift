@@ -24,8 +24,8 @@ import protocol ClientRuntime.HTTPError
 import protocol ClientRuntime.ModeledError
 @_spi(SmithyReadWrite) import protocol SmithyReadWrite.SmithyReader
 @_spi(SmithyReadWrite) import protocol SmithyReadWrite.SmithyWriter
-@_spi(SmithyReadWrite) import struct AWSClientRuntime.RestJSONError
 @_spi(UnknownAWSHTTPServiceError) import struct AWSClientRuntime.UnknownAWSHTTPServiceError
+@_spi(SmithyReadWrite) import struct ClientRuntime.RestJSONError
 import struct Smithy.URIQueryItem
 import struct SmithyHTTPAPI.Header
 import struct SmithyHTTPAPI.Headers
@@ -2761,7 +2761,7 @@ enum AddNotificationChannelsOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "ConflictException": return try ConflictException.makeError(baseError: baseError)
@@ -2780,7 +2780,7 @@ enum BatchGetFrameMetricDataOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
@@ -2797,7 +2797,7 @@ enum ConfigureAgentOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
@@ -2814,7 +2814,7 @@ enum CreateProfilingGroupOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "ConflictException": return try ConflictException.makeError(baseError: baseError)
@@ -2832,7 +2832,7 @@ enum DeleteProfilingGroupOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "ConflictException": return try ConflictException.makeError(baseError: baseError)
@@ -2850,7 +2850,7 @@ enum DescribeProfilingGroupOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
@@ -2867,7 +2867,7 @@ enum GetFindingsReportAccountSummaryOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
@@ -2883,7 +2883,7 @@ enum GetNotificationConfigurationOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
@@ -2900,7 +2900,7 @@ enum GetPolicyOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
@@ -2916,7 +2916,7 @@ enum GetProfileOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
@@ -2933,7 +2933,7 @@ enum GetRecommendationsOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
@@ -2950,7 +2950,7 @@ enum ListFindingsReportsOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
@@ -2967,7 +2967,7 @@ enum ListProfileTimesOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
@@ -2984,7 +2984,7 @@ enum ListProfilingGroupsOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
@@ -2999,7 +2999,7 @@ enum ListTagsForResourceOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
@@ -3015,7 +3015,7 @@ enum PostAgentProfileOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
@@ -3032,7 +3032,7 @@ enum PutPermissionOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "ConflictException": return try ConflictException.makeError(baseError: baseError)
@@ -3050,7 +3050,7 @@ enum RemoveNotificationChannelOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
@@ -3067,7 +3067,7 @@ enum RemovePermissionOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "ConflictException": return try ConflictException.makeError(baseError: baseError)
@@ -3085,7 +3085,7 @@ enum SubmitFeedbackOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
@@ -3102,7 +3102,7 @@ enum TagResourceOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
@@ -3118,7 +3118,7 @@ enum UntagResourceOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
@@ -3134,7 +3134,7 @@ enum UpdateProfilingGroupOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "ConflictException": return try ConflictException.makeError(baseError: baseError)
@@ -3149,7 +3149,7 @@ enum UpdateProfilingGroupOutputError {
 
 extension ConflictException {
 
-    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> ConflictException {
+    static func makeError(baseError: ClientRuntime.RestJSONError) throws -> ConflictException {
         let reader = baseError.errorBodyReader
         var value = ConflictException()
         value.properties.message = try reader["message"].readIfPresent() ?? ""
@@ -3162,7 +3162,7 @@ extension ConflictException {
 
 extension InternalServerException {
 
-    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> InternalServerException {
+    static func makeError(baseError: ClientRuntime.RestJSONError) throws -> InternalServerException {
         let reader = baseError.errorBodyReader
         var value = InternalServerException()
         value.properties.message = try reader["message"].readIfPresent() ?? ""
@@ -3175,7 +3175,7 @@ extension InternalServerException {
 
 extension ResourceNotFoundException {
 
-    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> ResourceNotFoundException {
+    static func makeError(baseError: ClientRuntime.RestJSONError) throws -> ResourceNotFoundException {
         let reader = baseError.errorBodyReader
         var value = ResourceNotFoundException()
         value.properties.message = try reader["message"].readIfPresent() ?? ""
@@ -3188,7 +3188,7 @@ extension ResourceNotFoundException {
 
 extension ServiceQuotaExceededException {
 
-    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> ServiceQuotaExceededException {
+    static func makeError(baseError: ClientRuntime.RestJSONError) throws -> ServiceQuotaExceededException {
         let reader = baseError.errorBodyReader
         var value = ServiceQuotaExceededException()
         value.properties.message = try reader["message"].readIfPresent() ?? ""
@@ -3201,7 +3201,7 @@ extension ServiceQuotaExceededException {
 
 extension ThrottlingException {
 
-    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> ThrottlingException {
+    static func makeError(baseError: ClientRuntime.RestJSONError) throws -> ThrottlingException {
         let reader = baseError.errorBodyReader
         var value = ThrottlingException()
         value.properties.message = try reader["message"].readIfPresent() ?? ""
@@ -3214,7 +3214,7 @@ extension ThrottlingException {
 
 extension ValidationException {
 
-    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> ValidationException {
+    static func makeError(baseError: ClientRuntime.RestJSONError) throws -> ValidationException {
         let reader = baseError.errorBodyReader
         var value = ValidationException()
         value.properties.message = try reader["message"].readIfPresent() ?? ""
@@ -3225,12 +3225,65 @@ extension ValidationException {
     }
 }
 
-extension CodeGuruProfilerClientTypes.NotificationConfiguration {
+extension CodeGuruProfilerClientTypes.AgentConfiguration {
 
-    static func read(from reader: SmithyJSON.Reader) throws -> CodeGuruProfilerClientTypes.NotificationConfiguration {
+    static func read(from reader: SmithyJSON.Reader) throws -> CodeGuruProfilerClientTypes.AgentConfiguration {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = CodeGuruProfilerClientTypes.NotificationConfiguration()
-        value.channels = try reader["channels"].readListIfPresent(memberReadingClosure: CodeGuruProfilerClientTypes.Channel.read(from:), memberNodeInfo: "member", isFlattened: false)
+        var value = CodeGuruProfilerClientTypes.AgentConfiguration()
+        value.shouldProfile = try reader["shouldProfile"].readIfPresent() ?? false
+        value.periodInSeconds = try reader["periodInSeconds"].readIfPresent() ?? 0
+        value.agentParameters = try reader["agentParameters"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+        return value
+    }
+}
+
+extension CodeGuruProfilerClientTypes.AgentOrchestrationConfig {
+
+    static func write(value: CodeGuruProfilerClientTypes.AgentOrchestrationConfig?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["profilingEnabled"].write(value.profilingEnabled)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> CodeGuruProfilerClientTypes.AgentOrchestrationConfig {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = CodeGuruProfilerClientTypes.AgentOrchestrationConfig()
+        value.profilingEnabled = try reader["profilingEnabled"].readIfPresent() ?? false
+        return value
+    }
+}
+
+extension CodeGuruProfilerClientTypes.AggregatedProfileTime {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> CodeGuruProfilerClientTypes.AggregatedProfileTime {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = CodeGuruProfilerClientTypes.AggregatedProfileTime()
+        value.start = try reader["start"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
+        value.period = try reader["period"].readIfPresent()
+        return value
+    }
+}
+
+extension CodeGuruProfilerClientTypes.Anomaly {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> CodeGuruProfilerClientTypes.Anomaly {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = CodeGuruProfilerClientTypes.Anomaly()
+        value.metric = try reader["metric"].readIfPresent(with: CodeGuruProfilerClientTypes.Metric.read(from:))
+        value.reason = try reader["reason"].readIfPresent() ?? ""
+        value.instances = try reader["instances"].readListIfPresent(memberReadingClosure: CodeGuruProfilerClientTypes.AnomalyInstance.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        return value
+    }
+}
+
+extension CodeGuruProfilerClientTypes.AnomalyInstance {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> CodeGuruProfilerClientTypes.AnomalyInstance {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = CodeGuruProfilerClientTypes.AnomalyInstance()
+        value.id = try reader["id"].readIfPresent() ?? ""
+        value.startTime = try reader["startTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        value.endTime = try reader["endTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
+        value.userFeedback = try reader["userFeedback"].readIfPresent(with: CodeGuruProfilerClientTypes.UserFeedback.read(from:))
         return value
     }
 }
@@ -3254,23 +3307,16 @@ extension CodeGuruProfilerClientTypes.Channel {
     }
 }
 
-extension CodeGuruProfilerClientTypes.TimestampStructure {
+extension CodeGuruProfilerClientTypes.FindingsReportSummary {
 
-    static func read(from reader: SmithyJSON.Reader) throws -> CodeGuruProfilerClientTypes.TimestampStructure {
+    static func read(from reader: SmithyJSON.Reader) throws -> CodeGuruProfilerClientTypes.FindingsReportSummary {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = CodeGuruProfilerClientTypes.TimestampStructure()
-        value.value = try reader["value"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
-        return value
-    }
-}
-
-extension CodeGuruProfilerClientTypes.FrameMetricDatum {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> CodeGuruProfilerClientTypes.FrameMetricDatum {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = CodeGuruProfilerClientTypes.FrameMetricDatum()
-        value.frameMetric = try reader["frameMetric"].readIfPresent(with: CodeGuruProfilerClientTypes.FrameMetric.read(from:))
-        value.values = try reader["values"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readDouble(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        var value = CodeGuruProfilerClientTypes.FindingsReportSummary()
+        value.id = try reader["id"].readIfPresent()
+        value.profilingGroupName = try reader["profilingGroupName"].readIfPresent()
+        value.profileStartTime = try reader["profileStartTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
+        value.profileEndTime = try reader["profileEndTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
+        value.totalNumberOfFindings = try reader["totalNumberOfFindings"].readIfPresent()
         return value
     }
 }
@@ -3294,14 +3340,73 @@ extension CodeGuruProfilerClientTypes.FrameMetric {
     }
 }
 
-extension CodeGuruProfilerClientTypes.AgentConfiguration {
+extension CodeGuruProfilerClientTypes.FrameMetricDatum {
 
-    static func read(from reader: SmithyJSON.Reader) throws -> CodeGuruProfilerClientTypes.AgentConfiguration {
+    static func read(from reader: SmithyJSON.Reader) throws -> CodeGuruProfilerClientTypes.FrameMetricDatum {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = CodeGuruProfilerClientTypes.AgentConfiguration()
-        value.shouldProfile = try reader["shouldProfile"].readIfPresent() ?? false
-        value.periodInSeconds = try reader["periodInSeconds"].readIfPresent() ?? 0
-        value.agentParameters = try reader["agentParameters"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+        var value = CodeGuruProfilerClientTypes.FrameMetricDatum()
+        value.frameMetric = try reader["frameMetric"].readIfPresent(with: CodeGuruProfilerClientTypes.FrameMetric.read(from:))
+        value.values = try reader["values"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readDouble(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        return value
+    }
+}
+
+extension CodeGuruProfilerClientTypes.Match {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> CodeGuruProfilerClientTypes.Match {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = CodeGuruProfilerClientTypes.Match()
+        value.targetFramesIndex = try reader["targetFramesIndex"].readIfPresent()
+        value.frameAddress = try reader["frameAddress"].readIfPresent()
+        value.thresholdBreachValue = try reader["thresholdBreachValue"].readIfPresent()
+        return value
+    }
+}
+
+extension CodeGuruProfilerClientTypes.Metric {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> CodeGuruProfilerClientTypes.Metric {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = CodeGuruProfilerClientTypes.Metric()
+        value.frameName = try reader["frameName"].readIfPresent() ?? ""
+        value.type = try reader["type"].readIfPresent() ?? .sdkUnknown("")
+        value.threadStates = try reader["threadStates"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        return value
+    }
+}
+
+extension CodeGuruProfilerClientTypes.NotificationConfiguration {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> CodeGuruProfilerClientTypes.NotificationConfiguration {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = CodeGuruProfilerClientTypes.NotificationConfiguration()
+        value.channels = try reader["channels"].readListIfPresent(memberReadingClosure: CodeGuruProfilerClientTypes.Channel.read(from:), memberNodeInfo: "member", isFlattened: false)
+        return value
+    }
+}
+
+extension CodeGuruProfilerClientTypes.Pattern {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> CodeGuruProfilerClientTypes.Pattern {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = CodeGuruProfilerClientTypes.Pattern()
+        value.id = try reader["id"].readIfPresent()
+        value.name = try reader["name"].readIfPresent()
+        value.description = try reader["description"].readIfPresent()
+        value.resolutionSteps = try reader["resolutionSteps"].readIfPresent()
+        value.targetFrames = try reader["targetFrames"].readListIfPresent(memberReadingClosure: SmithyReadWrite.listReadingClosure(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false), memberNodeInfo: "member", isFlattened: false)
+        value.thresholdPercent = try reader["thresholdPercent"].readIfPresent() ?? 0
+        value.countersToAggregate = try reader["countersToAggregate"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        return value
+    }
+}
+
+extension CodeGuruProfilerClientTypes.ProfileTime {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> CodeGuruProfilerClientTypes.ProfileTime {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = CodeGuruProfilerClientTypes.ProfileTime()
+        value.start = try reader["start"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
         return value
     }
 }
@@ -3335,46 +3440,6 @@ extension CodeGuruProfilerClientTypes.ProfilingStatus {
     }
 }
 
-extension CodeGuruProfilerClientTypes.AggregatedProfileTime {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> CodeGuruProfilerClientTypes.AggregatedProfileTime {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = CodeGuruProfilerClientTypes.AggregatedProfileTime()
-        value.start = try reader["start"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
-        value.period = try reader["period"].readIfPresent()
-        return value
-    }
-}
-
-extension CodeGuruProfilerClientTypes.AgentOrchestrationConfig {
-
-    static func write(value: CodeGuruProfilerClientTypes.AgentOrchestrationConfig?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["profilingEnabled"].write(value.profilingEnabled)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> CodeGuruProfilerClientTypes.AgentOrchestrationConfig {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = CodeGuruProfilerClientTypes.AgentOrchestrationConfig()
-        value.profilingEnabled = try reader["profilingEnabled"].readIfPresent() ?? false
-        return value
-    }
-}
-
-extension CodeGuruProfilerClientTypes.FindingsReportSummary {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> CodeGuruProfilerClientTypes.FindingsReportSummary {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = CodeGuruProfilerClientTypes.FindingsReportSummary()
-        value.id = try reader["id"].readIfPresent()
-        value.profilingGroupName = try reader["profilingGroupName"].readIfPresent()
-        value.profileStartTime = try reader["profileStartTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
-        value.profileEndTime = try reader["profileEndTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
-        value.totalNumberOfFindings = try reader["totalNumberOfFindings"].readIfPresent()
-        return value
-    }
-}
-
 extension CodeGuruProfilerClientTypes.Recommendation {
 
     static func read(from reader: SmithyJSON.Reader) throws -> CodeGuruProfilerClientTypes.Recommendation {
@@ -3390,55 +3455,12 @@ extension CodeGuruProfilerClientTypes.Recommendation {
     }
 }
 
-extension CodeGuruProfilerClientTypes.Match {
+extension CodeGuruProfilerClientTypes.TimestampStructure {
 
-    static func read(from reader: SmithyJSON.Reader) throws -> CodeGuruProfilerClientTypes.Match {
+    static func read(from reader: SmithyJSON.Reader) throws -> CodeGuruProfilerClientTypes.TimestampStructure {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = CodeGuruProfilerClientTypes.Match()
-        value.targetFramesIndex = try reader["targetFramesIndex"].readIfPresent()
-        value.frameAddress = try reader["frameAddress"].readIfPresent()
-        value.thresholdBreachValue = try reader["thresholdBreachValue"].readIfPresent()
-        return value
-    }
-}
-
-extension CodeGuruProfilerClientTypes.Pattern {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> CodeGuruProfilerClientTypes.Pattern {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = CodeGuruProfilerClientTypes.Pattern()
-        value.id = try reader["id"].readIfPresent()
-        value.name = try reader["name"].readIfPresent()
-        value.description = try reader["description"].readIfPresent()
-        value.resolutionSteps = try reader["resolutionSteps"].readIfPresent()
-        value.targetFrames = try reader["targetFrames"].readListIfPresent(memberReadingClosure: SmithyReadWrite.listReadingClosure(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false), memberNodeInfo: "member", isFlattened: false)
-        value.thresholdPercent = try reader["thresholdPercent"].readIfPresent() ?? 0
-        value.countersToAggregate = try reader["countersToAggregate"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
-        return value
-    }
-}
-
-extension CodeGuruProfilerClientTypes.Anomaly {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> CodeGuruProfilerClientTypes.Anomaly {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = CodeGuruProfilerClientTypes.Anomaly()
-        value.metric = try reader["metric"].readIfPresent(with: CodeGuruProfilerClientTypes.Metric.read(from:))
-        value.reason = try reader["reason"].readIfPresent() ?? ""
-        value.instances = try reader["instances"].readListIfPresent(memberReadingClosure: CodeGuruProfilerClientTypes.AnomalyInstance.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
-        return value
-    }
-}
-
-extension CodeGuruProfilerClientTypes.AnomalyInstance {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> CodeGuruProfilerClientTypes.AnomalyInstance {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = CodeGuruProfilerClientTypes.AnomalyInstance()
-        value.id = try reader["id"].readIfPresent() ?? ""
-        value.startTime = try reader["startTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
-        value.endTime = try reader["endTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
-        value.userFeedback = try reader["userFeedback"].readIfPresent(with: CodeGuruProfilerClientTypes.UserFeedback.read(from:))
+        var value = CodeGuruProfilerClientTypes.TimestampStructure()
+        value.value = try reader["value"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
         return value
     }
 }
@@ -3449,28 +3471,6 @@ extension CodeGuruProfilerClientTypes.UserFeedback {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = CodeGuruProfilerClientTypes.UserFeedback()
         value.type = try reader["type"].readIfPresent() ?? .sdkUnknown("")
-        return value
-    }
-}
-
-extension CodeGuruProfilerClientTypes.Metric {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> CodeGuruProfilerClientTypes.Metric {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = CodeGuruProfilerClientTypes.Metric()
-        value.frameName = try reader["frameName"].readIfPresent() ?? ""
-        value.type = try reader["type"].readIfPresent() ?? .sdkUnknown("")
-        value.threadStates = try reader["threadStates"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false) ?? []
-        return value
-    }
-}
-
-extension CodeGuruProfilerClientTypes.ProfileTime {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> CodeGuruProfilerClientTypes.ProfileTime {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = CodeGuruProfilerClientTypes.ProfileTime()
-        value.start = try reader["start"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
         return value
     }
 }

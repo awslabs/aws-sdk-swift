@@ -22,8 +22,8 @@ import protocol ClientRuntime.HTTPError
 import protocol ClientRuntime.ModeledError
 @_spi(SmithyReadWrite) import protocol SmithyReadWrite.SmithyReader
 @_spi(SmithyReadWrite) import protocol SmithyReadWrite.SmithyWriter
-@_spi(SmithyReadWrite) import struct AWSClientRuntime.RestJSONError
 @_spi(UnknownAWSHTTPServiceError) import struct AWSClientRuntime.UnknownAWSHTTPServiceError
+@_spi(SmithyReadWrite) import struct ClientRuntime.RestJSONError
 import struct Smithy.URIQueryItem
 @_spi(SmithyReadWrite) import struct SmithyReadWrite.WritingClosureBox
 @_spi(SmithyTimestamps) import struct SmithyTimestamps.TimestampFormatter
@@ -390,7 +390,7 @@ extension ControlCatalogClientTypes {
     ///
     /// * ExemptedActions: List of Amazon Web Services IAM actions exempted from the control. Each string is expected to be an IAM action. Example: ["logs:DescribeLogGroups","logs:StartQuery","logs:GetQueryResults"]
     ///
-    /// * ExemptedPrincipalArns: List of Amazon Web Services IAM principal ARNs exempted from the control. Each string is expected to be an IAM principal that follows the pattern ^arn:(aws|aws-us-gov):(iam|sts)::.+:.+$ Example: ["arn:aws:iam::*:role/ReadOnly","arn:aws:sts::*:assumed-role/ReadOnly/*"]
+    /// * ExemptedPrincipalArns: List of Amazon Web Services IAM principal ARNs exempted from the control. Each string is expected to be an IAM principal that follows the format arn:partition:service::account:resource Example: ["arn:aws:iam::*:role/ReadOnly","arn:aws:sts::*:assumed-role/ReadOnly/*"]
     ///
     /// * ExemptedResourceArns: List of resource ARNs exempted from the control. Each string is expected to be a resource ARN. Example: ["arn:aws:s3:::my-bucket-name"]
     ///
@@ -1317,7 +1317,7 @@ enum GetControlOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
@@ -1335,7 +1335,7 @@ enum ListCommonControlsOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
@@ -1352,7 +1352,7 @@ enum ListControlMappingsOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
@@ -1369,7 +1369,7 @@ enum ListControlsOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
@@ -1386,7 +1386,7 @@ enum ListDomainsOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
@@ -1403,7 +1403,7 @@ enum ListObjectivesOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
@@ -1417,7 +1417,7 @@ enum ListObjectivesOutputError {
 
 extension AccessDeniedException {
 
-    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> AccessDeniedException {
+    static func makeError(baseError: ClientRuntime.RestJSONError) throws -> AccessDeniedException {
         let reader = baseError.errorBodyReader
         var value = AccessDeniedException()
         value.properties.message = try reader["Message"].readIfPresent()
@@ -1430,7 +1430,7 @@ extension AccessDeniedException {
 
 extension InternalServerException {
 
-    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> InternalServerException {
+    static func makeError(baseError: ClientRuntime.RestJSONError) throws -> InternalServerException {
         let reader = baseError.errorBodyReader
         var value = InternalServerException()
         value.properties.message = try reader["Message"].readIfPresent()
@@ -1443,7 +1443,7 @@ extension InternalServerException {
 
 extension ResourceNotFoundException {
 
-    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> ResourceNotFoundException {
+    static func makeError(baseError: ClientRuntime.RestJSONError) throws -> ResourceNotFoundException {
         let reader = baseError.errorBodyReader
         var value = ResourceNotFoundException()
         value.properties.message = try reader["Message"].readIfPresent()
@@ -1456,7 +1456,7 @@ extension ResourceNotFoundException {
 
 extension ThrottlingException {
 
-    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> ThrottlingException {
+    static func makeError(baseError: ClientRuntime.RestJSONError) throws -> ThrottlingException {
         let reader = baseError.errorBodyReader
         var value = ThrottlingException()
         value.properties.message = try reader["Message"].readIfPresent()
@@ -1469,7 +1469,7 @@ extension ThrottlingException {
 
 extension ValidationException {
 
-    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> ValidationException {
+    static func makeError(baseError: ClientRuntime.RestJSONError) throws -> ValidationException {
         let reader = baseError.errorBodyReader
         var value = ValidationException()
         value.properties.message = try reader["Message"].readIfPresent()
@@ -1480,34 +1480,42 @@ extension ValidationException {
     }
 }
 
-extension ControlCatalogClientTypes.RegionConfiguration {
+extension ControlCatalogClientTypes.AssociatedDomainSummary {
 
-    static func read(from reader: SmithyJSON.Reader) throws -> ControlCatalogClientTypes.RegionConfiguration {
+    static func read(from reader: SmithyJSON.Reader) throws -> ControlCatalogClientTypes.AssociatedDomainSummary {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = ControlCatalogClientTypes.RegionConfiguration()
-        value.scope = try reader["Scope"].readIfPresent() ?? .sdkUnknown("")
-        value.deployableRegions = try reader["DeployableRegions"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        var value = ControlCatalogClientTypes.AssociatedDomainSummary()
+        value.arn = try reader["Arn"].readIfPresent()
+        value.name = try reader["Name"].readIfPresent()
         return value
     }
 }
 
-extension ControlCatalogClientTypes.ImplementationDetails {
+extension ControlCatalogClientTypes.AssociatedObjectiveSummary {
 
-    static func read(from reader: SmithyJSON.Reader) throws -> ControlCatalogClientTypes.ImplementationDetails {
+    static func read(from reader: SmithyJSON.Reader) throws -> ControlCatalogClientTypes.AssociatedObjectiveSummary {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = ControlCatalogClientTypes.ImplementationDetails()
-        value.type = try reader["Type"].readIfPresent() ?? ""
-        value.identifier = try reader["Identifier"].readIfPresent()
+        var value = ControlCatalogClientTypes.AssociatedObjectiveSummary()
+        value.arn = try reader["Arn"].readIfPresent()
+        value.name = try reader["Name"].readIfPresent()
         return value
     }
 }
 
-extension ControlCatalogClientTypes.ControlParameter {
+extension ControlCatalogClientTypes.CommonControlFilter {
 
-    static func read(from reader: SmithyJSON.Reader) throws -> ControlCatalogClientTypes.ControlParameter {
+    static func write(value: ControlCatalogClientTypes.CommonControlFilter?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["Objectives"].writeList(value.objectives, memberWritingClosure: ControlCatalogClientTypes.ObjectiveResourceFilter.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+    }
+}
+
+extension ControlCatalogClientTypes.CommonControlMappingDetails {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> ControlCatalogClientTypes.CommonControlMappingDetails {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = ControlCatalogClientTypes.ControlParameter()
-        value.name = try reader["Name"].readIfPresent() ?? ""
+        var value = ControlCatalogClientTypes.CommonControlMappingDetails()
+        value.commonControlArn = try reader["CommonControlArn"].readIfPresent() ?? ""
         return value
     }
 }
@@ -1528,25 +1536,11 @@ extension ControlCatalogClientTypes.CommonControlSummary {
     }
 }
 
-extension ControlCatalogClientTypes.AssociatedObjectiveSummary {
+extension ControlCatalogClientTypes.ControlFilter {
 
-    static func read(from reader: SmithyJSON.Reader) throws -> ControlCatalogClientTypes.AssociatedObjectiveSummary {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = ControlCatalogClientTypes.AssociatedObjectiveSummary()
-        value.arn = try reader["Arn"].readIfPresent()
-        value.name = try reader["Name"].readIfPresent()
-        return value
-    }
-}
-
-extension ControlCatalogClientTypes.AssociatedDomainSummary {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> ControlCatalogClientTypes.AssociatedDomainSummary {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = ControlCatalogClientTypes.AssociatedDomainSummary()
-        value.arn = try reader["Arn"].readIfPresent()
-        value.name = try reader["Name"].readIfPresent()
-        return value
+    static func write(value: ControlCatalogClientTypes.ControlFilter?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["Implementations"].write(value.implementations, with: ControlCatalogClientTypes.ImplementationFilter.write(value:to:))
     }
 }
 
@@ -1562,52 +1556,22 @@ extension ControlCatalogClientTypes.ControlMapping {
     }
 }
 
-extension ControlCatalogClientTypes.Mapping {
+extension ControlCatalogClientTypes.ControlMappingFilter {
 
-    static func read(from reader: SmithyJSON.Reader) throws -> ControlCatalogClientTypes.Mapping {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        let name = reader.children.filter { $0.hasContent && $0.nodeInfo.name != "__type" }.first?.nodeInfo.name
-        switch name {
-            case "Framework":
-                return .framework(try reader["Framework"].read(with: ControlCatalogClientTypes.FrameworkMappingDetails.read(from:)))
-            case "CommonControl":
-                return .commoncontrol(try reader["CommonControl"].read(with: ControlCatalogClientTypes.CommonControlMappingDetails.read(from:)))
-            case "RelatedControl":
-                return .relatedcontrol(try reader["RelatedControl"].read(with: ControlCatalogClientTypes.RelatedControlMappingDetails.read(from:)))
-            default:
-                return .sdkUnknown(name ?? "")
-        }
+    static func write(value: ControlCatalogClientTypes.ControlMappingFilter?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["CommonControlArns"].writeList(value.commonControlArns, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["ControlArns"].writeList(value.controlArns, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["MappingTypes"].writeList(value.mappingTypes, memberWritingClosure: SmithyReadWrite.WritingClosureBox<ControlCatalogClientTypes.MappingType>().write(value:to:), memberNodeInfo: "member", isFlattened: false)
     }
 }
 
-extension ControlCatalogClientTypes.RelatedControlMappingDetails {
+extension ControlCatalogClientTypes.ControlParameter {
 
-    static func read(from reader: SmithyJSON.Reader) throws -> ControlCatalogClientTypes.RelatedControlMappingDetails {
+    static func read(from reader: SmithyJSON.Reader) throws -> ControlCatalogClientTypes.ControlParameter {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = ControlCatalogClientTypes.RelatedControlMappingDetails()
-        value.controlArn = try reader["ControlArn"].readIfPresent()
-        value.relationType = try reader["RelationType"].readIfPresent() ?? .sdkUnknown("")
-        return value
-    }
-}
-
-extension ControlCatalogClientTypes.CommonControlMappingDetails {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> ControlCatalogClientTypes.CommonControlMappingDetails {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = ControlCatalogClientTypes.CommonControlMappingDetails()
-        value.commonControlArn = try reader["CommonControlArn"].readIfPresent() ?? ""
-        return value
-    }
-}
-
-extension ControlCatalogClientTypes.FrameworkMappingDetails {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> ControlCatalogClientTypes.FrameworkMappingDetails {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = ControlCatalogClientTypes.FrameworkMappingDetails()
+        var value = ControlCatalogClientTypes.ControlParameter()
         value.name = try reader["Name"].readIfPresent() ?? ""
-        value.item = try reader["Item"].readIfPresent() ?? ""
         return value
     }
 }
@@ -1630,14 +1594,11 @@ extension ControlCatalogClientTypes.ControlSummary {
     }
 }
 
-extension ControlCatalogClientTypes.ImplementationSummary {
+extension ControlCatalogClientTypes.DomainResourceFilter {
 
-    static func read(from reader: SmithyJSON.Reader) throws -> ControlCatalogClientTypes.ImplementationSummary {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = ControlCatalogClientTypes.ImplementationSummary()
-        value.type = try reader["Type"].readIfPresent() ?? ""
-        value.identifier = try reader["Identifier"].readIfPresent()
-        return value
+    static func write(value: ControlCatalogClientTypes.DomainResourceFilter?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["Arn"].write(value.arn)
     }
 }
 
@@ -1652,6 +1613,82 @@ extension ControlCatalogClientTypes.DomainSummary {
         value.createTime = try reader["CreateTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
         value.lastUpdateTime = try reader["LastUpdateTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
         return value
+    }
+}
+
+extension ControlCatalogClientTypes.FrameworkMappingDetails {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> ControlCatalogClientTypes.FrameworkMappingDetails {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = ControlCatalogClientTypes.FrameworkMappingDetails()
+        value.name = try reader["Name"].readIfPresent() ?? ""
+        value.item = try reader["Item"].readIfPresent() ?? ""
+        return value
+    }
+}
+
+extension ControlCatalogClientTypes.ImplementationDetails {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> ControlCatalogClientTypes.ImplementationDetails {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = ControlCatalogClientTypes.ImplementationDetails()
+        value.type = try reader["Type"].readIfPresent() ?? ""
+        value.identifier = try reader["Identifier"].readIfPresent()
+        return value
+    }
+}
+
+extension ControlCatalogClientTypes.ImplementationFilter {
+
+    static func write(value: ControlCatalogClientTypes.ImplementationFilter?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["Identifiers"].writeList(value.identifiers, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["Types"].writeList(value.types, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+    }
+}
+
+extension ControlCatalogClientTypes.ImplementationSummary {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> ControlCatalogClientTypes.ImplementationSummary {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = ControlCatalogClientTypes.ImplementationSummary()
+        value.type = try reader["Type"].readIfPresent() ?? ""
+        value.identifier = try reader["Identifier"].readIfPresent()
+        return value
+    }
+}
+
+extension ControlCatalogClientTypes.Mapping {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> ControlCatalogClientTypes.Mapping {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        let name = reader.children.filter { $0.hasContent && $0.nodeInfo.name != "__type" }.first?.nodeInfo.name
+        switch name {
+            case "Framework":
+                return .framework(try reader["Framework"].read(with: ControlCatalogClientTypes.FrameworkMappingDetails.read(from:)))
+            case "CommonControl":
+                return .commoncontrol(try reader["CommonControl"].read(with: ControlCatalogClientTypes.CommonControlMappingDetails.read(from:)))
+            case "RelatedControl":
+                return .relatedcontrol(try reader["RelatedControl"].read(with: ControlCatalogClientTypes.RelatedControlMappingDetails.read(from:)))
+            default:
+                return .sdkUnknown(name ?? "")
+        }
+    }
+}
+
+extension ControlCatalogClientTypes.ObjectiveFilter {
+
+    static func write(value: ControlCatalogClientTypes.ObjectiveFilter?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["Domains"].writeList(value.domains, memberWritingClosure: ControlCatalogClientTypes.DomainResourceFilter.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+    }
+}
+
+extension ControlCatalogClientTypes.ObjectiveResourceFilter {
+
+    static func write(value: ControlCatalogClientTypes.ObjectiveResourceFilter?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["Arn"].write(value.arn)
     }
 }
 
@@ -1670,62 +1707,25 @@ extension ControlCatalogClientTypes.ObjectiveSummary {
     }
 }
 
-extension ControlCatalogClientTypes.CommonControlFilter {
+extension ControlCatalogClientTypes.RegionConfiguration {
 
-    static func write(value: ControlCatalogClientTypes.CommonControlFilter?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["Objectives"].writeList(value.objectives, memberWritingClosure: ControlCatalogClientTypes.ObjectiveResourceFilter.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+    static func read(from reader: SmithyJSON.Reader) throws -> ControlCatalogClientTypes.RegionConfiguration {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = ControlCatalogClientTypes.RegionConfiguration()
+        value.scope = try reader["Scope"].readIfPresent() ?? .sdkUnknown("")
+        value.deployableRegions = try reader["DeployableRegions"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        return value
     }
 }
 
-extension ControlCatalogClientTypes.ObjectiveResourceFilter {
+extension ControlCatalogClientTypes.RelatedControlMappingDetails {
 
-    static func write(value: ControlCatalogClientTypes.ObjectiveResourceFilter?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["Arn"].write(value.arn)
-    }
-}
-
-extension ControlCatalogClientTypes.ControlMappingFilter {
-
-    static func write(value: ControlCatalogClientTypes.ControlMappingFilter?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["CommonControlArns"].writeList(value.commonControlArns, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["ControlArns"].writeList(value.controlArns, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["MappingTypes"].writeList(value.mappingTypes, memberWritingClosure: SmithyReadWrite.WritingClosureBox<ControlCatalogClientTypes.MappingType>().write(value:to:), memberNodeInfo: "member", isFlattened: false)
-    }
-}
-
-extension ControlCatalogClientTypes.ControlFilter {
-
-    static func write(value: ControlCatalogClientTypes.ControlFilter?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["Implementations"].write(value.implementations, with: ControlCatalogClientTypes.ImplementationFilter.write(value:to:))
-    }
-}
-
-extension ControlCatalogClientTypes.ImplementationFilter {
-
-    static func write(value: ControlCatalogClientTypes.ImplementationFilter?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["Identifiers"].writeList(value.identifiers, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["Types"].writeList(value.types, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
-    }
-}
-
-extension ControlCatalogClientTypes.ObjectiveFilter {
-
-    static func write(value: ControlCatalogClientTypes.ObjectiveFilter?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["Domains"].writeList(value.domains, memberWritingClosure: ControlCatalogClientTypes.DomainResourceFilter.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-    }
-}
-
-extension ControlCatalogClientTypes.DomainResourceFilter {
-
-    static func write(value: ControlCatalogClientTypes.DomainResourceFilter?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["Arn"].write(value.arn)
+    static func read(from reader: SmithyJSON.Reader) throws -> ControlCatalogClientTypes.RelatedControlMappingDetails {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = ControlCatalogClientTypes.RelatedControlMappingDetails()
+        value.controlArn = try reader["ControlArn"].readIfPresent()
+        value.relationType = try reader["RelationType"].readIfPresent() ?? .sdkUnknown("")
+        return value
     }
 }
 

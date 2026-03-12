@@ -23,8 +23,8 @@ import protocol ClientRuntime.HTTPError
 import protocol ClientRuntime.ModeledError
 @_spi(SmithyReadWrite) import protocol SmithyReadWrite.SmithyReader
 @_spi(SmithyReadWrite) import protocol SmithyReadWrite.SmithyWriter
-@_spi(SmithyReadWrite) import struct AWSClientRuntime.AWSJSONError
 @_spi(UnknownAWSHTTPServiceError) import struct AWSClientRuntime.UnknownAWSHTTPServiceError
+@_spi(SmithyReadWrite) import struct ClientRuntime.AWSJSONError
 
 
 public struct GetKMSEncryptionKeyInput: Swift.Sendable {
@@ -7178,7 +7178,7 @@ enum BatchCreateVariableOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
@@ -7195,7 +7195,7 @@ enum BatchGetVariableOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
@@ -7212,7 +7212,7 @@ enum CancelBatchImportJobOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
@@ -7230,7 +7230,7 @@ enum CancelBatchPredictionJobOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
@@ -7248,7 +7248,7 @@ enum CreateBatchImportJobOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
@@ -7266,7 +7266,7 @@ enum CreateBatchPredictionJobOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
@@ -7284,7 +7284,7 @@ enum CreateDetectorVersionOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
@@ -7302,7 +7302,7 @@ enum CreateListOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
@@ -7319,7 +7319,7 @@ enum CreateModelOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
@@ -7336,7 +7336,7 @@ enum CreateModelVersionOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
@@ -7354,7 +7354,7 @@ enum CreateRuleOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
@@ -7371,7 +7371,7 @@ enum CreateVariableOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
@@ -7388,7 +7388,7 @@ enum DeleteBatchImportJobOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
@@ -7405,7 +7405,7 @@ enum DeleteBatchPredictionJobOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
@@ -7422,7 +7422,7 @@ enum DeleteDetectorOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
@@ -7440,7 +7440,7 @@ enum DeleteDetectorVersionOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
@@ -7459,7 +7459,7 @@ enum DeleteEntityTypeOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
@@ -7477,7 +7477,7 @@ enum DeleteEventOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
@@ -7494,7 +7494,7 @@ enum DeleteEventsByEventTypeOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
@@ -7513,7 +7513,7 @@ enum DeleteEventTypeOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
@@ -7531,7 +7531,7 @@ enum DeleteExternalModelOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
@@ -7549,7 +7549,7 @@ enum DeleteLabelOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "ConflictException": return try ConflictException.makeError(baseError: baseError)
@@ -7566,7 +7566,7 @@ enum DeleteListOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
@@ -7584,7 +7584,7 @@ enum DeleteModelOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
@@ -7602,7 +7602,7 @@ enum DeleteModelVersionOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
@@ -7620,7 +7620,7 @@ enum DeleteOutcomeOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
@@ -7638,7 +7638,7 @@ enum DeleteRuleOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
@@ -7656,7 +7656,7 @@ enum DeleteVariableOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
@@ -7674,7 +7674,7 @@ enum DescribeDetectorOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
@@ -7692,7 +7692,7 @@ enum DescribeModelVersionsOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
@@ -7710,7 +7710,7 @@ enum GetBatchImportJobsOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
@@ -7728,7 +7728,7 @@ enum GetBatchPredictionJobsOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
@@ -7746,7 +7746,7 @@ enum GetDeleteEventsByEventTypeStatusOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
@@ -7764,7 +7764,7 @@ enum GetDetectorsOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
@@ -7782,7 +7782,7 @@ enum GetDetectorVersionOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
@@ -7800,7 +7800,7 @@ enum GetEntityTypesOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
@@ -7818,7 +7818,7 @@ enum GetEventOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
@@ -7836,7 +7836,7 @@ enum GetEventPredictionOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
@@ -7856,7 +7856,7 @@ enum GetEventPredictionMetadataOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
@@ -7874,7 +7874,7 @@ enum GetEventTypesOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
@@ -7892,7 +7892,7 @@ enum GetExternalModelsOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
@@ -7910,7 +7910,7 @@ enum GetKMSEncryptionKeyOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
@@ -7927,7 +7927,7 @@ enum GetLabelsOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
@@ -7945,7 +7945,7 @@ enum GetListElementsOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
@@ -7963,7 +7963,7 @@ enum GetListsMetadataOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
@@ -7981,7 +7981,7 @@ enum GetModelsOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
@@ -7999,7 +7999,7 @@ enum GetModelVersionOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
@@ -8017,7 +8017,7 @@ enum GetOutcomesOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
@@ -8035,7 +8035,7 @@ enum GetRulesOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
@@ -8053,7 +8053,7 @@ enum GetVariablesOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
@@ -8071,7 +8071,7 @@ enum ListEventPredictionsOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
@@ -8088,7 +8088,7 @@ enum ListTagsForResourceOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
@@ -8105,7 +8105,7 @@ enum PutDetectorOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
@@ -8123,7 +8123,7 @@ enum PutEntityTypeOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
@@ -8141,7 +8141,7 @@ enum PutEventTypeOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
@@ -8159,7 +8159,7 @@ enum PutExternalModelOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
@@ -8177,7 +8177,7 @@ enum PutKMSEncryptionKeyOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
@@ -8196,7 +8196,7 @@ enum PutLabelOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
@@ -8214,7 +8214,7 @@ enum PutOutcomeOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
@@ -8232,7 +8232,7 @@ enum SendEventOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
@@ -8251,7 +8251,7 @@ enum TagResourceOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
@@ -8268,7 +8268,7 @@ enum UntagResourceOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
@@ -8285,7 +8285,7 @@ enum UpdateDetectorVersionOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
@@ -8304,7 +8304,7 @@ enum UpdateDetectorVersionMetadataOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
@@ -8322,7 +8322,7 @@ enum UpdateDetectorVersionStatusOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
@@ -8341,7 +8341,7 @@ enum UpdateEventLabelOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
@@ -8360,7 +8360,7 @@ enum UpdateListOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
@@ -8379,7 +8379,7 @@ enum UpdateModelOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
@@ -8398,7 +8398,7 @@ enum UpdateModelVersionOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
@@ -8417,7 +8417,7 @@ enum UpdateModelVersionStatusOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
@@ -8436,7 +8436,7 @@ enum UpdateRuleMetadataOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
@@ -8455,7 +8455,7 @@ enum UpdateRuleVersionOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
@@ -8474,7 +8474,7 @@ enum UpdateVariableOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
@@ -8490,7 +8490,7 @@ enum UpdateVariableOutputError {
 
 extension AccessDeniedException {
 
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> AccessDeniedException {
+    static func makeError(baseError: ClientRuntime.AWSJSONError) throws -> AccessDeniedException {
         let reader = baseError.errorBodyReader
         var value = AccessDeniedException()
         value.properties.message = try reader["message"].readIfPresent() ?? ""
@@ -8503,7 +8503,7 @@ extension AccessDeniedException {
 
 extension InternalServerException {
 
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> InternalServerException {
+    static func makeError(baseError: ClientRuntime.AWSJSONError) throws -> InternalServerException {
         let reader = baseError.errorBodyReader
         var value = InternalServerException()
         value.properties.message = try reader["message"].readIfPresent() ?? ""
@@ -8516,7 +8516,7 @@ extension InternalServerException {
 
 extension ThrottlingException {
 
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> ThrottlingException {
+    static func makeError(baseError: ClientRuntime.AWSJSONError) throws -> ThrottlingException {
         let reader = baseError.errorBodyReader
         var value = ThrottlingException()
         value.properties.message = try reader["message"].readIfPresent() ?? ""
@@ -8529,7 +8529,7 @@ extension ThrottlingException {
 
 extension ValidationException {
 
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> ValidationException {
+    static func makeError(baseError: ClientRuntime.AWSJSONError) throws -> ValidationException {
         let reader = baseError.errorBodyReader
         var value = ValidationException()
         value.properties.message = try reader["message"].readIfPresent() ?? ""
@@ -8542,7 +8542,7 @@ extension ValidationException {
 
 extension ResourceNotFoundException {
 
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> ResourceNotFoundException {
+    static func makeError(baseError: ClientRuntime.AWSJSONError) throws -> ResourceNotFoundException {
         let reader = baseError.errorBodyReader
         var value = ResourceNotFoundException()
         value.properties.message = try reader["message"].readIfPresent() ?? ""
@@ -8555,7 +8555,7 @@ extension ResourceNotFoundException {
 
 extension ConflictException {
 
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> ConflictException {
+    static func makeError(baseError: ClientRuntime.AWSJSONError) throws -> ConflictException {
         let reader = baseError.errorBodyReader
         var value = ConflictException()
         value.properties.message = try reader["message"].readIfPresent() ?? ""
@@ -8568,132 +8568,13 @@ extension ConflictException {
 
 extension ResourceUnavailableException {
 
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> ResourceUnavailableException {
+    static func makeError(baseError: ClientRuntime.AWSJSONError) throws -> ResourceUnavailableException {
         let reader = baseError.errorBodyReader
         var value = ResourceUnavailableException()
         value.properties.message = try reader["message"].readIfPresent()
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
         value.message = baseError.message
-        return value
-    }
-}
-
-extension FraudDetectorClientTypes.BatchCreateVariableError {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> FraudDetectorClientTypes.BatchCreateVariableError {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = FraudDetectorClientTypes.BatchCreateVariableError()
-        value.name = try reader["name"].readIfPresent()
-        value.code = try reader["code"].readIfPresent() ?? 0
-        value.message = try reader["message"].readIfPresent()
-        return value
-    }
-}
-
-extension FraudDetectorClientTypes.Variable {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> FraudDetectorClientTypes.Variable {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = FraudDetectorClientTypes.Variable()
-        value.name = try reader["name"].readIfPresent()
-        value.dataType = try reader["dataType"].readIfPresent()
-        value.dataSource = try reader["dataSource"].readIfPresent()
-        value.defaultValue = try reader["defaultValue"].readIfPresent()
-        value.description = try reader["description"].readIfPresent()
-        value.variableType = try reader["variableType"].readIfPresent()
-        value.lastUpdatedTime = try reader["lastUpdatedTime"].readIfPresent()
-        value.createdTime = try reader["createdTime"].readIfPresent()
-        value.arn = try reader["arn"].readIfPresent()
-        return value
-    }
-}
-
-extension FraudDetectorClientTypes.BatchGetVariableError {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> FraudDetectorClientTypes.BatchGetVariableError {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = FraudDetectorClientTypes.BatchGetVariableError()
-        value.name = try reader["name"].readIfPresent()
-        value.code = try reader["code"].readIfPresent() ?? 0
-        value.message = try reader["message"].readIfPresent()
-        return value
-    }
-}
-
-extension FraudDetectorClientTypes.Rule {
-
-    static func write(value: FraudDetectorClientTypes.Rule?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["detectorId"].write(value.detectorId)
-        try writer["ruleId"].write(value.ruleId)
-        try writer["ruleVersion"].write(value.ruleVersion)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> FraudDetectorClientTypes.Rule {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = FraudDetectorClientTypes.Rule()
-        value.detectorId = try reader["detectorId"].readIfPresent() ?? ""
-        value.ruleId = try reader["ruleId"].readIfPresent() ?? ""
-        value.ruleVersion = try reader["ruleVersion"].readIfPresent() ?? ""
-        return value
-    }
-}
-
-extension FraudDetectorClientTypes.DetectorVersionSummary {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> FraudDetectorClientTypes.DetectorVersionSummary {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = FraudDetectorClientTypes.DetectorVersionSummary()
-        value.detectorVersionId = try reader["detectorVersionId"].readIfPresent()
-        value.status = try reader["status"].readIfPresent()
-        value.description = try reader["description"].readIfPresent()
-        value.lastUpdatedTime = try reader["lastUpdatedTime"].readIfPresent()
-        return value
-    }
-}
-
-extension FraudDetectorClientTypes.ModelVersionDetail {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> FraudDetectorClientTypes.ModelVersionDetail {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = FraudDetectorClientTypes.ModelVersionDetail()
-        value.modelId = try reader["modelId"].readIfPresent()
-        value.modelType = try reader["modelType"].readIfPresent()
-        value.modelVersionNumber = try reader["modelVersionNumber"].readIfPresent()
-        value.status = try reader["status"].readIfPresent()
-        value.trainingDataSource = try reader["trainingDataSource"].readIfPresent()
-        value.trainingDataSchema = try reader["trainingDataSchema"].readIfPresent(with: FraudDetectorClientTypes.TrainingDataSchema.read(from:))
-        value.externalEventsDetail = try reader["externalEventsDetail"].readIfPresent(with: FraudDetectorClientTypes.ExternalEventsDetail.read(from:))
-        value.ingestedEventsDetail = try reader["ingestedEventsDetail"].readIfPresent(with: FraudDetectorClientTypes.IngestedEventsDetail.read(from:))
-        value.trainingResult = try reader["trainingResult"].readIfPresent(with: FraudDetectorClientTypes.TrainingResult.read(from:))
-        value.lastUpdatedTime = try reader["lastUpdatedTime"].readIfPresent()
-        value.createdTime = try reader["createdTime"].readIfPresent()
-        value.arn = try reader["arn"].readIfPresent()
-        value.trainingResultV2 = try reader["trainingResultV2"].readIfPresent(with: FraudDetectorClientTypes.TrainingResultV2.read(from:))
-        return value
-    }
-}
-
-extension FraudDetectorClientTypes.TrainingResultV2 {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> FraudDetectorClientTypes.TrainingResultV2 {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = FraudDetectorClientTypes.TrainingResultV2()
-        value.dataValidationMetrics = try reader["dataValidationMetrics"].readIfPresent(with: FraudDetectorClientTypes.DataValidationMetrics.read(from:))
-        value.trainingMetricsV2 = try reader["trainingMetricsV2"].readIfPresent(with: FraudDetectorClientTypes.TrainingMetricsV2.read(from:))
-        value.variableImportanceMetrics = try reader["variableImportanceMetrics"].readIfPresent(with: FraudDetectorClientTypes.VariableImportanceMetrics.read(from:))
-        value.aggregatedVariablesImportanceMetrics = try reader["aggregatedVariablesImportanceMetrics"].readIfPresent(with: FraudDetectorClientTypes.AggregatedVariablesImportanceMetrics.read(from:))
-        return value
-    }
-}
-
-extension FraudDetectorClientTypes.AggregatedVariablesImportanceMetrics {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> FraudDetectorClientTypes.AggregatedVariablesImportanceMetrics {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = FraudDetectorClientTypes.AggregatedVariablesImportanceMetrics()
-        value.logOddsMetrics = try reader["logOddsMetrics"].readListIfPresent(memberReadingClosure: FraudDetectorClientTypes.AggregatedLogOddsMetric.read(from:), memberNodeInfo: "member", isFlattened: false)
         return value
     }
 }
@@ -8709,57 +8590,39 @@ extension FraudDetectorClientTypes.AggregatedLogOddsMetric {
     }
 }
 
-extension FraudDetectorClientTypes.VariableImportanceMetrics {
+extension FraudDetectorClientTypes.AggregatedVariablesImpactExplanation {
 
-    static func read(from reader: SmithyJSON.Reader) throws -> FraudDetectorClientTypes.VariableImportanceMetrics {
+    static func read(from reader: SmithyJSON.Reader) throws -> FraudDetectorClientTypes.AggregatedVariablesImpactExplanation {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = FraudDetectorClientTypes.VariableImportanceMetrics()
-        value.logOddsMetrics = try reader["logOddsMetrics"].readListIfPresent(memberReadingClosure: FraudDetectorClientTypes.LogOddsMetric.read(from:), memberNodeInfo: "member", isFlattened: false)
+        var value = FraudDetectorClientTypes.AggregatedVariablesImpactExplanation()
+        value.eventVariableNames = try reader["eventVariableNames"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        value.relativeImpact = try reader["relativeImpact"].readIfPresent()
+        value.logOddsImpact = try reader["logOddsImpact"].readIfPresent()
         return value
     }
 }
 
-extension FraudDetectorClientTypes.LogOddsMetric {
+extension FraudDetectorClientTypes.AggregatedVariablesImportanceMetrics {
 
-    static func read(from reader: SmithyJSON.Reader) throws -> FraudDetectorClientTypes.LogOddsMetric {
+    static func read(from reader: SmithyJSON.Reader) throws -> FraudDetectorClientTypes.AggregatedVariablesImportanceMetrics {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = FraudDetectorClientTypes.LogOddsMetric()
-        value.variableName = try reader["variableName"].readIfPresent() ?? ""
-        value.variableType = try reader["variableType"].readIfPresent() ?? ""
-        value.variableImportance = try reader["variableImportance"].readIfPresent() ?? 0.0
+        var value = FraudDetectorClientTypes.AggregatedVariablesImportanceMetrics()
+        value.logOddsMetrics = try reader["logOddsMetrics"].readListIfPresent(memberReadingClosure: FraudDetectorClientTypes.AggregatedLogOddsMetric.read(from:), memberNodeInfo: "member", isFlattened: false)
         return value
     }
 }
 
-extension FraudDetectorClientTypes.TrainingMetricsV2 {
+extension FraudDetectorClientTypes.AllowDenyList {
 
-    static func read(from reader: SmithyJSON.Reader) throws -> FraudDetectorClientTypes.TrainingMetricsV2 {
+    static func read(from reader: SmithyJSON.Reader) throws -> FraudDetectorClientTypes.AllowDenyList {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = FraudDetectorClientTypes.TrainingMetricsV2()
-        value.ofi = try reader["ofi"].readIfPresent(with: FraudDetectorClientTypes.OFITrainingMetricsValue.read(from:))
-        value.tfi = try reader["tfi"].readIfPresent(with: FraudDetectorClientTypes.TFITrainingMetricsValue.read(from:))
-        value.ati = try reader["ati"].readIfPresent(with: FraudDetectorClientTypes.ATITrainingMetricsValue.read(from:))
-        return value
-    }
-}
-
-extension FraudDetectorClientTypes.ATITrainingMetricsValue {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> FraudDetectorClientTypes.ATITrainingMetricsValue {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = FraudDetectorClientTypes.ATITrainingMetricsValue()
-        value.metricDataPoints = try reader["metricDataPoints"].readListIfPresent(memberReadingClosure: FraudDetectorClientTypes.ATIMetricDataPoint.read(from:), memberNodeInfo: "member", isFlattened: false)
-        value.modelPerformance = try reader["modelPerformance"].readIfPresent(with: FraudDetectorClientTypes.ATIModelPerformance.read(from:))
-        return value
-    }
-}
-
-extension FraudDetectorClientTypes.ATIModelPerformance {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> FraudDetectorClientTypes.ATIModelPerformance {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = FraudDetectorClientTypes.ATIModelPerformance()
-        value.asi = try reader["asi"].readIfPresent()
+        var value = FraudDetectorClientTypes.AllowDenyList()
+        value.name = try reader["name"].readIfPresent() ?? ""
+        value.description = try reader["description"].readIfPresent()
+        value.variableType = try reader["variableType"].readIfPresent()
+        value.createdTime = try reader["createdTime"].readIfPresent()
+        value.updatedTime = try reader["updatedTime"].readIfPresent()
+        value.arn = try reader["arn"].readIfPresent()
         return value
     }
 }
@@ -8777,239 +8640,47 @@ extension FraudDetectorClientTypes.ATIMetricDataPoint {
     }
 }
 
-extension FraudDetectorClientTypes.TFITrainingMetricsValue {
+extension FraudDetectorClientTypes.ATIModelPerformance {
 
-    static func read(from reader: SmithyJSON.Reader) throws -> FraudDetectorClientTypes.TFITrainingMetricsValue {
+    static func read(from reader: SmithyJSON.Reader) throws -> FraudDetectorClientTypes.ATIModelPerformance {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = FraudDetectorClientTypes.TFITrainingMetricsValue()
-        value.metricDataPoints = try reader["metricDataPoints"].readListIfPresent(memberReadingClosure: FraudDetectorClientTypes.TFIMetricDataPoint.read(from:), memberNodeInfo: "member", isFlattened: false)
-        value.modelPerformance = try reader["modelPerformance"].readIfPresent(with: FraudDetectorClientTypes.TFIModelPerformance.read(from:))
+        var value = FraudDetectorClientTypes.ATIModelPerformance()
+        value.asi = try reader["asi"].readIfPresent()
         return value
     }
 }
 
-extension FraudDetectorClientTypes.TFIModelPerformance {
+extension FraudDetectorClientTypes.ATITrainingMetricsValue {
 
-    static func read(from reader: SmithyJSON.Reader) throws -> FraudDetectorClientTypes.TFIModelPerformance {
+    static func read(from reader: SmithyJSON.Reader) throws -> FraudDetectorClientTypes.ATITrainingMetricsValue {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = FraudDetectorClientTypes.TFIModelPerformance()
-        value.auc = try reader["auc"].readIfPresent()
-        value.uncertaintyRange = try reader["uncertaintyRange"].readIfPresent(with: FraudDetectorClientTypes.UncertaintyRange.read(from:))
+        var value = FraudDetectorClientTypes.ATITrainingMetricsValue()
+        value.metricDataPoints = try reader["metricDataPoints"].readListIfPresent(memberReadingClosure: FraudDetectorClientTypes.ATIMetricDataPoint.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.modelPerformance = try reader["modelPerformance"].readIfPresent(with: FraudDetectorClientTypes.ATIModelPerformance.read(from:))
         return value
     }
 }
 
-extension FraudDetectorClientTypes.UncertaintyRange {
+extension FraudDetectorClientTypes.BatchCreateVariableError {
 
-    static func read(from reader: SmithyJSON.Reader) throws -> FraudDetectorClientTypes.UncertaintyRange {
+    static func read(from reader: SmithyJSON.Reader) throws -> FraudDetectorClientTypes.BatchCreateVariableError {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = FraudDetectorClientTypes.UncertaintyRange()
-        value.lowerBoundValue = try reader["lowerBoundValue"].readIfPresent() ?? 0.0
-        value.upperBoundValue = try reader["upperBoundValue"].readIfPresent() ?? 0.0
+        var value = FraudDetectorClientTypes.BatchCreateVariableError()
+        value.name = try reader["name"].readIfPresent()
+        value.code = try reader["code"].readIfPresent() ?? 0
+        value.message = try reader["message"].readIfPresent()
         return value
     }
 }
 
-extension FraudDetectorClientTypes.TFIMetricDataPoint {
+extension FraudDetectorClientTypes.BatchGetVariableError {
 
-    static func read(from reader: SmithyJSON.Reader) throws -> FraudDetectorClientTypes.TFIMetricDataPoint {
+    static func read(from reader: SmithyJSON.Reader) throws -> FraudDetectorClientTypes.BatchGetVariableError {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = FraudDetectorClientTypes.TFIMetricDataPoint()
-        value.fpr = try reader["fpr"].readIfPresent()
-        value.precision = try reader["precision"].readIfPresent()
-        value.tpr = try reader["tpr"].readIfPresent()
-        value.threshold = try reader["threshold"].readIfPresent()
-        return value
-    }
-}
-
-extension FraudDetectorClientTypes.OFITrainingMetricsValue {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> FraudDetectorClientTypes.OFITrainingMetricsValue {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = FraudDetectorClientTypes.OFITrainingMetricsValue()
-        value.metricDataPoints = try reader["metricDataPoints"].readListIfPresent(memberReadingClosure: FraudDetectorClientTypes.OFIMetricDataPoint.read(from:), memberNodeInfo: "member", isFlattened: false)
-        value.modelPerformance = try reader["modelPerformance"].readIfPresent(with: FraudDetectorClientTypes.OFIModelPerformance.read(from:))
-        return value
-    }
-}
-
-extension FraudDetectorClientTypes.OFIModelPerformance {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> FraudDetectorClientTypes.OFIModelPerformance {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = FraudDetectorClientTypes.OFIModelPerformance()
-        value.auc = try reader["auc"].readIfPresent()
-        value.uncertaintyRange = try reader["uncertaintyRange"].readIfPresent(with: FraudDetectorClientTypes.UncertaintyRange.read(from:))
-        return value
-    }
-}
-
-extension FraudDetectorClientTypes.OFIMetricDataPoint {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> FraudDetectorClientTypes.OFIMetricDataPoint {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = FraudDetectorClientTypes.OFIMetricDataPoint()
-        value.fpr = try reader["fpr"].readIfPresent()
-        value.precision = try reader["precision"].readIfPresent()
-        value.tpr = try reader["tpr"].readIfPresent()
-        value.threshold = try reader["threshold"].readIfPresent()
-        return value
-    }
-}
-
-extension FraudDetectorClientTypes.DataValidationMetrics {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> FraudDetectorClientTypes.DataValidationMetrics {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = FraudDetectorClientTypes.DataValidationMetrics()
-        value.fileLevelMessages = try reader["fileLevelMessages"].readListIfPresent(memberReadingClosure: FraudDetectorClientTypes.FileValidationMessage.read(from:), memberNodeInfo: "member", isFlattened: false)
-        value.fieldLevelMessages = try reader["fieldLevelMessages"].readListIfPresent(memberReadingClosure: FraudDetectorClientTypes.FieldValidationMessage.read(from:), memberNodeInfo: "member", isFlattened: false)
-        return value
-    }
-}
-
-extension FraudDetectorClientTypes.FieldValidationMessage {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> FraudDetectorClientTypes.FieldValidationMessage {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = FraudDetectorClientTypes.FieldValidationMessage()
-        value.fieldName = try reader["fieldName"].readIfPresent()
-        value.identifier = try reader["identifier"].readIfPresent()
-        value.title = try reader["title"].readIfPresent()
-        value.content = try reader["content"].readIfPresent()
-        value.type = try reader["type"].readIfPresent()
-        return value
-    }
-}
-
-extension FraudDetectorClientTypes.FileValidationMessage {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> FraudDetectorClientTypes.FileValidationMessage {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = FraudDetectorClientTypes.FileValidationMessage()
-        value.title = try reader["title"].readIfPresent()
-        value.content = try reader["content"].readIfPresent()
-        value.type = try reader["type"].readIfPresent()
-        return value
-    }
-}
-
-extension FraudDetectorClientTypes.TrainingResult {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> FraudDetectorClientTypes.TrainingResult {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = FraudDetectorClientTypes.TrainingResult()
-        value.dataValidationMetrics = try reader["dataValidationMetrics"].readIfPresent(with: FraudDetectorClientTypes.DataValidationMetrics.read(from:))
-        value.trainingMetrics = try reader["trainingMetrics"].readIfPresent(with: FraudDetectorClientTypes.TrainingMetrics.read(from:))
-        value.variableImportanceMetrics = try reader["variableImportanceMetrics"].readIfPresent(with: FraudDetectorClientTypes.VariableImportanceMetrics.read(from:))
-        return value
-    }
-}
-
-extension FraudDetectorClientTypes.TrainingMetrics {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> FraudDetectorClientTypes.TrainingMetrics {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = FraudDetectorClientTypes.TrainingMetrics()
-        value.auc = try reader["auc"].readIfPresent()
-        value.metricDataPoints = try reader["metricDataPoints"].readListIfPresent(memberReadingClosure: FraudDetectorClientTypes.MetricDataPoint.read(from:), memberNodeInfo: "member", isFlattened: false)
-        return value
-    }
-}
-
-extension FraudDetectorClientTypes.MetricDataPoint {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> FraudDetectorClientTypes.MetricDataPoint {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = FraudDetectorClientTypes.MetricDataPoint()
-        value.fpr = try reader["fpr"].readIfPresent()
-        value.precision = try reader["precision"].readIfPresent()
-        value.tpr = try reader["tpr"].readIfPresent()
-        value.threshold = try reader["threshold"].readIfPresent()
-        return value
-    }
-}
-
-extension FraudDetectorClientTypes.IngestedEventsDetail {
-
-    static func write(value: FraudDetectorClientTypes.IngestedEventsDetail?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["ingestedEventsTimeWindow"].write(value.ingestedEventsTimeWindow, with: FraudDetectorClientTypes.IngestedEventsTimeWindow.write(value:to:))
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> FraudDetectorClientTypes.IngestedEventsDetail {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = FraudDetectorClientTypes.IngestedEventsDetail()
-        value.ingestedEventsTimeWindow = try reader["ingestedEventsTimeWindow"].readIfPresent(with: FraudDetectorClientTypes.IngestedEventsTimeWindow.read(from:))
-        return value
-    }
-}
-
-extension FraudDetectorClientTypes.IngestedEventsTimeWindow {
-
-    static func write(value: FraudDetectorClientTypes.IngestedEventsTimeWindow?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["endTime"].write(value.endTime)
-        try writer["startTime"].write(value.startTime)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> FraudDetectorClientTypes.IngestedEventsTimeWindow {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = FraudDetectorClientTypes.IngestedEventsTimeWindow()
-        value.startTime = try reader["startTime"].readIfPresent() ?? ""
-        value.endTime = try reader["endTime"].readIfPresent() ?? ""
-        return value
-    }
-}
-
-extension FraudDetectorClientTypes.ExternalEventsDetail {
-
-    static func write(value: FraudDetectorClientTypes.ExternalEventsDetail?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["dataAccessRoleArn"].write(value.dataAccessRoleArn)
-        try writer["dataLocation"].write(value.dataLocation)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> FraudDetectorClientTypes.ExternalEventsDetail {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = FraudDetectorClientTypes.ExternalEventsDetail()
-        value.dataLocation = try reader["dataLocation"].readIfPresent() ?? ""
-        value.dataAccessRoleArn = try reader["dataAccessRoleArn"].readIfPresent() ?? ""
-        return value
-    }
-}
-
-extension FraudDetectorClientTypes.TrainingDataSchema {
-
-    static func write(value: FraudDetectorClientTypes.TrainingDataSchema?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["labelSchema"].write(value.labelSchema, with: FraudDetectorClientTypes.LabelSchema.write(value:to:))
-        try writer["modelVariables"].writeList(value.modelVariables, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> FraudDetectorClientTypes.TrainingDataSchema {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = FraudDetectorClientTypes.TrainingDataSchema()
-        value.modelVariables = try reader["modelVariables"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false) ?? []
-        value.labelSchema = try reader["labelSchema"].readIfPresent(with: FraudDetectorClientTypes.LabelSchema.read(from:))
-        return value
-    }
-}
-
-extension FraudDetectorClientTypes.LabelSchema {
-
-    static func write(value: FraudDetectorClientTypes.LabelSchema?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["labelMapper"].writeMap(value.labelMapper, valueWritingClosure: SmithyReadWrite.listWritingClosure(memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
-        try writer["unlabeledEventsTreatment"].write(value.unlabeledEventsTreatment)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> FraudDetectorClientTypes.LabelSchema {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = FraudDetectorClientTypes.LabelSchema()
-        value.labelMapper = try reader["labelMapper"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.listReadingClosure(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
-        value.unlabeledEventsTreatment = try reader["unlabeledEventsTreatment"].readIfPresent()
+        var value = FraudDetectorClientTypes.BatchGetVariableError()
+        value.name = try reader["name"].readIfPresent()
+        value.code = try reader["code"].readIfPresent() ?? 0
+        value.message = try reader["message"].readIfPresent()
         return value
     }
 }
@@ -9060,6 +8731,17 @@ extension FraudDetectorClientTypes.BatchPrediction {
     }
 }
 
+extension FraudDetectorClientTypes.DataValidationMetrics {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> FraudDetectorClientTypes.DataValidationMetrics {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = FraudDetectorClientTypes.DataValidationMetrics()
+        value.fileLevelMessages = try reader["fileLevelMessages"].readListIfPresent(memberReadingClosure: FraudDetectorClientTypes.FileValidationMessage.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.fieldLevelMessages = try reader["fieldLevelMessages"].readListIfPresent(memberReadingClosure: FraudDetectorClientTypes.FieldValidationMessage.read(from:), memberNodeInfo: "member", isFlattened: false)
+        return value
+    }
+}
+
 extension FraudDetectorClientTypes.Detector {
 
     static func read(from reader: SmithyJSON.Reader) throws -> FraudDetectorClientTypes.Detector {
@@ -9075,53 +8757,15 @@ extension FraudDetectorClientTypes.Detector {
     }
 }
 
-extension FraudDetectorClientTypes.ModelVersion {
+extension FraudDetectorClientTypes.DetectorVersionSummary {
 
-    static func write(value: FraudDetectorClientTypes.ModelVersion?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["arn"].write(value.arn)
-        try writer["modelId"].write(value.modelId)
-        try writer["modelType"].write(value.modelType)
-        try writer["modelVersionNumber"].write(value.modelVersionNumber)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> FraudDetectorClientTypes.ModelVersion {
+    static func read(from reader: SmithyJSON.Reader) throws -> FraudDetectorClientTypes.DetectorVersionSummary {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = FraudDetectorClientTypes.ModelVersion()
-        value.modelId = try reader["modelId"].readIfPresent() ?? ""
-        value.modelType = try reader["modelType"].readIfPresent() ?? .sdkUnknown("")
-        value.modelVersionNumber = try reader["modelVersionNumber"].readIfPresent() ?? ""
-        value.arn = try reader["arn"].readIfPresent()
-        return value
-    }
-}
-
-extension FraudDetectorClientTypes.EntityType {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> FraudDetectorClientTypes.EntityType {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = FraudDetectorClientTypes.EntityType()
-        value.name = try reader["name"].readIfPresent()
+        var value = FraudDetectorClientTypes.DetectorVersionSummary()
+        value.detectorVersionId = try reader["detectorVersionId"].readIfPresent()
+        value.status = try reader["status"].readIfPresent()
         value.description = try reader["description"].readIfPresent()
         value.lastUpdatedTime = try reader["lastUpdatedTime"].readIfPresent()
-        value.createdTime = try reader["createdTime"].readIfPresent()
-        value.arn = try reader["arn"].readIfPresent()
-        return value
-    }
-}
-
-extension FraudDetectorClientTypes.Event {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> FraudDetectorClientTypes.Event {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = FraudDetectorClientTypes.Event()
-        value.eventId = try reader["eventId"].readIfPresent()
-        value.eventTypeName = try reader["eventTypeName"].readIfPresent()
-        value.eventTimestamp = try reader["eventTimestamp"].readIfPresent()
-        value.eventVariables = try reader["eventVariables"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
-        value.currentLabel = try reader["currentLabel"].readIfPresent()
-        value.labelTimestamp = try reader["labelTimestamp"].readIfPresent()
-        value.entities = try reader["entities"].readListIfPresent(memberReadingClosure: FraudDetectorClientTypes.Entity.read(from:), memberNodeInfo: "member", isFlattened: false)
         return value
     }
 }
@@ -9143,24 +8787,171 @@ extension FraudDetectorClientTypes.Entity {
     }
 }
 
-extension FraudDetectorClientTypes.ModelScores {
+extension FraudDetectorClientTypes.EntityType {
 
-    static func read(from reader: SmithyJSON.Reader) throws -> FraudDetectorClientTypes.ModelScores {
+    static func read(from reader: SmithyJSON.Reader) throws -> FraudDetectorClientTypes.EntityType {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = FraudDetectorClientTypes.ModelScores()
-        value.modelVersion = try reader["modelVersion"].readIfPresent(with: FraudDetectorClientTypes.ModelVersion.read(from:))
-        value.scores = try reader["scores"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readFloat(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+        var value = FraudDetectorClientTypes.EntityType()
+        value.name = try reader["name"].readIfPresent()
+        value.description = try reader["description"].readIfPresent()
+        value.lastUpdatedTime = try reader["lastUpdatedTime"].readIfPresent()
+        value.createdTime = try reader["createdTime"].readIfPresent()
+        value.arn = try reader["arn"].readIfPresent()
         return value
     }
 }
 
-extension FraudDetectorClientTypes.RuleResult {
+extension FraudDetectorClientTypes.EvaluatedExternalModel {
 
-    static func read(from reader: SmithyJSON.Reader) throws -> FraudDetectorClientTypes.RuleResult {
+    static func read(from reader: SmithyJSON.Reader) throws -> FraudDetectorClientTypes.EvaluatedExternalModel {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = FraudDetectorClientTypes.RuleResult()
+        var value = FraudDetectorClientTypes.EvaluatedExternalModel()
+        value.modelEndpoint = try reader["modelEndpoint"].readIfPresent()
+        value.useEventVariables = try reader["useEventVariables"].readIfPresent()
+        value.inputVariables = try reader["inputVariables"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+        value.outputVariables = try reader["outputVariables"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+        return value
+    }
+}
+
+extension FraudDetectorClientTypes.EvaluatedModelVersion {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> FraudDetectorClientTypes.EvaluatedModelVersion {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = FraudDetectorClientTypes.EvaluatedModelVersion()
+        value.modelId = try reader["modelId"].readIfPresent()
+        value.modelVersion = try reader["modelVersion"].readIfPresent()
+        value.modelType = try reader["modelType"].readIfPresent()
+        value.evaluations = try reader["evaluations"].readListIfPresent(memberReadingClosure: FraudDetectorClientTypes.ModelVersionEvaluation.read(from:), memberNodeInfo: "member", isFlattened: false)
+        return value
+    }
+}
+
+extension FraudDetectorClientTypes.EvaluatedRule {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> FraudDetectorClientTypes.EvaluatedRule {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = FraudDetectorClientTypes.EvaluatedRule()
         value.ruleId = try reader["ruleId"].readIfPresent()
+        value.ruleVersion = try reader["ruleVersion"].readIfPresent()
+        value.expression = try reader["expression"].readIfPresent()
+        value.expressionWithValues = try reader["expressionWithValues"].readIfPresent()
         value.outcomes = try reader["outcomes"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        value.evaluated = try reader["evaluated"].readIfPresent()
+        value.matched = try reader["matched"].readIfPresent()
+        return value
+    }
+}
+
+extension FraudDetectorClientTypes.Event {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> FraudDetectorClientTypes.Event {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = FraudDetectorClientTypes.Event()
+        value.eventId = try reader["eventId"].readIfPresent()
+        value.eventTypeName = try reader["eventTypeName"].readIfPresent()
+        value.eventTimestamp = try reader["eventTimestamp"].readIfPresent()
+        value.eventVariables = try reader["eventVariables"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+        value.currentLabel = try reader["currentLabel"].readIfPresent()
+        value.labelTimestamp = try reader["labelTimestamp"].readIfPresent()
+        value.entities = try reader["entities"].readListIfPresent(memberReadingClosure: FraudDetectorClientTypes.Entity.read(from:), memberNodeInfo: "member", isFlattened: false)
+        return value
+    }
+}
+
+extension FraudDetectorClientTypes.EventOrchestration {
+
+    static func write(value: FraudDetectorClientTypes.EventOrchestration?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["eventBridgeEnabled"].write(value.eventBridgeEnabled)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> FraudDetectorClientTypes.EventOrchestration {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = FraudDetectorClientTypes.EventOrchestration()
+        value.eventBridgeEnabled = try reader["eventBridgeEnabled"].readIfPresent() ?? false
+        return value
+    }
+}
+
+extension FraudDetectorClientTypes.EventPredictionSummary {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> FraudDetectorClientTypes.EventPredictionSummary {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = FraudDetectorClientTypes.EventPredictionSummary()
+        value.eventId = try reader["eventId"].readIfPresent()
+        value.eventTypeName = try reader["eventTypeName"].readIfPresent()
+        value.eventTimestamp = try reader["eventTimestamp"].readIfPresent()
+        value.predictionTimestamp = try reader["predictionTimestamp"].readIfPresent()
+        value.detectorId = try reader["detectorId"].readIfPresent()
+        value.detectorVersionId = try reader["detectorVersionId"].readIfPresent()
+        return value
+    }
+}
+
+extension FraudDetectorClientTypes.EventType {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> FraudDetectorClientTypes.EventType {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = FraudDetectorClientTypes.EventType()
+        value.name = try reader["name"].readIfPresent()
+        value.description = try reader["description"].readIfPresent()
+        value.eventVariables = try reader["eventVariables"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        value.labels = try reader["labels"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        value.entityTypes = try reader["entityTypes"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        value.eventIngestion = try reader["eventIngestion"].readIfPresent()
+        value.ingestedEventStatistics = try reader["ingestedEventStatistics"].readIfPresent(with: FraudDetectorClientTypes.IngestedEventStatistics.read(from:))
+        value.lastUpdatedTime = try reader["lastUpdatedTime"].readIfPresent()
+        value.createdTime = try reader["createdTime"].readIfPresent()
+        value.arn = try reader["arn"].readIfPresent()
+        value.eventOrchestration = try reader["eventOrchestration"].readIfPresent(with: FraudDetectorClientTypes.EventOrchestration.read(from:))
+        return value
+    }
+}
+
+extension FraudDetectorClientTypes.EventVariableSummary {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> FraudDetectorClientTypes.EventVariableSummary {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = FraudDetectorClientTypes.EventVariableSummary()
+        value.name = try reader["name"].readIfPresent()
+        value.value = try reader["value"].readIfPresent()
+        value.source = try reader["source"].readIfPresent()
+        return value
+    }
+}
+
+extension FraudDetectorClientTypes.ExternalEventsDetail {
+
+    static func write(value: FraudDetectorClientTypes.ExternalEventsDetail?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["dataAccessRoleArn"].write(value.dataAccessRoleArn)
+        try writer["dataLocation"].write(value.dataLocation)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> FraudDetectorClientTypes.ExternalEventsDetail {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = FraudDetectorClientTypes.ExternalEventsDetail()
+        value.dataLocation = try reader["dataLocation"].readIfPresent() ?? ""
+        value.dataAccessRoleArn = try reader["dataAccessRoleArn"].readIfPresent() ?? ""
+        return value
+    }
+}
+
+extension FraudDetectorClientTypes.ExternalModel {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> FraudDetectorClientTypes.ExternalModel {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = FraudDetectorClientTypes.ExternalModel()
+        value.modelEndpoint = try reader["modelEndpoint"].readIfPresent()
+        value.modelSource = try reader["modelSource"].readIfPresent()
+        value.invokeModelEndpointRoleArn = try reader["invokeModelEndpointRoleArn"].readIfPresent()
+        value.inputConfiguration = try reader["inputConfiguration"].readIfPresent(with: FraudDetectorClientTypes.ModelInputConfiguration.read(from:))
+        value.outputConfiguration = try reader["outputConfiguration"].readIfPresent(with: FraudDetectorClientTypes.ModelOutputConfiguration.read(from:))
+        value.modelEndpointStatus = try reader["modelEndpointStatus"].readIfPresent()
+        value.lastUpdatedTime = try reader["lastUpdatedTime"].readIfPresent()
+        value.createdTime = try reader["createdTime"].readIfPresent()
+        value.arn = try reader["arn"].readIfPresent()
         return value
     }
 }
@@ -9187,138 +8978,51 @@ extension FraudDetectorClientTypes.ExternalModelSummary {
     }
 }
 
-extension FraudDetectorClientTypes.EventVariableSummary {
+extension FraudDetectorClientTypes.FieldValidationMessage {
 
-    static func read(from reader: SmithyJSON.Reader) throws -> FraudDetectorClientTypes.EventVariableSummary {
+    static func read(from reader: SmithyJSON.Reader) throws -> FraudDetectorClientTypes.FieldValidationMessage {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = FraudDetectorClientTypes.EventVariableSummary()
-        value.name = try reader["name"].readIfPresent()
-        value.value = try reader["value"].readIfPresent()
-        value.source = try reader["source"].readIfPresent()
+        var value = FraudDetectorClientTypes.FieldValidationMessage()
+        value.fieldName = try reader["fieldName"].readIfPresent()
+        value.identifier = try reader["identifier"].readIfPresent()
+        value.title = try reader["title"].readIfPresent()
+        value.content = try reader["content"].readIfPresent()
+        value.type = try reader["type"].readIfPresent()
         return value
     }
 }
 
-extension FraudDetectorClientTypes.EvaluatedRule {
+extension FraudDetectorClientTypes.FileValidationMessage {
 
-    static func read(from reader: SmithyJSON.Reader) throws -> FraudDetectorClientTypes.EvaluatedRule {
+    static func read(from reader: SmithyJSON.Reader) throws -> FraudDetectorClientTypes.FileValidationMessage {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = FraudDetectorClientTypes.EvaluatedRule()
-        value.ruleId = try reader["ruleId"].readIfPresent()
-        value.ruleVersion = try reader["ruleVersion"].readIfPresent()
-        value.expression = try reader["expression"].readIfPresent()
-        value.expressionWithValues = try reader["expressionWithValues"].readIfPresent()
-        value.outcomes = try reader["outcomes"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
-        value.evaluated = try reader["evaluated"].readIfPresent()
-        value.matched = try reader["matched"].readIfPresent()
+        var value = FraudDetectorClientTypes.FileValidationMessage()
+        value.title = try reader["title"].readIfPresent()
+        value.content = try reader["content"].readIfPresent()
+        value.type = try reader["type"].readIfPresent()
         return value
     }
 }
 
-extension FraudDetectorClientTypes.EvaluatedModelVersion {
+extension FraudDetectorClientTypes.FilterCondition {
 
-    static func read(from reader: SmithyJSON.Reader) throws -> FraudDetectorClientTypes.EvaluatedModelVersion {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = FraudDetectorClientTypes.EvaluatedModelVersion()
-        value.modelId = try reader["modelId"].readIfPresent()
-        value.modelVersion = try reader["modelVersion"].readIfPresent()
-        value.modelType = try reader["modelType"].readIfPresent()
-        value.evaluations = try reader["evaluations"].readListIfPresent(memberReadingClosure: FraudDetectorClientTypes.ModelVersionEvaluation.read(from:), memberNodeInfo: "member", isFlattened: false)
-        return value
-    }
-}
-
-extension FraudDetectorClientTypes.ModelVersionEvaluation {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> FraudDetectorClientTypes.ModelVersionEvaluation {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = FraudDetectorClientTypes.ModelVersionEvaluation()
-        value.outputVariableName = try reader["outputVariableName"].readIfPresent()
-        value.evaluationScore = try reader["evaluationScore"].readIfPresent()
-        value.predictionExplanations = try reader["predictionExplanations"].readIfPresent(with: FraudDetectorClientTypes.PredictionExplanations.read(from:))
-        return value
-    }
-}
-
-extension FraudDetectorClientTypes.PredictionExplanations {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> FraudDetectorClientTypes.PredictionExplanations {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = FraudDetectorClientTypes.PredictionExplanations()
-        value.variableImpactExplanations = try reader["variableImpactExplanations"].readListIfPresent(memberReadingClosure: FraudDetectorClientTypes.VariableImpactExplanation.read(from:), memberNodeInfo: "member", isFlattened: false)
-        value.aggregatedVariablesImpactExplanations = try reader["aggregatedVariablesImpactExplanations"].readListIfPresent(memberReadingClosure: FraudDetectorClientTypes.AggregatedVariablesImpactExplanation.read(from:), memberNodeInfo: "member", isFlattened: false)
-        return value
-    }
-}
-
-extension FraudDetectorClientTypes.AggregatedVariablesImpactExplanation {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> FraudDetectorClientTypes.AggregatedVariablesImpactExplanation {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = FraudDetectorClientTypes.AggregatedVariablesImpactExplanation()
-        value.eventVariableNames = try reader["eventVariableNames"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
-        value.relativeImpact = try reader["relativeImpact"].readIfPresent()
-        value.logOddsImpact = try reader["logOddsImpact"].readIfPresent()
-        return value
-    }
-}
-
-extension FraudDetectorClientTypes.VariableImpactExplanation {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> FraudDetectorClientTypes.VariableImpactExplanation {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = FraudDetectorClientTypes.VariableImpactExplanation()
-        value.eventVariableName = try reader["eventVariableName"].readIfPresent()
-        value.relativeImpact = try reader["relativeImpact"].readIfPresent()
-        value.logOddsImpact = try reader["logOddsImpact"].readIfPresent()
-        return value
-    }
-}
-
-extension FraudDetectorClientTypes.EvaluatedExternalModel {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> FraudDetectorClientTypes.EvaluatedExternalModel {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = FraudDetectorClientTypes.EvaluatedExternalModel()
-        value.modelEndpoint = try reader["modelEndpoint"].readIfPresent()
-        value.useEventVariables = try reader["useEventVariables"].readIfPresent()
-        value.inputVariables = try reader["inputVariables"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
-        value.outputVariables = try reader["outputVariables"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
-        return value
-    }
-}
-
-extension FraudDetectorClientTypes.EventType {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> FraudDetectorClientTypes.EventType {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = FraudDetectorClientTypes.EventType()
-        value.name = try reader["name"].readIfPresent()
-        value.description = try reader["description"].readIfPresent()
-        value.eventVariables = try reader["eventVariables"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
-        value.labels = try reader["labels"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
-        value.entityTypes = try reader["entityTypes"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
-        value.eventIngestion = try reader["eventIngestion"].readIfPresent()
-        value.ingestedEventStatistics = try reader["ingestedEventStatistics"].readIfPresent(with: FraudDetectorClientTypes.IngestedEventStatistics.read(from:))
-        value.lastUpdatedTime = try reader["lastUpdatedTime"].readIfPresent()
-        value.createdTime = try reader["createdTime"].readIfPresent()
-        value.arn = try reader["arn"].readIfPresent()
-        value.eventOrchestration = try reader["eventOrchestration"].readIfPresent(with: FraudDetectorClientTypes.EventOrchestration.read(from:))
-        return value
-    }
-}
-
-extension FraudDetectorClientTypes.EventOrchestration {
-
-    static func write(value: FraudDetectorClientTypes.EventOrchestration?, to writer: SmithyJSON.Writer) throws {
+    static func write(value: FraudDetectorClientTypes.FilterCondition?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
-        try writer["eventBridgeEnabled"].write(value.eventBridgeEnabled)
+        try writer["value"].write(value.value)
+    }
+}
+
+extension FraudDetectorClientTypes.IngestedEventsDetail {
+
+    static func write(value: FraudDetectorClientTypes.IngestedEventsDetail?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["ingestedEventsTimeWindow"].write(value.ingestedEventsTimeWindow, with: FraudDetectorClientTypes.IngestedEventsTimeWindow.write(value:to:))
     }
 
-    static func read(from reader: SmithyJSON.Reader) throws -> FraudDetectorClientTypes.EventOrchestration {
+    static func read(from reader: SmithyJSON.Reader) throws -> FraudDetectorClientTypes.IngestedEventsDetail {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = FraudDetectorClientTypes.EventOrchestration()
-        value.eventBridgeEnabled = try reader["eventBridgeEnabled"].readIfPresent() ?? false
+        var value = FraudDetectorClientTypes.IngestedEventsDetail()
+        value.ingestedEventsTimeWindow = try reader["ingestedEventsTimeWindow"].readIfPresent(with: FraudDetectorClientTypes.IngestedEventsTimeWindow.read(from:))
         return value
     }
 }
@@ -9337,62 +9041,19 @@ extension FraudDetectorClientTypes.IngestedEventStatistics {
     }
 }
 
-extension FraudDetectorClientTypes.ExternalModel {
+extension FraudDetectorClientTypes.IngestedEventsTimeWindow {
 
-    static func read(from reader: SmithyJSON.Reader) throws -> FraudDetectorClientTypes.ExternalModel {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = FraudDetectorClientTypes.ExternalModel()
-        value.modelEndpoint = try reader["modelEndpoint"].readIfPresent()
-        value.modelSource = try reader["modelSource"].readIfPresent()
-        value.invokeModelEndpointRoleArn = try reader["invokeModelEndpointRoleArn"].readIfPresent()
-        value.inputConfiguration = try reader["inputConfiguration"].readIfPresent(with: FraudDetectorClientTypes.ModelInputConfiguration.read(from:))
-        value.outputConfiguration = try reader["outputConfiguration"].readIfPresent(with: FraudDetectorClientTypes.ModelOutputConfiguration.read(from:))
-        value.modelEndpointStatus = try reader["modelEndpointStatus"].readIfPresent()
-        value.lastUpdatedTime = try reader["lastUpdatedTime"].readIfPresent()
-        value.createdTime = try reader["createdTime"].readIfPresent()
-        value.arn = try reader["arn"].readIfPresent()
-        return value
-    }
-}
-
-extension FraudDetectorClientTypes.ModelOutputConfiguration {
-
-    static func write(value: FraudDetectorClientTypes.ModelOutputConfiguration?, to writer: SmithyJSON.Writer) throws {
+    static func write(value: FraudDetectorClientTypes.IngestedEventsTimeWindow?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
-        try writer["csvIndexToVariableMap"].writeMap(value.csvIndexToVariableMap, valueWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
-        try writer["format"].write(value.format)
-        try writer["jsonKeyToVariableMap"].writeMap(value.jsonKeyToVariableMap, valueWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+        try writer["endTime"].write(value.endTime)
+        try writer["startTime"].write(value.startTime)
     }
 
-    static func read(from reader: SmithyJSON.Reader) throws -> FraudDetectorClientTypes.ModelOutputConfiguration {
+    static func read(from reader: SmithyJSON.Reader) throws -> FraudDetectorClientTypes.IngestedEventsTimeWindow {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = FraudDetectorClientTypes.ModelOutputConfiguration()
-        value.format = try reader["format"].readIfPresent() ?? .sdkUnknown("")
-        value.jsonKeyToVariableMap = try reader["jsonKeyToVariableMap"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
-        value.csvIndexToVariableMap = try reader["csvIndexToVariableMap"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
-        return value
-    }
-}
-
-extension FraudDetectorClientTypes.ModelInputConfiguration {
-
-    static func write(value: FraudDetectorClientTypes.ModelInputConfiguration?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["csvInputTemplate"].write(value.csvInputTemplate)
-        try writer["eventTypeName"].write(value.eventTypeName)
-        try writer["format"].write(value.format)
-        try writer["jsonInputTemplate"].write(value.jsonInputTemplate)
-        try writer["useEventVariables"].write(value.useEventVariables)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> FraudDetectorClientTypes.ModelInputConfiguration {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = FraudDetectorClientTypes.ModelInputConfiguration()
-        value.eventTypeName = try reader["eventTypeName"].readIfPresent()
-        value.format = try reader["format"].readIfPresent()
-        value.useEventVariables = try reader["useEventVariables"].readIfPresent() ?? false
-        value.jsonInputTemplate = try reader["jsonInputTemplate"].readIfPresent()
-        value.csvInputTemplate = try reader["csvInputTemplate"].readIfPresent()
+        var value = FraudDetectorClientTypes.IngestedEventsTimeWindow()
+        value.startTime = try reader["startTime"].readIfPresent() ?? ""
+        value.endTime = try reader["endTime"].readIfPresent() ?? ""
         return value
     }
 }
@@ -9421,17 +9082,44 @@ extension FraudDetectorClientTypes.Label {
     }
 }
 
-extension FraudDetectorClientTypes.AllowDenyList {
+extension FraudDetectorClientTypes.LabelSchema {
 
-    static func read(from reader: SmithyJSON.Reader) throws -> FraudDetectorClientTypes.AllowDenyList {
+    static func write(value: FraudDetectorClientTypes.LabelSchema?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["labelMapper"].writeMap(value.labelMapper, valueWritingClosure: SmithyReadWrite.listWritingClosure(memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+        try writer["unlabeledEventsTreatment"].write(value.unlabeledEventsTreatment)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> FraudDetectorClientTypes.LabelSchema {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = FraudDetectorClientTypes.AllowDenyList()
-        value.name = try reader["name"].readIfPresent() ?? ""
-        value.description = try reader["description"].readIfPresent()
-        value.variableType = try reader["variableType"].readIfPresent()
-        value.createdTime = try reader["createdTime"].readIfPresent()
-        value.updatedTime = try reader["updatedTime"].readIfPresent()
-        value.arn = try reader["arn"].readIfPresent()
+        var value = FraudDetectorClientTypes.LabelSchema()
+        value.labelMapper = try reader["labelMapper"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.listReadingClosure(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+        value.unlabeledEventsTreatment = try reader["unlabeledEventsTreatment"].readIfPresent()
+        return value
+    }
+}
+
+extension FraudDetectorClientTypes.LogOddsMetric {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> FraudDetectorClientTypes.LogOddsMetric {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = FraudDetectorClientTypes.LogOddsMetric()
+        value.variableName = try reader["variableName"].readIfPresent() ?? ""
+        value.variableType = try reader["variableType"].readIfPresent() ?? ""
+        value.variableImportance = try reader["variableImportance"].readIfPresent() ?? 0.0
+        return value
+    }
+}
+
+extension FraudDetectorClientTypes.MetricDataPoint {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> FraudDetectorClientTypes.MetricDataPoint {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = FraudDetectorClientTypes.MetricDataPoint()
+        value.fpr = try reader["fpr"].readIfPresent()
+        value.precision = try reader["precision"].readIfPresent()
+        value.tpr = try reader["tpr"].readIfPresent()
+        value.threshold = try reader["threshold"].readIfPresent()
         return value
     }
 }
@@ -9452,6 +9140,158 @@ extension FraudDetectorClientTypes.Model {
     }
 }
 
+extension FraudDetectorClientTypes.ModelEndpointDataBlob {
+
+    static func write(value: FraudDetectorClientTypes.ModelEndpointDataBlob?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["byteBuffer"].write(value.byteBuffer)
+        try writer["contentType"].write(value.contentType)
+    }
+}
+
+extension FraudDetectorClientTypes.ModelInputConfiguration {
+
+    static func write(value: FraudDetectorClientTypes.ModelInputConfiguration?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["csvInputTemplate"].write(value.csvInputTemplate)
+        try writer["eventTypeName"].write(value.eventTypeName)
+        try writer["format"].write(value.format)
+        try writer["jsonInputTemplate"].write(value.jsonInputTemplate)
+        try writer["useEventVariables"].write(value.useEventVariables)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> FraudDetectorClientTypes.ModelInputConfiguration {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = FraudDetectorClientTypes.ModelInputConfiguration()
+        value.eventTypeName = try reader["eventTypeName"].readIfPresent()
+        value.format = try reader["format"].readIfPresent()
+        value.useEventVariables = try reader["useEventVariables"].readIfPresent() ?? false
+        value.jsonInputTemplate = try reader["jsonInputTemplate"].readIfPresent()
+        value.csvInputTemplate = try reader["csvInputTemplate"].readIfPresent()
+        return value
+    }
+}
+
+extension FraudDetectorClientTypes.ModelOutputConfiguration {
+
+    static func write(value: FraudDetectorClientTypes.ModelOutputConfiguration?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["csvIndexToVariableMap"].writeMap(value.csvIndexToVariableMap, valueWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+        try writer["format"].write(value.format)
+        try writer["jsonKeyToVariableMap"].writeMap(value.jsonKeyToVariableMap, valueWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> FraudDetectorClientTypes.ModelOutputConfiguration {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = FraudDetectorClientTypes.ModelOutputConfiguration()
+        value.format = try reader["format"].readIfPresent() ?? .sdkUnknown("")
+        value.jsonKeyToVariableMap = try reader["jsonKeyToVariableMap"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+        value.csvIndexToVariableMap = try reader["csvIndexToVariableMap"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+        return value
+    }
+}
+
+extension FraudDetectorClientTypes.ModelScores {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> FraudDetectorClientTypes.ModelScores {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = FraudDetectorClientTypes.ModelScores()
+        value.modelVersion = try reader["modelVersion"].readIfPresent(with: FraudDetectorClientTypes.ModelVersion.read(from:))
+        value.scores = try reader["scores"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readFloat(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+        return value
+    }
+}
+
+extension FraudDetectorClientTypes.ModelVersion {
+
+    static func write(value: FraudDetectorClientTypes.ModelVersion?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["arn"].write(value.arn)
+        try writer["modelId"].write(value.modelId)
+        try writer["modelType"].write(value.modelType)
+        try writer["modelVersionNumber"].write(value.modelVersionNumber)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> FraudDetectorClientTypes.ModelVersion {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = FraudDetectorClientTypes.ModelVersion()
+        value.modelId = try reader["modelId"].readIfPresent() ?? ""
+        value.modelType = try reader["modelType"].readIfPresent() ?? .sdkUnknown("")
+        value.modelVersionNumber = try reader["modelVersionNumber"].readIfPresent() ?? ""
+        value.arn = try reader["arn"].readIfPresent()
+        return value
+    }
+}
+
+extension FraudDetectorClientTypes.ModelVersionDetail {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> FraudDetectorClientTypes.ModelVersionDetail {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = FraudDetectorClientTypes.ModelVersionDetail()
+        value.modelId = try reader["modelId"].readIfPresent()
+        value.modelType = try reader["modelType"].readIfPresent()
+        value.modelVersionNumber = try reader["modelVersionNumber"].readIfPresent()
+        value.status = try reader["status"].readIfPresent()
+        value.trainingDataSource = try reader["trainingDataSource"].readIfPresent()
+        value.trainingDataSchema = try reader["trainingDataSchema"].readIfPresent(with: FraudDetectorClientTypes.TrainingDataSchema.read(from:))
+        value.externalEventsDetail = try reader["externalEventsDetail"].readIfPresent(with: FraudDetectorClientTypes.ExternalEventsDetail.read(from:))
+        value.ingestedEventsDetail = try reader["ingestedEventsDetail"].readIfPresent(with: FraudDetectorClientTypes.IngestedEventsDetail.read(from:))
+        value.trainingResult = try reader["trainingResult"].readIfPresent(with: FraudDetectorClientTypes.TrainingResult.read(from:))
+        value.lastUpdatedTime = try reader["lastUpdatedTime"].readIfPresent()
+        value.createdTime = try reader["createdTime"].readIfPresent()
+        value.arn = try reader["arn"].readIfPresent()
+        value.trainingResultV2 = try reader["trainingResultV2"].readIfPresent(with: FraudDetectorClientTypes.TrainingResultV2.read(from:))
+        return value
+    }
+}
+
+extension FraudDetectorClientTypes.ModelVersionEvaluation {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> FraudDetectorClientTypes.ModelVersionEvaluation {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = FraudDetectorClientTypes.ModelVersionEvaluation()
+        value.outputVariableName = try reader["outputVariableName"].readIfPresent()
+        value.evaluationScore = try reader["evaluationScore"].readIfPresent()
+        value.predictionExplanations = try reader["predictionExplanations"].readIfPresent(with: FraudDetectorClientTypes.PredictionExplanations.read(from:))
+        return value
+    }
+}
+
+extension FraudDetectorClientTypes.OFIMetricDataPoint {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> FraudDetectorClientTypes.OFIMetricDataPoint {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = FraudDetectorClientTypes.OFIMetricDataPoint()
+        value.fpr = try reader["fpr"].readIfPresent()
+        value.precision = try reader["precision"].readIfPresent()
+        value.tpr = try reader["tpr"].readIfPresent()
+        value.threshold = try reader["threshold"].readIfPresent()
+        return value
+    }
+}
+
+extension FraudDetectorClientTypes.OFIModelPerformance {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> FraudDetectorClientTypes.OFIModelPerformance {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = FraudDetectorClientTypes.OFIModelPerformance()
+        value.auc = try reader["auc"].readIfPresent()
+        value.uncertaintyRange = try reader["uncertaintyRange"].readIfPresent(with: FraudDetectorClientTypes.UncertaintyRange.read(from:))
+        return value
+    }
+}
+
+extension FraudDetectorClientTypes.OFITrainingMetricsValue {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> FraudDetectorClientTypes.OFITrainingMetricsValue {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = FraudDetectorClientTypes.OFITrainingMetricsValue()
+        value.metricDataPoints = try reader["metricDataPoints"].readListIfPresent(memberReadingClosure: FraudDetectorClientTypes.OFIMetricDataPoint.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.modelPerformance = try reader["modelPerformance"].readIfPresent(with: FraudDetectorClientTypes.OFIModelPerformance.read(from:))
+        return value
+    }
+}
+
 extension FraudDetectorClientTypes.Outcome {
 
     static func read(from reader: SmithyJSON.Reader) throws -> FraudDetectorClientTypes.Outcome {
@@ -9462,6 +9302,45 @@ extension FraudDetectorClientTypes.Outcome {
         value.lastUpdatedTime = try reader["lastUpdatedTime"].readIfPresent()
         value.createdTime = try reader["createdTime"].readIfPresent()
         value.arn = try reader["arn"].readIfPresent()
+        return value
+    }
+}
+
+extension FraudDetectorClientTypes.PredictionExplanations {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> FraudDetectorClientTypes.PredictionExplanations {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = FraudDetectorClientTypes.PredictionExplanations()
+        value.variableImpactExplanations = try reader["variableImpactExplanations"].readListIfPresent(memberReadingClosure: FraudDetectorClientTypes.VariableImpactExplanation.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.aggregatedVariablesImpactExplanations = try reader["aggregatedVariablesImpactExplanations"].readListIfPresent(memberReadingClosure: FraudDetectorClientTypes.AggregatedVariablesImpactExplanation.read(from:), memberNodeInfo: "member", isFlattened: false)
+        return value
+    }
+}
+
+extension FraudDetectorClientTypes.PredictionTimeRange {
+
+    static func write(value: FraudDetectorClientTypes.PredictionTimeRange?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["endTime"].write(value.endTime)
+        try writer["startTime"].write(value.startTime)
+    }
+}
+
+extension FraudDetectorClientTypes.Rule {
+
+    static func write(value: FraudDetectorClientTypes.Rule?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["detectorId"].write(value.detectorId)
+        try writer["ruleId"].write(value.ruleId)
+        try writer["ruleVersion"].write(value.ruleVersion)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> FraudDetectorClientTypes.Rule {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = FraudDetectorClientTypes.Rule()
+        value.detectorId = try reader["detectorId"].readIfPresent() ?? ""
+        value.ruleId = try reader["ruleId"].readIfPresent() ?? ""
+        value.ruleVersion = try reader["ruleVersion"].readIfPresent() ?? ""
         return value
     }
 }
@@ -9485,17 +9364,13 @@ extension FraudDetectorClientTypes.RuleDetail {
     }
 }
 
-extension FraudDetectorClientTypes.EventPredictionSummary {
+extension FraudDetectorClientTypes.RuleResult {
 
-    static func read(from reader: SmithyJSON.Reader) throws -> FraudDetectorClientTypes.EventPredictionSummary {
+    static func read(from reader: SmithyJSON.Reader) throws -> FraudDetectorClientTypes.RuleResult {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = FraudDetectorClientTypes.EventPredictionSummary()
-        value.eventId = try reader["eventId"].readIfPresent()
-        value.eventTypeName = try reader["eventTypeName"].readIfPresent()
-        value.eventTimestamp = try reader["eventTimestamp"].readIfPresent()
-        value.predictionTimestamp = try reader["predictionTimestamp"].readIfPresent()
-        value.detectorId = try reader["detectorId"].readIfPresent()
-        value.detectorVersionId = try reader["detectorVersionId"].readIfPresent()
+        var value = FraudDetectorClientTypes.RuleResult()
+        value.ruleId = try reader["ruleId"].readIfPresent()
+        value.outcomes = try reader["outcomes"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
         return value
     }
 }
@@ -9517,6 +9392,135 @@ extension FraudDetectorClientTypes.Tag {
     }
 }
 
+extension FraudDetectorClientTypes.TFIMetricDataPoint {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> FraudDetectorClientTypes.TFIMetricDataPoint {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = FraudDetectorClientTypes.TFIMetricDataPoint()
+        value.fpr = try reader["fpr"].readIfPresent()
+        value.precision = try reader["precision"].readIfPresent()
+        value.tpr = try reader["tpr"].readIfPresent()
+        value.threshold = try reader["threshold"].readIfPresent()
+        return value
+    }
+}
+
+extension FraudDetectorClientTypes.TFIModelPerformance {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> FraudDetectorClientTypes.TFIModelPerformance {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = FraudDetectorClientTypes.TFIModelPerformance()
+        value.auc = try reader["auc"].readIfPresent()
+        value.uncertaintyRange = try reader["uncertaintyRange"].readIfPresent(with: FraudDetectorClientTypes.UncertaintyRange.read(from:))
+        return value
+    }
+}
+
+extension FraudDetectorClientTypes.TFITrainingMetricsValue {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> FraudDetectorClientTypes.TFITrainingMetricsValue {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = FraudDetectorClientTypes.TFITrainingMetricsValue()
+        value.metricDataPoints = try reader["metricDataPoints"].readListIfPresent(memberReadingClosure: FraudDetectorClientTypes.TFIMetricDataPoint.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.modelPerformance = try reader["modelPerformance"].readIfPresent(with: FraudDetectorClientTypes.TFIModelPerformance.read(from:))
+        return value
+    }
+}
+
+extension FraudDetectorClientTypes.TrainingDataSchema {
+
+    static func write(value: FraudDetectorClientTypes.TrainingDataSchema?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["labelSchema"].write(value.labelSchema, with: FraudDetectorClientTypes.LabelSchema.write(value:to:))
+        try writer["modelVariables"].writeList(value.modelVariables, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> FraudDetectorClientTypes.TrainingDataSchema {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = FraudDetectorClientTypes.TrainingDataSchema()
+        value.modelVariables = try reader["modelVariables"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        value.labelSchema = try reader["labelSchema"].readIfPresent(with: FraudDetectorClientTypes.LabelSchema.read(from:))
+        return value
+    }
+}
+
+extension FraudDetectorClientTypes.TrainingMetrics {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> FraudDetectorClientTypes.TrainingMetrics {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = FraudDetectorClientTypes.TrainingMetrics()
+        value.auc = try reader["auc"].readIfPresent()
+        value.metricDataPoints = try reader["metricDataPoints"].readListIfPresent(memberReadingClosure: FraudDetectorClientTypes.MetricDataPoint.read(from:), memberNodeInfo: "member", isFlattened: false)
+        return value
+    }
+}
+
+extension FraudDetectorClientTypes.TrainingMetricsV2 {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> FraudDetectorClientTypes.TrainingMetricsV2 {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = FraudDetectorClientTypes.TrainingMetricsV2()
+        value.ofi = try reader["ofi"].readIfPresent(with: FraudDetectorClientTypes.OFITrainingMetricsValue.read(from:))
+        value.tfi = try reader["tfi"].readIfPresent(with: FraudDetectorClientTypes.TFITrainingMetricsValue.read(from:))
+        value.ati = try reader["ati"].readIfPresent(with: FraudDetectorClientTypes.ATITrainingMetricsValue.read(from:))
+        return value
+    }
+}
+
+extension FraudDetectorClientTypes.TrainingResult {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> FraudDetectorClientTypes.TrainingResult {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = FraudDetectorClientTypes.TrainingResult()
+        value.dataValidationMetrics = try reader["dataValidationMetrics"].readIfPresent(with: FraudDetectorClientTypes.DataValidationMetrics.read(from:))
+        value.trainingMetrics = try reader["trainingMetrics"].readIfPresent(with: FraudDetectorClientTypes.TrainingMetrics.read(from:))
+        value.variableImportanceMetrics = try reader["variableImportanceMetrics"].readIfPresent(with: FraudDetectorClientTypes.VariableImportanceMetrics.read(from:))
+        return value
+    }
+}
+
+extension FraudDetectorClientTypes.TrainingResultV2 {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> FraudDetectorClientTypes.TrainingResultV2 {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = FraudDetectorClientTypes.TrainingResultV2()
+        value.dataValidationMetrics = try reader["dataValidationMetrics"].readIfPresent(with: FraudDetectorClientTypes.DataValidationMetrics.read(from:))
+        value.trainingMetricsV2 = try reader["trainingMetricsV2"].readIfPresent(with: FraudDetectorClientTypes.TrainingMetricsV2.read(from:))
+        value.variableImportanceMetrics = try reader["variableImportanceMetrics"].readIfPresent(with: FraudDetectorClientTypes.VariableImportanceMetrics.read(from:))
+        value.aggregatedVariablesImportanceMetrics = try reader["aggregatedVariablesImportanceMetrics"].readIfPresent(with: FraudDetectorClientTypes.AggregatedVariablesImportanceMetrics.read(from:))
+        return value
+    }
+}
+
+extension FraudDetectorClientTypes.UncertaintyRange {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> FraudDetectorClientTypes.UncertaintyRange {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = FraudDetectorClientTypes.UncertaintyRange()
+        value.lowerBoundValue = try reader["lowerBoundValue"].readIfPresent() ?? 0.0
+        value.upperBoundValue = try reader["upperBoundValue"].readIfPresent() ?? 0.0
+        return value
+    }
+}
+
+extension FraudDetectorClientTypes.Variable {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> FraudDetectorClientTypes.Variable {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = FraudDetectorClientTypes.Variable()
+        value.name = try reader["name"].readIfPresent()
+        value.dataType = try reader["dataType"].readIfPresent()
+        value.dataSource = try reader["dataSource"].readIfPresent()
+        value.defaultValue = try reader["defaultValue"].readIfPresent()
+        value.description = try reader["description"].readIfPresent()
+        value.variableType = try reader["variableType"].readIfPresent()
+        value.lastUpdatedTime = try reader["lastUpdatedTime"].readIfPresent()
+        value.createdTime = try reader["createdTime"].readIfPresent()
+        value.arn = try reader["arn"].readIfPresent()
+        return value
+    }
+}
+
 extension FraudDetectorClientTypes.VariableEntry {
 
     static func write(value: FraudDetectorClientTypes.VariableEntry?, to writer: SmithyJSON.Writer) throws {
@@ -9530,29 +9534,25 @@ extension FraudDetectorClientTypes.VariableEntry {
     }
 }
 
-extension FraudDetectorClientTypes.ModelEndpointDataBlob {
+extension FraudDetectorClientTypes.VariableImpactExplanation {
 
-    static func write(value: FraudDetectorClientTypes.ModelEndpointDataBlob?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["byteBuffer"].write(value.byteBuffer)
-        try writer["contentType"].write(value.contentType)
+    static func read(from reader: SmithyJSON.Reader) throws -> FraudDetectorClientTypes.VariableImpactExplanation {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = FraudDetectorClientTypes.VariableImpactExplanation()
+        value.eventVariableName = try reader["eventVariableName"].readIfPresent()
+        value.relativeImpact = try reader["relativeImpact"].readIfPresent()
+        value.logOddsImpact = try reader["logOddsImpact"].readIfPresent()
+        return value
     }
 }
 
-extension FraudDetectorClientTypes.FilterCondition {
+extension FraudDetectorClientTypes.VariableImportanceMetrics {
 
-    static func write(value: FraudDetectorClientTypes.FilterCondition?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["value"].write(value.value)
-    }
-}
-
-extension FraudDetectorClientTypes.PredictionTimeRange {
-
-    static func write(value: FraudDetectorClientTypes.PredictionTimeRange?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["endTime"].write(value.endTime)
-        try writer["startTime"].write(value.startTime)
+    static func read(from reader: SmithyJSON.Reader) throws -> FraudDetectorClientTypes.VariableImportanceMetrics {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = FraudDetectorClientTypes.VariableImportanceMetrics()
+        value.logOddsMetrics = try reader["logOddsMetrics"].readListIfPresent(memberReadingClosure: FraudDetectorClientTypes.LogOddsMetric.read(from:), memberNodeInfo: "member", isFlattened: false)
+        return value
     }
 }
 

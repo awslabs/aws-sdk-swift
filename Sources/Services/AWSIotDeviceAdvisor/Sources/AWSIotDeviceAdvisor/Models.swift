@@ -23,8 +23,8 @@ import protocol ClientRuntime.HTTPError
 import protocol ClientRuntime.ModeledError
 @_spi(SmithyReadWrite) import protocol SmithyReadWrite.SmithyReader
 @_spi(SmithyReadWrite) import protocol SmithyReadWrite.SmithyWriter
-@_spi(SmithyReadWrite) import struct AWSClientRuntime.RestJSONError
 @_spi(UnknownAWSHTTPServiceError) import struct AWSClientRuntime.UnknownAWSHTTPServiceError
+@_spi(SmithyReadWrite) import struct ClientRuntime.RestJSONError
 import struct Smithy.URIQueryItem
 
 extension IotDeviceAdvisorClientTypes {
@@ -1647,7 +1647,7 @@ enum CreateSuiteDefinitionOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
@@ -1662,7 +1662,7 @@ enum DeleteSuiteDefinitionOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
@@ -1677,7 +1677,7 @@ enum GetEndpointOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
@@ -1693,7 +1693,7 @@ enum GetSuiteDefinitionOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
@@ -1709,7 +1709,7 @@ enum GetSuiteRunOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
@@ -1725,7 +1725,7 @@ enum GetSuiteRunReportOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
@@ -1741,7 +1741,7 @@ enum ListSuiteDefinitionsOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
@@ -1756,7 +1756,7 @@ enum ListSuiteRunsOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
@@ -1771,7 +1771,7 @@ enum ListTagsForResourceOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
@@ -1787,7 +1787,7 @@ enum StartSuiteRunOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "ConflictException": return try ConflictException.makeError(baseError: baseError)
@@ -1803,7 +1803,7 @@ enum StopSuiteRunOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
@@ -1819,7 +1819,7 @@ enum TagResourceOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
@@ -1835,7 +1835,7 @@ enum UntagResourceOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
@@ -1851,7 +1851,7 @@ enum UpdateSuiteDefinitionOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
@@ -1863,7 +1863,7 @@ enum UpdateSuiteDefinitionOutputError {
 
 extension InternalServerException {
 
-    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> InternalServerException {
+    static func makeError(baseError: ClientRuntime.RestJSONError) throws -> InternalServerException {
         let reader = baseError.errorBodyReader
         var value = InternalServerException()
         value.properties.message = try reader["message"].readIfPresent()
@@ -1876,7 +1876,7 @@ extension InternalServerException {
 
 extension ValidationException {
 
-    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> ValidationException {
+    static func makeError(baseError: ClientRuntime.RestJSONError) throws -> ValidationException {
         let reader = baseError.errorBodyReader
         var value = ValidationException()
         value.properties.message = try reader["message"].readIfPresent()
@@ -1889,7 +1889,7 @@ extension ValidationException {
 
 extension ResourceNotFoundException {
 
-    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> ResourceNotFoundException {
+    static func makeError(baseError: ClientRuntime.RestJSONError) throws -> ResourceNotFoundException {
         let reader = baseError.errorBodyReader
         var value = ResourceNotFoundException()
         value.properties.message = try reader["message"].readIfPresent()
@@ -1902,13 +1902,44 @@ extension ResourceNotFoundException {
 
 extension ConflictException {
 
-    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> ConflictException {
+    static func makeError(baseError: ClientRuntime.RestJSONError) throws -> ConflictException {
         let reader = baseError.errorBodyReader
         var value = ConflictException()
         value.properties.message = try reader["message"].readIfPresent()
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
         value.message = baseError.message
+        return value
+    }
+}
+
+extension IotDeviceAdvisorClientTypes.DeviceUnderTest {
+
+    static func write(value: IotDeviceAdvisorClientTypes.DeviceUnderTest?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["certificateArn"].write(value.certificateArn)
+        try writer["deviceRoleArn"].write(value.deviceRoleArn)
+        try writer["thingArn"].write(value.thingArn)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> IotDeviceAdvisorClientTypes.DeviceUnderTest {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = IotDeviceAdvisorClientTypes.DeviceUnderTest()
+        value.thingArn = try reader["thingArn"].readIfPresent()
+        value.certificateArn = try reader["certificateArn"].readIfPresent()
+        value.deviceRoleArn = try reader["deviceRoleArn"].readIfPresent()
+        return value
+    }
+}
+
+extension IotDeviceAdvisorClientTypes.GroupResult {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> IotDeviceAdvisorClientTypes.GroupResult {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = IotDeviceAdvisorClientTypes.GroupResult()
+        value.groupId = try reader["groupId"].readIfPresent()
+        value.groupName = try reader["groupName"].readIfPresent()
+        value.tests = try reader["tests"].readListIfPresent(memberReadingClosure: IotDeviceAdvisorClientTypes.TestCaseRun.read(from:), memberNodeInfo: "member", isFlattened: false)
         return value
     }
 }
@@ -1940,21 +1971,18 @@ extension IotDeviceAdvisorClientTypes.SuiteDefinitionConfiguration {
     }
 }
 
-extension IotDeviceAdvisorClientTypes.DeviceUnderTest {
+extension IotDeviceAdvisorClientTypes.SuiteDefinitionInformation {
 
-    static func write(value: IotDeviceAdvisorClientTypes.DeviceUnderTest?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["certificateArn"].write(value.certificateArn)
-        try writer["deviceRoleArn"].write(value.deviceRoleArn)
-        try writer["thingArn"].write(value.thingArn)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> IotDeviceAdvisorClientTypes.DeviceUnderTest {
+    static func read(from reader: SmithyJSON.Reader) throws -> IotDeviceAdvisorClientTypes.SuiteDefinitionInformation {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = IotDeviceAdvisorClientTypes.DeviceUnderTest()
-        value.thingArn = try reader["thingArn"].readIfPresent()
-        value.certificateArn = try reader["certificateArn"].readIfPresent()
-        value.deviceRoleArn = try reader["deviceRoleArn"].readIfPresent()
+        var value = IotDeviceAdvisorClientTypes.SuiteDefinitionInformation()
+        value.suiteDefinitionId = try reader["suiteDefinitionId"].readIfPresent()
+        value.suiteDefinitionName = try reader["suiteDefinitionName"].readIfPresent()
+        value.defaultDevices = try reader["defaultDevices"].readListIfPresent(memberReadingClosure: IotDeviceAdvisorClientTypes.DeviceUnderTest.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.intendedForQualification = try reader["intendedForQualification"].readIfPresent()
+        value.isLongDurationTest = try reader["isLongDurationTest"].readIfPresent()
+        value.`protocol` = try reader["protocol"].readIfPresent()
+        value.createdAt = try reader["createdAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
         return value
     }
 }
@@ -1978,24 +2006,21 @@ extension IotDeviceAdvisorClientTypes.SuiteRunConfiguration {
     }
 }
 
-extension IotDeviceAdvisorClientTypes.TestResult {
+extension IotDeviceAdvisorClientTypes.SuiteRunInformation {
 
-    static func read(from reader: SmithyJSON.Reader) throws -> IotDeviceAdvisorClientTypes.TestResult {
+    static func read(from reader: SmithyJSON.Reader) throws -> IotDeviceAdvisorClientTypes.SuiteRunInformation {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = IotDeviceAdvisorClientTypes.TestResult()
-        value.groups = try reader["groups"].readListIfPresent(memberReadingClosure: IotDeviceAdvisorClientTypes.GroupResult.read(from:), memberNodeInfo: "member", isFlattened: false)
-        return value
-    }
-}
-
-extension IotDeviceAdvisorClientTypes.GroupResult {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> IotDeviceAdvisorClientTypes.GroupResult {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = IotDeviceAdvisorClientTypes.GroupResult()
-        value.groupId = try reader["groupId"].readIfPresent()
-        value.groupName = try reader["groupName"].readIfPresent()
-        value.tests = try reader["tests"].readListIfPresent(memberReadingClosure: IotDeviceAdvisorClientTypes.TestCaseRun.read(from:), memberNodeInfo: "member", isFlattened: false)
+        var value = IotDeviceAdvisorClientTypes.SuiteRunInformation()
+        value.suiteDefinitionId = try reader["suiteDefinitionId"].readIfPresent()
+        value.suiteDefinitionVersion = try reader["suiteDefinitionVersion"].readIfPresent()
+        value.suiteDefinitionName = try reader["suiteDefinitionName"].readIfPresent()
+        value.suiteRunId = try reader["suiteRunId"].readIfPresent()
+        value.createdAt = try reader["createdAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.startedAt = try reader["startedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.endAt = try reader["endAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.status = try reader["status"].readIfPresent()
+        value.passed = try reader["passed"].readIfPresent()
+        value.failed = try reader["failed"].readIfPresent()
         return value
     }
 }
@@ -2033,37 +2058,12 @@ extension IotDeviceAdvisorClientTypes.TestCaseScenario {
     }
 }
 
-extension IotDeviceAdvisorClientTypes.SuiteDefinitionInformation {
+extension IotDeviceAdvisorClientTypes.TestResult {
 
-    static func read(from reader: SmithyJSON.Reader) throws -> IotDeviceAdvisorClientTypes.SuiteDefinitionInformation {
+    static func read(from reader: SmithyJSON.Reader) throws -> IotDeviceAdvisorClientTypes.TestResult {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = IotDeviceAdvisorClientTypes.SuiteDefinitionInformation()
-        value.suiteDefinitionId = try reader["suiteDefinitionId"].readIfPresent()
-        value.suiteDefinitionName = try reader["suiteDefinitionName"].readIfPresent()
-        value.defaultDevices = try reader["defaultDevices"].readListIfPresent(memberReadingClosure: IotDeviceAdvisorClientTypes.DeviceUnderTest.read(from:), memberNodeInfo: "member", isFlattened: false)
-        value.intendedForQualification = try reader["intendedForQualification"].readIfPresent()
-        value.isLongDurationTest = try reader["isLongDurationTest"].readIfPresent()
-        value.`protocol` = try reader["protocol"].readIfPresent()
-        value.createdAt = try reader["createdAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
-        return value
-    }
-}
-
-extension IotDeviceAdvisorClientTypes.SuiteRunInformation {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> IotDeviceAdvisorClientTypes.SuiteRunInformation {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = IotDeviceAdvisorClientTypes.SuiteRunInformation()
-        value.suiteDefinitionId = try reader["suiteDefinitionId"].readIfPresent()
-        value.suiteDefinitionVersion = try reader["suiteDefinitionVersion"].readIfPresent()
-        value.suiteDefinitionName = try reader["suiteDefinitionName"].readIfPresent()
-        value.suiteRunId = try reader["suiteRunId"].readIfPresent()
-        value.createdAt = try reader["createdAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
-        value.startedAt = try reader["startedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
-        value.endAt = try reader["endAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
-        value.status = try reader["status"].readIfPresent()
-        value.passed = try reader["passed"].readIfPresent()
-        value.failed = try reader["failed"].readIfPresent()
+        var value = IotDeviceAdvisorClientTypes.TestResult()
+        value.groups = try reader["groups"].readListIfPresent(memberReadingClosure: IotDeviceAdvisorClientTypes.GroupResult.read(from:), memberNodeInfo: "member", isFlattened: false)
         return value
     }
 }

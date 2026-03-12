@@ -22,8 +22,8 @@ import protocol ClientRuntime.HTTPError
 import protocol ClientRuntime.ModeledError
 @_spi(SmithyReadWrite) import protocol SmithyReadWrite.SmithyReader
 @_spi(SmithyReadWrite) import protocol SmithyReadWrite.SmithyWriter
-@_spi(SmithyReadWrite) import struct AWSClientRuntime.AWSJSONError
 @_spi(UnknownAWSHTTPServiceError) import struct AWSClientRuntime.UnknownAWSHTTPServiceError
+@_spi(SmithyReadWrite) import struct ClientRuntime.AWSJSONError
 
 /// Concurrent updates caused an exception, for example, if you request an update to a scaling plan that already has a pending update.
 public struct ConcurrentUpdateException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
@@ -1556,7 +1556,7 @@ enum CreateScalingPlanOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "ConcurrentUpdateException": return try ConcurrentUpdateException.makeError(baseError: baseError)
@@ -1573,7 +1573,7 @@ enum DeleteScalingPlanOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "ConcurrentUpdateException": return try ConcurrentUpdateException.makeError(baseError: baseError)
@@ -1590,7 +1590,7 @@ enum DescribeScalingPlanResourcesOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "ConcurrentUpdateException": return try ConcurrentUpdateException.makeError(baseError: baseError)
@@ -1607,7 +1607,7 @@ enum DescribeScalingPlansOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "ConcurrentUpdateException": return try ConcurrentUpdateException.makeError(baseError: baseError)
@@ -1624,7 +1624,7 @@ enum GetScalingPlanResourceForecastDataOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "InternalServiceException": return try InternalServiceException.makeError(baseError: baseError)
@@ -1639,7 +1639,7 @@ enum UpdateScalingPlanOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "ConcurrentUpdateException": return try ConcurrentUpdateException.makeError(baseError: baseError)
@@ -1653,7 +1653,7 @@ enum UpdateScalingPlanOutputError {
 
 extension ConcurrentUpdateException {
 
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> ConcurrentUpdateException {
+    static func makeError(baseError: ClientRuntime.AWSJSONError) throws -> ConcurrentUpdateException {
         let reader = baseError.errorBodyReader
         var value = ConcurrentUpdateException()
         value.properties.message = try reader["Message"].readIfPresent()
@@ -1666,7 +1666,7 @@ extension ConcurrentUpdateException {
 
 extension InternalServiceException {
 
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> InternalServiceException {
+    static func makeError(baseError: ClientRuntime.AWSJSONError) throws -> InternalServiceException {
         let reader = baseError.errorBodyReader
         var value = InternalServiceException()
         value.properties.message = try reader["Message"].readIfPresent()
@@ -1679,7 +1679,7 @@ extension InternalServiceException {
 
 extension LimitExceededException {
 
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> LimitExceededException {
+    static func makeError(baseError: ClientRuntime.AWSJSONError) throws -> LimitExceededException {
         let reader = baseError.errorBodyReader
         var value = LimitExceededException()
         value.properties.message = try reader["Message"].readIfPresent()
@@ -1692,7 +1692,7 @@ extension LimitExceededException {
 
 extension ValidationException {
 
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> ValidationException {
+    static func makeError(baseError: ClientRuntime.AWSJSONError) throws -> ValidationException {
         let reader = baseError.errorBodyReader
         var value = ValidationException()
         value.properties.message = try reader["Message"].readIfPresent()
@@ -1705,7 +1705,7 @@ extension ValidationException {
 
 extension ObjectNotFoundException {
 
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> ObjectNotFoundException {
+    static func makeError(baseError: ClientRuntime.AWSJSONError) throws -> ObjectNotFoundException {
         let reader = baseError.errorBodyReader
         var value = ObjectNotFoundException()
         value.properties.message = try reader["Message"].readIfPresent()
@@ -1718,7 +1718,7 @@ extension ObjectNotFoundException {
 
 extension InvalidNextTokenException {
 
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> InvalidNextTokenException {
+    static func makeError(baseError: ClientRuntime.AWSJSONError) throws -> InvalidNextTokenException {
         let reader = baseError.errorBodyReader
         var value = InvalidNextTokenException()
         value.properties.message = try reader["Message"].readIfPresent()
@@ -1729,58 +1729,42 @@ extension InvalidNextTokenException {
     }
 }
 
-extension AutoScalingPlansClientTypes.ScalingPlanResource {
+extension AutoScalingPlansClientTypes.ApplicationSource {
 
-    static func read(from reader: SmithyJSON.Reader) throws -> AutoScalingPlansClientTypes.ScalingPlanResource {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = AutoScalingPlansClientTypes.ScalingPlanResource()
-        value.scalingPlanName = try reader["ScalingPlanName"].readIfPresent() ?? ""
-        value.scalingPlanVersion = try reader["ScalingPlanVersion"].readIfPresent() ?? 0
-        value.serviceNamespace = try reader["ServiceNamespace"].readIfPresent() ?? .sdkUnknown("")
-        value.resourceId = try reader["ResourceId"].readIfPresent() ?? ""
-        value.scalableDimension = try reader["ScalableDimension"].readIfPresent() ?? .sdkUnknown("")
-        value.scalingPolicies = try reader["ScalingPolicies"].readListIfPresent(memberReadingClosure: AutoScalingPlansClientTypes.ScalingPolicy.read(from:), memberNodeInfo: "member", isFlattened: false)
-        value.scalingStatusCode = try reader["ScalingStatusCode"].readIfPresent() ?? .sdkUnknown("")
-        value.scalingStatusMessage = try reader["ScalingStatusMessage"].readIfPresent()
-        return value
-    }
-}
-
-extension AutoScalingPlansClientTypes.ScalingPolicy {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> AutoScalingPlansClientTypes.ScalingPolicy {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = AutoScalingPlansClientTypes.ScalingPolicy()
-        value.policyName = try reader["PolicyName"].readIfPresent() ?? ""
-        value.policyType = try reader["PolicyType"].readIfPresent() ?? .sdkUnknown("")
-        value.targetTrackingConfiguration = try reader["TargetTrackingConfiguration"].readIfPresent(with: AutoScalingPlansClientTypes.TargetTrackingConfiguration.read(from:))
-        return value
-    }
-}
-
-extension AutoScalingPlansClientTypes.TargetTrackingConfiguration {
-
-    static func write(value: AutoScalingPlansClientTypes.TargetTrackingConfiguration?, to writer: SmithyJSON.Writer) throws {
+    static func write(value: AutoScalingPlansClientTypes.ApplicationSource?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
-        try writer["CustomizedScalingMetricSpecification"].write(value.customizedScalingMetricSpecification, with: AutoScalingPlansClientTypes.CustomizedScalingMetricSpecification.write(value:to:))
-        try writer["DisableScaleIn"].write(value.disableScaleIn)
-        try writer["EstimatedInstanceWarmup"].write(value.estimatedInstanceWarmup)
-        try writer["PredefinedScalingMetricSpecification"].write(value.predefinedScalingMetricSpecification, with: AutoScalingPlansClientTypes.PredefinedScalingMetricSpecification.write(value:to:))
-        try writer["ScaleInCooldown"].write(value.scaleInCooldown)
-        try writer["ScaleOutCooldown"].write(value.scaleOutCooldown)
-        try writer["TargetValue"].write(value.targetValue)
+        try writer["CloudFormationStackARN"].write(value.cloudFormationStackARN)
+        try writer["TagFilters"].writeList(value.tagFilters, memberWritingClosure: AutoScalingPlansClientTypes.TagFilter.write(value:to:), memberNodeInfo: "member", isFlattened: false)
     }
 
-    static func read(from reader: SmithyJSON.Reader) throws -> AutoScalingPlansClientTypes.TargetTrackingConfiguration {
+    static func read(from reader: SmithyJSON.Reader) throws -> AutoScalingPlansClientTypes.ApplicationSource {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = AutoScalingPlansClientTypes.TargetTrackingConfiguration()
-        value.predefinedScalingMetricSpecification = try reader["PredefinedScalingMetricSpecification"].readIfPresent(with: AutoScalingPlansClientTypes.PredefinedScalingMetricSpecification.read(from:))
-        value.customizedScalingMetricSpecification = try reader["CustomizedScalingMetricSpecification"].readIfPresent(with: AutoScalingPlansClientTypes.CustomizedScalingMetricSpecification.read(from:))
-        value.targetValue = try reader["TargetValue"].readIfPresent() ?? 0.0
-        value.disableScaleIn = try reader["DisableScaleIn"].readIfPresent()
-        value.scaleOutCooldown = try reader["ScaleOutCooldown"].readIfPresent()
-        value.scaleInCooldown = try reader["ScaleInCooldown"].readIfPresent()
-        value.estimatedInstanceWarmup = try reader["EstimatedInstanceWarmup"].readIfPresent()
+        var value = AutoScalingPlansClientTypes.ApplicationSource()
+        value.cloudFormationStackARN = try reader["CloudFormationStackARN"].readIfPresent()
+        value.tagFilters = try reader["TagFilters"].readListIfPresent(memberReadingClosure: AutoScalingPlansClientTypes.TagFilter.read(from:), memberNodeInfo: "member", isFlattened: false)
+        return value
+    }
+}
+
+extension AutoScalingPlansClientTypes.CustomizedLoadMetricSpecification {
+
+    static func write(value: AutoScalingPlansClientTypes.CustomizedLoadMetricSpecification?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["Dimensions"].writeList(value.dimensions, memberWritingClosure: AutoScalingPlansClientTypes.MetricDimension.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["MetricName"].write(value.metricName)
+        try writer["Namespace"].write(value.namespace)
+        try writer["Statistic"].write(value.statistic)
+        try writer["Unit"].write(value.unit)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> AutoScalingPlansClientTypes.CustomizedLoadMetricSpecification {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = AutoScalingPlansClientTypes.CustomizedLoadMetricSpecification()
+        value.metricName = try reader["MetricName"].readIfPresent() ?? ""
+        value.namespace = try reader["Namespace"].readIfPresent() ?? ""
+        value.dimensions = try reader["Dimensions"].readListIfPresent(memberReadingClosure: AutoScalingPlansClientTypes.MetricDimension.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.statistic = try reader["Statistic"].readIfPresent() ?? .sdkUnknown("")
+        value.unit = try reader["Unit"].readIfPresent()
         return value
     }
 }
@@ -1808,6 +1792,17 @@ extension AutoScalingPlansClientTypes.CustomizedScalingMetricSpecification {
     }
 }
 
+extension AutoScalingPlansClientTypes.Datapoint {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> AutoScalingPlansClientTypes.Datapoint {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = AutoScalingPlansClientTypes.Datapoint()
+        value.timestamp = try reader["Timestamp"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.value = try reader["Value"].readIfPresent()
+        return value
+    }
+}
+
 extension AutoScalingPlansClientTypes.MetricDimension {
 
     static func write(value: AutoScalingPlansClientTypes.MetricDimension?, to writer: SmithyJSON.Writer) throws {
@@ -1825,6 +1820,23 @@ extension AutoScalingPlansClientTypes.MetricDimension {
     }
 }
 
+extension AutoScalingPlansClientTypes.PredefinedLoadMetricSpecification {
+
+    static func write(value: AutoScalingPlansClientTypes.PredefinedLoadMetricSpecification?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["PredefinedLoadMetricType"].write(value.predefinedLoadMetricType)
+        try writer["ResourceLabel"].write(value.resourceLabel)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> AutoScalingPlansClientTypes.PredefinedLoadMetricSpecification {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = AutoScalingPlansClientTypes.PredefinedLoadMetricSpecification()
+        value.predefinedLoadMetricType = try reader["PredefinedLoadMetricType"].readIfPresent() ?? .sdkUnknown("")
+        value.resourceLabel = try reader["ResourceLabel"].readIfPresent()
+        return value
+    }
+}
+
 extension AutoScalingPlansClientTypes.PredefinedScalingMetricSpecification {
 
     static func write(value: AutoScalingPlansClientTypes.PredefinedScalingMetricSpecification?, to writer: SmithyJSON.Writer) throws {
@@ -1838,23 +1850,6 @@ extension AutoScalingPlansClientTypes.PredefinedScalingMetricSpecification {
         var value = AutoScalingPlansClientTypes.PredefinedScalingMetricSpecification()
         value.predefinedScalingMetricType = try reader["PredefinedScalingMetricType"].readIfPresent() ?? .sdkUnknown("")
         value.resourceLabel = try reader["ResourceLabel"].readIfPresent()
-        return value
-    }
-}
-
-extension AutoScalingPlansClientTypes.ScalingPlan {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> AutoScalingPlansClientTypes.ScalingPlan {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = AutoScalingPlansClientTypes.ScalingPlan()
-        value.scalingPlanName = try reader["ScalingPlanName"].readIfPresent() ?? ""
-        value.scalingPlanVersion = try reader["ScalingPlanVersion"].readIfPresent() ?? 0
-        value.applicationSource = try reader["ApplicationSource"].readIfPresent(with: AutoScalingPlansClientTypes.ApplicationSource.read(from:))
-        value.scalingInstructions = try reader["ScalingInstructions"].readListIfPresent(memberReadingClosure: AutoScalingPlansClientTypes.ScalingInstruction.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
-        value.statusCode = try reader["StatusCode"].readIfPresent() ?? .sdkUnknown("")
-        value.statusMessage = try reader["StatusMessage"].readIfPresent()
-        value.statusStartTime = try reader["StatusStartTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
-        value.creationTime = try reader["CreationTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
         return value
     }
 }
@@ -1900,59 +1895,48 @@ extension AutoScalingPlansClientTypes.ScalingInstruction {
     }
 }
 
-extension AutoScalingPlansClientTypes.CustomizedLoadMetricSpecification {
+extension AutoScalingPlansClientTypes.ScalingPlan {
 
-    static func write(value: AutoScalingPlansClientTypes.CustomizedLoadMetricSpecification?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["Dimensions"].writeList(value.dimensions, memberWritingClosure: AutoScalingPlansClientTypes.MetricDimension.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["MetricName"].write(value.metricName)
-        try writer["Namespace"].write(value.namespace)
-        try writer["Statistic"].write(value.statistic)
-        try writer["Unit"].write(value.unit)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> AutoScalingPlansClientTypes.CustomizedLoadMetricSpecification {
+    static func read(from reader: SmithyJSON.Reader) throws -> AutoScalingPlansClientTypes.ScalingPlan {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = AutoScalingPlansClientTypes.CustomizedLoadMetricSpecification()
-        value.metricName = try reader["MetricName"].readIfPresent() ?? ""
-        value.namespace = try reader["Namespace"].readIfPresent() ?? ""
-        value.dimensions = try reader["Dimensions"].readListIfPresent(memberReadingClosure: AutoScalingPlansClientTypes.MetricDimension.read(from:), memberNodeInfo: "member", isFlattened: false)
-        value.statistic = try reader["Statistic"].readIfPresent() ?? .sdkUnknown("")
-        value.unit = try reader["Unit"].readIfPresent()
+        var value = AutoScalingPlansClientTypes.ScalingPlan()
+        value.scalingPlanName = try reader["ScalingPlanName"].readIfPresent() ?? ""
+        value.scalingPlanVersion = try reader["ScalingPlanVersion"].readIfPresent() ?? 0
+        value.applicationSource = try reader["ApplicationSource"].readIfPresent(with: AutoScalingPlansClientTypes.ApplicationSource.read(from:))
+        value.scalingInstructions = try reader["ScalingInstructions"].readListIfPresent(memberReadingClosure: AutoScalingPlansClientTypes.ScalingInstruction.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        value.statusCode = try reader["StatusCode"].readIfPresent() ?? .sdkUnknown("")
+        value.statusMessage = try reader["StatusMessage"].readIfPresent()
+        value.statusStartTime = try reader["StatusStartTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.creationTime = try reader["CreationTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
         return value
     }
 }
 
-extension AutoScalingPlansClientTypes.PredefinedLoadMetricSpecification {
+extension AutoScalingPlansClientTypes.ScalingPlanResource {
 
-    static func write(value: AutoScalingPlansClientTypes.PredefinedLoadMetricSpecification?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["PredefinedLoadMetricType"].write(value.predefinedLoadMetricType)
-        try writer["ResourceLabel"].write(value.resourceLabel)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> AutoScalingPlansClientTypes.PredefinedLoadMetricSpecification {
+    static func read(from reader: SmithyJSON.Reader) throws -> AutoScalingPlansClientTypes.ScalingPlanResource {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = AutoScalingPlansClientTypes.PredefinedLoadMetricSpecification()
-        value.predefinedLoadMetricType = try reader["PredefinedLoadMetricType"].readIfPresent() ?? .sdkUnknown("")
-        value.resourceLabel = try reader["ResourceLabel"].readIfPresent()
+        var value = AutoScalingPlansClientTypes.ScalingPlanResource()
+        value.scalingPlanName = try reader["ScalingPlanName"].readIfPresent() ?? ""
+        value.scalingPlanVersion = try reader["ScalingPlanVersion"].readIfPresent() ?? 0
+        value.serviceNamespace = try reader["ServiceNamespace"].readIfPresent() ?? .sdkUnknown("")
+        value.resourceId = try reader["ResourceId"].readIfPresent() ?? ""
+        value.scalableDimension = try reader["ScalableDimension"].readIfPresent() ?? .sdkUnknown("")
+        value.scalingPolicies = try reader["ScalingPolicies"].readListIfPresent(memberReadingClosure: AutoScalingPlansClientTypes.ScalingPolicy.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.scalingStatusCode = try reader["ScalingStatusCode"].readIfPresent() ?? .sdkUnknown("")
+        value.scalingStatusMessage = try reader["ScalingStatusMessage"].readIfPresent()
         return value
     }
 }
 
-extension AutoScalingPlansClientTypes.ApplicationSource {
+extension AutoScalingPlansClientTypes.ScalingPolicy {
 
-    static func write(value: AutoScalingPlansClientTypes.ApplicationSource?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["CloudFormationStackARN"].write(value.cloudFormationStackARN)
-        try writer["TagFilters"].writeList(value.tagFilters, memberWritingClosure: AutoScalingPlansClientTypes.TagFilter.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> AutoScalingPlansClientTypes.ApplicationSource {
+    static func read(from reader: SmithyJSON.Reader) throws -> AutoScalingPlansClientTypes.ScalingPolicy {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = AutoScalingPlansClientTypes.ApplicationSource()
-        value.cloudFormationStackARN = try reader["CloudFormationStackARN"].readIfPresent()
-        value.tagFilters = try reader["TagFilters"].readListIfPresent(memberReadingClosure: AutoScalingPlansClientTypes.TagFilter.read(from:), memberNodeInfo: "member", isFlattened: false)
+        var value = AutoScalingPlansClientTypes.ScalingPolicy()
+        value.policyName = try reader["PolicyName"].readIfPresent() ?? ""
+        value.policyType = try reader["PolicyType"].readIfPresent() ?? .sdkUnknown("")
+        value.targetTrackingConfiguration = try reader["TargetTrackingConfiguration"].readIfPresent(with: AutoScalingPlansClientTypes.TargetTrackingConfiguration.read(from:))
         return value
     }
 }
@@ -1974,13 +1958,29 @@ extension AutoScalingPlansClientTypes.TagFilter {
     }
 }
 
-extension AutoScalingPlansClientTypes.Datapoint {
+extension AutoScalingPlansClientTypes.TargetTrackingConfiguration {
 
-    static func read(from reader: SmithyJSON.Reader) throws -> AutoScalingPlansClientTypes.Datapoint {
+    static func write(value: AutoScalingPlansClientTypes.TargetTrackingConfiguration?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["CustomizedScalingMetricSpecification"].write(value.customizedScalingMetricSpecification, with: AutoScalingPlansClientTypes.CustomizedScalingMetricSpecification.write(value:to:))
+        try writer["DisableScaleIn"].write(value.disableScaleIn)
+        try writer["EstimatedInstanceWarmup"].write(value.estimatedInstanceWarmup)
+        try writer["PredefinedScalingMetricSpecification"].write(value.predefinedScalingMetricSpecification, with: AutoScalingPlansClientTypes.PredefinedScalingMetricSpecification.write(value:to:))
+        try writer["ScaleInCooldown"].write(value.scaleInCooldown)
+        try writer["ScaleOutCooldown"].write(value.scaleOutCooldown)
+        try writer["TargetValue"].write(value.targetValue)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> AutoScalingPlansClientTypes.TargetTrackingConfiguration {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = AutoScalingPlansClientTypes.Datapoint()
-        value.timestamp = try reader["Timestamp"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
-        value.value = try reader["Value"].readIfPresent()
+        var value = AutoScalingPlansClientTypes.TargetTrackingConfiguration()
+        value.predefinedScalingMetricSpecification = try reader["PredefinedScalingMetricSpecification"].readIfPresent(with: AutoScalingPlansClientTypes.PredefinedScalingMetricSpecification.read(from:))
+        value.customizedScalingMetricSpecification = try reader["CustomizedScalingMetricSpecification"].readIfPresent(with: AutoScalingPlansClientTypes.CustomizedScalingMetricSpecification.read(from:))
+        value.targetValue = try reader["TargetValue"].readIfPresent() ?? 0.0
+        value.disableScaleIn = try reader["DisableScaleIn"].readIfPresent()
+        value.scaleOutCooldown = try reader["ScaleOutCooldown"].readIfPresent()
+        value.scaleInCooldown = try reader["ScaleInCooldown"].readIfPresent()
+        value.estimatedInstanceWarmup = try reader["EstimatedInstanceWarmup"].readIfPresent()
         return value
     }
 }

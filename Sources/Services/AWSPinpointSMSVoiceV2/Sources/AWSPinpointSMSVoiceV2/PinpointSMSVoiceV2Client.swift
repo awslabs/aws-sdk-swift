@@ -49,7 +49,6 @@ import protocol SmithyIdentity.BearerTokenIdentityResolver
 @_spi(AWSEndpointResolverMiddleware) import struct AWSClientRuntime.AWSEndpointResolverMiddleware
 import struct AWSClientRuntime.AmzSdkInvocationIdMiddleware
 import struct AWSClientRuntime.UserAgentMiddleware
-import struct AWSClientRuntime.XAmzTargetMiddleware
 import struct AWSSDKHTTPAuth.SigV4AuthScheme
 import struct ClientRuntime.AuthSchemeMiddleware
 @_spi(SmithyReadWrite) import struct ClientRuntime.BodyMiddleware
@@ -58,6 +57,7 @@ import struct ClientRuntime.ContentTypeMiddleware
 @_spi(SmithyReadWrite) import struct ClientRuntime.DeserializeMiddleware
 import struct ClientRuntime.IdempotencyTokenMiddleware
 import struct ClientRuntime.LoggerMiddleware
+import struct ClientRuntime.MutateHeadersMiddleware
 import struct ClientRuntime.SendableHttpInterceptorProviderBox
 import struct ClientRuntime.SendableInterceptorProviderBox
 import struct ClientRuntime.SignerMiddleware
@@ -667,7 +667,7 @@ extension PinpointSMSVoiceV2Client {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<AssociateOriginationIdentityOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<AssociateOriginationIdentityInput, AssociateOriginationIdentityOutput>(xAmzTarget: "PinpointSMSVoiceV2.AssociateOriginationIdentity"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<AssociateOriginationIdentityInput, AssociateOriginationIdentityOutput>(overrides: ["X-Amz-Target": "PinpointSMSVoiceV2.AssociateOriginationIdentity"]))
         builder.serialize(ClientRuntime.BodyMiddleware<AssociateOriginationIdentityInput, AssociateOriginationIdentityOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: AssociateOriginationIdentityInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<AssociateOriginationIdentityInput, AssociateOriginationIdentityOutput>(contentType: "application/x-amz-json-1.0"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<AssociateOriginationIdentityOutput>())
@@ -741,7 +741,7 @@ extension PinpointSMSVoiceV2Client {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<AssociateProtectConfigurationOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<AssociateProtectConfigurationInput, AssociateProtectConfigurationOutput>(xAmzTarget: "PinpointSMSVoiceV2.AssociateProtectConfiguration"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<AssociateProtectConfigurationInput, AssociateProtectConfigurationOutput>(overrides: ["X-Amz-Target": "PinpointSMSVoiceV2.AssociateProtectConfiguration"]))
         builder.serialize(ClientRuntime.BodyMiddleware<AssociateProtectConfigurationInput, AssociateProtectConfigurationOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: AssociateProtectConfigurationInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<AssociateProtectConfigurationInput, AssociateProtectConfigurationOutput>(contentType: "application/x-amz-json-1.0"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<AssociateProtectConfigurationOutput>())
@@ -814,7 +814,7 @@ extension PinpointSMSVoiceV2Client {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<CarrierLookupOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<CarrierLookupInput, CarrierLookupOutput>(xAmzTarget: "PinpointSMSVoiceV2.CarrierLookup"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<CarrierLookupInput, CarrierLookupOutput>(overrides: ["X-Amz-Target": "PinpointSMSVoiceV2.CarrierLookup"]))
         builder.serialize(ClientRuntime.BodyMiddleware<CarrierLookupInput, CarrierLookupOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: CarrierLookupInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<CarrierLookupInput, CarrierLookupOutput>(contentType: "application/x-amz-json-1.0"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<CarrierLookupOutput>())
@@ -889,7 +889,7 @@ extension PinpointSMSVoiceV2Client {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<CreateConfigurationSetOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<CreateConfigurationSetInput, CreateConfigurationSetOutput>(xAmzTarget: "PinpointSMSVoiceV2.CreateConfigurationSet"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<CreateConfigurationSetInput, CreateConfigurationSetOutput>(overrides: ["X-Amz-Target": "PinpointSMSVoiceV2.CreateConfigurationSet"]))
         builder.serialize(ClientRuntime.BodyMiddleware<CreateConfigurationSetInput, CreateConfigurationSetOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: CreateConfigurationSetInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<CreateConfigurationSetInput, CreateConfigurationSetOutput>(contentType: "application/x-amz-json-1.0"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<CreateConfigurationSetOutput>())
@@ -965,7 +965,7 @@ extension PinpointSMSVoiceV2Client {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<CreateEventDestinationOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<CreateEventDestinationInput, CreateEventDestinationOutput>(xAmzTarget: "PinpointSMSVoiceV2.CreateEventDestination"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<CreateEventDestinationInput, CreateEventDestinationOutput>(overrides: ["X-Amz-Target": "PinpointSMSVoiceV2.CreateEventDestination"]))
         builder.serialize(ClientRuntime.BodyMiddleware<CreateEventDestinationInput, CreateEventDestinationOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: CreateEventDestinationInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<CreateEventDestinationInput, CreateEventDestinationOutput>(contentType: "application/x-amz-json-1.0"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<CreateEventDestinationOutput>())
@@ -1040,7 +1040,7 @@ extension PinpointSMSVoiceV2Client {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<CreateOptOutListOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<CreateOptOutListInput, CreateOptOutListOutput>(xAmzTarget: "PinpointSMSVoiceV2.CreateOptOutList"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<CreateOptOutListInput, CreateOptOutListOutput>(overrides: ["X-Amz-Target": "PinpointSMSVoiceV2.CreateOptOutList"]))
         builder.serialize(ClientRuntime.BodyMiddleware<CreateOptOutListInput, CreateOptOutListOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: CreateOptOutListInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<CreateOptOutListInput, CreateOptOutListOutput>(contentType: "application/x-amz-json-1.0"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<CreateOptOutListOutput>())
@@ -1116,7 +1116,7 @@ extension PinpointSMSVoiceV2Client {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<CreatePoolOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<CreatePoolInput, CreatePoolOutput>(xAmzTarget: "PinpointSMSVoiceV2.CreatePool"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<CreatePoolInput, CreatePoolOutput>(overrides: ["X-Amz-Target": "PinpointSMSVoiceV2.CreatePool"]))
         builder.serialize(ClientRuntime.BodyMiddleware<CreatePoolInput, CreatePoolOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: CreatePoolInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<CreatePoolInput, CreatePoolOutput>(contentType: "application/x-amz-json-1.0"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<CreatePoolOutput>())
@@ -1191,7 +1191,7 @@ extension PinpointSMSVoiceV2Client {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<CreateProtectConfigurationOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<CreateProtectConfigurationInput, CreateProtectConfigurationOutput>(xAmzTarget: "PinpointSMSVoiceV2.CreateProtectConfiguration"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<CreateProtectConfigurationInput, CreateProtectConfigurationOutput>(overrides: ["X-Amz-Target": "PinpointSMSVoiceV2.CreateProtectConfiguration"]))
         builder.serialize(ClientRuntime.BodyMiddleware<CreateProtectConfigurationInput, CreateProtectConfigurationOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: CreateProtectConfigurationInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<CreateProtectConfigurationInput, CreateProtectConfigurationOutput>(contentType: "application/x-amz-json-1.0"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<CreateProtectConfigurationOutput>())
@@ -1266,7 +1266,7 @@ extension PinpointSMSVoiceV2Client {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<CreateRegistrationOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<CreateRegistrationInput, CreateRegistrationOutput>(xAmzTarget: "PinpointSMSVoiceV2.CreateRegistration"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<CreateRegistrationInput, CreateRegistrationOutput>(overrides: ["X-Amz-Target": "PinpointSMSVoiceV2.CreateRegistration"]))
         builder.serialize(ClientRuntime.BodyMiddleware<CreateRegistrationInput, CreateRegistrationOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: CreateRegistrationInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<CreateRegistrationInput, CreateRegistrationOutput>(contentType: "application/x-amz-json-1.0"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<CreateRegistrationOutput>())
@@ -1341,7 +1341,7 @@ extension PinpointSMSVoiceV2Client {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<CreateRegistrationAssociationOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<CreateRegistrationAssociationInput, CreateRegistrationAssociationOutput>(xAmzTarget: "PinpointSMSVoiceV2.CreateRegistrationAssociation"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<CreateRegistrationAssociationInput, CreateRegistrationAssociationOutput>(overrides: ["X-Amz-Target": "PinpointSMSVoiceV2.CreateRegistrationAssociation"]))
         builder.serialize(ClientRuntime.BodyMiddleware<CreateRegistrationAssociationInput, CreateRegistrationAssociationOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: CreateRegistrationAssociationInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<CreateRegistrationAssociationInput, CreateRegistrationAssociationOutput>(contentType: "application/x-amz-json-1.0"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<CreateRegistrationAssociationOutput>())
@@ -1416,7 +1416,7 @@ extension PinpointSMSVoiceV2Client {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<CreateRegistrationAttachmentOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<CreateRegistrationAttachmentInput, CreateRegistrationAttachmentOutput>(xAmzTarget: "PinpointSMSVoiceV2.CreateRegistrationAttachment"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<CreateRegistrationAttachmentInput, CreateRegistrationAttachmentOutput>(overrides: ["X-Amz-Target": "PinpointSMSVoiceV2.CreateRegistrationAttachment"]))
         builder.serialize(ClientRuntime.BodyMiddleware<CreateRegistrationAttachmentInput, CreateRegistrationAttachmentOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: CreateRegistrationAttachmentInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<CreateRegistrationAttachmentInput, CreateRegistrationAttachmentOutput>(contentType: "application/x-amz-json-1.0"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<CreateRegistrationAttachmentOutput>())
@@ -1491,7 +1491,7 @@ extension PinpointSMSVoiceV2Client {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<CreateRegistrationVersionOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<CreateRegistrationVersionInput, CreateRegistrationVersionOutput>(xAmzTarget: "PinpointSMSVoiceV2.CreateRegistrationVersion"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<CreateRegistrationVersionInput, CreateRegistrationVersionOutput>(overrides: ["X-Amz-Target": "PinpointSMSVoiceV2.CreateRegistrationVersion"]))
         builder.serialize(ClientRuntime.BodyMiddleware<CreateRegistrationVersionInput, CreateRegistrationVersionOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: CreateRegistrationVersionInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<CreateRegistrationVersionInput, CreateRegistrationVersionOutput>(contentType: "application/x-amz-json-1.0"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<CreateRegistrationVersionOutput>())
@@ -1566,7 +1566,7 @@ extension PinpointSMSVoiceV2Client {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<CreateVerifiedDestinationNumberOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<CreateVerifiedDestinationNumberInput, CreateVerifiedDestinationNumberOutput>(xAmzTarget: "PinpointSMSVoiceV2.CreateVerifiedDestinationNumber"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<CreateVerifiedDestinationNumberInput, CreateVerifiedDestinationNumberOutput>(overrides: ["X-Amz-Target": "PinpointSMSVoiceV2.CreateVerifiedDestinationNumber"]))
         builder.serialize(ClientRuntime.BodyMiddleware<CreateVerifiedDestinationNumberInput, CreateVerifiedDestinationNumberOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: CreateVerifiedDestinationNumberInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<CreateVerifiedDestinationNumberInput, CreateVerifiedDestinationNumberOutput>(contentType: "application/x-amz-json-1.0"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<CreateVerifiedDestinationNumberOutput>())
@@ -1639,7 +1639,7 @@ extension PinpointSMSVoiceV2Client {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<DeleteAccountDefaultProtectConfigurationOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<DeleteAccountDefaultProtectConfigurationInput, DeleteAccountDefaultProtectConfigurationOutput>(xAmzTarget: "PinpointSMSVoiceV2.DeleteAccountDefaultProtectConfiguration"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<DeleteAccountDefaultProtectConfigurationInput, DeleteAccountDefaultProtectConfigurationOutput>(overrides: ["X-Amz-Target": "PinpointSMSVoiceV2.DeleteAccountDefaultProtectConfiguration"]))
         builder.serialize(ClientRuntime.BodyMiddleware<DeleteAccountDefaultProtectConfigurationInput, DeleteAccountDefaultProtectConfigurationOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: DeleteAccountDefaultProtectConfigurationInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DeleteAccountDefaultProtectConfigurationInput, DeleteAccountDefaultProtectConfigurationOutput>(contentType: "application/x-amz-json-1.0"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DeleteAccountDefaultProtectConfigurationOutput>())
@@ -1712,7 +1712,7 @@ extension PinpointSMSVoiceV2Client {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<DeleteConfigurationSetOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<DeleteConfigurationSetInput, DeleteConfigurationSetOutput>(xAmzTarget: "PinpointSMSVoiceV2.DeleteConfigurationSet"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<DeleteConfigurationSetInput, DeleteConfigurationSetOutput>(overrides: ["X-Amz-Target": "PinpointSMSVoiceV2.DeleteConfigurationSet"]))
         builder.serialize(ClientRuntime.BodyMiddleware<DeleteConfigurationSetInput, DeleteConfigurationSetOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: DeleteConfigurationSetInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DeleteConfigurationSetInput, DeleteConfigurationSetOutput>(contentType: "application/x-amz-json-1.0"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DeleteConfigurationSetOutput>())
@@ -1785,7 +1785,7 @@ extension PinpointSMSVoiceV2Client {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<DeleteDefaultMessageTypeOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<DeleteDefaultMessageTypeInput, DeleteDefaultMessageTypeOutput>(xAmzTarget: "PinpointSMSVoiceV2.DeleteDefaultMessageType"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<DeleteDefaultMessageTypeInput, DeleteDefaultMessageTypeOutput>(overrides: ["X-Amz-Target": "PinpointSMSVoiceV2.DeleteDefaultMessageType"]))
         builder.serialize(ClientRuntime.BodyMiddleware<DeleteDefaultMessageTypeInput, DeleteDefaultMessageTypeOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: DeleteDefaultMessageTypeInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DeleteDefaultMessageTypeInput, DeleteDefaultMessageTypeOutput>(contentType: "application/x-amz-json-1.0"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DeleteDefaultMessageTypeOutput>())
@@ -1858,7 +1858,7 @@ extension PinpointSMSVoiceV2Client {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<DeleteDefaultSenderIdOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<DeleteDefaultSenderIdInput, DeleteDefaultSenderIdOutput>(xAmzTarget: "PinpointSMSVoiceV2.DeleteDefaultSenderId"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<DeleteDefaultSenderIdInput, DeleteDefaultSenderIdOutput>(overrides: ["X-Amz-Target": "PinpointSMSVoiceV2.DeleteDefaultSenderId"]))
         builder.serialize(ClientRuntime.BodyMiddleware<DeleteDefaultSenderIdInput, DeleteDefaultSenderIdOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: DeleteDefaultSenderIdInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DeleteDefaultSenderIdInput, DeleteDefaultSenderIdOutput>(contentType: "application/x-amz-json-1.0"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DeleteDefaultSenderIdOutput>())
@@ -1931,7 +1931,7 @@ extension PinpointSMSVoiceV2Client {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<DeleteEventDestinationOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<DeleteEventDestinationInput, DeleteEventDestinationOutput>(xAmzTarget: "PinpointSMSVoiceV2.DeleteEventDestination"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<DeleteEventDestinationInput, DeleteEventDestinationOutput>(overrides: ["X-Amz-Target": "PinpointSMSVoiceV2.DeleteEventDestination"]))
         builder.serialize(ClientRuntime.BodyMiddleware<DeleteEventDestinationInput, DeleteEventDestinationOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: DeleteEventDestinationInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DeleteEventDestinationInput, DeleteEventDestinationOutput>(contentType: "application/x-amz-json-1.0"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DeleteEventDestinationOutput>())
@@ -2005,7 +2005,7 @@ extension PinpointSMSVoiceV2Client {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<DeleteKeywordOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<DeleteKeywordInput, DeleteKeywordOutput>(xAmzTarget: "PinpointSMSVoiceV2.DeleteKeyword"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<DeleteKeywordInput, DeleteKeywordOutput>(overrides: ["X-Amz-Target": "PinpointSMSVoiceV2.DeleteKeyword"]))
         builder.serialize(ClientRuntime.BodyMiddleware<DeleteKeywordInput, DeleteKeywordOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: DeleteKeywordInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DeleteKeywordInput, DeleteKeywordOutput>(contentType: "application/x-amz-json-1.0"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DeleteKeywordOutput>())
@@ -2077,7 +2077,7 @@ extension PinpointSMSVoiceV2Client {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<DeleteMediaMessageSpendLimitOverrideOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<DeleteMediaMessageSpendLimitOverrideInput, DeleteMediaMessageSpendLimitOverrideOutput>(xAmzTarget: "PinpointSMSVoiceV2.DeleteMediaMessageSpendLimitOverride"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<DeleteMediaMessageSpendLimitOverrideInput, DeleteMediaMessageSpendLimitOverrideOutput>(overrides: ["X-Amz-Target": "PinpointSMSVoiceV2.DeleteMediaMessageSpendLimitOverride"]))
         builder.serialize(ClientRuntime.BodyMiddleware<DeleteMediaMessageSpendLimitOverrideInput, DeleteMediaMessageSpendLimitOverrideOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: DeleteMediaMessageSpendLimitOverrideInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DeleteMediaMessageSpendLimitOverrideInput, DeleteMediaMessageSpendLimitOverrideOutput>(contentType: "application/x-amz-json-1.0"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DeleteMediaMessageSpendLimitOverrideOutput>())
@@ -2151,7 +2151,7 @@ extension PinpointSMSVoiceV2Client {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<DeleteOptOutListOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<DeleteOptOutListInput, DeleteOptOutListOutput>(xAmzTarget: "PinpointSMSVoiceV2.DeleteOptOutList"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<DeleteOptOutListInput, DeleteOptOutListOutput>(overrides: ["X-Amz-Target": "PinpointSMSVoiceV2.DeleteOptOutList"]))
         builder.serialize(ClientRuntime.BodyMiddleware<DeleteOptOutListInput, DeleteOptOutListOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: DeleteOptOutListInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DeleteOptOutListInput, DeleteOptOutListOutput>(contentType: "application/x-amz-json-1.0"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DeleteOptOutListOutput>())
@@ -2225,7 +2225,7 @@ extension PinpointSMSVoiceV2Client {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<DeleteOptedOutNumberOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<DeleteOptedOutNumberInput, DeleteOptedOutNumberOutput>(xAmzTarget: "PinpointSMSVoiceV2.DeleteOptedOutNumber"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<DeleteOptedOutNumberInput, DeleteOptedOutNumberOutput>(overrides: ["X-Amz-Target": "PinpointSMSVoiceV2.DeleteOptedOutNumber"]))
         builder.serialize(ClientRuntime.BodyMiddleware<DeleteOptedOutNumberInput, DeleteOptedOutNumberOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: DeleteOptedOutNumberInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DeleteOptedOutNumberInput, DeleteOptedOutNumberOutput>(contentType: "application/x-amz-json-1.0"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DeleteOptedOutNumberOutput>())
@@ -2299,7 +2299,7 @@ extension PinpointSMSVoiceV2Client {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<DeletePoolOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<DeletePoolInput, DeletePoolOutput>(xAmzTarget: "PinpointSMSVoiceV2.DeletePool"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<DeletePoolInput, DeletePoolOutput>(overrides: ["X-Amz-Target": "PinpointSMSVoiceV2.DeletePool"]))
         builder.serialize(ClientRuntime.BodyMiddleware<DeletePoolInput, DeletePoolOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: DeletePoolInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DeletePoolInput, DeletePoolOutput>(contentType: "application/x-amz-json-1.0"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DeletePoolOutput>())
@@ -2373,7 +2373,7 @@ extension PinpointSMSVoiceV2Client {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<DeleteProtectConfigurationOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<DeleteProtectConfigurationInput, DeleteProtectConfigurationOutput>(xAmzTarget: "PinpointSMSVoiceV2.DeleteProtectConfiguration"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<DeleteProtectConfigurationInput, DeleteProtectConfigurationOutput>(overrides: ["X-Amz-Target": "PinpointSMSVoiceV2.DeleteProtectConfiguration"]))
         builder.serialize(ClientRuntime.BodyMiddleware<DeleteProtectConfigurationInput, DeleteProtectConfigurationOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: DeleteProtectConfigurationInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DeleteProtectConfigurationInput, DeleteProtectConfigurationOutput>(contentType: "application/x-amz-json-1.0"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DeleteProtectConfigurationOutput>())
@@ -2446,7 +2446,7 @@ extension PinpointSMSVoiceV2Client {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<DeleteProtectConfigurationRuleSetNumberOverrideOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<DeleteProtectConfigurationRuleSetNumberOverrideInput, DeleteProtectConfigurationRuleSetNumberOverrideOutput>(xAmzTarget: "PinpointSMSVoiceV2.DeleteProtectConfigurationRuleSetNumberOverride"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<DeleteProtectConfigurationRuleSetNumberOverrideInput, DeleteProtectConfigurationRuleSetNumberOverrideOutput>(overrides: ["X-Amz-Target": "PinpointSMSVoiceV2.DeleteProtectConfigurationRuleSetNumberOverride"]))
         builder.serialize(ClientRuntime.BodyMiddleware<DeleteProtectConfigurationRuleSetNumberOverrideInput, DeleteProtectConfigurationRuleSetNumberOverrideOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: DeleteProtectConfigurationRuleSetNumberOverrideInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DeleteProtectConfigurationRuleSetNumberOverrideInput, DeleteProtectConfigurationRuleSetNumberOverrideOutput>(contentType: "application/x-amz-json-1.0"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DeleteProtectConfigurationRuleSetNumberOverrideOutput>())
@@ -2520,7 +2520,7 @@ extension PinpointSMSVoiceV2Client {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<DeleteRegistrationOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<DeleteRegistrationInput, DeleteRegistrationOutput>(xAmzTarget: "PinpointSMSVoiceV2.DeleteRegistration"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<DeleteRegistrationInput, DeleteRegistrationOutput>(overrides: ["X-Amz-Target": "PinpointSMSVoiceV2.DeleteRegistration"]))
         builder.serialize(ClientRuntime.BodyMiddleware<DeleteRegistrationInput, DeleteRegistrationOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: DeleteRegistrationInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DeleteRegistrationInput, DeleteRegistrationOutput>(contentType: "application/x-amz-json-1.0"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DeleteRegistrationOutput>())
@@ -2594,7 +2594,7 @@ extension PinpointSMSVoiceV2Client {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<DeleteRegistrationAttachmentOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<DeleteRegistrationAttachmentInput, DeleteRegistrationAttachmentOutput>(xAmzTarget: "PinpointSMSVoiceV2.DeleteRegistrationAttachment"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<DeleteRegistrationAttachmentInput, DeleteRegistrationAttachmentOutput>(overrides: ["X-Amz-Target": "PinpointSMSVoiceV2.DeleteRegistrationAttachment"]))
         builder.serialize(ClientRuntime.BodyMiddleware<DeleteRegistrationAttachmentInput, DeleteRegistrationAttachmentOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: DeleteRegistrationAttachmentInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DeleteRegistrationAttachmentInput, DeleteRegistrationAttachmentOutput>(contentType: "application/x-amz-json-1.0"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DeleteRegistrationAttachmentOutput>())
@@ -2668,7 +2668,7 @@ extension PinpointSMSVoiceV2Client {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<DeleteRegistrationFieldValueOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<DeleteRegistrationFieldValueInput, DeleteRegistrationFieldValueOutput>(xAmzTarget: "PinpointSMSVoiceV2.DeleteRegistrationFieldValue"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<DeleteRegistrationFieldValueInput, DeleteRegistrationFieldValueOutput>(overrides: ["X-Amz-Target": "PinpointSMSVoiceV2.DeleteRegistrationFieldValue"]))
         builder.serialize(ClientRuntime.BodyMiddleware<DeleteRegistrationFieldValueInput, DeleteRegistrationFieldValueOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: DeleteRegistrationFieldValueInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DeleteRegistrationFieldValueInput, DeleteRegistrationFieldValueOutput>(contentType: "application/x-amz-json-1.0"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DeleteRegistrationFieldValueOutput>())
@@ -2741,7 +2741,7 @@ extension PinpointSMSVoiceV2Client {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<DeleteResourcePolicyOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<DeleteResourcePolicyInput, DeleteResourcePolicyOutput>(xAmzTarget: "PinpointSMSVoiceV2.DeleteResourcePolicy"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<DeleteResourcePolicyInput, DeleteResourcePolicyOutput>(overrides: ["X-Amz-Target": "PinpointSMSVoiceV2.DeleteResourcePolicy"]))
         builder.serialize(ClientRuntime.BodyMiddleware<DeleteResourcePolicyInput, DeleteResourcePolicyOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: DeleteResourcePolicyInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DeleteResourcePolicyInput, DeleteResourcePolicyOutput>(contentType: "application/x-amz-json-1.0"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DeleteResourcePolicyOutput>())
@@ -2813,7 +2813,7 @@ extension PinpointSMSVoiceV2Client {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<DeleteTextMessageSpendLimitOverrideOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<DeleteTextMessageSpendLimitOverrideInput, DeleteTextMessageSpendLimitOverrideOutput>(xAmzTarget: "PinpointSMSVoiceV2.DeleteTextMessageSpendLimitOverride"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<DeleteTextMessageSpendLimitOverrideInput, DeleteTextMessageSpendLimitOverrideOutput>(overrides: ["X-Amz-Target": "PinpointSMSVoiceV2.DeleteTextMessageSpendLimitOverride"]))
         builder.serialize(ClientRuntime.BodyMiddleware<DeleteTextMessageSpendLimitOverrideInput, DeleteTextMessageSpendLimitOverrideOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: DeleteTextMessageSpendLimitOverrideInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DeleteTextMessageSpendLimitOverrideInput, DeleteTextMessageSpendLimitOverrideOutput>(contentType: "application/x-amz-json-1.0"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DeleteTextMessageSpendLimitOverrideOutput>())
@@ -2887,7 +2887,7 @@ extension PinpointSMSVoiceV2Client {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<DeleteVerifiedDestinationNumberOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<DeleteVerifiedDestinationNumberInput, DeleteVerifiedDestinationNumberOutput>(xAmzTarget: "PinpointSMSVoiceV2.DeleteVerifiedDestinationNumber"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<DeleteVerifiedDestinationNumberInput, DeleteVerifiedDestinationNumberOutput>(overrides: ["X-Amz-Target": "PinpointSMSVoiceV2.DeleteVerifiedDestinationNumber"]))
         builder.serialize(ClientRuntime.BodyMiddleware<DeleteVerifiedDestinationNumberInput, DeleteVerifiedDestinationNumberOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: DeleteVerifiedDestinationNumberInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DeleteVerifiedDestinationNumberInput, DeleteVerifiedDestinationNumberOutput>(contentType: "application/x-amz-json-1.0"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DeleteVerifiedDestinationNumberOutput>())
@@ -2959,7 +2959,7 @@ extension PinpointSMSVoiceV2Client {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<DeleteVoiceMessageSpendLimitOverrideOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<DeleteVoiceMessageSpendLimitOverrideInput, DeleteVoiceMessageSpendLimitOverrideOutput>(xAmzTarget: "PinpointSMSVoiceV2.DeleteVoiceMessageSpendLimitOverride"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<DeleteVoiceMessageSpendLimitOverrideInput, DeleteVoiceMessageSpendLimitOverrideOutput>(overrides: ["X-Amz-Target": "PinpointSMSVoiceV2.DeleteVoiceMessageSpendLimitOverride"]))
         builder.serialize(ClientRuntime.BodyMiddleware<DeleteVoiceMessageSpendLimitOverrideInput, DeleteVoiceMessageSpendLimitOverrideOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: DeleteVoiceMessageSpendLimitOverrideInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DeleteVoiceMessageSpendLimitOverrideInput, DeleteVoiceMessageSpendLimitOverrideOutput>(contentType: "application/x-amz-json-1.0"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DeleteVoiceMessageSpendLimitOverrideOutput>())
@@ -3031,7 +3031,7 @@ extension PinpointSMSVoiceV2Client {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<DescribeAccountAttributesOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<DescribeAccountAttributesInput, DescribeAccountAttributesOutput>(xAmzTarget: "PinpointSMSVoiceV2.DescribeAccountAttributes"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<DescribeAccountAttributesInput, DescribeAccountAttributesOutput>(overrides: ["X-Amz-Target": "PinpointSMSVoiceV2.DescribeAccountAttributes"]))
         builder.serialize(ClientRuntime.BodyMiddleware<DescribeAccountAttributesInput, DescribeAccountAttributesOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: DescribeAccountAttributesInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DescribeAccountAttributesInput, DescribeAccountAttributesOutput>(contentType: "application/x-amz-json-1.0"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DescribeAccountAttributesOutput>())
@@ -3103,7 +3103,7 @@ extension PinpointSMSVoiceV2Client {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<DescribeAccountLimitsOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<DescribeAccountLimitsInput, DescribeAccountLimitsOutput>(xAmzTarget: "PinpointSMSVoiceV2.DescribeAccountLimits"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<DescribeAccountLimitsInput, DescribeAccountLimitsOutput>(overrides: ["X-Amz-Target": "PinpointSMSVoiceV2.DescribeAccountLimits"]))
         builder.serialize(ClientRuntime.BodyMiddleware<DescribeAccountLimitsInput, DescribeAccountLimitsOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: DescribeAccountLimitsInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DescribeAccountLimitsInput, DescribeAccountLimitsOutput>(contentType: "application/x-amz-json-1.0"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DescribeAccountLimitsOutput>())
@@ -3176,7 +3176,7 @@ extension PinpointSMSVoiceV2Client {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<DescribeConfigurationSetsOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<DescribeConfigurationSetsInput, DescribeConfigurationSetsOutput>(xAmzTarget: "PinpointSMSVoiceV2.DescribeConfigurationSets"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<DescribeConfigurationSetsInput, DescribeConfigurationSetsOutput>(overrides: ["X-Amz-Target": "PinpointSMSVoiceV2.DescribeConfigurationSets"]))
         builder.serialize(ClientRuntime.BodyMiddleware<DescribeConfigurationSetsInput, DescribeConfigurationSetsOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: DescribeConfigurationSetsInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DescribeConfigurationSetsInput, DescribeConfigurationSetsOutput>(contentType: "application/x-amz-json-1.0"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DescribeConfigurationSetsOutput>())
@@ -3249,7 +3249,7 @@ extension PinpointSMSVoiceV2Client {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<DescribeKeywordsOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<DescribeKeywordsInput, DescribeKeywordsOutput>(xAmzTarget: "PinpointSMSVoiceV2.DescribeKeywords"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<DescribeKeywordsInput, DescribeKeywordsOutput>(overrides: ["X-Amz-Target": "PinpointSMSVoiceV2.DescribeKeywords"]))
         builder.serialize(ClientRuntime.BodyMiddleware<DescribeKeywordsInput, DescribeKeywordsOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: DescribeKeywordsInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DescribeKeywordsInput, DescribeKeywordsOutput>(contentType: "application/x-amz-json-1.0"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DescribeKeywordsOutput>())
@@ -3322,7 +3322,7 @@ extension PinpointSMSVoiceV2Client {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<DescribeOptOutListsOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<DescribeOptOutListsInput, DescribeOptOutListsOutput>(xAmzTarget: "PinpointSMSVoiceV2.DescribeOptOutLists"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<DescribeOptOutListsInput, DescribeOptOutListsOutput>(overrides: ["X-Amz-Target": "PinpointSMSVoiceV2.DescribeOptOutLists"]))
         builder.serialize(ClientRuntime.BodyMiddleware<DescribeOptOutListsInput, DescribeOptOutListsOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: DescribeOptOutListsInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DescribeOptOutListsInput, DescribeOptOutListsOutput>(contentType: "application/x-amz-json-1.0"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DescribeOptOutListsOutput>())
@@ -3395,7 +3395,7 @@ extension PinpointSMSVoiceV2Client {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<DescribeOptedOutNumbersOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<DescribeOptedOutNumbersInput, DescribeOptedOutNumbersOutput>(xAmzTarget: "PinpointSMSVoiceV2.DescribeOptedOutNumbers"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<DescribeOptedOutNumbersInput, DescribeOptedOutNumbersOutput>(overrides: ["X-Amz-Target": "PinpointSMSVoiceV2.DescribeOptedOutNumbers"]))
         builder.serialize(ClientRuntime.BodyMiddleware<DescribeOptedOutNumbersInput, DescribeOptedOutNumbersOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: DescribeOptedOutNumbersInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DescribeOptedOutNumbersInput, DescribeOptedOutNumbersOutput>(contentType: "application/x-amz-json-1.0"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DescribeOptedOutNumbersOutput>())
@@ -3468,7 +3468,7 @@ extension PinpointSMSVoiceV2Client {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<DescribePhoneNumbersOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<DescribePhoneNumbersInput, DescribePhoneNumbersOutput>(xAmzTarget: "PinpointSMSVoiceV2.DescribePhoneNumbers"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<DescribePhoneNumbersInput, DescribePhoneNumbersOutput>(overrides: ["X-Amz-Target": "PinpointSMSVoiceV2.DescribePhoneNumbers"]))
         builder.serialize(ClientRuntime.BodyMiddleware<DescribePhoneNumbersInput, DescribePhoneNumbersOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: DescribePhoneNumbersInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DescribePhoneNumbersInput, DescribePhoneNumbersOutput>(contentType: "application/x-amz-json-1.0"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DescribePhoneNumbersOutput>())
@@ -3541,7 +3541,7 @@ extension PinpointSMSVoiceV2Client {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<DescribePoolsOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<DescribePoolsInput, DescribePoolsOutput>(xAmzTarget: "PinpointSMSVoiceV2.DescribePools"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<DescribePoolsInput, DescribePoolsOutput>(overrides: ["X-Amz-Target": "PinpointSMSVoiceV2.DescribePools"]))
         builder.serialize(ClientRuntime.BodyMiddleware<DescribePoolsInput, DescribePoolsOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: DescribePoolsInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DescribePoolsInput, DescribePoolsOutput>(contentType: "application/x-amz-json-1.0"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DescribePoolsOutput>())
@@ -3614,7 +3614,7 @@ extension PinpointSMSVoiceV2Client {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<DescribeProtectConfigurationsOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<DescribeProtectConfigurationsInput, DescribeProtectConfigurationsOutput>(xAmzTarget: "PinpointSMSVoiceV2.DescribeProtectConfigurations"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<DescribeProtectConfigurationsInput, DescribeProtectConfigurationsOutput>(overrides: ["X-Amz-Target": "PinpointSMSVoiceV2.DescribeProtectConfigurations"]))
         builder.serialize(ClientRuntime.BodyMiddleware<DescribeProtectConfigurationsInput, DescribeProtectConfigurationsOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: DescribeProtectConfigurationsInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DescribeProtectConfigurationsInput, DescribeProtectConfigurationsOutput>(contentType: "application/x-amz-json-1.0"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DescribeProtectConfigurationsOutput>())
@@ -3687,7 +3687,7 @@ extension PinpointSMSVoiceV2Client {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<DescribeRegistrationAttachmentsOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<DescribeRegistrationAttachmentsInput, DescribeRegistrationAttachmentsOutput>(xAmzTarget: "PinpointSMSVoiceV2.DescribeRegistrationAttachments"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<DescribeRegistrationAttachmentsInput, DescribeRegistrationAttachmentsOutput>(overrides: ["X-Amz-Target": "PinpointSMSVoiceV2.DescribeRegistrationAttachments"]))
         builder.serialize(ClientRuntime.BodyMiddleware<DescribeRegistrationAttachmentsInput, DescribeRegistrationAttachmentsOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: DescribeRegistrationAttachmentsInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DescribeRegistrationAttachmentsInput, DescribeRegistrationAttachmentsOutput>(contentType: "application/x-amz-json-1.0"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DescribeRegistrationAttachmentsOutput>())
@@ -3759,7 +3759,7 @@ extension PinpointSMSVoiceV2Client {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<DescribeRegistrationFieldDefinitionsOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<DescribeRegistrationFieldDefinitionsInput, DescribeRegistrationFieldDefinitionsOutput>(xAmzTarget: "PinpointSMSVoiceV2.DescribeRegistrationFieldDefinitions"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<DescribeRegistrationFieldDefinitionsInput, DescribeRegistrationFieldDefinitionsOutput>(overrides: ["X-Amz-Target": "PinpointSMSVoiceV2.DescribeRegistrationFieldDefinitions"]))
         builder.serialize(ClientRuntime.BodyMiddleware<DescribeRegistrationFieldDefinitionsInput, DescribeRegistrationFieldDefinitionsOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: DescribeRegistrationFieldDefinitionsInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DescribeRegistrationFieldDefinitionsInput, DescribeRegistrationFieldDefinitionsOutput>(contentType: "application/x-amz-json-1.0"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DescribeRegistrationFieldDefinitionsOutput>())
@@ -3832,7 +3832,7 @@ extension PinpointSMSVoiceV2Client {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<DescribeRegistrationFieldValuesOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<DescribeRegistrationFieldValuesInput, DescribeRegistrationFieldValuesOutput>(xAmzTarget: "PinpointSMSVoiceV2.DescribeRegistrationFieldValues"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<DescribeRegistrationFieldValuesInput, DescribeRegistrationFieldValuesOutput>(overrides: ["X-Amz-Target": "PinpointSMSVoiceV2.DescribeRegistrationFieldValues"]))
         builder.serialize(ClientRuntime.BodyMiddleware<DescribeRegistrationFieldValuesInput, DescribeRegistrationFieldValuesOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: DescribeRegistrationFieldValuesInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DescribeRegistrationFieldValuesInput, DescribeRegistrationFieldValuesOutput>(contentType: "application/x-amz-json-1.0"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DescribeRegistrationFieldValuesOutput>())
@@ -3904,7 +3904,7 @@ extension PinpointSMSVoiceV2Client {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<DescribeRegistrationSectionDefinitionsOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<DescribeRegistrationSectionDefinitionsInput, DescribeRegistrationSectionDefinitionsOutput>(xAmzTarget: "PinpointSMSVoiceV2.DescribeRegistrationSectionDefinitions"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<DescribeRegistrationSectionDefinitionsInput, DescribeRegistrationSectionDefinitionsOutput>(overrides: ["X-Amz-Target": "PinpointSMSVoiceV2.DescribeRegistrationSectionDefinitions"]))
         builder.serialize(ClientRuntime.BodyMiddleware<DescribeRegistrationSectionDefinitionsInput, DescribeRegistrationSectionDefinitionsOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: DescribeRegistrationSectionDefinitionsInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DescribeRegistrationSectionDefinitionsInput, DescribeRegistrationSectionDefinitionsOutput>(contentType: "application/x-amz-json-1.0"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DescribeRegistrationSectionDefinitionsOutput>())
@@ -3976,7 +3976,7 @@ extension PinpointSMSVoiceV2Client {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<DescribeRegistrationTypeDefinitionsOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<DescribeRegistrationTypeDefinitionsInput, DescribeRegistrationTypeDefinitionsOutput>(xAmzTarget: "PinpointSMSVoiceV2.DescribeRegistrationTypeDefinitions"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<DescribeRegistrationTypeDefinitionsInput, DescribeRegistrationTypeDefinitionsOutput>(overrides: ["X-Amz-Target": "PinpointSMSVoiceV2.DescribeRegistrationTypeDefinitions"]))
         builder.serialize(ClientRuntime.BodyMiddleware<DescribeRegistrationTypeDefinitionsInput, DescribeRegistrationTypeDefinitionsOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: DescribeRegistrationTypeDefinitionsInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DescribeRegistrationTypeDefinitionsInput, DescribeRegistrationTypeDefinitionsOutput>(contentType: "application/x-amz-json-1.0"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DescribeRegistrationTypeDefinitionsOutput>())
@@ -4049,7 +4049,7 @@ extension PinpointSMSVoiceV2Client {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<DescribeRegistrationVersionsOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<DescribeRegistrationVersionsInput, DescribeRegistrationVersionsOutput>(xAmzTarget: "PinpointSMSVoiceV2.DescribeRegistrationVersions"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<DescribeRegistrationVersionsInput, DescribeRegistrationVersionsOutput>(overrides: ["X-Amz-Target": "PinpointSMSVoiceV2.DescribeRegistrationVersions"]))
         builder.serialize(ClientRuntime.BodyMiddleware<DescribeRegistrationVersionsInput, DescribeRegistrationVersionsOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: DescribeRegistrationVersionsInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DescribeRegistrationVersionsInput, DescribeRegistrationVersionsOutput>(contentType: "application/x-amz-json-1.0"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DescribeRegistrationVersionsOutput>())
@@ -4122,7 +4122,7 @@ extension PinpointSMSVoiceV2Client {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<DescribeRegistrationsOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<DescribeRegistrationsInput, DescribeRegistrationsOutput>(xAmzTarget: "PinpointSMSVoiceV2.DescribeRegistrations"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<DescribeRegistrationsInput, DescribeRegistrationsOutput>(overrides: ["X-Amz-Target": "PinpointSMSVoiceV2.DescribeRegistrations"]))
         builder.serialize(ClientRuntime.BodyMiddleware<DescribeRegistrationsInput, DescribeRegistrationsOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: DescribeRegistrationsInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DescribeRegistrationsInput, DescribeRegistrationsOutput>(contentType: "application/x-amz-json-1.0"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DescribeRegistrationsOutput>())
@@ -4195,7 +4195,7 @@ extension PinpointSMSVoiceV2Client {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<DescribeSenderIdsOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<DescribeSenderIdsInput, DescribeSenderIdsOutput>(xAmzTarget: "PinpointSMSVoiceV2.DescribeSenderIds"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<DescribeSenderIdsInput, DescribeSenderIdsOutput>(overrides: ["X-Amz-Target": "PinpointSMSVoiceV2.DescribeSenderIds"]))
         builder.serialize(ClientRuntime.BodyMiddleware<DescribeSenderIdsInput, DescribeSenderIdsOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: DescribeSenderIdsInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DescribeSenderIdsInput, DescribeSenderIdsOutput>(contentType: "application/x-amz-json-1.0"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DescribeSenderIdsOutput>())
@@ -4267,7 +4267,7 @@ extension PinpointSMSVoiceV2Client {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<DescribeSpendLimitsOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<DescribeSpendLimitsInput, DescribeSpendLimitsOutput>(xAmzTarget: "PinpointSMSVoiceV2.DescribeSpendLimits"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<DescribeSpendLimitsInput, DescribeSpendLimitsOutput>(overrides: ["X-Amz-Target": "PinpointSMSVoiceV2.DescribeSpendLimits"]))
         builder.serialize(ClientRuntime.BodyMiddleware<DescribeSpendLimitsInput, DescribeSpendLimitsOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: DescribeSpendLimitsInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DescribeSpendLimitsInput, DescribeSpendLimitsOutput>(contentType: "application/x-amz-json-1.0"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DescribeSpendLimitsOutput>())
@@ -4340,7 +4340,7 @@ extension PinpointSMSVoiceV2Client {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<DescribeVerifiedDestinationNumbersOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<DescribeVerifiedDestinationNumbersInput, DescribeVerifiedDestinationNumbersOutput>(xAmzTarget: "PinpointSMSVoiceV2.DescribeVerifiedDestinationNumbers"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<DescribeVerifiedDestinationNumbersInput, DescribeVerifiedDestinationNumbersOutput>(overrides: ["X-Amz-Target": "PinpointSMSVoiceV2.DescribeVerifiedDestinationNumbers"]))
         builder.serialize(ClientRuntime.BodyMiddleware<DescribeVerifiedDestinationNumbersInput, DescribeVerifiedDestinationNumbersOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: DescribeVerifiedDestinationNumbersInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DescribeVerifiedDestinationNumbersInput, DescribeVerifiedDestinationNumbersOutput>(contentType: "application/x-amz-json-1.0"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DescribeVerifiedDestinationNumbersOutput>())
@@ -4415,7 +4415,7 @@ extension PinpointSMSVoiceV2Client {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<DisassociateOriginationIdentityOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<DisassociateOriginationIdentityInput, DisassociateOriginationIdentityOutput>(xAmzTarget: "PinpointSMSVoiceV2.DisassociateOriginationIdentity"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<DisassociateOriginationIdentityInput, DisassociateOriginationIdentityOutput>(overrides: ["X-Amz-Target": "PinpointSMSVoiceV2.DisassociateOriginationIdentity"]))
         builder.serialize(ClientRuntime.BodyMiddleware<DisassociateOriginationIdentityInput, DisassociateOriginationIdentityOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: DisassociateOriginationIdentityInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DisassociateOriginationIdentityInput, DisassociateOriginationIdentityOutput>(contentType: "application/x-amz-json-1.0"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DisassociateOriginationIdentityOutput>())
@@ -4489,7 +4489,7 @@ extension PinpointSMSVoiceV2Client {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<DisassociateProtectConfigurationOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<DisassociateProtectConfigurationInput, DisassociateProtectConfigurationOutput>(xAmzTarget: "PinpointSMSVoiceV2.DisassociateProtectConfiguration"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<DisassociateProtectConfigurationInput, DisassociateProtectConfigurationOutput>(overrides: ["X-Amz-Target": "PinpointSMSVoiceV2.DisassociateProtectConfiguration"]))
         builder.serialize(ClientRuntime.BodyMiddleware<DisassociateProtectConfigurationInput, DisassociateProtectConfigurationOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: DisassociateProtectConfigurationInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DisassociateProtectConfigurationInput, DisassociateProtectConfigurationOutput>(contentType: "application/x-amz-json-1.0"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DisassociateProtectConfigurationOutput>())
@@ -4563,7 +4563,7 @@ extension PinpointSMSVoiceV2Client {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<DiscardRegistrationVersionOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<DiscardRegistrationVersionInput, DiscardRegistrationVersionOutput>(xAmzTarget: "PinpointSMSVoiceV2.DiscardRegistrationVersion"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<DiscardRegistrationVersionInput, DiscardRegistrationVersionOutput>(overrides: ["X-Amz-Target": "PinpointSMSVoiceV2.DiscardRegistrationVersion"]))
         builder.serialize(ClientRuntime.BodyMiddleware<DiscardRegistrationVersionInput, DiscardRegistrationVersionOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: DiscardRegistrationVersionInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DiscardRegistrationVersionInput, DiscardRegistrationVersionOutput>(contentType: "application/x-amz-json-1.0"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DiscardRegistrationVersionOutput>())
@@ -4636,7 +4636,7 @@ extension PinpointSMSVoiceV2Client {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<GetProtectConfigurationCountryRuleSetOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<GetProtectConfigurationCountryRuleSetInput, GetProtectConfigurationCountryRuleSetOutput>(xAmzTarget: "PinpointSMSVoiceV2.GetProtectConfigurationCountryRuleSet"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<GetProtectConfigurationCountryRuleSetInput, GetProtectConfigurationCountryRuleSetOutput>(overrides: ["X-Amz-Target": "PinpointSMSVoiceV2.GetProtectConfigurationCountryRuleSet"]))
         builder.serialize(ClientRuntime.BodyMiddleware<GetProtectConfigurationCountryRuleSetInput, GetProtectConfigurationCountryRuleSetOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: GetProtectConfigurationCountryRuleSetInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<GetProtectConfigurationCountryRuleSetInput, GetProtectConfigurationCountryRuleSetOutput>(contentType: "application/x-amz-json-1.0"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<GetProtectConfigurationCountryRuleSetOutput>())
@@ -4709,7 +4709,7 @@ extension PinpointSMSVoiceV2Client {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<GetResourcePolicyOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<GetResourcePolicyInput, GetResourcePolicyOutput>(xAmzTarget: "PinpointSMSVoiceV2.GetResourcePolicy"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<GetResourcePolicyInput, GetResourcePolicyOutput>(overrides: ["X-Amz-Target": "PinpointSMSVoiceV2.GetResourcePolicy"]))
         builder.serialize(ClientRuntime.BodyMiddleware<GetResourcePolicyInput, GetResourcePolicyOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: GetResourcePolicyInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<GetResourcePolicyInput, GetResourcePolicyOutput>(contentType: "application/x-amz-json-1.0"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<GetResourcePolicyOutput>())
@@ -4782,7 +4782,7 @@ extension PinpointSMSVoiceV2Client {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<ListPoolOriginationIdentitiesOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<ListPoolOriginationIdentitiesInput, ListPoolOriginationIdentitiesOutput>(xAmzTarget: "PinpointSMSVoiceV2.ListPoolOriginationIdentities"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<ListPoolOriginationIdentitiesInput, ListPoolOriginationIdentitiesOutput>(overrides: ["X-Amz-Target": "PinpointSMSVoiceV2.ListPoolOriginationIdentities"]))
         builder.serialize(ClientRuntime.BodyMiddleware<ListPoolOriginationIdentitiesInput, ListPoolOriginationIdentitiesOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: ListPoolOriginationIdentitiesInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<ListPoolOriginationIdentitiesInput, ListPoolOriginationIdentitiesOutput>(contentType: "application/x-amz-json-1.0"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ListPoolOriginationIdentitiesOutput>())
@@ -4855,7 +4855,7 @@ extension PinpointSMSVoiceV2Client {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<ListProtectConfigurationRuleSetNumberOverridesOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<ListProtectConfigurationRuleSetNumberOverridesInput, ListProtectConfigurationRuleSetNumberOverridesOutput>(xAmzTarget: "PinpointSMSVoiceV2.ListProtectConfigurationRuleSetNumberOverrides"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<ListProtectConfigurationRuleSetNumberOverridesInput, ListProtectConfigurationRuleSetNumberOverridesOutput>(overrides: ["X-Amz-Target": "PinpointSMSVoiceV2.ListProtectConfigurationRuleSetNumberOverrides"]))
         builder.serialize(ClientRuntime.BodyMiddleware<ListProtectConfigurationRuleSetNumberOverridesInput, ListProtectConfigurationRuleSetNumberOverridesOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: ListProtectConfigurationRuleSetNumberOverridesInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<ListProtectConfigurationRuleSetNumberOverridesInput, ListProtectConfigurationRuleSetNumberOverridesOutput>(contentType: "application/x-amz-json-1.0"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ListProtectConfigurationRuleSetNumberOverridesOutput>())
@@ -4928,7 +4928,7 @@ extension PinpointSMSVoiceV2Client {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<ListRegistrationAssociationsOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<ListRegistrationAssociationsInput, ListRegistrationAssociationsOutput>(xAmzTarget: "PinpointSMSVoiceV2.ListRegistrationAssociations"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<ListRegistrationAssociationsInput, ListRegistrationAssociationsOutput>(overrides: ["X-Amz-Target": "PinpointSMSVoiceV2.ListRegistrationAssociations"]))
         builder.serialize(ClientRuntime.BodyMiddleware<ListRegistrationAssociationsInput, ListRegistrationAssociationsOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: ListRegistrationAssociationsInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<ListRegistrationAssociationsInput, ListRegistrationAssociationsOutput>(contentType: "application/x-amz-json-1.0"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ListRegistrationAssociationsOutput>())
@@ -5001,7 +5001,7 @@ extension PinpointSMSVoiceV2Client {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<ListTagsForResourceOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<ListTagsForResourceInput, ListTagsForResourceOutput>(xAmzTarget: "PinpointSMSVoiceV2.ListTagsForResource"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<ListTagsForResourceInput, ListTagsForResourceOutput>(overrides: ["X-Amz-Target": "PinpointSMSVoiceV2.ListTagsForResource"]))
         builder.serialize(ClientRuntime.BodyMiddleware<ListTagsForResourceInput, ListTagsForResourceOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: ListTagsForResourceInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<ListTagsForResourceInput, ListTagsForResourceOutput>(contentType: "application/x-amz-json-1.0"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ListTagsForResourceOutput>())
@@ -5076,7 +5076,7 @@ extension PinpointSMSVoiceV2Client {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<PutKeywordOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<PutKeywordInput, PutKeywordOutput>(xAmzTarget: "PinpointSMSVoiceV2.PutKeyword"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<PutKeywordInput, PutKeywordOutput>(overrides: ["X-Amz-Target": "PinpointSMSVoiceV2.PutKeyword"]))
         builder.serialize(ClientRuntime.BodyMiddleware<PutKeywordInput, PutKeywordOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: PutKeywordInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<PutKeywordInput, PutKeywordOutput>(contentType: "application/x-amz-json-1.0"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<PutKeywordOutput>())
@@ -5149,7 +5149,7 @@ extension PinpointSMSVoiceV2Client {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<PutMessageFeedbackOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<PutMessageFeedbackInput, PutMessageFeedbackOutput>(xAmzTarget: "PinpointSMSVoiceV2.PutMessageFeedback"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<PutMessageFeedbackInput, PutMessageFeedbackOutput>(overrides: ["X-Amz-Target": "PinpointSMSVoiceV2.PutMessageFeedback"]))
         builder.serialize(ClientRuntime.BodyMiddleware<PutMessageFeedbackInput, PutMessageFeedbackOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: PutMessageFeedbackInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<PutMessageFeedbackInput, PutMessageFeedbackOutput>(contentType: "application/x-amz-json-1.0"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<PutMessageFeedbackOutput>())
@@ -5222,7 +5222,7 @@ extension PinpointSMSVoiceV2Client {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<PutOptedOutNumberOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<PutOptedOutNumberInput, PutOptedOutNumberOutput>(xAmzTarget: "PinpointSMSVoiceV2.PutOptedOutNumber"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<PutOptedOutNumberInput, PutOptedOutNumberOutput>(overrides: ["X-Amz-Target": "PinpointSMSVoiceV2.PutOptedOutNumber"]))
         builder.serialize(ClientRuntime.BodyMiddleware<PutOptedOutNumberInput, PutOptedOutNumberOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: PutOptedOutNumberInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<PutOptedOutNumberInput, PutOptedOutNumberOutput>(contentType: "application/x-amz-json-1.0"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<PutOptedOutNumberOutput>())
@@ -5297,7 +5297,7 @@ extension PinpointSMSVoiceV2Client {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<PutProtectConfigurationRuleSetNumberOverrideOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<PutProtectConfigurationRuleSetNumberOverrideInput, PutProtectConfigurationRuleSetNumberOverrideOutput>(xAmzTarget: "PinpointSMSVoiceV2.PutProtectConfigurationRuleSetNumberOverride"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<PutProtectConfigurationRuleSetNumberOverrideInput, PutProtectConfigurationRuleSetNumberOverrideOutput>(overrides: ["X-Amz-Target": "PinpointSMSVoiceV2.PutProtectConfigurationRuleSetNumberOverride"]))
         builder.serialize(ClientRuntime.BodyMiddleware<PutProtectConfigurationRuleSetNumberOverrideInput, PutProtectConfigurationRuleSetNumberOverrideOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: PutProtectConfigurationRuleSetNumberOverrideInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<PutProtectConfigurationRuleSetNumberOverrideInput, PutProtectConfigurationRuleSetNumberOverrideOutput>(contentType: "application/x-amz-json-1.0"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<PutProtectConfigurationRuleSetNumberOverrideOutput>())
@@ -5371,7 +5371,7 @@ extension PinpointSMSVoiceV2Client {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<PutRegistrationFieldValueOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<PutRegistrationFieldValueInput, PutRegistrationFieldValueOutput>(xAmzTarget: "PinpointSMSVoiceV2.PutRegistrationFieldValue"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<PutRegistrationFieldValueInput, PutRegistrationFieldValueOutput>(overrides: ["X-Amz-Target": "PinpointSMSVoiceV2.PutRegistrationFieldValue"]))
         builder.serialize(ClientRuntime.BodyMiddleware<PutRegistrationFieldValueInput, PutRegistrationFieldValueOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: PutRegistrationFieldValueInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<PutRegistrationFieldValueInput, PutRegistrationFieldValueOutput>(contentType: "application/x-amz-json-1.0"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<PutRegistrationFieldValueOutput>())
@@ -5444,7 +5444,7 @@ extension PinpointSMSVoiceV2Client {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<PutResourcePolicyOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<PutResourcePolicyInput, PutResourcePolicyOutput>(xAmzTarget: "PinpointSMSVoiceV2.PutResourcePolicy"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<PutResourcePolicyInput, PutResourcePolicyOutput>(overrides: ["X-Amz-Target": "PinpointSMSVoiceV2.PutResourcePolicy"]))
         builder.serialize(ClientRuntime.BodyMiddleware<PutResourcePolicyInput, PutResourcePolicyOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: PutResourcePolicyInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<PutResourcePolicyInput, PutResourcePolicyOutput>(contentType: "application/x-amz-json-1.0"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<PutResourcePolicyOutput>())
@@ -5518,7 +5518,7 @@ extension PinpointSMSVoiceV2Client {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<ReleasePhoneNumberOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<ReleasePhoneNumberInput, ReleasePhoneNumberOutput>(xAmzTarget: "PinpointSMSVoiceV2.ReleasePhoneNumber"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<ReleasePhoneNumberInput, ReleasePhoneNumberOutput>(overrides: ["X-Amz-Target": "PinpointSMSVoiceV2.ReleasePhoneNumber"]))
         builder.serialize(ClientRuntime.BodyMiddleware<ReleasePhoneNumberInput, ReleasePhoneNumberOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: ReleasePhoneNumberInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<ReleasePhoneNumberInput, ReleasePhoneNumberOutput>(contentType: "application/x-amz-json-1.0"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ReleasePhoneNumberOutput>())
@@ -5592,7 +5592,7 @@ extension PinpointSMSVoiceV2Client {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<ReleaseSenderIdOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<ReleaseSenderIdInput, ReleaseSenderIdOutput>(xAmzTarget: "PinpointSMSVoiceV2.ReleaseSenderId"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<ReleaseSenderIdInput, ReleaseSenderIdOutput>(overrides: ["X-Amz-Target": "PinpointSMSVoiceV2.ReleaseSenderId"]))
         builder.serialize(ClientRuntime.BodyMiddleware<ReleaseSenderIdInput, ReleaseSenderIdOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: ReleaseSenderIdInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<ReleaseSenderIdInput, ReleaseSenderIdOutput>(contentType: "application/x-amz-json-1.0"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ReleaseSenderIdOutput>())
@@ -5668,7 +5668,7 @@ extension PinpointSMSVoiceV2Client {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<RequestPhoneNumberOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<RequestPhoneNumberInput, RequestPhoneNumberOutput>(xAmzTarget: "PinpointSMSVoiceV2.RequestPhoneNumber"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<RequestPhoneNumberInput, RequestPhoneNumberOutput>(overrides: ["X-Amz-Target": "PinpointSMSVoiceV2.RequestPhoneNumber"]))
         builder.serialize(ClientRuntime.BodyMiddleware<RequestPhoneNumberInput, RequestPhoneNumberOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: RequestPhoneNumberInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<RequestPhoneNumberInput, RequestPhoneNumberOutput>(contentType: "application/x-amz-json-1.0"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<RequestPhoneNumberOutput>())
@@ -5743,7 +5743,7 @@ extension PinpointSMSVoiceV2Client {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<RequestSenderIdOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<RequestSenderIdInput, RequestSenderIdOutput>(xAmzTarget: "PinpointSMSVoiceV2.RequestSenderId"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<RequestSenderIdInput, RequestSenderIdOutput>(overrides: ["X-Amz-Target": "PinpointSMSVoiceV2.RequestSenderId"]))
         builder.serialize(ClientRuntime.BodyMiddleware<RequestSenderIdInput, RequestSenderIdOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: RequestSenderIdInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<RequestSenderIdInput, RequestSenderIdOutput>(contentType: "application/x-amz-json-1.0"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<RequestSenderIdOutput>())
@@ -5818,7 +5818,7 @@ extension PinpointSMSVoiceV2Client {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<SendDestinationNumberVerificationCodeOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<SendDestinationNumberVerificationCodeInput, SendDestinationNumberVerificationCodeOutput>(xAmzTarget: "PinpointSMSVoiceV2.SendDestinationNumberVerificationCode"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<SendDestinationNumberVerificationCodeInput, SendDestinationNumberVerificationCodeOutput>(overrides: ["X-Amz-Target": "PinpointSMSVoiceV2.SendDestinationNumberVerificationCode"]))
         builder.serialize(ClientRuntime.BodyMiddleware<SendDestinationNumberVerificationCodeInput, SendDestinationNumberVerificationCodeOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: SendDestinationNumberVerificationCodeInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<SendDestinationNumberVerificationCodeInput, SendDestinationNumberVerificationCodeOutput>(contentType: "application/x-amz-json-1.0"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<SendDestinationNumberVerificationCodeOutput>())
@@ -5893,7 +5893,7 @@ extension PinpointSMSVoiceV2Client {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<SendMediaMessageOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<SendMediaMessageInput, SendMediaMessageOutput>(xAmzTarget: "PinpointSMSVoiceV2.SendMediaMessage"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<SendMediaMessageInput, SendMediaMessageOutput>(overrides: ["X-Amz-Target": "PinpointSMSVoiceV2.SendMediaMessage"]))
         builder.serialize(ClientRuntime.BodyMiddleware<SendMediaMessageInput, SendMediaMessageOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: SendMediaMessageInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<SendMediaMessageInput, SendMediaMessageOutput>(contentType: "application/x-amz-json-1.0"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<SendMediaMessageOutput>())
@@ -5968,7 +5968,7 @@ extension PinpointSMSVoiceV2Client {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<SendTextMessageOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<SendTextMessageInput, SendTextMessageOutput>(xAmzTarget: "PinpointSMSVoiceV2.SendTextMessage"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<SendTextMessageInput, SendTextMessageOutput>(overrides: ["X-Amz-Target": "PinpointSMSVoiceV2.SendTextMessage"]))
         builder.serialize(ClientRuntime.BodyMiddleware<SendTextMessageInput, SendTextMessageOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: SendTextMessageInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<SendTextMessageInput, SendTextMessageOutput>(contentType: "application/x-amz-json-1.0"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<SendTextMessageOutput>())
@@ -6043,7 +6043,7 @@ extension PinpointSMSVoiceV2Client {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<SendVoiceMessageOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<SendVoiceMessageInput, SendVoiceMessageOutput>(xAmzTarget: "PinpointSMSVoiceV2.SendVoiceMessage"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<SendVoiceMessageInput, SendVoiceMessageOutput>(overrides: ["X-Amz-Target": "PinpointSMSVoiceV2.SendVoiceMessage"]))
         builder.serialize(ClientRuntime.BodyMiddleware<SendVoiceMessageInput, SendVoiceMessageOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: SendVoiceMessageInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<SendVoiceMessageInput, SendVoiceMessageOutput>(contentType: "application/x-amz-json-1.0"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<SendVoiceMessageOutput>())
@@ -6116,7 +6116,7 @@ extension PinpointSMSVoiceV2Client {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<SetAccountDefaultProtectConfigurationOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<SetAccountDefaultProtectConfigurationInput, SetAccountDefaultProtectConfigurationOutput>(xAmzTarget: "PinpointSMSVoiceV2.SetAccountDefaultProtectConfiguration"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<SetAccountDefaultProtectConfigurationInput, SetAccountDefaultProtectConfigurationOutput>(overrides: ["X-Amz-Target": "PinpointSMSVoiceV2.SetAccountDefaultProtectConfiguration"]))
         builder.serialize(ClientRuntime.BodyMiddleware<SetAccountDefaultProtectConfigurationInput, SetAccountDefaultProtectConfigurationOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: SetAccountDefaultProtectConfigurationInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<SetAccountDefaultProtectConfigurationInput, SetAccountDefaultProtectConfigurationOutput>(contentType: "application/x-amz-json-1.0"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<SetAccountDefaultProtectConfigurationOutput>())
@@ -6189,7 +6189,7 @@ extension PinpointSMSVoiceV2Client {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<SetDefaultMessageFeedbackEnabledOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<SetDefaultMessageFeedbackEnabledInput, SetDefaultMessageFeedbackEnabledOutput>(xAmzTarget: "PinpointSMSVoiceV2.SetDefaultMessageFeedbackEnabled"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<SetDefaultMessageFeedbackEnabledInput, SetDefaultMessageFeedbackEnabledOutput>(overrides: ["X-Amz-Target": "PinpointSMSVoiceV2.SetDefaultMessageFeedbackEnabled"]))
         builder.serialize(ClientRuntime.BodyMiddleware<SetDefaultMessageFeedbackEnabledInput, SetDefaultMessageFeedbackEnabledOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: SetDefaultMessageFeedbackEnabledInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<SetDefaultMessageFeedbackEnabledInput, SetDefaultMessageFeedbackEnabledOutput>(contentType: "application/x-amz-json-1.0"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<SetDefaultMessageFeedbackEnabledOutput>())
@@ -6262,7 +6262,7 @@ extension PinpointSMSVoiceV2Client {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<SetDefaultMessageTypeOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<SetDefaultMessageTypeInput, SetDefaultMessageTypeOutput>(xAmzTarget: "PinpointSMSVoiceV2.SetDefaultMessageType"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<SetDefaultMessageTypeInput, SetDefaultMessageTypeOutput>(overrides: ["X-Amz-Target": "PinpointSMSVoiceV2.SetDefaultMessageType"]))
         builder.serialize(ClientRuntime.BodyMiddleware<SetDefaultMessageTypeInput, SetDefaultMessageTypeOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: SetDefaultMessageTypeInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<SetDefaultMessageTypeInput, SetDefaultMessageTypeOutput>(contentType: "application/x-amz-json-1.0"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<SetDefaultMessageTypeOutput>())
@@ -6335,7 +6335,7 @@ extension PinpointSMSVoiceV2Client {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<SetDefaultSenderIdOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<SetDefaultSenderIdInput, SetDefaultSenderIdOutput>(xAmzTarget: "PinpointSMSVoiceV2.SetDefaultSenderId"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<SetDefaultSenderIdInput, SetDefaultSenderIdOutput>(overrides: ["X-Amz-Target": "PinpointSMSVoiceV2.SetDefaultSenderId"]))
         builder.serialize(ClientRuntime.BodyMiddleware<SetDefaultSenderIdInput, SetDefaultSenderIdOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: SetDefaultSenderIdInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<SetDefaultSenderIdInput, SetDefaultSenderIdOutput>(contentType: "application/x-amz-json-1.0"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<SetDefaultSenderIdOutput>())
@@ -6407,7 +6407,7 @@ extension PinpointSMSVoiceV2Client {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<SetMediaMessageSpendLimitOverrideOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<SetMediaMessageSpendLimitOverrideInput, SetMediaMessageSpendLimitOverrideOutput>(xAmzTarget: "PinpointSMSVoiceV2.SetMediaMessageSpendLimitOverride"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<SetMediaMessageSpendLimitOverrideInput, SetMediaMessageSpendLimitOverrideOutput>(overrides: ["X-Amz-Target": "PinpointSMSVoiceV2.SetMediaMessageSpendLimitOverride"]))
         builder.serialize(ClientRuntime.BodyMiddleware<SetMediaMessageSpendLimitOverrideInput, SetMediaMessageSpendLimitOverrideOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: SetMediaMessageSpendLimitOverrideInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<SetMediaMessageSpendLimitOverrideInput, SetMediaMessageSpendLimitOverrideOutput>(contentType: "application/x-amz-json-1.0"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<SetMediaMessageSpendLimitOverrideOutput>())
@@ -6479,7 +6479,7 @@ extension PinpointSMSVoiceV2Client {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<SetTextMessageSpendLimitOverrideOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<SetTextMessageSpendLimitOverrideInput, SetTextMessageSpendLimitOverrideOutput>(xAmzTarget: "PinpointSMSVoiceV2.SetTextMessageSpendLimitOverride"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<SetTextMessageSpendLimitOverrideInput, SetTextMessageSpendLimitOverrideOutput>(overrides: ["X-Amz-Target": "PinpointSMSVoiceV2.SetTextMessageSpendLimitOverride"]))
         builder.serialize(ClientRuntime.BodyMiddleware<SetTextMessageSpendLimitOverrideInput, SetTextMessageSpendLimitOverrideOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: SetTextMessageSpendLimitOverrideInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<SetTextMessageSpendLimitOverrideInput, SetTextMessageSpendLimitOverrideOutput>(contentType: "application/x-amz-json-1.0"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<SetTextMessageSpendLimitOverrideOutput>())
@@ -6551,7 +6551,7 @@ extension PinpointSMSVoiceV2Client {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<SetVoiceMessageSpendLimitOverrideOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<SetVoiceMessageSpendLimitOverrideInput, SetVoiceMessageSpendLimitOverrideOutput>(xAmzTarget: "PinpointSMSVoiceV2.SetVoiceMessageSpendLimitOverride"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<SetVoiceMessageSpendLimitOverrideInput, SetVoiceMessageSpendLimitOverrideOutput>(overrides: ["X-Amz-Target": "PinpointSMSVoiceV2.SetVoiceMessageSpendLimitOverride"]))
         builder.serialize(ClientRuntime.BodyMiddleware<SetVoiceMessageSpendLimitOverrideInput, SetVoiceMessageSpendLimitOverrideOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: SetVoiceMessageSpendLimitOverrideInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<SetVoiceMessageSpendLimitOverrideInput, SetVoiceMessageSpendLimitOverrideOutput>(contentType: "application/x-amz-json-1.0"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<SetVoiceMessageSpendLimitOverrideOutput>())
@@ -6625,7 +6625,7 @@ extension PinpointSMSVoiceV2Client {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<SubmitRegistrationVersionOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<SubmitRegistrationVersionInput, SubmitRegistrationVersionOutput>(xAmzTarget: "PinpointSMSVoiceV2.SubmitRegistrationVersion"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<SubmitRegistrationVersionInput, SubmitRegistrationVersionOutput>(overrides: ["X-Amz-Target": "PinpointSMSVoiceV2.SubmitRegistrationVersion"]))
         builder.serialize(ClientRuntime.BodyMiddleware<SubmitRegistrationVersionInput, SubmitRegistrationVersionOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: SubmitRegistrationVersionInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<SubmitRegistrationVersionInput, SubmitRegistrationVersionOutput>(contentType: "application/x-amz-json-1.0"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<SubmitRegistrationVersionOutput>())
@@ -6699,7 +6699,7 @@ extension PinpointSMSVoiceV2Client {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<TagResourceOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<TagResourceInput, TagResourceOutput>(xAmzTarget: "PinpointSMSVoiceV2.TagResource"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<TagResourceInput, TagResourceOutput>(overrides: ["X-Amz-Target": "PinpointSMSVoiceV2.TagResource"]))
         builder.serialize(ClientRuntime.BodyMiddleware<TagResourceInput, TagResourceOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: TagResourceInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<TagResourceInput, TagResourceOutput>(contentType: "application/x-amz-json-1.0"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<TagResourceOutput>())
@@ -6772,7 +6772,7 @@ extension PinpointSMSVoiceV2Client {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<UntagResourceOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<UntagResourceInput, UntagResourceOutput>(xAmzTarget: "PinpointSMSVoiceV2.UntagResource"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<UntagResourceInput, UntagResourceOutput>(overrides: ["X-Amz-Target": "PinpointSMSVoiceV2.UntagResource"]))
         builder.serialize(ClientRuntime.BodyMiddleware<UntagResourceInput, UntagResourceOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: UntagResourceInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<UntagResourceInput, UntagResourceOutput>(contentType: "application/x-amz-json-1.0"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<UntagResourceOutput>())
@@ -6846,7 +6846,7 @@ extension PinpointSMSVoiceV2Client {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<UpdateEventDestinationOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<UpdateEventDestinationInput, UpdateEventDestinationOutput>(xAmzTarget: "PinpointSMSVoiceV2.UpdateEventDestination"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<UpdateEventDestinationInput, UpdateEventDestinationOutput>(overrides: ["X-Amz-Target": "PinpointSMSVoiceV2.UpdateEventDestination"]))
         builder.serialize(ClientRuntime.BodyMiddleware<UpdateEventDestinationInput, UpdateEventDestinationOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: UpdateEventDestinationInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<UpdateEventDestinationInput, UpdateEventDestinationOutput>(contentType: "application/x-amz-json-1.0"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<UpdateEventDestinationOutput>())
@@ -6920,7 +6920,7 @@ extension PinpointSMSVoiceV2Client {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<UpdatePhoneNumberOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<UpdatePhoneNumberInput, UpdatePhoneNumberOutput>(xAmzTarget: "PinpointSMSVoiceV2.UpdatePhoneNumber"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<UpdatePhoneNumberInput, UpdatePhoneNumberOutput>(overrides: ["X-Amz-Target": "PinpointSMSVoiceV2.UpdatePhoneNumber"]))
         builder.serialize(ClientRuntime.BodyMiddleware<UpdatePhoneNumberInput, UpdatePhoneNumberOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: UpdatePhoneNumberInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<UpdatePhoneNumberInput, UpdatePhoneNumberOutput>(contentType: "application/x-amz-json-1.0"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<UpdatePhoneNumberOutput>())
@@ -6994,7 +6994,7 @@ extension PinpointSMSVoiceV2Client {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<UpdatePoolOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<UpdatePoolInput, UpdatePoolOutput>(xAmzTarget: "PinpointSMSVoiceV2.UpdatePool"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<UpdatePoolInput, UpdatePoolOutput>(overrides: ["X-Amz-Target": "PinpointSMSVoiceV2.UpdatePool"]))
         builder.serialize(ClientRuntime.BodyMiddleware<UpdatePoolInput, UpdatePoolOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: UpdatePoolInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<UpdatePoolInput, UpdatePoolOutput>(contentType: "application/x-amz-json-1.0"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<UpdatePoolOutput>())
@@ -7067,7 +7067,7 @@ extension PinpointSMSVoiceV2Client {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<UpdateProtectConfigurationOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<UpdateProtectConfigurationInput, UpdateProtectConfigurationOutput>(xAmzTarget: "PinpointSMSVoiceV2.UpdateProtectConfiguration"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<UpdateProtectConfigurationInput, UpdateProtectConfigurationOutput>(overrides: ["X-Amz-Target": "PinpointSMSVoiceV2.UpdateProtectConfiguration"]))
         builder.serialize(ClientRuntime.BodyMiddleware<UpdateProtectConfigurationInput, UpdateProtectConfigurationOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: UpdateProtectConfigurationInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<UpdateProtectConfigurationInput, UpdateProtectConfigurationOutput>(contentType: "application/x-amz-json-1.0"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<UpdateProtectConfigurationOutput>())
@@ -7140,7 +7140,7 @@ extension PinpointSMSVoiceV2Client {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<UpdateProtectConfigurationCountryRuleSetOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<UpdateProtectConfigurationCountryRuleSetInput, UpdateProtectConfigurationCountryRuleSetOutput>(xAmzTarget: "PinpointSMSVoiceV2.UpdateProtectConfigurationCountryRuleSet"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<UpdateProtectConfigurationCountryRuleSetInput, UpdateProtectConfigurationCountryRuleSetOutput>(overrides: ["X-Amz-Target": "PinpointSMSVoiceV2.UpdateProtectConfigurationCountryRuleSet"]))
         builder.serialize(ClientRuntime.BodyMiddleware<UpdateProtectConfigurationCountryRuleSetInput, UpdateProtectConfigurationCountryRuleSetOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: UpdateProtectConfigurationCountryRuleSetInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<UpdateProtectConfigurationCountryRuleSetInput, UpdateProtectConfigurationCountryRuleSetOutput>(contentType: "application/x-amz-json-1.0"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<UpdateProtectConfigurationCountryRuleSetOutput>())
@@ -7213,7 +7213,7 @@ extension PinpointSMSVoiceV2Client {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<UpdateSenderIdOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<UpdateSenderIdInput, UpdateSenderIdOutput>(xAmzTarget: "PinpointSMSVoiceV2.UpdateSenderId"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<UpdateSenderIdInput, UpdateSenderIdOutput>(overrides: ["X-Amz-Target": "PinpointSMSVoiceV2.UpdateSenderId"]))
         builder.serialize(ClientRuntime.BodyMiddleware<UpdateSenderIdInput, UpdateSenderIdOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: UpdateSenderIdInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<UpdateSenderIdInput, UpdateSenderIdOutput>(contentType: "application/x-amz-json-1.0"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<UpdateSenderIdOutput>())
@@ -7287,7 +7287,7 @@ extension PinpointSMSVoiceV2Client {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<VerifyDestinationNumberOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<VerifyDestinationNumberInput, VerifyDestinationNumberOutput>(xAmzTarget: "PinpointSMSVoiceV2.VerifyDestinationNumber"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<VerifyDestinationNumberInput, VerifyDestinationNumberOutput>(overrides: ["X-Amz-Target": "PinpointSMSVoiceV2.VerifyDestinationNumber"]))
         builder.serialize(ClientRuntime.BodyMiddleware<VerifyDestinationNumberInput, VerifyDestinationNumberOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: VerifyDestinationNumberInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<VerifyDestinationNumberInput, VerifyDestinationNumberOutput>(contentType: "application/x-amz-json-1.0"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<VerifyDestinationNumberOutput>())

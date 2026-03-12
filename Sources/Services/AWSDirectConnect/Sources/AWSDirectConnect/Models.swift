@@ -22,8 +22,8 @@ import protocol ClientRuntime.HTTPError
 import protocol ClientRuntime.ModeledError
 @_spi(SmithyReadWrite) import protocol SmithyReadWrite.SmithyReader
 @_spi(SmithyReadWrite) import protocol SmithyReadWrite.SmithyWriter
-@_spi(SmithyReadWrite) import struct AWSClientRuntime.AWSJSONError
 @_spi(UnknownAWSHTTPServiceError) import struct AWSClientRuntime.UnknownAWSHTTPServiceError
+@_spi(SmithyReadWrite) import struct ClientRuntime.AWSJSONError
 
 
 public struct DescribeCustomerMetadataInput: Swift.Sendable {
@@ -8608,7 +8608,7 @@ enum AcceptDirectConnectGatewayAssociationProposalOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "DirectConnectClientException": return try DirectConnectClientException.makeError(baseError: baseError)
@@ -8623,7 +8623,7 @@ enum AllocateConnectionOnInterconnectOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "DirectConnectClientException": return try DirectConnectClientException.makeError(baseError: baseError)
@@ -8638,7 +8638,7 @@ enum AllocateHostedConnectionOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "DirectConnectClientException": return try DirectConnectClientException.makeError(baseError: baseError)
@@ -8655,7 +8655,7 @@ enum AllocatePrivateVirtualInterfaceOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "DirectConnectClientException": return try DirectConnectClientException.makeError(baseError: baseError)
@@ -8672,7 +8672,7 @@ enum AllocatePublicVirtualInterfaceOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "DirectConnectClientException": return try DirectConnectClientException.makeError(baseError: baseError)
@@ -8689,7 +8689,7 @@ enum AllocateTransitVirtualInterfaceOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "DirectConnectClientException": return try DirectConnectClientException.makeError(baseError: baseError)
@@ -8706,7 +8706,7 @@ enum AssociateConnectionWithLagOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "DirectConnectClientException": return try DirectConnectClientException.makeError(baseError: baseError)
@@ -8721,7 +8721,7 @@ enum AssociateHostedConnectionOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "DirectConnectClientException": return try DirectConnectClientException.makeError(baseError: baseError)
@@ -8736,7 +8736,7 @@ enum AssociateMacSecKeyOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "DirectConnectClientException": return try DirectConnectClientException.makeError(baseError: baseError)
@@ -8751,7 +8751,7 @@ enum AssociateVirtualInterfaceOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "DirectConnectClientException": return try DirectConnectClientException.makeError(baseError: baseError)
@@ -8766,7 +8766,7 @@ enum ConfirmConnectionOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "DirectConnectClientException": return try DirectConnectClientException.makeError(baseError: baseError)
@@ -8781,7 +8781,7 @@ enum ConfirmCustomerAgreementOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "DirectConnectClientException": return try DirectConnectClientException.makeError(baseError: baseError)
@@ -8796,7 +8796,7 @@ enum ConfirmPrivateVirtualInterfaceOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "DirectConnectClientException": return try DirectConnectClientException.makeError(baseError: baseError)
@@ -8811,7 +8811,7 @@ enum ConfirmPublicVirtualInterfaceOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "DirectConnectClientException": return try DirectConnectClientException.makeError(baseError: baseError)
@@ -8826,7 +8826,7 @@ enum ConfirmTransitVirtualInterfaceOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "DirectConnectClientException": return try DirectConnectClientException.makeError(baseError: baseError)
@@ -8841,7 +8841,7 @@ enum CreateBGPPeerOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "DirectConnectClientException": return try DirectConnectClientException.makeError(baseError: baseError)
@@ -8856,7 +8856,7 @@ enum CreateConnectionOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "DirectConnectClientException": return try DirectConnectClientException.makeError(baseError: baseError)
@@ -8873,7 +8873,7 @@ enum CreateDirectConnectGatewayOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "DirectConnectClientException": return try DirectConnectClientException.makeError(baseError: baseError)
@@ -8888,7 +8888,7 @@ enum CreateDirectConnectGatewayAssociationOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "DirectConnectClientException": return try DirectConnectClientException.makeError(baseError: baseError)
@@ -8903,7 +8903,7 @@ enum CreateDirectConnectGatewayAssociationProposalOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "DirectConnectClientException": return try DirectConnectClientException.makeError(baseError: baseError)
@@ -8918,7 +8918,7 @@ enum CreateInterconnectOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "DirectConnectClientException": return try DirectConnectClientException.makeError(baseError: baseError)
@@ -8935,7 +8935,7 @@ enum CreateLagOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "DirectConnectClientException": return try DirectConnectClientException.makeError(baseError: baseError)
@@ -8952,7 +8952,7 @@ enum CreatePrivateVirtualInterfaceOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "DirectConnectClientException": return try DirectConnectClientException.makeError(baseError: baseError)
@@ -8969,7 +8969,7 @@ enum CreatePublicVirtualInterfaceOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "DirectConnectClientException": return try DirectConnectClientException.makeError(baseError: baseError)
@@ -8986,7 +8986,7 @@ enum CreateTransitVirtualInterfaceOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "DirectConnectClientException": return try DirectConnectClientException.makeError(baseError: baseError)
@@ -9003,7 +9003,7 @@ enum DeleteBGPPeerOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "DirectConnectClientException": return try DirectConnectClientException.makeError(baseError: baseError)
@@ -9018,7 +9018,7 @@ enum DeleteConnectionOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "DirectConnectClientException": return try DirectConnectClientException.makeError(baseError: baseError)
@@ -9033,7 +9033,7 @@ enum DeleteDirectConnectGatewayOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "DirectConnectClientException": return try DirectConnectClientException.makeError(baseError: baseError)
@@ -9048,7 +9048,7 @@ enum DeleteDirectConnectGatewayAssociationOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "DirectConnectClientException": return try DirectConnectClientException.makeError(baseError: baseError)
@@ -9063,7 +9063,7 @@ enum DeleteDirectConnectGatewayAssociationProposalOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "DirectConnectClientException": return try DirectConnectClientException.makeError(baseError: baseError)
@@ -9078,7 +9078,7 @@ enum DeleteInterconnectOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "DirectConnectClientException": return try DirectConnectClientException.makeError(baseError: baseError)
@@ -9093,7 +9093,7 @@ enum DeleteLagOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "DirectConnectClientException": return try DirectConnectClientException.makeError(baseError: baseError)
@@ -9108,7 +9108,7 @@ enum DeleteVirtualInterfaceOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "DirectConnectClientException": return try DirectConnectClientException.makeError(baseError: baseError)
@@ -9123,7 +9123,7 @@ enum DescribeConnectionLoaOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "DirectConnectClientException": return try DirectConnectClientException.makeError(baseError: baseError)
@@ -9138,7 +9138,7 @@ enum DescribeConnectionsOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "DirectConnectClientException": return try DirectConnectClientException.makeError(baseError: baseError)
@@ -9153,7 +9153,7 @@ enum DescribeConnectionsOnInterconnectOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "DirectConnectClientException": return try DirectConnectClientException.makeError(baseError: baseError)
@@ -9168,7 +9168,7 @@ enum DescribeCustomerMetadataOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "DirectConnectClientException": return try DirectConnectClientException.makeError(baseError: baseError)
@@ -9183,7 +9183,7 @@ enum DescribeDirectConnectGatewayAssociationProposalsOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "DirectConnectClientException": return try DirectConnectClientException.makeError(baseError: baseError)
@@ -9198,7 +9198,7 @@ enum DescribeDirectConnectGatewayAssociationsOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "DirectConnectClientException": return try DirectConnectClientException.makeError(baseError: baseError)
@@ -9213,7 +9213,7 @@ enum DescribeDirectConnectGatewayAttachmentsOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "DirectConnectClientException": return try DirectConnectClientException.makeError(baseError: baseError)
@@ -9228,7 +9228,7 @@ enum DescribeDirectConnectGatewaysOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "DirectConnectClientException": return try DirectConnectClientException.makeError(baseError: baseError)
@@ -9243,7 +9243,7 @@ enum DescribeHostedConnectionsOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "DirectConnectClientException": return try DirectConnectClientException.makeError(baseError: baseError)
@@ -9258,7 +9258,7 @@ enum DescribeInterconnectLoaOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "DirectConnectClientException": return try DirectConnectClientException.makeError(baseError: baseError)
@@ -9273,7 +9273,7 @@ enum DescribeInterconnectsOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "DirectConnectClientException": return try DirectConnectClientException.makeError(baseError: baseError)
@@ -9288,7 +9288,7 @@ enum DescribeLagsOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "DirectConnectClientException": return try DirectConnectClientException.makeError(baseError: baseError)
@@ -9303,7 +9303,7 @@ enum DescribeLoaOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "DirectConnectClientException": return try DirectConnectClientException.makeError(baseError: baseError)
@@ -9318,7 +9318,7 @@ enum DescribeLocationsOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "DirectConnectClientException": return try DirectConnectClientException.makeError(baseError: baseError)
@@ -9333,7 +9333,7 @@ enum DescribeRouterConfigurationOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "DirectConnectClientException": return try DirectConnectClientException.makeError(baseError: baseError)
@@ -9348,7 +9348,7 @@ enum DescribeTagsOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "DirectConnectClientException": return try DirectConnectClientException.makeError(baseError: baseError)
@@ -9363,7 +9363,7 @@ enum DescribeVirtualGatewaysOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "DirectConnectClientException": return try DirectConnectClientException.makeError(baseError: baseError)
@@ -9378,7 +9378,7 @@ enum DescribeVirtualInterfacesOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "DirectConnectClientException": return try DirectConnectClientException.makeError(baseError: baseError)
@@ -9393,7 +9393,7 @@ enum DisassociateConnectionFromLagOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "DirectConnectClientException": return try DirectConnectClientException.makeError(baseError: baseError)
@@ -9408,7 +9408,7 @@ enum DisassociateMacSecKeyOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "DirectConnectClientException": return try DirectConnectClientException.makeError(baseError: baseError)
@@ -9423,7 +9423,7 @@ enum ListVirtualInterfaceTestHistoryOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "DirectConnectClientException": return try DirectConnectClientException.makeError(baseError: baseError)
@@ -9438,7 +9438,7 @@ enum StartBgpFailoverTestOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "DirectConnectClientException": return try DirectConnectClientException.makeError(baseError: baseError)
@@ -9453,7 +9453,7 @@ enum StopBgpFailoverTestOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "DirectConnectClientException": return try DirectConnectClientException.makeError(baseError: baseError)
@@ -9468,7 +9468,7 @@ enum TagResourceOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "DirectConnectClientException": return try DirectConnectClientException.makeError(baseError: baseError)
@@ -9485,7 +9485,7 @@ enum UntagResourceOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "DirectConnectClientException": return try DirectConnectClientException.makeError(baseError: baseError)
@@ -9500,7 +9500,7 @@ enum UpdateConnectionOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "DirectConnectClientException": return try DirectConnectClientException.makeError(baseError: baseError)
@@ -9515,7 +9515,7 @@ enum UpdateDirectConnectGatewayOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "DirectConnectClientException": return try DirectConnectClientException.makeError(baseError: baseError)
@@ -9530,7 +9530,7 @@ enum UpdateDirectConnectGatewayAssociationOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "DirectConnectClientException": return try DirectConnectClientException.makeError(baseError: baseError)
@@ -9545,7 +9545,7 @@ enum UpdateLagOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "DirectConnectClientException": return try DirectConnectClientException.makeError(baseError: baseError)
@@ -9560,7 +9560,7 @@ enum UpdateVirtualInterfaceAttributesOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "DirectConnectClientException": return try DirectConnectClientException.makeError(baseError: baseError)
@@ -9572,7 +9572,7 @@ enum UpdateVirtualInterfaceAttributesOutputError {
 
 extension DirectConnectClientException {
 
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> DirectConnectClientException {
+    static func makeError(baseError: ClientRuntime.AWSJSONError) throws -> DirectConnectClientException {
         let reader = baseError.errorBodyReader
         var value = DirectConnectClientException()
         value.properties.message = try reader["message"].readIfPresent()
@@ -9585,7 +9585,7 @@ extension DirectConnectClientException {
 
 extension DirectConnectServerException {
 
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> DirectConnectServerException {
+    static func makeError(baseError: ClientRuntime.AWSJSONError) throws -> DirectConnectServerException {
         let reader = baseError.errorBodyReader
         var value = DirectConnectServerException()
         value.properties.message = try reader["message"].readIfPresent()
@@ -9598,7 +9598,7 @@ extension DirectConnectServerException {
 
 extension DuplicateTagKeysException {
 
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> DuplicateTagKeysException {
+    static func makeError(baseError: ClientRuntime.AWSJSONError) throws -> DuplicateTagKeysException {
         let reader = baseError.errorBodyReader
         var value = DuplicateTagKeysException()
         value.properties.message = try reader["message"].readIfPresent()
@@ -9611,33 +9611,13 @@ extension DuplicateTagKeysException {
 
 extension TooManyTagsException {
 
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> TooManyTagsException {
+    static func makeError(baseError: ClientRuntime.AWSJSONError) throws -> TooManyTagsException {
         let reader = baseError.errorBodyReader
         var value = TooManyTagsException()
         value.properties.message = try reader["message"].readIfPresent()
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
         value.message = baseError.message
-        return value
-    }
-}
-
-extension DirectConnectClientTypes.DirectConnectGatewayAssociation {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> DirectConnectClientTypes.DirectConnectGatewayAssociation {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = DirectConnectClientTypes.DirectConnectGatewayAssociation()
-        value.directConnectGatewayId = try reader["directConnectGatewayId"].readIfPresent()
-        value.directConnectGatewayOwnerAccount = try reader["directConnectGatewayOwnerAccount"].readIfPresent()
-        value.associationState = try reader["associationState"].readIfPresent()
-        value.stateChangeError = try reader["stateChangeError"].readIfPresent()
-        value.associatedGateway = try reader["associatedGateway"].readIfPresent(with: DirectConnectClientTypes.AssociatedGateway.read(from:))
-        value.associationId = try reader["associationId"].readIfPresent()
-        value.allowedPrefixesToDirectConnectGateway = try reader["allowedPrefixesToDirectConnectGateway"].readListIfPresent(memberReadingClosure: DirectConnectClientTypes.RouteFilterPrefix.read(from:), memberNodeInfo: "member", isFlattened: false)
-        value.associatedCoreNetwork = try reader["associatedCoreNetwork"].readIfPresent(with: DirectConnectClientTypes.AssociatedCoreNetwork.read(from:))
-        value.virtualGatewayId = try reader["virtualGatewayId"].readIfPresent()
-        value.virtualGatewayRegion = try reader["virtualGatewayRegion"].readIfPresent()
-        value.virtualGatewayOwnerAccount = try reader["virtualGatewayOwnerAccount"].readIfPresent()
         return value
     }
 }
@@ -9654,21 +9634,6 @@ extension DirectConnectClientTypes.AssociatedCoreNetwork {
     }
 }
 
-extension DirectConnectClientTypes.RouteFilterPrefix {
-
-    static func write(value: DirectConnectClientTypes.RouteFilterPrefix?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["cidr"].write(value.cidr)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> DirectConnectClientTypes.RouteFilterPrefix {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = DirectConnectClientTypes.RouteFilterPrefix()
-        value.cidr = try reader["cidr"].readIfPresent()
-        return value
-    }
-}
-
 extension DirectConnectClientTypes.AssociatedGateway {
 
     static func read(from reader: SmithyJSON.Reader) throws -> DirectConnectClientTypes.AssociatedGateway {
@@ -9678,36 +9643,6 @@ extension DirectConnectClientTypes.AssociatedGateway {
         value.type = try reader["type"].readIfPresent()
         value.ownerAccount = try reader["ownerAccount"].readIfPresent()
         value.region = try reader["region"].readIfPresent()
-        return value
-    }
-}
-
-extension DirectConnectClientTypes.Tag {
-
-    static func write(value: DirectConnectClientTypes.Tag?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["key"].write(value.key)
-        try writer["value"].write(value.value)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> DirectConnectClientTypes.Tag {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = DirectConnectClientTypes.Tag()
-        value.key = try reader["key"].readIfPresent() ?? ""
-        value.value = try reader["value"].readIfPresent()
-        return value
-    }
-}
-
-extension DirectConnectClientTypes.MacSecKey {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> DirectConnectClientTypes.MacSecKey {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = DirectConnectClientTypes.MacSecKey()
-        value.secretARN = try reader["secretARN"].readIfPresent()
-        value.ckn = try reader["ckn"].readIfPresent()
-        value.state = try reader["state"].readIfPresent()
-        value.startOn = try reader["startOn"].readIfPresent()
         return value
     }
 }
@@ -9728,74 +9663,6 @@ extension DirectConnectClientTypes.BGPPeer {
         value.bgpStatus = try reader["bgpStatus"].readIfPresent()
         value.awsDeviceV2 = try reader["awsDeviceV2"].readIfPresent()
         value.awsLogicalDeviceId = try reader["awsLogicalDeviceId"].readIfPresent()
-        return value
-    }
-}
-
-extension DirectConnectClientTypes.VirtualInterface {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> DirectConnectClientTypes.VirtualInterface {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = DirectConnectClientTypes.VirtualInterface()
-        value.ownerAccount = try reader["ownerAccount"].readIfPresent()
-        value.virtualInterfaceId = try reader["virtualInterfaceId"].readIfPresent()
-        value.location = try reader["location"].readIfPresent()
-        value.connectionId = try reader["connectionId"].readIfPresent()
-        value.virtualInterfaceType = try reader["virtualInterfaceType"].readIfPresent()
-        value.virtualInterfaceName = try reader["virtualInterfaceName"].readIfPresent()
-        value.vlan = try reader["vlan"].readIfPresent() ?? 0
-        value.asn = try reader["asn"].readIfPresent() ?? 0
-        value.asnLong = try reader["asnLong"].readIfPresent()
-        value.amazonSideAsn = try reader["amazonSideAsn"].readIfPresent()
-        value.authKey = try reader["authKey"].readIfPresent()
-        value.amazonAddress = try reader["amazonAddress"].readIfPresent()
-        value.customerAddress = try reader["customerAddress"].readIfPresent()
-        value.addressFamily = try reader["addressFamily"].readIfPresent()
-        value.virtualInterfaceState = try reader["virtualInterfaceState"].readIfPresent()
-        value.customerRouterConfig = try reader["customerRouterConfig"].readIfPresent()
-        value.mtu = try reader["mtu"].readIfPresent()
-        value.jumboFrameCapable = try reader["jumboFrameCapable"].readIfPresent()
-        value.virtualGatewayId = try reader["virtualGatewayId"].readIfPresent()
-        value.directConnectGatewayId = try reader["directConnectGatewayId"].readIfPresent()
-        value.routeFilterPrefixes = try reader["routeFilterPrefixes"].readListIfPresent(memberReadingClosure: DirectConnectClientTypes.RouteFilterPrefix.read(from:), memberNodeInfo: "member", isFlattened: false)
-        value.bgpPeers = try reader["bgpPeers"].readListIfPresent(memberReadingClosure: DirectConnectClientTypes.BGPPeer.read(from:), memberNodeInfo: "member", isFlattened: false)
-        value.region = try reader["region"].readIfPresent()
-        value.awsDeviceV2 = try reader["awsDeviceV2"].readIfPresent()
-        value.awsLogicalDeviceId = try reader["awsLogicalDeviceId"].readIfPresent()
-        value.tags = try reader["tags"].readListIfPresent(memberReadingClosure: DirectConnectClientTypes.Tag.read(from:), memberNodeInfo: "member", isFlattened: false)
-        value.siteLinkEnabled = try reader["siteLinkEnabled"].readIfPresent()
-        return value
-    }
-}
-
-extension DirectConnectClientTypes.DirectConnectGateway {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> DirectConnectClientTypes.DirectConnectGateway {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = DirectConnectClientTypes.DirectConnectGateway()
-        value.directConnectGatewayId = try reader["directConnectGatewayId"].readIfPresent()
-        value.directConnectGatewayName = try reader["directConnectGatewayName"].readIfPresent()
-        value.amazonSideAsn = try reader["amazonSideAsn"].readIfPresent()
-        value.ownerAccount = try reader["ownerAccount"].readIfPresent()
-        value.directConnectGatewayState = try reader["directConnectGatewayState"].readIfPresent()
-        value.stateChangeError = try reader["stateChangeError"].readIfPresent()
-        value.tags = try reader["tags"].readListIfPresent(memberReadingClosure: DirectConnectClientTypes.Tag.read(from:), memberNodeInfo: "member", isFlattened: false)
-        return value
-    }
-}
-
-extension DirectConnectClientTypes.DirectConnectGatewayAssociationProposal {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> DirectConnectClientTypes.DirectConnectGatewayAssociationProposal {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = DirectConnectClientTypes.DirectConnectGatewayAssociationProposal()
-        value.proposalId = try reader["proposalId"].readIfPresent()
-        value.directConnectGatewayId = try reader["directConnectGatewayId"].readIfPresent()
-        value.directConnectGatewayOwnerAccount = try reader["directConnectGatewayOwnerAccount"].readIfPresent()
-        value.proposalState = try reader["proposalState"].readIfPresent()
-        value.associatedGateway = try reader["associatedGateway"].readIfPresent(with: DirectConnectClientTypes.AssociatedGateway.read(from:))
-        value.existingAllowedPrefixesToDirectConnectGateway = try reader["existingAllowedPrefixesToDirectConnectGateway"].readListIfPresent(memberReadingClosure: DirectConnectClientTypes.RouteFilterPrefix.read(from:), memberNodeInfo: "member", isFlattened: false)
-        value.requestedAllowedPrefixesToDirectConnectGateway = try reader["requestedAllowedPrefixesToDirectConnectGateway"].readListIfPresent(memberReadingClosure: DirectConnectClientTypes.RouteFilterPrefix.read(from:), memberNodeInfo: "member", isFlattened: false)
         return value
     }
 }
@@ -9832,17 +9699,6 @@ extension DirectConnectClientTypes.Connection {
     }
 }
 
-extension DirectConnectClientTypes.Loa {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> DirectConnectClientTypes.Loa {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = DirectConnectClientTypes.Loa()
-        value.loaContent = try reader["loaContent"].readIfPresent()
-        value.loaContentType = try reader["loaContentType"].readIfPresent()
-        return value
-    }
-}
-
 extension DirectConnectClientTypes.CustomerAgreement {
 
     static func read(from reader: SmithyJSON.Reader) throws -> DirectConnectClientTypes.CustomerAgreement {
@@ -9850,6 +9706,58 @@ extension DirectConnectClientTypes.CustomerAgreement {
         var value = DirectConnectClientTypes.CustomerAgreement()
         value.agreementName = try reader["agreementName"].readIfPresent()
         value.status = try reader["status"].readIfPresent()
+        return value
+    }
+}
+
+extension DirectConnectClientTypes.DirectConnectGateway {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> DirectConnectClientTypes.DirectConnectGateway {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = DirectConnectClientTypes.DirectConnectGateway()
+        value.directConnectGatewayId = try reader["directConnectGatewayId"].readIfPresent()
+        value.directConnectGatewayName = try reader["directConnectGatewayName"].readIfPresent()
+        value.amazonSideAsn = try reader["amazonSideAsn"].readIfPresent()
+        value.ownerAccount = try reader["ownerAccount"].readIfPresent()
+        value.directConnectGatewayState = try reader["directConnectGatewayState"].readIfPresent()
+        value.stateChangeError = try reader["stateChangeError"].readIfPresent()
+        value.tags = try reader["tags"].readListIfPresent(memberReadingClosure: DirectConnectClientTypes.Tag.read(from:), memberNodeInfo: "member", isFlattened: false)
+        return value
+    }
+}
+
+extension DirectConnectClientTypes.DirectConnectGatewayAssociation {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> DirectConnectClientTypes.DirectConnectGatewayAssociation {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = DirectConnectClientTypes.DirectConnectGatewayAssociation()
+        value.directConnectGatewayId = try reader["directConnectGatewayId"].readIfPresent()
+        value.directConnectGatewayOwnerAccount = try reader["directConnectGatewayOwnerAccount"].readIfPresent()
+        value.associationState = try reader["associationState"].readIfPresent()
+        value.stateChangeError = try reader["stateChangeError"].readIfPresent()
+        value.associatedGateway = try reader["associatedGateway"].readIfPresent(with: DirectConnectClientTypes.AssociatedGateway.read(from:))
+        value.associationId = try reader["associationId"].readIfPresent()
+        value.allowedPrefixesToDirectConnectGateway = try reader["allowedPrefixesToDirectConnectGateway"].readListIfPresent(memberReadingClosure: DirectConnectClientTypes.RouteFilterPrefix.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.associatedCoreNetwork = try reader["associatedCoreNetwork"].readIfPresent(with: DirectConnectClientTypes.AssociatedCoreNetwork.read(from:))
+        value.virtualGatewayId = try reader["virtualGatewayId"].readIfPresent()
+        value.virtualGatewayRegion = try reader["virtualGatewayRegion"].readIfPresent()
+        value.virtualGatewayOwnerAccount = try reader["virtualGatewayOwnerAccount"].readIfPresent()
+        return value
+    }
+}
+
+extension DirectConnectClientTypes.DirectConnectGatewayAssociationProposal {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> DirectConnectClientTypes.DirectConnectGatewayAssociationProposal {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = DirectConnectClientTypes.DirectConnectGatewayAssociationProposal()
+        value.proposalId = try reader["proposalId"].readIfPresent()
+        value.directConnectGatewayId = try reader["directConnectGatewayId"].readIfPresent()
+        value.directConnectGatewayOwnerAccount = try reader["directConnectGatewayOwnerAccount"].readIfPresent()
+        value.proposalState = try reader["proposalState"].readIfPresent()
+        value.associatedGateway = try reader["associatedGateway"].readIfPresent(with: DirectConnectClientTypes.AssociatedGateway.read(from:))
+        value.existingAllowedPrefixesToDirectConnectGateway = try reader["existingAllowedPrefixesToDirectConnectGateway"].readListIfPresent(memberReadingClosure: DirectConnectClientTypes.RouteFilterPrefix.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.requestedAllowedPrefixesToDirectConnectGateway = try reader["requestedAllowedPrefixesToDirectConnectGateway"].readListIfPresent(memberReadingClosure: DirectConnectClientTypes.RouteFilterPrefix.read(from:), memberNodeInfo: "member", isFlattened: false)
         return value
     }
 }
@@ -9928,6 +9836,17 @@ extension DirectConnectClientTypes.Lag {
     }
 }
 
+extension DirectConnectClientTypes.Loa {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> DirectConnectClientTypes.Loa {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = DirectConnectClientTypes.Loa()
+        value.loaContent = try reader["loaContent"].readIfPresent()
+        value.loaContentType = try reader["loaContentType"].readIfPresent()
+        return value
+    }
+}
+
 extension DirectConnectClientTypes.Location {
 
     static func read(from reader: SmithyJSON.Reader) throws -> DirectConnectClientTypes.Location {
@@ -9943,108 +9862,16 @@ extension DirectConnectClientTypes.Location {
     }
 }
 
-extension DirectConnectClientTypes.RouterType {
+extension DirectConnectClientTypes.MacSecKey {
 
-    static func read(from reader: SmithyJSON.Reader) throws -> DirectConnectClientTypes.RouterType {
+    static func read(from reader: SmithyJSON.Reader) throws -> DirectConnectClientTypes.MacSecKey {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = DirectConnectClientTypes.RouterType()
-        value.vendor = try reader["vendor"].readIfPresent()
-        value.platform = try reader["platform"].readIfPresent()
-        value.software = try reader["software"].readIfPresent()
-        value.xsltTemplateName = try reader["xsltTemplateName"].readIfPresent()
-        value.xsltTemplateNameForMacSec = try reader["xsltTemplateNameForMacSec"].readIfPresent()
-        value.routerTypeIdentifier = try reader["routerTypeIdentifier"].readIfPresent()
+        var value = DirectConnectClientTypes.MacSecKey()
+        value.secretARN = try reader["secretARN"].readIfPresent()
+        value.ckn = try reader["ckn"].readIfPresent()
+        value.state = try reader["state"].readIfPresent()
+        value.startOn = try reader["startOn"].readIfPresent()
         return value
-    }
-}
-
-extension DirectConnectClientTypes.ResourceTag {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> DirectConnectClientTypes.ResourceTag {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = DirectConnectClientTypes.ResourceTag()
-        value.resourceArn = try reader["resourceArn"].readIfPresent()
-        value.tags = try reader["tags"].readListIfPresent(memberReadingClosure: DirectConnectClientTypes.Tag.read(from:), memberNodeInfo: "member", isFlattened: false)
-        return value
-    }
-}
-
-extension DirectConnectClientTypes.VirtualGateway {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> DirectConnectClientTypes.VirtualGateway {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = DirectConnectClientTypes.VirtualGateway()
-        value.virtualGatewayId = try reader["virtualGatewayId"].readIfPresent()
-        value.virtualGatewayState = try reader["virtualGatewayState"].readIfPresent()
-        return value
-    }
-}
-
-extension DirectConnectClientTypes.VirtualInterfaceTestHistory {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> DirectConnectClientTypes.VirtualInterfaceTestHistory {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = DirectConnectClientTypes.VirtualInterfaceTestHistory()
-        value.testId = try reader["testId"].readIfPresent()
-        value.virtualInterfaceId = try reader["virtualInterfaceId"].readIfPresent()
-        value.bgpPeers = try reader["bgpPeers"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
-        value.status = try reader["status"].readIfPresent()
-        value.ownerAccount = try reader["ownerAccount"].readIfPresent()
-        value.testDurationInMinutes = try reader["testDurationInMinutes"].readIfPresent()
-        value.startTime = try reader["startTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
-        value.endTime = try reader["endTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
-        return value
-    }
-}
-
-extension DirectConnectClientTypes.NewPrivateVirtualInterfaceAllocation {
-
-    static func write(value: DirectConnectClientTypes.NewPrivateVirtualInterfaceAllocation?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["addressFamily"].write(value.addressFamily)
-        try writer["amazonAddress"].write(value.amazonAddress)
-        try writer["asn"].write(value.asn)
-        try writer["asnLong"].write(value.asnLong)
-        try writer["authKey"].write(value.authKey)
-        try writer["customerAddress"].write(value.customerAddress)
-        try writer["mtu"].write(value.mtu)
-        try writer["tags"].writeList(value.tags, memberWritingClosure: DirectConnectClientTypes.Tag.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["virtualInterfaceName"].write(value.virtualInterfaceName)
-        try writer["vlan"].write(value.vlan)
-    }
-}
-
-extension DirectConnectClientTypes.NewPublicVirtualInterfaceAllocation {
-
-    static func write(value: DirectConnectClientTypes.NewPublicVirtualInterfaceAllocation?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["addressFamily"].write(value.addressFamily)
-        try writer["amazonAddress"].write(value.amazonAddress)
-        try writer["asn"].write(value.asn)
-        try writer["asnLong"].write(value.asnLong)
-        try writer["authKey"].write(value.authKey)
-        try writer["customerAddress"].write(value.customerAddress)
-        try writer["routeFilterPrefixes"].writeList(value.routeFilterPrefixes, memberWritingClosure: DirectConnectClientTypes.RouteFilterPrefix.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["tags"].writeList(value.tags, memberWritingClosure: DirectConnectClientTypes.Tag.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["virtualInterfaceName"].write(value.virtualInterfaceName)
-        try writer["vlan"].write(value.vlan)
-    }
-}
-
-extension DirectConnectClientTypes.NewTransitVirtualInterfaceAllocation {
-
-    static func write(value: DirectConnectClientTypes.NewTransitVirtualInterfaceAllocation?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["addressFamily"].write(value.addressFamily)
-        try writer["amazonAddress"].write(value.amazonAddress)
-        try writer["asn"].write(value.asn)
-        try writer["asnLong"].write(value.asnLong)
-        try writer["authKey"].write(value.authKey)
-        try writer["customerAddress"].write(value.customerAddress)
-        try writer["mtu"].write(value.mtu)
-        try writer["tags"].writeList(value.tags, memberWritingClosure: DirectConnectClientTypes.Tag.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["virtualInterfaceName"].write(value.virtualInterfaceName)
-        try writer["vlan"].write(value.vlan)
     }
 }
 
@@ -10081,9 +9908,43 @@ extension DirectConnectClientTypes.NewPrivateVirtualInterface {
     }
 }
 
+extension DirectConnectClientTypes.NewPrivateVirtualInterfaceAllocation {
+
+    static func write(value: DirectConnectClientTypes.NewPrivateVirtualInterfaceAllocation?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["addressFamily"].write(value.addressFamily)
+        try writer["amazonAddress"].write(value.amazonAddress)
+        try writer["asn"].write(value.asn)
+        try writer["asnLong"].write(value.asnLong)
+        try writer["authKey"].write(value.authKey)
+        try writer["customerAddress"].write(value.customerAddress)
+        try writer["mtu"].write(value.mtu)
+        try writer["tags"].writeList(value.tags, memberWritingClosure: DirectConnectClientTypes.Tag.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["virtualInterfaceName"].write(value.virtualInterfaceName)
+        try writer["vlan"].write(value.vlan)
+    }
+}
+
 extension DirectConnectClientTypes.NewPublicVirtualInterface {
 
     static func write(value: DirectConnectClientTypes.NewPublicVirtualInterface?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["addressFamily"].write(value.addressFamily)
+        try writer["amazonAddress"].write(value.amazonAddress)
+        try writer["asn"].write(value.asn)
+        try writer["asnLong"].write(value.asnLong)
+        try writer["authKey"].write(value.authKey)
+        try writer["customerAddress"].write(value.customerAddress)
+        try writer["routeFilterPrefixes"].writeList(value.routeFilterPrefixes, memberWritingClosure: DirectConnectClientTypes.RouteFilterPrefix.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["tags"].writeList(value.tags, memberWritingClosure: DirectConnectClientTypes.Tag.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["virtualInterfaceName"].write(value.virtualInterfaceName)
+        try writer["vlan"].write(value.vlan)
+    }
+}
+
+extension DirectConnectClientTypes.NewPublicVirtualInterfaceAllocation {
+
+    static func write(value: DirectConnectClientTypes.NewPublicVirtualInterfaceAllocation?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
         try writer["addressFamily"].write(value.addressFamily)
         try writer["amazonAddress"].write(value.amazonAddress)
@@ -10114,6 +9975,145 @@ extension DirectConnectClientTypes.NewTransitVirtualInterface {
         try writer["tags"].writeList(value.tags, memberWritingClosure: DirectConnectClientTypes.Tag.write(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["virtualInterfaceName"].write(value.virtualInterfaceName)
         try writer["vlan"].write(value.vlan)
+    }
+}
+
+extension DirectConnectClientTypes.NewTransitVirtualInterfaceAllocation {
+
+    static func write(value: DirectConnectClientTypes.NewTransitVirtualInterfaceAllocation?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["addressFamily"].write(value.addressFamily)
+        try writer["amazonAddress"].write(value.amazonAddress)
+        try writer["asn"].write(value.asn)
+        try writer["asnLong"].write(value.asnLong)
+        try writer["authKey"].write(value.authKey)
+        try writer["customerAddress"].write(value.customerAddress)
+        try writer["mtu"].write(value.mtu)
+        try writer["tags"].writeList(value.tags, memberWritingClosure: DirectConnectClientTypes.Tag.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["virtualInterfaceName"].write(value.virtualInterfaceName)
+        try writer["vlan"].write(value.vlan)
+    }
+}
+
+extension DirectConnectClientTypes.ResourceTag {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> DirectConnectClientTypes.ResourceTag {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = DirectConnectClientTypes.ResourceTag()
+        value.resourceArn = try reader["resourceArn"].readIfPresent()
+        value.tags = try reader["tags"].readListIfPresent(memberReadingClosure: DirectConnectClientTypes.Tag.read(from:), memberNodeInfo: "member", isFlattened: false)
+        return value
+    }
+}
+
+extension DirectConnectClientTypes.RouteFilterPrefix {
+
+    static func write(value: DirectConnectClientTypes.RouteFilterPrefix?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["cidr"].write(value.cidr)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> DirectConnectClientTypes.RouteFilterPrefix {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = DirectConnectClientTypes.RouteFilterPrefix()
+        value.cidr = try reader["cidr"].readIfPresent()
+        return value
+    }
+}
+
+extension DirectConnectClientTypes.RouterType {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> DirectConnectClientTypes.RouterType {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = DirectConnectClientTypes.RouterType()
+        value.vendor = try reader["vendor"].readIfPresent()
+        value.platform = try reader["platform"].readIfPresent()
+        value.software = try reader["software"].readIfPresent()
+        value.xsltTemplateName = try reader["xsltTemplateName"].readIfPresent()
+        value.xsltTemplateNameForMacSec = try reader["xsltTemplateNameForMacSec"].readIfPresent()
+        value.routerTypeIdentifier = try reader["routerTypeIdentifier"].readIfPresent()
+        return value
+    }
+}
+
+extension DirectConnectClientTypes.Tag {
+
+    static func write(value: DirectConnectClientTypes.Tag?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["key"].write(value.key)
+        try writer["value"].write(value.value)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> DirectConnectClientTypes.Tag {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = DirectConnectClientTypes.Tag()
+        value.key = try reader["key"].readIfPresent() ?? ""
+        value.value = try reader["value"].readIfPresent()
+        return value
+    }
+}
+
+extension DirectConnectClientTypes.VirtualGateway {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> DirectConnectClientTypes.VirtualGateway {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = DirectConnectClientTypes.VirtualGateway()
+        value.virtualGatewayId = try reader["virtualGatewayId"].readIfPresent()
+        value.virtualGatewayState = try reader["virtualGatewayState"].readIfPresent()
+        return value
+    }
+}
+
+extension DirectConnectClientTypes.VirtualInterface {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> DirectConnectClientTypes.VirtualInterface {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = DirectConnectClientTypes.VirtualInterface()
+        value.ownerAccount = try reader["ownerAccount"].readIfPresent()
+        value.virtualInterfaceId = try reader["virtualInterfaceId"].readIfPresent()
+        value.location = try reader["location"].readIfPresent()
+        value.connectionId = try reader["connectionId"].readIfPresent()
+        value.virtualInterfaceType = try reader["virtualInterfaceType"].readIfPresent()
+        value.virtualInterfaceName = try reader["virtualInterfaceName"].readIfPresent()
+        value.vlan = try reader["vlan"].readIfPresent() ?? 0
+        value.asn = try reader["asn"].readIfPresent() ?? 0
+        value.asnLong = try reader["asnLong"].readIfPresent()
+        value.amazonSideAsn = try reader["amazonSideAsn"].readIfPresent()
+        value.authKey = try reader["authKey"].readIfPresent()
+        value.amazonAddress = try reader["amazonAddress"].readIfPresent()
+        value.customerAddress = try reader["customerAddress"].readIfPresent()
+        value.addressFamily = try reader["addressFamily"].readIfPresent()
+        value.virtualInterfaceState = try reader["virtualInterfaceState"].readIfPresent()
+        value.customerRouterConfig = try reader["customerRouterConfig"].readIfPresent()
+        value.mtu = try reader["mtu"].readIfPresent()
+        value.jumboFrameCapable = try reader["jumboFrameCapable"].readIfPresent()
+        value.virtualGatewayId = try reader["virtualGatewayId"].readIfPresent()
+        value.directConnectGatewayId = try reader["directConnectGatewayId"].readIfPresent()
+        value.routeFilterPrefixes = try reader["routeFilterPrefixes"].readListIfPresent(memberReadingClosure: DirectConnectClientTypes.RouteFilterPrefix.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.bgpPeers = try reader["bgpPeers"].readListIfPresent(memberReadingClosure: DirectConnectClientTypes.BGPPeer.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.region = try reader["region"].readIfPresent()
+        value.awsDeviceV2 = try reader["awsDeviceV2"].readIfPresent()
+        value.awsLogicalDeviceId = try reader["awsLogicalDeviceId"].readIfPresent()
+        value.tags = try reader["tags"].readListIfPresent(memberReadingClosure: DirectConnectClientTypes.Tag.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.siteLinkEnabled = try reader["siteLinkEnabled"].readIfPresent()
+        return value
+    }
+}
+
+extension DirectConnectClientTypes.VirtualInterfaceTestHistory {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> DirectConnectClientTypes.VirtualInterfaceTestHistory {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = DirectConnectClientTypes.VirtualInterfaceTestHistory()
+        value.testId = try reader["testId"].readIfPresent()
+        value.virtualInterfaceId = try reader["virtualInterfaceId"].readIfPresent()
+        value.bgpPeers = try reader["bgpPeers"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        value.status = try reader["status"].readIfPresent()
+        value.ownerAccount = try reader["ownerAccount"].readIfPresent()
+        value.testDurationInMinutes = try reader["testDurationInMinutes"].readIfPresent()
+        value.startTime = try reader["startTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.endTime = try reader["endTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        return value
     }
 }
 

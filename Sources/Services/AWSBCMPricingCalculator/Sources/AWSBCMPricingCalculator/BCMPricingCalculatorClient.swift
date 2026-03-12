@@ -49,7 +49,6 @@ import protocol SmithyIdentity.BearerTokenIdentityResolver
 @_spi(AWSEndpointResolverMiddleware) import struct AWSClientRuntime.AWSEndpointResolverMiddleware
 import struct AWSClientRuntime.AmzSdkInvocationIdMiddleware
 import struct AWSClientRuntime.UserAgentMiddleware
-import struct AWSClientRuntime.XAmzTargetMiddleware
 import struct AWSSDKHTTPAuth.SigV4AuthScheme
 import struct ClientRuntime.AuthSchemeMiddleware
 @_spi(SmithyReadWrite) import struct ClientRuntime.BodyMiddleware
@@ -58,6 +57,7 @@ import struct ClientRuntime.ContentTypeMiddleware
 @_spi(SmithyReadWrite) import struct ClientRuntime.DeserializeMiddleware
 import struct ClientRuntime.IdempotencyTokenMiddleware
 import struct ClientRuntime.LoggerMiddleware
+import struct ClientRuntime.MutateHeadersMiddleware
 import struct ClientRuntime.SendableHttpInterceptorProviderBox
 import struct ClientRuntime.SendableInterceptorProviderBox
 import struct ClientRuntime.SignerMiddleware
@@ -667,7 +667,7 @@ extension BCMPricingCalculatorClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<BatchCreateBillScenarioCommitmentModificationOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<BatchCreateBillScenarioCommitmentModificationInput, BatchCreateBillScenarioCommitmentModificationOutput>(xAmzTarget: "AWSBCMPricingCalculator.BatchCreateBillScenarioCommitmentModification"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<BatchCreateBillScenarioCommitmentModificationInput, BatchCreateBillScenarioCommitmentModificationOutput>(overrides: ["X-Amz-Target": "AWSBCMPricingCalculator.BatchCreateBillScenarioCommitmentModification"]))
         builder.serialize(ClientRuntime.BodyMiddleware<BatchCreateBillScenarioCommitmentModificationInput, BatchCreateBillScenarioCommitmentModificationOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: BatchCreateBillScenarioCommitmentModificationInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<BatchCreateBillScenarioCommitmentModificationInput, BatchCreateBillScenarioCommitmentModificationOutput>(contentType: "application/x-amz-json-1.0"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<BatchCreateBillScenarioCommitmentModificationOutput>())
@@ -744,7 +744,7 @@ extension BCMPricingCalculatorClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<BatchCreateBillScenarioUsageModificationOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<BatchCreateBillScenarioUsageModificationInput, BatchCreateBillScenarioUsageModificationOutput>(xAmzTarget: "AWSBCMPricingCalculator.BatchCreateBillScenarioUsageModification"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<BatchCreateBillScenarioUsageModificationInput, BatchCreateBillScenarioUsageModificationOutput>(overrides: ["X-Amz-Target": "AWSBCMPricingCalculator.BatchCreateBillScenarioUsageModification"]))
         builder.serialize(ClientRuntime.BodyMiddleware<BatchCreateBillScenarioUsageModificationInput, BatchCreateBillScenarioUsageModificationOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: BatchCreateBillScenarioUsageModificationInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<BatchCreateBillScenarioUsageModificationInput, BatchCreateBillScenarioUsageModificationOutput>(contentType: "application/x-amz-json-1.0"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<BatchCreateBillScenarioUsageModificationOutput>())
@@ -821,7 +821,7 @@ extension BCMPricingCalculatorClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<BatchCreateWorkloadEstimateUsageOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<BatchCreateWorkloadEstimateUsageInput, BatchCreateWorkloadEstimateUsageOutput>(xAmzTarget: "AWSBCMPricingCalculator.BatchCreateWorkloadEstimateUsage"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<BatchCreateWorkloadEstimateUsageInput, BatchCreateWorkloadEstimateUsageOutput>(overrides: ["X-Amz-Target": "AWSBCMPricingCalculator.BatchCreateWorkloadEstimateUsage"]))
         builder.serialize(ClientRuntime.BodyMiddleware<BatchCreateWorkloadEstimateUsageInput, BatchCreateWorkloadEstimateUsageOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: BatchCreateWorkloadEstimateUsageInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<BatchCreateWorkloadEstimateUsageInput, BatchCreateWorkloadEstimateUsageOutput>(contentType: "application/x-amz-json-1.0"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<BatchCreateWorkloadEstimateUsageOutput>())
@@ -896,7 +896,7 @@ extension BCMPricingCalculatorClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<BatchDeleteBillScenarioCommitmentModificationOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<BatchDeleteBillScenarioCommitmentModificationInput, BatchDeleteBillScenarioCommitmentModificationOutput>(xAmzTarget: "AWSBCMPricingCalculator.BatchDeleteBillScenarioCommitmentModification"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<BatchDeleteBillScenarioCommitmentModificationInput, BatchDeleteBillScenarioCommitmentModificationOutput>(overrides: ["X-Amz-Target": "AWSBCMPricingCalculator.BatchDeleteBillScenarioCommitmentModification"]))
         builder.serialize(ClientRuntime.BodyMiddleware<BatchDeleteBillScenarioCommitmentModificationInput, BatchDeleteBillScenarioCommitmentModificationOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: BatchDeleteBillScenarioCommitmentModificationInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<BatchDeleteBillScenarioCommitmentModificationInput, BatchDeleteBillScenarioCommitmentModificationOutput>(contentType: "application/x-amz-json-1.0"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<BatchDeleteBillScenarioCommitmentModificationOutput>())
@@ -972,7 +972,7 @@ extension BCMPricingCalculatorClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<BatchDeleteBillScenarioUsageModificationOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<BatchDeleteBillScenarioUsageModificationInput, BatchDeleteBillScenarioUsageModificationOutput>(xAmzTarget: "AWSBCMPricingCalculator.BatchDeleteBillScenarioUsageModification"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<BatchDeleteBillScenarioUsageModificationInput, BatchDeleteBillScenarioUsageModificationOutput>(overrides: ["X-Amz-Target": "AWSBCMPricingCalculator.BatchDeleteBillScenarioUsageModification"]))
         builder.serialize(ClientRuntime.BodyMiddleware<BatchDeleteBillScenarioUsageModificationInput, BatchDeleteBillScenarioUsageModificationOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: BatchDeleteBillScenarioUsageModificationInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<BatchDeleteBillScenarioUsageModificationInput, BatchDeleteBillScenarioUsageModificationOutput>(contentType: "application/x-amz-json-1.0"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<BatchDeleteBillScenarioUsageModificationOutput>())
@@ -1047,7 +1047,7 @@ extension BCMPricingCalculatorClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<BatchDeleteWorkloadEstimateUsageOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<BatchDeleteWorkloadEstimateUsageInput, BatchDeleteWorkloadEstimateUsageOutput>(xAmzTarget: "AWSBCMPricingCalculator.BatchDeleteWorkloadEstimateUsage"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<BatchDeleteWorkloadEstimateUsageInput, BatchDeleteWorkloadEstimateUsageOutput>(overrides: ["X-Amz-Target": "AWSBCMPricingCalculator.BatchDeleteWorkloadEstimateUsage"]))
         builder.serialize(ClientRuntime.BodyMiddleware<BatchDeleteWorkloadEstimateUsageInput, BatchDeleteWorkloadEstimateUsageOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: BatchDeleteWorkloadEstimateUsageInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<BatchDeleteWorkloadEstimateUsageInput, BatchDeleteWorkloadEstimateUsageOutput>(contentType: "application/x-amz-json-1.0"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<BatchDeleteWorkloadEstimateUsageOutput>())
@@ -1122,7 +1122,7 @@ extension BCMPricingCalculatorClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<BatchUpdateBillScenarioCommitmentModificationOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<BatchUpdateBillScenarioCommitmentModificationInput, BatchUpdateBillScenarioCommitmentModificationOutput>(xAmzTarget: "AWSBCMPricingCalculator.BatchUpdateBillScenarioCommitmentModification"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<BatchUpdateBillScenarioCommitmentModificationInput, BatchUpdateBillScenarioCommitmentModificationOutput>(overrides: ["X-Amz-Target": "AWSBCMPricingCalculator.BatchUpdateBillScenarioCommitmentModification"]))
         builder.serialize(ClientRuntime.BodyMiddleware<BatchUpdateBillScenarioCommitmentModificationInput, BatchUpdateBillScenarioCommitmentModificationOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: BatchUpdateBillScenarioCommitmentModificationInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<BatchUpdateBillScenarioCommitmentModificationInput, BatchUpdateBillScenarioCommitmentModificationOutput>(contentType: "application/x-amz-json-1.0"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<BatchUpdateBillScenarioCommitmentModificationOutput>())
@@ -1198,7 +1198,7 @@ extension BCMPricingCalculatorClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<BatchUpdateBillScenarioUsageModificationOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<BatchUpdateBillScenarioUsageModificationInput, BatchUpdateBillScenarioUsageModificationOutput>(xAmzTarget: "AWSBCMPricingCalculator.BatchUpdateBillScenarioUsageModification"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<BatchUpdateBillScenarioUsageModificationInput, BatchUpdateBillScenarioUsageModificationOutput>(overrides: ["X-Amz-Target": "AWSBCMPricingCalculator.BatchUpdateBillScenarioUsageModification"]))
         builder.serialize(ClientRuntime.BodyMiddleware<BatchUpdateBillScenarioUsageModificationInput, BatchUpdateBillScenarioUsageModificationOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: BatchUpdateBillScenarioUsageModificationInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<BatchUpdateBillScenarioUsageModificationInput, BatchUpdateBillScenarioUsageModificationOutput>(contentType: "application/x-amz-json-1.0"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<BatchUpdateBillScenarioUsageModificationOutput>())
@@ -1273,7 +1273,7 @@ extension BCMPricingCalculatorClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<BatchUpdateWorkloadEstimateUsageOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<BatchUpdateWorkloadEstimateUsageInput, BatchUpdateWorkloadEstimateUsageOutput>(xAmzTarget: "AWSBCMPricingCalculator.BatchUpdateWorkloadEstimateUsage"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<BatchUpdateWorkloadEstimateUsageInput, BatchUpdateWorkloadEstimateUsageOutput>(overrides: ["X-Amz-Target": "AWSBCMPricingCalculator.BatchUpdateWorkloadEstimateUsage"]))
         builder.serialize(ClientRuntime.BodyMiddleware<BatchUpdateWorkloadEstimateUsageInput, BatchUpdateWorkloadEstimateUsageOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: BatchUpdateWorkloadEstimateUsageInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<BatchUpdateWorkloadEstimateUsageInput, BatchUpdateWorkloadEstimateUsageOutput>(contentType: "application/x-amz-json-1.0"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<BatchUpdateWorkloadEstimateUsageOutput>())
@@ -1349,7 +1349,7 @@ extension BCMPricingCalculatorClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<CreateBillEstimateOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<CreateBillEstimateInput, CreateBillEstimateOutput>(xAmzTarget: "AWSBCMPricingCalculator.CreateBillEstimate"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<CreateBillEstimateInput, CreateBillEstimateOutput>(overrides: ["X-Amz-Target": "AWSBCMPricingCalculator.CreateBillEstimate"]))
         builder.serialize(ClientRuntime.BodyMiddleware<CreateBillEstimateInput, CreateBillEstimateOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: CreateBillEstimateInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<CreateBillEstimateInput, CreateBillEstimateOutput>(contentType: "application/x-amz-json-1.0"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<CreateBillEstimateOutput>())
@@ -1425,7 +1425,7 @@ extension BCMPricingCalculatorClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<CreateBillScenarioOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<CreateBillScenarioInput, CreateBillScenarioOutput>(xAmzTarget: "AWSBCMPricingCalculator.CreateBillScenario"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<CreateBillScenarioInput, CreateBillScenarioOutput>(overrides: ["X-Amz-Target": "AWSBCMPricingCalculator.CreateBillScenario"]))
         builder.serialize(ClientRuntime.BodyMiddleware<CreateBillScenarioInput, CreateBillScenarioOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: CreateBillScenarioInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<CreateBillScenarioInput, CreateBillScenarioOutput>(contentType: "application/x-amz-json-1.0"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<CreateBillScenarioOutput>())
@@ -1501,7 +1501,7 @@ extension BCMPricingCalculatorClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<CreateWorkloadEstimateOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<CreateWorkloadEstimateInput, CreateWorkloadEstimateOutput>(xAmzTarget: "AWSBCMPricingCalculator.CreateWorkloadEstimate"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<CreateWorkloadEstimateInput, CreateWorkloadEstimateOutput>(overrides: ["X-Amz-Target": "AWSBCMPricingCalculator.CreateWorkloadEstimate"]))
         builder.serialize(ClientRuntime.BodyMiddleware<CreateWorkloadEstimateInput, CreateWorkloadEstimateOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: CreateWorkloadEstimateInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<CreateWorkloadEstimateInput, CreateWorkloadEstimateOutput>(contentType: "application/x-amz-json-1.0"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<CreateWorkloadEstimateOutput>())
@@ -1575,7 +1575,7 @@ extension BCMPricingCalculatorClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<DeleteBillEstimateOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<DeleteBillEstimateInput, DeleteBillEstimateOutput>(xAmzTarget: "AWSBCMPricingCalculator.DeleteBillEstimate"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<DeleteBillEstimateInput, DeleteBillEstimateOutput>(overrides: ["X-Amz-Target": "AWSBCMPricingCalculator.DeleteBillEstimate"]))
         builder.serialize(ClientRuntime.BodyMiddleware<DeleteBillEstimateInput, DeleteBillEstimateOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: DeleteBillEstimateInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DeleteBillEstimateInput, DeleteBillEstimateOutput>(contentType: "application/x-amz-json-1.0"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DeleteBillEstimateOutput>())
@@ -1649,7 +1649,7 @@ extension BCMPricingCalculatorClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<DeleteBillScenarioOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<DeleteBillScenarioInput, DeleteBillScenarioOutput>(xAmzTarget: "AWSBCMPricingCalculator.DeleteBillScenario"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<DeleteBillScenarioInput, DeleteBillScenarioOutput>(overrides: ["X-Amz-Target": "AWSBCMPricingCalculator.DeleteBillScenario"]))
         builder.serialize(ClientRuntime.BodyMiddleware<DeleteBillScenarioInput, DeleteBillScenarioOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: DeleteBillScenarioInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DeleteBillScenarioInput, DeleteBillScenarioOutput>(contentType: "application/x-amz-json-1.0"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DeleteBillScenarioOutput>())
@@ -1722,7 +1722,7 @@ extension BCMPricingCalculatorClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<DeleteWorkloadEstimateOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<DeleteWorkloadEstimateInput, DeleteWorkloadEstimateOutput>(xAmzTarget: "AWSBCMPricingCalculator.DeleteWorkloadEstimate"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<DeleteWorkloadEstimateInput, DeleteWorkloadEstimateOutput>(overrides: ["X-Amz-Target": "AWSBCMPricingCalculator.DeleteWorkloadEstimate"]))
         builder.serialize(ClientRuntime.BodyMiddleware<DeleteWorkloadEstimateInput, DeleteWorkloadEstimateOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: DeleteWorkloadEstimateInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DeleteWorkloadEstimateInput, DeleteWorkloadEstimateOutput>(contentType: "application/x-amz-json-1.0"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DeleteWorkloadEstimateOutput>())
@@ -1796,7 +1796,7 @@ extension BCMPricingCalculatorClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<GetBillEstimateOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<GetBillEstimateInput, GetBillEstimateOutput>(xAmzTarget: "AWSBCMPricingCalculator.GetBillEstimate"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<GetBillEstimateInput, GetBillEstimateOutput>(overrides: ["X-Amz-Target": "AWSBCMPricingCalculator.GetBillEstimate"]))
         builder.serialize(ClientRuntime.BodyMiddleware<GetBillEstimateInput, GetBillEstimateOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: GetBillEstimateInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<GetBillEstimateInput, GetBillEstimateOutput>(contentType: "application/x-amz-json-1.0"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<GetBillEstimateOutput>())
@@ -1870,7 +1870,7 @@ extension BCMPricingCalculatorClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<GetBillScenarioOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<GetBillScenarioInput, GetBillScenarioOutput>(xAmzTarget: "AWSBCMPricingCalculator.GetBillScenario"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<GetBillScenarioInput, GetBillScenarioOutput>(overrides: ["X-Amz-Target": "AWSBCMPricingCalculator.GetBillScenario"]))
         builder.serialize(ClientRuntime.BodyMiddleware<GetBillScenarioInput, GetBillScenarioOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: GetBillScenarioInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<GetBillScenarioInput, GetBillScenarioOutput>(contentType: "application/x-amz-json-1.0"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<GetBillScenarioOutput>())
@@ -1943,7 +1943,7 @@ extension BCMPricingCalculatorClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<GetPreferencesOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<GetPreferencesInput, GetPreferencesOutput>(xAmzTarget: "AWSBCMPricingCalculator.GetPreferences"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<GetPreferencesInput, GetPreferencesOutput>(overrides: ["X-Amz-Target": "AWSBCMPricingCalculator.GetPreferences"]))
         builder.serialize(ClientRuntime.BodyMiddleware<GetPreferencesInput, GetPreferencesOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: GetPreferencesInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<GetPreferencesInput, GetPreferencesOutput>(contentType: "application/x-amz-json-1.0"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<GetPreferencesOutput>())
@@ -2017,7 +2017,7 @@ extension BCMPricingCalculatorClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<GetWorkloadEstimateOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<GetWorkloadEstimateInput, GetWorkloadEstimateOutput>(xAmzTarget: "AWSBCMPricingCalculator.GetWorkloadEstimate"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<GetWorkloadEstimateInput, GetWorkloadEstimateOutput>(overrides: ["X-Amz-Target": "AWSBCMPricingCalculator.GetWorkloadEstimate"]))
         builder.serialize(ClientRuntime.BodyMiddleware<GetWorkloadEstimateInput, GetWorkloadEstimateOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: GetWorkloadEstimateInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<GetWorkloadEstimateInput, GetWorkloadEstimateOutput>(contentType: "application/x-amz-json-1.0"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<GetWorkloadEstimateOutput>())
@@ -2091,7 +2091,7 @@ extension BCMPricingCalculatorClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<ListBillEstimateCommitmentsOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<ListBillEstimateCommitmentsInput, ListBillEstimateCommitmentsOutput>(xAmzTarget: "AWSBCMPricingCalculator.ListBillEstimateCommitments"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<ListBillEstimateCommitmentsInput, ListBillEstimateCommitmentsOutput>(overrides: ["X-Amz-Target": "AWSBCMPricingCalculator.ListBillEstimateCommitments"]))
         builder.serialize(ClientRuntime.BodyMiddleware<ListBillEstimateCommitmentsInput, ListBillEstimateCommitmentsOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: ListBillEstimateCommitmentsInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<ListBillEstimateCommitmentsInput, ListBillEstimateCommitmentsOutput>(contentType: "application/x-amz-json-1.0"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ListBillEstimateCommitmentsOutput>())
@@ -2165,7 +2165,7 @@ extension BCMPricingCalculatorClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<ListBillEstimateInputCommitmentModificationsOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<ListBillEstimateInputCommitmentModificationsInput, ListBillEstimateInputCommitmentModificationsOutput>(xAmzTarget: "AWSBCMPricingCalculator.ListBillEstimateInputCommitmentModifications"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<ListBillEstimateInputCommitmentModificationsInput, ListBillEstimateInputCommitmentModificationsOutput>(overrides: ["X-Amz-Target": "AWSBCMPricingCalculator.ListBillEstimateInputCommitmentModifications"]))
         builder.serialize(ClientRuntime.BodyMiddleware<ListBillEstimateInputCommitmentModificationsInput, ListBillEstimateInputCommitmentModificationsOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: ListBillEstimateInputCommitmentModificationsInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<ListBillEstimateInputCommitmentModificationsInput, ListBillEstimateInputCommitmentModificationsOutput>(contentType: "application/x-amz-json-1.0"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ListBillEstimateInputCommitmentModificationsOutput>())
@@ -2239,7 +2239,7 @@ extension BCMPricingCalculatorClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<ListBillEstimateInputUsageModificationsOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<ListBillEstimateInputUsageModificationsInput, ListBillEstimateInputUsageModificationsOutput>(xAmzTarget: "AWSBCMPricingCalculator.ListBillEstimateInputUsageModifications"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<ListBillEstimateInputUsageModificationsInput, ListBillEstimateInputUsageModificationsOutput>(overrides: ["X-Amz-Target": "AWSBCMPricingCalculator.ListBillEstimateInputUsageModifications"]))
         builder.serialize(ClientRuntime.BodyMiddleware<ListBillEstimateInputUsageModificationsInput, ListBillEstimateInputUsageModificationsOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: ListBillEstimateInputUsageModificationsInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<ListBillEstimateInputUsageModificationsInput, ListBillEstimateInputUsageModificationsOutput>(contentType: "application/x-amz-json-1.0"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ListBillEstimateInputUsageModificationsOutput>())
@@ -2313,7 +2313,7 @@ extension BCMPricingCalculatorClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<ListBillEstimateLineItemsOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<ListBillEstimateLineItemsInput, ListBillEstimateLineItemsOutput>(xAmzTarget: "AWSBCMPricingCalculator.ListBillEstimateLineItems"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<ListBillEstimateLineItemsInput, ListBillEstimateLineItemsOutput>(overrides: ["X-Amz-Target": "AWSBCMPricingCalculator.ListBillEstimateLineItems"]))
         builder.serialize(ClientRuntime.BodyMiddleware<ListBillEstimateLineItemsInput, ListBillEstimateLineItemsOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: ListBillEstimateLineItemsInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<ListBillEstimateLineItemsInput, ListBillEstimateLineItemsOutput>(contentType: "application/x-amz-json-1.0"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ListBillEstimateLineItemsOutput>())
@@ -2386,7 +2386,7 @@ extension BCMPricingCalculatorClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<ListBillEstimatesOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<ListBillEstimatesInput, ListBillEstimatesOutput>(xAmzTarget: "AWSBCMPricingCalculator.ListBillEstimates"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<ListBillEstimatesInput, ListBillEstimatesOutput>(overrides: ["X-Amz-Target": "AWSBCMPricingCalculator.ListBillEstimates"]))
         builder.serialize(ClientRuntime.BodyMiddleware<ListBillEstimatesInput, ListBillEstimatesOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: ListBillEstimatesInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<ListBillEstimatesInput, ListBillEstimatesOutput>(contentType: "application/x-amz-json-1.0"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ListBillEstimatesOutput>())
@@ -2460,7 +2460,7 @@ extension BCMPricingCalculatorClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<ListBillScenarioCommitmentModificationsOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<ListBillScenarioCommitmentModificationsInput, ListBillScenarioCommitmentModificationsOutput>(xAmzTarget: "AWSBCMPricingCalculator.ListBillScenarioCommitmentModifications"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<ListBillScenarioCommitmentModificationsInput, ListBillScenarioCommitmentModificationsOutput>(overrides: ["X-Amz-Target": "AWSBCMPricingCalculator.ListBillScenarioCommitmentModifications"]))
         builder.serialize(ClientRuntime.BodyMiddleware<ListBillScenarioCommitmentModificationsInput, ListBillScenarioCommitmentModificationsOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: ListBillScenarioCommitmentModificationsInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<ListBillScenarioCommitmentModificationsInput, ListBillScenarioCommitmentModificationsOutput>(contentType: "application/x-amz-json-1.0"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ListBillScenarioCommitmentModificationsOutput>())
@@ -2534,7 +2534,7 @@ extension BCMPricingCalculatorClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<ListBillScenarioUsageModificationsOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<ListBillScenarioUsageModificationsInput, ListBillScenarioUsageModificationsOutput>(xAmzTarget: "AWSBCMPricingCalculator.ListBillScenarioUsageModifications"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<ListBillScenarioUsageModificationsInput, ListBillScenarioUsageModificationsOutput>(overrides: ["X-Amz-Target": "AWSBCMPricingCalculator.ListBillScenarioUsageModifications"]))
         builder.serialize(ClientRuntime.BodyMiddleware<ListBillScenarioUsageModificationsInput, ListBillScenarioUsageModificationsOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: ListBillScenarioUsageModificationsInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<ListBillScenarioUsageModificationsInput, ListBillScenarioUsageModificationsOutput>(contentType: "application/x-amz-json-1.0"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ListBillScenarioUsageModificationsOutput>())
@@ -2607,7 +2607,7 @@ extension BCMPricingCalculatorClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<ListBillScenariosOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<ListBillScenariosInput, ListBillScenariosOutput>(xAmzTarget: "AWSBCMPricingCalculator.ListBillScenarios"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<ListBillScenariosInput, ListBillScenariosOutput>(overrides: ["X-Amz-Target": "AWSBCMPricingCalculator.ListBillScenarios"]))
         builder.serialize(ClientRuntime.BodyMiddleware<ListBillScenariosInput, ListBillScenariosOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: ListBillScenariosInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<ListBillScenariosInput, ListBillScenariosOutput>(contentType: "application/x-amz-json-1.0"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ListBillScenariosOutput>())
@@ -2680,7 +2680,7 @@ extension BCMPricingCalculatorClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<ListTagsForResourceOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<ListTagsForResourceInput, ListTagsForResourceOutput>(xAmzTarget: "AWSBCMPricingCalculator.ListTagsForResource"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<ListTagsForResourceInput, ListTagsForResourceOutput>(overrides: ["X-Amz-Target": "AWSBCMPricingCalculator.ListTagsForResource"]))
         builder.serialize(ClientRuntime.BodyMiddleware<ListTagsForResourceInput, ListTagsForResourceOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: ListTagsForResourceInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<ListTagsForResourceInput, ListTagsForResourceOutput>(contentType: "application/x-amz-json-1.0"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ListTagsForResourceOutput>())
@@ -2754,7 +2754,7 @@ extension BCMPricingCalculatorClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<ListWorkloadEstimateUsageOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<ListWorkloadEstimateUsageInput, ListWorkloadEstimateUsageOutput>(xAmzTarget: "AWSBCMPricingCalculator.ListWorkloadEstimateUsage"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<ListWorkloadEstimateUsageInput, ListWorkloadEstimateUsageOutput>(overrides: ["X-Amz-Target": "AWSBCMPricingCalculator.ListWorkloadEstimateUsage"]))
         builder.serialize(ClientRuntime.BodyMiddleware<ListWorkloadEstimateUsageInput, ListWorkloadEstimateUsageOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: ListWorkloadEstimateUsageInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<ListWorkloadEstimateUsageInput, ListWorkloadEstimateUsageOutput>(contentType: "application/x-amz-json-1.0"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ListWorkloadEstimateUsageOutput>())
@@ -2827,7 +2827,7 @@ extension BCMPricingCalculatorClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<ListWorkloadEstimatesOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<ListWorkloadEstimatesInput, ListWorkloadEstimatesOutput>(xAmzTarget: "AWSBCMPricingCalculator.ListWorkloadEstimates"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<ListWorkloadEstimatesInput, ListWorkloadEstimatesOutput>(overrides: ["X-Amz-Target": "AWSBCMPricingCalculator.ListWorkloadEstimates"]))
         builder.serialize(ClientRuntime.BodyMiddleware<ListWorkloadEstimatesInput, ListWorkloadEstimatesOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: ListWorkloadEstimatesInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<ListWorkloadEstimatesInput, ListWorkloadEstimatesOutput>(contentType: "application/x-amz-json-1.0"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ListWorkloadEstimatesOutput>())
@@ -2901,7 +2901,7 @@ extension BCMPricingCalculatorClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<TagResourceOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<TagResourceInput, TagResourceOutput>(xAmzTarget: "AWSBCMPricingCalculator.TagResource"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<TagResourceInput, TagResourceOutput>(overrides: ["X-Amz-Target": "AWSBCMPricingCalculator.TagResource"]))
         builder.serialize(ClientRuntime.BodyMiddleware<TagResourceInput, TagResourceOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: TagResourceInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<TagResourceInput, TagResourceOutput>(contentType: "application/x-amz-json-1.0"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<TagResourceOutput>())
@@ -2974,7 +2974,7 @@ extension BCMPricingCalculatorClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<UntagResourceOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<UntagResourceInput, UntagResourceOutput>(xAmzTarget: "AWSBCMPricingCalculator.UntagResource"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<UntagResourceInput, UntagResourceOutput>(overrides: ["X-Amz-Target": "AWSBCMPricingCalculator.UntagResource"]))
         builder.serialize(ClientRuntime.BodyMiddleware<UntagResourceInput, UntagResourceOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: UntagResourceInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<UntagResourceInput, UntagResourceOutput>(contentType: "application/x-amz-json-1.0"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<UntagResourceOutput>())
@@ -3049,7 +3049,7 @@ extension BCMPricingCalculatorClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<UpdateBillEstimateOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<UpdateBillEstimateInput, UpdateBillEstimateOutput>(xAmzTarget: "AWSBCMPricingCalculator.UpdateBillEstimate"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<UpdateBillEstimateInput, UpdateBillEstimateOutput>(overrides: ["X-Amz-Target": "AWSBCMPricingCalculator.UpdateBillEstimate"]))
         builder.serialize(ClientRuntime.BodyMiddleware<UpdateBillEstimateInput, UpdateBillEstimateOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: UpdateBillEstimateInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<UpdateBillEstimateInput, UpdateBillEstimateOutput>(contentType: "application/x-amz-json-1.0"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<UpdateBillEstimateOutput>())
@@ -3124,7 +3124,7 @@ extension BCMPricingCalculatorClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<UpdateBillScenarioOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<UpdateBillScenarioInput, UpdateBillScenarioOutput>(xAmzTarget: "AWSBCMPricingCalculator.UpdateBillScenario"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<UpdateBillScenarioInput, UpdateBillScenarioOutput>(overrides: ["X-Amz-Target": "AWSBCMPricingCalculator.UpdateBillScenario"]))
         builder.serialize(ClientRuntime.BodyMiddleware<UpdateBillScenarioInput, UpdateBillScenarioOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: UpdateBillScenarioInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<UpdateBillScenarioInput, UpdateBillScenarioOutput>(contentType: "application/x-amz-json-1.0"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<UpdateBillScenarioOutput>())
@@ -3198,7 +3198,7 @@ extension BCMPricingCalculatorClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<UpdatePreferencesOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<UpdatePreferencesInput, UpdatePreferencesOutput>(xAmzTarget: "AWSBCMPricingCalculator.UpdatePreferences"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<UpdatePreferencesInput, UpdatePreferencesOutput>(overrides: ["X-Amz-Target": "AWSBCMPricingCalculator.UpdatePreferences"]))
         builder.serialize(ClientRuntime.BodyMiddleware<UpdatePreferencesInput, UpdatePreferencesOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: UpdatePreferencesInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<UpdatePreferencesInput, UpdatePreferencesOutput>(contentType: "application/x-amz-json-1.0"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<UpdatePreferencesOutput>())
@@ -3273,7 +3273,7 @@ extension BCMPricingCalculatorClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<UpdateWorkloadEstimateOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<UpdateWorkloadEstimateInput, UpdateWorkloadEstimateOutput>(xAmzTarget: "AWSBCMPricingCalculator.UpdateWorkloadEstimate"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<UpdateWorkloadEstimateInput, UpdateWorkloadEstimateOutput>(overrides: ["X-Amz-Target": "AWSBCMPricingCalculator.UpdateWorkloadEstimate"]))
         builder.serialize(ClientRuntime.BodyMiddleware<UpdateWorkloadEstimateInput, UpdateWorkloadEstimateOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: UpdateWorkloadEstimateInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<UpdateWorkloadEstimateInput, UpdateWorkloadEstimateOutput>(contentType: "application/x-amz-json-1.0"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<UpdateWorkloadEstimateOutput>())

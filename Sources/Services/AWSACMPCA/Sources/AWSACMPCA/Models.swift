@@ -20,8 +20,8 @@ import protocol ClientRuntime.HTTPError
 import protocol ClientRuntime.ModeledError
 @_spi(SmithyReadWrite) import protocol SmithyReadWrite.SmithyReader
 @_spi(SmithyReadWrite) import protocol SmithyReadWrite.SmithyWriter
-@_spi(SmithyReadWrite) import struct AWSClientRuntime.AWSJSONError
 @_spi(UnknownAWSHTTPServiceError) import struct AWSClientRuntime.UnknownAWSHTTPServiceError
+@_spi(SmithyReadWrite) import struct ClientRuntime.AWSJSONError
 @_spi(SmithyReadWrite) import struct SmithyReadWrite.ReadingClosureBox
 @_spi(SmithyReadWrite) import struct SmithyReadWrite.WritingClosureBox
 
@@ -3191,7 +3191,7 @@ enum CreateCertificateAuthorityOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "InvalidArgsException": return try InvalidArgsException.makeError(baseError: baseError)
@@ -3208,7 +3208,7 @@ enum CreateCertificateAuthorityAuditReportOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "InvalidArgsException": return try InvalidArgsException.makeError(baseError: baseError)
@@ -3227,7 +3227,7 @@ enum CreatePermissionOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "InvalidArnException": return try InvalidArnException.makeError(baseError: baseError)
@@ -3246,7 +3246,7 @@ enum DeleteCertificateAuthorityOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "ConcurrentModificationException": return try ConcurrentModificationException.makeError(baseError: baseError)
@@ -3263,7 +3263,7 @@ enum DeletePermissionOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "InvalidArnException": return try InvalidArnException.makeError(baseError: baseError)
@@ -3280,7 +3280,7 @@ enum DeletePolicyOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "ConcurrentModificationException": return try ConcurrentModificationException.makeError(baseError: baseError)
@@ -3299,7 +3299,7 @@ enum DescribeCertificateAuthorityOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "InvalidArnException": return try InvalidArnException.makeError(baseError: baseError)
@@ -3314,7 +3314,7 @@ enum DescribeCertificateAuthorityAuditReportOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "InvalidArgsException": return try InvalidArgsException.makeError(baseError: baseError)
@@ -3330,7 +3330,7 @@ enum GetCertificateOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "InvalidArnException": return try InvalidArnException.makeError(baseError: baseError)
@@ -3348,7 +3348,7 @@ enum GetCertificateAuthorityCertificateOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "InvalidArnException": return try InvalidArnException.makeError(baseError: baseError)
@@ -3364,7 +3364,7 @@ enum GetCertificateAuthorityCsrOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "InvalidArnException": return try InvalidArnException.makeError(baseError: baseError)
@@ -3382,7 +3382,7 @@ enum GetPolicyOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "InvalidArnException": return try InvalidArnException.makeError(baseError: baseError)
@@ -3399,7 +3399,7 @@ enum ImportCertificateAuthorityCertificateOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "CertificateMismatchException": return try CertificateMismatchException.makeError(baseError: baseError)
@@ -3421,7 +3421,7 @@ enum IssueCertificateOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "InvalidArgsException": return try InvalidArgsException.makeError(baseError: baseError)
@@ -3440,7 +3440,7 @@ enum ListCertificateAuthoritiesOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "InvalidNextTokenException": return try InvalidNextTokenException.makeError(baseError: baseError)
@@ -3454,7 +3454,7 @@ enum ListPermissionsOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "InvalidArnException": return try InvalidArnException.makeError(baseError: baseError)
@@ -3472,7 +3472,7 @@ enum ListTagsOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "InvalidArnException": return try InvalidArnException.makeError(baseError: baseError)
@@ -3489,7 +3489,7 @@ enum PutPolicyOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "ConcurrentModificationException": return try ConcurrentModificationException.makeError(baseError: baseError)
@@ -3509,7 +3509,7 @@ enum RestoreCertificateAuthorityOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "InvalidArnException": return try InvalidArnException.makeError(baseError: baseError)
@@ -3525,7 +3525,7 @@ enum RevokeCertificateOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "ConcurrentModificationException": return try ConcurrentModificationException.makeError(baseError: baseError)
@@ -3547,7 +3547,7 @@ enum TagCertificateAuthorityOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "InvalidArnException": return try InvalidArnException.makeError(baseError: baseError)
@@ -3565,7 +3565,7 @@ enum UntagCertificateAuthorityOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "InvalidArnException": return try InvalidArnException.makeError(baseError: baseError)
@@ -3582,7 +3582,7 @@ enum UpdateCertificateAuthorityOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "ConcurrentModificationException": return try ConcurrentModificationException.makeError(baseError: baseError)
@@ -3598,7 +3598,7 @@ enum UpdateCertificateAuthorityOutputError {
 
 extension InvalidArgsException {
 
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> InvalidArgsException {
+    static func makeError(baseError: ClientRuntime.AWSJSONError) throws -> InvalidArgsException {
         let reader = baseError.errorBodyReader
         var value = InvalidArgsException()
         value.properties.message = try reader["message"].readIfPresent()
@@ -3611,7 +3611,7 @@ extension InvalidArgsException {
 
 extension InvalidPolicyException {
 
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> InvalidPolicyException {
+    static func makeError(baseError: ClientRuntime.AWSJSONError) throws -> InvalidPolicyException {
         let reader = baseError.errorBodyReader
         var value = InvalidPolicyException()
         value.properties.message = try reader["message"].readIfPresent()
@@ -3624,7 +3624,7 @@ extension InvalidPolicyException {
 
 extension InvalidTagException {
 
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> InvalidTagException {
+    static func makeError(baseError: ClientRuntime.AWSJSONError) throws -> InvalidTagException {
         let reader = baseError.errorBodyReader
         var value = InvalidTagException()
         value.properties.message = try reader["message"].readIfPresent()
@@ -3637,7 +3637,7 @@ extension InvalidTagException {
 
 extension LimitExceededException {
 
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> LimitExceededException {
+    static func makeError(baseError: ClientRuntime.AWSJSONError) throws -> LimitExceededException {
         let reader = baseError.errorBodyReader
         var value = LimitExceededException()
         value.properties.message = try reader["message"].readIfPresent()
@@ -3650,7 +3650,7 @@ extension LimitExceededException {
 
 extension InvalidArnException {
 
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> InvalidArnException {
+    static func makeError(baseError: ClientRuntime.AWSJSONError) throws -> InvalidArnException {
         let reader = baseError.errorBodyReader
         var value = InvalidArnException()
         value.properties.message = try reader["message"].readIfPresent()
@@ -3663,7 +3663,7 @@ extension InvalidArnException {
 
 extension InvalidStateException {
 
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> InvalidStateException {
+    static func makeError(baseError: ClientRuntime.AWSJSONError) throws -> InvalidStateException {
         let reader = baseError.errorBodyReader
         var value = InvalidStateException()
         value.properties.message = try reader["message"].readIfPresent()
@@ -3676,7 +3676,7 @@ extension InvalidStateException {
 
 extension RequestFailedException {
 
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> RequestFailedException {
+    static func makeError(baseError: ClientRuntime.AWSJSONError) throws -> RequestFailedException {
         let reader = baseError.errorBodyReader
         var value = RequestFailedException()
         value.properties.message = try reader["message"].readIfPresent()
@@ -3689,7 +3689,7 @@ extension RequestFailedException {
 
 extension RequestInProgressException {
 
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> RequestInProgressException {
+    static func makeError(baseError: ClientRuntime.AWSJSONError) throws -> RequestInProgressException {
         let reader = baseError.errorBodyReader
         var value = RequestInProgressException()
         value.properties.message = try reader["message"].readIfPresent()
@@ -3702,7 +3702,7 @@ extension RequestInProgressException {
 
 extension ResourceNotFoundException {
 
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> ResourceNotFoundException {
+    static func makeError(baseError: ClientRuntime.AWSJSONError) throws -> ResourceNotFoundException {
         let reader = baseError.errorBodyReader
         var value = ResourceNotFoundException()
         value.properties.message = try reader["message"].readIfPresent()
@@ -3715,7 +3715,7 @@ extension ResourceNotFoundException {
 
 extension PermissionAlreadyExistsException {
 
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> PermissionAlreadyExistsException {
+    static func makeError(baseError: ClientRuntime.AWSJSONError) throws -> PermissionAlreadyExistsException {
         let reader = baseError.errorBodyReader
         var value = PermissionAlreadyExistsException()
         value.properties.message = try reader["message"].readIfPresent()
@@ -3728,7 +3728,7 @@ extension PermissionAlreadyExistsException {
 
 extension ConcurrentModificationException {
 
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> ConcurrentModificationException {
+    static func makeError(baseError: ClientRuntime.AWSJSONError) throws -> ConcurrentModificationException {
         let reader = baseError.errorBodyReader
         var value = ConcurrentModificationException()
         value.properties.message = try reader["message"].readIfPresent()
@@ -3741,7 +3741,7 @@ extension ConcurrentModificationException {
 
 extension LockoutPreventedException {
 
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> LockoutPreventedException {
+    static func makeError(baseError: ClientRuntime.AWSJSONError) throws -> LockoutPreventedException {
         let reader = baseError.errorBodyReader
         var value = LockoutPreventedException()
         value.properties.message = try reader["message"].readIfPresent()
@@ -3754,7 +3754,7 @@ extension LockoutPreventedException {
 
 extension CertificateMismatchException {
 
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> CertificateMismatchException {
+    static func makeError(baseError: ClientRuntime.AWSJSONError) throws -> CertificateMismatchException {
         let reader = baseError.errorBodyReader
         var value = CertificateMismatchException()
         value.properties.message = try reader["message"].readIfPresent()
@@ -3767,7 +3767,7 @@ extension CertificateMismatchException {
 
 extension InvalidRequestException {
 
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> InvalidRequestException {
+    static func makeError(baseError: ClientRuntime.AWSJSONError) throws -> InvalidRequestException {
         let reader = baseError.errorBodyReader
         var value = InvalidRequestException()
         value.properties.message = try reader["message"].readIfPresent()
@@ -3780,7 +3780,7 @@ extension InvalidRequestException {
 
 extension MalformedCertificateException {
 
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> MalformedCertificateException {
+    static func makeError(baseError: ClientRuntime.AWSJSONError) throws -> MalformedCertificateException {
         let reader = baseError.errorBodyReader
         var value = MalformedCertificateException()
         value.properties.message = try reader["message"].readIfPresent()
@@ -3793,7 +3793,7 @@ extension MalformedCertificateException {
 
 extension MalformedCSRException {
 
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> MalformedCSRException {
+    static func makeError(baseError: ClientRuntime.AWSJSONError) throws -> MalformedCSRException {
         let reader = baseError.errorBodyReader
         var value = MalformedCSRException()
         value.properties.message = try reader["message"].readIfPresent()
@@ -3806,7 +3806,7 @@ extension MalformedCSRException {
 
 extension InvalidNextTokenException {
 
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> InvalidNextTokenException {
+    static func makeError(baseError: ClientRuntime.AWSJSONError) throws -> InvalidNextTokenException {
         let reader = baseError.errorBodyReader
         var value = InvalidNextTokenException()
         value.properties.message = try reader["message"].readIfPresent()
@@ -3819,7 +3819,7 @@ extension InvalidNextTokenException {
 
 extension RequestAlreadyProcessedException {
 
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> RequestAlreadyProcessedException {
+    static func makeError(baseError: ClientRuntime.AWSJSONError) throws -> RequestAlreadyProcessedException {
         let reader = baseError.errorBodyReader
         var value = RequestAlreadyProcessedException()
         value.properties.message = try reader["message"].readIfPresent()
@@ -3832,13 +3832,99 @@ extension RequestAlreadyProcessedException {
 
 extension TooManyTagsException {
 
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> TooManyTagsException {
+    static func makeError(baseError: ClientRuntime.AWSJSONError) throws -> TooManyTagsException {
         let reader = baseError.errorBodyReader
         var value = TooManyTagsException()
         value.properties.message = try reader["message"].readIfPresent()
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
         value.message = baseError.message
+        return value
+    }
+}
+
+extension ACMPCAClientTypes.AccessDescription {
+
+    static func write(value: ACMPCAClientTypes.AccessDescription?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["AccessLocation"].write(value.accessLocation, with: ACMPCAClientTypes.GeneralName.write(value:to:))
+        try writer["AccessMethod"].write(value.accessMethod, with: ACMPCAClientTypes.AccessMethod.write(value:to:))
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> ACMPCAClientTypes.AccessDescription {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = ACMPCAClientTypes.AccessDescription()
+        value.accessMethod = try reader["AccessMethod"].readIfPresent(with: ACMPCAClientTypes.AccessMethod.read(from:))
+        value.accessLocation = try reader["AccessLocation"].readIfPresent(with: ACMPCAClientTypes.GeneralName.read(from:))
+        return value
+    }
+}
+
+extension ACMPCAClientTypes.AccessMethod {
+
+    static func write(value: ACMPCAClientTypes.AccessMethod?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["AccessMethodType"].write(value.accessMethodType)
+        try writer["CustomObjectIdentifier"].write(value.customObjectIdentifier)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> ACMPCAClientTypes.AccessMethod {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = ACMPCAClientTypes.AccessMethod()
+        value.customObjectIdentifier = try reader["CustomObjectIdentifier"].readIfPresent()
+        value.accessMethodType = try reader["AccessMethodType"].readIfPresent()
+        return value
+    }
+}
+
+extension ACMPCAClientTypes.ApiPassthrough {
+
+    static func write(value: ACMPCAClientTypes.ApiPassthrough?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["Extensions"].write(value.extensions, with: ACMPCAClientTypes.Extensions.write(value:to:))
+        try writer["Subject"].write(value.subject, with: ACMPCAClientTypes.ASN1Subject.write(value:to:))
+    }
+}
+
+extension ACMPCAClientTypes.ASN1Subject {
+
+    static func write(value: ACMPCAClientTypes.ASN1Subject?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["CommonName"].write(value.commonName)
+        try writer["Country"].write(value.country)
+        try writer["CustomAttributes"].writeList(value.customAttributes, memberWritingClosure: ACMPCAClientTypes.CustomAttribute.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["DistinguishedNameQualifier"].write(value.distinguishedNameQualifier)
+        try writer["GenerationQualifier"].write(value.generationQualifier)
+        try writer["GivenName"].write(value.givenName)
+        try writer["Initials"].write(value.initials)
+        try writer["Locality"].write(value.locality)
+        try writer["Organization"].write(value.organization)
+        try writer["OrganizationalUnit"].write(value.organizationalUnit)
+        try writer["Pseudonym"].write(value.pseudonym)
+        try writer["SerialNumber"].write(value.serialNumber)
+        try writer["State"].write(value.state)
+        try writer["Surname"].write(value.surname)
+        try writer["Title"].write(value.title)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> ACMPCAClientTypes.ASN1Subject {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = ACMPCAClientTypes.ASN1Subject()
+        value.country = try reader["Country"].readIfPresent()
+        value.organization = try reader["Organization"].readIfPresent()
+        value.organizationalUnit = try reader["OrganizationalUnit"].readIfPresent()
+        value.distinguishedNameQualifier = try reader["DistinguishedNameQualifier"].readIfPresent()
+        value.state = try reader["State"].readIfPresent()
+        value.commonName = try reader["CommonName"].readIfPresent()
+        value.serialNumber = try reader["SerialNumber"].readIfPresent()
+        value.locality = try reader["Locality"].readIfPresent()
+        value.title = try reader["Title"].readIfPresent()
+        value.surname = try reader["Surname"].readIfPresent()
+        value.givenName = try reader["GivenName"].readIfPresent()
+        value.initials = try reader["Initials"].readIfPresent()
+        value.pseudonym = try reader["Pseudonym"].readIfPresent()
+        value.generationQualifier = try reader["GenerationQualifier"].readIfPresent()
+        value.customAttributes = try reader["CustomAttributes"].readListIfPresent(memberReadingClosure: ACMPCAClientTypes.CustomAttribute.read(from:), memberNodeInfo: "member", isFlattened: false)
         return value
     }
 }
@@ -3867,36 +3953,23 @@ extension ACMPCAClientTypes.CertificateAuthority {
     }
 }
 
-extension ACMPCAClientTypes.RevocationConfiguration {
+extension ACMPCAClientTypes.CertificateAuthorityConfiguration {
 
-    static func write(value: ACMPCAClientTypes.RevocationConfiguration?, to writer: SmithyJSON.Writer) throws {
+    static func write(value: ACMPCAClientTypes.CertificateAuthorityConfiguration?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
-        try writer["CrlConfiguration"].write(value.crlConfiguration, with: ACMPCAClientTypes.CrlConfiguration.write(value:to:))
-        try writer["OcspConfiguration"].write(value.ocspConfiguration, with: ACMPCAClientTypes.OcspConfiguration.write(value:to:))
+        try writer["CsrExtensions"].write(value.csrExtensions, with: ACMPCAClientTypes.CsrExtensions.write(value:to:))
+        try writer["KeyAlgorithm"].write(value.keyAlgorithm)
+        try writer["SigningAlgorithm"].write(value.signingAlgorithm)
+        try writer["Subject"].write(value.subject, with: ACMPCAClientTypes.ASN1Subject.write(value:to:))
     }
 
-    static func read(from reader: SmithyJSON.Reader) throws -> ACMPCAClientTypes.RevocationConfiguration {
+    static func read(from reader: SmithyJSON.Reader) throws -> ACMPCAClientTypes.CertificateAuthorityConfiguration {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = ACMPCAClientTypes.RevocationConfiguration()
-        value.crlConfiguration = try reader["CrlConfiguration"].readIfPresent(with: ACMPCAClientTypes.CrlConfiguration.read(from:))
-        value.ocspConfiguration = try reader["OcspConfiguration"].readIfPresent(with: ACMPCAClientTypes.OcspConfiguration.read(from:))
-        return value
-    }
-}
-
-extension ACMPCAClientTypes.OcspConfiguration {
-
-    static func write(value: ACMPCAClientTypes.OcspConfiguration?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["Enabled"].write(value.enabled)
-        try writer["OcspCustomCname"].write(value.ocspCustomCname)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> ACMPCAClientTypes.OcspConfiguration {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = ACMPCAClientTypes.OcspConfiguration()
-        value.enabled = try reader["Enabled"].readIfPresent()
-        value.ocspCustomCname = try reader["OcspCustomCname"].readIfPresent()
+        var value = ACMPCAClientTypes.CertificateAuthorityConfiguration()
+        value.keyAlgorithm = try reader["KeyAlgorithm"].readIfPresent() ?? .sdkUnknown("")
+        value.signingAlgorithm = try reader["SigningAlgorithm"].readIfPresent() ?? .sdkUnknown("")
+        value.subject = try reader["Subject"].readIfPresent(with: ACMPCAClientTypes.ASN1Subject.read(from:))
+        value.csrExtensions = try reader["CsrExtensions"].readIfPresent(with: ACMPCAClientTypes.CsrExtensions.read(from:))
         return value
     }
 }
@@ -3945,27 +4018,6 @@ extension ACMPCAClientTypes.CrlDistributionPointExtensionConfiguration {
     }
 }
 
-extension ACMPCAClientTypes.CertificateAuthorityConfiguration {
-
-    static func write(value: ACMPCAClientTypes.CertificateAuthorityConfiguration?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["CsrExtensions"].write(value.csrExtensions, with: ACMPCAClientTypes.CsrExtensions.write(value:to:))
-        try writer["KeyAlgorithm"].write(value.keyAlgorithm)
-        try writer["SigningAlgorithm"].write(value.signingAlgorithm)
-        try writer["Subject"].write(value.subject, with: ACMPCAClientTypes.ASN1Subject.write(value:to:))
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> ACMPCAClientTypes.CertificateAuthorityConfiguration {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = ACMPCAClientTypes.CertificateAuthorityConfiguration()
-        value.keyAlgorithm = try reader["KeyAlgorithm"].readIfPresent() ?? .sdkUnknown("")
-        value.signingAlgorithm = try reader["SigningAlgorithm"].readIfPresent() ?? .sdkUnknown("")
-        value.subject = try reader["Subject"].readIfPresent(with: ACMPCAClientTypes.ASN1Subject.read(from:))
-        value.csrExtensions = try reader["CsrExtensions"].readIfPresent(with: ACMPCAClientTypes.CsrExtensions.read(from:))
-        return value
-    }
-}
-
 extension ACMPCAClientTypes.CsrExtensions {
 
     static func write(value: ACMPCAClientTypes.CsrExtensions?, to writer: SmithyJSON.Writer) throws {
@@ -3983,20 +4035,68 @@ extension ACMPCAClientTypes.CsrExtensions {
     }
 }
 
-extension ACMPCAClientTypes.AccessDescription {
+extension ACMPCAClientTypes.CustomAttribute {
 
-    static func write(value: ACMPCAClientTypes.AccessDescription?, to writer: SmithyJSON.Writer) throws {
+    static func write(value: ACMPCAClientTypes.CustomAttribute?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
-        try writer["AccessLocation"].write(value.accessLocation, with: ACMPCAClientTypes.GeneralName.write(value:to:))
-        try writer["AccessMethod"].write(value.accessMethod, with: ACMPCAClientTypes.AccessMethod.write(value:to:))
+        try writer["ObjectIdentifier"].write(value.objectIdentifier)
+        try writer["Value"].write(value.value)
     }
 
-    static func read(from reader: SmithyJSON.Reader) throws -> ACMPCAClientTypes.AccessDescription {
+    static func read(from reader: SmithyJSON.Reader) throws -> ACMPCAClientTypes.CustomAttribute {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = ACMPCAClientTypes.AccessDescription()
-        value.accessMethod = try reader["AccessMethod"].readIfPresent(with: ACMPCAClientTypes.AccessMethod.read(from:))
-        value.accessLocation = try reader["AccessLocation"].readIfPresent(with: ACMPCAClientTypes.GeneralName.read(from:))
+        var value = ACMPCAClientTypes.CustomAttribute()
+        value.objectIdentifier = try reader["ObjectIdentifier"].readIfPresent() ?? ""
+        value.value = try reader["Value"].readIfPresent() ?? ""
         return value
+    }
+}
+
+extension ACMPCAClientTypes.CustomExtension {
+
+    static func write(value: ACMPCAClientTypes.CustomExtension?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["Critical"].write(value.critical)
+        try writer["ObjectIdentifier"].write(value.objectIdentifier)
+        try writer["Value"].write(value.value)
+    }
+}
+
+extension ACMPCAClientTypes.EdiPartyName {
+
+    static func write(value: ACMPCAClientTypes.EdiPartyName?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["NameAssigner"].write(value.nameAssigner)
+        try writer["PartyName"].write(value.partyName)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> ACMPCAClientTypes.EdiPartyName {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = ACMPCAClientTypes.EdiPartyName()
+        value.partyName = try reader["PartyName"].readIfPresent() ?? ""
+        value.nameAssigner = try reader["NameAssigner"].readIfPresent()
+        return value
+    }
+}
+
+extension ACMPCAClientTypes.ExtendedKeyUsage {
+
+    static func write(value: ACMPCAClientTypes.ExtendedKeyUsage?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["ExtendedKeyUsageObjectIdentifier"].write(value.extendedKeyUsageObjectIdentifier)
+        try writer["ExtendedKeyUsageType"].write(value.extendedKeyUsageType)
+    }
+}
+
+extension ACMPCAClientTypes.Extensions {
+
+    static func write(value: ACMPCAClientTypes.Extensions?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["CertificatePolicies"].writeList(value.certificatePolicies, memberWritingClosure: ACMPCAClientTypes.PolicyInformation.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["CustomExtensions"].writeList(value.customExtensions, memberWritingClosure: ACMPCAClientTypes.CustomExtension.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["ExtendedKeyUsage"].writeList(value.extendedKeyUsage, memberWritingClosure: ACMPCAClientTypes.ExtendedKeyUsage.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["KeyUsage"].write(value.keyUsage, with: ACMPCAClientTypes.KeyUsage.write(value:to:))
+        try writer["SubjectAlternativeNames"].writeList(value.subjectAlternativeNames, memberWritingClosure: ACMPCAClientTypes.GeneralName.write(value:to:), memberNodeInfo: "member", isFlattened: false)
     }
 }
 
@@ -4025,117 +4125,6 @@ extension ACMPCAClientTypes.GeneralName {
         value.uniformResourceIdentifier = try reader["UniformResourceIdentifier"].readIfPresent()
         value.ipAddress = try reader["IpAddress"].readIfPresent()
         value.registeredId = try reader["RegisteredId"].readIfPresent()
-        return value
-    }
-}
-
-extension ACMPCAClientTypes.EdiPartyName {
-
-    static func write(value: ACMPCAClientTypes.EdiPartyName?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["NameAssigner"].write(value.nameAssigner)
-        try writer["PartyName"].write(value.partyName)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> ACMPCAClientTypes.EdiPartyName {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = ACMPCAClientTypes.EdiPartyName()
-        value.partyName = try reader["PartyName"].readIfPresent() ?? ""
-        value.nameAssigner = try reader["NameAssigner"].readIfPresent()
-        return value
-    }
-}
-
-extension ACMPCAClientTypes.ASN1Subject {
-
-    static func write(value: ACMPCAClientTypes.ASN1Subject?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["CommonName"].write(value.commonName)
-        try writer["Country"].write(value.country)
-        try writer["CustomAttributes"].writeList(value.customAttributes, memberWritingClosure: ACMPCAClientTypes.CustomAttribute.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["DistinguishedNameQualifier"].write(value.distinguishedNameQualifier)
-        try writer["GenerationQualifier"].write(value.generationQualifier)
-        try writer["GivenName"].write(value.givenName)
-        try writer["Initials"].write(value.initials)
-        try writer["Locality"].write(value.locality)
-        try writer["Organization"].write(value.organization)
-        try writer["OrganizationalUnit"].write(value.organizationalUnit)
-        try writer["Pseudonym"].write(value.pseudonym)
-        try writer["SerialNumber"].write(value.serialNumber)
-        try writer["State"].write(value.state)
-        try writer["Surname"].write(value.surname)
-        try writer["Title"].write(value.title)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> ACMPCAClientTypes.ASN1Subject {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = ACMPCAClientTypes.ASN1Subject()
-        value.country = try reader["Country"].readIfPresent()
-        value.organization = try reader["Organization"].readIfPresent()
-        value.organizationalUnit = try reader["OrganizationalUnit"].readIfPresent()
-        value.distinguishedNameQualifier = try reader["DistinguishedNameQualifier"].readIfPresent()
-        value.state = try reader["State"].readIfPresent()
-        value.commonName = try reader["CommonName"].readIfPresent()
-        value.serialNumber = try reader["SerialNumber"].readIfPresent()
-        value.locality = try reader["Locality"].readIfPresent()
-        value.title = try reader["Title"].readIfPresent()
-        value.surname = try reader["Surname"].readIfPresent()
-        value.givenName = try reader["GivenName"].readIfPresent()
-        value.initials = try reader["Initials"].readIfPresent()
-        value.pseudonym = try reader["Pseudonym"].readIfPresent()
-        value.generationQualifier = try reader["GenerationQualifier"].readIfPresent()
-        value.customAttributes = try reader["CustomAttributes"].readListIfPresent(memberReadingClosure: ACMPCAClientTypes.CustomAttribute.read(from:), memberNodeInfo: "member", isFlattened: false)
-        return value
-    }
-}
-
-extension ACMPCAClientTypes.CustomAttribute {
-
-    static func write(value: ACMPCAClientTypes.CustomAttribute?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["ObjectIdentifier"].write(value.objectIdentifier)
-        try writer["Value"].write(value.value)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> ACMPCAClientTypes.CustomAttribute {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = ACMPCAClientTypes.CustomAttribute()
-        value.objectIdentifier = try reader["ObjectIdentifier"].readIfPresent() ?? ""
-        value.value = try reader["Value"].readIfPresent() ?? ""
-        return value
-    }
-}
-
-extension ACMPCAClientTypes.OtherName {
-
-    static func write(value: ACMPCAClientTypes.OtherName?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["TypeId"].write(value.typeId)
-        try writer["Value"].write(value.value)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> ACMPCAClientTypes.OtherName {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = ACMPCAClientTypes.OtherName()
-        value.typeId = try reader["TypeId"].readIfPresent() ?? ""
-        value.value = try reader["Value"].readIfPresent() ?? ""
-        return value
-    }
-}
-
-extension ACMPCAClientTypes.AccessMethod {
-
-    static func write(value: ACMPCAClientTypes.AccessMethod?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["AccessMethodType"].write(value.accessMethodType)
-        try writer["CustomObjectIdentifier"].write(value.customObjectIdentifier)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> ACMPCAClientTypes.AccessMethod {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = ACMPCAClientTypes.AccessMethod()
-        value.customObjectIdentifier = try reader["CustomObjectIdentifier"].readIfPresent()
-        value.accessMethodType = try reader["AccessMethodType"].readIfPresent()
         return value
     }
 }
@@ -4171,6 +4160,40 @@ extension ACMPCAClientTypes.KeyUsage {
     }
 }
 
+extension ACMPCAClientTypes.OcspConfiguration {
+
+    static func write(value: ACMPCAClientTypes.OcspConfiguration?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["Enabled"].write(value.enabled)
+        try writer["OcspCustomCname"].write(value.ocspCustomCname)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> ACMPCAClientTypes.OcspConfiguration {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = ACMPCAClientTypes.OcspConfiguration()
+        value.enabled = try reader["Enabled"].readIfPresent()
+        value.ocspCustomCname = try reader["OcspCustomCname"].readIfPresent()
+        return value
+    }
+}
+
+extension ACMPCAClientTypes.OtherName {
+
+    static func write(value: ACMPCAClientTypes.OtherName?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["TypeId"].write(value.typeId)
+        try writer["Value"].write(value.value)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> ACMPCAClientTypes.OtherName {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = ACMPCAClientTypes.OtherName()
+        value.typeId = try reader["TypeId"].readIfPresent() ?? ""
+        value.value = try reader["Value"].readIfPresent() ?? ""
+        return value
+    }
+}
+
 extension ACMPCAClientTypes.Permission {
 
     static func read(from reader: SmithyJSON.Reader) throws -> ACMPCAClientTypes.Permission {
@@ -4183,63 +4206,6 @@ extension ACMPCAClientTypes.Permission {
         value.actions = try reader["Actions"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosureBox<ACMPCAClientTypes.ActionType>().read(from:), memberNodeInfo: "member", isFlattened: false)
         value.policy = try reader["Policy"].readIfPresent()
         return value
-    }
-}
-
-extension ACMPCAClientTypes.Tag {
-
-    static func write(value: ACMPCAClientTypes.Tag?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["Key"].write(value.key)
-        try writer["Value"].write(value.value)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> ACMPCAClientTypes.Tag {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = ACMPCAClientTypes.Tag()
-        value.key = try reader["Key"].readIfPresent() ?? ""
-        value.value = try reader["Value"].readIfPresent()
-        return value
-    }
-}
-
-extension ACMPCAClientTypes.ApiPassthrough {
-
-    static func write(value: ACMPCAClientTypes.ApiPassthrough?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["Extensions"].write(value.extensions, with: ACMPCAClientTypes.Extensions.write(value:to:))
-        try writer["Subject"].write(value.subject, with: ACMPCAClientTypes.ASN1Subject.write(value:to:))
-    }
-}
-
-extension ACMPCAClientTypes.Extensions {
-
-    static func write(value: ACMPCAClientTypes.Extensions?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["CertificatePolicies"].writeList(value.certificatePolicies, memberWritingClosure: ACMPCAClientTypes.PolicyInformation.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["CustomExtensions"].writeList(value.customExtensions, memberWritingClosure: ACMPCAClientTypes.CustomExtension.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["ExtendedKeyUsage"].writeList(value.extendedKeyUsage, memberWritingClosure: ACMPCAClientTypes.ExtendedKeyUsage.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["KeyUsage"].write(value.keyUsage, with: ACMPCAClientTypes.KeyUsage.write(value:to:))
-        try writer["SubjectAlternativeNames"].writeList(value.subjectAlternativeNames, memberWritingClosure: ACMPCAClientTypes.GeneralName.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-    }
-}
-
-extension ACMPCAClientTypes.CustomExtension {
-
-    static func write(value: ACMPCAClientTypes.CustomExtension?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["Critical"].write(value.critical)
-        try writer["ObjectIdentifier"].write(value.objectIdentifier)
-        try writer["Value"].write(value.value)
-    }
-}
-
-extension ACMPCAClientTypes.ExtendedKeyUsage {
-
-    static func write(value: ACMPCAClientTypes.ExtendedKeyUsage?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["ExtendedKeyUsageObjectIdentifier"].write(value.extendedKeyUsageObjectIdentifier)
-        try writer["ExtendedKeyUsageType"].write(value.extendedKeyUsageType)
     }
 }
 
@@ -4266,6 +4232,40 @@ extension ACMPCAClientTypes.Qualifier {
     static func write(value: ACMPCAClientTypes.Qualifier?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
         try writer["CpsUri"].write(value.cpsUri)
+    }
+}
+
+extension ACMPCAClientTypes.RevocationConfiguration {
+
+    static func write(value: ACMPCAClientTypes.RevocationConfiguration?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["CrlConfiguration"].write(value.crlConfiguration, with: ACMPCAClientTypes.CrlConfiguration.write(value:to:))
+        try writer["OcspConfiguration"].write(value.ocspConfiguration, with: ACMPCAClientTypes.OcspConfiguration.write(value:to:))
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> ACMPCAClientTypes.RevocationConfiguration {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = ACMPCAClientTypes.RevocationConfiguration()
+        value.crlConfiguration = try reader["CrlConfiguration"].readIfPresent(with: ACMPCAClientTypes.CrlConfiguration.read(from:))
+        value.ocspConfiguration = try reader["OcspConfiguration"].readIfPresent(with: ACMPCAClientTypes.OcspConfiguration.read(from:))
+        return value
+    }
+}
+
+extension ACMPCAClientTypes.Tag {
+
+    static func write(value: ACMPCAClientTypes.Tag?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["Key"].write(value.key)
+        try writer["Value"].write(value.value)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> ACMPCAClientTypes.Tag {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = ACMPCAClientTypes.Tag()
+        value.key = try reader["Key"].readIfPresent() ?? ""
+        value.value = try reader["Value"].readIfPresent()
+        return value
     }
 }
 

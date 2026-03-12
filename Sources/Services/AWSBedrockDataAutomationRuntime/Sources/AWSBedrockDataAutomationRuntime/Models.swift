@@ -21,8 +21,8 @@ import protocol ClientRuntime.HTTPError
 import protocol ClientRuntime.ModeledError
 @_spi(SmithyReadWrite) import protocol SmithyReadWrite.SmithyReader
 @_spi(SmithyReadWrite) import protocol SmithyReadWrite.SmithyWriter
-@_spi(SmithyReadWrite) import struct AWSClientRuntime.AWSJSONError
 @_spi(UnknownAWSHTTPServiceError) import struct AWSClientRuntime.UnknownAWSHTTPServiceError
+@_spi(SmithyReadWrite) import struct ClientRuntime.AWSJSONError
 
 /// This exception will be thrown when customer does not have access to API.
 public struct AccessDeniedException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
@@ -1017,7 +1017,7 @@ enum GetDataAutomationStatusOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
@@ -1035,7 +1035,7 @@ enum InvokeDataAutomationOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
@@ -1053,7 +1053,7 @@ enum InvokeDataAutomationAsyncOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
@@ -1071,7 +1071,7 @@ enum ListTagsForResourceOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
@@ -1089,7 +1089,7 @@ enum TagResourceOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
@@ -1108,7 +1108,7 @@ enum UntagResourceOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
@@ -1123,7 +1123,7 @@ enum UntagResourceOutputError {
 
 extension AccessDeniedException {
 
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> AccessDeniedException {
+    static func makeError(baseError: ClientRuntime.AWSJSONError) throws -> AccessDeniedException {
         let reader = baseError.errorBodyReader
         var value = AccessDeniedException()
         value.properties.message = try reader["message"].readIfPresent()
@@ -1136,7 +1136,7 @@ extension AccessDeniedException {
 
 extension InternalServerException {
 
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> InternalServerException {
+    static func makeError(baseError: ClientRuntime.AWSJSONError) throws -> InternalServerException {
         let reader = baseError.errorBodyReader
         var value = InternalServerException()
         value.properties.message = try reader["message"].readIfPresent()
@@ -1149,7 +1149,7 @@ extension InternalServerException {
 
 extension ResourceNotFoundException {
 
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> ResourceNotFoundException {
+    static func makeError(baseError: ClientRuntime.AWSJSONError) throws -> ResourceNotFoundException {
         let reader = baseError.errorBodyReader
         var value = ResourceNotFoundException()
         value.properties.message = try reader["message"].readIfPresent()
@@ -1162,7 +1162,7 @@ extension ResourceNotFoundException {
 
 extension ThrottlingException {
 
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> ThrottlingException {
+    static func makeError(baseError: ClientRuntime.AWSJSONError) throws -> ThrottlingException {
         let reader = baseError.errorBodyReader
         var value = ThrottlingException()
         value.properties.message = try reader["message"].readIfPresent()
@@ -1175,7 +1175,7 @@ extension ThrottlingException {
 
 extension ValidationException {
 
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> ValidationException {
+    static func makeError(baseError: ClientRuntime.AWSJSONError) throws -> ValidationException {
         let reader = baseError.errorBodyReader
         var value = ValidationException()
         value.properties.message = try reader["message"].readIfPresent()
@@ -1188,7 +1188,7 @@ extension ValidationException {
 
 extension ServiceUnavailableException {
 
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> ServiceUnavailableException {
+    static func makeError(baseError: ClientRuntime.AWSJSONError) throws -> ServiceUnavailableException {
         let reader = baseError.errorBodyReader
         var value = ServiceUnavailableException()
         value.properties.message = try reader["message"].readIfPresent()
@@ -1201,7 +1201,7 @@ extension ServiceUnavailableException {
 
 extension ServiceQuotaExceededException {
 
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> ServiceQuotaExceededException {
+    static func makeError(baseError: ClientRuntime.AWSJSONError) throws -> ServiceQuotaExceededException {
         let reader = baseError.errorBodyReader
         var value = ServiceQuotaExceededException()
         value.properties.message = try reader["message"].readIfPresent()
@@ -1209,6 +1209,67 @@ extension ServiceQuotaExceededException {
         value.requestID = baseError.requestID
         value.message = baseError.message
         return value
+    }
+}
+
+extension BedrockDataAutomationRuntimeClientTypes.AssetProcessingConfiguration {
+
+    static func write(value: BedrockDataAutomationRuntimeClientTypes.AssetProcessingConfiguration?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["video"].write(value.video, with: BedrockDataAutomationRuntimeClientTypes.VideoAssetProcessingConfiguration.write(value:to:))
+    }
+}
+
+extension BedrockDataAutomationRuntimeClientTypes.Blueprint {
+
+    static func write(value: BedrockDataAutomationRuntimeClientTypes.Blueprint?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["blueprintArn"].write(value.blueprintArn)
+        try writer["stage"].write(value.stage)
+        try writer["version"].write(value.version)
+    }
+}
+
+extension BedrockDataAutomationRuntimeClientTypes.DataAutomationConfiguration {
+
+    static func write(value: BedrockDataAutomationRuntimeClientTypes.DataAutomationConfiguration?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["dataAutomationProjectArn"].write(value.dataAutomationProjectArn)
+        try writer["stage"].write(value.stage)
+    }
+}
+
+extension BedrockDataAutomationRuntimeClientTypes.EncryptionConfiguration {
+
+    static func write(value: BedrockDataAutomationRuntimeClientTypes.EncryptionConfiguration?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["kmsEncryptionContext"].writeMap(value.kmsEncryptionContext, valueWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+        try writer["kmsKeyId"].write(value.kmsKeyId)
+    }
+}
+
+extension BedrockDataAutomationRuntimeClientTypes.EventBridgeConfiguration {
+
+    static func write(value: BedrockDataAutomationRuntimeClientTypes.EventBridgeConfiguration?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["eventBridgeEnabled"].write(value.eventBridgeEnabled)
+    }
+}
+
+extension BedrockDataAutomationRuntimeClientTypes.InputConfiguration {
+
+    static func write(value: BedrockDataAutomationRuntimeClientTypes.InputConfiguration?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["assetProcessingConfiguration"].write(value.assetProcessingConfiguration, with: BedrockDataAutomationRuntimeClientTypes.AssetProcessingConfiguration.write(value:to:))
+        try writer["s3Uri"].write(value.s3Uri)
+    }
+}
+
+extension BedrockDataAutomationRuntimeClientTypes.NotificationConfiguration {
+
+    static func write(value: BedrockDataAutomationRuntimeClientTypes.NotificationConfiguration?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["eventBridgeConfiguration"].write(value.eventBridgeConfiguration, with: BedrockDataAutomationRuntimeClientTypes.EventBridgeConfiguration.write(value:to:))
     }
 }
 
@@ -1239,6 +1300,15 @@ extension BedrockDataAutomationRuntimeClientTypes.OutputSegment {
     }
 }
 
+extension BedrockDataAutomationRuntimeClientTypes.SyncInputConfiguration {
+
+    static func write(value: BedrockDataAutomationRuntimeClientTypes.SyncInputConfiguration?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["bytes"].write(value.bytes)
+        try writer["s3Uri"].write(value.s3Uri)
+    }
+}
+
 extension BedrockDataAutomationRuntimeClientTypes.Tag {
 
     static func write(value: BedrockDataAutomationRuntimeClientTypes.Tag?, to writer: SmithyJSON.Writer) throws {
@@ -1256,57 +1326,12 @@ extension BedrockDataAutomationRuntimeClientTypes.Tag {
     }
 }
 
-extension BedrockDataAutomationRuntimeClientTypes.SyncInputConfiguration {
+extension BedrockDataAutomationRuntimeClientTypes.TimestampSegment {
 
-    static func write(value: BedrockDataAutomationRuntimeClientTypes.SyncInputConfiguration?, to writer: SmithyJSON.Writer) throws {
+    static func write(value: BedrockDataAutomationRuntimeClientTypes.TimestampSegment?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
-        try writer["bytes"].write(value.bytes)
-        try writer["s3Uri"].write(value.s3Uri)
-    }
-}
-
-extension BedrockDataAutomationRuntimeClientTypes.DataAutomationConfiguration {
-
-    static func write(value: BedrockDataAutomationRuntimeClientTypes.DataAutomationConfiguration?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["dataAutomationProjectArn"].write(value.dataAutomationProjectArn)
-        try writer["stage"].write(value.stage)
-    }
-}
-
-extension BedrockDataAutomationRuntimeClientTypes.Blueprint {
-
-    static func write(value: BedrockDataAutomationRuntimeClientTypes.Blueprint?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["blueprintArn"].write(value.blueprintArn)
-        try writer["stage"].write(value.stage)
-        try writer["version"].write(value.version)
-    }
-}
-
-extension BedrockDataAutomationRuntimeClientTypes.EncryptionConfiguration {
-
-    static func write(value: BedrockDataAutomationRuntimeClientTypes.EncryptionConfiguration?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["kmsEncryptionContext"].writeMap(value.kmsEncryptionContext, valueWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
-        try writer["kmsKeyId"].write(value.kmsKeyId)
-    }
-}
-
-extension BedrockDataAutomationRuntimeClientTypes.InputConfiguration {
-
-    static func write(value: BedrockDataAutomationRuntimeClientTypes.InputConfiguration?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["assetProcessingConfiguration"].write(value.assetProcessingConfiguration, with: BedrockDataAutomationRuntimeClientTypes.AssetProcessingConfiguration.write(value:to:))
-        try writer["s3Uri"].write(value.s3Uri)
-    }
-}
-
-extension BedrockDataAutomationRuntimeClientTypes.AssetProcessingConfiguration {
-
-    static func write(value: BedrockDataAutomationRuntimeClientTypes.AssetProcessingConfiguration?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["video"].write(value.video, with: BedrockDataAutomationRuntimeClientTypes.VideoAssetProcessingConfiguration.write(value:to:))
+        try writer["endTimeMillis"].write(value.endTimeMillis)
+        try writer["startTimeMillis"].write(value.startTimeMillis)
     }
 }
 
@@ -1328,31 +1353,6 @@ extension BedrockDataAutomationRuntimeClientTypes.VideoSegmentConfiguration {
             case let .sdkUnknown(sdkUnknown):
                 try writer["sdkUnknown"].write(sdkUnknown)
         }
-    }
-}
-
-extension BedrockDataAutomationRuntimeClientTypes.TimestampSegment {
-
-    static func write(value: BedrockDataAutomationRuntimeClientTypes.TimestampSegment?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["endTimeMillis"].write(value.endTimeMillis)
-        try writer["startTimeMillis"].write(value.startTimeMillis)
-    }
-}
-
-extension BedrockDataAutomationRuntimeClientTypes.NotificationConfiguration {
-
-    static func write(value: BedrockDataAutomationRuntimeClientTypes.NotificationConfiguration?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["eventBridgeConfiguration"].write(value.eventBridgeConfiguration, with: BedrockDataAutomationRuntimeClientTypes.EventBridgeConfiguration.write(value:to:))
-    }
-}
-
-extension BedrockDataAutomationRuntimeClientTypes.EventBridgeConfiguration {
-
-    static func write(value: BedrockDataAutomationRuntimeClientTypes.EventBridgeConfiguration?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["eventBridgeEnabled"].write(value.eventBridgeEnabled)
     }
 }
 

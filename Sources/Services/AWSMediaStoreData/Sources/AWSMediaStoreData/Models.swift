@@ -21,8 +21,8 @@ import protocol ClientRuntime.HTTPError
 import protocol ClientRuntime.ModeledError
 @_spi(SmithyReadWrite) import protocol SmithyReadWrite.SmithyReader
 @_spi(SmithyReadWrite) import protocol SmithyReadWrite.SmithyWriter
-@_spi(SmithyReadWrite) import struct AWSClientRuntime.RestJSONError
 @_spi(UnknownAWSHTTPServiceError) import struct AWSClientRuntime.UnknownAWSHTTPServiceError
+@_spi(SmithyReadWrite) import struct ClientRuntime.RestJSONError
 import struct Smithy.URIQueryItem
 import struct SmithyHTTPAPI.Header
 import struct SmithyHTTPAPI.Headers
@@ -640,7 +640,7 @@ enum DeleteObjectOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "ContainerNotFoundException": return try ContainerNotFoundException.makeError(baseError: baseError)
@@ -656,7 +656,7 @@ enum DescribeObjectOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "ContainerNotFoundException": return try ContainerNotFoundException.makeError(baseError: baseError)
@@ -672,7 +672,7 @@ enum GetObjectOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "ContainerNotFoundException": return try ContainerNotFoundException.makeError(baseError: baseError)
@@ -689,7 +689,7 @@ enum ListItemsOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "ContainerNotFoundException": return try ContainerNotFoundException.makeError(baseError: baseError)
@@ -704,7 +704,7 @@ enum PutObjectOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "ContainerNotFoundException": return try ContainerNotFoundException.makeError(baseError: baseError)
@@ -716,7 +716,7 @@ enum PutObjectOutputError {
 
 extension ContainerNotFoundException {
 
-    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> ContainerNotFoundException {
+    static func makeError(baseError: ClientRuntime.RestJSONError) throws -> ContainerNotFoundException {
         let reader = baseError.errorBodyReader
         var value = ContainerNotFoundException()
         value.properties.message = try reader["Message"].readIfPresent()
@@ -729,7 +729,7 @@ extension ContainerNotFoundException {
 
 extension InternalServerError {
 
-    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> InternalServerError {
+    static func makeError(baseError: ClientRuntime.RestJSONError) throws -> InternalServerError {
         let reader = baseError.errorBodyReader
         var value = InternalServerError()
         value.properties.message = try reader["Message"].readIfPresent()
@@ -742,7 +742,7 @@ extension InternalServerError {
 
 extension ObjectNotFoundException {
 
-    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> ObjectNotFoundException {
+    static func makeError(baseError: ClientRuntime.RestJSONError) throws -> ObjectNotFoundException {
         let reader = baseError.errorBodyReader
         var value = ObjectNotFoundException()
         value.properties.message = try reader["Message"].readIfPresent()
@@ -755,7 +755,7 @@ extension ObjectNotFoundException {
 
 extension RequestedRangeNotSatisfiableException {
 
-    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> RequestedRangeNotSatisfiableException {
+    static func makeError(baseError: ClientRuntime.RestJSONError) throws -> RequestedRangeNotSatisfiableException {
         let reader = baseError.errorBodyReader
         var value = RequestedRangeNotSatisfiableException()
         value.properties.message = try reader["Message"].readIfPresent()

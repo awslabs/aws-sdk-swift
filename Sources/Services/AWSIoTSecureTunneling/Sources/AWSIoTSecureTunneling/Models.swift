@@ -22,8 +22,8 @@ import protocol ClientRuntime.HTTPError
 import protocol ClientRuntime.ModeledError
 @_spi(SmithyReadWrite) import protocol SmithyReadWrite.SmithyReader
 @_spi(SmithyReadWrite) import protocol SmithyReadWrite.SmithyWriter
-@_spi(SmithyReadWrite) import struct AWSClientRuntime.AWSJSONError
 @_spi(UnknownAWSHTTPServiceError) import struct AWSClientRuntime.UnknownAWSHTTPServiceError
+@_spi(SmithyReadWrite) import struct ClientRuntime.AWSJSONError
 import struct Smithy.URIQueryItem
 
 extension IoTSecureTunnelingClientTypes {
@@ -811,7 +811,7 @@ enum CloseTunnelOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
@@ -825,7 +825,7 @@ enum DescribeTunnelOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
@@ -839,7 +839,7 @@ enum ListTagsForResourceOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
@@ -853,7 +853,7 @@ enum ListTunnelsOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
@@ -866,7 +866,7 @@ enum OpenTunnelOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "LimitExceededException": return try LimitExceededException.makeError(baseError: baseError)
@@ -880,7 +880,7 @@ enum RotateTunnelAccessTokenOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
@@ -894,7 +894,7 @@ enum TagResourceOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
@@ -908,7 +908,7 @@ enum UntagResourceOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
@@ -919,7 +919,7 @@ enum UntagResourceOutputError {
 
 extension ResourceNotFoundException {
 
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> ResourceNotFoundException {
+    static func makeError(baseError: ClientRuntime.AWSJSONError) throws -> ResourceNotFoundException {
         let reader = baseError.errorBodyReader
         var value = ResourceNotFoundException()
         value.properties.message = try reader["message"].readIfPresent()
@@ -932,7 +932,7 @@ extension ResourceNotFoundException {
 
 extension LimitExceededException {
 
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> LimitExceededException {
+    static func makeError(baseError: ClientRuntime.AWSJSONError) throws -> LimitExceededException {
         let reader = baseError.errorBodyReader
         var value = LimitExceededException()
         value.properties.message = try reader["message"].readIfPresent()
@@ -943,22 +943,30 @@ extension LimitExceededException {
     }
 }
 
-extension IoTSecureTunnelingClientTypes.Tunnel {
+extension IoTSecureTunnelingClientTypes.ConnectionState {
 
-    static func read(from reader: SmithyJSON.Reader) throws -> IoTSecureTunnelingClientTypes.Tunnel {
+    static func read(from reader: SmithyJSON.Reader) throws -> IoTSecureTunnelingClientTypes.ConnectionState {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = IoTSecureTunnelingClientTypes.Tunnel()
-        value.tunnelId = try reader["tunnelId"].readIfPresent()
-        value.tunnelArn = try reader["tunnelArn"].readIfPresent()
+        var value = IoTSecureTunnelingClientTypes.ConnectionState()
         value.status = try reader["status"].readIfPresent()
-        value.sourceConnectionState = try reader["sourceConnectionState"].readIfPresent(with: IoTSecureTunnelingClientTypes.ConnectionState.read(from:))
-        value.destinationConnectionState = try reader["destinationConnectionState"].readIfPresent(with: IoTSecureTunnelingClientTypes.ConnectionState.read(from:))
-        value.description = try reader["description"].readIfPresent()
-        value.destinationConfig = try reader["destinationConfig"].readIfPresent(with: IoTSecureTunnelingClientTypes.DestinationConfig.read(from:))
-        value.timeoutConfig = try reader["timeoutConfig"].readIfPresent(with: IoTSecureTunnelingClientTypes.TimeoutConfig.read(from:))
-        value.tags = try reader["tags"].readListIfPresent(memberReadingClosure: IoTSecureTunnelingClientTypes.Tag.read(from:), memberNodeInfo: "member", isFlattened: false)
-        value.createdAt = try reader["createdAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
         value.lastUpdatedAt = try reader["lastUpdatedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        return value
+    }
+}
+
+extension IoTSecureTunnelingClientTypes.DestinationConfig {
+
+    static func write(value: IoTSecureTunnelingClientTypes.DestinationConfig?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["services"].writeList(value.services, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["thingName"].write(value.thingName)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> IoTSecureTunnelingClientTypes.DestinationConfig {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = IoTSecureTunnelingClientTypes.DestinationConfig()
+        value.thingName = try reader["thingName"].readIfPresent()
+        value.services = try reader["services"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false) ?? []
         return value
     }
 }
@@ -995,29 +1003,21 @@ extension IoTSecureTunnelingClientTypes.TimeoutConfig {
     }
 }
 
-extension IoTSecureTunnelingClientTypes.DestinationConfig {
+extension IoTSecureTunnelingClientTypes.Tunnel {
 
-    static func write(value: IoTSecureTunnelingClientTypes.DestinationConfig?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["services"].writeList(value.services, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["thingName"].write(value.thingName)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> IoTSecureTunnelingClientTypes.DestinationConfig {
+    static func read(from reader: SmithyJSON.Reader) throws -> IoTSecureTunnelingClientTypes.Tunnel {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = IoTSecureTunnelingClientTypes.DestinationConfig()
-        value.thingName = try reader["thingName"].readIfPresent()
-        value.services = try reader["services"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false) ?? []
-        return value
-    }
-}
-
-extension IoTSecureTunnelingClientTypes.ConnectionState {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> IoTSecureTunnelingClientTypes.ConnectionState {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = IoTSecureTunnelingClientTypes.ConnectionState()
+        var value = IoTSecureTunnelingClientTypes.Tunnel()
+        value.tunnelId = try reader["tunnelId"].readIfPresent()
+        value.tunnelArn = try reader["tunnelArn"].readIfPresent()
         value.status = try reader["status"].readIfPresent()
+        value.sourceConnectionState = try reader["sourceConnectionState"].readIfPresent(with: IoTSecureTunnelingClientTypes.ConnectionState.read(from:))
+        value.destinationConnectionState = try reader["destinationConnectionState"].readIfPresent(with: IoTSecureTunnelingClientTypes.ConnectionState.read(from:))
+        value.description = try reader["description"].readIfPresent()
+        value.destinationConfig = try reader["destinationConfig"].readIfPresent(with: IoTSecureTunnelingClientTypes.DestinationConfig.read(from:))
+        value.timeoutConfig = try reader["timeoutConfig"].readIfPresent(with: IoTSecureTunnelingClientTypes.TimeoutConfig.read(from:))
+        value.tags = try reader["tags"].readListIfPresent(memberReadingClosure: IoTSecureTunnelingClientTypes.Tag.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.createdAt = try reader["createdAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
         value.lastUpdatedAt = try reader["lastUpdatedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
         return value
     }

@@ -22,8 +22,8 @@ import protocol ClientRuntime.HTTPError
 import protocol ClientRuntime.ModeledError
 @_spi(SmithyReadWrite) import protocol SmithyReadWrite.SmithyReader
 @_spi(SmithyReadWrite) import protocol SmithyReadWrite.SmithyWriter
-@_spi(SmithyReadWrite) import struct AWSClientRuntime.AWSJSONError
 @_spi(UnknownAWSHTTPServiceError) import struct AWSClientRuntime.UnknownAWSHTTPServiceError
+@_spi(SmithyReadWrite) import struct ClientRuntime.AWSJSONError
 @_spi(SmithyReadWrite) import struct SmithyReadWrite.WritingClosureBox
 
 /// Your request is invalid.
@@ -3590,7 +3590,7 @@ enum AcceptQualificationRequestOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "RequestError": return try RequestError.makeError(baseError: baseError)
@@ -3605,7 +3605,7 @@ enum ApproveAssignmentOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "RequestError": return try RequestError.makeError(baseError: baseError)
@@ -3620,7 +3620,7 @@ enum AssociateQualificationWithWorkerOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "RequestError": return try RequestError.makeError(baseError: baseError)
@@ -3635,7 +3635,7 @@ enum CreateAdditionalAssignmentsForHITOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "RequestError": return try RequestError.makeError(baseError: baseError)
@@ -3650,7 +3650,7 @@ enum CreateHITOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "RequestError": return try RequestError.makeError(baseError: baseError)
@@ -3665,7 +3665,7 @@ enum CreateHITTypeOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "RequestError": return try RequestError.makeError(baseError: baseError)
@@ -3680,7 +3680,7 @@ enum CreateHITWithHITTypeOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "RequestError": return try RequestError.makeError(baseError: baseError)
@@ -3695,7 +3695,7 @@ enum CreateQualificationTypeOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "RequestError": return try RequestError.makeError(baseError: baseError)
@@ -3710,7 +3710,7 @@ enum CreateWorkerBlockOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "RequestError": return try RequestError.makeError(baseError: baseError)
@@ -3725,7 +3725,7 @@ enum DeleteHITOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "RequestError": return try RequestError.makeError(baseError: baseError)
@@ -3740,7 +3740,7 @@ enum DeleteQualificationTypeOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "RequestError": return try RequestError.makeError(baseError: baseError)
@@ -3755,7 +3755,7 @@ enum DeleteWorkerBlockOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "RequestError": return try RequestError.makeError(baseError: baseError)
@@ -3770,7 +3770,7 @@ enum DisassociateQualificationFromWorkerOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "RequestError": return try RequestError.makeError(baseError: baseError)
@@ -3785,7 +3785,7 @@ enum GetAccountBalanceOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "RequestError": return try RequestError.makeError(baseError: baseError)
@@ -3800,7 +3800,7 @@ enum GetAssignmentOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "RequestError": return try RequestError.makeError(baseError: baseError)
@@ -3815,7 +3815,7 @@ enum GetFileUploadURLOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "RequestError": return try RequestError.makeError(baseError: baseError)
@@ -3830,7 +3830,7 @@ enum GetHITOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "RequestError": return try RequestError.makeError(baseError: baseError)
@@ -3845,7 +3845,7 @@ enum GetQualificationScoreOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "RequestError": return try RequestError.makeError(baseError: baseError)
@@ -3860,7 +3860,7 @@ enum GetQualificationTypeOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "RequestError": return try RequestError.makeError(baseError: baseError)
@@ -3875,7 +3875,7 @@ enum ListAssignmentsForHITOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "RequestError": return try RequestError.makeError(baseError: baseError)
@@ -3890,7 +3890,7 @@ enum ListBonusPaymentsOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "RequestError": return try RequestError.makeError(baseError: baseError)
@@ -3905,7 +3905,7 @@ enum ListHITsOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "RequestError": return try RequestError.makeError(baseError: baseError)
@@ -3920,7 +3920,7 @@ enum ListHITsForQualificationTypeOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "RequestError": return try RequestError.makeError(baseError: baseError)
@@ -3935,7 +3935,7 @@ enum ListQualificationRequestsOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "RequestError": return try RequestError.makeError(baseError: baseError)
@@ -3950,7 +3950,7 @@ enum ListQualificationTypesOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "RequestError": return try RequestError.makeError(baseError: baseError)
@@ -3965,7 +3965,7 @@ enum ListReviewableHITsOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "RequestError": return try RequestError.makeError(baseError: baseError)
@@ -3980,7 +3980,7 @@ enum ListReviewPolicyResultsForHITOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "RequestError": return try RequestError.makeError(baseError: baseError)
@@ -3995,7 +3995,7 @@ enum ListWorkerBlocksOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "RequestError": return try RequestError.makeError(baseError: baseError)
@@ -4010,7 +4010,7 @@ enum ListWorkersWithQualificationTypeOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "RequestError": return try RequestError.makeError(baseError: baseError)
@@ -4025,7 +4025,7 @@ enum NotifyWorkersOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "RequestError": return try RequestError.makeError(baseError: baseError)
@@ -4040,7 +4040,7 @@ enum RejectAssignmentOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "RequestError": return try RequestError.makeError(baseError: baseError)
@@ -4055,7 +4055,7 @@ enum RejectQualificationRequestOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "RequestError": return try RequestError.makeError(baseError: baseError)
@@ -4070,7 +4070,7 @@ enum SendBonusOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "RequestError": return try RequestError.makeError(baseError: baseError)
@@ -4085,7 +4085,7 @@ enum SendTestEventNotificationOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "RequestError": return try RequestError.makeError(baseError: baseError)
@@ -4100,7 +4100,7 @@ enum UpdateExpirationForHITOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "RequestError": return try RequestError.makeError(baseError: baseError)
@@ -4115,7 +4115,7 @@ enum UpdateHITReviewStatusOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "RequestError": return try RequestError.makeError(baseError: baseError)
@@ -4130,7 +4130,7 @@ enum UpdateHITTypeOfHITOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "RequestError": return try RequestError.makeError(baseError: baseError)
@@ -4145,7 +4145,7 @@ enum UpdateNotificationSettingsOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "RequestError": return try RequestError.makeError(baseError: baseError)
@@ -4160,7 +4160,7 @@ enum UpdateQualificationTypeOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "RequestError": return try RequestError.makeError(baseError: baseError)
@@ -4172,7 +4172,7 @@ enum UpdateQualificationTypeOutputError {
 
 extension RequestError {
 
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> RequestError {
+    static func makeError(baseError: ClientRuntime.AWSJSONError) throws -> RequestError {
         let reader = baseError.errorBodyReader
         var value = RequestError()
         value.properties.message = try reader["Message"].readIfPresent()
@@ -4186,7 +4186,7 @@ extension RequestError {
 
 extension ServiceFault {
 
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> ServiceFault {
+    static func makeError(baseError: ClientRuntime.AWSJSONError) throws -> ServiceFault {
         let reader = baseError.errorBodyReader
         var value = ServiceFault()
         value.properties.message = try reader["Message"].readIfPresent()
@@ -4194,6 +4194,41 @@ extension ServiceFault {
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
         value.message = baseError.message
+        return value
+    }
+}
+
+extension MTurkClientTypes.Assignment {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> MTurkClientTypes.Assignment {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = MTurkClientTypes.Assignment()
+        value.assignmentId = try reader["AssignmentId"].readIfPresent()
+        value.workerId = try reader["WorkerId"].readIfPresent()
+        value.hitId = try reader["HITId"].readIfPresent()
+        value.assignmentStatus = try reader["AssignmentStatus"].readIfPresent()
+        value.autoApprovalTime = try reader["AutoApprovalTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.acceptTime = try reader["AcceptTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.submitTime = try reader["SubmitTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.approvalTime = try reader["ApprovalTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.rejectionTime = try reader["RejectionTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.deadline = try reader["Deadline"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.answer = try reader["Answer"].readIfPresent()
+        value.requesterFeedback = try reader["RequesterFeedback"].readIfPresent()
+        return value
+    }
+}
+
+extension MTurkClientTypes.BonusPayment {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> MTurkClientTypes.BonusPayment {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = MTurkClientTypes.BonusPayment()
+        value.workerId = try reader["WorkerId"].readIfPresent()
+        value.bonusAmount = try reader["BonusAmount"].readIfPresent()
+        value.assignmentId = try reader["AssignmentId"].readIfPresent()
+        value.reason = try reader["Reason"].readIfPresent()
+        value.grantTime = try reader["GrantTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
         return value
     }
 }
@@ -4228,6 +4263,121 @@ extension MTurkClientTypes.HIT {
     }
 }
 
+extension MTurkClientTypes.HITLayoutParameter {
+
+    static func write(value: MTurkClientTypes.HITLayoutParameter?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["Name"].write(value.name)
+        try writer["Value"].write(value.value)
+    }
+}
+
+extension MTurkClientTypes.Locale {
+
+    static func write(value: MTurkClientTypes.Locale?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["Country"].write(value.country)
+        try writer["Subdivision"].write(value.subdivision)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> MTurkClientTypes.Locale {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = MTurkClientTypes.Locale()
+        value.country = try reader["Country"].readIfPresent() ?? ""
+        value.subdivision = try reader["Subdivision"].readIfPresent()
+        return value
+    }
+}
+
+extension MTurkClientTypes.NotificationSpecification {
+
+    static func write(value: MTurkClientTypes.NotificationSpecification?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["Destination"].write(value.destination)
+        try writer["EventTypes"].writeList(value.eventTypes, memberWritingClosure: SmithyReadWrite.WritingClosureBox<MTurkClientTypes.EventType>().write(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["Transport"].write(value.transport)
+        try writer["Version"].write(value.version)
+    }
+}
+
+extension MTurkClientTypes.NotifyWorkersFailureStatus {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> MTurkClientTypes.NotifyWorkersFailureStatus {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = MTurkClientTypes.NotifyWorkersFailureStatus()
+        value.notifyWorkersFailureCode = try reader["NotifyWorkersFailureCode"].readIfPresent()
+        value.notifyWorkersFailureMessage = try reader["NotifyWorkersFailureMessage"].readIfPresent()
+        value.workerId = try reader["WorkerId"].readIfPresent()
+        return value
+    }
+}
+
+extension MTurkClientTypes.ParameterMapEntry {
+
+    static func write(value: MTurkClientTypes.ParameterMapEntry?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["Key"].write(value.key)
+        try writer["Values"].writeList(value.values, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> MTurkClientTypes.ParameterMapEntry {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = MTurkClientTypes.ParameterMapEntry()
+        value.key = try reader["Key"].readIfPresent()
+        value.values = try reader["Values"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        return value
+    }
+}
+
+extension MTurkClientTypes.PolicyParameter {
+
+    static func write(value: MTurkClientTypes.PolicyParameter?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["Key"].write(value.key)
+        try writer["MapEntries"].writeList(value.mapEntries, memberWritingClosure: MTurkClientTypes.ParameterMapEntry.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["Values"].writeList(value.values, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> MTurkClientTypes.PolicyParameter {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = MTurkClientTypes.PolicyParameter()
+        value.key = try reader["Key"].readIfPresent()
+        value.values = try reader["Values"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        value.mapEntries = try reader["MapEntries"].readListIfPresent(memberReadingClosure: MTurkClientTypes.ParameterMapEntry.read(from:), memberNodeInfo: "member", isFlattened: false)
+        return value
+    }
+}
+
+extension MTurkClientTypes.Qualification {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> MTurkClientTypes.Qualification {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = MTurkClientTypes.Qualification()
+        value.qualificationTypeId = try reader["QualificationTypeId"].readIfPresent()
+        value.workerId = try reader["WorkerId"].readIfPresent()
+        value.grantTime = try reader["GrantTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.integerValue = try reader["IntegerValue"].readIfPresent()
+        value.localeValue = try reader["LocaleValue"].readIfPresent(with: MTurkClientTypes.Locale.read(from:))
+        value.status = try reader["Status"].readIfPresent()
+        return value
+    }
+}
+
+extension MTurkClientTypes.QualificationRequest {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> MTurkClientTypes.QualificationRequest {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = MTurkClientTypes.QualificationRequest()
+        value.qualificationRequestId = try reader["QualificationRequestId"].readIfPresent()
+        value.qualificationTypeId = try reader["QualificationTypeId"].readIfPresent()
+        value.workerId = try reader["WorkerId"].readIfPresent()
+        value.test = try reader["Test"].readIfPresent()
+        value.answer = try reader["Answer"].readIfPresent()
+        value.submitTime = try reader["SubmitTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        return value
+    }
+}
+
 extension MTurkClientTypes.QualificationRequirement {
 
     static func write(value: MTurkClientTypes.QualificationRequirement?, to writer: SmithyJSON.Writer) throws {
@@ -4249,23 +4399,6 @@ extension MTurkClientTypes.QualificationRequirement {
         value.localeValues = try reader["LocaleValues"].readListIfPresent(memberReadingClosure: MTurkClientTypes.Locale.read(from:), memberNodeInfo: "member", isFlattened: false)
         value.requiredToPreview = try reader["RequiredToPreview"].readIfPresent()
         value.actionsGuarded = try reader["ActionsGuarded"].readIfPresent()
-        return value
-    }
-}
-
-extension MTurkClientTypes.Locale {
-
-    static func write(value: MTurkClientTypes.Locale?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["Country"].write(value.country)
-        try writer["Subdivision"].write(value.subdivision)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> MTurkClientTypes.Locale {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = MTurkClientTypes.Locale()
-        value.country = try reader["Country"].readIfPresent() ?? ""
-        value.subdivision = try reader["Subdivision"].readIfPresent()
         return value
     }
 }
@@ -4292,67 +4425,19 @@ extension MTurkClientTypes.QualificationType {
     }
 }
 
-extension MTurkClientTypes.Assignment {
+extension MTurkClientTypes.ReviewActionDetail {
 
-    static func read(from reader: SmithyJSON.Reader) throws -> MTurkClientTypes.Assignment {
+    static func read(from reader: SmithyJSON.Reader) throws -> MTurkClientTypes.ReviewActionDetail {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = MTurkClientTypes.Assignment()
-        value.assignmentId = try reader["AssignmentId"].readIfPresent()
-        value.workerId = try reader["WorkerId"].readIfPresent()
-        value.hitId = try reader["HITId"].readIfPresent()
-        value.assignmentStatus = try reader["AssignmentStatus"].readIfPresent()
-        value.autoApprovalTime = try reader["AutoApprovalTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
-        value.acceptTime = try reader["AcceptTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
-        value.submitTime = try reader["SubmitTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
-        value.approvalTime = try reader["ApprovalTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
-        value.rejectionTime = try reader["RejectionTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
-        value.deadline = try reader["Deadline"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
-        value.answer = try reader["Answer"].readIfPresent()
-        value.requesterFeedback = try reader["RequesterFeedback"].readIfPresent()
-        return value
-    }
-}
-
-extension MTurkClientTypes.Qualification {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> MTurkClientTypes.Qualification {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = MTurkClientTypes.Qualification()
-        value.qualificationTypeId = try reader["QualificationTypeId"].readIfPresent()
-        value.workerId = try reader["WorkerId"].readIfPresent()
-        value.grantTime = try reader["GrantTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
-        value.integerValue = try reader["IntegerValue"].readIfPresent()
-        value.localeValue = try reader["LocaleValue"].readIfPresent(with: MTurkClientTypes.Locale.read(from:))
+        var value = MTurkClientTypes.ReviewActionDetail()
+        value.actionId = try reader["ActionId"].readIfPresent()
+        value.actionName = try reader["ActionName"].readIfPresent()
+        value.targetId = try reader["TargetId"].readIfPresent()
+        value.targetType = try reader["TargetType"].readIfPresent()
         value.status = try reader["Status"].readIfPresent()
-        return value
-    }
-}
-
-extension MTurkClientTypes.BonusPayment {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> MTurkClientTypes.BonusPayment {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = MTurkClientTypes.BonusPayment()
-        value.workerId = try reader["WorkerId"].readIfPresent()
-        value.bonusAmount = try reader["BonusAmount"].readIfPresent()
-        value.assignmentId = try reader["AssignmentId"].readIfPresent()
-        value.reason = try reader["Reason"].readIfPresent()
-        value.grantTime = try reader["GrantTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
-        return value
-    }
-}
-
-extension MTurkClientTypes.QualificationRequest {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> MTurkClientTypes.QualificationRequest {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = MTurkClientTypes.QualificationRequest()
-        value.qualificationRequestId = try reader["QualificationRequestId"].readIfPresent()
-        value.qualificationTypeId = try reader["QualificationTypeId"].readIfPresent()
-        value.workerId = try reader["WorkerId"].readIfPresent()
-        value.test = try reader["Test"].readIfPresent()
-        value.answer = try reader["Answer"].readIfPresent()
-        value.submitTime = try reader["SubmitTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.completeTime = try reader["CompleteTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.result = try reader["Result"].readIfPresent()
+        value.errorCode = try reader["ErrorCode"].readIfPresent()
         return value
     }
 }
@@ -4374,42 +4459,6 @@ extension MTurkClientTypes.ReviewPolicy {
     }
 }
 
-extension MTurkClientTypes.PolicyParameter {
-
-    static func write(value: MTurkClientTypes.PolicyParameter?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["Key"].write(value.key)
-        try writer["MapEntries"].writeList(value.mapEntries, memberWritingClosure: MTurkClientTypes.ParameterMapEntry.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["Values"].writeList(value.values, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> MTurkClientTypes.PolicyParameter {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = MTurkClientTypes.PolicyParameter()
-        value.key = try reader["Key"].readIfPresent()
-        value.values = try reader["Values"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
-        value.mapEntries = try reader["MapEntries"].readListIfPresent(memberReadingClosure: MTurkClientTypes.ParameterMapEntry.read(from:), memberNodeInfo: "member", isFlattened: false)
-        return value
-    }
-}
-
-extension MTurkClientTypes.ParameterMapEntry {
-
-    static func write(value: MTurkClientTypes.ParameterMapEntry?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["Key"].write(value.key)
-        try writer["Values"].writeList(value.values, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> MTurkClientTypes.ParameterMapEntry {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = MTurkClientTypes.ParameterMapEntry()
-        value.key = try reader["Key"].readIfPresent()
-        value.values = try reader["Values"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
-        return value
-    }
-}
-
 extension MTurkClientTypes.ReviewReport {
 
     static func read(from reader: SmithyJSON.Reader) throws -> MTurkClientTypes.ReviewReport {
@@ -4417,23 +4466,6 @@ extension MTurkClientTypes.ReviewReport {
         var value = MTurkClientTypes.ReviewReport()
         value.reviewResults = try reader["ReviewResults"].readListIfPresent(memberReadingClosure: MTurkClientTypes.ReviewResultDetail.read(from:), memberNodeInfo: "member", isFlattened: false)
         value.reviewActions = try reader["ReviewActions"].readListIfPresent(memberReadingClosure: MTurkClientTypes.ReviewActionDetail.read(from:), memberNodeInfo: "member", isFlattened: false)
-        return value
-    }
-}
-
-extension MTurkClientTypes.ReviewActionDetail {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> MTurkClientTypes.ReviewActionDetail {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = MTurkClientTypes.ReviewActionDetail()
-        value.actionId = try reader["ActionId"].readIfPresent()
-        value.actionName = try reader["ActionName"].readIfPresent()
-        value.targetId = try reader["TargetId"].readIfPresent()
-        value.targetType = try reader["TargetType"].readIfPresent()
-        value.status = try reader["Status"].readIfPresent()
-        value.completeTime = try reader["CompleteTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
-        value.result = try reader["Result"].readIfPresent()
-        value.errorCode = try reader["ErrorCode"].readIfPresent()
         return value
     }
 }
@@ -4461,38 +4493,6 @@ extension MTurkClientTypes.WorkerBlock {
         value.workerId = try reader["WorkerId"].readIfPresent()
         value.reason = try reader["Reason"].readIfPresent()
         return value
-    }
-}
-
-extension MTurkClientTypes.NotifyWorkersFailureStatus {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> MTurkClientTypes.NotifyWorkersFailureStatus {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = MTurkClientTypes.NotifyWorkersFailureStatus()
-        value.notifyWorkersFailureCode = try reader["NotifyWorkersFailureCode"].readIfPresent()
-        value.notifyWorkersFailureMessage = try reader["NotifyWorkersFailureMessage"].readIfPresent()
-        value.workerId = try reader["WorkerId"].readIfPresent()
-        return value
-    }
-}
-
-extension MTurkClientTypes.HITLayoutParameter {
-
-    static func write(value: MTurkClientTypes.HITLayoutParameter?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["Name"].write(value.name)
-        try writer["Value"].write(value.value)
-    }
-}
-
-extension MTurkClientTypes.NotificationSpecification {
-
-    static func write(value: MTurkClientTypes.NotificationSpecification?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["Destination"].write(value.destination)
-        try writer["EventTypes"].writeList(value.eventTypes, memberWritingClosure: SmithyReadWrite.WritingClosureBox<MTurkClientTypes.EventType>().write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["Transport"].write(value.transport)
-        try writer["Version"].write(value.version)
     }
 }
 

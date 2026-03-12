@@ -12,8 +12,8 @@ import Foundation
 @_spi(SmithyReadWrite) import class SmithyCBOR.Reader
 @_spi(SmithyReadWrite) import class SmithyCBOR.Writer
 import class SmithyHTTPAPI.HTTPResponse
-@_spi(SmithyReadWrite) import enum AWSClientRuntime.AWSQueryCompatibleUtils
 import enum ClientRuntime.ErrorFault
+@_spi(SmithyReadWrite) import enum ClientRuntime.QueryCompatibleUtils
 import enum SmithyReadWrite.ReaderError
 @_spi(SmithyReadWrite) import enum SmithyReadWrite.ReadingClosures
 @_spi(SmithyReadWrite) import enum SmithyReadWrite.WritingClosures
@@ -30,6 +30,11 @@ import protocol ClientRuntime.ServiceError
 @_spi(SmithyTimestamps) import struct SmithyTimestamps.TimestampFormatter
 
 
+public struct DeleteAlarmMuteRuleOutput: Swift.Sendable {
+
+    public init() { }
+}
+
 public struct DeleteAlarmsOutput: Swift.Sendable {
 
     public init() { }
@@ -41,6 +46,11 @@ public struct DisableAlarmActionsOutput: Swift.Sendable {
 }
 
 public struct EnableAlarmActionsOutput: Swift.Sendable {
+
+    public init() { }
+}
+
+public struct PutAlarmMuteRuleOutput: Swift.Sendable {
 
     public init() { }
 }
@@ -233,6 +243,69 @@ extension CloudWatchClientTypes {
             self.historyItemType = historyItemType
             self.historySummary = historySummary
             self.timestamp = timestamp
+        }
+    }
+}
+
+extension CloudWatchClientTypes {
+
+    public enum AlarmMuteRuleStatus: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case active
+        case expired
+        case scheduled
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [AlarmMuteRuleStatus] {
+            return [
+                .active,
+                .expired,
+                .scheduled
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .active: return "ACTIVE"
+            case .expired: return "EXPIRED"
+            case .scheduled: return "SCHEDULED"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension CloudWatchClientTypes {
+
+    /// Summary information about an alarm mute rule, including its name, status, and configuration details.
+    public struct AlarmMuteRuleSummary: Swift.Sendable {
+        /// The Amazon Resource Name (ARN) of the alarm mute rule.
+        public var alarmMuteRuleArn: Swift.String?
+        /// The date and time when the mute rule expires and is no longer evaluated. This field is only present if an expiration date was configured.
+        public var expireDate: Foundation.Date?
+        /// The date and time when the mute rule was last updated.
+        public var lastUpdatedTimestamp: Foundation.Date?
+        /// Indicates whether the mute rule is one-time or recurring. Valid values are ONE_TIME or RECURRING.
+        public var muteType: Swift.String?
+        /// The current status of the alarm mute rule. Valid values are SCHEDULED, ACTIVE, or EXPIRED.
+        public var status: CloudWatchClientTypes.AlarmMuteRuleStatus?
+
+        public init(
+            alarmMuteRuleArn: Swift.String? = nil,
+            expireDate: Foundation.Date? = nil,
+            lastUpdatedTimestamp: Foundation.Date? = nil,
+            muteType: Swift.String? = nil,
+            status: CloudWatchClientTypes.AlarmMuteRuleStatus? = nil
+        ) {
+            self.alarmMuteRuleArn = alarmMuteRuleArn
+            self.expireDate = expireDate
+            self.lastUpdatedTimestamp = lastUpdatedTimestamp
+            self.muteType = muteType
+            self.status = status
         }
     }
 }
@@ -1048,6 +1121,18 @@ extension CloudWatchClientTypes {
     }
 }
 
+public struct DeleteAlarmMuteRuleInput: Swift.Sendable {
+    /// The name of the alarm mute rule to delete.
+    /// This member is required.
+    public var alarmMuteRuleName: Swift.String?
+
+    public init(
+        alarmMuteRuleName: Swift.String? = nil
+    ) {
+        self.alarmMuteRuleName = alarmMuteRuleName
+    }
+}
+
 /// The named resource does not exist.
 public struct ResourceNotFound: ClientRuntime.ModeledError, ClientRuntime.ServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
@@ -1521,11 +1606,15 @@ public struct DescribeAlarmsInput: Swift.Sendable {
 extension CloudWatchClientTypes {
 
     public enum EvaluationState: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case evaluationError
+        case evaluationFailure
         case partialData
         case sdkUnknown(Swift.String)
 
         public static var allCases: [EvaluationState] {
             return [
+                .evaluationError,
+                .evaluationFailure,
                 .partialData
             ]
         }
@@ -1537,6 +1626,8 @@ extension CloudWatchClientTypes {
 
         public var rawValue: Swift.String {
             switch self {
+            case .evaluationError: return "EVALUATION_ERROR"
+            case .evaluationFailure: return "EVALUATION_FAILURE"
             case .partialData: return "PARTIAL_DATA"
             case let .sdkUnknown(s): return s
             }
@@ -1608,7 +1699,7 @@ extension CloudWatchClientTypes {
         public var evaluateLowSampleCountPercentile: Swift.String?
         /// The number of periods over which data is compared to the specified threshold.
         public var evaluationPeriods: Swift.Int?
-        /// If the value of this field is PARTIAL_DATA, the alarm is being evaluated based on only partial data. This happens if the query used for the alarm returns more than 10,000 metrics. For more information, see [Create alarms on Metrics Insights queries](https://docs.aws.amazon.com/AmazonCloudWatch/latest/monitoring/Create_Metrics_Insights_Alarm.html).
+        /// If the value of this field is PARTIAL_DATA, it indicates that not all the available data was able to be retrieved due to quota limitations. For more information, see [Create alarms on Metrics Insights queries](https://docs.aws.amazon.com/AmazonCloudWatch/latest/monitoring/Create_Metrics_Insights_Alarm.html). If the value of this field is EVALUATION_ERROR, it indicates configuration errors in alarm setup that require review and correction. Refer to StateReason field of the alarm for more details. If the value of this field is EVALUATION_FAILURE, it indicates temporary CloudWatch issues. We recommend manual monitoring until the issue is resolved
         public var evaluationState: CloudWatchClientTypes.EvaluationState?
         /// The percentile statistic for the metric associated with the alarm. Specify a value between p0.0 and p100.
         public var extendedStatistic: Swift.String?
@@ -2118,6 +2209,166 @@ extension CloudWatchClientTypes {
             self.entity = entity
             self.metricData = metricData
         }
+    }
+}
+
+public struct GetAlarmMuteRuleInput: Swift.Sendable {
+    /// The name of the alarm mute rule to retrieve.
+    /// This member is required.
+    public var alarmMuteRuleName: Swift.String?
+
+    public init(
+        alarmMuteRuleName: Swift.String? = nil
+    ) {
+        self.alarmMuteRuleName = alarmMuteRuleName
+    }
+}
+
+extension CloudWatchClientTypes {
+
+    /// Specifies which alarms an alarm mute rule applies to. You can target up to 100 specific alarms by name. When a mute rule is active, the targeted alarms continue to evaluate metrics and transition between states, but their configured actions are muted.
+    public struct MuteTargets: Swift.Sendable {
+        /// The list of alarm names that this mute rule targets. You can specify up to 100 alarm names. Each alarm name must be between 1 and 255 characters in length. The alarm names must match existing alarms in your Amazon Web Services account and region.
+        /// This member is required.
+        public var alarmNames: [Swift.String]?
+
+        public init(
+            alarmNames: [Swift.String]? = nil
+        ) {
+            self.alarmNames = alarmNames
+        }
+    }
+}
+
+extension CloudWatchClientTypes {
+
+    /// Specifies when and how long an alarm mute rule is active. The schedule uses either a cron expression for recurring mute windows or an at expression for one-time mute windows. When the schedule activates, the mute rule mutes alarm actions for the specified duration.
+    public struct Schedule: Swift.Sendable {
+        /// The length of time that alarms remain muted when the schedule activates. The duration must be between 1 and 50 characters in length. Specify the duration using ISO 8601 duration format with a minimum of 1 minute (PT1M) and maximum of 15 days (P15D). Examples:
+        ///
+        /// * PT4H - 4 hours for weekly system maintenance
+        ///
+        /// * P2DT12H - 2 days and 12 hours for weekend muting from Friday 6:00 PM to Monday 6:00 AM
+        ///
+        /// * PT6H - 6 hours for monthly database maintenance
+        ///
+        /// * PT2H - 2 hours for nightly backup operations
+        ///
+        /// * P7D - 7 days for annual company shutdown
+        ///
+        ///
+        /// The duration begins when the schedule expression time is reached. For recurring schedules, the duration applies to each occurrence.
+        /// This member is required.
+        public var duration: Swift.String?
+        /// The schedule expression that defines when the mute rule activates. The expression must be between 1 and 256 characters in length. You can use one of two expression formats:
+        ///
+        /// * Cron expressions - For recurring mute windows. Format: cron(Minutes Hours Day-of-month Month Day-of-week) Examples:
+        ///
+        /// * cron(0 2 * * *) - Activates daily at 2:00 AM
+        ///
+        /// * cron(0 2 * * SUN) - Activates every Sunday at 2:00 AM for weekly system maintenance
+        ///
+        /// * cron(0 1 1 * *) - Activates on the first day of each month at 1:00 AM for monthly database maintenance
+        ///
+        /// * cron(0 18 * * FRI) - Activates every Friday at 6:00 PM
+        ///
+        /// * cron(0 23 * * *) - Activates every day at 11:00 PM during nightly backup operations
+        ///
+        ///
+        /// The characters *, -, and , are supported in all fields. English names can be used for the month (JAN-DEC) and day of week (SUN-SAT) fields.
+        ///
+        /// * At expressions - For one-time mute windows. Format: at(yyyy-MM-ddThh:mm) Examples:
+        ///
+        /// * at(2024-05-10T14:00) - Activates once on May 10, 2024 at 2:00 PM during an active incident response session
+        ///
+        /// * at(2024-12-23T00:00) - Activates once on December 23, 2024 at midnight during annual company shutdown
+        /// This member is required.
+        public var expression: Swift.String?
+        /// The time zone to use when evaluating the schedule expression. The time zone must be between 1 and 50 characters in length. Specify the time zone using standard timezone identifiers (for example, America/New_York, Europe/London, or Asia/Tokyo). If you don't specify a time zone, UTC is used by default. The time zone affects how cron and at expressions are interpreted, as well as start and expire dates you specify Examples:
+        ///
+        /// * America/New_York - Eastern Time (US)
+        ///
+        /// * America/Los_Angeles - Pacific Time (US)
+        ///
+        /// * Europe/London - British Time
+        ///
+        /// * Asia/Tokyo - Japan Standard Time
+        ///
+        /// * UTC - Coordinated Universal Time
+        public var timezone: Swift.String?
+
+        public init(
+            duration: Swift.String? = nil,
+            expression: Swift.String? = nil,
+            timezone: Swift.String? = nil
+        ) {
+            self.duration = duration
+            self.expression = expression
+            self.timezone = timezone
+        }
+    }
+}
+
+extension CloudWatchClientTypes {
+
+    /// Defines the schedule configuration for an alarm mute rule. The rule contains a schedule that specifies when and how long alarms should be muted. The schedule can be a recurring pattern using cron expressions or a one-time mute window using at expressions.
+    public struct Rule: Swift.Sendable {
+        /// The schedule configuration that defines when the mute rule activates and how long it remains active.
+        /// This member is required.
+        public var schedule: CloudWatchClientTypes.Schedule?
+
+        public init(
+            schedule: CloudWatchClientTypes.Schedule? = nil
+        ) {
+            self.schedule = schedule
+        }
+    }
+}
+
+public struct GetAlarmMuteRuleOutput: Swift.Sendable {
+    /// The Amazon Resource Name (ARN) of the alarm mute rule.
+    public var alarmMuteRuleArn: Swift.String?
+    /// The description of the alarm mute rule.
+    public var description: Swift.String?
+    /// The date and time when the mute rule expires and is no longer evaluated.
+    public var expireDate: Foundation.Date?
+    /// The date and time when the mute rule was last updated.
+    public var lastUpdatedTimestamp: Foundation.Date?
+    /// Specifies which alarms this rule applies to.
+    public var muteTargets: CloudWatchClientTypes.MuteTargets?
+    /// Indicates whether the mute rule is one-time or recurring. Valid values are ONE_TIME or RECURRING.
+    public var muteType: Swift.String?
+    /// The name of the alarm mute rule.
+    public var name: Swift.String?
+    /// The configuration that defines when and how long alarms are muted.
+    public var rule: CloudWatchClientTypes.Rule?
+    /// The date and time when the mute rule becomes active. If not set, the rule is active immediately.
+    public var startDate: Foundation.Date?
+    /// The current status of the alarm mute rule. Valid values are SCHEDULED, ACTIVE, or EXPIRED.
+    public var status: CloudWatchClientTypes.AlarmMuteRuleStatus?
+
+    public init(
+        alarmMuteRuleArn: Swift.String? = nil,
+        description: Swift.String? = nil,
+        expireDate: Foundation.Date? = nil,
+        lastUpdatedTimestamp: Foundation.Date? = nil,
+        muteTargets: CloudWatchClientTypes.MuteTargets? = nil,
+        muteType: Swift.String? = nil,
+        name: Swift.String? = nil,
+        rule: CloudWatchClientTypes.Rule? = nil,
+        startDate: Foundation.Date? = nil,
+        status: CloudWatchClientTypes.AlarmMuteRuleStatus? = nil
+    ) {
+        self.alarmMuteRuleArn = alarmMuteRuleArn
+        self.description = description
+        self.expireDate = expireDate
+        self.lastUpdatedTimestamp = lastUpdatedTimestamp
+        self.muteTargets = muteTargets
+        self.muteType = muteType
+        self.name = name
+        self.rule = rule
+        self.startDate = startDate
+        self.status = status
     }
 }
 
@@ -2786,6 +3037,44 @@ public struct GetMetricWidgetImageOutput: Swift.Sendable {
     }
 }
 
+public struct ListAlarmMuteRulesInput: Swift.Sendable {
+    /// Filter results to show only mute rules that target the specified alarm name.
+    public var alarmName: Swift.String?
+    /// The maximum number of mute rules to return in one call. The default is 50.
+    public var maxRecords: Swift.Int?
+    /// The token returned from a previous call to indicate where to continue retrieving results.
+    public var nextToken: Swift.String?
+    /// Filter results to show only mute rules with the specified statuses. Valid values are SCHEDULED, ACTIVE, or EXPIRED.
+    public var statuses: [CloudWatchClientTypes.AlarmMuteRuleStatus]?
+
+    public init(
+        alarmName: Swift.String? = nil,
+        maxRecords: Swift.Int? = nil,
+        nextToken: Swift.String? = nil,
+        statuses: [CloudWatchClientTypes.AlarmMuteRuleStatus]? = nil
+    ) {
+        self.alarmName = alarmName
+        self.maxRecords = maxRecords
+        self.nextToken = nextToken
+        self.statuses = statuses
+    }
+}
+
+public struct ListAlarmMuteRulesOutput: Swift.Sendable {
+    /// A list of alarm mute rule summaries.
+    public var alarmMuteRuleSummaries: [CloudWatchClientTypes.AlarmMuteRuleSummary]?
+    /// The token to use when requesting the next set of results. If this field is absent, there are no more results to retrieve.
+    public var nextToken: Swift.String?
+
+    public init(
+        alarmMuteRuleSummaries: [CloudWatchClientTypes.AlarmMuteRuleSummary]? = nil,
+        nextToken: Swift.String? = nil
+    ) {
+        self.alarmMuteRuleSummaries = alarmMuteRuleSummaries
+        self.nextToken = nextToken
+    }
+}
+
 public struct ListDashboardsInput: Swift.Sendable {
     /// If you specify this parameter, only the dashboards with names starting with the specified string are listed. The maximum length is 255, and valid characters are A-Z, a-z, 0-9, ".", "-", and "_".
     public var dashboardNamePrefix: Swift.String?
@@ -3088,6 +3377,67 @@ public struct ListTagsForResourceOutput: Swift.Sendable {
     }
 }
 
+/// The quota for alarms for this customer has already been reached.
+public struct LimitExceededFault: ClientRuntime.ModeledError, ClientRuntime.ServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
+
+    public struct Properties: Swift.Sendable {
+        ///
+        public internal(set) var message: Swift.String? = nil
+    }
+
+    public internal(set) var properties = Properties()
+    public static var typeName: Swift.String { "LimitExceeded" }
+    public static var fault: ClientRuntime.ErrorFault { .client }
+    public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
+    public internal(set) var httpResponse = SmithyHTTPAPI.HTTPResponse()
+    public internal(set) var message: Swift.String?
+    public internal(set) var requestID: Swift.String?
+
+    public init(
+        message: Swift.String? = nil
+    ) {
+        self.properties.message = message
+    }
+}
+
+public struct PutAlarmMuteRuleInput: Swift.Sendable {
+    /// A description of the alarm mute rule that helps you identify its purpose.
+    public var description: Swift.String?
+    /// The date and time when the mute rule expires and is no longer evaluated. After this time, the rule status becomes EXPIRED and will no longer mute the targeted alarms. This date and time is interpreted according to the schedule timezone, or UTC if no timezone is specified.
+    public var expireDate: Foundation.Date?
+    /// Specifies which alarms this rule applies to.
+    public var muteTargets: CloudWatchClientTypes.MuteTargets?
+    /// The name of the alarm mute rule. This name must be unique within your Amazon Web Services account and region.
+    /// This member is required.
+    public var name: Swift.String?
+    /// The configuration that defines when and how long alarms should be muted.
+    /// This member is required.
+    public var rule: CloudWatchClientTypes.Rule?
+    /// The date and time after which the mute rule takes effect. If not specified, the mute rule takes effect immediately upon creation and the mutes are applied as per the schedule expression. This date and time is interpreted according to the schedule timezone, or UTC if no timezone is specified.
+    public var startDate: Foundation.Date?
+    /// A list of key-value pairs to associate with the alarm mute rule. You can use tags to categorize and manage your mute rules.
+    public var tags: [CloudWatchClientTypes.Tag]?
+
+    public init(
+        description: Swift.String? = nil,
+        expireDate: Foundation.Date? = nil,
+        muteTargets: CloudWatchClientTypes.MuteTargets? = nil,
+        name: Swift.String? = nil,
+        rule: CloudWatchClientTypes.Rule? = nil,
+        startDate: Foundation.Date? = nil,
+        tags: [CloudWatchClientTypes.Tag]? = nil
+    ) {
+        self.description = description
+        self.expireDate = expireDate
+        self.muteTargets = muteTargets
+        self.name = name
+        self.rule = rule
+        self.startDate = startDate
+        self.tags = tags
+    }
+}
+
 public struct PutAnomalyDetectorInput: Swift.Sendable {
     /// The configuration specifies details about how the anomaly detection model is to be trained, including time ranges to exclude when training and updating the model. You can specify as many as 10 time ranges. The configuration can also include the time zone to use for the metric.
     public var configuration: CloudWatchClientTypes.AnomalyDetectorConfiguration?
@@ -3160,30 +3510,6 @@ public struct PutAnomalyDetectorInput: Swift.Sendable {
 public struct PutAnomalyDetectorOutput: Swift.Sendable {
 
     public init() { }
-}
-
-/// The quota for alarms for this customer has already been reached.
-public struct LimitExceededFault: ClientRuntime.ModeledError, ClientRuntime.ServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
-
-    public struct Properties: Swift.Sendable {
-        ///
-        public internal(set) var message: Swift.String? = nil
-    }
-
-    public internal(set) var properties = Properties()
-    public static var typeName: Swift.String { "LimitExceeded" }
-    public static var fault: ClientRuntime.ErrorFault { .client }
-    public static var isRetryable: Swift.Bool { false }
-    public static var isThrottling: Swift.Bool { false }
-    public internal(set) var httpResponse = SmithyHTTPAPI.HTTPResponse()
-    public internal(set) var message: Swift.String?
-    public internal(set) var requestID: Swift.String?
-
-    public init(
-        message: Swift.String? = nil
-    ) {
-        self.properties.message = message
-    }
 }
 
 public struct PutCompositeAlarmInput: Swift.Sendable {
@@ -3880,6 +4206,13 @@ public struct UntagResourceOutput: Swift.Sendable {
     public init() { }
 }
 
+extension DeleteAlarmMuteRuleInput {
+
+    static func urlPathProvider(_ value: DeleteAlarmMuteRuleInput) -> Swift.String? {
+        return "/service/GraniteServiceVersion20100801/operation/DeleteAlarmMuteRule"
+    }
+}
+
 extension DeleteAlarmsInput {
 
     static func urlPathProvider(_ value: DeleteAlarmsInput) -> Swift.String? {
@@ -3985,6 +4318,13 @@ extension EnableInsightRulesInput {
     }
 }
 
+extension GetAlarmMuteRuleInput {
+
+    static func urlPathProvider(_ value: GetAlarmMuteRuleInput) -> Swift.String? {
+        return "/service/GraniteServiceVersion20100801/operation/GetAlarmMuteRule"
+    }
+}
+
 extension GetDashboardInput {
 
     static func urlPathProvider(_ value: GetDashboardInput) -> Swift.String? {
@@ -4027,6 +4367,13 @@ extension GetMetricWidgetImageInput {
     }
 }
 
+extension ListAlarmMuteRulesInput {
+
+    static func urlPathProvider(_ value: ListAlarmMuteRulesInput) -> Swift.String? {
+        return "/service/GraniteServiceVersion20100801/operation/ListAlarmMuteRules"
+    }
+}
+
 extension ListDashboardsInput {
 
     static func urlPathProvider(_ value: ListDashboardsInput) -> Swift.String? {
@@ -4059,6 +4406,13 @@ extension ListTagsForResourceInput {
 
     static func urlPathProvider(_ value: ListTagsForResourceInput) -> Swift.String? {
         return "/service/GraniteServiceVersion20100801/operation/ListTagsForResource"
+    }
+}
+
+extension PutAlarmMuteRuleInput {
+
+    static func urlPathProvider(_ value: PutAlarmMuteRuleInput) -> Swift.String? {
+        return "/service/GraniteServiceVersion20100801/operation/PutAlarmMuteRule"
     }
 }
 
@@ -4150,6 +4504,14 @@ extension UntagResourceInput {
 
     static func urlPathProvider(_ value: UntagResourceInput) -> Swift.String? {
         return "/service/GraniteServiceVersion20100801/operation/UntagResource"
+    }
+}
+
+extension DeleteAlarmMuteRuleInput {
+
+    static func write(value: DeleteAlarmMuteRuleInput?, to writer: SmithyCBOR.Writer) throws {
+        guard let value else { return }
+        try writer["AlarmMuteRuleName"].write(value.alarmMuteRuleName)
     }
 }
 
@@ -4307,6 +4669,14 @@ extension EnableInsightRulesInput {
     }
 }
 
+extension GetAlarmMuteRuleInput {
+
+    static func write(value: GetAlarmMuteRuleInput?, to writer: SmithyCBOR.Writer) throws {
+        guard let value else { return }
+        try writer["AlarmMuteRuleName"].write(value.alarmMuteRuleName)
+    }
+}
+
 extension GetDashboardInput {
 
     static func write(value: GetDashboardInput?, to writer: SmithyCBOR.Writer) throws {
@@ -4376,6 +4746,17 @@ extension GetMetricWidgetImageInput {
     }
 }
 
+extension ListAlarmMuteRulesInput {
+
+    static func write(value: ListAlarmMuteRulesInput?, to writer: SmithyCBOR.Writer) throws {
+        guard let value else { return }
+        try writer["AlarmName"].write(value.alarmName)
+        try writer["MaxRecords"].write(value.maxRecords)
+        try writer["NextToken"].write(value.nextToken)
+        try writer["Statuses"].writeList(value.statuses, memberWritingClosure: SmithyReadWrite.WritingClosureBox<CloudWatchClientTypes.AlarmMuteRuleStatus>().write(value:to:), memberNodeInfo: "member", isFlattened: false)
+    }
+}
+
 extension ListDashboardsInput {
 
     static func write(value: ListDashboardsInput?, to writer: SmithyCBOR.Writer) throws {
@@ -4423,6 +4804,20 @@ extension ListTagsForResourceInput {
     static func write(value: ListTagsForResourceInput?, to writer: SmithyCBOR.Writer) throws {
         guard let value else { return }
         try writer["ResourceARN"].write(value.resourceARN)
+    }
+}
+
+extension PutAlarmMuteRuleInput {
+
+    static func write(value: PutAlarmMuteRuleInput?, to writer: SmithyCBOR.Writer) throws {
+        guard let value else { return }
+        try writer["Description"].write(value.description)
+        try writer["ExpireDate"].writeTimestamp(value.expireDate, format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        try writer["MuteTargets"].write(value.muteTargets, with: CloudWatchClientTypes.MuteTargets.write(value:to:))
+        try writer["Name"].write(value.name)
+        try writer["Rule"].write(value.rule, with: CloudWatchClientTypes.Rule.write(value:to:))
+        try writer["StartDate"].writeTimestamp(value.startDate, format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        try writer["Tags"].writeList(value.tags, memberWritingClosure: CloudWatchClientTypes.Tag.write(value:to:), memberNodeInfo: "member", isFlattened: false)
     }
 }
 
@@ -4589,6 +4984,13 @@ extension UntagResourceInput {
     }
 }
 
+extension DeleteAlarmMuteRuleOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> DeleteAlarmMuteRuleOutput {
+        return DeleteAlarmMuteRuleOutput()
+    }
+}
+
 extension DeleteAlarmsOutput {
 
     static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> DeleteAlarmsOutput {
@@ -4745,6 +5147,27 @@ extension EnableInsightRulesOutput {
     }
 }
 
+extension GetAlarmMuteRuleOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> GetAlarmMuteRuleOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyCBOR.Reader.from(data: data)
+        let reader = responseReader
+        var value = GetAlarmMuteRuleOutput()
+        value.alarmMuteRuleArn = try reader["AlarmMuteRuleArn"].readIfPresent()
+        value.description = try reader["Description"].readIfPresent()
+        value.expireDate = try reader["ExpireDate"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.lastUpdatedTimestamp = try reader["LastUpdatedTimestamp"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.muteTargets = try reader["MuteTargets"].readIfPresent(with: CloudWatchClientTypes.MuteTargets.read(from:))
+        value.muteType = try reader["MuteType"].readIfPresent()
+        value.name = try reader["Name"].readIfPresent()
+        value.rule = try reader["Rule"].readIfPresent(with: CloudWatchClientTypes.Rule.read(from:))
+        value.startDate = try reader["StartDate"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.status = try reader["Status"].readIfPresent()
+        return value
+    }
+}
+
 extension GetDashboardOutput {
 
     static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> GetDashboardOutput {
@@ -4838,6 +5261,19 @@ extension GetMetricWidgetImageOutput {
     }
 }
 
+extension ListAlarmMuteRulesOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> ListAlarmMuteRulesOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyCBOR.Reader.from(data: data)
+        let reader = responseReader
+        var value = ListAlarmMuteRulesOutput()
+        value.alarmMuteRuleSummaries = try reader["AlarmMuteRuleSummaries"].readListIfPresent(memberReadingClosure: CloudWatchClientTypes.AlarmMuteRuleSummary.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.nextToken = try reader["NextToken"].readIfPresent()
+        return value
+    }
+}
+
 extension ListDashboardsOutput {
 
     static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> ListDashboardsOutput {
@@ -4900,6 +5336,13 @@ extension ListTagsForResourceOutput {
         var value = ListTagsForResourceOutput()
         value.tags = try reader["Tags"].readListIfPresent(memberReadingClosure: CloudWatchClientTypes.Tag.read(from:), memberNodeInfo: "member", isFlattened: false)
         return value
+    }
+}
+
+extension PutAlarmMuteRuleOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> PutAlarmMuteRuleOutput {
+        return PutAlarmMuteRuleOutput()
     }
 }
 
@@ -5009,13 +5452,27 @@ extension UntagResourceOutput {
     }
 }
 
+enum DeleteAlarmMuteRuleOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyCBOR.Reader.from(data: data)
+        let errorDetails = httpResponse.headers.value(for: "x-amzn-query-error")
+        let baseError: ClientRuntime.RpcV2CborError = try ClientRuntime.QueryCompatibleUtils.makeQueryCompatibleError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false, errorDetails: errorDetails)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
 enum DeleteAlarmsOutputError {
 
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyCBOR.Reader.from(data: data)
         let errorDetails = httpResponse.headers.value(for: "x-amzn-query-error")
-        let baseError: ClientRuntime.RpcV2CborError = try AWSClientRuntime.AWSQueryCompatibleUtils.makeQueryCompatibleError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false, errorDetails: errorDetails)
+        let baseError: ClientRuntime.RpcV2CborError = try ClientRuntime.QueryCompatibleUtils.makeQueryCompatibleError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false, errorDetails: errorDetails)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "ResourceNotFound": return try ResourceNotFound.makeError(baseError: baseError)
@@ -5030,7 +5487,7 @@ enum DeleteAnomalyDetectorOutputError {
         let data = try await httpResponse.data()
         let responseReader = try SmithyCBOR.Reader.from(data: data)
         let errorDetails = httpResponse.headers.value(for: "x-amzn-query-error")
-        let baseError: ClientRuntime.RpcV2CborError = try AWSClientRuntime.AWSQueryCompatibleUtils.makeQueryCompatibleError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false, errorDetails: errorDetails)
+        let baseError: ClientRuntime.RpcV2CborError = try ClientRuntime.QueryCompatibleUtils.makeQueryCompatibleError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false, errorDetails: errorDetails)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "InternalServiceError": return try InternalServiceFault.makeError(baseError: baseError)
@@ -5049,7 +5506,7 @@ enum DeleteDashboardsOutputError {
         let data = try await httpResponse.data()
         let responseReader = try SmithyCBOR.Reader.from(data: data)
         let errorDetails = httpResponse.headers.value(for: "x-amzn-query-error")
-        let baseError: ClientRuntime.RpcV2CborError = try AWSClientRuntime.AWSQueryCompatibleUtils.makeQueryCompatibleError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false, errorDetails: errorDetails)
+        let baseError: ClientRuntime.RpcV2CborError = try ClientRuntime.QueryCompatibleUtils.makeQueryCompatibleError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false, errorDetails: errorDetails)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "ConflictException": return try ConflictException.makeError(baseError: baseError)
@@ -5067,7 +5524,7 @@ enum DeleteInsightRulesOutputError {
         let data = try await httpResponse.data()
         let responseReader = try SmithyCBOR.Reader.from(data: data)
         let errorDetails = httpResponse.headers.value(for: "x-amzn-query-error")
-        let baseError: ClientRuntime.RpcV2CborError = try AWSClientRuntime.AWSQueryCompatibleUtils.makeQueryCompatibleError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false, errorDetails: errorDetails)
+        let baseError: ClientRuntime.RpcV2CborError = try ClientRuntime.QueryCompatibleUtils.makeQueryCompatibleError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false, errorDetails: errorDetails)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "InvalidParameterValue": return try InvalidParameterValueException.makeError(baseError: baseError)
@@ -5083,7 +5540,7 @@ enum DeleteMetricStreamOutputError {
         let data = try await httpResponse.data()
         let responseReader = try SmithyCBOR.Reader.from(data: data)
         let errorDetails = httpResponse.headers.value(for: "x-amzn-query-error")
-        let baseError: ClientRuntime.RpcV2CborError = try AWSClientRuntime.AWSQueryCompatibleUtils.makeQueryCompatibleError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false, errorDetails: errorDetails)
+        let baseError: ClientRuntime.RpcV2CborError = try ClientRuntime.QueryCompatibleUtils.makeQueryCompatibleError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false, errorDetails: errorDetails)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "InternalServiceError": return try InternalServiceFault.makeError(baseError: baseError)
@@ -5100,7 +5557,7 @@ enum DescribeAlarmContributorsOutputError {
         let data = try await httpResponse.data()
         let responseReader = try SmithyCBOR.Reader.from(data: data)
         let errorDetails = httpResponse.headers.value(for: "x-amzn-query-error")
-        let baseError: ClientRuntime.RpcV2CborError = try AWSClientRuntime.AWSQueryCompatibleUtils.makeQueryCompatibleError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false, errorDetails: errorDetails)
+        let baseError: ClientRuntime.RpcV2CborError = try ClientRuntime.QueryCompatibleUtils.makeQueryCompatibleError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false, errorDetails: errorDetails)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "InvalidNextToken": return try InvalidNextToken.makeError(baseError: baseError)
@@ -5116,7 +5573,7 @@ enum DescribeAlarmHistoryOutputError {
         let data = try await httpResponse.data()
         let responseReader = try SmithyCBOR.Reader.from(data: data)
         let errorDetails = httpResponse.headers.value(for: "x-amzn-query-error")
-        let baseError: ClientRuntime.RpcV2CborError = try AWSClientRuntime.AWSQueryCompatibleUtils.makeQueryCompatibleError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false, errorDetails: errorDetails)
+        let baseError: ClientRuntime.RpcV2CborError = try ClientRuntime.QueryCompatibleUtils.makeQueryCompatibleError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false, errorDetails: errorDetails)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "InvalidNextToken": return try InvalidNextToken.makeError(baseError: baseError)
@@ -5131,7 +5588,7 @@ enum DescribeAlarmsOutputError {
         let data = try await httpResponse.data()
         let responseReader = try SmithyCBOR.Reader.from(data: data)
         let errorDetails = httpResponse.headers.value(for: "x-amzn-query-error")
-        let baseError: ClientRuntime.RpcV2CborError = try AWSClientRuntime.AWSQueryCompatibleUtils.makeQueryCompatibleError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false, errorDetails: errorDetails)
+        let baseError: ClientRuntime.RpcV2CborError = try ClientRuntime.QueryCompatibleUtils.makeQueryCompatibleError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false, errorDetails: errorDetails)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "InvalidNextToken": return try InvalidNextToken.makeError(baseError: baseError)
@@ -5146,7 +5603,7 @@ enum DescribeAlarmsForMetricOutputError {
         let data = try await httpResponse.data()
         let responseReader = try SmithyCBOR.Reader.from(data: data)
         let errorDetails = httpResponse.headers.value(for: "x-amzn-query-error")
-        let baseError: ClientRuntime.RpcV2CborError = try AWSClientRuntime.AWSQueryCompatibleUtils.makeQueryCompatibleError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false, errorDetails: errorDetails)
+        let baseError: ClientRuntime.RpcV2CborError = try ClientRuntime.QueryCompatibleUtils.makeQueryCompatibleError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false, errorDetails: errorDetails)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
@@ -5160,7 +5617,7 @@ enum DescribeAnomalyDetectorsOutputError {
         let data = try await httpResponse.data()
         let responseReader = try SmithyCBOR.Reader.from(data: data)
         let errorDetails = httpResponse.headers.value(for: "x-amzn-query-error")
-        let baseError: ClientRuntime.RpcV2CborError = try AWSClientRuntime.AWSQueryCompatibleUtils.makeQueryCompatibleError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false, errorDetails: errorDetails)
+        let baseError: ClientRuntime.RpcV2CborError = try ClientRuntime.QueryCompatibleUtils.makeQueryCompatibleError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false, errorDetails: errorDetails)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "InternalServiceError": return try InternalServiceFault.makeError(baseError: baseError)
@@ -5178,7 +5635,7 @@ enum DescribeInsightRulesOutputError {
         let data = try await httpResponse.data()
         let responseReader = try SmithyCBOR.Reader.from(data: data)
         let errorDetails = httpResponse.headers.value(for: "x-amzn-query-error")
-        let baseError: ClientRuntime.RpcV2CborError = try AWSClientRuntime.AWSQueryCompatibleUtils.makeQueryCompatibleError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false, errorDetails: errorDetails)
+        let baseError: ClientRuntime.RpcV2CborError = try ClientRuntime.QueryCompatibleUtils.makeQueryCompatibleError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false, errorDetails: errorDetails)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "InvalidNextToken": return try InvalidNextToken.makeError(baseError: baseError)
@@ -5193,7 +5650,7 @@ enum DisableAlarmActionsOutputError {
         let data = try await httpResponse.data()
         let responseReader = try SmithyCBOR.Reader.from(data: data)
         let errorDetails = httpResponse.headers.value(for: "x-amzn-query-error")
-        let baseError: ClientRuntime.RpcV2CborError = try AWSClientRuntime.AWSQueryCompatibleUtils.makeQueryCompatibleError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false, errorDetails: errorDetails)
+        let baseError: ClientRuntime.RpcV2CborError = try ClientRuntime.QueryCompatibleUtils.makeQueryCompatibleError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false, errorDetails: errorDetails)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
@@ -5207,7 +5664,7 @@ enum DisableInsightRulesOutputError {
         let data = try await httpResponse.data()
         let responseReader = try SmithyCBOR.Reader.from(data: data)
         let errorDetails = httpResponse.headers.value(for: "x-amzn-query-error")
-        let baseError: ClientRuntime.RpcV2CborError = try AWSClientRuntime.AWSQueryCompatibleUtils.makeQueryCompatibleError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false, errorDetails: errorDetails)
+        let baseError: ClientRuntime.RpcV2CborError = try ClientRuntime.QueryCompatibleUtils.makeQueryCompatibleError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false, errorDetails: errorDetails)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "InvalidParameterValue": return try InvalidParameterValueException.makeError(baseError: baseError)
@@ -5223,7 +5680,7 @@ enum EnableAlarmActionsOutputError {
         let data = try await httpResponse.data()
         let responseReader = try SmithyCBOR.Reader.from(data: data)
         let errorDetails = httpResponse.headers.value(for: "x-amzn-query-error")
-        let baseError: ClientRuntime.RpcV2CborError = try AWSClientRuntime.AWSQueryCompatibleUtils.makeQueryCompatibleError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false, errorDetails: errorDetails)
+        let baseError: ClientRuntime.RpcV2CborError = try ClientRuntime.QueryCompatibleUtils.makeQueryCompatibleError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false, errorDetails: errorDetails)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
@@ -5237,12 +5694,27 @@ enum EnableInsightRulesOutputError {
         let data = try await httpResponse.data()
         let responseReader = try SmithyCBOR.Reader.from(data: data)
         let errorDetails = httpResponse.headers.value(for: "x-amzn-query-error")
-        let baseError: ClientRuntime.RpcV2CborError = try AWSClientRuntime.AWSQueryCompatibleUtils.makeQueryCompatibleError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false, errorDetails: errorDetails)
+        let baseError: ClientRuntime.RpcV2CborError = try ClientRuntime.QueryCompatibleUtils.makeQueryCompatibleError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false, errorDetails: errorDetails)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "InvalidParameterValue": return try InvalidParameterValueException.makeError(baseError: baseError)
             case "LimitExceededException": return try LimitExceededException.makeError(baseError: baseError)
             case "MissingParameter": return try MissingRequiredParameterException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum GetAlarmMuteRuleOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyCBOR.Reader.from(data: data)
+        let errorDetails = httpResponse.headers.value(for: "x-amzn-query-error")
+        let baseError: ClientRuntime.RpcV2CborError = try ClientRuntime.QueryCompatibleUtils.makeQueryCompatibleError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false, errorDetails: errorDetails)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
             default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
         }
     }
@@ -5254,7 +5726,7 @@ enum GetDashboardOutputError {
         let data = try await httpResponse.data()
         let responseReader = try SmithyCBOR.Reader.from(data: data)
         let errorDetails = httpResponse.headers.value(for: "x-amzn-query-error")
-        let baseError: ClientRuntime.RpcV2CborError = try AWSClientRuntime.AWSQueryCompatibleUtils.makeQueryCompatibleError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false, errorDetails: errorDetails)
+        let baseError: ClientRuntime.RpcV2CborError = try ClientRuntime.QueryCompatibleUtils.makeQueryCompatibleError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false, errorDetails: errorDetails)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "ResourceNotFound": return try DashboardNotFoundError.makeError(baseError: baseError)
@@ -5271,7 +5743,7 @@ enum GetInsightRuleReportOutputError {
         let data = try await httpResponse.data()
         let responseReader = try SmithyCBOR.Reader.from(data: data)
         let errorDetails = httpResponse.headers.value(for: "x-amzn-query-error")
-        let baseError: ClientRuntime.RpcV2CborError = try AWSClientRuntime.AWSQueryCompatibleUtils.makeQueryCompatibleError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false, errorDetails: errorDetails)
+        let baseError: ClientRuntime.RpcV2CborError = try ClientRuntime.QueryCompatibleUtils.makeQueryCompatibleError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false, errorDetails: errorDetails)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "InvalidParameterValue": return try InvalidParameterValueException.makeError(baseError: baseError)
@@ -5288,7 +5760,7 @@ enum GetMetricDataOutputError {
         let data = try await httpResponse.data()
         let responseReader = try SmithyCBOR.Reader.from(data: data)
         let errorDetails = httpResponse.headers.value(for: "x-amzn-query-error")
-        let baseError: ClientRuntime.RpcV2CborError = try AWSClientRuntime.AWSQueryCompatibleUtils.makeQueryCompatibleError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false, errorDetails: errorDetails)
+        let baseError: ClientRuntime.RpcV2CborError = try ClientRuntime.QueryCompatibleUtils.makeQueryCompatibleError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false, errorDetails: errorDetails)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "InvalidNextToken": return try InvalidNextToken.makeError(baseError: baseError)
@@ -5303,7 +5775,7 @@ enum GetMetricStatisticsOutputError {
         let data = try await httpResponse.data()
         let responseReader = try SmithyCBOR.Reader.from(data: data)
         let errorDetails = httpResponse.headers.value(for: "x-amzn-query-error")
-        let baseError: ClientRuntime.RpcV2CborError = try AWSClientRuntime.AWSQueryCompatibleUtils.makeQueryCompatibleError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false, errorDetails: errorDetails)
+        let baseError: ClientRuntime.RpcV2CborError = try ClientRuntime.QueryCompatibleUtils.makeQueryCompatibleError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false, errorDetails: errorDetails)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "InternalServiceError": return try InternalServiceFault.makeError(baseError: baseError)
@@ -5321,7 +5793,7 @@ enum GetMetricStreamOutputError {
         let data = try await httpResponse.data()
         let responseReader = try SmithyCBOR.Reader.from(data: data)
         let errorDetails = httpResponse.headers.value(for: "x-amzn-query-error")
-        let baseError: ClientRuntime.RpcV2CborError = try AWSClientRuntime.AWSQueryCompatibleUtils.makeQueryCompatibleError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false, errorDetails: errorDetails)
+        let baseError: ClientRuntime.RpcV2CborError = try ClientRuntime.QueryCompatibleUtils.makeQueryCompatibleError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false, errorDetails: errorDetails)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "InternalServiceError": return try InternalServiceFault.makeError(baseError: baseError)
@@ -5340,9 +5812,25 @@ enum GetMetricWidgetImageOutputError {
         let data = try await httpResponse.data()
         let responseReader = try SmithyCBOR.Reader.from(data: data)
         let errorDetails = httpResponse.headers.value(for: "x-amzn-query-error")
-        let baseError: ClientRuntime.RpcV2CborError = try AWSClientRuntime.AWSQueryCompatibleUtils.makeQueryCompatibleError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false, errorDetails: errorDetails)
+        let baseError: ClientRuntime.RpcV2CborError = try ClientRuntime.QueryCompatibleUtils.makeQueryCompatibleError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false, errorDetails: errorDetails)
         if let error = baseError.customError() { return error }
         switch baseError.code {
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum ListAlarmMuteRulesOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyCBOR.Reader.from(data: data)
+        let errorDetails = httpResponse.headers.value(for: "x-amzn-query-error")
+        let baseError: ClientRuntime.RpcV2CborError = try ClientRuntime.QueryCompatibleUtils.makeQueryCompatibleError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false, errorDetails: errorDetails)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "InvalidNextToken": return try InvalidNextToken.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
             default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
         }
     }
@@ -5354,7 +5842,7 @@ enum ListDashboardsOutputError {
         let data = try await httpResponse.data()
         let responseReader = try SmithyCBOR.Reader.from(data: data)
         let errorDetails = httpResponse.headers.value(for: "x-amzn-query-error")
-        let baseError: ClientRuntime.RpcV2CborError = try AWSClientRuntime.AWSQueryCompatibleUtils.makeQueryCompatibleError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false, errorDetails: errorDetails)
+        let baseError: ClientRuntime.RpcV2CborError = try ClientRuntime.QueryCompatibleUtils.makeQueryCompatibleError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false, errorDetails: errorDetails)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "InternalServiceError": return try InternalServiceFault.makeError(baseError: baseError)
@@ -5370,7 +5858,7 @@ enum ListManagedInsightRulesOutputError {
         let data = try await httpResponse.data()
         let responseReader = try SmithyCBOR.Reader.from(data: data)
         let errorDetails = httpResponse.headers.value(for: "x-amzn-query-error")
-        let baseError: ClientRuntime.RpcV2CborError = try AWSClientRuntime.AWSQueryCompatibleUtils.makeQueryCompatibleError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false, errorDetails: errorDetails)
+        let baseError: ClientRuntime.RpcV2CborError = try ClientRuntime.QueryCompatibleUtils.makeQueryCompatibleError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false, errorDetails: errorDetails)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "InvalidNextToken": return try InvalidNextToken.makeError(baseError: baseError)
@@ -5387,7 +5875,7 @@ enum ListMetricsOutputError {
         let data = try await httpResponse.data()
         let responseReader = try SmithyCBOR.Reader.from(data: data)
         let errorDetails = httpResponse.headers.value(for: "x-amzn-query-error")
-        let baseError: ClientRuntime.RpcV2CborError = try AWSClientRuntime.AWSQueryCompatibleUtils.makeQueryCompatibleError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false, errorDetails: errorDetails)
+        let baseError: ClientRuntime.RpcV2CborError = try ClientRuntime.QueryCompatibleUtils.makeQueryCompatibleError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false, errorDetails: errorDetails)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "InternalServiceError": return try InternalServiceFault.makeError(baseError: baseError)
@@ -5403,7 +5891,7 @@ enum ListMetricStreamsOutputError {
         let data = try await httpResponse.data()
         let responseReader = try SmithyCBOR.Reader.from(data: data)
         let errorDetails = httpResponse.headers.value(for: "x-amzn-query-error")
-        let baseError: ClientRuntime.RpcV2CborError = try AWSClientRuntime.AWSQueryCompatibleUtils.makeQueryCompatibleError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false, errorDetails: errorDetails)
+        let baseError: ClientRuntime.RpcV2CborError = try ClientRuntime.QueryCompatibleUtils.makeQueryCompatibleError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false, errorDetails: errorDetails)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "InternalServiceError": return try InternalServiceFault.makeError(baseError: baseError)
@@ -5421,12 +5909,27 @@ enum ListTagsForResourceOutputError {
         let data = try await httpResponse.data()
         let responseReader = try SmithyCBOR.Reader.from(data: data)
         let errorDetails = httpResponse.headers.value(for: "x-amzn-query-error")
-        let baseError: ClientRuntime.RpcV2CborError = try AWSClientRuntime.AWSQueryCompatibleUtils.makeQueryCompatibleError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false, errorDetails: errorDetails)
+        let baseError: ClientRuntime.RpcV2CborError = try ClientRuntime.QueryCompatibleUtils.makeQueryCompatibleError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false, errorDetails: errorDetails)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "InternalServiceError": return try InternalServiceFault.makeError(baseError: baseError)
             case "InvalidParameterValue": return try InvalidParameterValueException.makeError(baseError: baseError)
             case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum PutAlarmMuteRuleOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyCBOR.Reader.from(data: data)
+        let errorDetails = httpResponse.headers.value(for: "x-amzn-query-error")
+        let baseError: ClientRuntime.RpcV2CborError = try ClientRuntime.QueryCompatibleUtils.makeQueryCompatibleError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false, errorDetails: errorDetails)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "LimitExceeded": return try LimitExceededFault.makeError(baseError: baseError)
             default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
         }
     }
@@ -5438,7 +5941,7 @@ enum PutAnomalyDetectorOutputError {
         let data = try await httpResponse.data()
         let responseReader = try SmithyCBOR.Reader.from(data: data)
         let errorDetails = httpResponse.headers.value(for: "x-amzn-query-error")
-        let baseError: ClientRuntime.RpcV2CborError = try AWSClientRuntime.AWSQueryCompatibleUtils.makeQueryCompatibleError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false, errorDetails: errorDetails)
+        let baseError: ClientRuntime.RpcV2CborError = try ClientRuntime.QueryCompatibleUtils.makeQueryCompatibleError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false, errorDetails: errorDetails)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "InternalServiceError": return try InternalServiceFault.makeError(baseError: baseError)
@@ -5457,7 +5960,7 @@ enum PutCompositeAlarmOutputError {
         let data = try await httpResponse.data()
         let responseReader = try SmithyCBOR.Reader.from(data: data)
         let errorDetails = httpResponse.headers.value(for: "x-amzn-query-error")
-        let baseError: ClientRuntime.RpcV2CborError = try AWSClientRuntime.AWSQueryCompatibleUtils.makeQueryCompatibleError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false, errorDetails: errorDetails)
+        let baseError: ClientRuntime.RpcV2CborError = try ClientRuntime.QueryCompatibleUtils.makeQueryCompatibleError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false, errorDetails: errorDetails)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "LimitExceeded": return try LimitExceededFault.makeError(baseError: baseError)
@@ -5472,7 +5975,7 @@ enum PutDashboardOutputError {
         let data = try await httpResponse.data()
         let responseReader = try SmithyCBOR.Reader.from(data: data)
         let errorDetails = httpResponse.headers.value(for: "x-amzn-query-error")
-        let baseError: ClientRuntime.RpcV2CborError = try AWSClientRuntime.AWSQueryCompatibleUtils.makeQueryCompatibleError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false, errorDetails: errorDetails)
+        let baseError: ClientRuntime.RpcV2CborError = try ClientRuntime.QueryCompatibleUtils.makeQueryCompatibleError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false, errorDetails: errorDetails)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "ConflictException": return try ConflictException.makeError(baseError: baseError)
@@ -5489,7 +5992,7 @@ enum PutInsightRuleOutputError {
         let data = try await httpResponse.data()
         let responseReader = try SmithyCBOR.Reader.from(data: data)
         let errorDetails = httpResponse.headers.value(for: "x-amzn-query-error")
-        let baseError: ClientRuntime.RpcV2CborError = try AWSClientRuntime.AWSQueryCompatibleUtils.makeQueryCompatibleError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false, errorDetails: errorDetails)
+        let baseError: ClientRuntime.RpcV2CborError = try ClientRuntime.QueryCompatibleUtils.makeQueryCompatibleError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false, errorDetails: errorDetails)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "InvalidParameterValue": return try InvalidParameterValueException.makeError(baseError: baseError)
@@ -5506,7 +6009,7 @@ enum PutManagedInsightRulesOutputError {
         let data = try await httpResponse.data()
         let responseReader = try SmithyCBOR.Reader.from(data: data)
         let errorDetails = httpResponse.headers.value(for: "x-amzn-query-error")
-        let baseError: ClientRuntime.RpcV2CborError = try AWSClientRuntime.AWSQueryCompatibleUtils.makeQueryCompatibleError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false, errorDetails: errorDetails)
+        let baseError: ClientRuntime.RpcV2CborError = try ClientRuntime.QueryCompatibleUtils.makeQueryCompatibleError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false, errorDetails: errorDetails)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "InvalidParameterValue": return try InvalidParameterValueException.makeError(baseError: baseError)
@@ -5522,7 +6025,7 @@ enum PutMetricAlarmOutputError {
         let data = try await httpResponse.data()
         let responseReader = try SmithyCBOR.Reader.from(data: data)
         let errorDetails = httpResponse.headers.value(for: "x-amzn-query-error")
-        let baseError: ClientRuntime.RpcV2CborError = try AWSClientRuntime.AWSQueryCompatibleUtils.makeQueryCompatibleError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false, errorDetails: errorDetails)
+        let baseError: ClientRuntime.RpcV2CborError = try ClientRuntime.QueryCompatibleUtils.makeQueryCompatibleError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false, errorDetails: errorDetails)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "LimitExceeded": return try LimitExceededFault.makeError(baseError: baseError)
@@ -5537,7 +6040,7 @@ enum PutMetricDataOutputError {
         let data = try await httpResponse.data()
         let responseReader = try SmithyCBOR.Reader.from(data: data)
         let errorDetails = httpResponse.headers.value(for: "x-amzn-query-error")
-        let baseError: ClientRuntime.RpcV2CborError = try AWSClientRuntime.AWSQueryCompatibleUtils.makeQueryCompatibleError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false, errorDetails: errorDetails)
+        let baseError: ClientRuntime.RpcV2CborError = try ClientRuntime.QueryCompatibleUtils.makeQueryCompatibleError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false, errorDetails: errorDetails)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "InternalServiceError": return try InternalServiceFault.makeError(baseError: baseError)
@@ -5555,7 +6058,7 @@ enum PutMetricStreamOutputError {
         let data = try await httpResponse.data()
         let responseReader = try SmithyCBOR.Reader.from(data: data)
         let errorDetails = httpResponse.headers.value(for: "x-amzn-query-error")
-        let baseError: ClientRuntime.RpcV2CborError = try AWSClientRuntime.AWSQueryCompatibleUtils.makeQueryCompatibleError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false, errorDetails: errorDetails)
+        let baseError: ClientRuntime.RpcV2CborError = try ClientRuntime.QueryCompatibleUtils.makeQueryCompatibleError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false, errorDetails: errorDetails)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "ConcurrentModificationException": return try ConcurrentModificationException.makeError(baseError: baseError)
@@ -5574,7 +6077,7 @@ enum SetAlarmStateOutputError {
         let data = try await httpResponse.data()
         let responseReader = try SmithyCBOR.Reader.from(data: data)
         let errorDetails = httpResponse.headers.value(for: "x-amzn-query-error")
-        let baseError: ClientRuntime.RpcV2CborError = try AWSClientRuntime.AWSQueryCompatibleUtils.makeQueryCompatibleError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false, errorDetails: errorDetails)
+        let baseError: ClientRuntime.RpcV2CborError = try ClientRuntime.QueryCompatibleUtils.makeQueryCompatibleError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false, errorDetails: errorDetails)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "InvalidFormat": return try InvalidFormatFault.makeError(baseError: baseError)
@@ -5590,7 +6093,7 @@ enum StartMetricStreamsOutputError {
         let data = try await httpResponse.data()
         let responseReader = try SmithyCBOR.Reader.from(data: data)
         let errorDetails = httpResponse.headers.value(for: "x-amzn-query-error")
-        let baseError: ClientRuntime.RpcV2CborError = try AWSClientRuntime.AWSQueryCompatibleUtils.makeQueryCompatibleError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false, errorDetails: errorDetails)
+        let baseError: ClientRuntime.RpcV2CborError = try ClientRuntime.QueryCompatibleUtils.makeQueryCompatibleError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false, errorDetails: errorDetails)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "InternalServiceError": return try InternalServiceFault.makeError(baseError: baseError)
@@ -5607,7 +6110,7 @@ enum StopMetricStreamsOutputError {
         let data = try await httpResponse.data()
         let responseReader = try SmithyCBOR.Reader.from(data: data)
         let errorDetails = httpResponse.headers.value(for: "x-amzn-query-error")
-        let baseError: ClientRuntime.RpcV2CborError = try AWSClientRuntime.AWSQueryCompatibleUtils.makeQueryCompatibleError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false, errorDetails: errorDetails)
+        let baseError: ClientRuntime.RpcV2CborError = try ClientRuntime.QueryCompatibleUtils.makeQueryCompatibleError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false, errorDetails: errorDetails)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "InternalServiceError": return try InternalServiceFault.makeError(baseError: baseError)
@@ -5624,7 +6127,7 @@ enum TagResourceOutputError {
         let data = try await httpResponse.data()
         let responseReader = try SmithyCBOR.Reader.from(data: data)
         let errorDetails = httpResponse.headers.value(for: "x-amzn-query-error")
-        let baseError: ClientRuntime.RpcV2CborError = try AWSClientRuntime.AWSQueryCompatibleUtils.makeQueryCompatibleError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false, errorDetails: errorDetails)
+        let baseError: ClientRuntime.RpcV2CborError = try ClientRuntime.QueryCompatibleUtils.makeQueryCompatibleError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false, errorDetails: errorDetails)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "ConcurrentModificationException": return try ConcurrentModificationException.makeError(baseError: baseError)
@@ -5643,7 +6146,7 @@ enum UntagResourceOutputError {
         let data = try await httpResponse.data()
         let responseReader = try SmithyCBOR.Reader.from(data: data)
         let errorDetails = httpResponse.headers.value(for: "x-amzn-query-error")
-        let baseError: ClientRuntime.RpcV2CborError = try AWSClientRuntime.AWSQueryCompatibleUtils.makeQueryCompatibleError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false, errorDetails: errorDetails)
+        let baseError: ClientRuntime.RpcV2CborError = try ClientRuntime.QueryCompatibleUtils.makeQueryCompatibleError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false, errorDetails: errorDetails)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "ConcurrentModificationException": return try ConcurrentModificationException.makeError(baseError: baseError)
@@ -5841,19 +6344,6 @@ extension InvalidFormatFault {
     }
 }
 
-extension CloudWatchClientTypes.PartialFailure {
-
-    static func read(from reader: SmithyCBOR.Reader) throws -> CloudWatchClientTypes.PartialFailure {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = CloudWatchClientTypes.PartialFailure()
-        value.failureResource = try reader["FailureResource"].readIfPresent()
-        value.exceptionType = try reader["ExceptionType"].readIfPresent()
-        value.failureCode = try reader["FailureCode"].readIfPresent()
-        value.failureDescription = try reader["FailureDescription"].readIfPresent()
-        return value
-    }
-}
-
 extension CloudWatchClientTypes.AlarmContributor {
 
     static func read(from reader: SmithyCBOR.Reader) throws -> CloudWatchClientTypes.AlarmContributor {
@@ -5880,6 +6370,55 @@ extension CloudWatchClientTypes.AlarmHistoryItem {
         value.historySummary = try reader["HistorySummary"].readIfPresent()
         value.historyData = try reader["HistoryData"].readIfPresent()
         value.alarmContributorAttributes = try reader["AlarmContributorAttributes"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+        return value
+    }
+}
+
+extension CloudWatchClientTypes.AlarmMuteRuleSummary {
+
+    static func read(from reader: SmithyCBOR.Reader) throws -> CloudWatchClientTypes.AlarmMuteRuleSummary {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = CloudWatchClientTypes.AlarmMuteRuleSummary()
+        value.alarmMuteRuleArn = try reader["AlarmMuteRuleArn"].readIfPresent()
+        value.expireDate = try reader["ExpireDate"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.status = try reader["Status"].readIfPresent()
+        value.muteType = try reader["MuteType"].readIfPresent()
+        value.lastUpdatedTimestamp = try reader["LastUpdatedTimestamp"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        return value
+    }
+}
+
+extension CloudWatchClientTypes.AnomalyDetector {
+
+    static func read(from reader: SmithyCBOR.Reader) throws -> CloudWatchClientTypes.AnomalyDetector {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = CloudWatchClientTypes.AnomalyDetector()
+        value.namespace = try reader["Namespace"].readIfPresent()
+        value.metricName = try reader["MetricName"].readIfPresent()
+        value.dimensions = try reader["Dimensions"].readListIfPresent(memberReadingClosure: CloudWatchClientTypes.Dimension.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.stat = try reader["Stat"].readIfPresent()
+        value.configuration = try reader["Configuration"].readIfPresent(with: CloudWatchClientTypes.AnomalyDetectorConfiguration.read(from:))
+        value.stateValue = try reader["StateValue"].readIfPresent()
+        value.metricCharacteristics = try reader["MetricCharacteristics"].readIfPresent(with: CloudWatchClientTypes.MetricCharacteristics.read(from:))
+        value.singleMetricAnomalyDetector = try reader["SingleMetricAnomalyDetector"].readIfPresent(with: CloudWatchClientTypes.SingleMetricAnomalyDetector.read(from:))
+        value.metricMathAnomalyDetector = try reader["MetricMathAnomalyDetector"].readIfPresent(with: CloudWatchClientTypes.MetricMathAnomalyDetector.read(from:))
+        return value
+    }
+}
+
+extension CloudWatchClientTypes.AnomalyDetectorConfiguration {
+
+    static func write(value: CloudWatchClientTypes.AnomalyDetectorConfiguration?, to writer: SmithyCBOR.Writer) throws {
+        guard let value else { return }
+        try writer["ExcludedTimeRanges"].writeList(value.excludedTimeRanges, memberWritingClosure: CloudWatchClientTypes.Range.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["MetricTimezone"].write(value.metricTimezone)
+    }
+
+    static func read(from reader: SmithyCBOR.Reader) throws -> CloudWatchClientTypes.AnomalyDetectorConfiguration {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = CloudWatchClientTypes.AnomalyDetectorConfiguration()
+        value.excludedTimeRanges = try reader["ExcludedTimeRanges"].readListIfPresent(memberReadingClosure: CloudWatchClientTypes.Range.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.metricTimezone = try reader["MetricTimezone"].readIfPresent()
         return value
     }
 }
@@ -5912,107 +6451,43 @@ extension CloudWatchClientTypes.CompositeAlarm {
     }
 }
 
-extension CloudWatchClientTypes.MetricAlarm {
+extension CloudWatchClientTypes.DashboardEntry {
 
-    static func read(from reader: SmithyCBOR.Reader) throws -> CloudWatchClientTypes.MetricAlarm {
+    static func read(from reader: SmithyCBOR.Reader) throws -> CloudWatchClientTypes.DashboardEntry {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = CloudWatchClientTypes.MetricAlarm()
-        value.alarmName = try reader["AlarmName"].readIfPresent()
-        value.alarmArn = try reader["AlarmArn"].readIfPresent()
-        value.alarmDescription = try reader["AlarmDescription"].readIfPresent()
-        value.alarmConfigurationUpdatedTimestamp = try reader["AlarmConfigurationUpdatedTimestamp"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
-        value.actionsEnabled = try reader["ActionsEnabled"].readIfPresent()
-        value.okActions = try reader["OKActions"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
-        value.alarmActions = try reader["AlarmActions"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
-        value.insufficientDataActions = try reader["InsufficientDataActions"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
-        value.stateValue = try reader["StateValue"].readIfPresent()
-        value.stateReason = try reader["StateReason"].readIfPresent()
-        value.stateReasonData = try reader["StateReasonData"].readIfPresent()
-        value.stateUpdatedTimestamp = try reader["StateUpdatedTimestamp"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
-        value.metricName = try reader["MetricName"].readIfPresent()
-        value.namespace = try reader["Namespace"].readIfPresent()
-        value.statistic = try reader["Statistic"].readIfPresent()
-        value.extendedStatistic = try reader["ExtendedStatistic"].readIfPresent()
-        value.dimensions = try reader["Dimensions"].readListIfPresent(memberReadingClosure: CloudWatchClientTypes.Dimension.read(from:), memberNodeInfo: "member", isFlattened: false)
-        value.period = try reader["Period"].readIfPresent()
+        var value = CloudWatchClientTypes.DashboardEntry()
+        value.dashboardName = try reader["DashboardName"].readIfPresent()
+        value.dashboardArn = try reader["DashboardArn"].readIfPresent()
+        value.lastModified = try reader["LastModified"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.size = try reader["Size"].readIfPresent()
+        return value
+    }
+}
+
+extension CloudWatchClientTypes.DashboardValidationMessage {
+
+    static func read(from reader: SmithyCBOR.Reader) throws -> CloudWatchClientTypes.DashboardValidationMessage {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = CloudWatchClientTypes.DashboardValidationMessage()
+        value.dataPath = try reader["DataPath"].readIfPresent()
+        value.message = try reader["Message"].readIfPresent()
+        return value
+    }
+}
+
+extension CloudWatchClientTypes.Datapoint {
+
+    static func read(from reader: SmithyCBOR.Reader) throws -> CloudWatchClientTypes.Datapoint {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = CloudWatchClientTypes.Datapoint()
+        value.timestamp = try reader["Timestamp"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.sampleCount = try reader["SampleCount"].readIfPresent()
+        value.average = try reader["Average"].readIfPresent()
+        value.sum = try reader["Sum"].readIfPresent()
+        value.minimum = try reader["Minimum"].readIfPresent()
+        value.maximum = try reader["Maximum"].readIfPresent()
         value.unit = try reader["Unit"].readIfPresent()
-        value.evaluationPeriods = try reader["EvaluationPeriods"].readIfPresent()
-        value.datapointsToAlarm = try reader["DatapointsToAlarm"].readIfPresent()
-        value.threshold = try reader["Threshold"].readIfPresent()
-        value.comparisonOperator = try reader["ComparisonOperator"].readIfPresent()
-        value.treatMissingData = try reader["TreatMissingData"].readIfPresent()
-        value.evaluateLowSampleCountPercentile = try reader["EvaluateLowSampleCountPercentile"].readIfPresent()
-        value.metrics = try reader["Metrics"].readListIfPresent(memberReadingClosure: CloudWatchClientTypes.MetricDataQuery.read(from:), memberNodeInfo: "member", isFlattened: false)
-        value.thresholdMetricId = try reader["ThresholdMetricId"].readIfPresent()
-        value.evaluationState = try reader["EvaluationState"].readIfPresent()
-        value.stateTransitionedTimestamp = try reader["StateTransitionedTimestamp"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
-        return value
-    }
-}
-
-extension CloudWatchClientTypes.MetricDataQuery {
-
-    static func write(value: CloudWatchClientTypes.MetricDataQuery?, to writer: SmithyCBOR.Writer) throws {
-        guard let value else { return }
-        try writer["AccountId"].write(value.accountId)
-        try writer["Expression"].write(value.expression)
-        try writer["Id"].write(value.id)
-        try writer["Label"].write(value.label)
-        try writer["MetricStat"].write(value.metricStat, with: CloudWatchClientTypes.MetricStat.write(value:to:))
-        try writer["Period"].write(value.period)
-        try writer["ReturnData"].write(value.returnData)
-    }
-
-    static func read(from reader: SmithyCBOR.Reader) throws -> CloudWatchClientTypes.MetricDataQuery {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = CloudWatchClientTypes.MetricDataQuery()
-        value.id = try reader["Id"].readIfPresent() ?? ""
-        value.metricStat = try reader["MetricStat"].readIfPresent(with: CloudWatchClientTypes.MetricStat.read(from:))
-        value.expression = try reader["Expression"].readIfPresent()
-        value.label = try reader["Label"].readIfPresent()
-        value.returnData = try reader["ReturnData"].readIfPresent()
-        value.period = try reader["Period"].readIfPresent()
-        value.accountId = try reader["AccountId"].readIfPresent()
-        return value
-    }
-}
-
-extension CloudWatchClientTypes.MetricStat {
-
-    static func write(value: CloudWatchClientTypes.MetricStat?, to writer: SmithyCBOR.Writer) throws {
-        guard let value else { return }
-        try writer["Metric"].write(value.metric, with: CloudWatchClientTypes.Metric.write(value:to:))
-        try writer["Period"].write(value.period)
-        try writer["Stat"].write(value.stat)
-        try writer["Unit"].write(value.unit)
-    }
-
-    static func read(from reader: SmithyCBOR.Reader) throws -> CloudWatchClientTypes.MetricStat {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = CloudWatchClientTypes.MetricStat()
-        value.metric = try reader["Metric"].readIfPresent(with: CloudWatchClientTypes.Metric.read(from:))
-        value.period = try reader["Period"].readIfPresent() ?? 0
-        value.stat = try reader["Stat"].readIfPresent() ?? ""
-        value.unit = try reader["Unit"].readIfPresent()
-        return value
-    }
-}
-
-extension CloudWatchClientTypes.Metric {
-
-    static func write(value: CloudWatchClientTypes.Metric?, to writer: SmithyCBOR.Writer) throws {
-        guard let value else { return }
-        try writer["Dimensions"].writeList(value.dimensions, memberWritingClosure: CloudWatchClientTypes.Dimension.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["MetricName"].write(value.metricName)
-        try writer["Namespace"].write(value.namespace)
-    }
-
-    static func read(from reader: SmithyCBOR.Reader) throws -> CloudWatchClientTypes.Metric {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = CloudWatchClientTypes.Metric()
-        value.namespace = try reader["Namespace"].readIfPresent()
-        value.metricName = try reader["MetricName"].readIfPresent()
-        value.dimensions = try reader["Dimensions"].readListIfPresent(memberReadingClosure: CloudWatchClientTypes.Dimension.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.extendedStatistics = try reader["ExtendedStatistics"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readDouble(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
         return value
     }
 }
@@ -6034,108 +6509,30 @@ extension CloudWatchClientTypes.Dimension {
     }
 }
 
-extension CloudWatchClientTypes.AnomalyDetector {
+extension CloudWatchClientTypes.DimensionFilter {
 
-    static func read(from reader: SmithyCBOR.Reader) throws -> CloudWatchClientTypes.AnomalyDetector {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = CloudWatchClientTypes.AnomalyDetector()
-        value.namespace = try reader["Namespace"].readIfPresent()
-        value.metricName = try reader["MetricName"].readIfPresent()
-        value.dimensions = try reader["Dimensions"].readListIfPresent(memberReadingClosure: CloudWatchClientTypes.Dimension.read(from:), memberNodeInfo: "member", isFlattened: false)
-        value.stat = try reader["Stat"].readIfPresent()
-        value.configuration = try reader["Configuration"].readIfPresent(with: CloudWatchClientTypes.AnomalyDetectorConfiguration.read(from:))
-        value.stateValue = try reader["StateValue"].readIfPresent()
-        value.metricCharacteristics = try reader["MetricCharacteristics"].readIfPresent(with: CloudWatchClientTypes.MetricCharacteristics.read(from:))
-        value.singleMetricAnomalyDetector = try reader["SingleMetricAnomalyDetector"].readIfPresent(with: CloudWatchClientTypes.SingleMetricAnomalyDetector.read(from:))
-        value.metricMathAnomalyDetector = try reader["MetricMathAnomalyDetector"].readIfPresent(with: CloudWatchClientTypes.MetricMathAnomalyDetector.read(from:))
-        return value
+    static func write(value: CloudWatchClientTypes.DimensionFilter?, to writer: SmithyCBOR.Writer) throws {
+        guard let value else { return }
+        try writer["Name"].write(value.name)
+        try writer["Value"].write(value.value)
     }
 }
 
-extension CloudWatchClientTypes.MetricMathAnomalyDetector {
+extension CloudWatchClientTypes.Entity {
 
-    static func write(value: CloudWatchClientTypes.MetricMathAnomalyDetector?, to writer: SmithyCBOR.Writer) throws {
+    static func write(value: CloudWatchClientTypes.Entity?, to writer: SmithyCBOR.Writer) throws {
         guard let value else { return }
-        try writer["MetricDataQueries"].writeList(value.metricDataQueries, memberWritingClosure: CloudWatchClientTypes.MetricDataQuery.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-    }
-
-    static func read(from reader: SmithyCBOR.Reader) throws -> CloudWatchClientTypes.MetricMathAnomalyDetector {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = CloudWatchClientTypes.MetricMathAnomalyDetector()
-        value.metricDataQueries = try reader["MetricDataQueries"].readListIfPresent(memberReadingClosure: CloudWatchClientTypes.MetricDataQuery.read(from:), memberNodeInfo: "member", isFlattened: false)
-        return value
+        try writer["Attributes"].writeMap(value.attributes, valueWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+        try writer["KeyAttributes"].writeMap(value.keyAttributes, valueWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
     }
 }
 
-extension CloudWatchClientTypes.SingleMetricAnomalyDetector {
+extension CloudWatchClientTypes.EntityMetricData {
 
-    static func write(value: CloudWatchClientTypes.SingleMetricAnomalyDetector?, to writer: SmithyCBOR.Writer) throws {
+    static func write(value: CloudWatchClientTypes.EntityMetricData?, to writer: SmithyCBOR.Writer) throws {
         guard let value else { return }
-        try writer["AccountId"].write(value.accountId)
-        try writer["Dimensions"].writeList(value.dimensions, memberWritingClosure: CloudWatchClientTypes.Dimension.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["MetricName"].write(value.metricName)
-        try writer["Namespace"].write(value.namespace)
-        try writer["Stat"].write(value.stat)
-    }
-
-    static func read(from reader: SmithyCBOR.Reader) throws -> CloudWatchClientTypes.SingleMetricAnomalyDetector {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = CloudWatchClientTypes.SingleMetricAnomalyDetector()
-        value.accountId = try reader["AccountId"].readIfPresent()
-        value.namespace = try reader["Namespace"].readIfPresent()
-        value.metricName = try reader["MetricName"].readIfPresent()
-        value.dimensions = try reader["Dimensions"].readListIfPresent(memberReadingClosure: CloudWatchClientTypes.Dimension.read(from:), memberNodeInfo: "member", isFlattened: false)
-        value.stat = try reader["Stat"].readIfPresent()
-        return value
-    }
-}
-
-extension CloudWatchClientTypes.MetricCharacteristics {
-
-    static func write(value: CloudWatchClientTypes.MetricCharacteristics?, to writer: SmithyCBOR.Writer) throws {
-        guard let value else { return }
-        try writer["PeriodicSpikes"].write(value.periodicSpikes)
-    }
-
-    static func read(from reader: SmithyCBOR.Reader) throws -> CloudWatchClientTypes.MetricCharacteristics {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = CloudWatchClientTypes.MetricCharacteristics()
-        value.periodicSpikes = try reader["PeriodicSpikes"].readIfPresent()
-        return value
-    }
-}
-
-extension CloudWatchClientTypes.AnomalyDetectorConfiguration {
-
-    static func write(value: CloudWatchClientTypes.AnomalyDetectorConfiguration?, to writer: SmithyCBOR.Writer) throws {
-        guard let value else { return }
-        try writer["ExcludedTimeRanges"].writeList(value.excludedTimeRanges, memberWritingClosure: CloudWatchClientTypes.Range.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["MetricTimezone"].write(value.metricTimezone)
-    }
-
-    static func read(from reader: SmithyCBOR.Reader) throws -> CloudWatchClientTypes.AnomalyDetectorConfiguration {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = CloudWatchClientTypes.AnomalyDetectorConfiguration()
-        value.excludedTimeRanges = try reader["ExcludedTimeRanges"].readListIfPresent(memberReadingClosure: CloudWatchClientTypes.Range.read(from:), memberNodeInfo: "member", isFlattened: false)
-        value.metricTimezone = try reader["MetricTimezone"].readIfPresent()
-        return value
-    }
-}
-
-extension CloudWatchClientTypes.Range {
-
-    static func write(value: CloudWatchClientTypes.Range?, to writer: SmithyCBOR.Writer) throws {
-        guard let value else { return }
-        try writer["EndTime"].writeTimestamp(value.endTime, format: SmithyTimestamps.TimestampFormat.epochSeconds)
-        try writer["StartTime"].writeTimestamp(value.startTime, format: SmithyTimestamps.TimestampFormat.epochSeconds)
-    }
-
-    static func read(from reader: SmithyCBOR.Reader) throws -> CloudWatchClientTypes.Range {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = CloudWatchClientTypes.Range()
-        value.startTime = try reader["StartTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
-        value.endTime = try reader["EndTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
-        return value
+        try writer["Entity"].write(value.entity, with: CloudWatchClientTypes.Entity.write(value:to:))
+        try writer["MetricData"].writeList(value.metricData, memberWritingClosure: CloudWatchClientTypes.MetricDatum.write(value:to:), memberNodeInfo: "member", isFlattened: false)
     }
 }
 
@@ -6194,17 +6591,43 @@ extension CloudWatchClientTypes.InsightRuleMetricDatapoint {
     }
 }
 
-extension CloudWatchClientTypes.MetricDataResult {
+extension CloudWatchClientTypes.LabelOptions {
 
-    static func read(from reader: SmithyCBOR.Reader) throws -> CloudWatchClientTypes.MetricDataResult {
+    static func write(value: CloudWatchClientTypes.LabelOptions?, to writer: SmithyCBOR.Writer) throws {
+        guard let value else { return }
+        try writer["Timezone"].write(value.timezone)
+    }
+}
+
+extension CloudWatchClientTypes.ManagedRule {
+
+    static func write(value: CloudWatchClientTypes.ManagedRule?, to writer: SmithyCBOR.Writer) throws {
+        guard let value else { return }
+        try writer["ResourceARN"].write(value.resourceARN)
+        try writer["Tags"].writeList(value.tags, memberWritingClosure: CloudWatchClientTypes.Tag.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["TemplateName"].write(value.templateName)
+    }
+}
+
+extension CloudWatchClientTypes.ManagedRuleDescription {
+
+    static func read(from reader: SmithyCBOR.Reader) throws -> CloudWatchClientTypes.ManagedRuleDescription {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = CloudWatchClientTypes.MetricDataResult()
-        value.id = try reader["Id"].readIfPresent()
-        value.label = try reader["Label"].readIfPresent()
-        value.timestamps = try reader["Timestamps"].readListIfPresent(memberReadingClosure: SmithyReadWrite.timestampReadingClosure(format: SmithyTimestamps.TimestampFormat.epochSeconds), memberNodeInfo: "member", isFlattened: false)
-        value.values = try reader["Values"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readDouble(from:), memberNodeInfo: "member", isFlattened: false)
-        value.statusCode = try reader["StatusCode"].readIfPresent()
-        value.messages = try reader["Messages"].readListIfPresent(memberReadingClosure: CloudWatchClientTypes.MessageData.read(from:), memberNodeInfo: "member", isFlattened: false)
+        var value = CloudWatchClientTypes.ManagedRuleDescription()
+        value.templateName = try reader["TemplateName"].readIfPresent()
+        value.resourceARN = try reader["ResourceARN"].readIfPresent()
+        value.ruleState = try reader["RuleState"].readIfPresent(with: CloudWatchClientTypes.ManagedRuleState.read(from:))
+        return value
+    }
+}
+
+extension CloudWatchClientTypes.ManagedRuleState {
+
+    static func read(from reader: SmithyCBOR.Reader) throws -> CloudWatchClientTypes.ManagedRuleState {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = CloudWatchClientTypes.ManagedRuleState()
+        value.ruleName = try reader["RuleName"].readIfPresent() ?? ""
+        value.state = try reader["State"].readIfPresent() ?? ""
         return value
     }
 }
@@ -6220,19 +6643,184 @@ extension CloudWatchClientTypes.MessageData {
     }
 }
 
-extension CloudWatchClientTypes.Datapoint {
+extension CloudWatchClientTypes.Metric {
 
-    static func read(from reader: SmithyCBOR.Reader) throws -> CloudWatchClientTypes.Datapoint {
+    static func write(value: CloudWatchClientTypes.Metric?, to writer: SmithyCBOR.Writer) throws {
+        guard let value else { return }
+        try writer["Dimensions"].writeList(value.dimensions, memberWritingClosure: CloudWatchClientTypes.Dimension.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["MetricName"].write(value.metricName)
+        try writer["Namespace"].write(value.namespace)
+    }
+
+    static func read(from reader: SmithyCBOR.Reader) throws -> CloudWatchClientTypes.Metric {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = CloudWatchClientTypes.Datapoint()
-        value.timestamp = try reader["Timestamp"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
-        value.sampleCount = try reader["SampleCount"].readIfPresent()
-        value.average = try reader["Average"].readIfPresent()
-        value.sum = try reader["Sum"].readIfPresent()
-        value.minimum = try reader["Minimum"].readIfPresent()
-        value.maximum = try reader["Maximum"].readIfPresent()
+        var value = CloudWatchClientTypes.Metric()
+        value.namespace = try reader["Namespace"].readIfPresent()
+        value.metricName = try reader["MetricName"].readIfPresent()
+        value.dimensions = try reader["Dimensions"].readListIfPresent(memberReadingClosure: CloudWatchClientTypes.Dimension.read(from:), memberNodeInfo: "member", isFlattened: false)
+        return value
+    }
+}
+
+extension CloudWatchClientTypes.MetricAlarm {
+
+    static func read(from reader: SmithyCBOR.Reader) throws -> CloudWatchClientTypes.MetricAlarm {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = CloudWatchClientTypes.MetricAlarm()
+        value.alarmName = try reader["AlarmName"].readIfPresent()
+        value.alarmArn = try reader["AlarmArn"].readIfPresent()
+        value.alarmDescription = try reader["AlarmDescription"].readIfPresent()
+        value.alarmConfigurationUpdatedTimestamp = try reader["AlarmConfigurationUpdatedTimestamp"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.actionsEnabled = try reader["ActionsEnabled"].readIfPresent()
+        value.okActions = try reader["OKActions"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        value.alarmActions = try reader["AlarmActions"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        value.insufficientDataActions = try reader["InsufficientDataActions"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        value.stateValue = try reader["StateValue"].readIfPresent()
+        value.stateReason = try reader["StateReason"].readIfPresent()
+        value.stateReasonData = try reader["StateReasonData"].readIfPresent()
+        value.stateUpdatedTimestamp = try reader["StateUpdatedTimestamp"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.metricName = try reader["MetricName"].readIfPresent()
+        value.namespace = try reader["Namespace"].readIfPresent()
+        value.statistic = try reader["Statistic"].readIfPresent()
+        value.extendedStatistic = try reader["ExtendedStatistic"].readIfPresent()
+        value.dimensions = try reader["Dimensions"].readListIfPresent(memberReadingClosure: CloudWatchClientTypes.Dimension.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.period = try reader["Period"].readIfPresent()
         value.unit = try reader["Unit"].readIfPresent()
-        value.extendedStatistics = try reader["ExtendedStatistics"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readDouble(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+        value.evaluationPeriods = try reader["EvaluationPeriods"].readIfPresent()
+        value.datapointsToAlarm = try reader["DatapointsToAlarm"].readIfPresent()
+        value.threshold = try reader["Threshold"].readIfPresent()
+        value.comparisonOperator = try reader["ComparisonOperator"].readIfPresent()
+        value.treatMissingData = try reader["TreatMissingData"].readIfPresent()
+        value.evaluateLowSampleCountPercentile = try reader["EvaluateLowSampleCountPercentile"].readIfPresent()
+        value.metrics = try reader["Metrics"].readListIfPresent(memberReadingClosure: CloudWatchClientTypes.MetricDataQuery.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.thresholdMetricId = try reader["ThresholdMetricId"].readIfPresent()
+        value.evaluationState = try reader["EvaluationState"].readIfPresent()
+        value.stateTransitionedTimestamp = try reader["StateTransitionedTimestamp"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        return value
+    }
+}
+
+extension CloudWatchClientTypes.MetricCharacteristics {
+
+    static func write(value: CloudWatchClientTypes.MetricCharacteristics?, to writer: SmithyCBOR.Writer) throws {
+        guard let value else { return }
+        try writer["PeriodicSpikes"].write(value.periodicSpikes)
+    }
+
+    static func read(from reader: SmithyCBOR.Reader) throws -> CloudWatchClientTypes.MetricCharacteristics {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = CloudWatchClientTypes.MetricCharacteristics()
+        value.periodicSpikes = try reader["PeriodicSpikes"].readIfPresent()
+        return value
+    }
+}
+
+extension CloudWatchClientTypes.MetricDataQuery {
+
+    static func write(value: CloudWatchClientTypes.MetricDataQuery?, to writer: SmithyCBOR.Writer) throws {
+        guard let value else { return }
+        try writer["AccountId"].write(value.accountId)
+        try writer["Expression"].write(value.expression)
+        try writer["Id"].write(value.id)
+        try writer["Label"].write(value.label)
+        try writer["MetricStat"].write(value.metricStat, with: CloudWatchClientTypes.MetricStat.write(value:to:))
+        try writer["Period"].write(value.period)
+        try writer["ReturnData"].write(value.returnData)
+    }
+
+    static func read(from reader: SmithyCBOR.Reader) throws -> CloudWatchClientTypes.MetricDataQuery {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = CloudWatchClientTypes.MetricDataQuery()
+        value.id = try reader["Id"].readIfPresent() ?? ""
+        value.metricStat = try reader["MetricStat"].readIfPresent(with: CloudWatchClientTypes.MetricStat.read(from:))
+        value.expression = try reader["Expression"].readIfPresent()
+        value.label = try reader["Label"].readIfPresent()
+        value.returnData = try reader["ReturnData"].readIfPresent()
+        value.period = try reader["Period"].readIfPresent()
+        value.accountId = try reader["AccountId"].readIfPresent()
+        return value
+    }
+}
+
+extension CloudWatchClientTypes.MetricDataResult {
+
+    static func read(from reader: SmithyCBOR.Reader) throws -> CloudWatchClientTypes.MetricDataResult {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = CloudWatchClientTypes.MetricDataResult()
+        value.id = try reader["Id"].readIfPresent()
+        value.label = try reader["Label"].readIfPresent()
+        value.timestamps = try reader["Timestamps"].readListIfPresent(memberReadingClosure: SmithyReadWrite.timestampReadingClosure(format: SmithyTimestamps.TimestampFormat.epochSeconds), memberNodeInfo: "member", isFlattened: false)
+        value.values = try reader["Values"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readDouble(from:), memberNodeInfo: "member", isFlattened: false)
+        value.statusCode = try reader["StatusCode"].readIfPresent()
+        value.messages = try reader["Messages"].readListIfPresent(memberReadingClosure: CloudWatchClientTypes.MessageData.read(from:), memberNodeInfo: "member", isFlattened: false)
+        return value
+    }
+}
+
+extension CloudWatchClientTypes.MetricDatum {
+
+    static func write(value: CloudWatchClientTypes.MetricDatum?, to writer: SmithyCBOR.Writer) throws {
+        guard let value else { return }
+        try writer["Counts"].writeList(value.counts, memberWritingClosure: SmithyReadWrite.WritingClosures.writeDouble(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["Dimensions"].writeList(value.dimensions, memberWritingClosure: CloudWatchClientTypes.Dimension.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["MetricName"].write(value.metricName)
+        try writer["StatisticValues"].write(value.statisticValues, with: CloudWatchClientTypes.StatisticSet.write(value:to:))
+        try writer["StorageResolution"].write(value.storageResolution)
+        try writer["Timestamp"].writeTimestamp(value.timestamp, format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        try writer["Unit"].write(value.unit)
+        try writer["Value"].write(value.value)
+        try writer["Values"].writeList(value.values, memberWritingClosure: SmithyReadWrite.WritingClosures.writeDouble(value:to:), memberNodeInfo: "member", isFlattened: false)
+    }
+}
+
+extension CloudWatchClientTypes.MetricMathAnomalyDetector {
+
+    static func write(value: CloudWatchClientTypes.MetricMathAnomalyDetector?, to writer: SmithyCBOR.Writer) throws {
+        guard let value else { return }
+        try writer["MetricDataQueries"].writeList(value.metricDataQueries, memberWritingClosure: CloudWatchClientTypes.MetricDataQuery.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+    }
+
+    static func read(from reader: SmithyCBOR.Reader) throws -> CloudWatchClientTypes.MetricMathAnomalyDetector {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = CloudWatchClientTypes.MetricMathAnomalyDetector()
+        value.metricDataQueries = try reader["MetricDataQueries"].readListIfPresent(memberReadingClosure: CloudWatchClientTypes.MetricDataQuery.read(from:), memberNodeInfo: "member", isFlattened: false)
+        return value
+    }
+}
+
+extension CloudWatchClientTypes.MetricStat {
+
+    static func write(value: CloudWatchClientTypes.MetricStat?, to writer: SmithyCBOR.Writer) throws {
+        guard let value else { return }
+        try writer["Metric"].write(value.metric, with: CloudWatchClientTypes.Metric.write(value:to:))
+        try writer["Period"].write(value.period)
+        try writer["Stat"].write(value.stat)
+        try writer["Unit"].write(value.unit)
+    }
+
+    static func read(from reader: SmithyCBOR.Reader) throws -> CloudWatchClientTypes.MetricStat {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = CloudWatchClientTypes.MetricStat()
+        value.metric = try reader["Metric"].readIfPresent(with: CloudWatchClientTypes.Metric.read(from:))
+        value.period = try reader["Period"].readIfPresent() ?? 0
+        value.stat = try reader["Stat"].readIfPresent() ?? ""
+        value.unit = try reader["Unit"].readIfPresent()
+        return value
+    }
+}
+
+extension CloudWatchClientTypes.MetricStreamEntry {
+
+    static func read(from reader: SmithyCBOR.Reader) throws -> CloudWatchClientTypes.MetricStreamEntry {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = CloudWatchClientTypes.MetricStreamEntry()
+        value.arn = try reader["Arn"].readIfPresent()
+        value.creationDate = try reader["CreationDate"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.lastUpdateDate = try reader["LastUpdateDate"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.name = try reader["Name"].readIfPresent()
+        value.firehoseArn = try reader["FirehoseArn"].readIfPresent()
+        value.state = try reader["State"].readIfPresent()
+        value.outputFormat = try reader["OutputFormat"].readIfPresent()
         return value
     }
 }
@@ -6288,55 +6876,116 @@ extension CloudWatchClientTypes.MetricStreamStatisticsMetric {
     }
 }
 
-extension CloudWatchClientTypes.DashboardEntry {
+extension CloudWatchClientTypes.MuteTargets {
 
-    static func read(from reader: SmithyCBOR.Reader) throws -> CloudWatchClientTypes.DashboardEntry {
+    static func write(value: CloudWatchClientTypes.MuteTargets?, to writer: SmithyCBOR.Writer) throws {
+        guard let value else { return }
+        try writer["AlarmNames"].writeList(value.alarmNames, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+    }
+
+    static func read(from reader: SmithyCBOR.Reader) throws -> CloudWatchClientTypes.MuteTargets {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = CloudWatchClientTypes.DashboardEntry()
-        value.dashboardName = try reader["DashboardName"].readIfPresent()
-        value.dashboardArn = try reader["DashboardArn"].readIfPresent()
-        value.lastModified = try reader["LastModified"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
-        value.size = try reader["Size"].readIfPresent()
+        var value = CloudWatchClientTypes.MuteTargets()
+        value.alarmNames = try reader["AlarmNames"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false) ?? []
         return value
     }
 }
 
-extension CloudWatchClientTypes.ManagedRuleDescription {
+extension CloudWatchClientTypes.PartialFailure {
 
-    static func read(from reader: SmithyCBOR.Reader) throws -> CloudWatchClientTypes.ManagedRuleDescription {
+    static func read(from reader: SmithyCBOR.Reader) throws -> CloudWatchClientTypes.PartialFailure {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = CloudWatchClientTypes.ManagedRuleDescription()
-        value.templateName = try reader["TemplateName"].readIfPresent()
-        value.resourceARN = try reader["ResourceARN"].readIfPresent()
-        value.ruleState = try reader["RuleState"].readIfPresent(with: CloudWatchClientTypes.ManagedRuleState.read(from:))
+        var value = CloudWatchClientTypes.PartialFailure()
+        value.failureResource = try reader["FailureResource"].readIfPresent()
+        value.exceptionType = try reader["ExceptionType"].readIfPresent()
+        value.failureCode = try reader["FailureCode"].readIfPresent()
+        value.failureDescription = try reader["FailureDescription"].readIfPresent()
         return value
     }
 }
 
-extension CloudWatchClientTypes.ManagedRuleState {
+extension CloudWatchClientTypes.Range {
 
-    static func read(from reader: SmithyCBOR.Reader) throws -> CloudWatchClientTypes.ManagedRuleState {
+    static func write(value: CloudWatchClientTypes.Range?, to writer: SmithyCBOR.Writer) throws {
+        guard let value else { return }
+        try writer["EndTime"].writeTimestamp(value.endTime, format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        try writer["StartTime"].writeTimestamp(value.startTime, format: SmithyTimestamps.TimestampFormat.epochSeconds)
+    }
+
+    static func read(from reader: SmithyCBOR.Reader) throws -> CloudWatchClientTypes.Range {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = CloudWatchClientTypes.ManagedRuleState()
-        value.ruleName = try reader["RuleName"].readIfPresent() ?? ""
-        value.state = try reader["State"].readIfPresent() ?? ""
+        var value = CloudWatchClientTypes.Range()
+        value.startTime = try reader["StartTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        value.endTime = try reader["EndTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
         return value
     }
 }
 
-extension CloudWatchClientTypes.MetricStreamEntry {
+extension CloudWatchClientTypes.Rule {
 
-    static func read(from reader: SmithyCBOR.Reader) throws -> CloudWatchClientTypes.MetricStreamEntry {
+    static func write(value: CloudWatchClientTypes.Rule?, to writer: SmithyCBOR.Writer) throws {
+        guard let value else { return }
+        try writer["Schedule"].write(value.schedule, with: CloudWatchClientTypes.Schedule.write(value:to:))
+    }
+
+    static func read(from reader: SmithyCBOR.Reader) throws -> CloudWatchClientTypes.Rule {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = CloudWatchClientTypes.MetricStreamEntry()
-        value.arn = try reader["Arn"].readIfPresent()
-        value.creationDate = try reader["CreationDate"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
-        value.lastUpdateDate = try reader["LastUpdateDate"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
-        value.name = try reader["Name"].readIfPresent()
-        value.firehoseArn = try reader["FirehoseArn"].readIfPresent()
-        value.state = try reader["State"].readIfPresent()
-        value.outputFormat = try reader["OutputFormat"].readIfPresent()
+        var value = CloudWatchClientTypes.Rule()
+        value.schedule = try reader["Schedule"].readIfPresent(with: CloudWatchClientTypes.Schedule.read(from:))
         return value
+    }
+}
+
+extension CloudWatchClientTypes.Schedule {
+
+    static func write(value: CloudWatchClientTypes.Schedule?, to writer: SmithyCBOR.Writer) throws {
+        guard let value else { return }
+        try writer["Duration"].write(value.duration)
+        try writer["Expression"].write(value.expression)
+        try writer["Timezone"].write(value.timezone)
+    }
+
+    static func read(from reader: SmithyCBOR.Reader) throws -> CloudWatchClientTypes.Schedule {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = CloudWatchClientTypes.Schedule()
+        value.expression = try reader["Expression"].readIfPresent() ?? ""
+        value.duration = try reader["Duration"].readIfPresent() ?? ""
+        value.timezone = try reader["Timezone"].readIfPresent()
+        return value
+    }
+}
+
+extension CloudWatchClientTypes.SingleMetricAnomalyDetector {
+
+    static func write(value: CloudWatchClientTypes.SingleMetricAnomalyDetector?, to writer: SmithyCBOR.Writer) throws {
+        guard let value else { return }
+        try writer["AccountId"].write(value.accountId)
+        try writer["Dimensions"].writeList(value.dimensions, memberWritingClosure: CloudWatchClientTypes.Dimension.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["MetricName"].write(value.metricName)
+        try writer["Namespace"].write(value.namespace)
+        try writer["Stat"].write(value.stat)
+    }
+
+    static func read(from reader: SmithyCBOR.Reader) throws -> CloudWatchClientTypes.SingleMetricAnomalyDetector {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = CloudWatchClientTypes.SingleMetricAnomalyDetector()
+        value.accountId = try reader["AccountId"].readIfPresent()
+        value.namespace = try reader["Namespace"].readIfPresent()
+        value.metricName = try reader["MetricName"].readIfPresent()
+        value.dimensions = try reader["Dimensions"].readListIfPresent(memberReadingClosure: CloudWatchClientTypes.Dimension.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.stat = try reader["Stat"].readIfPresent()
+        return value
+    }
+}
+
+extension CloudWatchClientTypes.StatisticSet {
+
+    static func write(value: CloudWatchClientTypes.StatisticSet?, to writer: SmithyCBOR.Writer) throws {
+        guard let value else { return }
+        try writer["Maximum"].write(value.maximum)
+        try writer["Minimum"].write(value.minimum)
+        try writer["SampleCount"].write(value.sampleCount)
+        try writer["Sum"].write(value.sum)
     }
 }
 
@@ -6354,89 +7003,6 @@ extension CloudWatchClientTypes.Tag {
         value.key = try reader["Key"].readIfPresent() ?? ""
         value.value = try reader["Value"].readIfPresent() ?? ""
         return value
-    }
-}
-
-extension CloudWatchClientTypes.DashboardValidationMessage {
-
-    static func read(from reader: SmithyCBOR.Reader) throws -> CloudWatchClientTypes.DashboardValidationMessage {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = CloudWatchClientTypes.DashboardValidationMessage()
-        value.dataPath = try reader["DataPath"].readIfPresent()
-        value.message = try reader["Message"].readIfPresent()
-        return value
-    }
-}
-
-extension CloudWatchClientTypes.LabelOptions {
-
-    static func write(value: CloudWatchClientTypes.LabelOptions?, to writer: SmithyCBOR.Writer) throws {
-        guard let value else { return }
-        try writer["Timezone"].write(value.timezone)
-    }
-}
-
-extension CloudWatchClientTypes.DimensionFilter {
-
-    static func write(value: CloudWatchClientTypes.DimensionFilter?, to writer: SmithyCBOR.Writer) throws {
-        guard let value else { return }
-        try writer["Name"].write(value.name)
-        try writer["Value"].write(value.value)
-    }
-}
-
-extension CloudWatchClientTypes.ManagedRule {
-
-    static func write(value: CloudWatchClientTypes.ManagedRule?, to writer: SmithyCBOR.Writer) throws {
-        guard let value else { return }
-        try writer["ResourceARN"].write(value.resourceARN)
-        try writer["Tags"].writeList(value.tags, memberWritingClosure: CloudWatchClientTypes.Tag.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["TemplateName"].write(value.templateName)
-    }
-}
-
-extension CloudWatchClientTypes.MetricDatum {
-
-    static func write(value: CloudWatchClientTypes.MetricDatum?, to writer: SmithyCBOR.Writer) throws {
-        guard let value else { return }
-        try writer["Counts"].writeList(value.counts, memberWritingClosure: SmithyReadWrite.WritingClosures.writeDouble(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["Dimensions"].writeList(value.dimensions, memberWritingClosure: CloudWatchClientTypes.Dimension.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["MetricName"].write(value.metricName)
-        try writer["StatisticValues"].write(value.statisticValues, with: CloudWatchClientTypes.StatisticSet.write(value:to:))
-        try writer["StorageResolution"].write(value.storageResolution)
-        try writer["Timestamp"].writeTimestamp(value.timestamp, format: SmithyTimestamps.TimestampFormat.epochSeconds)
-        try writer["Unit"].write(value.unit)
-        try writer["Value"].write(value.value)
-        try writer["Values"].writeList(value.values, memberWritingClosure: SmithyReadWrite.WritingClosures.writeDouble(value:to:), memberNodeInfo: "member", isFlattened: false)
-    }
-}
-
-extension CloudWatchClientTypes.StatisticSet {
-
-    static func write(value: CloudWatchClientTypes.StatisticSet?, to writer: SmithyCBOR.Writer) throws {
-        guard let value else { return }
-        try writer["Maximum"].write(value.maximum)
-        try writer["Minimum"].write(value.minimum)
-        try writer["SampleCount"].write(value.sampleCount)
-        try writer["Sum"].write(value.sum)
-    }
-}
-
-extension CloudWatchClientTypes.EntityMetricData {
-
-    static func write(value: CloudWatchClientTypes.EntityMetricData?, to writer: SmithyCBOR.Writer) throws {
-        guard let value else { return }
-        try writer["Entity"].write(value.entity, with: CloudWatchClientTypes.Entity.write(value:to:))
-        try writer["MetricData"].writeList(value.metricData, memberWritingClosure: CloudWatchClientTypes.MetricDatum.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-    }
-}
-
-extension CloudWatchClientTypes.Entity {
-
-    static func write(value: CloudWatchClientTypes.Entity?, to writer: SmithyCBOR.Writer) throws {
-        guard let value else { return }
-        try writer["Attributes"].writeMap(value.attributes, valueWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
-        try writer["KeyAttributes"].writeMap(value.keyAttributes, valueWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
     }
 }
 

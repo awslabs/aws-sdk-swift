@@ -22,8 +22,8 @@ import protocol ClientRuntime.HTTPError
 import protocol ClientRuntime.ModeledError
 @_spi(SmithyReadWrite) import protocol SmithyReadWrite.SmithyReader
 @_spi(SmithyReadWrite) import protocol SmithyReadWrite.SmithyWriter
-@_spi(SmithyReadWrite) import struct AWSClientRuntime.RestJSONError
 @_spi(UnknownAWSHTTPServiceError) import struct AWSClientRuntime.UnknownAWSHTTPServiceError
+@_spi(SmithyReadWrite) import struct ClientRuntime.RestJSONError
 import struct SmithyEventStreams.DefaultMessageDecoderStream
 import struct SmithyEventStreamsAPI.Message
 import struct SmithyHTTPAPI.Header
@@ -296,6 +296,8 @@ public struct InvokeEndpointAsyncInput: Swift.Sendable {
     /// The name of the endpoint that you specified when you created the endpoint using the [CreateEndpoint](https://docs.aws.amazon.com/sagemaker/latest/dg/API_CreateEndpoint.html) API.
     /// This member is required.
     public var endpointName: Swift.String?
+    /// The filename for the inference response payload stored in Amazon S3. If not specified, Amazon SageMaker AI generates a filename based on the inference ID.
+    public var filename: Swift.String?
     /// The identifier for the inference request. Amazon SageMaker AI will generate an identifier for you if none is specified.
     public var inferenceId: Swift.String?
     /// The Amazon S3 URI where the inference request payload is stored.
@@ -305,31 +307,37 @@ public struct InvokeEndpointAsyncInput: Swift.Sendable {
     public var invocationTimeoutSeconds: Swift.Int?
     /// Maximum age in seconds a request can be in the queue before it is marked as expired. The default is 6 hours, or 21,600 seconds.
     public var requestTTLSeconds: Swift.Int?
+    /// The path extension that is appended to the Amazon S3 output path where the inference response payload is stored.
+    public var s3OutputPathExtension: Swift.String?
 
     public init(
         accept: Swift.String? = nil,
         contentType: Swift.String? = nil,
         customAttributes: Swift.String? = nil,
         endpointName: Swift.String? = nil,
+        filename: Swift.String? = nil,
         inferenceId: Swift.String? = nil,
         inputLocation: Swift.String? = nil,
         invocationTimeoutSeconds: Swift.Int? = nil,
-        requestTTLSeconds: Swift.Int? = nil
+        requestTTLSeconds: Swift.Int? = nil,
+        s3OutputPathExtension: Swift.String? = nil
     ) {
         self.accept = accept
         self.contentType = contentType
         self.customAttributes = customAttributes
         self.endpointName = endpointName
+        self.filename = filename
         self.inferenceId = inferenceId
         self.inputLocation = inputLocation
         self.invocationTimeoutSeconds = invocationTimeoutSeconds
         self.requestTTLSeconds = requestTTLSeconds
+        self.s3OutputPathExtension = s3OutputPathExtension
     }
 }
 
 extension InvokeEndpointAsyncInput: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
-        "InvokeEndpointAsyncInput(accept: \(Swift.String(describing: accept)), contentType: \(Swift.String(describing: contentType)), endpointName: \(Swift.String(describing: endpointName)), inferenceId: \(Swift.String(describing: inferenceId)), inputLocation: \(Swift.String(describing: inputLocation)), invocationTimeoutSeconds: \(Swift.String(describing: invocationTimeoutSeconds)), requestTTLSeconds: \(Swift.String(describing: requestTTLSeconds)), customAttributes: \"CONTENT_REDACTED\")"}
+        "InvokeEndpointAsyncInput(accept: \(Swift.String(describing: accept)), contentType: \(Swift.String(describing: contentType)), endpointName: \(Swift.String(describing: endpointName)), filename: \(Swift.String(describing: filename)), inferenceId: \(Swift.String(describing: inferenceId)), inputLocation: \(Swift.String(describing: inputLocation)), invocationTimeoutSeconds: \(Swift.String(describing: invocationTimeoutSeconds)), requestTTLSeconds: \(Swift.String(describing: requestTTLSeconds)), s3OutputPathExtension: \(Swift.String(describing: s3OutputPathExtension)), customAttributes: \"CONTENT_REDACTED\")"}
 }
 
 public struct InvokeEndpointAsyncOutput: Swift.Sendable {
@@ -585,6 +593,9 @@ extension InvokeEndpointAsyncInput {
         if let customAttributes = value.customAttributes {
             items.add(SmithyHTTPAPI.Header(name: "X-Amzn-SageMaker-Custom-Attributes", value: Swift.String(customAttributes)))
         }
+        if let filename = value.filename {
+            items.add(SmithyHTTPAPI.Header(name: "X-Amzn-SageMaker-Filename", value: Swift.String(filename)))
+        }
         if let inferenceId = value.inferenceId {
             items.add(SmithyHTTPAPI.Header(name: "X-Amzn-SageMaker-Inference-Id", value: Swift.String(inferenceId)))
         }
@@ -596,6 +607,9 @@ extension InvokeEndpointAsyncInput {
         }
         if let requestTTLSeconds = value.requestTTLSeconds {
             items.add(SmithyHTTPAPI.Header(name: "X-Amzn-SageMaker-RequestTTLSeconds", value: Swift.String(requestTTLSeconds)))
+        }
+        if let s3OutputPathExtension = value.s3OutputPathExtension {
+            items.add(SmithyHTTPAPI.Header(name: "X-Amzn-SageMaker-S3OutputPathExtension", value: Swift.String(s3OutputPathExtension)))
         }
         return items
     }
@@ -735,7 +749,7 @@ enum InvokeEndpointOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "InternalDependencyException": return try InternalDependencyException.makeError(baseError: baseError)
@@ -754,7 +768,7 @@ enum InvokeEndpointAsyncOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "InternalFailure": return try InternalFailure.makeError(baseError: baseError)
@@ -770,7 +784,7 @@ enum InvokeEndpointWithResponseStreamOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "InternalFailure": return try InternalFailure.makeError(baseError: baseError)
@@ -786,7 +800,7 @@ enum InvokeEndpointWithResponseStreamOutputError {
 
 extension InternalDependencyException {
 
-    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> InternalDependencyException {
+    static func makeError(baseError: ClientRuntime.RestJSONError) throws -> InternalDependencyException {
         let reader = baseError.errorBodyReader
         var value = InternalDependencyException()
         value.properties.message = try reader["Message"].readIfPresent()
@@ -799,7 +813,7 @@ extension InternalDependencyException {
 
 extension InternalFailure {
 
-    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> InternalFailure {
+    static func makeError(baseError: ClientRuntime.RestJSONError) throws -> InternalFailure {
         let reader = baseError.errorBodyReader
         var value = InternalFailure()
         value.properties.message = try reader["Message"].readIfPresent()
@@ -812,7 +826,7 @@ extension InternalFailure {
 
 extension ModelError {
 
-    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> ModelError {
+    static func makeError(baseError: ClientRuntime.RestJSONError) throws -> ModelError {
         let reader = baseError.errorBodyReader
         var value = ModelError()
         value.properties.logStreamArn = try reader["LogStreamArn"].readIfPresent()
@@ -828,7 +842,7 @@ extension ModelError {
 
 extension ModelNotReadyException {
 
-    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> ModelNotReadyException {
+    static func makeError(baseError: ClientRuntime.RestJSONError) throws -> ModelNotReadyException {
         let reader = baseError.errorBodyReader
         var value = ModelNotReadyException()
         value.properties.message = try reader["Message"].readIfPresent()
@@ -841,7 +855,7 @@ extension ModelNotReadyException {
 
 extension ServiceUnavailable {
 
-    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> ServiceUnavailable {
+    static func makeError(baseError: ClientRuntime.RestJSONError) throws -> ServiceUnavailable {
         let reader = baseError.errorBodyReader
         var value = ServiceUnavailable()
         value.properties.message = try reader["Message"].readIfPresent()
@@ -854,7 +868,7 @@ extension ServiceUnavailable {
 
 extension ValidationError {
 
-    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> ValidationError {
+    static func makeError(baseError: ClientRuntime.RestJSONError) throws -> ValidationError {
         let reader = baseError.errorBodyReader
         var value = ValidationError()
         value.properties.message = try reader["Message"].readIfPresent()
@@ -867,7 +881,7 @@ extension ValidationError {
 
 extension InternalStreamFailure {
 
-    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> InternalStreamFailure {
+    static func makeError(baseError: ClientRuntime.RestJSONError) throws -> InternalStreamFailure {
         let reader = baseError.errorBodyReader
         var value = InternalStreamFailure()
         value.properties.message = try reader["Message"].readIfPresent()
@@ -880,7 +894,7 @@ extension InternalStreamFailure {
 
 extension ModelStreamError {
 
-    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> ModelStreamError {
+    static func makeError(baseError: ClientRuntime.RestJSONError) throws -> ModelStreamError {
         let reader = baseError.errorBodyReader
         var value = ModelStreamError()
         value.properties.errorCode = try reader["ErrorCode"].readIfPresent()

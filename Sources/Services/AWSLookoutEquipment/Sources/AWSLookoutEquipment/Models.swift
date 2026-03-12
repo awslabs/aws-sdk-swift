@@ -22,8 +22,8 @@ import protocol ClientRuntime.HTTPError
 import protocol ClientRuntime.ModeledError
 @_spi(SmithyReadWrite) import protocol SmithyReadWrite.SmithyReader
 @_spi(SmithyReadWrite) import protocol SmithyReadWrite.SmithyWriter
-@_spi(SmithyReadWrite) import struct AWSClientRuntime.AWSJSONError
 @_spi(UnknownAWSHTTPServiceError) import struct AWSClientRuntime.UnknownAWSHTTPServiceError
+@_spi(SmithyReadWrite) import struct ClientRuntime.AWSJSONError
 
 
 public struct DeleteDatasetOutput: Swift.Sendable {
@@ -5781,7 +5781,7 @@ enum CreateDatasetOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
@@ -5800,7 +5800,7 @@ enum CreateInferenceSchedulerOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
@@ -5820,7 +5820,7 @@ enum CreateLabelOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
@@ -5840,7 +5840,7 @@ enum CreateLabelGroupOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
@@ -5859,7 +5859,7 @@ enum CreateModelOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
@@ -5879,7 +5879,7 @@ enum CreateRetrainingSchedulerOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
@@ -5898,7 +5898,7 @@ enum DeleteDatasetOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
@@ -5917,7 +5917,7 @@ enum DeleteInferenceSchedulerOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
@@ -5936,7 +5936,7 @@ enum DeleteLabelOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
@@ -5955,7 +5955,7 @@ enum DeleteLabelGroupOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
@@ -5974,7 +5974,7 @@ enum DeleteModelOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
@@ -5993,7 +5993,7 @@ enum DeleteResourcePolicyOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
@@ -6012,7 +6012,7 @@ enum DeleteRetrainingSchedulerOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
@@ -6031,7 +6031,7 @@ enum DescribeDataIngestionJobOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
@@ -6049,7 +6049,7 @@ enum DescribeDatasetOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
@@ -6067,7 +6067,7 @@ enum DescribeInferenceSchedulerOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
@@ -6085,7 +6085,7 @@ enum DescribeLabelOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
@@ -6103,7 +6103,7 @@ enum DescribeLabelGroupOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
@@ -6121,7 +6121,7 @@ enum DescribeModelOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
@@ -6139,7 +6139,7 @@ enum DescribeModelVersionOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
@@ -6157,7 +6157,7 @@ enum DescribeResourcePolicyOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
@@ -6175,7 +6175,7 @@ enum DescribeRetrainingSchedulerOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
@@ -6193,7 +6193,7 @@ enum ImportDatasetOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
@@ -6213,7 +6213,7 @@ enum ImportModelVersionOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
@@ -6233,7 +6233,7 @@ enum ListDataIngestionJobsOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
@@ -6250,7 +6250,7 @@ enum ListDatasetsOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
@@ -6267,7 +6267,7 @@ enum ListInferenceEventsOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
@@ -6285,7 +6285,7 @@ enum ListInferenceExecutionsOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
@@ -6303,7 +6303,7 @@ enum ListInferenceSchedulersOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
@@ -6320,7 +6320,7 @@ enum ListLabelGroupsOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
@@ -6337,7 +6337,7 @@ enum ListLabelsOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
@@ -6354,7 +6354,7 @@ enum ListModelsOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
@@ -6371,7 +6371,7 @@ enum ListModelVersionsOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
@@ -6389,7 +6389,7 @@ enum ListRetrainingSchedulersOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
@@ -6406,7 +6406,7 @@ enum ListSensorStatisticsOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
@@ -6424,7 +6424,7 @@ enum ListTagsForResourceOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
@@ -6442,7 +6442,7 @@ enum PutResourcePolicyOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
@@ -6462,7 +6462,7 @@ enum StartDataIngestionJobOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
@@ -6482,7 +6482,7 @@ enum StartInferenceSchedulerOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
@@ -6501,7 +6501,7 @@ enum StartRetrainingSchedulerOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
@@ -6520,7 +6520,7 @@ enum StopInferenceSchedulerOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
@@ -6539,7 +6539,7 @@ enum StopRetrainingSchedulerOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
@@ -6558,7 +6558,7 @@ enum TagResourceOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
@@ -6577,7 +6577,7 @@ enum UntagResourceOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
@@ -6595,7 +6595,7 @@ enum UpdateActiveModelVersionOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
@@ -6614,7 +6614,7 @@ enum UpdateInferenceSchedulerOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
@@ -6633,7 +6633,7 @@ enum UpdateLabelGroupOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
@@ -6652,7 +6652,7 @@ enum UpdateModelOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
@@ -6671,7 +6671,7 @@ enum UpdateRetrainingSchedulerOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
@@ -6687,7 +6687,7 @@ enum UpdateRetrainingSchedulerOutputError {
 
 extension AccessDeniedException {
 
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> AccessDeniedException {
+    static func makeError(baseError: ClientRuntime.AWSJSONError) throws -> AccessDeniedException {
         let reader = baseError.errorBodyReader
         var value = AccessDeniedException()
         value.properties.message = try reader["Message"].readIfPresent() ?? ""
@@ -6700,7 +6700,7 @@ extension AccessDeniedException {
 
 extension ConflictException {
 
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> ConflictException {
+    static func makeError(baseError: ClientRuntime.AWSJSONError) throws -> ConflictException {
         let reader = baseError.errorBodyReader
         var value = ConflictException()
         value.properties.message = try reader["Message"].readIfPresent() ?? ""
@@ -6713,7 +6713,7 @@ extension ConflictException {
 
 extension InternalServerException {
 
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> InternalServerException {
+    static func makeError(baseError: ClientRuntime.AWSJSONError) throws -> InternalServerException {
         let reader = baseError.errorBodyReader
         var value = InternalServerException()
         value.properties.message = try reader["Message"].readIfPresent() ?? ""
@@ -6726,7 +6726,7 @@ extension InternalServerException {
 
 extension ServiceQuotaExceededException {
 
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> ServiceQuotaExceededException {
+    static func makeError(baseError: ClientRuntime.AWSJSONError) throws -> ServiceQuotaExceededException {
         let reader = baseError.errorBodyReader
         var value = ServiceQuotaExceededException()
         value.properties.message = try reader["Message"].readIfPresent() ?? ""
@@ -6739,7 +6739,7 @@ extension ServiceQuotaExceededException {
 
 extension ThrottlingException {
 
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> ThrottlingException {
+    static func makeError(baseError: ClientRuntime.AWSJSONError) throws -> ThrottlingException {
         let reader = baseError.errorBodyReader
         var value = ThrottlingException()
         value.properties.message = try reader["Message"].readIfPresent() ?? ""
@@ -6752,7 +6752,7 @@ extension ThrottlingException {
 
 extension ValidationException {
 
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> ValidationException {
+    static func makeError(baseError: ClientRuntime.AWSJSONError) throws -> ValidationException {
         let reader = baseError.errorBodyReader
         var value = ValidationException()
         value.properties.message = try reader["Message"].readIfPresent() ?? ""
@@ -6765,7 +6765,7 @@ extension ValidationException {
 
 extension ResourceNotFoundException {
 
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> ResourceNotFoundException {
+    static func makeError(baseError: ClientRuntime.AWSJSONError) throws -> ResourceNotFoundException {
         let reader = baseError.errorBodyReader
         var value = ResourceNotFoundException()
         value.properties.message = try reader["Message"].readIfPresent() ?? ""
@@ -6776,267 +6776,38 @@ extension ResourceNotFoundException {
     }
 }
 
-extension LookoutEquipmentClientTypes.IngestionInputConfiguration {
+extension LookoutEquipmentClientTypes.CategoricalValues {
 
-    static func write(value: LookoutEquipmentClientTypes.IngestionInputConfiguration?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["S3InputConfiguration"].write(value.s3InputConfiguration, with: LookoutEquipmentClientTypes.IngestionS3InputConfiguration.write(value:to:))
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> LookoutEquipmentClientTypes.IngestionInputConfiguration {
+    static func read(from reader: SmithyJSON.Reader) throws -> LookoutEquipmentClientTypes.CategoricalValues {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = LookoutEquipmentClientTypes.IngestionInputConfiguration()
-        value.s3InputConfiguration = try reader["S3InputConfiguration"].readIfPresent(with: LookoutEquipmentClientTypes.IngestionS3InputConfiguration.read(from:))
+        var value = LookoutEquipmentClientTypes.CategoricalValues()
+        value.status = try reader["Status"].readIfPresent() ?? .sdkUnknown("")
+        value.numberOfCategory = try reader["NumberOfCategory"].readIfPresent()
         return value
     }
 }
 
-extension LookoutEquipmentClientTypes.IngestionS3InputConfiguration {
+extension LookoutEquipmentClientTypes.CountPercent {
 
-    static func write(value: LookoutEquipmentClientTypes.IngestionS3InputConfiguration?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["Bucket"].write(value.bucket)
-        try writer["KeyPattern"].write(value.keyPattern)
-        try writer["Prefix"].write(value.`prefix`)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> LookoutEquipmentClientTypes.IngestionS3InputConfiguration {
+    static func read(from reader: SmithyJSON.Reader) throws -> LookoutEquipmentClientTypes.CountPercent {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = LookoutEquipmentClientTypes.IngestionS3InputConfiguration()
-        value.bucket = try reader["Bucket"].readIfPresent() ?? ""
-        value.`prefix` = try reader["Prefix"].readIfPresent()
-        value.keyPattern = try reader["KeyPattern"].readIfPresent()
+        var value = LookoutEquipmentClientTypes.CountPercent()
+        value.count = try reader["Count"].readIfPresent() ?? 0
+        value.percentage = try reader["Percentage"].readIfPresent() ?? 0
         return value
     }
 }
 
-extension LookoutEquipmentClientTypes.DataQualitySummary {
+extension LookoutEquipmentClientTypes.DataIngestionJobSummary {
 
-    static func read(from reader: SmithyJSON.Reader) throws -> LookoutEquipmentClientTypes.DataQualitySummary {
+    static func read(from reader: SmithyJSON.Reader) throws -> LookoutEquipmentClientTypes.DataIngestionJobSummary {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = LookoutEquipmentClientTypes.DataQualitySummary()
-        value.insufficientSensorData = try reader["InsufficientSensorData"].readIfPresent(with: LookoutEquipmentClientTypes.InsufficientSensorData.read(from:))
-        value.missingSensorData = try reader["MissingSensorData"].readIfPresent(with: LookoutEquipmentClientTypes.MissingSensorData.read(from:))
-        value.invalidSensorData = try reader["InvalidSensorData"].readIfPresent(with: LookoutEquipmentClientTypes.InvalidSensorData.read(from:))
-        value.unsupportedTimestamps = try reader["UnsupportedTimestamps"].readIfPresent(with: LookoutEquipmentClientTypes.UnsupportedTimestamps.read(from:))
-        value.duplicateTimestamps = try reader["DuplicateTimestamps"].readIfPresent(with: LookoutEquipmentClientTypes.DuplicateTimestamps.read(from:))
-        return value
-    }
-}
-
-extension LookoutEquipmentClientTypes.DuplicateTimestamps {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> LookoutEquipmentClientTypes.DuplicateTimestamps {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = LookoutEquipmentClientTypes.DuplicateTimestamps()
-        value.totalNumberOfDuplicateTimestamps = try reader["TotalNumberOfDuplicateTimestamps"].readIfPresent() ?? 0
-        return value
-    }
-}
-
-extension LookoutEquipmentClientTypes.UnsupportedTimestamps {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> LookoutEquipmentClientTypes.UnsupportedTimestamps {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = LookoutEquipmentClientTypes.UnsupportedTimestamps()
-        value.totalNumberOfUnsupportedTimestamps = try reader["TotalNumberOfUnsupportedTimestamps"].readIfPresent() ?? 0
-        return value
-    }
-}
-
-extension LookoutEquipmentClientTypes.InvalidSensorData {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> LookoutEquipmentClientTypes.InvalidSensorData {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = LookoutEquipmentClientTypes.InvalidSensorData()
-        value.affectedSensorCount = try reader["AffectedSensorCount"].readIfPresent() ?? 0
-        value.totalNumberOfInvalidValues = try reader["TotalNumberOfInvalidValues"].readIfPresent() ?? 0
-        return value
-    }
-}
-
-extension LookoutEquipmentClientTypes.MissingSensorData {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> LookoutEquipmentClientTypes.MissingSensorData {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = LookoutEquipmentClientTypes.MissingSensorData()
-        value.affectedSensorCount = try reader["AffectedSensorCount"].readIfPresent() ?? 0
-        value.totalNumberOfMissingValues = try reader["TotalNumberOfMissingValues"].readIfPresent() ?? 0
-        return value
-    }
-}
-
-extension LookoutEquipmentClientTypes.InsufficientSensorData {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> LookoutEquipmentClientTypes.InsufficientSensorData {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = LookoutEquipmentClientTypes.InsufficientSensorData()
-        value.missingCompleteSensorData = try reader["MissingCompleteSensorData"].readIfPresent(with: LookoutEquipmentClientTypes.MissingCompleteSensorData.read(from:))
-        value.sensorsWithShortDateRange = try reader["SensorsWithShortDateRange"].readIfPresent(with: LookoutEquipmentClientTypes.SensorsWithShortDateRange.read(from:))
-        return value
-    }
-}
-
-extension LookoutEquipmentClientTypes.SensorsWithShortDateRange {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> LookoutEquipmentClientTypes.SensorsWithShortDateRange {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = LookoutEquipmentClientTypes.SensorsWithShortDateRange()
-        value.affectedSensorCount = try reader["AffectedSensorCount"].readIfPresent() ?? 0
-        return value
-    }
-}
-
-extension LookoutEquipmentClientTypes.MissingCompleteSensorData {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> LookoutEquipmentClientTypes.MissingCompleteSensorData {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = LookoutEquipmentClientTypes.MissingCompleteSensorData()
-        value.affectedSensorCount = try reader["AffectedSensorCount"].readIfPresent() ?? 0
-        return value
-    }
-}
-
-extension LookoutEquipmentClientTypes.IngestedFilesSummary {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> LookoutEquipmentClientTypes.IngestedFilesSummary {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = LookoutEquipmentClientTypes.IngestedFilesSummary()
-        value.totalNumberOfFiles = try reader["TotalNumberOfFiles"].readIfPresent() ?? 0
-        value.ingestedNumberOfFiles = try reader["IngestedNumberOfFiles"].readIfPresent() ?? 0
-        value.discardedFiles = try reader["DiscardedFiles"].readListIfPresent(memberReadingClosure: LookoutEquipmentClientTypes.S3Object.read(from:), memberNodeInfo: "member", isFlattened: false)
-        return value
-    }
-}
-
-extension LookoutEquipmentClientTypes.S3Object {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> LookoutEquipmentClientTypes.S3Object {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = LookoutEquipmentClientTypes.S3Object()
-        value.bucket = try reader["Bucket"].readIfPresent() ?? ""
-        value.key = try reader["Key"].readIfPresent() ?? ""
-        return value
-    }
-}
-
-extension LookoutEquipmentClientTypes.InferenceInputConfiguration {
-
-    static func write(value: LookoutEquipmentClientTypes.InferenceInputConfiguration?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["InferenceInputNameConfiguration"].write(value.inferenceInputNameConfiguration, with: LookoutEquipmentClientTypes.InferenceInputNameConfiguration.write(value:to:))
-        try writer["InputTimeZoneOffset"].write(value.inputTimeZoneOffset)
-        try writer["S3InputConfiguration"].write(value.s3InputConfiguration, with: LookoutEquipmentClientTypes.InferenceS3InputConfiguration.write(value:to:))
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> LookoutEquipmentClientTypes.InferenceInputConfiguration {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = LookoutEquipmentClientTypes.InferenceInputConfiguration()
-        value.s3InputConfiguration = try reader["S3InputConfiguration"].readIfPresent(with: LookoutEquipmentClientTypes.InferenceS3InputConfiguration.read(from:))
-        value.inputTimeZoneOffset = try reader["InputTimeZoneOffset"].readIfPresent()
-        value.inferenceInputNameConfiguration = try reader["InferenceInputNameConfiguration"].readIfPresent(with: LookoutEquipmentClientTypes.InferenceInputNameConfiguration.read(from:))
-        return value
-    }
-}
-
-extension LookoutEquipmentClientTypes.InferenceInputNameConfiguration {
-
-    static func write(value: LookoutEquipmentClientTypes.InferenceInputNameConfiguration?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["ComponentTimestampDelimiter"].write(value.componentTimestampDelimiter)
-        try writer["TimestampFormat"].write(value.timestampFormat)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> LookoutEquipmentClientTypes.InferenceInputNameConfiguration {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = LookoutEquipmentClientTypes.InferenceInputNameConfiguration()
-        value.timestampFormat = try reader["TimestampFormat"].readIfPresent()
-        value.componentTimestampDelimiter = try reader["ComponentTimestampDelimiter"].readIfPresent()
-        return value
-    }
-}
-
-extension LookoutEquipmentClientTypes.InferenceS3InputConfiguration {
-
-    static func write(value: LookoutEquipmentClientTypes.InferenceS3InputConfiguration?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["Bucket"].write(value.bucket)
-        try writer["Prefix"].write(value.`prefix`)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> LookoutEquipmentClientTypes.InferenceS3InputConfiguration {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = LookoutEquipmentClientTypes.InferenceS3InputConfiguration()
-        value.bucket = try reader["Bucket"].readIfPresent() ?? ""
-        value.`prefix` = try reader["Prefix"].readIfPresent()
-        return value
-    }
-}
-
-extension LookoutEquipmentClientTypes.InferenceOutputConfiguration {
-
-    static func write(value: LookoutEquipmentClientTypes.InferenceOutputConfiguration?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["KmsKeyId"].write(value.kmsKeyId)
-        try writer["S3OutputConfiguration"].write(value.s3OutputConfiguration, with: LookoutEquipmentClientTypes.InferenceS3OutputConfiguration.write(value:to:))
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> LookoutEquipmentClientTypes.InferenceOutputConfiguration {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = LookoutEquipmentClientTypes.InferenceOutputConfiguration()
-        value.s3OutputConfiguration = try reader["S3OutputConfiguration"].readIfPresent(with: LookoutEquipmentClientTypes.InferenceS3OutputConfiguration.read(from:))
-        value.kmsKeyId = try reader["KmsKeyId"].readIfPresent()
-        return value
-    }
-}
-
-extension LookoutEquipmentClientTypes.InferenceS3OutputConfiguration {
-
-    static func write(value: LookoutEquipmentClientTypes.InferenceS3OutputConfiguration?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["Bucket"].write(value.bucket)
-        try writer["Prefix"].write(value.`prefix`)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> LookoutEquipmentClientTypes.InferenceS3OutputConfiguration {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = LookoutEquipmentClientTypes.InferenceS3OutputConfiguration()
-        value.bucket = try reader["Bucket"].readIfPresent() ?? ""
-        value.`prefix` = try reader["Prefix"].readIfPresent()
-        return value
-    }
-}
-
-extension LookoutEquipmentClientTypes.LabelsInputConfiguration {
-
-    static func write(value: LookoutEquipmentClientTypes.LabelsInputConfiguration?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["LabelGroupName"].write(value.labelGroupName)
-        try writer["S3InputConfiguration"].write(value.s3InputConfiguration, with: LookoutEquipmentClientTypes.LabelsS3InputConfiguration.write(value:to:))
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> LookoutEquipmentClientTypes.LabelsInputConfiguration {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = LookoutEquipmentClientTypes.LabelsInputConfiguration()
-        value.s3InputConfiguration = try reader["S3InputConfiguration"].readIfPresent(with: LookoutEquipmentClientTypes.LabelsS3InputConfiguration.read(from:))
-        value.labelGroupName = try reader["LabelGroupName"].readIfPresent()
-        return value
-    }
-}
-
-extension LookoutEquipmentClientTypes.LabelsS3InputConfiguration {
-
-    static func write(value: LookoutEquipmentClientTypes.LabelsS3InputConfiguration?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["Bucket"].write(value.bucket)
-        try writer["Prefix"].write(value.`prefix`)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> LookoutEquipmentClientTypes.LabelsS3InputConfiguration {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = LookoutEquipmentClientTypes.LabelsS3InputConfiguration()
-        value.bucket = try reader["Bucket"].readIfPresent() ?? ""
-        value.`prefix` = try reader["Prefix"].readIfPresent()
+        var value = LookoutEquipmentClientTypes.DataIngestionJobSummary()
+        value.jobId = try reader["JobId"].readIfPresent()
+        value.datasetName = try reader["DatasetName"].readIfPresent()
+        value.datasetArn = try reader["DatasetArn"].readIfPresent()
+        value.ingestionInputConfiguration = try reader["IngestionInputConfiguration"].readIfPresent(with: LookoutEquipmentClientTypes.IngestionInputConfiguration.read(from:))
+        value.status = try reader["Status"].readIfPresent()
         return value
     }
 }
@@ -7056,51 +6827,25 @@ extension LookoutEquipmentClientTypes.DataPreProcessingConfiguration {
     }
 }
 
-extension LookoutEquipmentClientTypes.ModelDiagnosticsOutputConfiguration {
+extension LookoutEquipmentClientTypes.DataQualitySummary {
 
-    static func write(value: LookoutEquipmentClientTypes.ModelDiagnosticsOutputConfiguration?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["KmsKeyId"].write(value.kmsKeyId)
-        try writer["S3OutputConfiguration"].write(value.s3OutputConfiguration, with: LookoutEquipmentClientTypes.ModelDiagnosticsS3OutputConfiguration.write(value:to:))
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> LookoutEquipmentClientTypes.ModelDiagnosticsOutputConfiguration {
+    static func read(from reader: SmithyJSON.Reader) throws -> LookoutEquipmentClientTypes.DataQualitySummary {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = LookoutEquipmentClientTypes.ModelDiagnosticsOutputConfiguration()
-        value.s3OutputConfiguration = try reader["S3OutputConfiguration"].readIfPresent(with: LookoutEquipmentClientTypes.ModelDiagnosticsS3OutputConfiguration.read(from:))
-        value.kmsKeyId = try reader["KmsKeyId"].readIfPresent()
+        var value = LookoutEquipmentClientTypes.DataQualitySummary()
+        value.insufficientSensorData = try reader["InsufficientSensorData"].readIfPresent(with: LookoutEquipmentClientTypes.InsufficientSensorData.read(from:))
+        value.missingSensorData = try reader["MissingSensorData"].readIfPresent(with: LookoutEquipmentClientTypes.MissingSensorData.read(from:))
+        value.invalidSensorData = try reader["InvalidSensorData"].readIfPresent(with: LookoutEquipmentClientTypes.InvalidSensorData.read(from:))
+        value.unsupportedTimestamps = try reader["UnsupportedTimestamps"].readIfPresent(with: LookoutEquipmentClientTypes.UnsupportedTimestamps.read(from:))
+        value.duplicateTimestamps = try reader["DuplicateTimestamps"].readIfPresent(with: LookoutEquipmentClientTypes.DuplicateTimestamps.read(from:))
         return value
     }
 }
 
-extension LookoutEquipmentClientTypes.ModelDiagnosticsS3OutputConfiguration {
+extension LookoutEquipmentClientTypes.DatasetSchema {
 
-    static func write(value: LookoutEquipmentClientTypes.ModelDiagnosticsS3OutputConfiguration?, to writer: SmithyJSON.Writer) throws {
+    static func write(value: LookoutEquipmentClientTypes.DatasetSchema?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
-        try writer["Bucket"].write(value.bucket)
-        try writer["Prefix"].write(value.`prefix`)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> LookoutEquipmentClientTypes.ModelDiagnosticsS3OutputConfiguration {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = LookoutEquipmentClientTypes.ModelDiagnosticsS3OutputConfiguration()
-        value.bucket = try reader["Bucket"].readIfPresent() ?? ""
-        value.`prefix` = try reader["Prefix"].readIfPresent()
-        return value
-    }
-}
-
-extension LookoutEquipmentClientTypes.DataIngestionJobSummary {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> LookoutEquipmentClientTypes.DataIngestionJobSummary {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = LookoutEquipmentClientTypes.DataIngestionJobSummary()
-        value.jobId = try reader["JobId"].readIfPresent()
-        value.datasetName = try reader["DatasetName"].readIfPresent()
-        value.datasetArn = try reader["DatasetArn"].readIfPresent()
-        value.ingestionInputConfiguration = try reader["IngestionInputConfiguration"].readIfPresent(with: LookoutEquipmentClientTypes.IngestionInputConfiguration.read(from:))
-        value.status = try reader["Status"].readIfPresent()
-        return value
+        try writer["InlineDataSchema"].write(value.inlineDataSchema)
     }
 }
 
@@ -7113,6 +6858,16 @@ extension LookoutEquipmentClientTypes.DatasetSummary {
         value.datasetArn = try reader["DatasetArn"].readIfPresent()
         value.status = try reader["Status"].readIfPresent()
         value.createdAt = try reader["CreatedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        return value
+    }
+}
+
+extension LookoutEquipmentClientTypes.DuplicateTimestamps {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> LookoutEquipmentClientTypes.DuplicateTimestamps {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = LookoutEquipmentClientTypes.DuplicateTimestamps()
+        value.totalNumberOfDuplicateTimestamps = try reader["TotalNumberOfDuplicateTimestamps"].readIfPresent() ?? 0
         return value
     }
 }
@@ -7155,6 +6910,93 @@ extension LookoutEquipmentClientTypes.InferenceExecutionSummary {
     }
 }
 
+extension LookoutEquipmentClientTypes.InferenceInputConfiguration {
+
+    static func write(value: LookoutEquipmentClientTypes.InferenceInputConfiguration?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["InferenceInputNameConfiguration"].write(value.inferenceInputNameConfiguration, with: LookoutEquipmentClientTypes.InferenceInputNameConfiguration.write(value:to:))
+        try writer["InputTimeZoneOffset"].write(value.inputTimeZoneOffset)
+        try writer["S3InputConfiguration"].write(value.s3InputConfiguration, with: LookoutEquipmentClientTypes.InferenceS3InputConfiguration.write(value:to:))
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> LookoutEquipmentClientTypes.InferenceInputConfiguration {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = LookoutEquipmentClientTypes.InferenceInputConfiguration()
+        value.s3InputConfiguration = try reader["S3InputConfiguration"].readIfPresent(with: LookoutEquipmentClientTypes.InferenceS3InputConfiguration.read(from:))
+        value.inputTimeZoneOffset = try reader["InputTimeZoneOffset"].readIfPresent()
+        value.inferenceInputNameConfiguration = try reader["InferenceInputNameConfiguration"].readIfPresent(with: LookoutEquipmentClientTypes.InferenceInputNameConfiguration.read(from:))
+        return value
+    }
+}
+
+extension LookoutEquipmentClientTypes.InferenceInputNameConfiguration {
+
+    static func write(value: LookoutEquipmentClientTypes.InferenceInputNameConfiguration?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["ComponentTimestampDelimiter"].write(value.componentTimestampDelimiter)
+        try writer["TimestampFormat"].write(value.timestampFormat)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> LookoutEquipmentClientTypes.InferenceInputNameConfiguration {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = LookoutEquipmentClientTypes.InferenceInputNameConfiguration()
+        value.timestampFormat = try reader["TimestampFormat"].readIfPresent()
+        value.componentTimestampDelimiter = try reader["ComponentTimestampDelimiter"].readIfPresent()
+        return value
+    }
+}
+
+extension LookoutEquipmentClientTypes.InferenceOutputConfiguration {
+
+    static func write(value: LookoutEquipmentClientTypes.InferenceOutputConfiguration?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["KmsKeyId"].write(value.kmsKeyId)
+        try writer["S3OutputConfiguration"].write(value.s3OutputConfiguration, with: LookoutEquipmentClientTypes.InferenceS3OutputConfiguration.write(value:to:))
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> LookoutEquipmentClientTypes.InferenceOutputConfiguration {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = LookoutEquipmentClientTypes.InferenceOutputConfiguration()
+        value.s3OutputConfiguration = try reader["S3OutputConfiguration"].readIfPresent(with: LookoutEquipmentClientTypes.InferenceS3OutputConfiguration.read(from:))
+        value.kmsKeyId = try reader["KmsKeyId"].readIfPresent()
+        return value
+    }
+}
+
+extension LookoutEquipmentClientTypes.InferenceS3InputConfiguration {
+
+    static func write(value: LookoutEquipmentClientTypes.InferenceS3InputConfiguration?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["Bucket"].write(value.bucket)
+        try writer["Prefix"].write(value.`prefix`)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> LookoutEquipmentClientTypes.InferenceS3InputConfiguration {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = LookoutEquipmentClientTypes.InferenceS3InputConfiguration()
+        value.bucket = try reader["Bucket"].readIfPresent() ?? ""
+        value.`prefix` = try reader["Prefix"].readIfPresent()
+        return value
+    }
+}
+
+extension LookoutEquipmentClientTypes.InferenceS3OutputConfiguration {
+
+    static func write(value: LookoutEquipmentClientTypes.InferenceS3OutputConfiguration?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["Bucket"].write(value.bucket)
+        try writer["Prefix"].write(value.`prefix`)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> LookoutEquipmentClientTypes.InferenceS3OutputConfiguration {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = LookoutEquipmentClientTypes.InferenceS3OutputConfiguration()
+        value.bucket = try reader["Bucket"].readIfPresent() ?? ""
+        value.`prefix` = try reader["Prefix"].readIfPresent()
+        return value
+    }
+}
+
 extension LookoutEquipmentClientTypes.InferenceSchedulerSummary {
 
     static func read(from reader: SmithyJSON.Reader) throws -> LookoutEquipmentClientTypes.InferenceSchedulerSummary {
@@ -7172,6 +7014,74 @@ extension LookoutEquipmentClientTypes.InferenceSchedulerSummary {
     }
 }
 
+extension LookoutEquipmentClientTypes.IngestedFilesSummary {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> LookoutEquipmentClientTypes.IngestedFilesSummary {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = LookoutEquipmentClientTypes.IngestedFilesSummary()
+        value.totalNumberOfFiles = try reader["TotalNumberOfFiles"].readIfPresent() ?? 0
+        value.ingestedNumberOfFiles = try reader["IngestedNumberOfFiles"].readIfPresent() ?? 0
+        value.discardedFiles = try reader["DiscardedFiles"].readListIfPresent(memberReadingClosure: LookoutEquipmentClientTypes.S3Object.read(from:), memberNodeInfo: "member", isFlattened: false)
+        return value
+    }
+}
+
+extension LookoutEquipmentClientTypes.IngestionInputConfiguration {
+
+    static func write(value: LookoutEquipmentClientTypes.IngestionInputConfiguration?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["S3InputConfiguration"].write(value.s3InputConfiguration, with: LookoutEquipmentClientTypes.IngestionS3InputConfiguration.write(value:to:))
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> LookoutEquipmentClientTypes.IngestionInputConfiguration {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = LookoutEquipmentClientTypes.IngestionInputConfiguration()
+        value.s3InputConfiguration = try reader["S3InputConfiguration"].readIfPresent(with: LookoutEquipmentClientTypes.IngestionS3InputConfiguration.read(from:))
+        return value
+    }
+}
+
+extension LookoutEquipmentClientTypes.IngestionS3InputConfiguration {
+
+    static func write(value: LookoutEquipmentClientTypes.IngestionS3InputConfiguration?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["Bucket"].write(value.bucket)
+        try writer["KeyPattern"].write(value.keyPattern)
+        try writer["Prefix"].write(value.`prefix`)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> LookoutEquipmentClientTypes.IngestionS3InputConfiguration {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = LookoutEquipmentClientTypes.IngestionS3InputConfiguration()
+        value.bucket = try reader["Bucket"].readIfPresent() ?? ""
+        value.`prefix` = try reader["Prefix"].readIfPresent()
+        value.keyPattern = try reader["KeyPattern"].readIfPresent()
+        return value
+    }
+}
+
+extension LookoutEquipmentClientTypes.InsufficientSensorData {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> LookoutEquipmentClientTypes.InsufficientSensorData {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = LookoutEquipmentClientTypes.InsufficientSensorData()
+        value.missingCompleteSensorData = try reader["MissingCompleteSensorData"].readIfPresent(with: LookoutEquipmentClientTypes.MissingCompleteSensorData.read(from:))
+        value.sensorsWithShortDateRange = try reader["SensorsWithShortDateRange"].readIfPresent(with: LookoutEquipmentClientTypes.SensorsWithShortDateRange.read(from:))
+        return value
+    }
+}
+
+extension LookoutEquipmentClientTypes.InvalidSensorData {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> LookoutEquipmentClientTypes.InvalidSensorData {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = LookoutEquipmentClientTypes.InvalidSensorData()
+        value.affectedSensorCount = try reader["AffectedSensorCount"].readIfPresent() ?? 0
+        value.totalNumberOfInvalidValues = try reader["TotalNumberOfInvalidValues"].readIfPresent() ?? 0
+        return value
+    }
+}
+
 extension LookoutEquipmentClientTypes.LabelGroupSummary {
 
     static func read(from reader: SmithyJSON.Reader) throws -> LookoutEquipmentClientTypes.LabelGroupSummary {
@@ -7181,6 +7091,40 @@ extension LookoutEquipmentClientTypes.LabelGroupSummary {
         value.labelGroupArn = try reader["LabelGroupArn"].readIfPresent()
         value.createdAt = try reader["CreatedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
         value.updatedAt = try reader["UpdatedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        return value
+    }
+}
+
+extension LookoutEquipmentClientTypes.LabelsInputConfiguration {
+
+    static func write(value: LookoutEquipmentClientTypes.LabelsInputConfiguration?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["LabelGroupName"].write(value.labelGroupName)
+        try writer["S3InputConfiguration"].write(value.s3InputConfiguration, with: LookoutEquipmentClientTypes.LabelsS3InputConfiguration.write(value:to:))
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> LookoutEquipmentClientTypes.LabelsInputConfiguration {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = LookoutEquipmentClientTypes.LabelsInputConfiguration()
+        value.s3InputConfiguration = try reader["S3InputConfiguration"].readIfPresent(with: LookoutEquipmentClientTypes.LabelsS3InputConfiguration.read(from:))
+        value.labelGroupName = try reader["LabelGroupName"].readIfPresent()
+        return value
+    }
+}
+
+extension LookoutEquipmentClientTypes.LabelsS3InputConfiguration {
+
+    static func write(value: LookoutEquipmentClientTypes.LabelsS3InputConfiguration?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["Bucket"].write(value.bucket)
+        try writer["Prefix"].write(value.`prefix`)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> LookoutEquipmentClientTypes.LabelsS3InputConfiguration {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = LookoutEquipmentClientTypes.LabelsS3InputConfiguration()
+        value.bucket = try reader["Bucket"].readIfPresent() ?? ""
+        value.`prefix` = try reader["Prefix"].readIfPresent()
         return value
     }
 }
@@ -7199,6 +7143,73 @@ extension LookoutEquipmentClientTypes.LabelSummary {
         value.faultCode = try reader["FaultCode"].readIfPresent()
         value.equipment = try reader["Equipment"].readIfPresent()
         value.createdAt = try reader["CreatedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        return value
+    }
+}
+
+extension LookoutEquipmentClientTypes.LargeTimestampGaps {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> LookoutEquipmentClientTypes.LargeTimestampGaps {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = LookoutEquipmentClientTypes.LargeTimestampGaps()
+        value.status = try reader["Status"].readIfPresent() ?? .sdkUnknown("")
+        value.numberOfLargeTimestampGaps = try reader["NumberOfLargeTimestampGaps"].readIfPresent()
+        value.maxTimestampGapInDays = try reader["MaxTimestampGapInDays"].readIfPresent()
+        return value
+    }
+}
+
+extension LookoutEquipmentClientTypes.MissingCompleteSensorData {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> LookoutEquipmentClientTypes.MissingCompleteSensorData {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = LookoutEquipmentClientTypes.MissingCompleteSensorData()
+        value.affectedSensorCount = try reader["AffectedSensorCount"].readIfPresent() ?? 0
+        return value
+    }
+}
+
+extension LookoutEquipmentClientTypes.MissingSensorData {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> LookoutEquipmentClientTypes.MissingSensorData {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = LookoutEquipmentClientTypes.MissingSensorData()
+        value.affectedSensorCount = try reader["AffectedSensorCount"].readIfPresent() ?? 0
+        value.totalNumberOfMissingValues = try reader["TotalNumberOfMissingValues"].readIfPresent() ?? 0
+        return value
+    }
+}
+
+extension LookoutEquipmentClientTypes.ModelDiagnosticsOutputConfiguration {
+
+    static func write(value: LookoutEquipmentClientTypes.ModelDiagnosticsOutputConfiguration?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["KmsKeyId"].write(value.kmsKeyId)
+        try writer["S3OutputConfiguration"].write(value.s3OutputConfiguration, with: LookoutEquipmentClientTypes.ModelDiagnosticsS3OutputConfiguration.write(value:to:))
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> LookoutEquipmentClientTypes.ModelDiagnosticsOutputConfiguration {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = LookoutEquipmentClientTypes.ModelDiagnosticsOutputConfiguration()
+        value.s3OutputConfiguration = try reader["S3OutputConfiguration"].readIfPresent(with: LookoutEquipmentClientTypes.ModelDiagnosticsS3OutputConfiguration.read(from:))
+        value.kmsKeyId = try reader["KmsKeyId"].readIfPresent()
+        return value
+    }
+}
+
+extension LookoutEquipmentClientTypes.ModelDiagnosticsS3OutputConfiguration {
+
+    static func write(value: LookoutEquipmentClientTypes.ModelDiagnosticsS3OutputConfiguration?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["Bucket"].write(value.bucket)
+        try writer["Prefix"].write(value.`prefix`)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> LookoutEquipmentClientTypes.ModelDiagnosticsS3OutputConfiguration {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = LookoutEquipmentClientTypes.ModelDiagnosticsS3OutputConfiguration()
+        value.bucket = try reader["Bucket"].readIfPresent() ?? ""
+        value.`prefix` = try reader["Prefix"].readIfPresent()
         return value
     }
 }
@@ -7244,6 +7255,27 @@ extension LookoutEquipmentClientTypes.ModelVersionSummary {
     }
 }
 
+extension LookoutEquipmentClientTypes.MonotonicValues {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> LookoutEquipmentClientTypes.MonotonicValues {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = LookoutEquipmentClientTypes.MonotonicValues()
+        value.status = try reader["Status"].readIfPresent() ?? .sdkUnknown("")
+        value.monotonicity = try reader["Monotonicity"].readIfPresent()
+        return value
+    }
+}
+
+extension LookoutEquipmentClientTypes.MultipleOperatingModes {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> LookoutEquipmentClientTypes.MultipleOperatingModes {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = LookoutEquipmentClientTypes.MultipleOperatingModes()
+        value.status = try reader["Status"].readIfPresent() ?? .sdkUnknown("")
+        return value
+    }
+}
+
 extension LookoutEquipmentClientTypes.RetrainingSchedulerSummary {
 
     static func read(from reader: SmithyJSON.Reader) throws -> LookoutEquipmentClientTypes.RetrainingSchedulerSummary {
@@ -7255,6 +7287,17 @@ extension LookoutEquipmentClientTypes.RetrainingSchedulerSummary {
         value.retrainingStartDate = try reader["RetrainingStartDate"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
         value.retrainingFrequency = try reader["RetrainingFrequency"].readIfPresent()
         value.lookbackWindow = try reader["LookbackWindow"].readIfPresent()
+        return value
+    }
+}
+
+extension LookoutEquipmentClientTypes.S3Object {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> LookoutEquipmentClientTypes.S3Object {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = LookoutEquipmentClientTypes.S3Object()
+        value.bucket = try reader["Bucket"].readIfPresent() ?? ""
+        value.key = try reader["Key"].readIfPresent() ?? ""
         return value
     }
 }
@@ -7281,57 +7324,12 @@ extension LookoutEquipmentClientTypes.SensorStatisticsSummary {
     }
 }
 
-extension LookoutEquipmentClientTypes.MonotonicValues {
+extension LookoutEquipmentClientTypes.SensorsWithShortDateRange {
 
-    static func read(from reader: SmithyJSON.Reader) throws -> LookoutEquipmentClientTypes.MonotonicValues {
+    static func read(from reader: SmithyJSON.Reader) throws -> LookoutEquipmentClientTypes.SensorsWithShortDateRange {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = LookoutEquipmentClientTypes.MonotonicValues()
-        value.status = try reader["Status"].readIfPresent() ?? .sdkUnknown("")
-        value.monotonicity = try reader["Monotonicity"].readIfPresent()
-        return value
-    }
-}
-
-extension LookoutEquipmentClientTypes.LargeTimestampGaps {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> LookoutEquipmentClientTypes.LargeTimestampGaps {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = LookoutEquipmentClientTypes.LargeTimestampGaps()
-        value.status = try reader["Status"].readIfPresent() ?? .sdkUnknown("")
-        value.numberOfLargeTimestampGaps = try reader["NumberOfLargeTimestampGaps"].readIfPresent()
-        value.maxTimestampGapInDays = try reader["MaxTimestampGapInDays"].readIfPresent()
-        return value
-    }
-}
-
-extension LookoutEquipmentClientTypes.MultipleOperatingModes {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> LookoutEquipmentClientTypes.MultipleOperatingModes {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = LookoutEquipmentClientTypes.MultipleOperatingModes()
-        value.status = try reader["Status"].readIfPresent() ?? .sdkUnknown("")
-        return value
-    }
-}
-
-extension LookoutEquipmentClientTypes.CategoricalValues {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> LookoutEquipmentClientTypes.CategoricalValues {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = LookoutEquipmentClientTypes.CategoricalValues()
-        value.status = try reader["Status"].readIfPresent() ?? .sdkUnknown("")
-        value.numberOfCategory = try reader["NumberOfCategory"].readIfPresent()
-        return value
-    }
-}
-
-extension LookoutEquipmentClientTypes.CountPercent {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> LookoutEquipmentClientTypes.CountPercent {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = LookoutEquipmentClientTypes.CountPercent()
-        value.count = try reader["Count"].readIfPresent() ?? 0
-        value.percentage = try reader["Percentage"].readIfPresent() ?? 0
+        var value = LookoutEquipmentClientTypes.SensorsWithShortDateRange()
+        value.affectedSensorCount = try reader["AffectedSensorCount"].readIfPresent() ?? 0
         return value
     }
 }
@@ -7353,11 +7351,13 @@ extension LookoutEquipmentClientTypes.Tag {
     }
 }
 
-extension LookoutEquipmentClientTypes.DatasetSchema {
+extension LookoutEquipmentClientTypes.UnsupportedTimestamps {
 
-    static func write(value: LookoutEquipmentClientTypes.DatasetSchema?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["InlineDataSchema"].write(value.inlineDataSchema)
+    static func read(from reader: SmithyJSON.Reader) throws -> LookoutEquipmentClientTypes.UnsupportedTimestamps {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = LookoutEquipmentClientTypes.UnsupportedTimestamps()
+        value.totalNumberOfUnsupportedTimestamps = try reader["TotalNumberOfUnsupportedTimestamps"].readIfPresent() ?? 0
+        return value
     }
 }
 

@@ -25,8 +25,8 @@ import protocol ClientRuntime.HTTPError
 import protocol ClientRuntime.ModeledError
 @_spi(SmithyReadWrite) import protocol SmithyReadWrite.SmithyReader
 @_spi(SmithyReadWrite) import protocol SmithyReadWrite.SmithyWriter
-@_spi(SmithyReadWrite) import struct AWSClientRuntime.RestJSONError
 @_spi(UnknownAWSHTTPServiceError) import struct AWSClientRuntime.UnknownAWSHTTPServiceError
+@_spi(SmithyReadWrite) import struct ClientRuntime.RestJSONError
 import struct Smithy.URIQueryItem
 import struct SmithyEventStreams.DefaultMessageDecoderStream
 import struct SmithyEventStreamsAPI.Message
@@ -15003,7 +15003,7 @@ enum AssociateAssetsOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "ConflictingOperationException": return try ConflictingOperationException.makeError(baseError: baseError)
@@ -15023,7 +15023,7 @@ enum AssociateTimeSeriesToAssetPropertyOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "ConflictingOperationException": return try ConflictingOperationException.makeError(baseError: baseError)
@@ -15041,7 +15041,7 @@ enum BatchAssociateProjectAssetsOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "InternalFailureException": return try InternalFailureException.makeError(baseError: baseError)
@@ -15059,7 +15059,7 @@ enum BatchDisassociateProjectAssetsOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "InternalFailureException": return try InternalFailureException.makeError(baseError: baseError)
@@ -15076,7 +15076,7 @@ enum BatchGetAssetPropertyAggregatesOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "InternalFailureException": return try InternalFailureException.makeError(baseError: baseError)
@@ -15093,7 +15093,7 @@ enum BatchGetAssetPropertyValueOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "InternalFailureException": return try InternalFailureException.makeError(baseError: baseError)
@@ -15110,7 +15110,7 @@ enum BatchGetAssetPropertyValueHistoryOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "InternalFailureException": return try InternalFailureException.makeError(baseError: baseError)
@@ -15127,7 +15127,7 @@ enum BatchPutAssetPropertyValueOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "ConflictingOperationException": return try ConflictingOperationException.makeError(baseError: baseError)
@@ -15147,7 +15147,7 @@ enum CreateAccessPolicyOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "InternalFailureException": return try InternalFailureException.makeError(baseError: baseError)
@@ -15165,7 +15165,7 @@ enum CreateAssetOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "ConflictingOperationException": return try ConflictingOperationException.makeError(baseError: baseError)
@@ -15185,7 +15185,7 @@ enum CreateAssetModelOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "ConflictingOperationException": return try ConflictingOperationException.makeError(baseError: baseError)
@@ -15205,7 +15205,7 @@ enum CreateAssetModelCompositeModelOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "ConflictingOperationException": return try ConflictingOperationException.makeError(baseError: baseError)
@@ -15226,7 +15226,7 @@ enum CreateBulkImportJobOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "ConflictingOperationException": return try ConflictingOperationException.makeError(baseError: baseError)
@@ -15246,7 +15246,7 @@ enum CreateComputationModelOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "ConflictingOperationException": return try ConflictingOperationException.makeError(baseError: baseError)
@@ -15266,7 +15266,7 @@ enum CreateDashboardOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "InternalFailureException": return try InternalFailureException.makeError(baseError: baseError)
@@ -15284,7 +15284,7 @@ enum CreateDatasetOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "ConflictingOperationException": return try ConflictingOperationException.makeError(baseError: baseError)
@@ -15304,7 +15304,7 @@ enum CreateGatewayOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "InternalFailureException": return try InternalFailureException.makeError(baseError: baseError)
@@ -15322,7 +15322,7 @@ enum CreatePortalOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "InternalFailureException": return try InternalFailureException.makeError(baseError: baseError)
@@ -15340,7 +15340,7 @@ enum CreateProjectOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "InternalFailureException": return try InternalFailureException.makeError(baseError: baseError)
@@ -15358,7 +15358,7 @@ enum DeleteAccessPolicyOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "InternalFailureException": return try InternalFailureException.makeError(baseError: baseError)
@@ -15375,7 +15375,7 @@ enum DeleteAssetOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "ConflictingOperationException": return try ConflictingOperationException.makeError(baseError: baseError)
@@ -15393,7 +15393,7 @@ enum DeleteAssetModelOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "ConflictingOperationException": return try ConflictingOperationException.makeError(baseError: baseError)
@@ -15412,7 +15412,7 @@ enum DeleteAssetModelCompositeModelOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "ConflictingOperationException": return try ConflictingOperationException.makeError(baseError: baseError)
@@ -15431,7 +15431,7 @@ enum DeleteAssetModelInterfaceRelationshipOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "ConflictingOperationException": return try ConflictingOperationException.makeError(baseError: baseError)
@@ -15449,7 +15449,7 @@ enum DeleteComputationModelOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "ConflictingOperationException": return try ConflictingOperationException.makeError(baseError: baseError)
@@ -15467,7 +15467,7 @@ enum DeleteDashboardOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "InternalFailureException": return try InternalFailureException.makeError(baseError: baseError)
@@ -15484,7 +15484,7 @@ enum DeleteDatasetOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "ConflictingOperationException": return try ConflictingOperationException.makeError(baseError: baseError)
@@ -15502,7 +15502,7 @@ enum DeleteGatewayOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "ConflictingOperationException": return try ConflictingOperationException.makeError(baseError: baseError)
@@ -15520,7 +15520,7 @@ enum DeletePortalOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "ConflictingOperationException": return try ConflictingOperationException.makeError(baseError: baseError)
@@ -15538,7 +15538,7 @@ enum DeleteProjectOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "InternalFailureException": return try InternalFailureException.makeError(baseError: baseError)
@@ -15555,7 +15555,7 @@ enum DeleteTimeSeriesOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "ConflictingOperationException": return try ConflictingOperationException.makeError(baseError: baseError)
@@ -15573,7 +15573,7 @@ enum DescribeAccessPolicyOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "InternalFailureException": return try InternalFailureException.makeError(baseError: baseError)
@@ -15590,7 +15590,7 @@ enum DescribeActionOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "InternalFailureException": return try InternalFailureException.makeError(baseError: baseError)
@@ -15607,7 +15607,7 @@ enum DescribeAssetOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "InternalFailureException": return try InternalFailureException.makeError(baseError: baseError)
@@ -15624,7 +15624,7 @@ enum DescribeAssetCompositeModelOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "InternalFailureException": return try InternalFailureException.makeError(baseError: baseError)
@@ -15641,7 +15641,7 @@ enum DescribeAssetModelOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "InternalFailureException": return try InternalFailureException.makeError(baseError: baseError)
@@ -15658,7 +15658,7 @@ enum DescribeAssetModelCompositeModelOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "InternalFailureException": return try InternalFailureException.makeError(baseError: baseError)
@@ -15675,7 +15675,7 @@ enum DescribeAssetModelInterfaceRelationshipOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "InternalFailureException": return try InternalFailureException.makeError(baseError: baseError)
@@ -15692,7 +15692,7 @@ enum DescribeAssetPropertyOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "InternalFailureException": return try InternalFailureException.makeError(baseError: baseError)
@@ -15709,7 +15709,7 @@ enum DescribeBulkImportJobOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "InternalFailureException": return try InternalFailureException.makeError(baseError: baseError)
@@ -15726,7 +15726,7 @@ enum DescribeComputationModelOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "InternalFailureException": return try InternalFailureException.makeError(baseError: baseError)
@@ -15743,7 +15743,7 @@ enum DescribeComputationModelExecutionSummaryOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "InternalFailureException": return try InternalFailureException.makeError(baseError: baseError)
@@ -15760,7 +15760,7 @@ enum DescribeDashboardOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "InternalFailureException": return try InternalFailureException.makeError(baseError: baseError)
@@ -15777,7 +15777,7 @@ enum DescribeDatasetOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "InternalFailureException": return try InternalFailureException.makeError(baseError: baseError)
@@ -15794,7 +15794,7 @@ enum DescribeDefaultEncryptionConfigurationOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "InternalFailureException": return try InternalFailureException.makeError(baseError: baseError)
@@ -15810,7 +15810,7 @@ enum DescribeExecutionOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "InternalFailureException": return try InternalFailureException.makeError(baseError: baseError)
@@ -15827,7 +15827,7 @@ enum DescribeGatewayOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "InternalFailureException": return try InternalFailureException.makeError(baseError: baseError)
@@ -15844,7 +15844,7 @@ enum DescribeGatewayCapabilityConfigurationOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "InternalFailureException": return try InternalFailureException.makeError(baseError: baseError)
@@ -15861,7 +15861,7 @@ enum DescribeLoggingOptionsOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "InternalFailureException": return try InternalFailureException.makeError(baseError: baseError)
@@ -15878,7 +15878,7 @@ enum DescribePortalOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "InternalFailureException": return try InternalFailureException.makeError(baseError: baseError)
@@ -15895,7 +15895,7 @@ enum DescribeProjectOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "InternalFailureException": return try InternalFailureException.makeError(baseError: baseError)
@@ -15912,7 +15912,7 @@ enum DescribeStorageConfigurationOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "ConflictingOperationException": return try ConflictingOperationException.makeError(baseError: baseError)
@@ -15931,7 +15931,7 @@ enum DescribeTimeSeriesOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "InternalFailureException": return try InternalFailureException.makeError(baseError: baseError)
@@ -15948,7 +15948,7 @@ enum DisassociateAssetsOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "ConflictingOperationException": return try ConflictingOperationException.makeError(baseError: baseError)
@@ -15966,7 +15966,7 @@ enum DisassociateTimeSeriesFromAssetPropertyOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "ConflictingOperationException": return try ConflictingOperationException.makeError(baseError: baseError)
@@ -15984,7 +15984,7 @@ enum ExecuteActionOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "ConflictingOperationException": return try ConflictingOperationException.makeError(baseError: baseError)
@@ -16003,7 +16003,7 @@ enum ExecuteQueryOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
@@ -16023,7 +16023,7 @@ enum GetAssetPropertyAggregatesOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "InternalFailureException": return try InternalFailureException.makeError(baseError: baseError)
@@ -16041,7 +16041,7 @@ enum GetAssetPropertyValueOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "InternalFailureException": return try InternalFailureException.makeError(baseError: baseError)
@@ -16059,7 +16059,7 @@ enum GetAssetPropertyValueHistoryOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "InternalFailureException": return try InternalFailureException.makeError(baseError: baseError)
@@ -16077,7 +16077,7 @@ enum GetInterpolatedAssetPropertyValuesOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "InternalFailureException": return try InternalFailureException.makeError(baseError: baseError)
@@ -16095,7 +16095,7 @@ enum InvokeAssistantOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
@@ -16115,7 +16115,7 @@ enum ListAccessPoliciesOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "InternalFailureException": return try InternalFailureException.makeError(baseError: baseError)
@@ -16131,7 +16131,7 @@ enum ListActionsOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "InternalFailureException": return try InternalFailureException.makeError(baseError: baseError)
@@ -16148,7 +16148,7 @@ enum ListAssetModelCompositeModelsOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "InternalFailureException": return try InternalFailureException.makeError(baseError: baseError)
@@ -16165,7 +16165,7 @@ enum ListAssetModelPropertiesOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "InternalFailureException": return try InternalFailureException.makeError(baseError: baseError)
@@ -16182,7 +16182,7 @@ enum ListAssetModelsOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "InternalFailureException": return try InternalFailureException.makeError(baseError: baseError)
@@ -16198,7 +16198,7 @@ enum ListAssetPropertiesOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "InternalFailureException": return try InternalFailureException.makeError(baseError: baseError)
@@ -16215,7 +16215,7 @@ enum ListAssetRelationshipsOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "InternalFailureException": return try InternalFailureException.makeError(baseError: baseError)
@@ -16232,7 +16232,7 @@ enum ListAssetsOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "InternalFailureException": return try InternalFailureException.makeError(baseError: baseError)
@@ -16249,7 +16249,7 @@ enum ListAssociatedAssetsOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "InternalFailureException": return try InternalFailureException.makeError(baseError: baseError)
@@ -16266,7 +16266,7 @@ enum ListBulkImportJobsOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "InternalFailureException": return try InternalFailureException.makeError(baseError: baseError)
@@ -16283,7 +16283,7 @@ enum ListCompositionRelationshipsOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "InternalFailureException": return try InternalFailureException.makeError(baseError: baseError)
@@ -16300,7 +16300,7 @@ enum ListComputationModelDataBindingUsagesOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "InternalFailureException": return try InternalFailureException.makeError(baseError: baseError)
@@ -16316,7 +16316,7 @@ enum ListComputationModelResolveToResourcesOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "InternalFailureException": return try InternalFailureException.makeError(baseError: baseError)
@@ -16333,7 +16333,7 @@ enum ListComputationModelsOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "InternalFailureException": return try InternalFailureException.makeError(baseError: baseError)
@@ -16349,7 +16349,7 @@ enum ListDashboardsOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "InternalFailureException": return try InternalFailureException.makeError(baseError: baseError)
@@ -16365,7 +16365,7 @@ enum ListDatasetsOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "InternalFailureException": return try InternalFailureException.makeError(baseError: baseError)
@@ -16381,7 +16381,7 @@ enum ListExecutionsOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "InternalFailureException": return try InternalFailureException.makeError(baseError: baseError)
@@ -16398,7 +16398,7 @@ enum ListGatewaysOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "InternalFailureException": return try InternalFailureException.makeError(baseError: baseError)
@@ -16414,7 +16414,7 @@ enum ListInterfaceRelationshipsOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "InternalFailureException": return try InternalFailureException.makeError(baseError: baseError)
@@ -16431,7 +16431,7 @@ enum ListPortalsOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "InternalFailureException": return try InternalFailureException.makeError(baseError: baseError)
@@ -16447,7 +16447,7 @@ enum ListProjectAssetsOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "InternalFailureException": return try InternalFailureException.makeError(baseError: baseError)
@@ -16463,7 +16463,7 @@ enum ListProjectsOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "InternalFailureException": return try InternalFailureException.makeError(baseError: baseError)
@@ -16479,7 +16479,7 @@ enum ListTagsForResourceOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "ConflictingOperationException": return try ConflictingOperationException.makeError(baseError: baseError)
@@ -16499,7 +16499,7 @@ enum ListTimeSeriesOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "InternalFailureException": return try InternalFailureException.makeError(baseError: baseError)
@@ -16516,7 +16516,7 @@ enum PutAssetModelInterfaceRelationshipOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "ConflictingOperationException": return try ConflictingOperationException.makeError(baseError: baseError)
@@ -16535,7 +16535,7 @@ enum PutDefaultEncryptionConfigurationOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "ConflictingOperationException": return try ConflictingOperationException.makeError(baseError: baseError)
@@ -16553,7 +16553,7 @@ enum PutLoggingOptionsOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "ConflictingOperationException": return try ConflictingOperationException.makeError(baseError: baseError)
@@ -16571,7 +16571,7 @@ enum PutStorageConfigurationOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "ConflictingOperationException": return try ConflictingOperationException.makeError(baseError: baseError)
@@ -16591,7 +16591,7 @@ enum TagResourceOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "ConflictingOperationException": return try ConflictingOperationException.makeError(baseError: baseError)
@@ -16612,7 +16612,7 @@ enum UntagResourceOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "ConflictingOperationException": return try ConflictingOperationException.makeError(baseError: baseError)
@@ -16632,7 +16632,7 @@ enum UpdateAccessPolicyOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "InternalFailureException": return try InternalFailureException.makeError(baseError: baseError)
@@ -16649,7 +16649,7 @@ enum UpdateAssetOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "ConflictingOperationException": return try ConflictingOperationException.makeError(baseError: baseError)
@@ -16668,7 +16668,7 @@ enum UpdateAssetModelOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "ConflictingOperationException": return try ConflictingOperationException.makeError(baseError: baseError)
@@ -16689,7 +16689,7 @@ enum UpdateAssetModelCompositeModelOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "ConflictingOperationException": return try ConflictingOperationException.makeError(baseError: baseError)
@@ -16710,7 +16710,7 @@ enum UpdateAssetPropertyOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "ConflictingOperationException": return try ConflictingOperationException.makeError(baseError: baseError)
@@ -16728,7 +16728,7 @@ enum UpdateComputationModelOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "ConflictingOperationException": return try ConflictingOperationException.makeError(baseError: baseError)
@@ -16748,7 +16748,7 @@ enum UpdateDashboardOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "InternalFailureException": return try InternalFailureException.makeError(baseError: baseError)
@@ -16765,7 +16765,7 @@ enum UpdateDatasetOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "ConflictingOperationException": return try ConflictingOperationException.makeError(baseError: baseError)
@@ -16784,7 +16784,7 @@ enum UpdateGatewayOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "ConflictingOperationException": return try ConflictingOperationException.makeError(baseError: baseError)
@@ -16802,7 +16802,7 @@ enum UpdateGatewayCapabilityConfigurationOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "ConflictingOperationException": return try ConflictingOperationException.makeError(baseError: baseError)
@@ -16821,7 +16821,7 @@ enum UpdatePortalOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "ConflictingOperationException": return try ConflictingOperationException.makeError(baseError: baseError)
@@ -16839,7 +16839,7 @@ enum UpdateProjectOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "InternalFailureException": return try InternalFailureException.makeError(baseError: baseError)
@@ -16853,7 +16853,7 @@ enum UpdateProjectOutputError {
 
 extension ConflictingOperationException {
 
-    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> ConflictingOperationException {
+    static func makeError(baseError: ClientRuntime.RestJSONError) throws -> ConflictingOperationException {
         let reader = baseError.errorBodyReader
         var value = ConflictingOperationException()
         value.properties.message = try reader["message"].readIfPresent() ?? ""
@@ -16868,7 +16868,7 @@ extension ConflictingOperationException {
 
 extension InternalFailureException {
 
-    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> InternalFailureException {
+    static func makeError(baseError: ClientRuntime.RestJSONError) throws -> InternalFailureException {
         let reader = baseError.errorBodyReader
         var value = InternalFailureException()
         value.properties.message = try reader["message"].readIfPresent() ?? ""
@@ -16881,7 +16881,7 @@ extension InternalFailureException {
 
 extension InvalidRequestException {
 
-    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> InvalidRequestException {
+    static func makeError(baseError: ClientRuntime.RestJSONError) throws -> InvalidRequestException {
         let reader = baseError.errorBodyReader
         var value = InvalidRequestException()
         value.properties.message = try reader["message"].readIfPresent() ?? ""
@@ -16894,7 +16894,7 @@ extension InvalidRequestException {
 
 extension LimitExceededException {
 
-    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> LimitExceededException {
+    static func makeError(baseError: ClientRuntime.RestJSONError) throws -> LimitExceededException {
         let reader = baseError.errorBodyReader
         var value = LimitExceededException()
         value.properties.message = try reader["message"].readIfPresent() ?? ""
@@ -16907,7 +16907,7 @@ extension LimitExceededException {
 
 extension ResourceAlreadyExistsException {
 
-    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> ResourceAlreadyExistsException {
+    static func makeError(baseError: ClientRuntime.RestJSONError) throws -> ResourceAlreadyExistsException {
         let reader = baseError.errorBodyReader
         var value = ResourceAlreadyExistsException()
         value.properties.message = try reader["message"].readIfPresent() ?? ""
@@ -16922,7 +16922,7 @@ extension ResourceAlreadyExistsException {
 
 extension ResourceNotFoundException {
 
-    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> ResourceNotFoundException {
+    static func makeError(baseError: ClientRuntime.RestJSONError) throws -> ResourceNotFoundException {
         let reader = baseError.errorBodyReader
         var value = ResourceNotFoundException()
         value.properties.message = try reader["message"].readIfPresent() ?? ""
@@ -16935,7 +16935,7 @@ extension ResourceNotFoundException {
 
 extension ThrottlingException {
 
-    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> ThrottlingException {
+    static func makeError(baseError: ClientRuntime.RestJSONError) throws -> ThrottlingException {
         let reader = baseError.errorBodyReader
         var value = ThrottlingException()
         value.properties.message = try reader["message"].readIfPresent() ?? ""
@@ -16948,7 +16948,7 @@ extension ThrottlingException {
 
 extension ServiceUnavailableException {
 
-    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> ServiceUnavailableException {
+    static func makeError(baseError: ClientRuntime.RestJSONError) throws -> ServiceUnavailableException {
         let reader = baseError.errorBodyReader
         var value = ServiceUnavailableException()
         value.properties.message = try reader["message"].readIfPresent() ?? ""
@@ -16961,7 +16961,7 @@ extension ServiceUnavailableException {
 
 extension PreconditionFailedException {
 
-    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> PreconditionFailedException {
+    static func makeError(baseError: ClientRuntime.RestJSONError) throws -> PreconditionFailedException {
         let reader = baseError.errorBodyReader
         var value = PreconditionFailedException()
         value.properties.message = try reader["message"].readIfPresent() ?? ""
@@ -16976,7 +16976,7 @@ extension PreconditionFailedException {
 
 extension AccessDeniedException {
 
-    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> AccessDeniedException {
+    static func makeError(baseError: ClientRuntime.RestJSONError) throws -> AccessDeniedException {
         let reader = baseError.errorBodyReader
         var value = AccessDeniedException()
         value.properties.message = try reader["message"].readIfPresent()
@@ -16989,7 +16989,7 @@ extension AccessDeniedException {
 
 extension QueryTimeoutException {
 
-    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> QueryTimeoutException {
+    static func makeError(baseError: ClientRuntime.RestJSONError) throws -> QueryTimeoutException {
         let reader = baseError.errorBodyReader
         var value = QueryTimeoutException()
         value.properties.message = try reader["message"].readIfPresent()
@@ -17002,7 +17002,7 @@ extension QueryTimeoutException {
 
 extension ValidationException {
 
-    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> ValidationException {
+    static func makeError(baseError: ClientRuntime.RestJSONError) throws -> ValidationException {
         let reader = baseError.errorBodyReader
         var value = ValidationException()
         value.properties.message = try reader["message"].readIfPresent()
@@ -17015,7 +17015,7 @@ extension ValidationException {
 
 extension UnauthorizedException {
 
-    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> UnauthorizedException {
+    static func makeError(baseError: ClientRuntime.RestJSONError) throws -> UnauthorizedException {
         let reader = baseError.errorBodyReader
         var value = UnauthorizedException()
         value.properties.message = try reader["message"].readIfPresent() ?? ""
@@ -17028,7 +17028,7 @@ extension UnauthorizedException {
 
 extension TooManyTagsException {
 
-    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> TooManyTagsException {
+    static func makeError(baseError: ClientRuntime.RestJSONError) throws -> TooManyTagsException {
         let reader = baseError.errorBodyReader
         var value = TooManyTagsException()
         value.properties.message = try reader["message"].readIfPresent()
@@ -17096,37 +17096,67 @@ extension IoTSiteWiseClientTypes.ResponseStream {
     }
 }
 
-extension IoTSiteWiseClientTypes.AssetErrorDetails {
+extension AccessDeniedException {
 
-    static func read(from reader: SmithyJSON.Reader) throws -> IoTSiteWiseClientTypes.AssetErrorDetails {
+    static func read(from reader: SmithyJSON.Reader) throws -> AccessDeniedException {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = IoTSiteWiseClientTypes.AssetErrorDetails()
-        value.assetId = try reader["assetId"].readIfPresent() ?? ""
-        value.code = try reader["code"].readIfPresent() ?? .sdkUnknown("")
-        value.message = try reader["message"].readIfPresent() ?? ""
+        var value = AccessDeniedException()
+        value.properties.message = try reader["message"].readIfPresent()
         return value
     }
 }
 
-extension IoTSiteWiseClientTypes.BatchGetAssetPropertyAggregatesErrorEntry {
+extension IoTSiteWiseClientTypes.AccessPolicySummary {
 
-    static func read(from reader: SmithyJSON.Reader) throws -> IoTSiteWiseClientTypes.BatchGetAssetPropertyAggregatesErrorEntry {
+    static func read(from reader: SmithyJSON.Reader) throws -> IoTSiteWiseClientTypes.AccessPolicySummary {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = IoTSiteWiseClientTypes.BatchGetAssetPropertyAggregatesErrorEntry()
-        value.errorCode = try reader["errorCode"].readIfPresent() ?? .sdkUnknown("")
-        value.errorMessage = try reader["errorMessage"].readIfPresent() ?? ""
-        value.entryId = try reader["entryId"].readIfPresent() ?? ""
+        var value = IoTSiteWiseClientTypes.AccessPolicySummary()
+        value.id = try reader["id"].readIfPresent() ?? ""
+        value.identity = try reader["identity"].readIfPresent(with: IoTSiteWiseClientTypes.Identity.read(from:))
+        value.resource = try reader["resource"].readIfPresent(with: IoTSiteWiseClientTypes.Resource.read(from:))
+        value.permission = try reader["permission"].readIfPresent() ?? .sdkUnknown("")
+        value.creationDate = try reader["creationDate"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.lastUpdateDate = try reader["lastUpdateDate"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
         return value
     }
 }
 
-extension IoTSiteWiseClientTypes.BatchGetAssetPropertyAggregatesSuccessEntry {
+extension IoTSiteWiseClientTypes.ActionDefinition {
 
-    static func read(from reader: SmithyJSON.Reader) throws -> IoTSiteWiseClientTypes.BatchGetAssetPropertyAggregatesSuccessEntry {
+    static func read(from reader: SmithyJSON.Reader) throws -> IoTSiteWiseClientTypes.ActionDefinition {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = IoTSiteWiseClientTypes.BatchGetAssetPropertyAggregatesSuccessEntry()
-        value.entryId = try reader["entryId"].readIfPresent() ?? ""
-        value.aggregatedValues = try reader["aggregatedValues"].readListIfPresent(memberReadingClosure: IoTSiteWiseClientTypes.AggregatedValue.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        var value = IoTSiteWiseClientTypes.ActionDefinition()
+        value.actionDefinitionId = try reader["actionDefinitionId"].readIfPresent() ?? ""
+        value.actionName = try reader["actionName"].readIfPresent() ?? ""
+        value.actionType = try reader["actionType"].readIfPresent() ?? ""
+        return value
+    }
+}
+
+extension IoTSiteWiseClientTypes.ActionPayload {
+
+    static func write(value: IoTSiteWiseClientTypes.ActionPayload?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["stringValue"].write(value.stringValue)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> IoTSiteWiseClientTypes.ActionPayload {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = IoTSiteWiseClientTypes.ActionPayload()
+        value.stringValue = try reader["stringValue"].readIfPresent() ?? ""
+        return value
+    }
+}
+
+extension IoTSiteWiseClientTypes.ActionSummary {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> IoTSiteWiseClientTypes.ActionSummary {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = IoTSiteWiseClientTypes.ActionSummary()
+        value.actionId = try reader["actionId"].readIfPresent()
+        value.actionDefinitionId = try reader["actionDefinitionId"].readIfPresent()
+        value.targetResource = try reader["targetResource"].readIfPresent(with: IoTSiteWiseClientTypes.TargetResource.read(from:))
+        value.resolveTo = try reader["resolveTo"].readIfPresent(with: IoTSiteWiseClientTypes.ResolveTo.read(from:))
         return value
     }
 }
@@ -17158,48 +17188,413 @@ extension IoTSiteWiseClientTypes.Aggregates {
     }
 }
 
-extension IoTSiteWiseClientTypes.BatchGetAssetPropertyAggregatesSkippedEntry {
+extension IoTSiteWiseClientTypes.Alarms {
 
-    static func read(from reader: SmithyJSON.Reader) throws -> IoTSiteWiseClientTypes.BatchGetAssetPropertyAggregatesSkippedEntry {
+    static func write(value: IoTSiteWiseClientTypes.Alarms?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["alarmRoleArn"].write(value.alarmRoleArn)
+        try writer["notificationLambdaArn"].write(value.notificationLambdaArn)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> IoTSiteWiseClientTypes.Alarms {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = IoTSiteWiseClientTypes.BatchGetAssetPropertyAggregatesSkippedEntry()
-        value.entryId = try reader["entryId"].readIfPresent() ?? ""
-        value.completionStatus = try reader["completionStatus"].readIfPresent() ?? .sdkUnknown("")
-        value.errorInfo = try reader["errorInfo"].readIfPresent(with: IoTSiteWiseClientTypes.BatchGetAssetPropertyAggregatesErrorInfo.read(from:))
+        var value = IoTSiteWiseClientTypes.Alarms()
+        value.alarmRoleArn = try reader["alarmRoleArn"].readIfPresent() ?? ""
+        value.notificationLambdaArn = try reader["notificationLambdaArn"].readIfPresent()
         return value
     }
 }
 
-extension IoTSiteWiseClientTypes.BatchGetAssetPropertyAggregatesErrorInfo {
+extension IoTSiteWiseClientTypes.AssetBindingValueFilter {
 
-    static func read(from reader: SmithyJSON.Reader) throws -> IoTSiteWiseClientTypes.BatchGetAssetPropertyAggregatesErrorInfo {
+    static func write(value: IoTSiteWiseClientTypes.AssetBindingValueFilter?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["assetId"].write(value.assetId)
+    }
+}
+
+extension IoTSiteWiseClientTypes.AssetCompositeModel {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> IoTSiteWiseClientTypes.AssetCompositeModel {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = IoTSiteWiseClientTypes.BatchGetAssetPropertyAggregatesErrorInfo()
-        value.errorCode = try reader["errorCode"].readIfPresent() ?? .sdkUnknown("")
-        value.errorTimestamp = try reader["errorTimestamp"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        var value = IoTSiteWiseClientTypes.AssetCompositeModel()
+        value.name = try reader["name"].readIfPresent() ?? ""
+        value.description = try reader["description"].readIfPresent()
+        value.type = try reader["type"].readIfPresent() ?? ""
+        value.properties = try reader["properties"].readListIfPresent(memberReadingClosure: IoTSiteWiseClientTypes.AssetProperty.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        value.id = try reader["id"].readIfPresent()
+        value.externalId = try reader["externalId"].readIfPresent()
         return value
     }
 }
 
-extension IoTSiteWiseClientTypes.BatchGetAssetPropertyValueErrorEntry {
+extension IoTSiteWiseClientTypes.AssetCompositeModelPathSegment {
 
-    static func read(from reader: SmithyJSON.Reader) throws -> IoTSiteWiseClientTypes.BatchGetAssetPropertyValueErrorEntry {
+    static func read(from reader: SmithyJSON.Reader) throws -> IoTSiteWiseClientTypes.AssetCompositeModelPathSegment {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = IoTSiteWiseClientTypes.BatchGetAssetPropertyValueErrorEntry()
-        value.errorCode = try reader["errorCode"].readIfPresent() ?? .sdkUnknown("")
-        value.errorMessage = try reader["errorMessage"].readIfPresent() ?? ""
-        value.entryId = try reader["entryId"].readIfPresent() ?? ""
+        var value = IoTSiteWiseClientTypes.AssetCompositeModelPathSegment()
+        value.id = try reader["id"].readIfPresent()
+        value.name = try reader["name"].readIfPresent()
         return value
     }
 }
 
-extension IoTSiteWiseClientTypes.BatchGetAssetPropertyValueSuccessEntry {
+extension IoTSiteWiseClientTypes.AssetCompositeModelSummary {
 
-    static func read(from reader: SmithyJSON.Reader) throws -> IoTSiteWiseClientTypes.BatchGetAssetPropertyValueSuccessEntry {
+    static func read(from reader: SmithyJSON.Reader) throws -> IoTSiteWiseClientTypes.AssetCompositeModelSummary {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = IoTSiteWiseClientTypes.BatchGetAssetPropertyValueSuccessEntry()
-        value.entryId = try reader["entryId"].readIfPresent() ?? ""
-        value.assetPropertyValue = try reader["assetPropertyValue"].readIfPresent(with: IoTSiteWiseClientTypes.AssetPropertyValue.read(from:))
+        var value = IoTSiteWiseClientTypes.AssetCompositeModelSummary()
+        value.id = try reader["id"].readIfPresent() ?? ""
+        value.externalId = try reader["externalId"].readIfPresent()
+        value.name = try reader["name"].readIfPresent() ?? ""
+        value.type = try reader["type"].readIfPresent() ?? ""
+        value.description = try reader["description"].readIfPresent() ?? ""
+        value.path = try reader["path"].readListIfPresent(memberReadingClosure: IoTSiteWiseClientTypes.AssetCompositeModelPathSegment.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        return value
+    }
+}
+
+extension IoTSiteWiseClientTypes.AssetErrorDetails {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> IoTSiteWiseClientTypes.AssetErrorDetails {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = IoTSiteWiseClientTypes.AssetErrorDetails()
+        value.assetId = try reader["assetId"].readIfPresent() ?? ""
+        value.code = try reader["code"].readIfPresent() ?? .sdkUnknown("")
+        value.message = try reader["message"].readIfPresent() ?? ""
+        return value
+    }
+}
+
+extension IoTSiteWiseClientTypes.AssetHierarchy {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> IoTSiteWiseClientTypes.AssetHierarchy {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = IoTSiteWiseClientTypes.AssetHierarchy()
+        value.id = try reader["id"].readIfPresent()
+        value.externalId = try reader["externalId"].readIfPresent()
+        value.name = try reader["name"].readIfPresent() ?? ""
+        return value
+    }
+}
+
+extension IoTSiteWiseClientTypes.AssetHierarchyInfo {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> IoTSiteWiseClientTypes.AssetHierarchyInfo {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = IoTSiteWiseClientTypes.AssetHierarchyInfo()
+        value.parentAssetId = try reader["parentAssetId"].readIfPresent()
+        value.childAssetId = try reader["childAssetId"].readIfPresent()
+        return value
+    }
+}
+
+extension IoTSiteWiseClientTypes.AssetModelBindingValueFilter {
+
+    static func write(value: IoTSiteWiseClientTypes.AssetModelBindingValueFilter?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["assetModelId"].write(value.assetModelId)
+    }
+}
+
+extension IoTSiteWiseClientTypes.AssetModelCompositeModel {
+
+    static func write(value: IoTSiteWiseClientTypes.AssetModelCompositeModel?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["description"].write(value.description)
+        try writer["externalId"].write(value.externalId)
+        try writer["id"].write(value.id)
+        try writer["name"].write(value.name)
+        try writer["properties"].writeList(value.properties, memberWritingClosure: IoTSiteWiseClientTypes.AssetModelProperty.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["type"].write(value.type)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> IoTSiteWiseClientTypes.AssetModelCompositeModel {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = IoTSiteWiseClientTypes.AssetModelCompositeModel()
+        value.name = try reader["name"].readIfPresent() ?? ""
+        value.description = try reader["description"].readIfPresent()
+        value.type = try reader["type"].readIfPresent() ?? ""
+        value.properties = try reader["properties"].readListIfPresent(memberReadingClosure: IoTSiteWiseClientTypes.AssetModelProperty.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.id = try reader["id"].readIfPresent()
+        value.externalId = try reader["externalId"].readIfPresent()
+        return value
+    }
+}
+
+extension IoTSiteWiseClientTypes.AssetModelCompositeModelDefinition {
+
+    static func write(value: IoTSiteWiseClientTypes.AssetModelCompositeModelDefinition?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["description"].write(value.description)
+        try writer["externalId"].write(value.externalId)
+        try writer["id"].write(value.id)
+        try writer["name"].write(value.name)
+        try writer["properties"].writeList(value.properties, memberWritingClosure: IoTSiteWiseClientTypes.AssetModelPropertyDefinition.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["type"].write(value.type)
+    }
+}
+
+extension IoTSiteWiseClientTypes.AssetModelCompositeModelPathSegment {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> IoTSiteWiseClientTypes.AssetModelCompositeModelPathSegment {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = IoTSiteWiseClientTypes.AssetModelCompositeModelPathSegment()
+        value.id = try reader["id"].readIfPresent()
+        value.name = try reader["name"].readIfPresent()
+        return value
+    }
+}
+
+extension IoTSiteWiseClientTypes.AssetModelCompositeModelSummary {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> IoTSiteWiseClientTypes.AssetModelCompositeModelSummary {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = IoTSiteWiseClientTypes.AssetModelCompositeModelSummary()
+        value.id = try reader["id"].readIfPresent() ?? ""
+        value.externalId = try reader["externalId"].readIfPresent()
+        value.name = try reader["name"].readIfPresent() ?? ""
+        value.type = try reader["type"].readIfPresent() ?? ""
+        value.description = try reader["description"].readIfPresent()
+        value.path = try reader["path"].readListIfPresent(memberReadingClosure: IoTSiteWiseClientTypes.AssetModelCompositeModelPathSegment.read(from:), memberNodeInfo: "member", isFlattened: false)
+        return value
+    }
+}
+
+extension IoTSiteWiseClientTypes.AssetModelHierarchy {
+
+    static func write(value: IoTSiteWiseClientTypes.AssetModelHierarchy?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["childAssetModelId"].write(value.childAssetModelId)
+        try writer["externalId"].write(value.externalId)
+        try writer["id"].write(value.id)
+        try writer["name"].write(value.name)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> IoTSiteWiseClientTypes.AssetModelHierarchy {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = IoTSiteWiseClientTypes.AssetModelHierarchy()
+        value.id = try reader["id"].readIfPresent()
+        value.externalId = try reader["externalId"].readIfPresent()
+        value.name = try reader["name"].readIfPresent() ?? ""
+        value.childAssetModelId = try reader["childAssetModelId"].readIfPresent() ?? ""
+        return value
+    }
+}
+
+extension IoTSiteWiseClientTypes.AssetModelHierarchyDefinition {
+
+    static func write(value: IoTSiteWiseClientTypes.AssetModelHierarchyDefinition?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["childAssetModelId"].write(value.childAssetModelId)
+        try writer["externalId"].write(value.externalId)
+        try writer["id"].write(value.id)
+        try writer["name"].write(value.name)
+    }
+}
+
+extension IoTSiteWiseClientTypes.AssetModelProperty {
+
+    static func write(value: IoTSiteWiseClientTypes.AssetModelProperty?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["dataType"].write(value.dataType)
+        try writer["dataTypeSpec"].write(value.dataTypeSpec)
+        try writer["externalId"].write(value.externalId)
+        try writer["id"].write(value.id)
+        try writer["name"].write(value.name)
+        try writer["path"].writeList(value.path, memberWritingClosure: IoTSiteWiseClientTypes.AssetModelPropertyPathSegment.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["type"].write(value.type, with: IoTSiteWiseClientTypes.PropertyType.write(value:to:))
+        try writer["unit"].write(value.unit)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> IoTSiteWiseClientTypes.AssetModelProperty {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = IoTSiteWiseClientTypes.AssetModelProperty()
+        value.id = try reader["id"].readIfPresent()
+        value.externalId = try reader["externalId"].readIfPresent()
+        value.name = try reader["name"].readIfPresent() ?? ""
+        value.dataType = try reader["dataType"].readIfPresent() ?? .sdkUnknown("")
+        value.dataTypeSpec = try reader["dataTypeSpec"].readIfPresent()
+        value.unit = try reader["unit"].readIfPresent()
+        value.type = try reader["type"].readIfPresent(with: IoTSiteWiseClientTypes.PropertyType.read(from:))
+        value.path = try reader["path"].readListIfPresent(memberReadingClosure: IoTSiteWiseClientTypes.AssetModelPropertyPathSegment.read(from:), memberNodeInfo: "member", isFlattened: false)
+        return value
+    }
+}
+
+extension IoTSiteWiseClientTypes.AssetModelPropertyBindingValue {
+
+    static func write(value: IoTSiteWiseClientTypes.AssetModelPropertyBindingValue?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["assetModelId"].write(value.assetModelId)
+        try writer["propertyId"].write(value.propertyId)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> IoTSiteWiseClientTypes.AssetModelPropertyBindingValue {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = IoTSiteWiseClientTypes.AssetModelPropertyBindingValue()
+        value.assetModelId = try reader["assetModelId"].readIfPresent() ?? ""
+        value.propertyId = try reader["propertyId"].readIfPresent() ?? ""
+        return value
+    }
+}
+
+extension IoTSiteWiseClientTypes.AssetModelPropertyBindingValueFilter {
+
+    static func write(value: IoTSiteWiseClientTypes.AssetModelPropertyBindingValueFilter?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["assetModelId"].write(value.assetModelId)
+        try writer["propertyId"].write(value.propertyId)
+    }
+}
+
+extension IoTSiteWiseClientTypes.AssetModelPropertyDefinition {
+
+    static func write(value: IoTSiteWiseClientTypes.AssetModelPropertyDefinition?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["dataType"].write(value.dataType)
+        try writer["dataTypeSpec"].write(value.dataTypeSpec)
+        try writer["externalId"].write(value.externalId)
+        try writer["id"].write(value.id)
+        try writer["name"].write(value.name)
+        try writer["type"].write(value.type, with: IoTSiteWiseClientTypes.PropertyType.write(value:to:))
+        try writer["unit"].write(value.unit)
+    }
+}
+
+extension IoTSiteWiseClientTypes.AssetModelPropertyPathSegment {
+
+    static func write(value: IoTSiteWiseClientTypes.AssetModelPropertyPathSegment?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["id"].write(value.id)
+        try writer["name"].write(value.name)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> IoTSiteWiseClientTypes.AssetModelPropertyPathSegment {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = IoTSiteWiseClientTypes.AssetModelPropertyPathSegment()
+        value.id = try reader["id"].readIfPresent()
+        value.name = try reader["name"].readIfPresent()
+        return value
+    }
+}
+
+extension IoTSiteWiseClientTypes.AssetModelPropertySummary {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> IoTSiteWiseClientTypes.AssetModelPropertySummary {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = IoTSiteWiseClientTypes.AssetModelPropertySummary()
+        value.id = try reader["id"].readIfPresent()
+        value.externalId = try reader["externalId"].readIfPresent()
+        value.name = try reader["name"].readIfPresent() ?? ""
+        value.dataType = try reader["dataType"].readIfPresent() ?? .sdkUnknown("")
+        value.dataTypeSpec = try reader["dataTypeSpec"].readIfPresent()
+        value.unit = try reader["unit"].readIfPresent()
+        value.type = try reader["type"].readIfPresent(with: IoTSiteWiseClientTypes.PropertyType.read(from:))
+        value.assetModelCompositeModelId = try reader["assetModelCompositeModelId"].readIfPresent()
+        value.path = try reader["path"].readListIfPresent(memberReadingClosure: IoTSiteWiseClientTypes.AssetModelPropertyPathSegment.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.interfaceSummaries = try reader["interfaceSummaries"].readListIfPresent(memberReadingClosure: IoTSiteWiseClientTypes.InterfaceSummary.read(from:), memberNodeInfo: "member", isFlattened: false)
+        return value
+    }
+}
+
+extension IoTSiteWiseClientTypes.AssetModelStatus {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> IoTSiteWiseClientTypes.AssetModelStatus {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = IoTSiteWiseClientTypes.AssetModelStatus()
+        value.state = try reader["state"].readIfPresent() ?? .sdkUnknown("")
+        value.error = try reader["error"].readIfPresent(with: IoTSiteWiseClientTypes.ErrorDetails.read(from:))
+        return value
+    }
+}
+
+extension IoTSiteWiseClientTypes.AssetModelSummary {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> IoTSiteWiseClientTypes.AssetModelSummary {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = IoTSiteWiseClientTypes.AssetModelSummary()
+        value.id = try reader["id"].readIfPresent() ?? ""
+        value.externalId = try reader["externalId"].readIfPresent()
+        value.arn = try reader["arn"].readIfPresent() ?? ""
+        value.name = try reader["name"].readIfPresent() ?? ""
+        value.assetModelType = try reader["assetModelType"].readIfPresent()
+        value.description = try reader["description"].readIfPresent() ?? ""
+        value.creationDate = try reader["creationDate"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        value.lastUpdateDate = try reader["lastUpdateDate"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        value.status = try reader["status"].readIfPresent(with: IoTSiteWiseClientTypes.AssetModelStatus.read(from:))
+        value.version = try reader["version"].readIfPresent()
+        return value
+    }
+}
+
+extension IoTSiteWiseClientTypes.AssetProperty {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> IoTSiteWiseClientTypes.AssetProperty {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = IoTSiteWiseClientTypes.AssetProperty()
+        value.id = try reader["id"].readIfPresent() ?? ""
+        value.externalId = try reader["externalId"].readIfPresent()
+        value.name = try reader["name"].readIfPresent() ?? ""
+        value.alias = try reader["alias"].readIfPresent()
+        value.notification = try reader["notification"].readIfPresent(with: IoTSiteWiseClientTypes.PropertyNotification.read(from:))
+        value.dataType = try reader["dataType"].readIfPresent() ?? .sdkUnknown("")
+        value.dataTypeSpec = try reader["dataTypeSpec"].readIfPresent()
+        value.unit = try reader["unit"].readIfPresent()
+        value.path = try reader["path"].readListIfPresent(memberReadingClosure: IoTSiteWiseClientTypes.AssetPropertyPathSegment.read(from:), memberNodeInfo: "member", isFlattened: false)
+        return value
+    }
+}
+
+extension IoTSiteWiseClientTypes.AssetPropertyBindingValue {
+
+    static func write(value: IoTSiteWiseClientTypes.AssetPropertyBindingValue?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["assetId"].write(value.assetId)
+        try writer["propertyId"].write(value.propertyId)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> IoTSiteWiseClientTypes.AssetPropertyBindingValue {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = IoTSiteWiseClientTypes.AssetPropertyBindingValue()
+        value.assetId = try reader["assetId"].readIfPresent() ?? ""
+        value.propertyId = try reader["propertyId"].readIfPresent() ?? ""
+        return value
+    }
+}
+
+extension IoTSiteWiseClientTypes.AssetPropertyBindingValueFilter {
+
+    static func write(value: IoTSiteWiseClientTypes.AssetPropertyBindingValueFilter?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["assetId"].write(value.assetId)
+        try writer["propertyId"].write(value.propertyId)
+    }
+}
+
+extension IoTSiteWiseClientTypes.AssetPropertyPathSegment {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> IoTSiteWiseClientTypes.AssetPropertyPathSegment {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = IoTSiteWiseClientTypes.AssetPropertyPathSegment()
+        value.id = try reader["id"].readIfPresent()
+        value.name = try reader["name"].readIfPresent()
+        return value
+    }
+}
+
+extension IoTSiteWiseClientTypes.AssetPropertySummary {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> IoTSiteWiseClientTypes.AssetPropertySummary {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = IoTSiteWiseClientTypes.AssetPropertySummary()
+        value.id = try reader["id"].readIfPresent() ?? ""
+        value.externalId = try reader["externalId"].readIfPresent()
+        value.alias = try reader["alias"].readIfPresent()
+        value.unit = try reader["unit"].readIfPresent()
+        value.notification = try reader["notification"].readIfPresent(with: IoTSiteWiseClientTypes.PropertyNotification.read(from:))
+        value.assetCompositeModelId = try reader["assetCompositeModelId"].readIfPresent()
+        value.path = try reader["path"].readListIfPresent(memberReadingClosure: IoTSiteWiseClientTypes.AssetPropertyPathSegment.read(from:), memberNodeInfo: "member", isFlattened: false)
         return value
     }
 }
@@ -17223,69 +17618,163 @@ extension IoTSiteWiseClientTypes.AssetPropertyValue {
     }
 }
 
-extension IoTSiteWiseClientTypes.TimeInNanos {
+extension IoTSiteWiseClientTypes.AssetRelationshipSummary {
 
-    static func write(value: IoTSiteWiseClientTypes.TimeInNanos?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["offsetInNanos"].write(value.offsetInNanos)
-        try writer["timeInSeconds"].write(value.timeInSeconds)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> IoTSiteWiseClientTypes.TimeInNanos {
+    static func read(from reader: SmithyJSON.Reader) throws -> IoTSiteWiseClientTypes.AssetRelationshipSummary {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = IoTSiteWiseClientTypes.TimeInNanos()
-        value.timeInSeconds = try reader["timeInSeconds"].readIfPresent() ?? 0
-        value.offsetInNanos = try reader["offsetInNanos"].readIfPresent()
+        var value = IoTSiteWiseClientTypes.AssetRelationshipSummary()
+        value.hierarchyInfo = try reader["hierarchyInfo"].readIfPresent(with: IoTSiteWiseClientTypes.AssetHierarchyInfo.read(from:))
+        value.relationshipType = try reader["relationshipType"].readIfPresent() ?? .sdkUnknown("")
         return value
     }
 }
 
-extension IoTSiteWiseClientTypes.Variant {
+extension IoTSiteWiseClientTypes.AssetStatus {
 
-    static func write(value: IoTSiteWiseClientTypes.Variant?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["booleanValue"].write(value.booleanValue)
-        try writer["doubleValue"].write(value.doubleValue)
-        try writer["integerValue"].write(value.integerValue)
-        try writer["nullValue"].write(value.nullValue, with: IoTSiteWiseClientTypes.PropertyValueNullValue.write(value:to:))
-        try writer["stringValue"].write(value.stringValue)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> IoTSiteWiseClientTypes.Variant {
+    static func read(from reader: SmithyJSON.Reader) throws -> IoTSiteWiseClientTypes.AssetStatus {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = IoTSiteWiseClientTypes.Variant()
-        value.stringValue = try reader["stringValue"].readIfPresent()
-        value.integerValue = try reader["integerValue"].readIfPresent()
-        value.doubleValue = try reader["doubleValue"].readIfPresent()
-        value.booleanValue = try reader["booleanValue"].readIfPresent()
-        value.nullValue = try reader["nullValue"].readIfPresent(with: IoTSiteWiseClientTypes.PropertyValueNullValue.read(from:))
+        var value = IoTSiteWiseClientTypes.AssetStatus()
+        value.state = try reader["state"].readIfPresent() ?? .sdkUnknown("")
+        value.error = try reader["error"].readIfPresent(with: IoTSiteWiseClientTypes.ErrorDetails.read(from:))
         return value
     }
 }
 
-extension IoTSiteWiseClientTypes.PropertyValueNullValue {
+extension IoTSiteWiseClientTypes.AssetSummary {
 
-    static func write(value: IoTSiteWiseClientTypes.PropertyValueNullValue?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["valueType"].write(value.valueType)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> IoTSiteWiseClientTypes.PropertyValueNullValue {
+    static func read(from reader: SmithyJSON.Reader) throws -> IoTSiteWiseClientTypes.AssetSummary {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = IoTSiteWiseClientTypes.PropertyValueNullValue()
-        value.valueType = try reader["valueType"].readIfPresent() ?? .sdkUnknown("")
+        var value = IoTSiteWiseClientTypes.AssetSummary()
+        value.id = try reader["id"].readIfPresent() ?? ""
+        value.externalId = try reader["externalId"].readIfPresent()
+        value.arn = try reader["arn"].readIfPresent() ?? ""
+        value.name = try reader["name"].readIfPresent() ?? ""
+        value.assetModelId = try reader["assetModelId"].readIfPresent() ?? ""
+        value.creationDate = try reader["creationDate"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        value.lastUpdateDate = try reader["lastUpdateDate"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        value.status = try reader["status"].readIfPresent(with: IoTSiteWiseClientTypes.AssetStatus.read(from:))
+        value.hierarchies = try reader["hierarchies"].readListIfPresent(memberReadingClosure: IoTSiteWiseClientTypes.AssetHierarchy.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        value.description = try reader["description"].readIfPresent()
         return value
     }
 }
 
-extension IoTSiteWiseClientTypes.BatchGetAssetPropertyValueSkippedEntry {
+extension IoTSiteWiseClientTypes.AssociatedAssetsSummary {
 
-    static func read(from reader: SmithyJSON.Reader) throws -> IoTSiteWiseClientTypes.BatchGetAssetPropertyValueSkippedEntry {
+    static func read(from reader: SmithyJSON.Reader) throws -> IoTSiteWiseClientTypes.AssociatedAssetsSummary {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = IoTSiteWiseClientTypes.BatchGetAssetPropertyValueSkippedEntry()
+        var value = IoTSiteWiseClientTypes.AssociatedAssetsSummary()
+        value.id = try reader["id"].readIfPresent() ?? ""
+        value.externalId = try reader["externalId"].readIfPresent()
+        value.arn = try reader["arn"].readIfPresent() ?? ""
+        value.name = try reader["name"].readIfPresent() ?? ""
+        value.assetModelId = try reader["assetModelId"].readIfPresent() ?? ""
+        value.creationDate = try reader["creationDate"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        value.lastUpdateDate = try reader["lastUpdateDate"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        value.status = try reader["status"].readIfPresent(with: IoTSiteWiseClientTypes.AssetStatus.read(from:))
+        value.hierarchies = try reader["hierarchies"].readListIfPresent(memberReadingClosure: IoTSiteWiseClientTypes.AssetHierarchy.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        value.description = try reader["description"].readIfPresent()
+        return value
+    }
+}
+
+extension IoTSiteWiseClientTypes.Attribute {
+
+    static func write(value: IoTSiteWiseClientTypes.Attribute?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["defaultValue"].write(value.defaultValue)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> IoTSiteWiseClientTypes.Attribute {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = IoTSiteWiseClientTypes.Attribute()
+        value.defaultValue = try reader["defaultValue"].readIfPresent()
+        return value
+    }
+}
+
+extension IoTSiteWiseClientTypes.BatchGetAssetPropertyAggregatesEntry {
+
+    static func write(value: IoTSiteWiseClientTypes.BatchGetAssetPropertyAggregatesEntry?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["aggregateTypes"].writeList(value.aggregateTypes, memberWritingClosure: SmithyReadWrite.WritingClosureBox<IoTSiteWiseClientTypes.AggregateType>().write(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["assetId"].write(value.assetId)
+        try writer["endDate"].writeTimestamp(value.endDate, format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        try writer["entryId"].write(value.entryId)
+        try writer["propertyAlias"].write(value.propertyAlias)
+        try writer["propertyId"].write(value.propertyId)
+        try writer["qualities"].writeList(value.qualities, memberWritingClosure: SmithyReadWrite.WritingClosureBox<IoTSiteWiseClientTypes.Quality>().write(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["resolution"].write(value.resolution)
+        try writer["startDate"].writeTimestamp(value.startDate, format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        try writer["timeOrdering"].write(value.timeOrdering)
+    }
+}
+
+extension IoTSiteWiseClientTypes.BatchGetAssetPropertyAggregatesErrorEntry {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> IoTSiteWiseClientTypes.BatchGetAssetPropertyAggregatesErrorEntry {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = IoTSiteWiseClientTypes.BatchGetAssetPropertyAggregatesErrorEntry()
+        value.errorCode = try reader["errorCode"].readIfPresent() ?? .sdkUnknown("")
+        value.errorMessage = try reader["errorMessage"].readIfPresent() ?? ""
+        value.entryId = try reader["entryId"].readIfPresent() ?? ""
+        return value
+    }
+}
+
+extension IoTSiteWiseClientTypes.BatchGetAssetPropertyAggregatesErrorInfo {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> IoTSiteWiseClientTypes.BatchGetAssetPropertyAggregatesErrorInfo {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = IoTSiteWiseClientTypes.BatchGetAssetPropertyAggregatesErrorInfo()
+        value.errorCode = try reader["errorCode"].readIfPresent() ?? .sdkUnknown("")
+        value.errorTimestamp = try reader["errorTimestamp"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        return value
+    }
+}
+
+extension IoTSiteWiseClientTypes.BatchGetAssetPropertyAggregatesSkippedEntry {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> IoTSiteWiseClientTypes.BatchGetAssetPropertyAggregatesSkippedEntry {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = IoTSiteWiseClientTypes.BatchGetAssetPropertyAggregatesSkippedEntry()
         value.entryId = try reader["entryId"].readIfPresent() ?? ""
         value.completionStatus = try reader["completionStatus"].readIfPresent() ?? .sdkUnknown("")
-        value.errorInfo = try reader["errorInfo"].readIfPresent(with: IoTSiteWiseClientTypes.BatchGetAssetPropertyValueErrorInfo.read(from:))
+        value.errorInfo = try reader["errorInfo"].readIfPresent(with: IoTSiteWiseClientTypes.BatchGetAssetPropertyAggregatesErrorInfo.read(from:))
+        return value
+    }
+}
+
+extension IoTSiteWiseClientTypes.BatchGetAssetPropertyAggregatesSuccessEntry {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> IoTSiteWiseClientTypes.BatchGetAssetPropertyAggregatesSuccessEntry {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = IoTSiteWiseClientTypes.BatchGetAssetPropertyAggregatesSuccessEntry()
+        value.entryId = try reader["entryId"].readIfPresent() ?? ""
+        value.aggregatedValues = try reader["aggregatedValues"].readListIfPresent(memberReadingClosure: IoTSiteWiseClientTypes.AggregatedValue.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        return value
+    }
+}
+
+extension IoTSiteWiseClientTypes.BatchGetAssetPropertyValueEntry {
+
+    static func write(value: IoTSiteWiseClientTypes.BatchGetAssetPropertyValueEntry?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["assetId"].write(value.assetId)
+        try writer["entryId"].write(value.entryId)
+        try writer["propertyAlias"].write(value.propertyAlias)
+        try writer["propertyId"].write(value.propertyId)
+    }
+}
+
+extension IoTSiteWiseClientTypes.BatchGetAssetPropertyValueErrorEntry {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> IoTSiteWiseClientTypes.BatchGetAssetPropertyValueErrorEntry {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = IoTSiteWiseClientTypes.BatchGetAssetPropertyValueErrorEntry()
+        value.errorCode = try reader["errorCode"].readIfPresent() ?? .sdkUnknown("")
+        value.errorMessage = try reader["errorMessage"].readIfPresent() ?? ""
+        value.entryId = try reader["entryId"].readIfPresent() ?? ""
         return value
     }
 }
@@ -17301,6 +17790,21 @@ extension IoTSiteWiseClientTypes.BatchGetAssetPropertyValueErrorInfo {
     }
 }
 
+extension IoTSiteWiseClientTypes.BatchGetAssetPropertyValueHistoryEntry {
+
+    static func write(value: IoTSiteWiseClientTypes.BatchGetAssetPropertyValueHistoryEntry?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["assetId"].write(value.assetId)
+        try writer["endDate"].writeTimestamp(value.endDate, format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        try writer["entryId"].write(value.entryId)
+        try writer["propertyAlias"].write(value.propertyAlias)
+        try writer["propertyId"].write(value.propertyId)
+        try writer["qualities"].writeList(value.qualities, memberWritingClosure: SmithyReadWrite.WritingClosureBox<IoTSiteWiseClientTypes.Quality>().write(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["startDate"].writeTimestamp(value.startDate, format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        try writer["timeOrdering"].write(value.timeOrdering)
+    }
+}
+
 extension IoTSiteWiseClientTypes.BatchGetAssetPropertyValueHistoryErrorEntry {
 
     static func read(from reader: SmithyJSON.Reader) throws -> IoTSiteWiseClientTypes.BatchGetAssetPropertyValueHistoryErrorEntry {
@@ -17313,13 +17817,13 @@ extension IoTSiteWiseClientTypes.BatchGetAssetPropertyValueHistoryErrorEntry {
     }
 }
 
-extension IoTSiteWiseClientTypes.BatchGetAssetPropertyValueHistorySuccessEntry {
+extension IoTSiteWiseClientTypes.BatchGetAssetPropertyValueHistoryErrorInfo {
 
-    static func read(from reader: SmithyJSON.Reader) throws -> IoTSiteWiseClientTypes.BatchGetAssetPropertyValueHistorySuccessEntry {
+    static func read(from reader: SmithyJSON.Reader) throws -> IoTSiteWiseClientTypes.BatchGetAssetPropertyValueHistoryErrorInfo {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = IoTSiteWiseClientTypes.BatchGetAssetPropertyValueHistorySuccessEntry()
-        value.entryId = try reader["entryId"].readIfPresent() ?? ""
-        value.assetPropertyValueHistory = try reader["assetPropertyValueHistory"].readListIfPresent(memberReadingClosure: IoTSiteWiseClientTypes.AssetPropertyValue.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        var value = IoTSiteWiseClientTypes.BatchGetAssetPropertyValueHistoryErrorInfo()
+        value.errorCode = try reader["errorCode"].readIfPresent() ?? .sdkUnknown("")
+        value.errorTimestamp = try reader["errorTimestamp"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
         return value
     }
 }
@@ -17336,24 +17840,36 @@ extension IoTSiteWiseClientTypes.BatchGetAssetPropertyValueHistorySkippedEntry {
     }
 }
 
-extension IoTSiteWiseClientTypes.BatchGetAssetPropertyValueHistoryErrorInfo {
+extension IoTSiteWiseClientTypes.BatchGetAssetPropertyValueHistorySuccessEntry {
 
-    static func read(from reader: SmithyJSON.Reader) throws -> IoTSiteWiseClientTypes.BatchGetAssetPropertyValueHistoryErrorInfo {
+    static func read(from reader: SmithyJSON.Reader) throws -> IoTSiteWiseClientTypes.BatchGetAssetPropertyValueHistorySuccessEntry {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = IoTSiteWiseClientTypes.BatchGetAssetPropertyValueHistoryErrorInfo()
-        value.errorCode = try reader["errorCode"].readIfPresent() ?? .sdkUnknown("")
-        value.errorTimestamp = try reader["errorTimestamp"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        var value = IoTSiteWiseClientTypes.BatchGetAssetPropertyValueHistorySuccessEntry()
+        value.entryId = try reader["entryId"].readIfPresent() ?? ""
+        value.assetPropertyValueHistory = try reader["assetPropertyValueHistory"].readListIfPresent(memberReadingClosure: IoTSiteWiseClientTypes.AssetPropertyValue.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
         return value
     }
 }
 
-extension IoTSiteWiseClientTypes.BatchPutAssetPropertyErrorEntry {
+extension IoTSiteWiseClientTypes.BatchGetAssetPropertyValueSkippedEntry {
 
-    static func read(from reader: SmithyJSON.Reader) throws -> IoTSiteWiseClientTypes.BatchPutAssetPropertyErrorEntry {
+    static func read(from reader: SmithyJSON.Reader) throws -> IoTSiteWiseClientTypes.BatchGetAssetPropertyValueSkippedEntry {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = IoTSiteWiseClientTypes.BatchPutAssetPropertyErrorEntry()
+        var value = IoTSiteWiseClientTypes.BatchGetAssetPropertyValueSkippedEntry()
         value.entryId = try reader["entryId"].readIfPresent() ?? ""
-        value.errors = try reader["errors"].readListIfPresent(memberReadingClosure: IoTSiteWiseClientTypes.BatchPutAssetPropertyError.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        value.completionStatus = try reader["completionStatus"].readIfPresent() ?? .sdkUnknown("")
+        value.errorInfo = try reader["errorInfo"].readIfPresent(with: IoTSiteWiseClientTypes.BatchGetAssetPropertyValueErrorInfo.read(from:))
+        return value
+    }
+}
+
+extension IoTSiteWiseClientTypes.BatchGetAssetPropertyValueSuccessEntry {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> IoTSiteWiseClientTypes.BatchGetAssetPropertyValueSuccessEntry {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = IoTSiteWiseClientTypes.BatchGetAssetPropertyValueSuccessEntry()
+        value.entryId = try reader["entryId"].readIfPresent() ?? ""
+        value.assetPropertyValue = try reader["assetPropertyValue"].readIfPresent(with: IoTSiteWiseClientTypes.AssetPropertyValue.read(from:))
         return value
     }
 }
@@ -17370,13 +17886,385 @@ extension IoTSiteWiseClientTypes.BatchPutAssetPropertyError {
     }
 }
 
-extension IoTSiteWiseClientTypes.AssetStatus {
+extension IoTSiteWiseClientTypes.BatchPutAssetPropertyErrorEntry {
 
-    static func read(from reader: SmithyJSON.Reader) throws -> IoTSiteWiseClientTypes.AssetStatus {
+    static func read(from reader: SmithyJSON.Reader) throws -> IoTSiteWiseClientTypes.BatchPutAssetPropertyErrorEntry {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = IoTSiteWiseClientTypes.AssetStatus()
+        var value = IoTSiteWiseClientTypes.BatchPutAssetPropertyErrorEntry()
+        value.entryId = try reader["entryId"].readIfPresent() ?? ""
+        value.errors = try reader["errors"].readListIfPresent(memberReadingClosure: IoTSiteWiseClientTypes.BatchPutAssetPropertyError.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        return value
+    }
+}
+
+extension IoTSiteWiseClientTypes.Citation {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> IoTSiteWiseClientTypes.Citation {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = IoTSiteWiseClientTypes.Citation()
+        value.reference = try reader["reference"].readIfPresent(with: IoTSiteWiseClientTypes.Reference.read(from:))
+        value.content = try reader["content"].readIfPresent(with: IoTSiteWiseClientTypes.Content.read(from:))
+        return value
+    }
+}
+
+extension IoTSiteWiseClientTypes.ColumnInfo {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> IoTSiteWiseClientTypes.ColumnInfo {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = IoTSiteWiseClientTypes.ColumnInfo()
+        value.name = try reader["name"].readIfPresent()
+        value.type = try reader["type"].readIfPresent(with: IoTSiteWiseClientTypes.ColumnType.read(from:))
+        return value
+    }
+}
+
+extension IoTSiteWiseClientTypes.ColumnType {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> IoTSiteWiseClientTypes.ColumnType {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = IoTSiteWiseClientTypes.ColumnType()
+        value.scalarType = try reader["scalarType"].readIfPresent()
+        return value
+    }
+}
+
+extension IoTSiteWiseClientTypes.CompositeModelProperty {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> IoTSiteWiseClientTypes.CompositeModelProperty {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = IoTSiteWiseClientTypes.CompositeModelProperty()
+        value.name = try reader["name"].readIfPresent() ?? ""
+        value.type = try reader["type"].readIfPresent() ?? ""
+        value.assetProperty = try reader["assetProperty"].readIfPresent(with: IoTSiteWiseClientTypes.Property.read(from:))
+        value.id = try reader["id"].readIfPresent()
+        value.externalId = try reader["externalId"].readIfPresent()
+        return value
+    }
+}
+
+extension IoTSiteWiseClientTypes.CompositionDetails {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> IoTSiteWiseClientTypes.CompositionDetails {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = IoTSiteWiseClientTypes.CompositionDetails()
+        value.compositionRelationship = try reader["compositionRelationship"].readListIfPresent(memberReadingClosure: IoTSiteWiseClientTypes.CompositionRelationshipItem.read(from:), memberNodeInfo: "member", isFlattened: false)
+        return value
+    }
+}
+
+extension IoTSiteWiseClientTypes.CompositionRelationshipItem {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> IoTSiteWiseClientTypes.CompositionRelationshipItem {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = IoTSiteWiseClientTypes.CompositionRelationshipItem()
+        value.id = try reader["id"].readIfPresent()
+        return value
+    }
+}
+
+extension IoTSiteWiseClientTypes.CompositionRelationshipSummary {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> IoTSiteWiseClientTypes.CompositionRelationshipSummary {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = IoTSiteWiseClientTypes.CompositionRelationshipSummary()
+        value.assetModelId = try reader["assetModelId"].readIfPresent() ?? ""
+        value.assetModelCompositeModelId = try reader["assetModelCompositeModelId"].readIfPresent() ?? ""
+        value.assetModelCompositeModelType = try reader["assetModelCompositeModelType"].readIfPresent() ?? ""
+        return value
+    }
+}
+
+extension IoTSiteWiseClientTypes.ComputationModelAnomalyDetectionConfiguration {
+
+    static func write(value: IoTSiteWiseClientTypes.ComputationModelAnomalyDetectionConfiguration?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["inputProperties"].write(value.inputProperties)
+        try writer["resultProperty"].write(value.resultProperty)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> IoTSiteWiseClientTypes.ComputationModelAnomalyDetectionConfiguration {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = IoTSiteWiseClientTypes.ComputationModelAnomalyDetectionConfiguration()
+        value.inputProperties = try reader["inputProperties"].readIfPresent() ?? ""
+        value.resultProperty = try reader["resultProperty"].readIfPresent() ?? ""
+        return value
+    }
+}
+
+extension IoTSiteWiseClientTypes.ComputationModelConfiguration {
+
+    static func write(value: IoTSiteWiseClientTypes.ComputationModelConfiguration?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["anomalyDetection"].write(value.anomalyDetection, with: IoTSiteWiseClientTypes.ComputationModelAnomalyDetectionConfiguration.write(value:to:))
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> IoTSiteWiseClientTypes.ComputationModelConfiguration {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = IoTSiteWiseClientTypes.ComputationModelConfiguration()
+        value.anomalyDetection = try reader["anomalyDetection"].readIfPresent(with: IoTSiteWiseClientTypes.ComputationModelAnomalyDetectionConfiguration.read(from:))
+        return value
+    }
+}
+
+extension IoTSiteWiseClientTypes.ComputationModelDataBindingUsageSummary {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> IoTSiteWiseClientTypes.ComputationModelDataBindingUsageSummary {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = IoTSiteWiseClientTypes.ComputationModelDataBindingUsageSummary()
+        value.computationModelIds = try reader["computationModelIds"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        value.matchedDataBinding = try reader["matchedDataBinding"].readIfPresent(with: IoTSiteWiseClientTypes.MatchedDataBinding.read(from:))
+        return value
+    }
+}
+
+extension IoTSiteWiseClientTypes.ComputationModelDataBindingValue {
+
+    static func write(value: IoTSiteWiseClientTypes.ComputationModelDataBindingValue?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["assetModelProperty"].write(value.assetModelProperty, with: IoTSiteWiseClientTypes.AssetModelPropertyBindingValue.write(value:to:))
+        try writer["assetProperty"].write(value.assetProperty, with: IoTSiteWiseClientTypes.AssetPropertyBindingValue.write(value:to:))
+        try writer["list"].writeList(value.list, memberWritingClosure: IoTSiteWiseClientTypes.ComputationModelDataBindingValue.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> IoTSiteWiseClientTypes.ComputationModelDataBindingValue {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = IoTSiteWiseClientTypes.ComputationModelDataBindingValue()
+        value.assetModelProperty = try reader["assetModelProperty"].readIfPresent(with: IoTSiteWiseClientTypes.AssetModelPropertyBindingValue.read(from:))
+        value.assetProperty = try reader["assetProperty"].readIfPresent(with: IoTSiteWiseClientTypes.AssetPropertyBindingValue.read(from:))
+        value.list = try reader["list"].readListIfPresent(memberReadingClosure: IoTSiteWiseClientTypes.ComputationModelDataBindingValue.read(from:), memberNodeInfo: "member", isFlattened: false)
+        return value
+    }
+}
+
+extension IoTSiteWiseClientTypes.ComputationModelResolveToResourceSummary {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> IoTSiteWiseClientTypes.ComputationModelResolveToResourceSummary {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = IoTSiteWiseClientTypes.ComputationModelResolveToResourceSummary()
+        value.resolveTo = try reader["resolveTo"].readIfPresent(with: IoTSiteWiseClientTypes.ResolveTo.read(from:))
+        return value
+    }
+}
+
+extension IoTSiteWiseClientTypes.ComputationModelStatus {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> IoTSiteWiseClientTypes.ComputationModelStatus {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = IoTSiteWiseClientTypes.ComputationModelStatus()
         value.state = try reader["state"].readIfPresent() ?? .sdkUnknown("")
         value.error = try reader["error"].readIfPresent(with: IoTSiteWiseClientTypes.ErrorDetails.read(from:))
+        return value
+    }
+}
+
+extension IoTSiteWiseClientTypes.ComputationModelSummary {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> IoTSiteWiseClientTypes.ComputationModelSummary {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = IoTSiteWiseClientTypes.ComputationModelSummary()
+        value.id = try reader["id"].readIfPresent() ?? ""
+        value.arn = try reader["arn"].readIfPresent() ?? ""
+        value.name = try reader["name"].readIfPresent() ?? ""
+        value.description = try reader["description"].readIfPresent()
+        value.type = try reader["type"].readIfPresent() ?? .sdkUnknown("")
+        value.creationDate = try reader["creationDate"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        value.lastUpdateDate = try reader["lastUpdateDate"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        value.status = try reader["status"].readIfPresent(with: IoTSiteWiseClientTypes.ComputationModelStatus.read(from:))
+        value.version = try reader["version"].readIfPresent() ?? ""
+        return value
+    }
+}
+
+extension IoTSiteWiseClientTypes.ConfigurationErrorDetails {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> IoTSiteWiseClientTypes.ConfigurationErrorDetails {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = IoTSiteWiseClientTypes.ConfigurationErrorDetails()
+        value.code = try reader["code"].readIfPresent() ?? .sdkUnknown("")
+        value.message = try reader["message"].readIfPresent() ?? ""
+        return value
+    }
+}
+
+extension IoTSiteWiseClientTypes.ConfigurationStatus {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> IoTSiteWiseClientTypes.ConfigurationStatus {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = IoTSiteWiseClientTypes.ConfigurationStatus()
+        value.state = try reader["state"].readIfPresent() ?? .sdkUnknown("")
+        value.error = try reader["error"].readIfPresent(with: IoTSiteWiseClientTypes.ConfigurationErrorDetails.read(from:))
+        return value
+    }
+}
+
+extension ConflictingOperationException {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> ConflictingOperationException {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = ConflictingOperationException()
+        value.properties.message = try reader["message"].readIfPresent() ?? ""
+        value.properties.resourceId = try reader["resourceId"].readIfPresent() ?? ""
+        value.properties.resourceArn = try reader["resourceArn"].readIfPresent() ?? ""
+        return value
+    }
+}
+
+extension IoTSiteWiseClientTypes.Content {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> IoTSiteWiseClientTypes.Content {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = IoTSiteWiseClientTypes.Content()
+        value.text = try reader["text"].readIfPresent()
+        return value
+    }
+}
+
+extension IoTSiteWiseClientTypes.Csv {
+
+    static func write(value: IoTSiteWiseClientTypes.Csv?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["columnNames"].writeList(value.columnNames, memberWritingClosure: SmithyReadWrite.WritingClosureBox<IoTSiteWiseClientTypes.ColumnName>().write(value:to:), memberNodeInfo: "member", isFlattened: false)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> IoTSiteWiseClientTypes.Csv {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = IoTSiteWiseClientTypes.Csv()
+        value.columnNames = try reader["columnNames"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosureBox<IoTSiteWiseClientTypes.ColumnName>().read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        return value
+    }
+}
+
+extension IoTSiteWiseClientTypes.CustomerManagedS3Storage {
+
+    static func write(value: IoTSiteWiseClientTypes.CustomerManagedS3Storage?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["roleArn"].write(value.roleArn)
+        try writer["s3ResourceArn"].write(value.s3ResourceArn)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> IoTSiteWiseClientTypes.CustomerManagedS3Storage {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = IoTSiteWiseClientTypes.CustomerManagedS3Storage()
+        value.s3ResourceArn = try reader["s3ResourceArn"].readIfPresent() ?? ""
+        value.roleArn = try reader["roleArn"].readIfPresent() ?? ""
+        return value
+    }
+}
+
+extension IoTSiteWiseClientTypes.DashboardSummary {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> IoTSiteWiseClientTypes.DashboardSummary {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = IoTSiteWiseClientTypes.DashboardSummary()
+        value.id = try reader["id"].readIfPresent() ?? ""
+        value.name = try reader["name"].readIfPresent() ?? ""
+        value.description = try reader["description"].readIfPresent()
+        value.creationDate = try reader["creationDate"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.lastUpdateDate = try reader["lastUpdateDate"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        return value
+    }
+}
+
+extension IoTSiteWiseClientTypes.DataBindingValue {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> IoTSiteWiseClientTypes.DataBindingValue {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = IoTSiteWiseClientTypes.DataBindingValue()
+        value.assetModelProperty = try reader["assetModelProperty"].readIfPresent(with: IoTSiteWiseClientTypes.AssetModelPropertyBindingValue.read(from:))
+        value.assetProperty = try reader["assetProperty"].readIfPresent(with: IoTSiteWiseClientTypes.AssetPropertyBindingValue.read(from:))
+        return value
+    }
+}
+
+extension IoTSiteWiseClientTypes.DataBindingValueFilter {
+
+    static func write(value: IoTSiteWiseClientTypes.DataBindingValueFilter?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["asset"].write(value.asset, with: IoTSiteWiseClientTypes.AssetBindingValueFilter.write(value:to:))
+        try writer["assetModel"].write(value.assetModel, with: IoTSiteWiseClientTypes.AssetModelBindingValueFilter.write(value:to:))
+        try writer["assetModelProperty"].write(value.assetModelProperty, with: IoTSiteWiseClientTypes.AssetModelPropertyBindingValueFilter.write(value:to:))
+        try writer["assetProperty"].write(value.assetProperty, with: IoTSiteWiseClientTypes.AssetPropertyBindingValueFilter.write(value:to:))
+    }
+}
+
+extension IoTSiteWiseClientTypes.DataSetReference {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> IoTSiteWiseClientTypes.DataSetReference {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = IoTSiteWiseClientTypes.DataSetReference()
+        value.datasetArn = try reader["datasetArn"].readIfPresent()
+        value.source = try reader["source"].readIfPresent(with: IoTSiteWiseClientTypes.Source.read(from:))
+        return value
+    }
+}
+
+extension IoTSiteWiseClientTypes.DatasetSource {
+
+    static func write(value: IoTSiteWiseClientTypes.DatasetSource?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["sourceDetail"].write(value.sourceDetail, with: IoTSiteWiseClientTypes.SourceDetail.write(value:to:))
+        try writer["sourceFormat"].write(value.sourceFormat)
+        try writer["sourceType"].write(value.sourceType)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> IoTSiteWiseClientTypes.DatasetSource {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = IoTSiteWiseClientTypes.DatasetSource()
+        value.sourceType = try reader["sourceType"].readIfPresent() ?? .sdkUnknown("")
+        value.sourceFormat = try reader["sourceFormat"].readIfPresent() ?? .sdkUnknown("")
+        value.sourceDetail = try reader["sourceDetail"].readIfPresent(with: IoTSiteWiseClientTypes.SourceDetail.read(from:))
+        return value
+    }
+}
+
+extension IoTSiteWiseClientTypes.DatasetStatus {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> IoTSiteWiseClientTypes.DatasetStatus {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = IoTSiteWiseClientTypes.DatasetStatus()
+        value.state = try reader["state"].readIfPresent() ?? .sdkUnknown("")
+        value.error = try reader["error"].readIfPresent(with: IoTSiteWiseClientTypes.ErrorDetails.read(from:))
+        return value
+    }
+}
+
+extension IoTSiteWiseClientTypes.DatasetSummary {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> IoTSiteWiseClientTypes.DatasetSummary {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = IoTSiteWiseClientTypes.DatasetSummary()
+        value.id = try reader["id"].readIfPresent() ?? ""
+        value.arn = try reader["arn"].readIfPresent() ?? ""
+        value.name = try reader["name"].readIfPresent() ?? ""
+        value.description = try reader["description"].readIfPresent() ?? ""
+        value.creationDate = try reader["creationDate"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        value.lastUpdateDate = try reader["lastUpdateDate"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        value.status = try reader["status"].readIfPresent(with: IoTSiteWiseClientTypes.DatasetStatus.read(from:))
+        return value
+    }
+}
+
+extension IoTSiteWiseClientTypes.Datum {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> IoTSiteWiseClientTypes.Datum {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = IoTSiteWiseClientTypes.Datum()
+        value.scalarValue = try reader["scalarValue"].readIfPresent()
+        value.arrayValue = try reader["arrayValue"].readListIfPresent(memberReadingClosure: IoTSiteWiseClientTypes.Datum.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.rowValue = try reader["rowValue"].readIfPresent(with: IoTSiteWiseClientTypes.Row.read(from:))
+        value.nullValue = try reader["nullValue"].readIfPresent()
+        return value
+    }
+}
+
+extension IoTSiteWiseClientTypes.DetailedError {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> IoTSiteWiseClientTypes.DetailedError {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = IoTSiteWiseClientTypes.DetailedError()
+        value.code = try reader["code"].readIfPresent() ?? .sdkUnknown("")
+        value.message = try reader["message"].readIfPresent() ?? ""
         return value
     }
 }
@@ -17393,100 +18281,219 @@ extension IoTSiteWiseClientTypes.ErrorDetails {
     }
 }
 
-extension IoTSiteWiseClientTypes.DetailedError {
+extension IoTSiteWiseClientTypes.ErrorReportLocation {
 
-    static func read(from reader: SmithyJSON.Reader) throws -> IoTSiteWiseClientTypes.DetailedError {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = IoTSiteWiseClientTypes.DetailedError()
-        value.code = try reader["code"].readIfPresent() ?? .sdkUnknown("")
-        value.message = try reader["message"].readIfPresent() ?? ""
-        return value
-    }
-}
-
-extension IoTSiteWiseClientTypes.AssetModelStatus {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> IoTSiteWiseClientTypes.AssetModelStatus {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = IoTSiteWiseClientTypes.AssetModelStatus()
-        value.state = try reader["state"].readIfPresent() ?? .sdkUnknown("")
-        value.error = try reader["error"].readIfPresent(with: IoTSiteWiseClientTypes.ErrorDetails.read(from:))
-        return value
-    }
-}
-
-extension IoTSiteWiseClientTypes.AssetModelCompositeModelPathSegment {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> IoTSiteWiseClientTypes.AssetModelCompositeModelPathSegment {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = IoTSiteWiseClientTypes.AssetModelCompositeModelPathSegment()
-        value.id = try reader["id"].readIfPresent()
-        value.name = try reader["name"].readIfPresent()
-        return value
-    }
-}
-
-extension IoTSiteWiseClientTypes.ComputationModelStatus {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> IoTSiteWiseClientTypes.ComputationModelStatus {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = IoTSiteWiseClientTypes.ComputationModelStatus()
-        value.state = try reader["state"].readIfPresent() ?? .sdkUnknown("")
-        value.error = try reader["error"].readIfPresent(with: IoTSiteWiseClientTypes.ErrorDetails.read(from:))
-        return value
-    }
-}
-
-extension IoTSiteWiseClientTypes.DatasetStatus {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> IoTSiteWiseClientTypes.DatasetStatus {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = IoTSiteWiseClientTypes.DatasetStatus()
-        value.state = try reader["state"].readIfPresent() ?? .sdkUnknown("")
-        value.error = try reader["error"].readIfPresent(with: IoTSiteWiseClientTypes.ErrorDetails.read(from:))
-        return value
-    }
-}
-
-extension IoTSiteWiseClientTypes.PortalStatus {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> IoTSiteWiseClientTypes.PortalStatus {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = IoTSiteWiseClientTypes.PortalStatus()
-        value.state = try reader["state"].readIfPresent() ?? .sdkUnknown("")
-        value.error = try reader["error"].readIfPresent(with: IoTSiteWiseClientTypes.MonitorErrorDetails.read(from:))
-        return value
-    }
-}
-
-extension IoTSiteWiseClientTypes.MonitorErrorDetails {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> IoTSiteWiseClientTypes.MonitorErrorDetails {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = IoTSiteWiseClientTypes.MonitorErrorDetails()
-        value.code = try reader["code"].readIfPresent()
-        value.message = try reader["message"].readIfPresent()
-        return value
-    }
-}
-
-extension IoTSiteWiseClientTypes.Identity {
-
-    static func write(value: IoTSiteWiseClientTypes.Identity?, to writer: SmithyJSON.Writer) throws {
+    static func write(value: IoTSiteWiseClientTypes.ErrorReportLocation?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
-        try writer["group"].write(value.group, with: IoTSiteWiseClientTypes.GroupIdentity.write(value:to:))
-        try writer["iamRole"].write(value.iamRole, with: IoTSiteWiseClientTypes.IAMRoleIdentity.write(value:to:))
-        try writer["iamUser"].write(value.iamUser, with: IoTSiteWiseClientTypes.IAMUserIdentity.write(value:to:))
-        try writer["user"].write(value.user, with: IoTSiteWiseClientTypes.UserIdentity.write(value:to:))
+        try writer["bucket"].write(value.bucket)
+        try writer["prefix"].write(value.`prefix`)
     }
 
-    static func read(from reader: SmithyJSON.Reader) throws -> IoTSiteWiseClientTypes.Identity {
+    static func read(from reader: SmithyJSON.Reader) throws -> IoTSiteWiseClientTypes.ErrorReportLocation {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = IoTSiteWiseClientTypes.Identity()
-        value.user = try reader["user"].readIfPresent(with: IoTSiteWiseClientTypes.UserIdentity.read(from:))
-        value.group = try reader["group"].readIfPresent(with: IoTSiteWiseClientTypes.GroupIdentity.read(from:))
-        value.iamUser = try reader["iamUser"].readIfPresent(with: IoTSiteWiseClientTypes.IAMUserIdentity.read(from:))
-        value.iamRole = try reader["iamRole"].readIfPresent(with: IoTSiteWiseClientTypes.IAMRoleIdentity.read(from:))
+        var value = IoTSiteWiseClientTypes.ErrorReportLocation()
+        value.bucket = try reader["bucket"].readIfPresent() ?? ""
+        value.`prefix` = try reader["prefix"].readIfPresent() ?? ""
+        return value
+    }
+}
+
+extension IoTSiteWiseClientTypes.ExecutionStatus {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> IoTSiteWiseClientTypes.ExecutionStatus {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = IoTSiteWiseClientTypes.ExecutionStatus()
+        value.state = try reader["state"].readIfPresent() ?? .sdkUnknown("")
+        return value
+    }
+}
+
+extension IoTSiteWiseClientTypes.ExecutionSummary {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> IoTSiteWiseClientTypes.ExecutionSummary {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = IoTSiteWiseClientTypes.ExecutionSummary()
+        value.executionId = try reader["executionId"].readIfPresent() ?? ""
+        value.actionType = try reader["actionType"].readIfPresent()
+        value.targetResource = try reader["targetResource"].readIfPresent(with: IoTSiteWiseClientTypes.TargetResource.read(from:))
+        value.targetResourceVersion = try reader["targetResourceVersion"].readIfPresent() ?? ""
+        value.resolveTo = try reader["resolveTo"].readIfPresent(with: IoTSiteWiseClientTypes.ResolveTo.read(from:))
+        value.executionStartTime = try reader["executionStartTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        value.executionEndTime = try reader["executionEndTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.executionStatus = try reader["executionStatus"].readIfPresent(with: IoTSiteWiseClientTypes.ExecutionStatus.read(from:))
+        value.executionEntityVersion = try reader["executionEntityVersion"].readIfPresent()
+        return value
+    }
+}
+
+extension IoTSiteWiseClientTypes.ExpressionVariable {
+
+    static func write(value: IoTSiteWiseClientTypes.ExpressionVariable?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["name"].write(value.name)
+        try writer["value"].write(value.value, with: IoTSiteWiseClientTypes.VariableValue.write(value:to:))
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> IoTSiteWiseClientTypes.ExpressionVariable {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = IoTSiteWiseClientTypes.ExpressionVariable()
+        value.name = try reader["name"].readIfPresent() ?? ""
+        value.value = try reader["value"].readIfPresent(with: IoTSiteWiseClientTypes.VariableValue.read(from:))
+        return value
+    }
+}
+
+extension IoTSiteWiseClientTypes.File {
+
+    static func write(value: IoTSiteWiseClientTypes.File?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["bucket"].write(value.bucket)
+        try writer["key"].write(value.key)
+        try writer["versionId"].write(value.versionId)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> IoTSiteWiseClientTypes.File {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = IoTSiteWiseClientTypes.File()
+        value.bucket = try reader["bucket"].readIfPresent() ?? ""
+        value.key = try reader["key"].readIfPresent() ?? ""
+        value.versionId = try reader["versionId"].readIfPresent()
+        return value
+    }
+}
+
+extension IoTSiteWiseClientTypes.FileFormat {
+
+    static func write(value: IoTSiteWiseClientTypes.FileFormat?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["csv"].write(value.csv, with: IoTSiteWiseClientTypes.Csv.write(value:to:))
+        try writer["parquet"].write(value.parquet, with: IoTSiteWiseClientTypes.Parquet.write(value:to:))
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> IoTSiteWiseClientTypes.FileFormat {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = IoTSiteWiseClientTypes.FileFormat()
+        value.csv = try reader["csv"].readIfPresent(with: IoTSiteWiseClientTypes.Csv.read(from:))
+        value.parquet = try reader["parquet"].readIfPresent(with: IoTSiteWiseClientTypes.Parquet.read(from:))
+        return value
+    }
+}
+
+extension IoTSiteWiseClientTypes.ForwardingConfig {
+
+    static func write(value: IoTSiteWiseClientTypes.ForwardingConfig?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["state"].write(value.state)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> IoTSiteWiseClientTypes.ForwardingConfig {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = IoTSiteWiseClientTypes.ForwardingConfig()
+        value.state = try reader["state"].readIfPresent() ?? .sdkUnknown("")
+        return value
+    }
+}
+
+extension IoTSiteWiseClientTypes.GatewayCapabilitySummary {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> IoTSiteWiseClientTypes.GatewayCapabilitySummary {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = IoTSiteWiseClientTypes.GatewayCapabilitySummary()
+        value.capabilityNamespace = try reader["capabilityNamespace"].readIfPresent() ?? ""
+        value.capabilitySyncStatus = try reader["capabilitySyncStatus"].readIfPresent() ?? .sdkUnknown("")
+        return value
+    }
+}
+
+extension IoTSiteWiseClientTypes.GatewayPlatform {
+
+    static func write(value: IoTSiteWiseClientTypes.GatewayPlatform?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["greengrass"].write(value.greengrass, with: IoTSiteWiseClientTypes.Greengrass.write(value:to:))
+        try writer["greengrassV2"].write(value.greengrassV2, with: IoTSiteWiseClientTypes.GreengrassV2.write(value:to:))
+        try writer["siemensIE"].write(value.siemensIE, with: IoTSiteWiseClientTypes.SiemensIE.write(value:to:))
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> IoTSiteWiseClientTypes.GatewayPlatform {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = IoTSiteWiseClientTypes.GatewayPlatform()
+        value.greengrass = try reader["greengrass"].readIfPresent(with: IoTSiteWiseClientTypes.Greengrass.read(from:))
+        value.greengrassV2 = try reader["greengrassV2"].readIfPresent(with: IoTSiteWiseClientTypes.GreengrassV2.read(from:))
+        value.siemensIE = try reader["siemensIE"].readIfPresent(with: IoTSiteWiseClientTypes.SiemensIE.read(from:))
+        return value
+    }
+}
+
+extension IoTSiteWiseClientTypes.GatewaySummary {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> IoTSiteWiseClientTypes.GatewaySummary {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = IoTSiteWiseClientTypes.GatewaySummary()
+        value.gatewayId = try reader["gatewayId"].readIfPresent() ?? ""
+        value.gatewayName = try reader["gatewayName"].readIfPresent() ?? ""
+        value.gatewayPlatform = try reader["gatewayPlatform"].readIfPresent(with: IoTSiteWiseClientTypes.GatewayPlatform.read(from:))
+        value.gatewayVersion = try reader["gatewayVersion"].readIfPresent()
+        value.gatewayCapabilitySummaries = try reader["gatewayCapabilitySummaries"].readListIfPresent(memberReadingClosure: IoTSiteWiseClientTypes.GatewayCapabilitySummary.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.creationDate = try reader["creationDate"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        value.lastUpdateDate = try reader["lastUpdateDate"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        return value
+    }
+}
+
+extension IoTSiteWiseClientTypes.Greengrass {
+
+    static func write(value: IoTSiteWiseClientTypes.Greengrass?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["groupArn"].write(value.groupArn)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> IoTSiteWiseClientTypes.Greengrass {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = IoTSiteWiseClientTypes.Greengrass()
+        value.groupArn = try reader["groupArn"].readIfPresent() ?? ""
+        return value
+    }
+}
+
+extension IoTSiteWiseClientTypes.GreengrassV2 {
+
+    static func write(value: IoTSiteWiseClientTypes.GreengrassV2?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["coreDeviceOperatingSystem"].write(value.coreDeviceOperatingSystem)
+        try writer["coreDeviceThingName"].write(value.coreDeviceThingName)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> IoTSiteWiseClientTypes.GreengrassV2 {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = IoTSiteWiseClientTypes.GreengrassV2()
+        value.coreDeviceThingName = try reader["coreDeviceThingName"].readIfPresent() ?? ""
+        value.coreDeviceOperatingSystem = try reader["coreDeviceOperatingSystem"].readIfPresent()
+        return value
+    }
+}
+
+extension IoTSiteWiseClientTypes.GroupIdentity {
+
+    static func write(value: IoTSiteWiseClientTypes.GroupIdentity?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["id"].write(value.id)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> IoTSiteWiseClientTypes.GroupIdentity {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = IoTSiteWiseClientTypes.GroupIdentity()
+        value.id = try reader["id"].readIfPresent() ?? ""
+        return value
+    }
+}
+
+extension IoTSiteWiseClientTypes.HierarchyMapping {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> IoTSiteWiseClientTypes.HierarchyMapping {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = IoTSiteWiseClientTypes.HierarchyMapping()
+        value.assetModelHierarchyId = try reader["assetModelHierarchyId"].readIfPresent() ?? ""
+        value.interfaceAssetModelHierarchyId = try reader["interfaceAssetModelHierarchyId"].readIfPresent() ?? ""
         return value
     }
 }
@@ -17521,298 +18528,244 @@ extension IoTSiteWiseClientTypes.IAMUserIdentity {
     }
 }
 
-extension IoTSiteWiseClientTypes.GroupIdentity {
+extension IoTSiteWiseClientTypes.Identity {
 
-    static func write(value: IoTSiteWiseClientTypes.GroupIdentity?, to writer: SmithyJSON.Writer) throws {
+    static func write(value: IoTSiteWiseClientTypes.Identity?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
+        try writer["group"].write(value.group, with: IoTSiteWiseClientTypes.GroupIdentity.write(value:to:))
+        try writer["iamRole"].write(value.iamRole, with: IoTSiteWiseClientTypes.IAMRoleIdentity.write(value:to:))
+        try writer["iamUser"].write(value.iamUser, with: IoTSiteWiseClientTypes.IAMUserIdentity.write(value:to:))
+        try writer["user"].write(value.user, with: IoTSiteWiseClientTypes.UserIdentity.write(value:to:))
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> IoTSiteWiseClientTypes.Identity {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = IoTSiteWiseClientTypes.Identity()
+        value.user = try reader["user"].readIfPresent(with: IoTSiteWiseClientTypes.UserIdentity.read(from:))
+        value.group = try reader["group"].readIfPresent(with: IoTSiteWiseClientTypes.GroupIdentity.read(from:))
+        value.iamUser = try reader["iamUser"].readIfPresent(with: IoTSiteWiseClientTypes.IAMUserIdentity.read(from:))
+        value.iamRole = try reader["iamRole"].readIfPresent(with: IoTSiteWiseClientTypes.IAMRoleIdentity.read(from:))
+        return value
+    }
+}
+
+extension IoTSiteWiseClientTypes.Image {
+
+    static func write(value: IoTSiteWiseClientTypes.Image?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["file"].write(value.file, with: IoTSiteWiseClientTypes.ImageFile.write(value:to:))
         try writer["id"].write(value.id)
     }
+}
 
-    static func read(from reader: SmithyJSON.Reader) throws -> IoTSiteWiseClientTypes.GroupIdentity {
+extension IoTSiteWiseClientTypes.ImageFile {
+
+    static func write(value: IoTSiteWiseClientTypes.ImageFile?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["data"].write(value.data)
+        try writer["type"].write(value.type)
+    }
+}
+
+extension IoTSiteWiseClientTypes.ImageLocation {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> IoTSiteWiseClientTypes.ImageLocation {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = IoTSiteWiseClientTypes.GroupIdentity()
+        var value = IoTSiteWiseClientTypes.ImageLocation()
+        value.id = try reader["id"].readIfPresent() ?? ""
+        value.url = try reader["url"].readIfPresent() ?? ""
+        return value
+    }
+}
+
+extension IoTSiteWiseClientTypes.InterfaceRelationship {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> IoTSiteWiseClientTypes.InterfaceRelationship {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = IoTSiteWiseClientTypes.InterfaceRelationship()
         value.id = try reader["id"].readIfPresent() ?? ""
         return value
     }
 }
 
-extension IoTSiteWiseClientTypes.UserIdentity {
+extension IoTSiteWiseClientTypes.InterfaceRelationshipSummary {
 
-    static func write(value: IoTSiteWiseClientTypes.UserIdentity?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["id"].write(value.id)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> IoTSiteWiseClientTypes.UserIdentity {
+    static func read(from reader: SmithyJSON.Reader) throws -> IoTSiteWiseClientTypes.InterfaceRelationshipSummary {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = IoTSiteWiseClientTypes.UserIdentity()
+        var value = IoTSiteWiseClientTypes.InterfaceRelationshipSummary()
         value.id = try reader["id"].readIfPresent() ?? ""
         return value
     }
 }
 
-extension IoTSiteWiseClientTypes.Resource {
+extension IoTSiteWiseClientTypes.InterfaceSummary {
 
-    static func write(value: IoTSiteWiseClientTypes.Resource?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["portal"].write(value.portal, with: IoTSiteWiseClientTypes.PortalResource.write(value:to:))
-        try writer["project"].write(value.project, with: IoTSiteWiseClientTypes.ProjectResource.write(value:to:))
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> IoTSiteWiseClientTypes.Resource {
+    static func read(from reader: SmithyJSON.Reader) throws -> IoTSiteWiseClientTypes.InterfaceSummary {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = IoTSiteWiseClientTypes.Resource()
-        value.portal = try reader["portal"].readIfPresent(with: IoTSiteWiseClientTypes.PortalResource.read(from:))
-        value.project = try reader["project"].readIfPresent(with: IoTSiteWiseClientTypes.ProjectResource.read(from:))
+        var value = IoTSiteWiseClientTypes.InterfaceSummary()
+        value.interfaceAssetModelId = try reader["interfaceAssetModelId"].readIfPresent() ?? ""
+        value.interfaceAssetModelPropertyId = try reader["interfaceAssetModelPropertyId"].readIfPresent() ?? ""
         return value
     }
 }
 
-extension IoTSiteWiseClientTypes.ProjectResource {
+extension InternalFailureException {
 
-    static func write(value: IoTSiteWiseClientTypes.ProjectResource?, to writer: SmithyJSON.Writer) throws {
+    static func read(from reader: SmithyJSON.Reader) throws -> InternalFailureException {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = InternalFailureException()
+        value.properties.message = try reader["message"].readIfPresent() ?? ""
+        return value
+    }
+}
+
+extension IoTSiteWiseClientTypes.InterpolatedAssetPropertyValue {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> IoTSiteWiseClientTypes.InterpolatedAssetPropertyValue {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = IoTSiteWiseClientTypes.InterpolatedAssetPropertyValue()
+        value.timestamp = try reader["timestamp"].readIfPresent(with: IoTSiteWiseClientTypes.TimeInNanos.read(from:))
+        value.value = try reader["value"].readIfPresent(with: IoTSiteWiseClientTypes.Variant.read(from:))
+        return value
+    }
+}
+
+extension InvalidRequestException {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> InvalidRequestException {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = InvalidRequestException()
+        value.properties.message = try reader["message"].readIfPresent() ?? ""
+        return value
+    }
+}
+
+extension IoTSiteWiseClientTypes.InvocationOutput {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> IoTSiteWiseClientTypes.InvocationOutput {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = IoTSiteWiseClientTypes.InvocationOutput()
+        value.message = try reader["message"].readIfPresent()
+        value.citations = try reader["citations"].readListIfPresent(memberReadingClosure: IoTSiteWiseClientTypes.Citation.read(from:), memberNodeInfo: "member", isFlattened: false)
+        return value
+    }
+}
+
+extension IoTSiteWiseClientTypes.JobConfiguration {
+
+    static func write(value: IoTSiteWiseClientTypes.JobConfiguration?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
-        try writer["id"].write(value.id)
+        try writer["fileFormat"].write(value.fileFormat, with: IoTSiteWiseClientTypes.FileFormat.write(value:to:))
     }
 
-    static func read(from reader: SmithyJSON.Reader) throws -> IoTSiteWiseClientTypes.ProjectResource {
+    static func read(from reader: SmithyJSON.Reader) throws -> IoTSiteWiseClientTypes.JobConfiguration {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = IoTSiteWiseClientTypes.ProjectResource()
+        var value = IoTSiteWiseClientTypes.JobConfiguration()
+        value.fileFormat = try reader["fileFormat"].readIfPresent(with: IoTSiteWiseClientTypes.FileFormat.read(from:))
+        return value
+    }
+}
+
+extension IoTSiteWiseClientTypes.JobSummary {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> IoTSiteWiseClientTypes.JobSummary {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = IoTSiteWiseClientTypes.JobSummary()
         value.id = try reader["id"].readIfPresent() ?? ""
-        return value
-    }
-}
-
-extension IoTSiteWiseClientTypes.PortalResource {
-
-    static func write(value: IoTSiteWiseClientTypes.PortalResource?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["id"].write(value.id)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> IoTSiteWiseClientTypes.PortalResource {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = IoTSiteWiseClientTypes.PortalResource()
-        value.id = try reader["id"].readIfPresent() ?? ""
-        return value
-    }
-}
-
-extension IoTSiteWiseClientTypes.TargetResource {
-
-    static func write(value: IoTSiteWiseClientTypes.TargetResource?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["assetId"].write(value.assetId)
-        try writer["computationModelId"].write(value.computationModelId)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> IoTSiteWiseClientTypes.TargetResource {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = IoTSiteWiseClientTypes.TargetResource()
-        value.assetId = try reader["assetId"].readIfPresent()
-        value.computationModelId = try reader["computationModelId"].readIfPresent()
-        return value
-    }
-}
-
-extension IoTSiteWiseClientTypes.ActionPayload {
-
-    static func write(value: IoTSiteWiseClientTypes.ActionPayload?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["stringValue"].write(value.stringValue)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> IoTSiteWiseClientTypes.ActionPayload {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = IoTSiteWiseClientTypes.ActionPayload()
-        value.stringValue = try reader["stringValue"].readIfPresent() ?? ""
-        return value
-    }
-}
-
-extension IoTSiteWiseClientTypes.ResolveTo {
-
-    static func write(value: IoTSiteWiseClientTypes.ResolveTo?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["assetId"].write(value.assetId)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> IoTSiteWiseClientTypes.ResolveTo {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = IoTSiteWiseClientTypes.ResolveTo()
-        value.assetId = try reader["assetId"].readIfPresent() ?? ""
-        return value
-    }
-}
-
-extension IoTSiteWiseClientTypes.AssetProperty {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> IoTSiteWiseClientTypes.AssetProperty {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = IoTSiteWiseClientTypes.AssetProperty()
-        value.id = try reader["id"].readIfPresent() ?? ""
-        value.externalId = try reader["externalId"].readIfPresent()
         value.name = try reader["name"].readIfPresent() ?? ""
-        value.alias = try reader["alias"].readIfPresent()
-        value.notification = try reader["notification"].readIfPresent(with: IoTSiteWiseClientTypes.PropertyNotification.read(from:))
-        value.dataType = try reader["dataType"].readIfPresent() ?? .sdkUnknown("")
-        value.dataTypeSpec = try reader["dataTypeSpec"].readIfPresent()
-        value.unit = try reader["unit"].readIfPresent()
-        value.path = try reader["path"].readListIfPresent(memberReadingClosure: IoTSiteWiseClientTypes.AssetPropertyPathSegment.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.status = try reader["status"].readIfPresent() ?? .sdkUnknown("")
         return value
     }
 }
 
-extension IoTSiteWiseClientTypes.AssetPropertyPathSegment {
+extension IoTSiteWiseClientTypes.KendraSourceDetail {
 
-    static func read(from reader: SmithyJSON.Reader) throws -> IoTSiteWiseClientTypes.AssetPropertyPathSegment {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = IoTSiteWiseClientTypes.AssetPropertyPathSegment()
-        value.id = try reader["id"].readIfPresent()
-        value.name = try reader["name"].readIfPresent()
-        return value
-    }
-}
-
-extension IoTSiteWiseClientTypes.PropertyNotification {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> IoTSiteWiseClientTypes.PropertyNotification {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = IoTSiteWiseClientTypes.PropertyNotification()
-        value.topic = try reader["topic"].readIfPresent() ?? ""
-        value.state = try reader["state"].readIfPresent() ?? .sdkUnknown("")
-        return value
-    }
-}
-
-extension IoTSiteWiseClientTypes.AssetHierarchy {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> IoTSiteWiseClientTypes.AssetHierarchy {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = IoTSiteWiseClientTypes.AssetHierarchy()
-        value.id = try reader["id"].readIfPresent()
-        value.externalId = try reader["externalId"].readIfPresent()
-        value.name = try reader["name"].readIfPresent() ?? ""
-        return value
-    }
-}
-
-extension IoTSiteWiseClientTypes.AssetCompositeModel {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> IoTSiteWiseClientTypes.AssetCompositeModel {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = IoTSiteWiseClientTypes.AssetCompositeModel()
-        value.name = try reader["name"].readIfPresent() ?? ""
-        value.description = try reader["description"].readIfPresent()
-        value.type = try reader["type"].readIfPresent() ?? ""
-        value.properties = try reader["properties"].readListIfPresent(memberReadingClosure: IoTSiteWiseClientTypes.AssetProperty.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
-        value.id = try reader["id"].readIfPresent()
-        value.externalId = try reader["externalId"].readIfPresent()
-        return value
-    }
-}
-
-extension IoTSiteWiseClientTypes.AssetCompositeModelSummary {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> IoTSiteWiseClientTypes.AssetCompositeModelSummary {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = IoTSiteWiseClientTypes.AssetCompositeModelSummary()
-        value.id = try reader["id"].readIfPresent() ?? ""
-        value.externalId = try reader["externalId"].readIfPresent()
-        value.name = try reader["name"].readIfPresent() ?? ""
-        value.type = try reader["type"].readIfPresent() ?? ""
-        value.description = try reader["description"].readIfPresent() ?? ""
-        value.path = try reader["path"].readListIfPresent(memberReadingClosure: IoTSiteWiseClientTypes.AssetCompositeModelPathSegment.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
-        return value
-    }
-}
-
-extension IoTSiteWiseClientTypes.AssetCompositeModelPathSegment {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> IoTSiteWiseClientTypes.AssetCompositeModelPathSegment {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = IoTSiteWiseClientTypes.AssetCompositeModelPathSegment()
-        value.id = try reader["id"].readIfPresent()
-        value.name = try reader["name"].readIfPresent()
-        return value
-    }
-}
-
-extension IoTSiteWiseClientTypes.ActionDefinition {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> IoTSiteWiseClientTypes.ActionDefinition {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = IoTSiteWiseClientTypes.ActionDefinition()
-        value.actionDefinitionId = try reader["actionDefinitionId"].readIfPresent() ?? ""
-        value.actionName = try reader["actionName"].readIfPresent() ?? ""
-        value.actionType = try reader["actionType"].readIfPresent() ?? ""
-        return value
-    }
-}
-
-extension IoTSiteWiseClientTypes.AssetModelProperty {
-
-    static func write(value: IoTSiteWiseClientTypes.AssetModelProperty?, to writer: SmithyJSON.Writer) throws {
+    static func write(value: IoTSiteWiseClientTypes.KendraSourceDetail?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
-        try writer["dataType"].write(value.dataType)
-        try writer["dataTypeSpec"].write(value.dataTypeSpec)
-        try writer["externalId"].write(value.externalId)
-        try writer["id"].write(value.id)
-        try writer["name"].write(value.name)
-        try writer["path"].writeList(value.path, memberWritingClosure: IoTSiteWiseClientTypes.AssetModelPropertyPathSegment.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["type"].write(value.type, with: IoTSiteWiseClientTypes.PropertyType.write(value:to:))
-        try writer["unit"].write(value.unit)
+        try writer["knowledgeBaseArn"].write(value.knowledgeBaseArn)
+        try writer["roleArn"].write(value.roleArn)
     }
 
-    static func read(from reader: SmithyJSON.Reader) throws -> IoTSiteWiseClientTypes.AssetModelProperty {
+    static func read(from reader: SmithyJSON.Reader) throws -> IoTSiteWiseClientTypes.KendraSourceDetail {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = IoTSiteWiseClientTypes.AssetModelProperty()
-        value.id = try reader["id"].readIfPresent()
-        value.externalId = try reader["externalId"].readIfPresent()
-        value.name = try reader["name"].readIfPresent() ?? ""
-        value.dataType = try reader["dataType"].readIfPresent() ?? .sdkUnknown("")
-        value.dataTypeSpec = try reader["dataTypeSpec"].readIfPresent()
-        value.unit = try reader["unit"].readIfPresent()
-        value.type = try reader["type"].readIfPresent(with: IoTSiteWiseClientTypes.PropertyType.read(from:))
-        value.path = try reader["path"].readListIfPresent(memberReadingClosure: IoTSiteWiseClientTypes.AssetModelPropertyPathSegment.read(from:), memberNodeInfo: "member", isFlattened: false)
+        var value = IoTSiteWiseClientTypes.KendraSourceDetail()
+        value.knowledgeBaseArn = try reader["knowledgeBaseArn"].readIfPresent() ?? ""
+        value.roleArn = try reader["roleArn"].readIfPresent() ?? ""
         return value
     }
 }
 
-extension IoTSiteWiseClientTypes.AssetModelPropertyPathSegment {
+extension LimitExceededException {
 
-    static func write(value: IoTSiteWiseClientTypes.AssetModelPropertyPathSegment?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["id"].write(value.id)
-        try writer["name"].write(value.name)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> IoTSiteWiseClientTypes.AssetModelPropertyPathSegment {
+    static func read(from reader: SmithyJSON.Reader) throws -> LimitExceededException {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = IoTSiteWiseClientTypes.AssetModelPropertyPathSegment()
-        value.id = try reader["id"].readIfPresent()
-        value.name = try reader["name"].readIfPresent()
+        var value = LimitExceededException()
+        value.properties.message = try reader["message"].readIfPresent() ?? ""
         return value
     }
 }
 
-extension IoTSiteWiseClientTypes.PropertyType {
+extension IoTSiteWiseClientTypes.Location {
 
-    static func write(value: IoTSiteWiseClientTypes.PropertyType?, to writer: SmithyJSON.Writer) throws {
+    static func read(from reader: SmithyJSON.Reader) throws -> IoTSiteWiseClientTypes.Location {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = IoTSiteWiseClientTypes.Location()
+        value.uri = try reader["uri"].readIfPresent()
+        return value
+    }
+}
+
+extension IoTSiteWiseClientTypes.LoggingOptions {
+
+    static func write(value: IoTSiteWiseClientTypes.LoggingOptions?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
-        try writer["attribute"].write(value.attribute, with: IoTSiteWiseClientTypes.Attribute.write(value:to:))
-        try writer["measurement"].write(value.measurement, with: IoTSiteWiseClientTypes.Measurement.write(value:to:))
-        try writer["metric"].write(value.metric, with: IoTSiteWiseClientTypes.Metric.write(value:to:))
-        try writer["transform"].write(value.transform, with: IoTSiteWiseClientTypes.Transform.write(value:to:))
+        try writer["level"].write(value.level)
     }
 
-    static func read(from reader: SmithyJSON.Reader) throws -> IoTSiteWiseClientTypes.PropertyType {
+    static func read(from reader: SmithyJSON.Reader) throws -> IoTSiteWiseClientTypes.LoggingOptions {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = IoTSiteWiseClientTypes.PropertyType()
-        value.attribute = try reader["attribute"].readIfPresent(with: IoTSiteWiseClientTypes.Attribute.read(from:))
-        value.measurement = try reader["measurement"].readIfPresent(with: IoTSiteWiseClientTypes.Measurement.read(from:))
-        value.transform = try reader["transform"].readIfPresent(with: IoTSiteWiseClientTypes.Transform.read(from:))
-        value.metric = try reader["metric"].readIfPresent(with: IoTSiteWiseClientTypes.Metric.read(from:))
+        var value = IoTSiteWiseClientTypes.LoggingOptions()
+        value.level = try reader["level"].readIfPresent() ?? .sdkUnknown("")
+        return value
+    }
+}
+
+extension IoTSiteWiseClientTypes.MatchedDataBinding {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> IoTSiteWiseClientTypes.MatchedDataBinding {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = IoTSiteWiseClientTypes.MatchedDataBinding()
+        value.value = try reader["value"].readIfPresent(with: IoTSiteWiseClientTypes.DataBindingValue.read(from:))
+        return value
+    }
+}
+
+extension IoTSiteWiseClientTypes.Measurement {
+
+    static func write(value: IoTSiteWiseClientTypes.Measurement?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["processingConfig"].write(value.processingConfig, with: IoTSiteWiseClientTypes.MeasurementProcessingConfig.write(value:to:))
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> IoTSiteWiseClientTypes.Measurement {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = IoTSiteWiseClientTypes.Measurement()
+        value.processingConfig = try reader["processingConfig"].readIfPresent(with: IoTSiteWiseClientTypes.MeasurementProcessingConfig.read(from:))
+        return value
+    }
+}
+
+extension IoTSiteWiseClientTypes.MeasurementProcessingConfig {
+
+    static func write(value: IoTSiteWiseClientTypes.MeasurementProcessingConfig?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["forwardingConfig"].write(value.forwardingConfig, with: IoTSiteWiseClientTypes.ForwardingConfig.write(value:to:))
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> IoTSiteWiseClientTypes.MeasurementProcessingConfig {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = IoTSiteWiseClientTypes.MeasurementProcessingConfig()
+        value.forwardingConfig = try reader["forwardingConfig"].readIfPresent(with: IoTSiteWiseClientTypes.ForwardingConfig.read(from:))
         return value
     }
 }
@@ -17868,55 +18821,425 @@ extension IoTSiteWiseClientTypes.MetricWindow {
     }
 }
 
-extension IoTSiteWiseClientTypes.TumblingWindow {
+extension IoTSiteWiseClientTypes.MonitorErrorDetails {
 
-    static func write(value: IoTSiteWiseClientTypes.TumblingWindow?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["interval"].write(value.interval)
-        try writer["offset"].write(value.offset)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> IoTSiteWiseClientTypes.TumblingWindow {
+    static func read(from reader: SmithyJSON.Reader) throws -> IoTSiteWiseClientTypes.MonitorErrorDetails {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = IoTSiteWiseClientTypes.TumblingWindow()
-        value.interval = try reader["interval"].readIfPresent() ?? ""
-        value.offset = try reader["offset"].readIfPresent()
+        var value = IoTSiteWiseClientTypes.MonitorErrorDetails()
+        value.code = try reader["code"].readIfPresent()
+        value.message = try reader["message"].readIfPresent()
         return value
     }
 }
 
-extension IoTSiteWiseClientTypes.ExpressionVariable {
+extension IoTSiteWiseClientTypes.MultiLayerStorage {
 
-    static func write(value: IoTSiteWiseClientTypes.ExpressionVariable?, to writer: SmithyJSON.Writer) throws {
+    static func write(value: IoTSiteWiseClientTypes.MultiLayerStorage?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
-        try writer["name"].write(value.name)
-        try writer["value"].write(value.value, with: IoTSiteWiseClientTypes.VariableValue.write(value:to:))
+        try writer["customerManagedS3Storage"].write(value.customerManagedS3Storage, with: IoTSiteWiseClientTypes.CustomerManagedS3Storage.write(value:to:))
     }
 
-    static func read(from reader: SmithyJSON.Reader) throws -> IoTSiteWiseClientTypes.ExpressionVariable {
+    static func read(from reader: SmithyJSON.Reader) throws -> IoTSiteWiseClientTypes.MultiLayerStorage {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = IoTSiteWiseClientTypes.ExpressionVariable()
+        var value = IoTSiteWiseClientTypes.MultiLayerStorage()
+        value.customerManagedS3Storage = try reader["customerManagedS3Storage"].readIfPresent(with: IoTSiteWiseClientTypes.CustomerManagedS3Storage.read(from:))
+        return value
+    }
+}
+
+extension IoTSiteWiseClientTypes.Parquet {
+
+    static func write(value: IoTSiteWiseClientTypes.Parquet?, to writer: SmithyJSON.Writer) throws {
+        guard value != nil else { return }
+        _ = writer[""]  // create an empty structure
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> IoTSiteWiseClientTypes.Parquet {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        return IoTSiteWiseClientTypes.Parquet()
+    }
+}
+
+extension IoTSiteWiseClientTypes.PortalResource {
+
+    static func write(value: IoTSiteWiseClientTypes.PortalResource?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["id"].write(value.id)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> IoTSiteWiseClientTypes.PortalResource {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = IoTSiteWiseClientTypes.PortalResource()
+        value.id = try reader["id"].readIfPresent() ?? ""
+        return value
+    }
+}
+
+extension IoTSiteWiseClientTypes.PortalStatus {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> IoTSiteWiseClientTypes.PortalStatus {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = IoTSiteWiseClientTypes.PortalStatus()
+        value.state = try reader["state"].readIfPresent() ?? .sdkUnknown("")
+        value.error = try reader["error"].readIfPresent(with: IoTSiteWiseClientTypes.MonitorErrorDetails.read(from:))
+        return value
+    }
+}
+
+extension IoTSiteWiseClientTypes.PortalSummary {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> IoTSiteWiseClientTypes.PortalSummary {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = IoTSiteWiseClientTypes.PortalSummary()
+        value.id = try reader["id"].readIfPresent() ?? ""
         value.name = try reader["name"].readIfPresent() ?? ""
-        value.value = try reader["value"].readIfPresent(with: IoTSiteWiseClientTypes.VariableValue.read(from:))
+        value.description = try reader["description"].readIfPresent()
+        value.startUrl = try reader["startUrl"].readIfPresent() ?? ""
+        value.creationDate = try reader["creationDate"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.lastUpdateDate = try reader["lastUpdateDate"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.roleArn = try reader["roleArn"].readIfPresent()
+        value.status = try reader["status"].readIfPresent(with: IoTSiteWiseClientTypes.PortalStatus.read(from:))
+        value.portalType = try reader["portalType"].readIfPresent()
         return value
     }
 }
 
-extension IoTSiteWiseClientTypes.VariableValue {
+extension IoTSiteWiseClientTypes.PortalTypeEntry {
 
-    static func write(value: IoTSiteWiseClientTypes.VariableValue?, to writer: SmithyJSON.Writer) throws {
+    static func write(value: IoTSiteWiseClientTypes.PortalTypeEntry?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
-        try writer["hierarchyId"].write(value.hierarchyId)
-        try writer["propertyId"].write(value.propertyId)
-        try writer["propertyPath"].writeList(value.propertyPath, memberWritingClosure: IoTSiteWiseClientTypes.AssetModelPropertyPathSegment.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["portalTools"].writeList(value.portalTools, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
     }
 
-    static func read(from reader: SmithyJSON.Reader) throws -> IoTSiteWiseClientTypes.VariableValue {
+    static func read(from reader: SmithyJSON.Reader) throws -> IoTSiteWiseClientTypes.PortalTypeEntry {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = IoTSiteWiseClientTypes.VariableValue()
+        var value = IoTSiteWiseClientTypes.PortalTypeEntry()
+        value.portalTools = try reader["portalTools"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        return value
+    }
+}
+
+extension IoTSiteWiseClientTypes.ProjectResource {
+
+    static func write(value: IoTSiteWiseClientTypes.ProjectResource?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["id"].write(value.id)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> IoTSiteWiseClientTypes.ProjectResource {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = IoTSiteWiseClientTypes.ProjectResource()
+        value.id = try reader["id"].readIfPresent() ?? ""
+        return value
+    }
+}
+
+extension IoTSiteWiseClientTypes.ProjectSummary {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> IoTSiteWiseClientTypes.ProjectSummary {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = IoTSiteWiseClientTypes.ProjectSummary()
+        value.id = try reader["id"].readIfPresent() ?? ""
+        value.name = try reader["name"].readIfPresent() ?? ""
+        value.description = try reader["description"].readIfPresent()
+        value.creationDate = try reader["creationDate"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.lastUpdateDate = try reader["lastUpdateDate"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        return value
+    }
+}
+
+extension IoTSiteWiseClientTypes.Property {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> IoTSiteWiseClientTypes.Property {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = IoTSiteWiseClientTypes.Property()
+        value.id = try reader["id"].readIfPresent() ?? ""
+        value.externalId = try reader["externalId"].readIfPresent()
+        value.name = try reader["name"].readIfPresent() ?? ""
+        value.alias = try reader["alias"].readIfPresent()
+        value.notification = try reader["notification"].readIfPresent(with: IoTSiteWiseClientTypes.PropertyNotification.read(from:))
+        value.dataType = try reader["dataType"].readIfPresent() ?? .sdkUnknown("")
+        value.unit = try reader["unit"].readIfPresent()
+        value.type = try reader["type"].readIfPresent(with: IoTSiteWiseClientTypes.PropertyType.read(from:))
+        value.path = try reader["path"].readListIfPresent(memberReadingClosure: IoTSiteWiseClientTypes.AssetPropertyPathSegment.read(from:), memberNodeInfo: "member", isFlattened: false)
+        return value
+    }
+}
+
+extension IoTSiteWiseClientTypes.PropertyMapping {
+
+    static func write(value: IoTSiteWiseClientTypes.PropertyMapping?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["assetModelPropertyId"].write(value.assetModelPropertyId)
+        try writer["interfaceAssetModelPropertyId"].write(value.interfaceAssetModelPropertyId)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> IoTSiteWiseClientTypes.PropertyMapping {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = IoTSiteWiseClientTypes.PropertyMapping()
+        value.assetModelPropertyId = try reader["assetModelPropertyId"].readIfPresent() ?? ""
+        value.interfaceAssetModelPropertyId = try reader["interfaceAssetModelPropertyId"].readIfPresent() ?? ""
+        return value
+    }
+}
+
+extension IoTSiteWiseClientTypes.PropertyMappingConfiguration {
+
+    static func write(value: IoTSiteWiseClientTypes.PropertyMappingConfiguration?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["createMissingProperty"].write(value.createMissingProperty)
+        try writer["matchByPropertyName"].write(value.matchByPropertyName)
+        try writer["overrides"].writeList(value.overrides, memberWritingClosure: IoTSiteWiseClientTypes.PropertyMapping.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+    }
+}
+
+extension IoTSiteWiseClientTypes.PropertyNotification {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> IoTSiteWiseClientTypes.PropertyNotification {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = IoTSiteWiseClientTypes.PropertyNotification()
+        value.topic = try reader["topic"].readIfPresent() ?? ""
+        value.state = try reader["state"].readIfPresent() ?? .sdkUnknown("")
+        return value
+    }
+}
+
+extension IoTSiteWiseClientTypes.PropertyType {
+
+    static func write(value: IoTSiteWiseClientTypes.PropertyType?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["attribute"].write(value.attribute, with: IoTSiteWiseClientTypes.Attribute.write(value:to:))
+        try writer["measurement"].write(value.measurement, with: IoTSiteWiseClientTypes.Measurement.write(value:to:))
+        try writer["metric"].write(value.metric, with: IoTSiteWiseClientTypes.Metric.write(value:to:))
+        try writer["transform"].write(value.transform, with: IoTSiteWiseClientTypes.Transform.write(value:to:))
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> IoTSiteWiseClientTypes.PropertyType {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = IoTSiteWiseClientTypes.PropertyType()
+        value.attribute = try reader["attribute"].readIfPresent(with: IoTSiteWiseClientTypes.Attribute.read(from:))
+        value.measurement = try reader["measurement"].readIfPresent(with: IoTSiteWiseClientTypes.Measurement.read(from:))
+        value.transform = try reader["transform"].readIfPresent(with: IoTSiteWiseClientTypes.Transform.read(from:))
+        value.metric = try reader["metric"].readIfPresent(with: IoTSiteWiseClientTypes.Metric.read(from:))
+        return value
+    }
+}
+
+extension IoTSiteWiseClientTypes.PropertyValueNullValue {
+
+    static func write(value: IoTSiteWiseClientTypes.PropertyValueNullValue?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["valueType"].write(value.valueType)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> IoTSiteWiseClientTypes.PropertyValueNullValue {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = IoTSiteWiseClientTypes.PropertyValueNullValue()
+        value.valueType = try reader["valueType"].readIfPresent() ?? .sdkUnknown("")
+        return value
+    }
+}
+
+extension IoTSiteWiseClientTypes.PutAssetPropertyValueEntry {
+
+    static func write(value: IoTSiteWiseClientTypes.PutAssetPropertyValueEntry?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["assetId"].write(value.assetId)
+        try writer["entryId"].write(value.entryId)
+        try writer["propertyAlias"].write(value.propertyAlias)
+        try writer["propertyId"].write(value.propertyId)
+        try writer["propertyValues"].writeList(value.propertyValues, memberWritingClosure: IoTSiteWiseClientTypes.AssetPropertyValue.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+    }
+}
+
+extension IoTSiteWiseClientTypes.Reference {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> IoTSiteWiseClientTypes.Reference {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = IoTSiteWiseClientTypes.Reference()
+        value.dataset = try reader["dataset"].readIfPresent(with: IoTSiteWiseClientTypes.DataSetReference.read(from:))
+        return value
+    }
+}
+
+extension IoTSiteWiseClientTypes.ResolveTo {
+
+    static func write(value: IoTSiteWiseClientTypes.ResolveTo?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["assetId"].write(value.assetId)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> IoTSiteWiseClientTypes.ResolveTo {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = IoTSiteWiseClientTypes.ResolveTo()
+        value.assetId = try reader["assetId"].readIfPresent() ?? ""
+        return value
+    }
+}
+
+extension IoTSiteWiseClientTypes.Resource {
+
+    static func write(value: IoTSiteWiseClientTypes.Resource?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["portal"].write(value.portal, with: IoTSiteWiseClientTypes.PortalResource.write(value:to:))
+        try writer["project"].write(value.project, with: IoTSiteWiseClientTypes.ProjectResource.write(value:to:))
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> IoTSiteWiseClientTypes.Resource {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = IoTSiteWiseClientTypes.Resource()
+        value.portal = try reader["portal"].readIfPresent(with: IoTSiteWiseClientTypes.PortalResource.read(from:))
+        value.project = try reader["project"].readIfPresent(with: IoTSiteWiseClientTypes.ProjectResource.read(from:))
+        return value
+    }
+}
+
+extension ResourceNotFoundException {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> ResourceNotFoundException {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = ResourceNotFoundException()
+        value.properties.message = try reader["message"].readIfPresent() ?? ""
+        return value
+    }
+}
+
+extension IoTSiteWiseClientTypes.RetentionPeriod {
+
+    static func write(value: IoTSiteWiseClientTypes.RetentionPeriod?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["numberOfDays"].write(value.numberOfDays)
+        try writer["unlimited"].write(value.unlimited)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> IoTSiteWiseClientTypes.RetentionPeriod {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = IoTSiteWiseClientTypes.RetentionPeriod()
+        value.numberOfDays = try reader["numberOfDays"].readIfPresent()
+        value.unlimited = try reader["unlimited"].readIfPresent()
+        return value
+    }
+}
+
+extension IoTSiteWiseClientTypes.Row {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> IoTSiteWiseClientTypes.Row {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = IoTSiteWiseClientTypes.Row()
+        value.data = try reader["data"].readListIfPresent(memberReadingClosure: IoTSiteWiseClientTypes.Datum.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        return value
+    }
+}
+
+extension IoTSiteWiseClientTypes.SiemensIE {
+
+    static func write(value: IoTSiteWiseClientTypes.SiemensIE?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["iotCoreThingName"].write(value.iotCoreThingName)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> IoTSiteWiseClientTypes.SiemensIE {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = IoTSiteWiseClientTypes.SiemensIE()
+        value.iotCoreThingName = try reader["iotCoreThingName"].readIfPresent() ?? ""
+        return value
+    }
+}
+
+extension IoTSiteWiseClientTypes.Source {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> IoTSiteWiseClientTypes.Source {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = IoTSiteWiseClientTypes.Source()
+        value.arn = try reader["arn"].readIfPresent()
+        value.location = try reader["location"].readIfPresent(with: IoTSiteWiseClientTypes.Location.read(from:))
+        return value
+    }
+}
+
+extension IoTSiteWiseClientTypes.SourceDetail {
+
+    static func write(value: IoTSiteWiseClientTypes.SourceDetail?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["kendra"].write(value.kendra, with: IoTSiteWiseClientTypes.KendraSourceDetail.write(value:to:))
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> IoTSiteWiseClientTypes.SourceDetail {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = IoTSiteWiseClientTypes.SourceDetail()
+        value.kendra = try reader["kendra"].readIfPresent(with: IoTSiteWiseClientTypes.KendraSourceDetail.read(from:))
+        return value
+    }
+}
+
+extension IoTSiteWiseClientTypes.TargetResource {
+
+    static func write(value: IoTSiteWiseClientTypes.TargetResource?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["assetId"].write(value.assetId)
+        try writer["computationModelId"].write(value.computationModelId)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> IoTSiteWiseClientTypes.TargetResource {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = IoTSiteWiseClientTypes.TargetResource()
+        value.assetId = try reader["assetId"].readIfPresent()
+        value.computationModelId = try reader["computationModelId"].readIfPresent()
+        return value
+    }
+}
+
+extension ThrottlingException {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> ThrottlingException {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = ThrottlingException()
+        value.properties.message = try reader["message"].readIfPresent() ?? ""
+        return value
+    }
+}
+
+extension IoTSiteWiseClientTypes.TimeInNanos {
+
+    static func write(value: IoTSiteWiseClientTypes.TimeInNanos?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["offsetInNanos"].write(value.offsetInNanos)
+        try writer["timeInSeconds"].write(value.timeInSeconds)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> IoTSiteWiseClientTypes.TimeInNanos {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = IoTSiteWiseClientTypes.TimeInNanos()
+        value.timeInSeconds = try reader["timeInSeconds"].readIfPresent() ?? 0
+        value.offsetInNanos = try reader["offsetInNanos"].readIfPresent()
+        return value
+    }
+}
+
+extension IoTSiteWiseClientTypes.TimeSeriesSummary {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> IoTSiteWiseClientTypes.TimeSeriesSummary {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = IoTSiteWiseClientTypes.TimeSeriesSummary()
+        value.assetId = try reader["assetId"].readIfPresent()
         value.propertyId = try reader["propertyId"].readIfPresent()
-        value.hierarchyId = try reader["hierarchyId"].readIfPresent()
-        value.propertyPath = try reader["propertyPath"].readListIfPresent(memberReadingClosure: IoTSiteWiseClientTypes.AssetModelPropertyPathSegment.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.alias = try reader["alias"].readIfPresent()
+        value.timeSeriesId = try reader["timeSeriesId"].readIfPresent() ?? ""
+        value.dataType = try reader["dataType"].readIfPresent() ?? .sdkUnknown("")
+        value.dataTypeSpec = try reader["dataTypeSpec"].readIfPresent()
+        value.timeSeriesCreationDate = try reader["timeSeriesCreationDate"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        value.timeSeriesLastUpdateDate = try reader["timeSeriesLastUpdateDate"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        value.timeSeriesArn = try reader["timeSeriesArn"].readIfPresent() ?? ""
+        return value
+    }
+}
+
+extension IoTSiteWiseClientTypes.Trace {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> IoTSiteWiseClientTypes.Trace {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = IoTSiteWiseClientTypes.Trace()
+        value.text = try reader["text"].readIfPresent()
         return value
     }
 }
@@ -17957,661 +19280,76 @@ extension IoTSiteWiseClientTypes.TransformProcessingConfig {
     }
 }
 
-extension IoTSiteWiseClientTypes.ForwardingConfig {
+extension IoTSiteWiseClientTypes.TumblingWindow {
 
-    static func write(value: IoTSiteWiseClientTypes.ForwardingConfig?, to writer: SmithyJSON.Writer) throws {
+    static func write(value: IoTSiteWiseClientTypes.TumblingWindow?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
-        try writer["state"].write(value.state)
+        try writer["interval"].write(value.interval)
+        try writer["offset"].write(value.offset)
     }
 
-    static func read(from reader: SmithyJSON.Reader) throws -> IoTSiteWiseClientTypes.ForwardingConfig {
+    static func read(from reader: SmithyJSON.Reader) throws -> IoTSiteWiseClientTypes.TumblingWindow {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = IoTSiteWiseClientTypes.ForwardingConfig()
-        value.state = try reader["state"].readIfPresent() ?? .sdkUnknown("")
+        var value = IoTSiteWiseClientTypes.TumblingWindow()
+        value.interval = try reader["interval"].readIfPresent() ?? ""
+        value.offset = try reader["offset"].readIfPresent()
         return value
     }
 }
 
-extension IoTSiteWiseClientTypes.Measurement {
+extension IoTSiteWiseClientTypes.UserIdentity {
 
-    static func write(value: IoTSiteWiseClientTypes.Measurement?, to writer: SmithyJSON.Writer) throws {
+    static func write(value: IoTSiteWiseClientTypes.UserIdentity?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
-        try writer["processingConfig"].write(value.processingConfig, with: IoTSiteWiseClientTypes.MeasurementProcessingConfig.write(value:to:))
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> IoTSiteWiseClientTypes.Measurement {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = IoTSiteWiseClientTypes.Measurement()
-        value.processingConfig = try reader["processingConfig"].readIfPresent(with: IoTSiteWiseClientTypes.MeasurementProcessingConfig.read(from:))
-        return value
-    }
-}
-
-extension IoTSiteWiseClientTypes.MeasurementProcessingConfig {
-
-    static func write(value: IoTSiteWiseClientTypes.MeasurementProcessingConfig?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["forwardingConfig"].write(value.forwardingConfig, with: IoTSiteWiseClientTypes.ForwardingConfig.write(value:to:))
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> IoTSiteWiseClientTypes.MeasurementProcessingConfig {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = IoTSiteWiseClientTypes.MeasurementProcessingConfig()
-        value.forwardingConfig = try reader["forwardingConfig"].readIfPresent(with: IoTSiteWiseClientTypes.ForwardingConfig.read(from:))
-        return value
-    }
-}
-
-extension IoTSiteWiseClientTypes.Attribute {
-
-    static func write(value: IoTSiteWiseClientTypes.Attribute?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["defaultValue"].write(value.defaultValue)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> IoTSiteWiseClientTypes.Attribute {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = IoTSiteWiseClientTypes.Attribute()
-        value.defaultValue = try reader["defaultValue"].readIfPresent()
-        return value
-    }
-}
-
-extension IoTSiteWiseClientTypes.AssetModelHierarchy {
-
-    static func write(value: IoTSiteWiseClientTypes.AssetModelHierarchy?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["childAssetModelId"].write(value.childAssetModelId)
-        try writer["externalId"].write(value.externalId)
         try writer["id"].write(value.id)
-        try writer["name"].write(value.name)
     }
 
-    static func read(from reader: SmithyJSON.Reader) throws -> IoTSiteWiseClientTypes.AssetModelHierarchy {
+    static func read(from reader: SmithyJSON.Reader) throws -> IoTSiteWiseClientTypes.UserIdentity {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = IoTSiteWiseClientTypes.AssetModelHierarchy()
-        value.id = try reader["id"].readIfPresent()
-        value.externalId = try reader["externalId"].readIfPresent()
-        value.name = try reader["name"].readIfPresent() ?? ""
-        value.childAssetModelId = try reader["childAssetModelId"].readIfPresent() ?? ""
-        return value
-    }
-}
-
-extension IoTSiteWiseClientTypes.AssetModelCompositeModel {
-
-    static func write(value: IoTSiteWiseClientTypes.AssetModelCompositeModel?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["description"].write(value.description)
-        try writer["externalId"].write(value.externalId)
-        try writer["id"].write(value.id)
-        try writer["name"].write(value.name)
-        try writer["properties"].writeList(value.properties, memberWritingClosure: IoTSiteWiseClientTypes.AssetModelProperty.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["type"].write(value.type)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> IoTSiteWiseClientTypes.AssetModelCompositeModel {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = IoTSiteWiseClientTypes.AssetModelCompositeModel()
-        value.name = try reader["name"].readIfPresent() ?? ""
-        value.description = try reader["description"].readIfPresent()
-        value.type = try reader["type"].readIfPresent() ?? ""
-        value.properties = try reader["properties"].readListIfPresent(memberReadingClosure: IoTSiteWiseClientTypes.AssetModelProperty.read(from:), memberNodeInfo: "member", isFlattened: false)
-        value.id = try reader["id"].readIfPresent()
-        value.externalId = try reader["externalId"].readIfPresent()
-        return value
-    }
-}
-
-extension IoTSiteWiseClientTypes.AssetModelCompositeModelSummary {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> IoTSiteWiseClientTypes.AssetModelCompositeModelSummary {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = IoTSiteWiseClientTypes.AssetModelCompositeModelSummary()
-        value.id = try reader["id"].readIfPresent() ?? ""
-        value.externalId = try reader["externalId"].readIfPresent()
-        value.name = try reader["name"].readIfPresent() ?? ""
-        value.type = try reader["type"].readIfPresent() ?? ""
-        value.description = try reader["description"].readIfPresent()
-        value.path = try reader["path"].readListIfPresent(memberReadingClosure: IoTSiteWiseClientTypes.AssetModelCompositeModelPathSegment.read(from:), memberNodeInfo: "member", isFlattened: false)
-        return value
-    }
-}
-
-extension IoTSiteWiseClientTypes.InterfaceRelationship {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> IoTSiteWiseClientTypes.InterfaceRelationship {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = IoTSiteWiseClientTypes.InterfaceRelationship()
+        var value = IoTSiteWiseClientTypes.UserIdentity()
         value.id = try reader["id"].readIfPresent() ?? ""
         return value
     }
 }
 
-extension IoTSiteWiseClientTypes.CompositionDetails {
+extension IoTSiteWiseClientTypes.VariableValue {
 
-    static func read(from reader: SmithyJSON.Reader) throws -> IoTSiteWiseClientTypes.CompositionDetails {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = IoTSiteWiseClientTypes.CompositionDetails()
-        value.compositionRelationship = try reader["compositionRelationship"].readListIfPresent(memberReadingClosure: IoTSiteWiseClientTypes.CompositionRelationshipItem.read(from:), memberNodeInfo: "member", isFlattened: false)
-        return value
-    }
-}
-
-extension IoTSiteWiseClientTypes.CompositionRelationshipItem {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> IoTSiteWiseClientTypes.CompositionRelationshipItem {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = IoTSiteWiseClientTypes.CompositionRelationshipItem()
-        value.id = try reader["id"].readIfPresent()
-        return value
-    }
-}
-
-extension IoTSiteWiseClientTypes.PropertyMapping {
-
-    static func write(value: IoTSiteWiseClientTypes.PropertyMapping?, to writer: SmithyJSON.Writer) throws {
+    static func write(value: IoTSiteWiseClientTypes.VariableValue?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
-        try writer["assetModelPropertyId"].write(value.assetModelPropertyId)
-        try writer["interfaceAssetModelPropertyId"].write(value.interfaceAssetModelPropertyId)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> IoTSiteWiseClientTypes.PropertyMapping {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = IoTSiteWiseClientTypes.PropertyMapping()
-        value.assetModelPropertyId = try reader["assetModelPropertyId"].readIfPresent() ?? ""
-        value.interfaceAssetModelPropertyId = try reader["interfaceAssetModelPropertyId"].readIfPresent() ?? ""
-        return value
-    }
-}
-
-extension IoTSiteWiseClientTypes.HierarchyMapping {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> IoTSiteWiseClientTypes.HierarchyMapping {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = IoTSiteWiseClientTypes.HierarchyMapping()
-        value.assetModelHierarchyId = try reader["assetModelHierarchyId"].readIfPresent() ?? ""
-        value.interfaceAssetModelHierarchyId = try reader["interfaceAssetModelHierarchyId"].readIfPresent() ?? ""
-        return value
-    }
-}
-
-extension IoTSiteWiseClientTypes.Property {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> IoTSiteWiseClientTypes.Property {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = IoTSiteWiseClientTypes.Property()
-        value.id = try reader["id"].readIfPresent() ?? ""
-        value.externalId = try reader["externalId"].readIfPresent()
-        value.name = try reader["name"].readIfPresent() ?? ""
-        value.alias = try reader["alias"].readIfPresent()
-        value.notification = try reader["notification"].readIfPresent(with: IoTSiteWiseClientTypes.PropertyNotification.read(from:))
-        value.dataType = try reader["dataType"].readIfPresent() ?? .sdkUnknown("")
-        value.unit = try reader["unit"].readIfPresent()
-        value.type = try reader["type"].readIfPresent(with: IoTSiteWiseClientTypes.PropertyType.read(from:))
-        value.path = try reader["path"].readListIfPresent(memberReadingClosure: IoTSiteWiseClientTypes.AssetPropertyPathSegment.read(from:), memberNodeInfo: "member", isFlattened: false)
-        return value
-    }
-}
-
-extension IoTSiteWiseClientTypes.CompositeModelProperty {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> IoTSiteWiseClientTypes.CompositeModelProperty {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = IoTSiteWiseClientTypes.CompositeModelProperty()
-        value.name = try reader["name"].readIfPresent() ?? ""
-        value.type = try reader["type"].readIfPresent() ?? ""
-        value.assetProperty = try reader["assetProperty"].readIfPresent(with: IoTSiteWiseClientTypes.Property.read(from:))
-        value.id = try reader["id"].readIfPresent()
-        value.externalId = try reader["externalId"].readIfPresent()
-        return value
-    }
-}
-
-extension IoTSiteWiseClientTypes.File {
-
-    static func write(value: IoTSiteWiseClientTypes.File?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["bucket"].write(value.bucket)
-        try writer["key"].write(value.key)
-        try writer["versionId"].write(value.versionId)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> IoTSiteWiseClientTypes.File {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = IoTSiteWiseClientTypes.File()
-        value.bucket = try reader["bucket"].readIfPresent() ?? ""
-        value.key = try reader["key"].readIfPresent() ?? ""
-        value.versionId = try reader["versionId"].readIfPresent()
-        return value
-    }
-}
-
-extension IoTSiteWiseClientTypes.ErrorReportLocation {
-
-    static func write(value: IoTSiteWiseClientTypes.ErrorReportLocation?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["bucket"].write(value.bucket)
-        try writer["prefix"].write(value.`prefix`)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> IoTSiteWiseClientTypes.ErrorReportLocation {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = IoTSiteWiseClientTypes.ErrorReportLocation()
-        value.bucket = try reader["bucket"].readIfPresent() ?? ""
-        value.`prefix` = try reader["prefix"].readIfPresent() ?? ""
-        return value
-    }
-}
-
-extension IoTSiteWiseClientTypes.JobConfiguration {
-
-    static func write(value: IoTSiteWiseClientTypes.JobConfiguration?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["fileFormat"].write(value.fileFormat, with: IoTSiteWiseClientTypes.FileFormat.write(value:to:))
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> IoTSiteWiseClientTypes.JobConfiguration {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = IoTSiteWiseClientTypes.JobConfiguration()
-        value.fileFormat = try reader["fileFormat"].readIfPresent(with: IoTSiteWiseClientTypes.FileFormat.read(from:))
-        return value
-    }
-}
-
-extension IoTSiteWiseClientTypes.FileFormat {
-
-    static func write(value: IoTSiteWiseClientTypes.FileFormat?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["csv"].write(value.csv, with: IoTSiteWiseClientTypes.Csv.write(value:to:))
-        try writer["parquet"].write(value.parquet, with: IoTSiteWiseClientTypes.Parquet.write(value:to:))
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> IoTSiteWiseClientTypes.FileFormat {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = IoTSiteWiseClientTypes.FileFormat()
-        value.csv = try reader["csv"].readIfPresent(with: IoTSiteWiseClientTypes.Csv.read(from:))
-        value.parquet = try reader["parquet"].readIfPresent(with: IoTSiteWiseClientTypes.Parquet.read(from:))
-        return value
-    }
-}
-
-extension IoTSiteWiseClientTypes.Parquet {
-
-    static func write(value: IoTSiteWiseClientTypes.Parquet?, to writer: SmithyJSON.Writer) throws {
-        guard value != nil else { return }
-        _ = writer[""]  // create an empty structure
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> IoTSiteWiseClientTypes.Parquet {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        return IoTSiteWiseClientTypes.Parquet()
-    }
-}
-
-extension IoTSiteWiseClientTypes.Csv {
-
-    static func write(value: IoTSiteWiseClientTypes.Csv?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["columnNames"].writeList(value.columnNames, memberWritingClosure: SmithyReadWrite.WritingClosureBox<IoTSiteWiseClientTypes.ColumnName>().write(value:to:), memberNodeInfo: "member", isFlattened: false)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> IoTSiteWiseClientTypes.Csv {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = IoTSiteWiseClientTypes.Csv()
-        value.columnNames = try reader["columnNames"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosureBox<IoTSiteWiseClientTypes.ColumnName>().read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
-        return value
-    }
-}
-
-extension IoTSiteWiseClientTypes.ComputationModelConfiguration {
-
-    static func write(value: IoTSiteWiseClientTypes.ComputationModelConfiguration?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["anomalyDetection"].write(value.anomalyDetection, with: IoTSiteWiseClientTypes.ComputationModelAnomalyDetectionConfiguration.write(value:to:))
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> IoTSiteWiseClientTypes.ComputationModelConfiguration {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = IoTSiteWiseClientTypes.ComputationModelConfiguration()
-        value.anomalyDetection = try reader["anomalyDetection"].readIfPresent(with: IoTSiteWiseClientTypes.ComputationModelAnomalyDetectionConfiguration.read(from:))
-        return value
-    }
-}
-
-extension IoTSiteWiseClientTypes.ComputationModelAnomalyDetectionConfiguration {
-
-    static func write(value: IoTSiteWiseClientTypes.ComputationModelAnomalyDetectionConfiguration?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["inputProperties"].write(value.inputProperties)
-        try writer["resultProperty"].write(value.resultProperty)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> IoTSiteWiseClientTypes.ComputationModelAnomalyDetectionConfiguration {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = IoTSiteWiseClientTypes.ComputationModelAnomalyDetectionConfiguration()
-        value.inputProperties = try reader["inputProperties"].readIfPresent() ?? ""
-        value.resultProperty = try reader["resultProperty"].readIfPresent() ?? ""
-        return value
-    }
-}
-
-extension IoTSiteWiseClientTypes.ComputationModelDataBindingValue {
-
-    static func write(value: IoTSiteWiseClientTypes.ComputationModelDataBindingValue?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["assetModelProperty"].write(value.assetModelProperty, with: IoTSiteWiseClientTypes.AssetModelPropertyBindingValue.write(value:to:))
-        try writer["assetProperty"].write(value.assetProperty, with: IoTSiteWiseClientTypes.AssetPropertyBindingValue.write(value:to:))
-        try writer["list"].writeList(value.list, memberWritingClosure: IoTSiteWiseClientTypes.ComputationModelDataBindingValue.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> IoTSiteWiseClientTypes.ComputationModelDataBindingValue {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = IoTSiteWiseClientTypes.ComputationModelDataBindingValue()
-        value.assetModelProperty = try reader["assetModelProperty"].readIfPresent(with: IoTSiteWiseClientTypes.AssetModelPropertyBindingValue.read(from:))
-        value.assetProperty = try reader["assetProperty"].readIfPresent(with: IoTSiteWiseClientTypes.AssetPropertyBindingValue.read(from:))
-        value.list = try reader["list"].readListIfPresent(memberReadingClosure: IoTSiteWiseClientTypes.ComputationModelDataBindingValue.read(from:), memberNodeInfo: "member", isFlattened: false)
-        return value
-    }
-}
-
-extension IoTSiteWiseClientTypes.AssetPropertyBindingValue {
-
-    static func write(value: IoTSiteWiseClientTypes.AssetPropertyBindingValue?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["assetId"].write(value.assetId)
+        try writer["hierarchyId"].write(value.hierarchyId)
         try writer["propertyId"].write(value.propertyId)
+        try writer["propertyPath"].writeList(value.propertyPath, memberWritingClosure: IoTSiteWiseClientTypes.AssetModelPropertyPathSegment.write(value:to:), memberNodeInfo: "member", isFlattened: false)
     }
 
-    static func read(from reader: SmithyJSON.Reader) throws -> IoTSiteWiseClientTypes.AssetPropertyBindingValue {
+    static func read(from reader: SmithyJSON.Reader) throws -> IoTSiteWiseClientTypes.VariableValue {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = IoTSiteWiseClientTypes.AssetPropertyBindingValue()
-        value.assetId = try reader["assetId"].readIfPresent() ?? ""
-        value.propertyId = try reader["propertyId"].readIfPresent() ?? ""
+        var value = IoTSiteWiseClientTypes.VariableValue()
+        value.propertyId = try reader["propertyId"].readIfPresent()
+        value.hierarchyId = try reader["hierarchyId"].readIfPresent()
+        value.propertyPath = try reader["propertyPath"].readListIfPresent(memberReadingClosure: IoTSiteWiseClientTypes.AssetModelPropertyPathSegment.read(from:), memberNodeInfo: "member", isFlattened: false)
         return value
     }
 }
 
-extension IoTSiteWiseClientTypes.AssetModelPropertyBindingValue {
+extension IoTSiteWiseClientTypes.Variant {
 
-    static func write(value: IoTSiteWiseClientTypes.AssetModelPropertyBindingValue?, to writer: SmithyJSON.Writer) throws {
+    static func write(value: IoTSiteWiseClientTypes.Variant?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
-        try writer["assetModelId"].write(value.assetModelId)
-        try writer["propertyId"].write(value.propertyId)
+        try writer["booleanValue"].write(value.booleanValue)
+        try writer["doubleValue"].write(value.doubleValue)
+        try writer["integerValue"].write(value.integerValue)
+        try writer["nullValue"].write(value.nullValue, with: IoTSiteWiseClientTypes.PropertyValueNullValue.write(value:to:))
+        try writer["stringValue"].write(value.stringValue)
     }
 
-    static func read(from reader: SmithyJSON.Reader) throws -> IoTSiteWiseClientTypes.AssetModelPropertyBindingValue {
+    static func read(from reader: SmithyJSON.Reader) throws -> IoTSiteWiseClientTypes.Variant {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = IoTSiteWiseClientTypes.AssetModelPropertyBindingValue()
-        value.assetModelId = try reader["assetModelId"].readIfPresent() ?? ""
-        value.propertyId = try reader["propertyId"].readIfPresent() ?? ""
-        return value
-    }
-}
-
-extension IoTSiteWiseClientTypes.DatasetSource {
-
-    static func write(value: IoTSiteWiseClientTypes.DatasetSource?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["sourceDetail"].write(value.sourceDetail, with: IoTSiteWiseClientTypes.SourceDetail.write(value:to:))
-        try writer["sourceFormat"].write(value.sourceFormat)
-        try writer["sourceType"].write(value.sourceType)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> IoTSiteWiseClientTypes.DatasetSource {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = IoTSiteWiseClientTypes.DatasetSource()
-        value.sourceType = try reader["sourceType"].readIfPresent() ?? .sdkUnknown("")
-        value.sourceFormat = try reader["sourceFormat"].readIfPresent() ?? .sdkUnknown("")
-        value.sourceDetail = try reader["sourceDetail"].readIfPresent(with: IoTSiteWiseClientTypes.SourceDetail.read(from:))
-        return value
-    }
-}
-
-extension IoTSiteWiseClientTypes.SourceDetail {
-
-    static func write(value: IoTSiteWiseClientTypes.SourceDetail?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["kendra"].write(value.kendra, with: IoTSiteWiseClientTypes.KendraSourceDetail.write(value:to:))
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> IoTSiteWiseClientTypes.SourceDetail {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = IoTSiteWiseClientTypes.SourceDetail()
-        value.kendra = try reader["kendra"].readIfPresent(with: IoTSiteWiseClientTypes.KendraSourceDetail.read(from:))
-        return value
-    }
-}
-
-extension IoTSiteWiseClientTypes.KendraSourceDetail {
-
-    static func write(value: IoTSiteWiseClientTypes.KendraSourceDetail?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["knowledgeBaseArn"].write(value.knowledgeBaseArn)
-        try writer["roleArn"].write(value.roleArn)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> IoTSiteWiseClientTypes.KendraSourceDetail {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = IoTSiteWiseClientTypes.KendraSourceDetail()
-        value.knowledgeBaseArn = try reader["knowledgeBaseArn"].readIfPresent() ?? ""
-        value.roleArn = try reader["roleArn"].readIfPresent() ?? ""
-        return value
-    }
-}
-
-extension IoTSiteWiseClientTypes.ConfigurationStatus {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> IoTSiteWiseClientTypes.ConfigurationStatus {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = IoTSiteWiseClientTypes.ConfigurationStatus()
-        value.state = try reader["state"].readIfPresent() ?? .sdkUnknown("")
-        value.error = try reader["error"].readIfPresent(with: IoTSiteWiseClientTypes.ConfigurationErrorDetails.read(from:))
-        return value
-    }
-}
-
-extension IoTSiteWiseClientTypes.ConfigurationErrorDetails {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> IoTSiteWiseClientTypes.ConfigurationErrorDetails {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = IoTSiteWiseClientTypes.ConfigurationErrorDetails()
-        value.code = try reader["code"].readIfPresent() ?? .sdkUnknown("")
-        value.message = try reader["message"].readIfPresent() ?? ""
-        return value
-    }
-}
-
-extension IoTSiteWiseClientTypes.ExecutionStatus {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> IoTSiteWiseClientTypes.ExecutionStatus {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = IoTSiteWiseClientTypes.ExecutionStatus()
-        value.state = try reader["state"].readIfPresent() ?? .sdkUnknown("")
-        return value
-    }
-}
-
-extension IoTSiteWiseClientTypes.GatewayPlatform {
-
-    static func write(value: IoTSiteWiseClientTypes.GatewayPlatform?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["greengrass"].write(value.greengrass, with: IoTSiteWiseClientTypes.Greengrass.write(value:to:))
-        try writer["greengrassV2"].write(value.greengrassV2, with: IoTSiteWiseClientTypes.GreengrassV2.write(value:to:))
-        try writer["siemensIE"].write(value.siemensIE, with: IoTSiteWiseClientTypes.SiemensIE.write(value:to:))
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> IoTSiteWiseClientTypes.GatewayPlatform {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = IoTSiteWiseClientTypes.GatewayPlatform()
-        value.greengrass = try reader["greengrass"].readIfPresent(with: IoTSiteWiseClientTypes.Greengrass.read(from:))
-        value.greengrassV2 = try reader["greengrassV2"].readIfPresent(with: IoTSiteWiseClientTypes.GreengrassV2.read(from:))
-        value.siemensIE = try reader["siemensIE"].readIfPresent(with: IoTSiteWiseClientTypes.SiemensIE.read(from:))
-        return value
-    }
-}
-
-extension IoTSiteWiseClientTypes.SiemensIE {
-
-    static func write(value: IoTSiteWiseClientTypes.SiemensIE?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["iotCoreThingName"].write(value.iotCoreThingName)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> IoTSiteWiseClientTypes.SiemensIE {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = IoTSiteWiseClientTypes.SiemensIE()
-        value.iotCoreThingName = try reader["iotCoreThingName"].readIfPresent() ?? ""
-        return value
-    }
-}
-
-extension IoTSiteWiseClientTypes.GreengrassV2 {
-
-    static func write(value: IoTSiteWiseClientTypes.GreengrassV2?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["coreDeviceOperatingSystem"].write(value.coreDeviceOperatingSystem)
-        try writer["coreDeviceThingName"].write(value.coreDeviceThingName)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> IoTSiteWiseClientTypes.GreengrassV2 {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = IoTSiteWiseClientTypes.GreengrassV2()
-        value.coreDeviceThingName = try reader["coreDeviceThingName"].readIfPresent() ?? ""
-        value.coreDeviceOperatingSystem = try reader["coreDeviceOperatingSystem"].readIfPresent()
-        return value
-    }
-}
-
-extension IoTSiteWiseClientTypes.Greengrass {
-
-    static func write(value: IoTSiteWiseClientTypes.Greengrass?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["groupArn"].write(value.groupArn)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> IoTSiteWiseClientTypes.Greengrass {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = IoTSiteWiseClientTypes.Greengrass()
-        value.groupArn = try reader["groupArn"].readIfPresent() ?? ""
-        return value
-    }
-}
-
-extension IoTSiteWiseClientTypes.GatewayCapabilitySummary {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> IoTSiteWiseClientTypes.GatewayCapabilitySummary {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = IoTSiteWiseClientTypes.GatewayCapabilitySummary()
-        value.capabilityNamespace = try reader["capabilityNamespace"].readIfPresent() ?? ""
-        value.capabilitySyncStatus = try reader["capabilitySyncStatus"].readIfPresent() ?? .sdkUnknown("")
-        return value
-    }
-}
-
-extension IoTSiteWiseClientTypes.LoggingOptions {
-
-    static func write(value: IoTSiteWiseClientTypes.LoggingOptions?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["level"].write(value.level)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> IoTSiteWiseClientTypes.LoggingOptions {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = IoTSiteWiseClientTypes.LoggingOptions()
-        value.level = try reader["level"].readIfPresent() ?? .sdkUnknown("")
-        return value
-    }
-}
-
-extension IoTSiteWiseClientTypes.ImageLocation {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> IoTSiteWiseClientTypes.ImageLocation {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = IoTSiteWiseClientTypes.ImageLocation()
-        value.id = try reader["id"].readIfPresent() ?? ""
-        value.url = try reader["url"].readIfPresent() ?? ""
-        return value
-    }
-}
-
-extension IoTSiteWiseClientTypes.Alarms {
-
-    static func write(value: IoTSiteWiseClientTypes.Alarms?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["alarmRoleArn"].write(value.alarmRoleArn)
-        try writer["notificationLambdaArn"].write(value.notificationLambdaArn)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> IoTSiteWiseClientTypes.Alarms {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = IoTSiteWiseClientTypes.Alarms()
-        value.alarmRoleArn = try reader["alarmRoleArn"].readIfPresent() ?? ""
-        value.notificationLambdaArn = try reader["notificationLambdaArn"].readIfPresent()
-        return value
-    }
-}
-
-extension IoTSiteWiseClientTypes.PortalTypeEntry {
-
-    static func write(value: IoTSiteWiseClientTypes.PortalTypeEntry?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["portalTools"].writeList(value.portalTools, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> IoTSiteWiseClientTypes.PortalTypeEntry {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = IoTSiteWiseClientTypes.PortalTypeEntry()
-        value.portalTools = try reader["portalTools"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
-        return value
-    }
-}
-
-extension IoTSiteWiseClientTypes.MultiLayerStorage {
-
-    static func write(value: IoTSiteWiseClientTypes.MultiLayerStorage?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["customerManagedS3Storage"].write(value.customerManagedS3Storage, with: IoTSiteWiseClientTypes.CustomerManagedS3Storage.write(value:to:))
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> IoTSiteWiseClientTypes.MultiLayerStorage {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = IoTSiteWiseClientTypes.MultiLayerStorage()
-        value.customerManagedS3Storage = try reader["customerManagedS3Storage"].readIfPresent(with: IoTSiteWiseClientTypes.CustomerManagedS3Storage.read(from:))
-        return value
-    }
-}
-
-extension IoTSiteWiseClientTypes.CustomerManagedS3Storage {
-
-    static func write(value: IoTSiteWiseClientTypes.CustomerManagedS3Storage?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["roleArn"].write(value.roleArn)
-        try writer["s3ResourceArn"].write(value.s3ResourceArn)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> IoTSiteWiseClientTypes.CustomerManagedS3Storage {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = IoTSiteWiseClientTypes.CustomerManagedS3Storage()
-        value.s3ResourceArn = try reader["s3ResourceArn"].readIfPresent() ?? ""
-        value.roleArn = try reader["roleArn"].readIfPresent() ?? ""
-        return value
-    }
-}
-
-extension IoTSiteWiseClientTypes.RetentionPeriod {
-
-    static func write(value: IoTSiteWiseClientTypes.RetentionPeriod?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["numberOfDays"].write(value.numberOfDays)
-        try writer["unlimited"].write(value.unlimited)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> IoTSiteWiseClientTypes.RetentionPeriod {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = IoTSiteWiseClientTypes.RetentionPeriod()
-        value.numberOfDays = try reader["numberOfDays"].readIfPresent()
-        value.unlimited = try reader["unlimited"].readIfPresent()
+        var value = IoTSiteWiseClientTypes.Variant()
+        value.stringValue = try reader["stringValue"].readIfPresent()
+        value.integerValue = try reader["integerValue"].readIfPresent()
+        value.doubleValue = try reader["doubleValue"].readIfPresent()
+        value.booleanValue = try reader["booleanValue"].readIfPresent()
+        value.nullValue = try reader["nullValue"].readIfPresent(with: IoTSiteWiseClientTypes.PropertyValueNullValue.read(from:))
         return value
     }
 }
@@ -18630,744 +19368,6 @@ extension IoTSiteWiseClientTypes.WarmTierRetentionPeriod {
         value.numberOfDays = try reader["numberOfDays"].readIfPresent()
         value.unlimited = try reader["unlimited"].readIfPresent()
         return value
-    }
-}
-
-extension IoTSiteWiseClientTypes.ColumnInfo {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> IoTSiteWiseClientTypes.ColumnInfo {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = IoTSiteWiseClientTypes.ColumnInfo()
-        value.name = try reader["name"].readIfPresent()
-        value.type = try reader["type"].readIfPresent(with: IoTSiteWiseClientTypes.ColumnType.read(from:))
-        return value
-    }
-}
-
-extension IoTSiteWiseClientTypes.ColumnType {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> IoTSiteWiseClientTypes.ColumnType {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = IoTSiteWiseClientTypes.ColumnType()
-        value.scalarType = try reader["scalarType"].readIfPresent()
-        return value
-    }
-}
-
-extension IoTSiteWiseClientTypes.Row {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> IoTSiteWiseClientTypes.Row {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = IoTSiteWiseClientTypes.Row()
-        value.data = try reader["data"].readListIfPresent(memberReadingClosure: IoTSiteWiseClientTypes.Datum.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
-        return value
-    }
-}
-
-extension IoTSiteWiseClientTypes.Datum {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> IoTSiteWiseClientTypes.Datum {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = IoTSiteWiseClientTypes.Datum()
-        value.scalarValue = try reader["scalarValue"].readIfPresent()
-        value.arrayValue = try reader["arrayValue"].readListIfPresent(memberReadingClosure: IoTSiteWiseClientTypes.Datum.read(from:), memberNodeInfo: "member", isFlattened: false)
-        value.rowValue = try reader["rowValue"].readIfPresent(with: IoTSiteWiseClientTypes.Row.read(from:))
-        value.nullValue = try reader["nullValue"].readIfPresent()
-        return value
-    }
-}
-
-extension IoTSiteWiseClientTypes.InterpolatedAssetPropertyValue {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> IoTSiteWiseClientTypes.InterpolatedAssetPropertyValue {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = IoTSiteWiseClientTypes.InterpolatedAssetPropertyValue()
-        value.timestamp = try reader["timestamp"].readIfPresent(with: IoTSiteWiseClientTypes.TimeInNanos.read(from:))
-        value.value = try reader["value"].readIfPresent(with: IoTSiteWiseClientTypes.Variant.read(from:))
-        return value
-    }
-}
-
-extension ThrottlingException {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> ThrottlingException {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = ThrottlingException()
-        value.properties.message = try reader["message"].readIfPresent() ?? ""
-        return value
-    }
-}
-
-extension ResourceNotFoundException {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> ResourceNotFoundException {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = ResourceNotFoundException()
-        value.properties.message = try reader["message"].readIfPresent() ?? ""
-        return value
-    }
-}
-
-extension LimitExceededException {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> LimitExceededException {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = LimitExceededException()
-        value.properties.message = try reader["message"].readIfPresent() ?? ""
-        return value
-    }
-}
-
-extension InvalidRequestException {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> InvalidRequestException {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = InvalidRequestException()
-        value.properties.message = try reader["message"].readIfPresent() ?? ""
-        return value
-    }
-}
-
-extension InternalFailureException {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> InternalFailureException {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = InternalFailureException()
-        value.properties.message = try reader["message"].readIfPresent() ?? ""
-        return value
-    }
-}
-
-extension ConflictingOperationException {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> ConflictingOperationException {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = ConflictingOperationException()
-        value.properties.message = try reader["message"].readIfPresent() ?? ""
-        value.properties.resourceId = try reader["resourceId"].readIfPresent() ?? ""
-        value.properties.resourceArn = try reader["resourceArn"].readIfPresent() ?? ""
-        return value
-    }
-}
-
-extension AccessDeniedException {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> AccessDeniedException {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = AccessDeniedException()
-        value.properties.message = try reader["message"].readIfPresent()
-        return value
-    }
-}
-
-extension IoTSiteWiseClientTypes.InvocationOutput {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> IoTSiteWiseClientTypes.InvocationOutput {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = IoTSiteWiseClientTypes.InvocationOutput()
-        value.message = try reader["message"].readIfPresent()
-        value.citations = try reader["citations"].readListIfPresent(memberReadingClosure: IoTSiteWiseClientTypes.Citation.read(from:), memberNodeInfo: "member", isFlattened: false)
-        return value
-    }
-}
-
-extension IoTSiteWiseClientTypes.Citation {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> IoTSiteWiseClientTypes.Citation {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = IoTSiteWiseClientTypes.Citation()
-        value.reference = try reader["reference"].readIfPresent(with: IoTSiteWiseClientTypes.Reference.read(from:))
-        value.content = try reader["content"].readIfPresent(with: IoTSiteWiseClientTypes.Content.read(from:))
-        return value
-    }
-}
-
-extension IoTSiteWiseClientTypes.Content {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> IoTSiteWiseClientTypes.Content {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = IoTSiteWiseClientTypes.Content()
-        value.text = try reader["text"].readIfPresent()
-        return value
-    }
-}
-
-extension IoTSiteWiseClientTypes.Reference {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> IoTSiteWiseClientTypes.Reference {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = IoTSiteWiseClientTypes.Reference()
-        value.dataset = try reader["dataset"].readIfPresent(with: IoTSiteWiseClientTypes.DataSetReference.read(from:))
-        return value
-    }
-}
-
-extension IoTSiteWiseClientTypes.DataSetReference {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> IoTSiteWiseClientTypes.DataSetReference {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = IoTSiteWiseClientTypes.DataSetReference()
-        value.datasetArn = try reader["datasetArn"].readIfPresent()
-        value.source = try reader["source"].readIfPresent(with: IoTSiteWiseClientTypes.Source.read(from:))
-        return value
-    }
-}
-
-extension IoTSiteWiseClientTypes.Source {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> IoTSiteWiseClientTypes.Source {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = IoTSiteWiseClientTypes.Source()
-        value.arn = try reader["arn"].readIfPresent()
-        value.location = try reader["location"].readIfPresent(with: IoTSiteWiseClientTypes.Location.read(from:))
-        return value
-    }
-}
-
-extension IoTSiteWiseClientTypes.Location {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> IoTSiteWiseClientTypes.Location {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = IoTSiteWiseClientTypes.Location()
-        value.uri = try reader["uri"].readIfPresent()
-        return value
-    }
-}
-
-extension IoTSiteWiseClientTypes.Trace {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> IoTSiteWiseClientTypes.Trace {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = IoTSiteWiseClientTypes.Trace()
-        value.text = try reader["text"].readIfPresent()
-        return value
-    }
-}
-
-extension IoTSiteWiseClientTypes.AccessPolicySummary {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> IoTSiteWiseClientTypes.AccessPolicySummary {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = IoTSiteWiseClientTypes.AccessPolicySummary()
-        value.id = try reader["id"].readIfPresent() ?? ""
-        value.identity = try reader["identity"].readIfPresent(with: IoTSiteWiseClientTypes.Identity.read(from:))
-        value.resource = try reader["resource"].readIfPresent(with: IoTSiteWiseClientTypes.Resource.read(from:))
-        value.permission = try reader["permission"].readIfPresent() ?? .sdkUnknown("")
-        value.creationDate = try reader["creationDate"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
-        value.lastUpdateDate = try reader["lastUpdateDate"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
-        return value
-    }
-}
-
-extension IoTSiteWiseClientTypes.ActionSummary {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> IoTSiteWiseClientTypes.ActionSummary {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = IoTSiteWiseClientTypes.ActionSummary()
-        value.actionId = try reader["actionId"].readIfPresent()
-        value.actionDefinitionId = try reader["actionDefinitionId"].readIfPresent()
-        value.targetResource = try reader["targetResource"].readIfPresent(with: IoTSiteWiseClientTypes.TargetResource.read(from:))
-        value.resolveTo = try reader["resolveTo"].readIfPresent(with: IoTSiteWiseClientTypes.ResolveTo.read(from:))
-        return value
-    }
-}
-
-extension IoTSiteWiseClientTypes.AssetModelPropertySummary {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> IoTSiteWiseClientTypes.AssetModelPropertySummary {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = IoTSiteWiseClientTypes.AssetModelPropertySummary()
-        value.id = try reader["id"].readIfPresent()
-        value.externalId = try reader["externalId"].readIfPresent()
-        value.name = try reader["name"].readIfPresent() ?? ""
-        value.dataType = try reader["dataType"].readIfPresent() ?? .sdkUnknown("")
-        value.dataTypeSpec = try reader["dataTypeSpec"].readIfPresent()
-        value.unit = try reader["unit"].readIfPresent()
-        value.type = try reader["type"].readIfPresent(with: IoTSiteWiseClientTypes.PropertyType.read(from:))
-        value.assetModelCompositeModelId = try reader["assetModelCompositeModelId"].readIfPresent()
-        value.path = try reader["path"].readListIfPresent(memberReadingClosure: IoTSiteWiseClientTypes.AssetModelPropertyPathSegment.read(from:), memberNodeInfo: "member", isFlattened: false)
-        value.interfaceSummaries = try reader["interfaceSummaries"].readListIfPresent(memberReadingClosure: IoTSiteWiseClientTypes.InterfaceSummary.read(from:), memberNodeInfo: "member", isFlattened: false)
-        return value
-    }
-}
-
-extension IoTSiteWiseClientTypes.InterfaceSummary {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> IoTSiteWiseClientTypes.InterfaceSummary {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = IoTSiteWiseClientTypes.InterfaceSummary()
-        value.interfaceAssetModelId = try reader["interfaceAssetModelId"].readIfPresent() ?? ""
-        value.interfaceAssetModelPropertyId = try reader["interfaceAssetModelPropertyId"].readIfPresent() ?? ""
-        return value
-    }
-}
-
-extension IoTSiteWiseClientTypes.AssetModelSummary {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> IoTSiteWiseClientTypes.AssetModelSummary {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = IoTSiteWiseClientTypes.AssetModelSummary()
-        value.id = try reader["id"].readIfPresent() ?? ""
-        value.externalId = try reader["externalId"].readIfPresent()
-        value.arn = try reader["arn"].readIfPresent() ?? ""
-        value.name = try reader["name"].readIfPresent() ?? ""
-        value.assetModelType = try reader["assetModelType"].readIfPresent()
-        value.description = try reader["description"].readIfPresent() ?? ""
-        value.creationDate = try reader["creationDate"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
-        value.lastUpdateDate = try reader["lastUpdateDate"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
-        value.status = try reader["status"].readIfPresent(with: IoTSiteWiseClientTypes.AssetModelStatus.read(from:))
-        value.version = try reader["version"].readIfPresent()
-        return value
-    }
-}
-
-extension IoTSiteWiseClientTypes.AssetPropertySummary {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> IoTSiteWiseClientTypes.AssetPropertySummary {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = IoTSiteWiseClientTypes.AssetPropertySummary()
-        value.id = try reader["id"].readIfPresent() ?? ""
-        value.externalId = try reader["externalId"].readIfPresent()
-        value.alias = try reader["alias"].readIfPresent()
-        value.unit = try reader["unit"].readIfPresent()
-        value.notification = try reader["notification"].readIfPresent(with: IoTSiteWiseClientTypes.PropertyNotification.read(from:))
-        value.assetCompositeModelId = try reader["assetCompositeModelId"].readIfPresent()
-        value.path = try reader["path"].readListIfPresent(memberReadingClosure: IoTSiteWiseClientTypes.AssetPropertyPathSegment.read(from:), memberNodeInfo: "member", isFlattened: false)
-        return value
-    }
-}
-
-extension IoTSiteWiseClientTypes.AssetRelationshipSummary {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> IoTSiteWiseClientTypes.AssetRelationshipSummary {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = IoTSiteWiseClientTypes.AssetRelationshipSummary()
-        value.hierarchyInfo = try reader["hierarchyInfo"].readIfPresent(with: IoTSiteWiseClientTypes.AssetHierarchyInfo.read(from:))
-        value.relationshipType = try reader["relationshipType"].readIfPresent() ?? .sdkUnknown("")
-        return value
-    }
-}
-
-extension IoTSiteWiseClientTypes.AssetHierarchyInfo {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> IoTSiteWiseClientTypes.AssetHierarchyInfo {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = IoTSiteWiseClientTypes.AssetHierarchyInfo()
-        value.parentAssetId = try reader["parentAssetId"].readIfPresent()
-        value.childAssetId = try reader["childAssetId"].readIfPresent()
-        return value
-    }
-}
-
-extension IoTSiteWiseClientTypes.AssetSummary {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> IoTSiteWiseClientTypes.AssetSummary {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = IoTSiteWiseClientTypes.AssetSummary()
-        value.id = try reader["id"].readIfPresent() ?? ""
-        value.externalId = try reader["externalId"].readIfPresent()
-        value.arn = try reader["arn"].readIfPresent() ?? ""
-        value.name = try reader["name"].readIfPresent() ?? ""
-        value.assetModelId = try reader["assetModelId"].readIfPresent() ?? ""
-        value.creationDate = try reader["creationDate"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
-        value.lastUpdateDate = try reader["lastUpdateDate"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
-        value.status = try reader["status"].readIfPresent(with: IoTSiteWiseClientTypes.AssetStatus.read(from:))
-        value.hierarchies = try reader["hierarchies"].readListIfPresent(memberReadingClosure: IoTSiteWiseClientTypes.AssetHierarchy.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
-        value.description = try reader["description"].readIfPresent()
-        return value
-    }
-}
-
-extension IoTSiteWiseClientTypes.AssociatedAssetsSummary {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> IoTSiteWiseClientTypes.AssociatedAssetsSummary {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = IoTSiteWiseClientTypes.AssociatedAssetsSummary()
-        value.id = try reader["id"].readIfPresent() ?? ""
-        value.externalId = try reader["externalId"].readIfPresent()
-        value.arn = try reader["arn"].readIfPresent() ?? ""
-        value.name = try reader["name"].readIfPresent() ?? ""
-        value.assetModelId = try reader["assetModelId"].readIfPresent() ?? ""
-        value.creationDate = try reader["creationDate"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
-        value.lastUpdateDate = try reader["lastUpdateDate"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
-        value.status = try reader["status"].readIfPresent(with: IoTSiteWiseClientTypes.AssetStatus.read(from:))
-        value.hierarchies = try reader["hierarchies"].readListIfPresent(memberReadingClosure: IoTSiteWiseClientTypes.AssetHierarchy.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
-        value.description = try reader["description"].readIfPresent()
-        return value
-    }
-}
-
-extension IoTSiteWiseClientTypes.JobSummary {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> IoTSiteWiseClientTypes.JobSummary {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = IoTSiteWiseClientTypes.JobSummary()
-        value.id = try reader["id"].readIfPresent() ?? ""
-        value.name = try reader["name"].readIfPresent() ?? ""
-        value.status = try reader["status"].readIfPresent() ?? .sdkUnknown("")
-        return value
-    }
-}
-
-extension IoTSiteWiseClientTypes.CompositionRelationshipSummary {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> IoTSiteWiseClientTypes.CompositionRelationshipSummary {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = IoTSiteWiseClientTypes.CompositionRelationshipSummary()
-        value.assetModelId = try reader["assetModelId"].readIfPresent() ?? ""
-        value.assetModelCompositeModelId = try reader["assetModelCompositeModelId"].readIfPresent() ?? ""
-        value.assetModelCompositeModelType = try reader["assetModelCompositeModelType"].readIfPresent() ?? ""
-        return value
-    }
-}
-
-extension IoTSiteWiseClientTypes.ComputationModelDataBindingUsageSummary {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> IoTSiteWiseClientTypes.ComputationModelDataBindingUsageSummary {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = IoTSiteWiseClientTypes.ComputationModelDataBindingUsageSummary()
-        value.computationModelIds = try reader["computationModelIds"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false) ?? []
-        value.matchedDataBinding = try reader["matchedDataBinding"].readIfPresent(with: IoTSiteWiseClientTypes.MatchedDataBinding.read(from:))
-        return value
-    }
-}
-
-extension IoTSiteWiseClientTypes.MatchedDataBinding {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> IoTSiteWiseClientTypes.MatchedDataBinding {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = IoTSiteWiseClientTypes.MatchedDataBinding()
-        value.value = try reader["value"].readIfPresent(with: IoTSiteWiseClientTypes.DataBindingValue.read(from:))
-        return value
-    }
-}
-
-extension IoTSiteWiseClientTypes.DataBindingValue {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> IoTSiteWiseClientTypes.DataBindingValue {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = IoTSiteWiseClientTypes.DataBindingValue()
-        value.assetModelProperty = try reader["assetModelProperty"].readIfPresent(with: IoTSiteWiseClientTypes.AssetModelPropertyBindingValue.read(from:))
-        value.assetProperty = try reader["assetProperty"].readIfPresent(with: IoTSiteWiseClientTypes.AssetPropertyBindingValue.read(from:))
-        return value
-    }
-}
-
-extension IoTSiteWiseClientTypes.ComputationModelResolveToResourceSummary {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> IoTSiteWiseClientTypes.ComputationModelResolveToResourceSummary {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = IoTSiteWiseClientTypes.ComputationModelResolveToResourceSummary()
-        value.resolveTo = try reader["resolveTo"].readIfPresent(with: IoTSiteWiseClientTypes.ResolveTo.read(from:))
-        return value
-    }
-}
-
-extension IoTSiteWiseClientTypes.ComputationModelSummary {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> IoTSiteWiseClientTypes.ComputationModelSummary {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = IoTSiteWiseClientTypes.ComputationModelSummary()
-        value.id = try reader["id"].readIfPresent() ?? ""
-        value.arn = try reader["arn"].readIfPresent() ?? ""
-        value.name = try reader["name"].readIfPresent() ?? ""
-        value.description = try reader["description"].readIfPresent()
-        value.type = try reader["type"].readIfPresent() ?? .sdkUnknown("")
-        value.creationDate = try reader["creationDate"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
-        value.lastUpdateDate = try reader["lastUpdateDate"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
-        value.status = try reader["status"].readIfPresent(with: IoTSiteWiseClientTypes.ComputationModelStatus.read(from:))
-        value.version = try reader["version"].readIfPresent() ?? ""
-        return value
-    }
-}
-
-extension IoTSiteWiseClientTypes.DashboardSummary {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> IoTSiteWiseClientTypes.DashboardSummary {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = IoTSiteWiseClientTypes.DashboardSummary()
-        value.id = try reader["id"].readIfPresent() ?? ""
-        value.name = try reader["name"].readIfPresent() ?? ""
-        value.description = try reader["description"].readIfPresent()
-        value.creationDate = try reader["creationDate"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
-        value.lastUpdateDate = try reader["lastUpdateDate"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
-        return value
-    }
-}
-
-extension IoTSiteWiseClientTypes.DatasetSummary {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> IoTSiteWiseClientTypes.DatasetSummary {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = IoTSiteWiseClientTypes.DatasetSummary()
-        value.id = try reader["id"].readIfPresent() ?? ""
-        value.arn = try reader["arn"].readIfPresent() ?? ""
-        value.name = try reader["name"].readIfPresent() ?? ""
-        value.description = try reader["description"].readIfPresent() ?? ""
-        value.creationDate = try reader["creationDate"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
-        value.lastUpdateDate = try reader["lastUpdateDate"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
-        value.status = try reader["status"].readIfPresent(with: IoTSiteWiseClientTypes.DatasetStatus.read(from:))
-        return value
-    }
-}
-
-extension IoTSiteWiseClientTypes.ExecutionSummary {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> IoTSiteWiseClientTypes.ExecutionSummary {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = IoTSiteWiseClientTypes.ExecutionSummary()
-        value.executionId = try reader["executionId"].readIfPresent() ?? ""
-        value.actionType = try reader["actionType"].readIfPresent()
-        value.targetResource = try reader["targetResource"].readIfPresent(with: IoTSiteWiseClientTypes.TargetResource.read(from:))
-        value.targetResourceVersion = try reader["targetResourceVersion"].readIfPresent() ?? ""
-        value.resolveTo = try reader["resolveTo"].readIfPresent(with: IoTSiteWiseClientTypes.ResolveTo.read(from:))
-        value.executionStartTime = try reader["executionStartTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
-        value.executionEndTime = try reader["executionEndTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
-        value.executionStatus = try reader["executionStatus"].readIfPresent(with: IoTSiteWiseClientTypes.ExecutionStatus.read(from:))
-        value.executionEntityVersion = try reader["executionEntityVersion"].readIfPresent()
-        return value
-    }
-}
-
-extension IoTSiteWiseClientTypes.GatewaySummary {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> IoTSiteWiseClientTypes.GatewaySummary {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = IoTSiteWiseClientTypes.GatewaySummary()
-        value.gatewayId = try reader["gatewayId"].readIfPresent() ?? ""
-        value.gatewayName = try reader["gatewayName"].readIfPresent() ?? ""
-        value.gatewayPlatform = try reader["gatewayPlatform"].readIfPresent(with: IoTSiteWiseClientTypes.GatewayPlatform.read(from:))
-        value.gatewayVersion = try reader["gatewayVersion"].readIfPresent()
-        value.gatewayCapabilitySummaries = try reader["gatewayCapabilitySummaries"].readListIfPresent(memberReadingClosure: IoTSiteWiseClientTypes.GatewayCapabilitySummary.read(from:), memberNodeInfo: "member", isFlattened: false)
-        value.creationDate = try reader["creationDate"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
-        value.lastUpdateDate = try reader["lastUpdateDate"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
-        return value
-    }
-}
-
-extension IoTSiteWiseClientTypes.InterfaceRelationshipSummary {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> IoTSiteWiseClientTypes.InterfaceRelationshipSummary {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = IoTSiteWiseClientTypes.InterfaceRelationshipSummary()
-        value.id = try reader["id"].readIfPresent() ?? ""
-        return value
-    }
-}
-
-extension IoTSiteWiseClientTypes.PortalSummary {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> IoTSiteWiseClientTypes.PortalSummary {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = IoTSiteWiseClientTypes.PortalSummary()
-        value.id = try reader["id"].readIfPresent() ?? ""
-        value.name = try reader["name"].readIfPresent() ?? ""
-        value.description = try reader["description"].readIfPresent()
-        value.startUrl = try reader["startUrl"].readIfPresent() ?? ""
-        value.creationDate = try reader["creationDate"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
-        value.lastUpdateDate = try reader["lastUpdateDate"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
-        value.roleArn = try reader["roleArn"].readIfPresent()
-        value.status = try reader["status"].readIfPresent(with: IoTSiteWiseClientTypes.PortalStatus.read(from:))
-        value.portalType = try reader["portalType"].readIfPresent()
-        return value
-    }
-}
-
-extension IoTSiteWiseClientTypes.ProjectSummary {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> IoTSiteWiseClientTypes.ProjectSummary {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = IoTSiteWiseClientTypes.ProjectSummary()
-        value.id = try reader["id"].readIfPresent() ?? ""
-        value.name = try reader["name"].readIfPresent() ?? ""
-        value.description = try reader["description"].readIfPresent()
-        value.creationDate = try reader["creationDate"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
-        value.lastUpdateDate = try reader["lastUpdateDate"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
-        return value
-    }
-}
-
-extension IoTSiteWiseClientTypes.TimeSeriesSummary {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> IoTSiteWiseClientTypes.TimeSeriesSummary {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = IoTSiteWiseClientTypes.TimeSeriesSummary()
-        value.assetId = try reader["assetId"].readIfPresent()
-        value.propertyId = try reader["propertyId"].readIfPresent()
-        value.alias = try reader["alias"].readIfPresent()
-        value.timeSeriesId = try reader["timeSeriesId"].readIfPresent() ?? ""
-        value.dataType = try reader["dataType"].readIfPresent() ?? .sdkUnknown("")
-        value.dataTypeSpec = try reader["dataTypeSpec"].readIfPresent()
-        value.timeSeriesCreationDate = try reader["timeSeriesCreationDate"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
-        value.timeSeriesLastUpdateDate = try reader["timeSeriesLastUpdateDate"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
-        value.timeSeriesArn = try reader["timeSeriesArn"].readIfPresent() ?? ""
-        return value
-    }
-}
-
-extension IoTSiteWiseClientTypes.BatchGetAssetPropertyAggregatesEntry {
-
-    static func write(value: IoTSiteWiseClientTypes.BatchGetAssetPropertyAggregatesEntry?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["aggregateTypes"].writeList(value.aggregateTypes, memberWritingClosure: SmithyReadWrite.WritingClosureBox<IoTSiteWiseClientTypes.AggregateType>().write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["assetId"].write(value.assetId)
-        try writer["endDate"].writeTimestamp(value.endDate, format: SmithyTimestamps.TimestampFormat.epochSeconds)
-        try writer["entryId"].write(value.entryId)
-        try writer["propertyAlias"].write(value.propertyAlias)
-        try writer["propertyId"].write(value.propertyId)
-        try writer["qualities"].writeList(value.qualities, memberWritingClosure: SmithyReadWrite.WritingClosureBox<IoTSiteWiseClientTypes.Quality>().write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["resolution"].write(value.resolution)
-        try writer["startDate"].writeTimestamp(value.startDate, format: SmithyTimestamps.TimestampFormat.epochSeconds)
-        try writer["timeOrdering"].write(value.timeOrdering)
-    }
-}
-
-extension IoTSiteWiseClientTypes.BatchGetAssetPropertyValueEntry {
-
-    static func write(value: IoTSiteWiseClientTypes.BatchGetAssetPropertyValueEntry?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["assetId"].write(value.assetId)
-        try writer["entryId"].write(value.entryId)
-        try writer["propertyAlias"].write(value.propertyAlias)
-        try writer["propertyId"].write(value.propertyId)
-    }
-}
-
-extension IoTSiteWiseClientTypes.BatchGetAssetPropertyValueHistoryEntry {
-
-    static func write(value: IoTSiteWiseClientTypes.BatchGetAssetPropertyValueHistoryEntry?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["assetId"].write(value.assetId)
-        try writer["endDate"].writeTimestamp(value.endDate, format: SmithyTimestamps.TimestampFormat.epochSeconds)
-        try writer["entryId"].write(value.entryId)
-        try writer["propertyAlias"].write(value.propertyAlias)
-        try writer["propertyId"].write(value.propertyId)
-        try writer["qualities"].writeList(value.qualities, memberWritingClosure: SmithyReadWrite.WritingClosureBox<IoTSiteWiseClientTypes.Quality>().write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["startDate"].writeTimestamp(value.startDate, format: SmithyTimestamps.TimestampFormat.epochSeconds)
-        try writer["timeOrdering"].write(value.timeOrdering)
-    }
-}
-
-extension IoTSiteWiseClientTypes.PutAssetPropertyValueEntry {
-
-    static func write(value: IoTSiteWiseClientTypes.PutAssetPropertyValueEntry?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["assetId"].write(value.assetId)
-        try writer["entryId"].write(value.entryId)
-        try writer["propertyAlias"].write(value.propertyAlias)
-        try writer["propertyId"].write(value.propertyId)
-        try writer["propertyValues"].writeList(value.propertyValues, memberWritingClosure: IoTSiteWiseClientTypes.AssetPropertyValue.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-    }
-}
-
-extension IoTSiteWiseClientTypes.AssetModelPropertyDefinition {
-
-    static func write(value: IoTSiteWiseClientTypes.AssetModelPropertyDefinition?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["dataType"].write(value.dataType)
-        try writer["dataTypeSpec"].write(value.dataTypeSpec)
-        try writer["externalId"].write(value.externalId)
-        try writer["id"].write(value.id)
-        try writer["name"].write(value.name)
-        try writer["type"].write(value.type, with: IoTSiteWiseClientTypes.PropertyType.write(value:to:))
-        try writer["unit"].write(value.unit)
-    }
-}
-
-extension IoTSiteWiseClientTypes.AssetModelHierarchyDefinition {
-
-    static func write(value: IoTSiteWiseClientTypes.AssetModelHierarchyDefinition?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["childAssetModelId"].write(value.childAssetModelId)
-        try writer["externalId"].write(value.externalId)
-        try writer["id"].write(value.id)
-        try writer["name"].write(value.name)
-    }
-}
-
-extension IoTSiteWiseClientTypes.AssetModelCompositeModelDefinition {
-
-    static func write(value: IoTSiteWiseClientTypes.AssetModelCompositeModelDefinition?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["description"].write(value.description)
-        try writer["externalId"].write(value.externalId)
-        try writer["id"].write(value.id)
-        try writer["name"].write(value.name)
-        try writer["properties"].writeList(value.properties, memberWritingClosure: IoTSiteWiseClientTypes.AssetModelPropertyDefinition.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["type"].write(value.type)
-    }
-}
-
-extension IoTSiteWiseClientTypes.ImageFile {
-
-    static func write(value: IoTSiteWiseClientTypes.ImageFile?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["data"].write(value.data)
-        try writer["type"].write(value.type)
-    }
-}
-
-extension IoTSiteWiseClientTypes.DataBindingValueFilter {
-
-    static func write(value: IoTSiteWiseClientTypes.DataBindingValueFilter?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["asset"].write(value.asset, with: IoTSiteWiseClientTypes.AssetBindingValueFilter.write(value:to:))
-        try writer["assetModel"].write(value.assetModel, with: IoTSiteWiseClientTypes.AssetModelBindingValueFilter.write(value:to:))
-        try writer["assetModelProperty"].write(value.assetModelProperty, with: IoTSiteWiseClientTypes.AssetModelPropertyBindingValueFilter.write(value:to:))
-        try writer["assetProperty"].write(value.assetProperty, with: IoTSiteWiseClientTypes.AssetPropertyBindingValueFilter.write(value:to:))
-    }
-}
-
-extension IoTSiteWiseClientTypes.AssetModelPropertyBindingValueFilter {
-
-    static func write(value: IoTSiteWiseClientTypes.AssetModelPropertyBindingValueFilter?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["assetModelId"].write(value.assetModelId)
-        try writer["propertyId"].write(value.propertyId)
-    }
-}
-
-extension IoTSiteWiseClientTypes.AssetPropertyBindingValueFilter {
-
-    static func write(value: IoTSiteWiseClientTypes.AssetPropertyBindingValueFilter?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["assetId"].write(value.assetId)
-        try writer["propertyId"].write(value.propertyId)
-    }
-}
-
-extension IoTSiteWiseClientTypes.AssetModelBindingValueFilter {
-
-    static func write(value: IoTSiteWiseClientTypes.AssetModelBindingValueFilter?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["assetModelId"].write(value.assetModelId)
-    }
-}
-
-extension IoTSiteWiseClientTypes.AssetBindingValueFilter {
-
-    static func write(value: IoTSiteWiseClientTypes.AssetBindingValueFilter?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["assetId"].write(value.assetId)
-    }
-}
-
-extension IoTSiteWiseClientTypes.PropertyMappingConfiguration {
-
-    static func write(value: IoTSiteWiseClientTypes.PropertyMappingConfiguration?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["createMissingProperty"].write(value.createMissingProperty)
-        try writer["matchByPropertyName"].write(value.matchByPropertyName)
-        try writer["overrides"].writeList(value.overrides, memberWritingClosure: IoTSiteWiseClientTypes.PropertyMapping.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-    }
-}
-
-extension IoTSiteWiseClientTypes.Image {
-
-    static func write(value: IoTSiteWiseClientTypes.Image?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["file"].write(value.file, with: IoTSiteWiseClientTypes.ImageFile.write(value:to:))
-        try writer["id"].write(value.id)
     }
 }
 

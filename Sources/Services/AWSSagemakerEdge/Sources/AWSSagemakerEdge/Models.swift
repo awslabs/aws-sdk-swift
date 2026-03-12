@@ -20,8 +20,8 @@ import protocol ClientRuntime.HTTPError
 import protocol ClientRuntime.ModeledError
 @_spi(SmithyReadWrite) import protocol SmithyReadWrite.SmithyReader
 @_spi(SmithyReadWrite) import protocol SmithyReadWrite.SmithyWriter
-@_spi(SmithyReadWrite) import struct AWSClientRuntime.RestJSONError
 @_spi(UnknownAWSHTTPServiceError) import struct AWSClientRuntime.UnknownAWSHTTPServiceError
+@_spi(SmithyReadWrite) import struct ClientRuntime.RestJSONError
 
 
 public struct SendHeartbeatOutput: Swift.Sendable {
@@ -583,7 +583,7 @@ enum GetDeploymentsOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "InternalServiceException": return try InternalServiceException.makeError(baseError: baseError)
@@ -597,7 +597,7 @@ enum GetDeviceRegistrationOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "InternalServiceException": return try InternalServiceException.makeError(baseError: baseError)
@@ -611,7 +611,7 @@ enum SendHeartbeatOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "InternalServiceException": return try InternalServiceException.makeError(baseError: baseError)
@@ -622,7 +622,7 @@ enum SendHeartbeatOutputError {
 
 extension InternalServiceException {
 
-    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> InternalServiceException {
+    static func makeError(baseError: ClientRuntime.RestJSONError) throws -> InternalServiceException {
         let reader = baseError.errorBodyReader
         var value = InternalServiceException()
         value.properties.message = try reader["Message"].readIfPresent()
@@ -633,15 +633,13 @@ extension InternalServiceException {
     }
 }
 
-extension SagemakerEdgeClientTypes.EdgeDeployment {
+extension SagemakerEdgeClientTypes.Checksum {
 
-    static func read(from reader: SmithyJSON.Reader) throws -> SagemakerEdgeClientTypes.EdgeDeployment {
+    static func read(from reader: SmithyJSON.Reader) throws -> SagemakerEdgeClientTypes.Checksum {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = SagemakerEdgeClientTypes.EdgeDeployment()
-        value.deploymentName = try reader["DeploymentName"].readIfPresent()
+        var value = SagemakerEdgeClientTypes.Checksum()
         value.type = try reader["Type"].readIfPresent()
-        value.failureHandlingPolicy = try reader["FailureHandlingPolicy"].readIfPresent()
-        value.definitions = try reader["Definitions"].readListIfPresent(memberReadingClosure: SagemakerEdgeClientTypes.Definition.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.sum = try reader["Sum"].readIfPresent()
         return value
     }
 }
@@ -659,13 +657,43 @@ extension SagemakerEdgeClientTypes.Definition {
     }
 }
 
-extension SagemakerEdgeClientTypes.Checksum {
+extension SagemakerEdgeClientTypes.DeploymentModel {
 
-    static func read(from reader: SmithyJSON.Reader) throws -> SagemakerEdgeClientTypes.Checksum {
+    static func write(value: SagemakerEdgeClientTypes.DeploymentModel?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["DesiredState"].write(value.desiredState)
+        try writer["ModelHandle"].write(value.modelHandle)
+        try writer["ModelName"].write(value.modelName)
+        try writer["ModelVersion"].write(value.modelVersion)
+        try writer["RollbackFailureReason"].write(value.rollbackFailureReason)
+        try writer["State"].write(value.state)
+        try writer["Status"].write(value.status)
+        try writer["StatusReason"].write(value.statusReason)
+    }
+}
+
+extension SagemakerEdgeClientTypes.DeploymentResult {
+
+    static func write(value: SagemakerEdgeClientTypes.DeploymentResult?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["DeploymentEndTime"].writeTimestamp(value.deploymentEndTime, format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        try writer["DeploymentModels"].writeList(value.deploymentModels, memberWritingClosure: SagemakerEdgeClientTypes.DeploymentModel.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["DeploymentName"].write(value.deploymentName)
+        try writer["DeploymentStartTime"].writeTimestamp(value.deploymentStartTime, format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        try writer["DeploymentStatus"].write(value.deploymentStatus)
+        try writer["DeploymentStatusMessage"].write(value.deploymentStatusMessage)
+    }
+}
+
+extension SagemakerEdgeClientTypes.EdgeDeployment {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> SagemakerEdgeClientTypes.EdgeDeployment {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = SagemakerEdgeClientTypes.Checksum()
+        var value = SagemakerEdgeClientTypes.EdgeDeployment()
+        value.deploymentName = try reader["DeploymentName"].readIfPresent()
         value.type = try reader["Type"].readIfPresent()
-        value.sum = try reader["Sum"].readIfPresent()
+        value.failureHandlingPolicy = try reader["FailureHandlingPolicy"].readIfPresent()
+        value.definitions = try reader["Definitions"].readListIfPresent(memberReadingClosure: SagemakerEdgeClientTypes.Definition.read(from:), memberNodeInfo: "member", isFlattened: false)
         return value
     }
 }
@@ -690,34 +718,6 @@ extension SagemakerEdgeClientTypes.Model {
         try writer["ModelMetrics"].writeList(value.modelMetrics, memberWritingClosure: SagemakerEdgeClientTypes.EdgeMetric.write(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["ModelName"].write(value.modelName)
         try writer["ModelVersion"].write(value.modelVersion)
-    }
-}
-
-extension SagemakerEdgeClientTypes.DeploymentResult {
-
-    static func write(value: SagemakerEdgeClientTypes.DeploymentResult?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["DeploymentEndTime"].writeTimestamp(value.deploymentEndTime, format: SmithyTimestamps.TimestampFormat.epochSeconds)
-        try writer["DeploymentModels"].writeList(value.deploymentModels, memberWritingClosure: SagemakerEdgeClientTypes.DeploymentModel.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["DeploymentName"].write(value.deploymentName)
-        try writer["DeploymentStartTime"].writeTimestamp(value.deploymentStartTime, format: SmithyTimestamps.TimestampFormat.epochSeconds)
-        try writer["DeploymentStatus"].write(value.deploymentStatus)
-        try writer["DeploymentStatusMessage"].write(value.deploymentStatusMessage)
-    }
-}
-
-extension SagemakerEdgeClientTypes.DeploymentModel {
-
-    static func write(value: SagemakerEdgeClientTypes.DeploymentModel?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["DesiredState"].write(value.desiredState)
-        try writer["ModelHandle"].write(value.modelHandle)
-        try writer["ModelName"].write(value.modelName)
-        try writer["ModelVersion"].write(value.modelVersion)
-        try writer["RollbackFailureReason"].write(value.rollbackFailureReason)
-        try writer["State"].write(value.state)
-        try writer["Status"].write(value.status)
-        try writer["StatusReason"].write(value.statusReason)
     }
 }
 

@@ -1880,6 +1880,78 @@ extension MPAClient {
         return try await op.execute(input: input)
     }
 
+    /// Performs the `StartApprovalTeamBaseline` operation on the `MPA` service.
+    ///
+    /// Starts a baseline session for specified approvers on an ACTIVE approval team.
+    ///
+    /// - Parameter input: [no documentation found] (Type: `StartApprovalTeamBaselineInput`)
+    ///
+    /// - Returns: [no documentation found] (Type: `StartApprovalTeamBaselineOutput`)
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You do not have sufficient access to perform this action. Check your permissions, and try again.
+    /// - `InternalServerException` : The service encountered an internal error. Try your request again. If the problem persists, contact Amazon Web Services Support.
+    /// - `ResourceNotFoundException` : The specified resource doesn't exist. Check the resource ID, and try again.
+    /// - `ThrottlingException` : The request was denied due to request throttling.
+    /// - `ValidationException` : The input fails to satisfy the constraints specified by an Amazon Web Services service.
+    public func startApprovalTeamBaseline(input: StartApprovalTeamBaselineInput) async throws -> StartApprovalTeamBaselineOutput {
+        let context = Smithy.ContextBuilder()
+                      .withMethod(value: .post)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "startApprovalTeamBaseline")
+                      .withUnsignedPayloadTrait(value: false)
+                      .withSmithyDefaultConfig(config)
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
+                      .withSigningName(value: "mpa")
+                      .withSigningRegion(value: config.signingRegion)
+                      .build()
+        let builder = ClientRuntime.OrchestratorBuilder<StartApprovalTeamBaselineInput, StartApprovalTeamBaselineOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<StartApprovalTeamBaselineInput, StartApprovalTeamBaselineOutput>(StartApprovalTeamBaselineInput.urlPathProvider(_:)))
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<StartApprovalTeamBaselineInput, StartApprovalTeamBaselineOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<StartApprovalTeamBaselineInput, StartApprovalTeamBaselineOutput>(contentType: "application/json"))
+        builder.serialize(ClientRuntime.BodyMiddleware<StartApprovalTeamBaselineInput, StartApprovalTeamBaselineOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: StartApprovalTeamBaselineInput.write(value:to:)))
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<StartApprovalTeamBaselineInput, StartApprovalTeamBaselineOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<StartApprovalTeamBaselineOutput>(StartApprovalTeamBaselineOutput.httpOutput(from:), StartApprovalTeamBaselineOutputError.httpError(from:)))
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<StartApprovalTeamBaselineInput, StartApprovalTeamBaselineOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
+        builder.applySigner(ClientRuntime.SignerMiddleware<StartApprovalTeamBaselineOutput>())
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("MPA", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(endpoint: configuredEndpoint, region: config.region, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<StartApprovalTeamBaselineOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<StartApprovalTeamBaselineOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<StartApprovalTeamBaselineInput, StartApprovalTeamBaselineOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<StartApprovalTeamBaselineInput, StartApprovalTeamBaselineOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<StartApprovalTeamBaselineInput, StartApprovalTeamBaselineOutput>(serviceID: serviceName, version: MPAClient.version, config: config))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "MPA")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "StartApprovalTeamBaseline")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
+    }
+
     /// Performs the `TagResource` operation on the `MPA` service.
     ///
     /// Creates or updates a resource tag. Each tag is a label consisting of a user-defined key and value. Tags can help you manage, identify, organize, search for, and filter resources.

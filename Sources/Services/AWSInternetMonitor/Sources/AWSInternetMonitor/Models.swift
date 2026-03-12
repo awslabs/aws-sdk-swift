@@ -24,8 +24,8 @@ import protocol ClientRuntime.HTTPError
 import protocol ClientRuntime.ModeledError
 @_spi(SmithyReadWrite) import protocol SmithyReadWrite.SmithyReader
 @_spi(SmithyReadWrite) import protocol SmithyReadWrite.SmithyWriter
-@_spi(SmithyReadWrite) import struct AWSClientRuntime.RestJSONError
 @_spi(UnknownAWSHTTPServiceError) import struct AWSClientRuntime.UnknownAWSHTTPServiceError
+@_spi(SmithyReadWrite) import struct ClientRuntime.RestJSONError
 import struct Smithy.URIQueryItem
 @_spi(SmithyTimestamps) import struct SmithyTimestamps.TimestampFormatter
 
@@ -2486,7 +2486,7 @@ enum CreateMonitorOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
@@ -2505,7 +2505,7 @@ enum DeleteMonitorOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
@@ -2522,7 +2522,7 @@ enum GetHealthEventOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
@@ -2539,7 +2539,7 @@ enum GetInternetEventOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
@@ -2556,7 +2556,7 @@ enum GetMonitorOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
@@ -2573,7 +2573,7 @@ enum GetQueryResultsOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
@@ -2591,7 +2591,7 @@ enum GetQueryStatusOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
@@ -2609,7 +2609,7 @@ enum ListHealthEventsOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
@@ -2626,7 +2626,7 @@ enum ListInternetEventsOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
@@ -2643,7 +2643,7 @@ enum ListMonitorsOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
@@ -2660,7 +2660,7 @@ enum ListTagsForResourceOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
@@ -2678,7 +2678,7 @@ enum StartQueryOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
@@ -2696,7 +2696,7 @@ enum StopQueryOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
@@ -2714,7 +2714,7 @@ enum TagResourceOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
@@ -2732,7 +2732,7 @@ enum UntagResourceOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
@@ -2750,7 +2750,7 @@ enum UpdateMonitorOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
@@ -2766,7 +2766,7 @@ enum UpdateMonitorOutputError {
 
 extension AccessDeniedException {
 
-    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> AccessDeniedException {
+    static func makeError(baseError: ClientRuntime.RestJSONError) throws -> AccessDeniedException {
         let reader = baseError.errorBodyReader
         var value = AccessDeniedException()
         value.properties.message = try reader["message"].readIfPresent()
@@ -2779,7 +2779,7 @@ extension AccessDeniedException {
 
 extension ConflictException {
 
-    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> ConflictException {
+    static func makeError(baseError: ClientRuntime.RestJSONError) throws -> ConflictException {
         let reader = baseError.errorBodyReader
         var value = ConflictException()
         value.properties.message = try reader["message"].readIfPresent()
@@ -2792,7 +2792,7 @@ extension ConflictException {
 
 extension InternalServerException {
 
-    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> InternalServerException {
+    static func makeError(baseError: ClientRuntime.RestJSONError) throws -> InternalServerException {
         let reader = baseError.errorBodyReader
         var value = InternalServerException()
         value.properties.message = try reader["message"].readIfPresent()
@@ -2805,7 +2805,7 @@ extension InternalServerException {
 
 extension LimitExceededException {
 
-    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> LimitExceededException {
+    static func makeError(baseError: ClientRuntime.RestJSONError) throws -> LimitExceededException {
         let reader = baseError.errorBodyReader
         var value = LimitExceededException()
         value.properties.message = try reader["message"].readIfPresent()
@@ -2818,7 +2818,7 @@ extension LimitExceededException {
 
 extension ThrottlingException {
 
-    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> ThrottlingException {
+    static func makeError(baseError: ClientRuntime.RestJSONError) throws -> ThrottlingException {
         let reader = baseError.errorBodyReader
         var value = ThrottlingException()
         value.properties.message = try reader["message"].readIfPresent()
@@ -2831,7 +2831,7 @@ extension ThrottlingException {
 
 extension ValidationException {
 
-    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> ValidationException {
+    static func makeError(baseError: ClientRuntime.RestJSONError) throws -> ValidationException {
         let reader = baseError.errorBodyReader
         var value = ValidationException()
         value.properties.message = try reader["message"].readIfPresent()
@@ -2844,7 +2844,7 @@ extension ValidationException {
 
 extension BadRequestException {
 
-    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> BadRequestException {
+    static func makeError(baseError: ClientRuntime.RestJSONError) throws -> BadRequestException {
         let reader = baseError.errorBodyReader
         var value = BadRequestException()
         value.properties.message = try reader["message"].readIfPresent()
@@ -2857,7 +2857,7 @@ extension BadRequestException {
 
 extension InternalServerErrorException {
 
-    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> InternalServerErrorException {
+    static func makeError(baseError: ClientRuntime.RestJSONError) throws -> InternalServerErrorException {
         let reader = baseError.errorBodyReader
         var value = InternalServerErrorException()
         value.properties.message = try reader["message"].readIfPresent()
@@ -2870,7 +2870,7 @@ extension InternalServerErrorException {
 
 extension NotFoundException {
 
-    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> NotFoundException {
+    static func makeError(baseError: ClientRuntime.RestJSONError) throws -> NotFoundException {
         let reader = baseError.errorBodyReader
         var value = NotFoundException()
         value.properties.message = try reader["message"].readIfPresent()
@@ -2883,7 +2883,7 @@ extension NotFoundException {
 
 extension TooManyRequestsException {
 
-    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> TooManyRequestsException {
+    static func makeError(baseError: ClientRuntime.RestJSONError) throws -> TooManyRequestsException {
         let reader = baseError.errorBodyReader
         var value = TooManyRequestsException()
         value.properties.message = try reader["message"].readIfPresent()
@@ -2896,13 +2896,93 @@ extension TooManyRequestsException {
 
 extension ResourceNotFoundException {
 
-    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> ResourceNotFoundException {
+    static func makeError(baseError: ClientRuntime.RestJSONError) throws -> ResourceNotFoundException {
         let reader = baseError.errorBodyReader
         var value = ResourceNotFoundException()
         value.properties.message = try reader["message"].readIfPresent()
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
         value.message = baseError.message
+        return value
+    }
+}
+
+extension InternetMonitorClientTypes.AvailabilityMeasurement {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> InternetMonitorClientTypes.AvailabilityMeasurement {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = InternetMonitorClientTypes.AvailabilityMeasurement()
+        value.experienceScore = try reader["ExperienceScore"].readIfPresent()
+        value.percentOfTotalTrafficImpacted = try reader["PercentOfTotalTrafficImpacted"].readIfPresent()
+        value.percentOfClientLocationImpacted = try reader["PercentOfClientLocationImpacted"].readIfPresent()
+        return value
+    }
+}
+
+extension InternetMonitorClientTypes.ClientLocation {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> InternetMonitorClientTypes.ClientLocation {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = InternetMonitorClientTypes.ClientLocation()
+        value.asName = try reader["ASName"].readIfPresent() ?? ""
+        value.asNumber = try reader["ASNumber"].readIfPresent() ?? 0
+        value.country = try reader["Country"].readIfPresent() ?? ""
+        value.subdivision = try reader["Subdivision"].readIfPresent()
+        value.metro = try reader["Metro"].readIfPresent()
+        value.city = try reader["City"].readIfPresent() ?? ""
+        value.latitude = try reader["Latitude"].readIfPresent() ?? 0.0
+        value.longitude = try reader["Longitude"].readIfPresent() ?? 0.0
+        return value
+    }
+}
+
+extension InternetMonitorClientTypes.FilterParameter {
+
+    static func write(value: InternetMonitorClientTypes.FilterParameter?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["Field"].write(value.field)
+        try writer["Operator"].write(value.`operator`)
+        try writer["Values"].writeList(value.values, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+    }
+}
+
+extension InternetMonitorClientTypes.HealthEvent {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> InternetMonitorClientTypes.HealthEvent {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = InternetMonitorClientTypes.HealthEvent()
+        value.eventArn = try reader["EventArn"].readIfPresent() ?? ""
+        value.eventId = try reader["EventId"].readIfPresent() ?? ""
+        value.startedAt = try reader["StartedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        value.endedAt = try reader["EndedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
+        value.createdAt = try reader["CreatedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
+        value.lastUpdatedAt = try reader["LastUpdatedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        value.impactedLocations = try reader["ImpactedLocations"].readListIfPresent(memberReadingClosure: InternetMonitorClientTypes.ImpactedLocation.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        value.status = try reader["Status"].readIfPresent() ?? .sdkUnknown("")
+        value.percentOfTotalTrafficImpacted = try reader["PercentOfTotalTrafficImpacted"].readIfPresent()
+        value.impactType = try reader["ImpactType"].readIfPresent() ?? .sdkUnknown("")
+        value.healthScoreThreshold = try reader["HealthScoreThreshold"].readIfPresent() ?? 0
+        return value
+    }
+}
+
+extension InternetMonitorClientTypes.HealthEventsConfig {
+
+    static func write(value: InternetMonitorClientTypes.HealthEventsConfig?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["AvailabilityLocalHealthEventsConfig"].write(value.availabilityLocalHealthEventsConfig, with: InternetMonitorClientTypes.LocalHealthEventsConfig.write(value:to:))
+        try writer["AvailabilityScoreThreshold"].write(value.availabilityScoreThreshold)
+        try writer["PerformanceLocalHealthEventsConfig"].write(value.performanceLocalHealthEventsConfig, with: InternetMonitorClientTypes.LocalHealthEventsConfig.write(value:to:))
+        try writer["PerformanceScoreThreshold"].write(value.performanceScoreThreshold)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> InternetMonitorClientTypes.HealthEventsConfig {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = InternetMonitorClientTypes.HealthEventsConfig()
+        value.availabilityScoreThreshold = try reader["AvailabilityScoreThreshold"].readIfPresent() ?? 0
+        value.performanceScoreThreshold = try reader["PerformanceScoreThreshold"].readIfPresent() ?? 0
+        value.availabilityLocalHealthEventsConfig = try reader["AvailabilityLocalHealthEventsConfig"].readIfPresent(with: InternetMonitorClientTypes.LocalHealthEventsConfig.read(from:))
+        value.performanceLocalHealthEventsConfig = try reader["PerformanceLocalHealthEventsConfig"].readIfPresent(with: InternetMonitorClientTypes.LocalHealthEventsConfig.read(from:))
         return value
     }
 }
@@ -2931,6 +3011,22 @@ extension InternetMonitorClientTypes.ImpactedLocation {
     }
 }
 
+extension InternetMonitorClientTypes.InternetEventSummary {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> InternetMonitorClientTypes.InternetEventSummary {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = InternetMonitorClientTypes.InternetEventSummary()
+        value.eventId = try reader["EventId"].readIfPresent() ?? ""
+        value.eventArn = try reader["EventArn"].readIfPresent() ?? ""
+        value.startedAt = try reader["StartedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        value.endedAt = try reader["EndedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
+        value.clientLocation = try reader["ClientLocation"].readIfPresent(with: InternetMonitorClientTypes.ClientLocation.read(from:))
+        value.eventType = try reader["EventType"].readIfPresent() ?? .sdkUnknown("")
+        value.eventStatus = try reader["EventStatus"].readIfPresent() ?? .sdkUnknown("")
+        return value
+    }
+}
+
 extension InternetMonitorClientTypes.InternetHealth {
 
     static func read(from reader: SmithyJSON.Reader) throws -> InternetMonitorClientTypes.InternetHealth {
@@ -2938,83 +3034,6 @@ extension InternetMonitorClientTypes.InternetHealth {
         var value = InternetMonitorClientTypes.InternetHealth()
         value.availability = try reader["Availability"].readIfPresent(with: InternetMonitorClientTypes.AvailabilityMeasurement.read(from:))
         value.performance = try reader["Performance"].readIfPresent(with: InternetMonitorClientTypes.PerformanceMeasurement.read(from:))
-        return value
-    }
-}
-
-extension InternetMonitorClientTypes.PerformanceMeasurement {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> InternetMonitorClientTypes.PerformanceMeasurement {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = InternetMonitorClientTypes.PerformanceMeasurement()
-        value.experienceScore = try reader["ExperienceScore"].readIfPresent()
-        value.percentOfTotalTrafficImpacted = try reader["PercentOfTotalTrafficImpacted"].readIfPresent()
-        value.percentOfClientLocationImpacted = try reader["PercentOfClientLocationImpacted"].readIfPresent()
-        value.roundTripTime = try reader["RoundTripTime"].readIfPresent(with: InternetMonitorClientTypes.RoundTripTime.read(from:))
-        return value
-    }
-}
-
-extension InternetMonitorClientTypes.RoundTripTime {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> InternetMonitorClientTypes.RoundTripTime {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = InternetMonitorClientTypes.RoundTripTime()
-        value.p50 = try reader["P50"].readIfPresent()
-        value.p90 = try reader["P90"].readIfPresent()
-        value.p95 = try reader["P95"].readIfPresent()
-        return value
-    }
-}
-
-extension InternetMonitorClientTypes.AvailabilityMeasurement {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> InternetMonitorClientTypes.AvailabilityMeasurement {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = InternetMonitorClientTypes.AvailabilityMeasurement()
-        value.experienceScore = try reader["ExperienceScore"].readIfPresent()
-        value.percentOfTotalTrafficImpacted = try reader["PercentOfTotalTrafficImpacted"].readIfPresent()
-        value.percentOfClientLocationImpacted = try reader["PercentOfClientLocationImpacted"].readIfPresent()
-        return value
-    }
-}
-
-extension InternetMonitorClientTypes.NetworkImpairment {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> InternetMonitorClientTypes.NetworkImpairment {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = InternetMonitorClientTypes.NetworkImpairment()
-        value.networks = try reader["Networks"].readListIfPresent(memberReadingClosure: InternetMonitorClientTypes.Network.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
-        value.asPath = try reader["AsPath"].readListIfPresent(memberReadingClosure: InternetMonitorClientTypes.Network.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
-        value.networkEventType = try reader["NetworkEventType"].readIfPresent() ?? .sdkUnknown("")
-        return value
-    }
-}
-
-extension InternetMonitorClientTypes.Network {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> InternetMonitorClientTypes.Network {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = InternetMonitorClientTypes.Network()
-        value.asName = try reader["ASName"].readIfPresent() ?? ""
-        value.asNumber = try reader["ASNumber"].readIfPresent() ?? 0
-        return value
-    }
-}
-
-extension InternetMonitorClientTypes.ClientLocation {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> InternetMonitorClientTypes.ClientLocation {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = InternetMonitorClientTypes.ClientLocation()
-        value.asName = try reader["ASName"].readIfPresent() ?? ""
-        value.asNumber = try reader["ASNumber"].readIfPresent() ?? 0
-        value.country = try reader["Country"].readIfPresent() ?? ""
-        value.subdivision = try reader["Subdivision"].readIfPresent()
-        value.metro = try reader["Metro"].readIfPresent()
-        value.city = try reader["City"].readIfPresent() ?? ""
-        value.latitude = try reader["Latitude"].readIfPresent() ?? 0.0
-        value.longitude = try reader["Longitude"].readIfPresent() ?? 0.0
         return value
     }
 }
@@ -3030,46 +3049,6 @@ extension InternetMonitorClientTypes.InternetMeasurementsLogDelivery {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = InternetMonitorClientTypes.InternetMeasurementsLogDelivery()
         value.s3Config = try reader["S3Config"].readIfPresent(with: InternetMonitorClientTypes.S3Config.read(from:))
-        return value
-    }
-}
-
-extension InternetMonitorClientTypes.S3Config {
-
-    static func write(value: InternetMonitorClientTypes.S3Config?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["BucketName"].write(value.bucketName)
-        try writer["BucketPrefix"].write(value.bucketPrefix)
-        try writer["LogDeliveryStatus"].write(value.logDeliveryStatus)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> InternetMonitorClientTypes.S3Config {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = InternetMonitorClientTypes.S3Config()
-        value.bucketName = try reader["BucketName"].readIfPresent()
-        value.bucketPrefix = try reader["BucketPrefix"].readIfPresent()
-        value.logDeliveryStatus = try reader["LogDeliveryStatus"].readIfPresent()
-        return value
-    }
-}
-
-extension InternetMonitorClientTypes.HealthEventsConfig {
-
-    static func write(value: InternetMonitorClientTypes.HealthEventsConfig?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["AvailabilityLocalHealthEventsConfig"].write(value.availabilityLocalHealthEventsConfig, with: InternetMonitorClientTypes.LocalHealthEventsConfig.write(value:to:))
-        try writer["AvailabilityScoreThreshold"].write(value.availabilityScoreThreshold)
-        try writer["PerformanceLocalHealthEventsConfig"].write(value.performanceLocalHealthEventsConfig, with: InternetMonitorClientTypes.LocalHealthEventsConfig.write(value:to:))
-        try writer["PerformanceScoreThreshold"].write(value.performanceScoreThreshold)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> InternetMonitorClientTypes.HealthEventsConfig {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = InternetMonitorClientTypes.HealthEventsConfig()
-        value.availabilityScoreThreshold = try reader["AvailabilityScoreThreshold"].readIfPresent() ?? 0
-        value.performanceScoreThreshold = try reader["PerformanceScoreThreshold"].readIfPresent() ?? 0
-        value.availabilityLocalHealthEventsConfig = try reader["AvailabilityLocalHealthEventsConfig"].readIfPresent(with: InternetMonitorClientTypes.LocalHealthEventsConfig.read(from:))
-        value.performanceLocalHealthEventsConfig = try reader["PerformanceLocalHealthEventsConfig"].readIfPresent(with: InternetMonitorClientTypes.LocalHealthEventsConfig.read(from:))
         return value
     }
 }
@@ -3093,53 +3072,6 @@ extension InternetMonitorClientTypes.LocalHealthEventsConfig {
     }
 }
 
-extension InternetMonitorClientTypes.QueryField {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> InternetMonitorClientTypes.QueryField {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = InternetMonitorClientTypes.QueryField()
-        value.name = try reader["Name"].readIfPresent()
-        value.type = try reader["Type"].readIfPresent()
-        return value
-    }
-}
-
-extension InternetMonitorClientTypes.HealthEvent {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> InternetMonitorClientTypes.HealthEvent {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = InternetMonitorClientTypes.HealthEvent()
-        value.eventArn = try reader["EventArn"].readIfPresent() ?? ""
-        value.eventId = try reader["EventId"].readIfPresent() ?? ""
-        value.startedAt = try reader["StartedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
-        value.endedAt = try reader["EndedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
-        value.createdAt = try reader["CreatedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
-        value.lastUpdatedAt = try reader["LastUpdatedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
-        value.impactedLocations = try reader["ImpactedLocations"].readListIfPresent(memberReadingClosure: InternetMonitorClientTypes.ImpactedLocation.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
-        value.status = try reader["Status"].readIfPresent() ?? .sdkUnknown("")
-        value.percentOfTotalTrafficImpacted = try reader["PercentOfTotalTrafficImpacted"].readIfPresent()
-        value.impactType = try reader["ImpactType"].readIfPresent() ?? .sdkUnknown("")
-        value.healthScoreThreshold = try reader["HealthScoreThreshold"].readIfPresent() ?? 0
-        return value
-    }
-}
-
-extension InternetMonitorClientTypes.InternetEventSummary {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> InternetMonitorClientTypes.InternetEventSummary {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = InternetMonitorClientTypes.InternetEventSummary()
-        value.eventId = try reader["EventId"].readIfPresent() ?? ""
-        value.eventArn = try reader["EventArn"].readIfPresent() ?? ""
-        value.startedAt = try reader["StartedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
-        value.endedAt = try reader["EndedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
-        value.clientLocation = try reader["ClientLocation"].readIfPresent(with: InternetMonitorClientTypes.ClientLocation.read(from:))
-        value.eventType = try reader["EventType"].readIfPresent() ?? .sdkUnknown("")
-        value.eventStatus = try reader["EventStatus"].readIfPresent() ?? .sdkUnknown("")
-        return value
-    }
-}
-
 extension InternetMonitorClientTypes.Monitor {
 
     static func read(from reader: SmithyJSON.Reader) throws -> InternetMonitorClientTypes.Monitor {
@@ -3153,13 +3085,81 @@ extension InternetMonitorClientTypes.Monitor {
     }
 }
 
-extension InternetMonitorClientTypes.FilterParameter {
+extension InternetMonitorClientTypes.Network {
 
-    static func write(value: InternetMonitorClientTypes.FilterParameter?, to writer: SmithyJSON.Writer) throws {
+    static func read(from reader: SmithyJSON.Reader) throws -> InternetMonitorClientTypes.Network {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = InternetMonitorClientTypes.Network()
+        value.asName = try reader["ASName"].readIfPresent() ?? ""
+        value.asNumber = try reader["ASNumber"].readIfPresent() ?? 0
+        return value
+    }
+}
+
+extension InternetMonitorClientTypes.NetworkImpairment {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> InternetMonitorClientTypes.NetworkImpairment {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = InternetMonitorClientTypes.NetworkImpairment()
+        value.networks = try reader["Networks"].readListIfPresent(memberReadingClosure: InternetMonitorClientTypes.Network.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        value.asPath = try reader["AsPath"].readListIfPresent(memberReadingClosure: InternetMonitorClientTypes.Network.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        value.networkEventType = try reader["NetworkEventType"].readIfPresent() ?? .sdkUnknown("")
+        return value
+    }
+}
+
+extension InternetMonitorClientTypes.PerformanceMeasurement {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> InternetMonitorClientTypes.PerformanceMeasurement {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = InternetMonitorClientTypes.PerformanceMeasurement()
+        value.experienceScore = try reader["ExperienceScore"].readIfPresent()
+        value.percentOfTotalTrafficImpacted = try reader["PercentOfTotalTrafficImpacted"].readIfPresent()
+        value.percentOfClientLocationImpacted = try reader["PercentOfClientLocationImpacted"].readIfPresent()
+        value.roundTripTime = try reader["RoundTripTime"].readIfPresent(with: InternetMonitorClientTypes.RoundTripTime.read(from:))
+        return value
+    }
+}
+
+extension InternetMonitorClientTypes.QueryField {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> InternetMonitorClientTypes.QueryField {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = InternetMonitorClientTypes.QueryField()
+        value.name = try reader["Name"].readIfPresent()
+        value.type = try reader["Type"].readIfPresent()
+        return value
+    }
+}
+
+extension InternetMonitorClientTypes.RoundTripTime {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> InternetMonitorClientTypes.RoundTripTime {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = InternetMonitorClientTypes.RoundTripTime()
+        value.p50 = try reader["P50"].readIfPresent()
+        value.p90 = try reader["P90"].readIfPresent()
+        value.p95 = try reader["P95"].readIfPresent()
+        return value
+    }
+}
+
+extension InternetMonitorClientTypes.S3Config {
+
+    static func write(value: InternetMonitorClientTypes.S3Config?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
-        try writer["Field"].write(value.field)
-        try writer["Operator"].write(value.`operator`)
-        try writer["Values"].writeList(value.values, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["BucketName"].write(value.bucketName)
+        try writer["BucketPrefix"].write(value.bucketPrefix)
+        try writer["LogDeliveryStatus"].write(value.logDeliveryStatus)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> InternetMonitorClientTypes.S3Config {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = InternetMonitorClientTypes.S3Config()
+        value.bucketName = try reader["BucketName"].readIfPresent()
+        value.bucketPrefix = try reader["BucketPrefix"].readIfPresent()
+        value.logDeliveryStatus = try reader["LogDeliveryStatus"].readIfPresent()
+        return value
     }
 }
 

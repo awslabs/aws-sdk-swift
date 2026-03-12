@@ -22,8 +22,8 @@ import protocol ClientRuntime.HTTPError
 import protocol ClientRuntime.ModeledError
 @_spi(SmithyReadWrite) import protocol SmithyReadWrite.SmithyReader
 @_spi(SmithyReadWrite) import protocol SmithyReadWrite.SmithyWriter
-@_spi(SmithyReadWrite) import struct AWSClientRuntime.AWSJSONError
 @_spi(UnknownAWSHTTPServiceError) import struct AWSClientRuntime.UnknownAWSHTTPServiceError
+@_spi(SmithyReadWrite) import struct ClientRuntime.AWSJSONError
 @_spi(SmithyReadWrite) import struct SmithyReadWrite.ReadingClosureBox
 
 extension StorageGatewayClientTypes {
@@ -8978,7 +8978,7 @@ enum ActivateGatewayOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "InternalServerError": return try InternalServerError.makeError(baseError: baseError)
@@ -8993,7 +8993,7 @@ enum AddCacheOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "InternalServerError": return try InternalServerError.makeError(baseError: baseError)
@@ -9008,7 +9008,7 @@ enum AddTagsToResourceOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "InternalServerError": return try InternalServerError.makeError(baseError: baseError)
@@ -9023,7 +9023,7 @@ enum AddUploadBufferOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "InternalServerError": return try InternalServerError.makeError(baseError: baseError)
@@ -9038,7 +9038,7 @@ enum AddWorkingStorageOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "InternalServerError": return try InternalServerError.makeError(baseError: baseError)
@@ -9053,7 +9053,7 @@ enum AssignTapePoolOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "InternalServerError": return try InternalServerError.makeError(baseError: baseError)
@@ -9068,7 +9068,7 @@ enum AssociateFileSystemOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "InternalServerError": return try InternalServerError.makeError(baseError: baseError)
@@ -9083,7 +9083,7 @@ enum AttachVolumeOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "InternalServerError": return try InternalServerError.makeError(baseError: baseError)
@@ -9098,7 +9098,7 @@ enum CancelArchivalOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "InternalServerError": return try InternalServerError.makeError(baseError: baseError)
@@ -9113,7 +9113,7 @@ enum CancelCacheReportOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "InternalServerError": return try InternalServerError.makeError(baseError: baseError)
@@ -9128,7 +9128,7 @@ enum CancelRetrievalOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "InternalServerError": return try InternalServerError.makeError(baseError: baseError)
@@ -9143,7 +9143,7 @@ enum CreateCachediSCSIVolumeOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "InternalServerError": return try InternalServerError.makeError(baseError: baseError)
@@ -9158,7 +9158,7 @@ enum CreateNFSFileShareOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "InternalServerError": return try InternalServerError.makeError(baseError: baseError)
@@ -9173,7 +9173,7 @@ enum CreateSMBFileShareOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "InternalServerError": return try InternalServerError.makeError(baseError: baseError)
@@ -9188,7 +9188,7 @@ enum CreateSnapshotOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "InternalServerError": return try InternalServerError.makeError(baseError: baseError)
@@ -9204,7 +9204,7 @@ enum CreateSnapshotFromVolumeRecoveryPointOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "InternalServerError": return try InternalServerError.makeError(baseError: baseError)
@@ -9220,7 +9220,7 @@ enum CreateStorediSCSIVolumeOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "InternalServerError": return try InternalServerError.makeError(baseError: baseError)
@@ -9235,7 +9235,7 @@ enum CreateTapePoolOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "InternalServerError": return try InternalServerError.makeError(baseError: baseError)
@@ -9250,7 +9250,7 @@ enum CreateTapesOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "InternalServerError": return try InternalServerError.makeError(baseError: baseError)
@@ -9265,7 +9265,7 @@ enum CreateTapeWithBarcodeOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "InternalServerError": return try InternalServerError.makeError(baseError: baseError)
@@ -9280,7 +9280,7 @@ enum DeleteAutomaticTapeCreationPolicyOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "InternalServerError": return try InternalServerError.makeError(baseError: baseError)
@@ -9295,7 +9295,7 @@ enum DeleteBandwidthRateLimitOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "InternalServerError": return try InternalServerError.makeError(baseError: baseError)
@@ -9310,7 +9310,7 @@ enum DeleteCacheReportOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "InternalServerError": return try InternalServerError.makeError(baseError: baseError)
@@ -9325,7 +9325,7 @@ enum DeleteChapCredentialsOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "InternalServerError": return try InternalServerError.makeError(baseError: baseError)
@@ -9340,7 +9340,7 @@ enum DeleteFileShareOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "InternalServerError": return try InternalServerError.makeError(baseError: baseError)
@@ -9355,7 +9355,7 @@ enum DeleteGatewayOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "InternalServerError": return try InternalServerError.makeError(baseError: baseError)
@@ -9370,7 +9370,7 @@ enum DeleteSnapshotScheduleOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "InternalServerError": return try InternalServerError.makeError(baseError: baseError)
@@ -9385,7 +9385,7 @@ enum DeleteTapeOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "InternalServerError": return try InternalServerError.makeError(baseError: baseError)
@@ -9400,7 +9400,7 @@ enum DeleteTapeArchiveOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "InternalServerError": return try InternalServerError.makeError(baseError: baseError)
@@ -9415,7 +9415,7 @@ enum DeleteTapePoolOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "InternalServerError": return try InternalServerError.makeError(baseError: baseError)
@@ -9430,7 +9430,7 @@ enum DeleteVolumeOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "InternalServerError": return try InternalServerError.makeError(baseError: baseError)
@@ -9445,7 +9445,7 @@ enum DescribeAvailabilityMonitorTestOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "InternalServerError": return try InternalServerError.makeError(baseError: baseError)
@@ -9460,7 +9460,7 @@ enum DescribeBandwidthRateLimitOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "InternalServerError": return try InternalServerError.makeError(baseError: baseError)
@@ -9475,7 +9475,7 @@ enum DescribeBandwidthRateLimitScheduleOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "InternalServerError": return try InternalServerError.makeError(baseError: baseError)
@@ -9490,7 +9490,7 @@ enum DescribeCacheOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "InternalServerError": return try InternalServerError.makeError(baseError: baseError)
@@ -9505,7 +9505,7 @@ enum DescribeCachediSCSIVolumesOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "InternalServerError": return try InternalServerError.makeError(baseError: baseError)
@@ -9520,7 +9520,7 @@ enum DescribeCacheReportOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "InternalServerError": return try InternalServerError.makeError(baseError: baseError)
@@ -9535,7 +9535,7 @@ enum DescribeChapCredentialsOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "InternalServerError": return try InternalServerError.makeError(baseError: baseError)
@@ -9550,7 +9550,7 @@ enum DescribeFileSystemAssociationsOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "InternalServerError": return try InternalServerError.makeError(baseError: baseError)
@@ -9565,7 +9565,7 @@ enum DescribeGatewayInformationOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "InternalServerError": return try InternalServerError.makeError(baseError: baseError)
@@ -9580,7 +9580,7 @@ enum DescribeMaintenanceStartTimeOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "InternalServerError": return try InternalServerError.makeError(baseError: baseError)
@@ -9595,7 +9595,7 @@ enum DescribeNFSFileSharesOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "InternalServerError": return try InternalServerError.makeError(baseError: baseError)
@@ -9610,7 +9610,7 @@ enum DescribeSMBFileSharesOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "InternalServerError": return try InternalServerError.makeError(baseError: baseError)
@@ -9625,7 +9625,7 @@ enum DescribeSMBSettingsOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "InternalServerError": return try InternalServerError.makeError(baseError: baseError)
@@ -9640,7 +9640,7 @@ enum DescribeSnapshotScheduleOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "InternalServerError": return try InternalServerError.makeError(baseError: baseError)
@@ -9655,7 +9655,7 @@ enum DescribeStorediSCSIVolumesOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "InternalServerError": return try InternalServerError.makeError(baseError: baseError)
@@ -9670,7 +9670,7 @@ enum DescribeTapeArchivesOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "InternalServerError": return try InternalServerError.makeError(baseError: baseError)
@@ -9685,7 +9685,7 @@ enum DescribeTapeRecoveryPointsOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "InternalServerError": return try InternalServerError.makeError(baseError: baseError)
@@ -9700,7 +9700,7 @@ enum DescribeTapesOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "InternalServerError": return try InternalServerError.makeError(baseError: baseError)
@@ -9715,7 +9715,7 @@ enum DescribeUploadBufferOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "InternalServerError": return try InternalServerError.makeError(baseError: baseError)
@@ -9730,7 +9730,7 @@ enum DescribeVTLDevicesOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "InternalServerError": return try InternalServerError.makeError(baseError: baseError)
@@ -9745,7 +9745,7 @@ enum DescribeWorkingStorageOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "InternalServerError": return try InternalServerError.makeError(baseError: baseError)
@@ -9760,7 +9760,7 @@ enum DetachVolumeOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "InternalServerError": return try InternalServerError.makeError(baseError: baseError)
@@ -9775,7 +9775,7 @@ enum DisableGatewayOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "InternalServerError": return try InternalServerError.makeError(baseError: baseError)
@@ -9790,7 +9790,7 @@ enum DisassociateFileSystemOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "InternalServerError": return try InternalServerError.makeError(baseError: baseError)
@@ -9805,7 +9805,7 @@ enum EvictFilesFailingUploadOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "InternalServerError": return try InternalServerError.makeError(baseError: baseError)
@@ -9820,7 +9820,7 @@ enum JoinDomainOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "InternalServerError": return try InternalServerError.makeError(baseError: baseError)
@@ -9835,7 +9835,7 @@ enum ListAutomaticTapeCreationPoliciesOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "InternalServerError": return try InternalServerError.makeError(baseError: baseError)
@@ -9850,7 +9850,7 @@ enum ListCacheReportsOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "InternalServerError": return try InternalServerError.makeError(baseError: baseError)
@@ -9865,7 +9865,7 @@ enum ListFileSharesOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "InternalServerError": return try InternalServerError.makeError(baseError: baseError)
@@ -9880,7 +9880,7 @@ enum ListFileSystemAssociationsOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "InternalServerError": return try InternalServerError.makeError(baseError: baseError)
@@ -9895,7 +9895,7 @@ enum ListGatewaysOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "InternalServerError": return try InternalServerError.makeError(baseError: baseError)
@@ -9910,7 +9910,7 @@ enum ListLocalDisksOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "InternalServerError": return try InternalServerError.makeError(baseError: baseError)
@@ -9925,7 +9925,7 @@ enum ListTagsForResourceOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "InternalServerError": return try InternalServerError.makeError(baseError: baseError)
@@ -9940,7 +9940,7 @@ enum ListTapePoolsOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "InternalServerError": return try InternalServerError.makeError(baseError: baseError)
@@ -9955,7 +9955,7 @@ enum ListTapesOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "InternalServerError": return try InternalServerError.makeError(baseError: baseError)
@@ -9970,7 +9970,7 @@ enum ListVolumeInitiatorsOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "InternalServerError": return try InternalServerError.makeError(baseError: baseError)
@@ -9985,7 +9985,7 @@ enum ListVolumeRecoveryPointsOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "InternalServerError": return try InternalServerError.makeError(baseError: baseError)
@@ -10000,7 +10000,7 @@ enum ListVolumesOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "InternalServerError": return try InternalServerError.makeError(baseError: baseError)
@@ -10015,7 +10015,7 @@ enum NotifyWhenUploadedOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "InternalServerError": return try InternalServerError.makeError(baseError: baseError)
@@ -10030,7 +10030,7 @@ enum RefreshCacheOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "InternalServerError": return try InternalServerError.makeError(baseError: baseError)
@@ -10045,7 +10045,7 @@ enum RemoveTagsFromResourceOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "InternalServerError": return try InternalServerError.makeError(baseError: baseError)
@@ -10060,7 +10060,7 @@ enum ResetCacheOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "InternalServerError": return try InternalServerError.makeError(baseError: baseError)
@@ -10075,7 +10075,7 @@ enum RetrieveTapeArchiveOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "InternalServerError": return try InternalServerError.makeError(baseError: baseError)
@@ -10090,7 +10090,7 @@ enum RetrieveTapeRecoveryPointOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "InternalServerError": return try InternalServerError.makeError(baseError: baseError)
@@ -10105,7 +10105,7 @@ enum SetLocalConsolePasswordOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "InternalServerError": return try InternalServerError.makeError(baseError: baseError)
@@ -10120,7 +10120,7 @@ enum SetSMBGuestPasswordOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "InternalServerError": return try InternalServerError.makeError(baseError: baseError)
@@ -10135,7 +10135,7 @@ enum ShutdownGatewayOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "InternalServerError": return try InternalServerError.makeError(baseError: baseError)
@@ -10150,7 +10150,7 @@ enum StartAvailabilityMonitorTestOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "InternalServerError": return try InternalServerError.makeError(baseError: baseError)
@@ -10165,7 +10165,7 @@ enum StartCacheReportOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "InternalServerError": return try InternalServerError.makeError(baseError: baseError)
@@ -10180,7 +10180,7 @@ enum StartGatewayOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "InternalServerError": return try InternalServerError.makeError(baseError: baseError)
@@ -10195,7 +10195,7 @@ enum UpdateAutomaticTapeCreationPolicyOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "InternalServerError": return try InternalServerError.makeError(baseError: baseError)
@@ -10210,7 +10210,7 @@ enum UpdateBandwidthRateLimitOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "InternalServerError": return try InternalServerError.makeError(baseError: baseError)
@@ -10225,7 +10225,7 @@ enum UpdateBandwidthRateLimitScheduleOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "InternalServerError": return try InternalServerError.makeError(baseError: baseError)
@@ -10240,7 +10240,7 @@ enum UpdateChapCredentialsOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "InternalServerError": return try InternalServerError.makeError(baseError: baseError)
@@ -10255,7 +10255,7 @@ enum UpdateFileSystemAssociationOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "InternalServerError": return try InternalServerError.makeError(baseError: baseError)
@@ -10270,7 +10270,7 @@ enum UpdateGatewayInformationOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "InternalServerError": return try InternalServerError.makeError(baseError: baseError)
@@ -10285,7 +10285,7 @@ enum UpdateGatewaySoftwareNowOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "InternalServerError": return try InternalServerError.makeError(baseError: baseError)
@@ -10300,7 +10300,7 @@ enum UpdateMaintenanceStartTimeOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "InternalServerError": return try InternalServerError.makeError(baseError: baseError)
@@ -10315,7 +10315,7 @@ enum UpdateNFSFileShareOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "InternalServerError": return try InternalServerError.makeError(baseError: baseError)
@@ -10330,7 +10330,7 @@ enum UpdateSMBFileShareOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "InternalServerError": return try InternalServerError.makeError(baseError: baseError)
@@ -10345,7 +10345,7 @@ enum UpdateSMBFileShareVisibilityOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "InternalServerError": return try InternalServerError.makeError(baseError: baseError)
@@ -10360,7 +10360,7 @@ enum UpdateSMBLocalGroupsOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "InternalServerError": return try InternalServerError.makeError(baseError: baseError)
@@ -10375,7 +10375,7 @@ enum UpdateSMBSecurityStrategyOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "InternalServerError": return try InternalServerError.makeError(baseError: baseError)
@@ -10390,7 +10390,7 @@ enum UpdateSnapshotScheduleOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "InternalServerError": return try InternalServerError.makeError(baseError: baseError)
@@ -10405,7 +10405,7 @@ enum UpdateVTLDeviceTypeOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "InternalServerError": return try InternalServerError.makeError(baseError: baseError)
@@ -10417,7 +10417,7 @@ enum UpdateVTLDeviceTypeOutputError {
 
 extension InternalServerError {
 
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> InternalServerError {
+    static func makeError(baseError: ClientRuntime.AWSJSONError) throws -> InternalServerError {
         let reader = baseError.errorBodyReader
         var value = InternalServerError()
         value.properties.error = try reader["error"].readIfPresent(with: StorageGatewayClientTypes.StorageGatewayError.read(from:))
@@ -10431,7 +10431,7 @@ extension InternalServerError {
 
 extension InvalidGatewayRequestException {
 
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> InvalidGatewayRequestException {
+    static func makeError(baseError: ClientRuntime.AWSJSONError) throws -> InvalidGatewayRequestException {
         let reader = baseError.errorBodyReader
         var value = InvalidGatewayRequestException()
         value.properties.error = try reader["error"].readIfPresent(with: StorageGatewayClientTypes.StorageGatewayError.read(from:))
@@ -10445,7 +10445,7 @@ extension InvalidGatewayRequestException {
 
 extension ServiceUnavailableError {
 
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> ServiceUnavailableError {
+    static func makeError(baseError: ClientRuntime.AWSJSONError) throws -> ServiceUnavailableError {
         let reader = baseError.errorBodyReader
         var value = ServiceUnavailableError()
         value.properties.error = try reader["error"].readIfPresent(with: StorageGatewayClientTypes.StorageGatewayError.read(from:))
@@ -10453,6 +10453,40 @@ extension ServiceUnavailableError {
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
         value.message = baseError.message
+        return value
+    }
+}
+
+extension StorageGatewayClientTypes.AutomaticTapeCreationPolicyInfo {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> StorageGatewayClientTypes.AutomaticTapeCreationPolicyInfo {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = StorageGatewayClientTypes.AutomaticTapeCreationPolicyInfo()
+        value.automaticTapeCreationRules = try reader["AutomaticTapeCreationRules"].readListIfPresent(memberReadingClosure: StorageGatewayClientTypes.AutomaticTapeCreationRule.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.gatewayARN = try reader["GatewayARN"].readIfPresent()
+        return value
+    }
+}
+
+extension StorageGatewayClientTypes.AutomaticTapeCreationRule {
+
+    static func write(value: StorageGatewayClientTypes.AutomaticTapeCreationRule?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["MinimumNumTapes"].write(value.minimumNumTapes)
+        try writer["PoolId"].write(value.poolId)
+        try writer["TapeBarcodePrefix"].write(value.tapeBarcodePrefix)
+        try writer["TapeSizeInBytes"].write(value.tapeSizeInBytes)
+        try writer["Worm"].write(value.worm)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> StorageGatewayClientTypes.AutomaticTapeCreationRule {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = StorageGatewayClientTypes.AutomaticTapeCreationRule()
+        value.tapeBarcodePrefix = try reader["TapeBarcodePrefix"].readIfPresent() ?? ""
+        value.poolId = try reader["PoolId"].readIfPresent() ?? ""
+        value.tapeSizeInBytes = try reader["TapeSizeInBytes"].readIfPresent() ?? 0
+        value.minimumNumTapes = try reader["MinimumNumTapes"].readIfPresent() ?? 0
+        value.worm = try reader["Worm"].readIfPresent() ?? false
         return value
     }
 }
@@ -10484,6 +10518,21 @@ extension StorageGatewayClientTypes.BandwidthRateLimitInterval {
     }
 }
 
+extension StorageGatewayClientTypes.CacheAttributes {
+
+    static func write(value: StorageGatewayClientTypes.CacheAttributes?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["CacheStaleTimeoutInSeconds"].write(value.cacheStaleTimeoutInSeconds)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> StorageGatewayClientTypes.CacheAttributes {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = StorageGatewayClientTypes.CacheAttributes()
+        value.cacheStaleTimeoutInSeconds = try reader["CacheStaleTimeoutInSeconds"].readIfPresent()
+        return value
+    }
+}
+
 extension StorageGatewayClientTypes.CachediSCSIVolume {
 
     static func read(from reader: SmithyJSON.Reader) throws -> StorageGatewayClientTypes.CachediSCSIVolume {
@@ -10506,16 +10555,19 @@ extension StorageGatewayClientTypes.CachediSCSIVolume {
     }
 }
 
-extension StorageGatewayClientTypes.VolumeiSCSIAttributes {
+extension StorageGatewayClientTypes.CacheReportFilter {
 
-    static func read(from reader: SmithyJSON.Reader) throws -> StorageGatewayClientTypes.VolumeiSCSIAttributes {
+    static func write(value: StorageGatewayClientTypes.CacheReportFilter?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["Name"].write(value.name)
+        try writer["Values"].writeList(value.values, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> StorageGatewayClientTypes.CacheReportFilter {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = StorageGatewayClientTypes.VolumeiSCSIAttributes()
-        value.targetARN = try reader["TargetARN"].readIfPresent()
-        value.networkInterfaceId = try reader["NetworkInterfaceId"].readIfPresent()
-        value.networkInterfacePort = try reader["NetworkInterfacePort"].readIfPresent() ?? 0
-        value.lunNumber = try reader["LunNumber"].readIfPresent()
-        value.chapEnabled = try reader["ChapEnabled"].readIfPresent() ?? false
+        var value = StorageGatewayClientTypes.CacheReportFilter()
+        value.name = try reader["Name"].readIfPresent() ?? .sdkUnknown("")
+        value.values = try reader["Values"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false) ?? []
         return value
     }
 }
@@ -10541,40 +10593,6 @@ extension StorageGatewayClientTypes.CacheReportInfo {
     }
 }
 
-extension StorageGatewayClientTypes.Tag {
-
-    static func write(value: StorageGatewayClientTypes.Tag?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["Key"].write(value.key)
-        try writer["Value"].write(value.value)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> StorageGatewayClientTypes.Tag {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = StorageGatewayClientTypes.Tag()
-        value.key = try reader["Key"].readIfPresent() ?? ""
-        value.value = try reader["Value"].readIfPresent() ?? ""
-        return value
-    }
-}
-
-extension StorageGatewayClientTypes.CacheReportFilter {
-
-    static func write(value: StorageGatewayClientTypes.CacheReportFilter?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["Name"].write(value.name)
-        try writer["Values"].writeList(value.values, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> StorageGatewayClientTypes.CacheReportFilter {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = StorageGatewayClientTypes.CacheReportFilter()
-        value.name = try reader["Name"].readIfPresent() ?? .sdkUnknown("")
-        value.values = try reader["Values"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false) ?? []
-        return value
-    }
-}
-
 extension StorageGatewayClientTypes.ChapInfo {
 
     static func read(from reader: SmithyJSON.Reader) throws -> StorageGatewayClientTypes.ChapInfo {
@@ -10584,6 +10602,65 @@ extension StorageGatewayClientTypes.ChapInfo {
         value.secretToAuthenticateInitiator = try reader["SecretToAuthenticateInitiator"].readIfPresent()
         value.initiatorName = try reader["InitiatorName"].readIfPresent()
         value.secretToAuthenticateTarget = try reader["SecretToAuthenticateTarget"].readIfPresent()
+        return value
+    }
+}
+
+extension StorageGatewayClientTypes.DeviceiSCSIAttributes {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> StorageGatewayClientTypes.DeviceiSCSIAttributes {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = StorageGatewayClientTypes.DeviceiSCSIAttributes()
+        value.targetARN = try reader["TargetARN"].readIfPresent()
+        value.networkInterfaceId = try reader["NetworkInterfaceId"].readIfPresent()
+        value.networkInterfacePort = try reader["NetworkInterfacePort"].readIfPresent() ?? 0
+        value.chapEnabled = try reader["ChapEnabled"].readIfPresent() ?? false
+        return value
+    }
+}
+
+extension StorageGatewayClientTypes.Disk {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> StorageGatewayClientTypes.Disk {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = StorageGatewayClientTypes.Disk()
+        value.diskId = try reader["DiskId"].readIfPresent()
+        value.diskPath = try reader["DiskPath"].readIfPresent()
+        value.diskNode = try reader["DiskNode"].readIfPresent()
+        value.diskStatus = try reader["DiskStatus"].readIfPresent()
+        value.diskSizeInBytes = try reader["DiskSizeInBytes"].readIfPresent() ?? 0
+        value.diskAllocationType = try reader["DiskAllocationType"].readIfPresent()
+        value.diskAllocationResource = try reader["DiskAllocationResource"].readIfPresent()
+        value.diskAttributeList = try reader["DiskAttributeList"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        return value
+    }
+}
+
+extension StorageGatewayClientTypes.EndpointNetworkConfiguration {
+
+    static func write(value: StorageGatewayClientTypes.EndpointNetworkConfiguration?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["IpAddresses"].writeList(value.ipAddresses, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> StorageGatewayClientTypes.EndpointNetworkConfiguration {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = StorageGatewayClientTypes.EndpointNetworkConfiguration()
+        value.ipAddresses = try reader["IpAddresses"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        return value
+    }
+}
+
+extension StorageGatewayClientTypes.FileShareInfo {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> StorageGatewayClientTypes.FileShareInfo {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = StorageGatewayClientTypes.FileShareInfo()
+        value.fileShareType = try reader["FileShareType"].readIfPresent()
+        value.fileShareARN = try reader["FileShareARN"].readIfPresent()
+        value.fileShareId = try reader["FileShareId"].readIfPresent()
+        value.fileShareStatus = try reader["FileShareStatus"].readIfPresent()
+        value.gatewayARN = try reader["GatewayARN"].readIfPresent()
         return value
     }
 }
@@ -10616,32 +10693,35 @@ extension StorageGatewayClientTypes.FileSystemAssociationStatusDetail {
     }
 }
 
-extension StorageGatewayClientTypes.EndpointNetworkConfiguration {
+extension StorageGatewayClientTypes.FileSystemAssociationSummary {
 
-    static func write(value: StorageGatewayClientTypes.EndpointNetworkConfiguration?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["IpAddresses"].writeList(value.ipAddresses, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> StorageGatewayClientTypes.EndpointNetworkConfiguration {
+    static func read(from reader: SmithyJSON.Reader) throws -> StorageGatewayClientTypes.FileSystemAssociationSummary {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = StorageGatewayClientTypes.EndpointNetworkConfiguration()
-        value.ipAddresses = try reader["IpAddresses"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        var value = StorageGatewayClientTypes.FileSystemAssociationSummary()
+        value.fileSystemAssociationId = try reader["FileSystemAssociationId"].readIfPresent()
+        value.fileSystemAssociationARN = try reader["FileSystemAssociationARN"].readIfPresent()
+        value.fileSystemAssociationStatus = try reader["FileSystemAssociationStatus"].readIfPresent()
+        value.gatewayARN = try reader["GatewayARN"].readIfPresent()
         return value
     }
 }
 
-extension StorageGatewayClientTypes.CacheAttributes {
+extension StorageGatewayClientTypes.GatewayInfo {
 
-    static func write(value: StorageGatewayClientTypes.CacheAttributes?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["CacheStaleTimeoutInSeconds"].write(value.cacheStaleTimeoutInSeconds)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> StorageGatewayClientTypes.CacheAttributes {
+    static func read(from reader: SmithyJSON.Reader) throws -> StorageGatewayClientTypes.GatewayInfo {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = StorageGatewayClientTypes.CacheAttributes()
-        value.cacheStaleTimeoutInSeconds = try reader["CacheStaleTimeoutInSeconds"].readIfPresent()
+        var value = StorageGatewayClientTypes.GatewayInfo()
+        value.gatewayId = try reader["GatewayId"].readIfPresent()
+        value.gatewayARN = try reader["GatewayARN"].readIfPresent()
+        value.gatewayType = try reader["GatewayType"].readIfPresent()
+        value.gatewayOperationalState = try reader["GatewayOperationalState"].readIfPresent()
+        value.gatewayName = try reader["GatewayName"].readIfPresent()
+        value.ec2InstanceId = try reader["Ec2InstanceId"].readIfPresent()
+        value.ec2InstanceRegion = try reader["Ec2InstanceRegion"].readIfPresent()
+        value.hostEnvironment = try reader["HostEnvironment"].readIfPresent()
+        value.hostEnvironmentId = try reader["HostEnvironmentId"].readIfPresent()
+        value.deprecationDate = try reader["DeprecationDate"].readIfPresent()
+        value.softwareVersion = try reader["SoftwareVersion"].readIfPresent()
         return value
     }
 }
@@ -10658,17 +10738,23 @@ extension StorageGatewayClientTypes.NetworkInterface {
     }
 }
 
-extension StorageGatewayClientTypes.SoftwareUpdatePreferences {
+extension StorageGatewayClientTypes.NFSFileShareDefaults {
 
-    static func write(value: StorageGatewayClientTypes.SoftwareUpdatePreferences?, to writer: SmithyJSON.Writer) throws {
+    static func write(value: StorageGatewayClientTypes.NFSFileShareDefaults?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
-        try writer["AutomaticUpdatePolicy"].write(value.automaticUpdatePolicy)
+        try writer["DirectoryMode"].write(value.directoryMode)
+        try writer["FileMode"].write(value.fileMode)
+        try writer["GroupId"].write(value.groupId)
+        try writer["OwnerId"].write(value.ownerId)
     }
 
-    static func read(from reader: SmithyJSON.Reader) throws -> StorageGatewayClientTypes.SoftwareUpdatePreferences {
+    static func read(from reader: SmithyJSON.Reader) throws -> StorageGatewayClientTypes.NFSFileShareDefaults {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = StorageGatewayClientTypes.SoftwareUpdatePreferences()
-        value.automaticUpdatePolicy = try reader["AutomaticUpdatePolicy"].readIfPresent()
+        var value = StorageGatewayClientTypes.NFSFileShareDefaults()
+        value.fileMode = try reader["FileMode"].readIfPresent()
+        value.directoryMode = try reader["DirectoryMode"].readIfPresent()
+        value.groupId = try reader["GroupId"].readIfPresent()
+        value.ownerId = try reader["OwnerId"].readIfPresent()
         return value
     }
 }
@@ -10707,23 +10793,17 @@ extension StorageGatewayClientTypes.NFSFileShareInfo {
     }
 }
 
-extension StorageGatewayClientTypes.NFSFileShareDefaults {
+extension StorageGatewayClientTypes.PoolInfo {
 
-    static func write(value: StorageGatewayClientTypes.NFSFileShareDefaults?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["DirectoryMode"].write(value.directoryMode)
-        try writer["FileMode"].write(value.fileMode)
-        try writer["GroupId"].write(value.groupId)
-        try writer["OwnerId"].write(value.ownerId)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> StorageGatewayClientTypes.NFSFileShareDefaults {
+    static func read(from reader: SmithyJSON.Reader) throws -> StorageGatewayClientTypes.PoolInfo {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = StorageGatewayClientTypes.NFSFileShareDefaults()
-        value.fileMode = try reader["FileMode"].readIfPresent()
-        value.directoryMode = try reader["DirectoryMode"].readIfPresent()
-        value.groupId = try reader["GroupId"].readIfPresent()
-        value.ownerId = try reader["OwnerId"].readIfPresent()
+        var value = StorageGatewayClientTypes.PoolInfo()
+        value.poolARN = try reader["PoolARN"].readIfPresent()
+        value.poolName = try reader["PoolName"].readIfPresent()
+        value.storageClass = try reader["StorageClass"].readIfPresent()
+        value.retentionLockType = try reader["RetentionLockType"].readIfPresent()
+        value.retentionLockTimeInDays = try reader["RetentionLockTimeInDays"].readIfPresent()
+        value.poolStatus = try reader["PoolStatus"].readIfPresent()
         return value
     }
 }
@@ -10782,6 +10862,32 @@ extension StorageGatewayClientTypes.SMBLocalGroups {
     }
 }
 
+extension StorageGatewayClientTypes.SoftwareUpdatePreferences {
+
+    static func write(value: StorageGatewayClientTypes.SoftwareUpdatePreferences?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["AutomaticUpdatePolicy"].write(value.automaticUpdatePolicy)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> StorageGatewayClientTypes.SoftwareUpdatePreferences {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = StorageGatewayClientTypes.SoftwareUpdatePreferences()
+        value.automaticUpdatePolicy = try reader["AutomaticUpdatePolicy"].readIfPresent()
+        return value
+    }
+}
+
+extension StorageGatewayClientTypes.StorageGatewayError {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> StorageGatewayClientTypes.StorageGatewayError {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = StorageGatewayClientTypes.StorageGatewayError()
+        value.errorCode = try reader["errorCode"].readIfPresent()
+        value.errorDetails = try reader["errorDetails"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+        return value
+    }
+}
+
 extension StorageGatewayClientTypes.StorediSCSIVolume {
 
     static func read(from reader: SmithyJSON.Reader) throws -> StorageGatewayClientTypes.StorediSCSIVolume {
@@ -10806,37 +10912,19 @@ extension StorageGatewayClientTypes.StorediSCSIVolume {
     }
 }
 
-extension StorageGatewayClientTypes.TapeArchive {
+extension StorageGatewayClientTypes.Tag {
 
-    static func read(from reader: SmithyJSON.Reader) throws -> StorageGatewayClientTypes.TapeArchive {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = StorageGatewayClientTypes.TapeArchive()
-        value.tapeARN = try reader["TapeARN"].readIfPresent()
-        value.tapeBarcode = try reader["TapeBarcode"].readIfPresent()
-        value.tapeCreatedDate = try reader["TapeCreatedDate"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
-        value.tapeSizeInBytes = try reader["TapeSizeInBytes"].readIfPresent()
-        value.completionTime = try reader["CompletionTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
-        value.retrievedTo = try reader["RetrievedTo"].readIfPresent()
-        value.tapeStatus = try reader["TapeStatus"].readIfPresent()
-        value.tapeUsedInBytes = try reader["TapeUsedInBytes"].readIfPresent()
-        value.kmsKey = try reader["KMSKey"].readIfPresent()
-        value.poolId = try reader["PoolId"].readIfPresent()
-        value.worm = try reader["Worm"].readIfPresent() ?? false
-        value.retentionStartDate = try reader["RetentionStartDate"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
-        value.poolEntryDate = try reader["PoolEntryDate"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
-        return value
+    static func write(value: StorageGatewayClientTypes.Tag?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["Key"].write(value.key)
+        try writer["Value"].write(value.value)
     }
-}
 
-extension StorageGatewayClientTypes.TapeRecoveryPointInfo {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> StorageGatewayClientTypes.TapeRecoveryPointInfo {
+    static func read(from reader: SmithyJSON.Reader) throws -> StorageGatewayClientTypes.Tag {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = StorageGatewayClientTypes.TapeRecoveryPointInfo()
-        value.tapeARN = try reader["TapeARN"].readIfPresent()
-        value.tapeRecoveryPointTime = try reader["TapeRecoveryPointTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
-        value.tapeSizeInBytes = try reader["TapeSizeInBytes"].readIfPresent()
-        value.tapeStatus = try reader["TapeStatus"].readIfPresent()
+        var value = StorageGatewayClientTypes.Tag()
+        value.key = try reader["Key"].readIfPresent() ?? ""
+        value.value = try reader["Value"].readIfPresent() ?? ""
         return value
     }
 }
@@ -10863,142 +10951,24 @@ extension StorageGatewayClientTypes.Tape {
     }
 }
 
-extension StorageGatewayClientTypes.VTLDevice {
+extension StorageGatewayClientTypes.TapeArchive {
 
-    static func read(from reader: SmithyJSON.Reader) throws -> StorageGatewayClientTypes.VTLDevice {
+    static func read(from reader: SmithyJSON.Reader) throws -> StorageGatewayClientTypes.TapeArchive {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = StorageGatewayClientTypes.VTLDevice()
-        value.vtlDeviceARN = try reader["VTLDeviceARN"].readIfPresent()
-        value.vtlDeviceType = try reader["VTLDeviceType"].readIfPresent()
-        value.vtlDeviceVendor = try reader["VTLDeviceVendor"].readIfPresent()
-        value.vtlDeviceProductIdentifier = try reader["VTLDeviceProductIdentifier"].readIfPresent()
-        value.deviceiSCSIAttributes = try reader["DeviceiSCSIAttributes"].readIfPresent(with: StorageGatewayClientTypes.DeviceiSCSIAttributes.read(from:))
-        return value
-    }
-}
-
-extension StorageGatewayClientTypes.DeviceiSCSIAttributes {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> StorageGatewayClientTypes.DeviceiSCSIAttributes {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = StorageGatewayClientTypes.DeviceiSCSIAttributes()
-        value.targetARN = try reader["TargetARN"].readIfPresent()
-        value.networkInterfaceId = try reader["NetworkInterfaceId"].readIfPresent()
-        value.networkInterfacePort = try reader["NetworkInterfacePort"].readIfPresent() ?? 0
-        value.chapEnabled = try reader["ChapEnabled"].readIfPresent() ?? false
-        return value
-    }
-}
-
-extension StorageGatewayClientTypes.AutomaticTapeCreationPolicyInfo {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> StorageGatewayClientTypes.AutomaticTapeCreationPolicyInfo {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = StorageGatewayClientTypes.AutomaticTapeCreationPolicyInfo()
-        value.automaticTapeCreationRules = try reader["AutomaticTapeCreationRules"].readListIfPresent(memberReadingClosure: StorageGatewayClientTypes.AutomaticTapeCreationRule.read(from:), memberNodeInfo: "member", isFlattened: false)
-        value.gatewayARN = try reader["GatewayARN"].readIfPresent()
-        return value
-    }
-}
-
-extension StorageGatewayClientTypes.AutomaticTapeCreationRule {
-
-    static func write(value: StorageGatewayClientTypes.AutomaticTapeCreationRule?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["MinimumNumTapes"].write(value.minimumNumTapes)
-        try writer["PoolId"].write(value.poolId)
-        try writer["TapeBarcodePrefix"].write(value.tapeBarcodePrefix)
-        try writer["TapeSizeInBytes"].write(value.tapeSizeInBytes)
-        try writer["Worm"].write(value.worm)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> StorageGatewayClientTypes.AutomaticTapeCreationRule {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = StorageGatewayClientTypes.AutomaticTapeCreationRule()
-        value.tapeBarcodePrefix = try reader["TapeBarcodePrefix"].readIfPresent() ?? ""
-        value.poolId = try reader["PoolId"].readIfPresent() ?? ""
-        value.tapeSizeInBytes = try reader["TapeSizeInBytes"].readIfPresent() ?? 0
-        value.minimumNumTapes = try reader["MinimumNumTapes"].readIfPresent() ?? 0
+        var value = StorageGatewayClientTypes.TapeArchive()
+        value.tapeARN = try reader["TapeARN"].readIfPresent()
+        value.tapeBarcode = try reader["TapeBarcode"].readIfPresent()
+        value.tapeCreatedDate = try reader["TapeCreatedDate"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.tapeSizeInBytes = try reader["TapeSizeInBytes"].readIfPresent()
+        value.completionTime = try reader["CompletionTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.retrievedTo = try reader["RetrievedTo"].readIfPresent()
+        value.tapeStatus = try reader["TapeStatus"].readIfPresent()
+        value.tapeUsedInBytes = try reader["TapeUsedInBytes"].readIfPresent()
+        value.kmsKey = try reader["KMSKey"].readIfPresent()
+        value.poolId = try reader["PoolId"].readIfPresent()
         value.worm = try reader["Worm"].readIfPresent() ?? false
-        return value
-    }
-}
-
-extension StorageGatewayClientTypes.FileShareInfo {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> StorageGatewayClientTypes.FileShareInfo {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = StorageGatewayClientTypes.FileShareInfo()
-        value.fileShareType = try reader["FileShareType"].readIfPresent()
-        value.fileShareARN = try reader["FileShareARN"].readIfPresent()
-        value.fileShareId = try reader["FileShareId"].readIfPresent()
-        value.fileShareStatus = try reader["FileShareStatus"].readIfPresent()
-        value.gatewayARN = try reader["GatewayARN"].readIfPresent()
-        return value
-    }
-}
-
-extension StorageGatewayClientTypes.FileSystemAssociationSummary {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> StorageGatewayClientTypes.FileSystemAssociationSummary {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = StorageGatewayClientTypes.FileSystemAssociationSummary()
-        value.fileSystemAssociationId = try reader["FileSystemAssociationId"].readIfPresent()
-        value.fileSystemAssociationARN = try reader["FileSystemAssociationARN"].readIfPresent()
-        value.fileSystemAssociationStatus = try reader["FileSystemAssociationStatus"].readIfPresent()
-        value.gatewayARN = try reader["GatewayARN"].readIfPresent()
-        return value
-    }
-}
-
-extension StorageGatewayClientTypes.GatewayInfo {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> StorageGatewayClientTypes.GatewayInfo {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = StorageGatewayClientTypes.GatewayInfo()
-        value.gatewayId = try reader["GatewayId"].readIfPresent()
-        value.gatewayARN = try reader["GatewayARN"].readIfPresent()
-        value.gatewayType = try reader["GatewayType"].readIfPresent()
-        value.gatewayOperationalState = try reader["GatewayOperationalState"].readIfPresent()
-        value.gatewayName = try reader["GatewayName"].readIfPresent()
-        value.ec2InstanceId = try reader["Ec2InstanceId"].readIfPresent()
-        value.ec2InstanceRegion = try reader["Ec2InstanceRegion"].readIfPresent()
-        value.hostEnvironment = try reader["HostEnvironment"].readIfPresent()
-        value.hostEnvironmentId = try reader["HostEnvironmentId"].readIfPresent()
-        value.deprecationDate = try reader["DeprecationDate"].readIfPresent()
-        value.softwareVersion = try reader["SoftwareVersion"].readIfPresent()
-        return value
-    }
-}
-
-extension StorageGatewayClientTypes.Disk {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> StorageGatewayClientTypes.Disk {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = StorageGatewayClientTypes.Disk()
-        value.diskId = try reader["DiskId"].readIfPresent()
-        value.diskPath = try reader["DiskPath"].readIfPresent()
-        value.diskNode = try reader["DiskNode"].readIfPresent()
-        value.diskStatus = try reader["DiskStatus"].readIfPresent()
-        value.diskSizeInBytes = try reader["DiskSizeInBytes"].readIfPresent() ?? 0
-        value.diskAllocationType = try reader["DiskAllocationType"].readIfPresent()
-        value.diskAllocationResource = try reader["DiskAllocationResource"].readIfPresent()
-        value.diskAttributeList = try reader["DiskAttributeList"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
-        return value
-    }
-}
-
-extension StorageGatewayClientTypes.PoolInfo {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> StorageGatewayClientTypes.PoolInfo {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = StorageGatewayClientTypes.PoolInfo()
-        value.poolARN = try reader["PoolARN"].readIfPresent()
-        value.poolName = try reader["PoolName"].readIfPresent()
-        value.storageClass = try reader["StorageClass"].readIfPresent()
-        value.retentionLockType = try reader["RetentionLockType"].readIfPresent()
-        value.retentionLockTimeInDays = try reader["RetentionLockTimeInDays"].readIfPresent()
-        value.poolStatus = try reader["PoolStatus"].readIfPresent()
+        value.retentionStartDate = try reader["RetentionStartDate"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.poolEntryDate = try reader["PoolEntryDate"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
         return value
     }
 }
@@ -11020,15 +10990,15 @@ extension StorageGatewayClientTypes.TapeInfo {
     }
 }
 
-extension StorageGatewayClientTypes.VolumeRecoveryPointInfo {
+extension StorageGatewayClientTypes.TapeRecoveryPointInfo {
 
-    static func read(from reader: SmithyJSON.Reader) throws -> StorageGatewayClientTypes.VolumeRecoveryPointInfo {
+    static func read(from reader: SmithyJSON.Reader) throws -> StorageGatewayClientTypes.TapeRecoveryPointInfo {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = StorageGatewayClientTypes.VolumeRecoveryPointInfo()
-        value.volumeARN = try reader["VolumeARN"].readIfPresent()
-        value.volumeSizeInBytes = try reader["VolumeSizeInBytes"].readIfPresent() ?? 0
-        value.volumeUsageInBytes = try reader["VolumeUsageInBytes"].readIfPresent() ?? 0
-        value.volumeRecoveryPointTime = try reader["VolumeRecoveryPointTime"].readIfPresent()
+        var value = StorageGatewayClientTypes.TapeRecoveryPointInfo()
+        value.tapeARN = try reader["TapeARN"].readIfPresent()
+        value.tapeRecoveryPointTime = try reader["TapeRecoveryPointTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.tapeSizeInBytes = try reader["TapeSizeInBytes"].readIfPresent()
+        value.tapeStatus = try reader["TapeStatus"].readIfPresent()
         return value
     }
 }
@@ -11049,13 +11019,43 @@ extension StorageGatewayClientTypes.VolumeInfo {
     }
 }
 
-extension StorageGatewayClientTypes.StorageGatewayError {
+extension StorageGatewayClientTypes.VolumeiSCSIAttributes {
 
-    static func read(from reader: SmithyJSON.Reader) throws -> StorageGatewayClientTypes.StorageGatewayError {
+    static func read(from reader: SmithyJSON.Reader) throws -> StorageGatewayClientTypes.VolumeiSCSIAttributes {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = StorageGatewayClientTypes.StorageGatewayError()
-        value.errorCode = try reader["errorCode"].readIfPresent()
-        value.errorDetails = try reader["errorDetails"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+        var value = StorageGatewayClientTypes.VolumeiSCSIAttributes()
+        value.targetARN = try reader["TargetARN"].readIfPresent()
+        value.networkInterfaceId = try reader["NetworkInterfaceId"].readIfPresent()
+        value.networkInterfacePort = try reader["NetworkInterfacePort"].readIfPresent() ?? 0
+        value.lunNumber = try reader["LunNumber"].readIfPresent()
+        value.chapEnabled = try reader["ChapEnabled"].readIfPresent() ?? false
+        return value
+    }
+}
+
+extension StorageGatewayClientTypes.VolumeRecoveryPointInfo {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> StorageGatewayClientTypes.VolumeRecoveryPointInfo {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = StorageGatewayClientTypes.VolumeRecoveryPointInfo()
+        value.volumeARN = try reader["VolumeARN"].readIfPresent()
+        value.volumeSizeInBytes = try reader["VolumeSizeInBytes"].readIfPresent() ?? 0
+        value.volumeUsageInBytes = try reader["VolumeUsageInBytes"].readIfPresent() ?? 0
+        value.volumeRecoveryPointTime = try reader["VolumeRecoveryPointTime"].readIfPresent()
+        return value
+    }
+}
+
+extension StorageGatewayClientTypes.VTLDevice {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> StorageGatewayClientTypes.VTLDevice {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = StorageGatewayClientTypes.VTLDevice()
+        value.vtlDeviceARN = try reader["VTLDeviceARN"].readIfPresent()
+        value.vtlDeviceType = try reader["VTLDeviceType"].readIfPresent()
+        value.vtlDeviceVendor = try reader["VTLDeviceVendor"].readIfPresent()
+        value.vtlDeviceProductIdentifier = try reader["VTLDeviceProductIdentifier"].readIfPresent()
+        value.deviceiSCSIAttributes = try reader["DeviceiSCSIAttributes"].readIfPresent(with: StorageGatewayClientTypes.DeviceiSCSIAttributes.read(from:))
         return value
     }
 }

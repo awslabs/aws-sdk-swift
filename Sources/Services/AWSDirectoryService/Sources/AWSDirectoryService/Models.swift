@@ -22,8 +22,8 @@ import protocol ClientRuntime.HTTPError
 import protocol ClientRuntime.ModeledError
 @_spi(SmithyReadWrite) import protocol SmithyReadWrite.SmithyReader
 @_spi(SmithyReadWrite) import protocol SmithyReadWrite.SmithyWriter
-@_spi(SmithyReadWrite) import struct AWSClientRuntime.AWSJSONError
 @_spi(UnknownAWSHTTPServiceError) import struct AWSClientRuntime.UnknownAWSHTTPServiceError
+@_spi(SmithyReadWrite) import struct ClientRuntime.AWSJSONError
 @_spi(SmithyReadWrite) import struct SmithyReadWrite.ReadingClosureBox
 
 /// A client exception has occurred.
@@ -8675,7 +8675,7 @@ enum AcceptSharedDirectoryOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "ClientException": return try ClientException.makeError(baseError: baseError)
@@ -8693,7 +8693,7 @@ enum AddIpRoutesOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "ClientException": return try ClientException.makeError(baseError: baseError)
@@ -8713,7 +8713,7 @@ enum AddRegionOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
@@ -8736,7 +8736,7 @@ enum AddTagsToResourceOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "ClientException": return try ClientException.makeError(baseError: baseError)
@@ -8754,7 +8754,7 @@ enum CancelSchemaExtensionOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "ClientException": return try ClientException.makeError(baseError: baseError)
@@ -8770,7 +8770,7 @@ enum ConnectDirectoryOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "ClientException": return try ClientException.makeError(baseError: baseError)
@@ -8787,7 +8787,7 @@ enum CreateAliasOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "ClientException": return try ClientException.makeError(baseError: baseError)
@@ -8805,7 +8805,7 @@ enum CreateComputerOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AuthenticationFailedException": return try AuthenticationFailedException.makeError(baseError: baseError)
@@ -8826,7 +8826,7 @@ enum CreateConditionalForwarderOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "ClientException": return try ClientException.makeError(baseError: baseError)
@@ -8846,7 +8846,7 @@ enum CreateDirectoryOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "ClientException": return try ClientException.makeError(baseError: baseError)
@@ -8863,7 +8863,7 @@ enum CreateHybridADOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "ADAssessmentLimitExceededException": return try ADAssessmentLimitExceededException.makeError(baseError: baseError)
@@ -8883,7 +8883,7 @@ enum CreateLogSubscriptionOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "ClientException": return try ClientException.makeError(baseError: baseError)
@@ -8902,7 +8902,7 @@ enum CreateMicrosoftADOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "ClientException": return try ClientException.makeError(baseError: baseError)
@@ -8920,7 +8920,7 @@ enum CreateSnapshotOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "ClientException": return try ClientException.makeError(baseError: baseError)
@@ -8938,7 +8938,7 @@ enum CreateTrustOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "ClientException": return try ClientException.makeError(baseError: baseError)
@@ -8957,7 +8957,7 @@ enum DeleteADAssessmentOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "ClientException": return try ClientException.makeError(baseError: baseError)
@@ -8975,7 +8975,7 @@ enum DeleteConditionalForwarderOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "ClientException": return try ClientException.makeError(baseError: baseError)
@@ -8994,7 +8994,7 @@ enum DeleteDirectoryOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "ClientException": return try ClientException.makeError(baseError: baseError)
@@ -9010,7 +9010,7 @@ enum DeleteLogSubscriptionOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "ClientException": return try ClientException.makeError(baseError: baseError)
@@ -9027,7 +9027,7 @@ enum DeleteSnapshotOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "ClientException": return try ClientException.makeError(baseError: baseError)
@@ -9044,7 +9044,7 @@ enum DeleteTrustOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "ClientException": return try ClientException.makeError(baseError: baseError)
@@ -9062,7 +9062,7 @@ enum DeregisterCertificateOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "CertificateDoesNotExistException": return try CertificateDoesNotExistException.makeError(baseError: baseError)
@@ -9083,7 +9083,7 @@ enum DeregisterEventTopicOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "ClientException": return try ClientException.makeError(baseError: baseError)
@@ -9100,7 +9100,7 @@ enum DescribeADAssessmentOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "ClientException": return try ClientException.makeError(baseError: baseError)
@@ -9118,7 +9118,7 @@ enum DescribeCAEnrollmentPolicyOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "ClientException": return try ClientException.makeError(baseError: baseError)
@@ -9135,7 +9135,7 @@ enum DescribeCertificateOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "CertificateDoesNotExistException": return try CertificateDoesNotExistException.makeError(baseError: baseError)
@@ -9154,7 +9154,7 @@ enum DescribeClientAuthenticationSettingsOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
@@ -9173,7 +9173,7 @@ enum DescribeConditionalForwardersOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "ClientException": return try ClientException.makeError(baseError: baseError)
@@ -9192,7 +9192,7 @@ enum DescribeDirectoriesOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "ClientException": return try ClientException.makeError(baseError: baseError)
@@ -9210,7 +9210,7 @@ enum DescribeDirectoryDataAccessOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
@@ -9228,7 +9228,7 @@ enum DescribeDomainControllersOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "ClientException": return try ClientException.makeError(baseError: baseError)
@@ -9247,7 +9247,7 @@ enum DescribeEventTopicsOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "ClientException": return try ClientException.makeError(baseError: baseError)
@@ -9264,7 +9264,7 @@ enum DescribeHybridADUpdateOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "ClientException": return try ClientException.makeError(baseError: baseError)
@@ -9283,7 +9283,7 @@ enum DescribeLDAPSSettingsOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "ClientException": return try ClientException.makeError(baseError: baseError)
@@ -9302,7 +9302,7 @@ enum DescribeRegionsOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
@@ -9322,7 +9322,7 @@ enum DescribeSettingsOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "ClientException": return try ClientException.makeError(baseError: baseError)
@@ -9341,7 +9341,7 @@ enum DescribeSharedDirectoriesOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "ClientException": return try ClientException.makeError(baseError: baseError)
@@ -9360,7 +9360,7 @@ enum DescribeSnapshotsOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "ClientException": return try ClientException.makeError(baseError: baseError)
@@ -9378,7 +9378,7 @@ enum DescribeTrustsOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "ClientException": return try ClientException.makeError(baseError: baseError)
@@ -9397,7 +9397,7 @@ enum DescribeUpdateDirectoryOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
@@ -9416,7 +9416,7 @@ enum DisableCAEnrollmentPolicyOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
@@ -9437,7 +9437,7 @@ enum DisableClientAuthenticationOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
@@ -9456,7 +9456,7 @@ enum DisableDirectoryDataAccessOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
@@ -9476,7 +9476,7 @@ enum DisableLDAPSOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "ClientException": return try ClientException.makeError(baseError: baseError)
@@ -9496,7 +9496,7 @@ enum DisableRadiusOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "ClientException": return try ClientException.makeError(baseError: baseError)
@@ -9512,7 +9512,7 @@ enum DisableSsoOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AuthenticationFailedException": return try AuthenticationFailedException.makeError(baseError: baseError)
@@ -9530,7 +9530,7 @@ enum EnableCAEnrollmentPolicyOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
@@ -9552,7 +9552,7 @@ enum EnableClientAuthenticationOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
@@ -9572,7 +9572,7 @@ enum EnableDirectoryDataAccessOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
@@ -9592,7 +9592,7 @@ enum EnableLDAPSOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "ClientException": return try ClientException.makeError(baseError: baseError)
@@ -9613,7 +9613,7 @@ enum EnableRadiusOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "ClientException": return try ClientException.makeError(baseError: baseError)
@@ -9631,7 +9631,7 @@ enum EnableSsoOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AuthenticationFailedException": return try AuthenticationFailedException.makeError(baseError: baseError)
@@ -9649,7 +9649,7 @@ enum GetDirectoryLimitsOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "ClientException": return try ClientException.makeError(baseError: baseError)
@@ -9665,7 +9665,7 @@ enum GetSnapshotLimitsOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "ClientException": return try ClientException.makeError(baseError: baseError)
@@ -9681,7 +9681,7 @@ enum ListADAssessmentsOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "ClientException": return try ClientException.makeError(baseError: baseError)
@@ -9699,7 +9699,7 @@ enum ListCertificatesOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "ClientException": return try ClientException.makeError(baseError: baseError)
@@ -9718,7 +9718,7 @@ enum ListIpRoutesOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "ClientException": return try ClientException.makeError(baseError: baseError)
@@ -9736,7 +9736,7 @@ enum ListLogSubscriptionsOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "ClientException": return try ClientException.makeError(baseError: baseError)
@@ -9753,7 +9753,7 @@ enum ListSchemaExtensionsOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "ClientException": return try ClientException.makeError(baseError: baseError)
@@ -9770,7 +9770,7 @@ enum ListTagsForResourceOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "ClientException": return try ClientException.makeError(baseError: baseError)
@@ -9788,7 +9788,7 @@ enum RegisterCertificateOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "CertificateAlreadyExistsException": return try CertificateAlreadyExistsException.makeError(baseError: baseError)
@@ -9810,7 +9810,7 @@ enum RegisterEventTopicOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "ClientException": return try ClientException.makeError(baseError: baseError)
@@ -9827,7 +9827,7 @@ enum RejectSharedDirectoryOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "ClientException": return try ClientException.makeError(baseError: baseError)
@@ -9845,7 +9845,7 @@ enum RemoveIpRoutesOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "ClientException": return try ClientException.makeError(baseError: baseError)
@@ -9863,7 +9863,7 @@ enum RemoveRegionOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
@@ -9882,7 +9882,7 @@ enum RemoveTagsFromResourceOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "ClientException": return try ClientException.makeError(baseError: baseError)
@@ -9899,7 +9899,7 @@ enum ResetUserPasswordOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "ClientException": return try ClientException.makeError(baseError: baseError)
@@ -9919,7 +9919,7 @@ enum RestoreFromSnapshotOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "ClientException": return try ClientException.makeError(baseError: baseError)
@@ -9936,7 +9936,7 @@ enum ShareDirectoryOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
@@ -9959,7 +9959,7 @@ enum StartADAssessmentOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "ADAssessmentLimitExceededException": return try ADAssessmentLimitExceededException.makeError(baseError: baseError)
@@ -9978,7 +9978,7 @@ enum StartSchemaExtensionOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "ClientException": return try ClientException.makeError(baseError: baseError)
@@ -9997,7 +9997,7 @@ enum UnshareDirectoryOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "ClientException": return try ClientException.makeError(baseError: baseError)
@@ -10015,7 +10015,7 @@ enum UpdateConditionalForwarderOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "ClientException": return try ClientException.makeError(baseError: baseError)
@@ -10034,7 +10034,7 @@ enum UpdateDirectorySetupOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
@@ -10056,7 +10056,7 @@ enum UpdateHybridADOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "ADAssessmentLimitExceededException": return try ADAssessmentLimitExceededException.makeError(baseError: baseError)
@@ -10075,7 +10075,7 @@ enum UpdateNumberOfDomainControllersOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "ClientException": return try ClientException.makeError(baseError: baseError)
@@ -10095,7 +10095,7 @@ enum UpdateRadiusOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "ClientException": return try ClientException.makeError(baseError: baseError)
@@ -10112,7 +10112,7 @@ enum UpdateSettingsOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "ClientException": return try ClientException.makeError(baseError: baseError)
@@ -10133,7 +10133,7 @@ enum UpdateTrustOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "ClientException": return try ClientException.makeError(baseError: baseError)
@@ -10150,7 +10150,7 @@ enum VerifyTrustOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "ClientException": return try ClientException.makeError(baseError: baseError)
@@ -10165,7 +10165,7 @@ enum VerifyTrustOutputError {
 
 extension ClientException {
 
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> ClientException {
+    static func makeError(baseError: ClientRuntime.AWSJSONError) throws -> ClientException {
         let reader = baseError.errorBodyReader
         var value = ClientException()
         value.properties.message = try reader["Message"].readIfPresent()
@@ -10179,7 +10179,7 @@ extension ClientException {
 
 extension DirectoryAlreadySharedException {
 
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> DirectoryAlreadySharedException {
+    static func makeError(baseError: ClientRuntime.AWSJSONError) throws -> DirectoryAlreadySharedException {
         let reader = baseError.errorBodyReader
         var value = DirectoryAlreadySharedException()
         value.properties.message = try reader["Message"].readIfPresent()
@@ -10193,7 +10193,7 @@ extension DirectoryAlreadySharedException {
 
 extension EntityDoesNotExistException {
 
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> EntityDoesNotExistException {
+    static func makeError(baseError: ClientRuntime.AWSJSONError) throws -> EntityDoesNotExistException {
         let reader = baseError.errorBodyReader
         var value = EntityDoesNotExistException()
         value.properties.message = try reader["Message"].readIfPresent()
@@ -10207,7 +10207,7 @@ extension EntityDoesNotExistException {
 
 extension InvalidParameterException {
 
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> InvalidParameterException {
+    static func makeError(baseError: ClientRuntime.AWSJSONError) throws -> InvalidParameterException {
         let reader = baseError.errorBodyReader
         var value = InvalidParameterException()
         value.properties.message = try reader["Message"].readIfPresent()
@@ -10221,7 +10221,7 @@ extension InvalidParameterException {
 
 extension ServiceException {
 
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> ServiceException {
+    static func makeError(baseError: ClientRuntime.AWSJSONError) throws -> ServiceException {
         let reader = baseError.errorBodyReader
         var value = ServiceException()
         value.properties.message = try reader["Message"].readIfPresent()
@@ -10235,7 +10235,7 @@ extension ServiceException {
 
 extension DirectoryUnavailableException {
 
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> DirectoryUnavailableException {
+    static func makeError(baseError: ClientRuntime.AWSJSONError) throws -> DirectoryUnavailableException {
         let reader = baseError.errorBodyReader
         var value = DirectoryUnavailableException()
         value.properties.message = try reader["Message"].readIfPresent()
@@ -10249,7 +10249,7 @@ extension DirectoryUnavailableException {
 
 extension EntityAlreadyExistsException {
 
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> EntityAlreadyExistsException {
+    static func makeError(baseError: ClientRuntime.AWSJSONError) throws -> EntityAlreadyExistsException {
         let reader = baseError.errorBodyReader
         var value = EntityAlreadyExistsException()
         value.properties.message = try reader["Message"].readIfPresent()
@@ -10263,7 +10263,7 @@ extension EntityAlreadyExistsException {
 
 extension IpRouteLimitExceededException {
 
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> IpRouteLimitExceededException {
+    static func makeError(baseError: ClientRuntime.AWSJSONError) throws -> IpRouteLimitExceededException {
         let reader = baseError.errorBodyReader
         var value = IpRouteLimitExceededException()
         value.properties.message = try reader["Message"].readIfPresent()
@@ -10277,7 +10277,7 @@ extension IpRouteLimitExceededException {
 
 extension AccessDeniedException {
 
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> AccessDeniedException {
+    static func makeError(baseError: ClientRuntime.AWSJSONError) throws -> AccessDeniedException {
         let reader = baseError.errorBodyReader
         var value = AccessDeniedException()
         value.properties.message = try reader["Message"].readIfPresent()
@@ -10291,7 +10291,7 @@ extension AccessDeniedException {
 
 extension DirectoryAlreadyInRegionException {
 
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> DirectoryAlreadyInRegionException {
+    static func makeError(baseError: ClientRuntime.AWSJSONError) throws -> DirectoryAlreadyInRegionException {
         let reader = baseError.errorBodyReader
         var value = DirectoryAlreadyInRegionException()
         value.properties.message = try reader["Message"].readIfPresent()
@@ -10305,7 +10305,7 @@ extension DirectoryAlreadyInRegionException {
 
 extension DirectoryDoesNotExistException {
 
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> DirectoryDoesNotExistException {
+    static func makeError(baseError: ClientRuntime.AWSJSONError) throws -> DirectoryDoesNotExistException {
         let reader = baseError.errorBodyReader
         var value = DirectoryDoesNotExistException()
         value.properties.message = try reader["Message"].readIfPresent()
@@ -10319,7 +10319,7 @@ extension DirectoryDoesNotExistException {
 
 extension RegionLimitExceededException {
 
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> RegionLimitExceededException {
+    static func makeError(baseError: ClientRuntime.AWSJSONError) throws -> RegionLimitExceededException {
         let reader = baseError.errorBodyReader
         var value = RegionLimitExceededException()
         value.properties.message = try reader["Message"].readIfPresent()
@@ -10333,7 +10333,7 @@ extension RegionLimitExceededException {
 
 extension UnsupportedOperationException {
 
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> UnsupportedOperationException {
+    static func makeError(baseError: ClientRuntime.AWSJSONError) throws -> UnsupportedOperationException {
         let reader = baseError.errorBodyReader
         var value = UnsupportedOperationException()
         value.properties.message = try reader["Message"].readIfPresent()
@@ -10347,7 +10347,7 @@ extension UnsupportedOperationException {
 
 extension TagLimitExceededException {
 
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> TagLimitExceededException {
+    static func makeError(baseError: ClientRuntime.AWSJSONError) throws -> TagLimitExceededException {
         let reader = baseError.errorBodyReader
         var value = TagLimitExceededException()
         value.properties.message = try reader["Message"].readIfPresent()
@@ -10361,7 +10361,7 @@ extension TagLimitExceededException {
 
 extension DirectoryLimitExceededException {
 
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> DirectoryLimitExceededException {
+    static func makeError(baseError: ClientRuntime.AWSJSONError) throws -> DirectoryLimitExceededException {
         let reader = baseError.errorBodyReader
         var value = DirectoryLimitExceededException()
         value.properties.message = try reader["Message"].readIfPresent()
@@ -10375,7 +10375,7 @@ extension DirectoryLimitExceededException {
 
 extension AuthenticationFailedException {
 
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> AuthenticationFailedException {
+    static func makeError(baseError: ClientRuntime.AWSJSONError) throws -> AuthenticationFailedException {
         let reader = baseError.errorBodyReader
         var value = AuthenticationFailedException()
         value.properties.message = try reader["Message"].readIfPresent()
@@ -10389,7 +10389,7 @@ extension AuthenticationFailedException {
 
 extension ADAssessmentLimitExceededException {
 
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> ADAssessmentLimitExceededException {
+    static func makeError(baseError: ClientRuntime.AWSJSONError) throws -> ADAssessmentLimitExceededException {
         let reader = baseError.errorBodyReader
         var value = ADAssessmentLimitExceededException()
         value.properties.message = try reader["Message"].readIfPresent()
@@ -10403,7 +10403,7 @@ extension ADAssessmentLimitExceededException {
 
 extension InsufficientPermissionsException {
 
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> InsufficientPermissionsException {
+    static func makeError(baseError: ClientRuntime.AWSJSONError) throws -> InsufficientPermissionsException {
         let reader = baseError.errorBodyReader
         var value = InsufficientPermissionsException()
         value.properties.message = try reader["Message"].readIfPresent()
@@ -10417,7 +10417,7 @@ extension InsufficientPermissionsException {
 
 extension SnapshotLimitExceededException {
 
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> SnapshotLimitExceededException {
+    static func makeError(baseError: ClientRuntime.AWSJSONError) throws -> SnapshotLimitExceededException {
         let reader = baseError.errorBodyReader
         var value = SnapshotLimitExceededException()
         value.properties.message = try reader["Message"].readIfPresent()
@@ -10431,7 +10431,7 @@ extension SnapshotLimitExceededException {
 
 extension CertificateDoesNotExistException {
 
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> CertificateDoesNotExistException {
+    static func makeError(baseError: ClientRuntime.AWSJSONError) throws -> CertificateDoesNotExistException {
         let reader = baseError.errorBodyReader
         var value = CertificateDoesNotExistException()
         value.properties.message = try reader["Message"].readIfPresent()
@@ -10445,7 +10445,7 @@ extension CertificateDoesNotExistException {
 
 extension CertificateInUseException {
 
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> CertificateInUseException {
+    static func makeError(baseError: ClientRuntime.AWSJSONError) throws -> CertificateInUseException {
         let reader = baseError.errorBodyReader
         var value = CertificateInUseException()
         value.properties.message = try reader["Message"].readIfPresent()
@@ -10459,7 +10459,7 @@ extension CertificateInUseException {
 
 extension InvalidNextTokenException {
 
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> InvalidNextTokenException {
+    static func makeError(baseError: ClientRuntime.AWSJSONError) throws -> InvalidNextTokenException {
         let reader = baseError.errorBodyReader
         var value = InvalidNextTokenException()
         value.properties.message = try reader["Message"].readIfPresent()
@@ -10473,7 +10473,7 @@ extension InvalidNextTokenException {
 
 extension DisableAlreadyInProgressException {
 
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> DisableAlreadyInProgressException {
+    static func makeError(baseError: ClientRuntime.AWSJSONError) throws -> DisableAlreadyInProgressException {
         let reader = baseError.errorBodyReader
         var value = DisableAlreadyInProgressException()
         value.properties.message = try reader["Message"].readIfPresent()
@@ -10487,7 +10487,7 @@ extension DisableAlreadyInProgressException {
 
 extension InvalidClientAuthStatusException {
 
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> InvalidClientAuthStatusException {
+    static func makeError(baseError: ClientRuntime.AWSJSONError) throws -> InvalidClientAuthStatusException {
         let reader = baseError.errorBodyReader
         var value = InvalidClientAuthStatusException()
         value.properties.message = try reader["Message"].readIfPresent()
@@ -10501,7 +10501,7 @@ extension InvalidClientAuthStatusException {
 
 extension DirectoryInDesiredStateException {
 
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> DirectoryInDesiredStateException {
+    static func makeError(baseError: ClientRuntime.AWSJSONError) throws -> DirectoryInDesiredStateException {
         let reader = baseError.errorBodyReader
         var value = DirectoryInDesiredStateException()
         value.properties.message = try reader["Message"].readIfPresent()
@@ -10515,7 +10515,7 @@ extension DirectoryInDesiredStateException {
 
 extension InvalidLDAPSStatusException {
 
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> InvalidLDAPSStatusException {
+    static func makeError(baseError: ClientRuntime.AWSJSONError) throws -> InvalidLDAPSStatusException {
         let reader = baseError.errorBodyReader
         var value = InvalidLDAPSStatusException()
         value.properties.message = try reader["Message"].readIfPresent()
@@ -10529,7 +10529,7 @@ extension InvalidLDAPSStatusException {
 
 extension EnableAlreadyInProgressException {
 
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> EnableAlreadyInProgressException {
+    static func makeError(baseError: ClientRuntime.AWSJSONError) throws -> EnableAlreadyInProgressException {
         let reader = baseError.errorBodyReader
         var value = EnableAlreadyInProgressException()
         value.properties.message = try reader["Message"].readIfPresent()
@@ -10543,7 +10543,7 @@ extension EnableAlreadyInProgressException {
 
 extension NoAvailableCertificateException {
 
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> NoAvailableCertificateException {
+    static func makeError(baseError: ClientRuntime.AWSJSONError) throws -> NoAvailableCertificateException {
         let reader = baseError.errorBodyReader
         var value = NoAvailableCertificateException()
         value.properties.message = try reader["Message"].readIfPresent()
@@ -10557,7 +10557,7 @@ extension NoAvailableCertificateException {
 
 extension CertificateAlreadyExistsException {
 
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> CertificateAlreadyExistsException {
+    static func makeError(baseError: ClientRuntime.AWSJSONError) throws -> CertificateAlreadyExistsException {
         let reader = baseError.errorBodyReader
         var value = CertificateAlreadyExistsException()
         value.properties.message = try reader["Message"].readIfPresent()
@@ -10571,7 +10571,7 @@ extension CertificateAlreadyExistsException {
 
 extension CertificateLimitExceededException {
 
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> CertificateLimitExceededException {
+    static func makeError(baseError: ClientRuntime.AWSJSONError) throws -> CertificateLimitExceededException {
         let reader = baseError.errorBodyReader
         var value = CertificateLimitExceededException()
         value.properties.message = try reader["Message"].readIfPresent()
@@ -10585,7 +10585,7 @@ extension CertificateLimitExceededException {
 
 extension InvalidCertificateException {
 
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> InvalidCertificateException {
+    static func makeError(baseError: ClientRuntime.AWSJSONError) throws -> InvalidCertificateException {
         let reader = baseError.errorBodyReader
         var value = InvalidCertificateException()
         value.properties.message = try reader["Message"].readIfPresent()
@@ -10599,7 +10599,7 @@ extension InvalidCertificateException {
 
 extension InvalidPasswordException {
 
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> InvalidPasswordException {
+    static func makeError(baseError: ClientRuntime.AWSJSONError) throws -> InvalidPasswordException {
         let reader = baseError.errorBodyReader
         var value = InvalidPasswordException()
         value.properties.message = try reader["Message"].readIfPresent()
@@ -10613,7 +10613,7 @@ extension InvalidPasswordException {
 
 extension UserDoesNotExistException {
 
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> UserDoesNotExistException {
+    static func makeError(baseError: ClientRuntime.AWSJSONError) throws -> UserDoesNotExistException {
         let reader = baseError.errorBodyReader
         var value = UserDoesNotExistException()
         value.properties.message = try reader["Message"].readIfPresent()
@@ -10627,7 +10627,7 @@ extension UserDoesNotExistException {
 
 extension InvalidTargetException {
 
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> InvalidTargetException {
+    static func makeError(baseError: ClientRuntime.AWSJSONError) throws -> InvalidTargetException {
         let reader = baseError.errorBodyReader
         var value = InvalidTargetException()
         value.properties.message = try reader["Message"].readIfPresent()
@@ -10641,7 +10641,7 @@ extension InvalidTargetException {
 
 extension OrganizationsException {
 
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> OrganizationsException {
+    static func makeError(baseError: ClientRuntime.AWSJSONError) throws -> OrganizationsException {
         let reader = baseError.errorBodyReader
         var value = OrganizationsException()
         value.properties.message = try reader["Message"].readIfPresent()
@@ -10655,7 +10655,7 @@ extension OrganizationsException {
 
 extension ShareLimitExceededException {
 
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> ShareLimitExceededException {
+    static func makeError(baseError: ClientRuntime.AWSJSONError) throws -> ShareLimitExceededException {
         let reader = baseError.errorBodyReader
         var value = ShareLimitExceededException()
         value.properties.message = try reader["Message"].readIfPresent()
@@ -10669,7 +10669,7 @@ extension ShareLimitExceededException {
 
 extension DirectoryNotSharedException {
 
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> DirectoryNotSharedException {
+    static func makeError(baseError: ClientRuntime.AWSJSONError) throws -> DirectoryNotSharedException {
         let reader = baseError.errorBodyReader
         var value = DirectoryNotSharedException()
         value.properties.message = try reader["Message"].readIfPresent()
@@ -10683,7 +10683,7 @@ extension DirectoryNotSharedException {
 
 extension DomainControllerLimitExceededException {
 
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> DomainControllerLimitExceededException {
+    static func makeError(baseError: ClientRuntime.AWSJSONError) throws -> DomainControllerLimitExceededException {
         let reader = baseError.errorBodyReader
         var value = DomainControllerLimitExceededException()
         value.properties.message = try reader["Message"].readIfPresent()
@@ -10697,7 +10697,7 @@ extension DomainControllerLimitExceededException {
 
 extension IncompatibleSettingsException {
 
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> IncompatibleSettingsException {
+    static func makeError(baseError: ClientRuntime.AWSJSONError) throws -> IncompatibleSettingsException {
         let reader = baseError.errorBodyReader
         var value = IncompatibleSettingsException()
         value.properties.message = try reader["Message"].readIfPresent()
@@ -10711,7 +10711,7 @@ extension IncompatibleSettingsException {
 
 extension UnsupportedSettingsException {
 
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> UnsupportedSettingsException {
+    static func makeError(baseError: ClientRuntime.AWSJSONError) throws -> UnsupportedSettingsException {
         let reader = baseError.errorBodyReader
         var value = UnsupportedSettingsException()
         value.properties.message = try reader["Message"].readIfPresent()
@@ -10719,53 +10719,6 @@ extension UnsupportedSettingsException {
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
         value.message = baseError.message
-        return value
-    }
-}
-
-extension DirectoryClientTypes.SharedDirectory {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> DirectoryClientTypes.SharedDirectory {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = DirectoryClientTypes.SharedDirectory()
-        value.ownerAccountId = try reader["OwnerAccountId"].readIfPresent()
-        value.ownerDirectoryId = try reader["OwnerDirectoryId"].readIfPresent()
-        value.shareMethod = try reader["ShareMethod"].readIfPresent()
-        value.sharedAccountId = try reader["SharedAccountId"].readIfPresent()
-        value.sharedDirectoryId = try reader["SharedDirectoryId"].readIfPresent()
-        value.shareStatus = try reader["ShareStatus"].readIfPresent()
-        value.shareNotes = try reader["ShareNotes"].readIfPresent()
-        value.createdDateTime = try reader["CreatedDateTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
-        value.lastUpdatedDateTime = try reader["LastUpdatedDateTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
-        return value
-    }
-}
-
-extension DirectoryClientTypes.Computer {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> DirectoryClientTypes.Computer {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = DirectoryClientTypes.Computer()
-        value.computerId = try reader["ComputerId"].readIfPresent()
-        value.computerName = try reader["ComputerName"].readIfPresent()
-        value.computerAttributes = try reader["ComputerAttributes"].readListIfPresent(memberReadingClosure: DirectoryClientTypes.Attribute.read(from:), memberNodeInfo: "member", isFlattened: false)
-        return value
-    }
-}
-
-extension DirectoryClientTypes.Attribute {
-
-    static func write(value: DirectoryClientTypes.Attribute?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["Name"].write(value.name)
-        try writer["Value"].write(value.value)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> DirectoryClientTypes.Attribute {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = DirectoryClientTypes.Attribute()
-        value.name = try reader["Name"].readIfPresent()
-        value.value = try reader["Value"].readIfPresent()
         return value
     }
 }
@@ -10794,6 +10747,18 @@ extension DirectoryClientTypes.Assessment {
     }
 }
 
+extension DirectoryClientTypes.AssessmentConfiguration {
+
+    static func write(value: DirectoryClientTypes.AssessmentConfiguration?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["CustomerDnsIps"].writeList(value.customerDnsIps, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["DnsName"].write(value.dnsName)
+        try writer["InstanceIds"].writeList(value.instanceIds, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["SecurityGroupIds"].writeList(value.securityGroupIds, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["VpcSettings"].write(value.vpcSettings, with: DirectoryClientTypes.DirectoryVpcSettings.write(value:to:))
+    }
+}
+
 extension DirectoryClientTypes.AssessmentReport {
 
     static func read(from reader: SmithyJSON.Reader) throws -> DirectoryClientTypes.AssessmentReport {
@@ -10801,6 +10766,23 @@ extension DirectoryClientTypes.AssessmentReport {
         var value = DirectoryClientTypes.AssessmentReport()
         value.domainControllerIp = try reader["DomainControllerIp"].readIfPresent()
         value.validations = try reader["Validations"].readListIfPresent(memberReadingClosure: DirectoryClientTypes.AssessmentValidation.read(from:), memberNodeInfo: "member", isFlattened: false)
+        return value
+    }
+}
+
+extension DirectoryClientTypes.AssessmentSummary {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> DirectoryClientTypes.AssessmentSummary {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = DirectoryClientTypes.AssessmentSummary()
+        value.assessmentId = try reader["AssessmentId"].readIfPresent()
+        value.directoryId = try reader["DirectoryId"].readIfPresent()
+        value.dnsName = try reader["DnsName"].readIfPresent()
+        value.startTime = try reader["StartTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.lastUpdateDateTime = try reader["LastUpdateDateTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.status = try reader["Status"].readIfPresent()
+        value.customerDnsIps = try reader["CustomerDnsIps"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        value.reportType = try reader["ReportType"].readIfPresent()
         return value
     }
 }
@@ -10817,6 +10799,23 @@ extension DirectoryClientTypes.AssessmentValidation {
         value.statusReason = try reader["StatusReason"].readIfPresent()
         value.startTime = try reader["StartTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
         value.lastUpdateDateTime = try reader["LastUpdateDateTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        return value
+    }
+}
+
+extension DirectoryClientTypes.Attribute {
+
+    static func write(value: DirectoryClientTypes.Attribute?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["Name"].write(value.name)
+        try writer["Value"].write(value.value)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> DirectoryClientTypes.Attribute {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = DirectoryClientTypes.Attribute()
+        value.name = try reader["Name"].readIfPresent()
+        value.value = try reader["Value"].readIfPresent()
         return value
     }
 }
@@ -10838,17 +10837,16 @@ extension DirectoryClientTypes.Certificate {
     }
 }
 
-extension DirectoryClientTypes.ClientCertAuthSettings {
+extension DirectoryClientTypes.CertificateInfo {
 
-    static func write(value: DirectoryClientTypes.ClientCertAuthSettings?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["OCSPUrl"].write(value.ocspUrl)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> DirectoryClientTypes.ClientCertAuthSettings {
+    static func read(from reader: SmithyJSON.Reader) throws -> DirectoryClientTypes.CertificateInfo {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = DirectoryClientTypes.ClientCertAuthSettings()
-        value.ocspUrl = try reader["OCSPUrl"].readIfPresent()
+        var value = DirectoryClientTypes.CertificateInfo()
+        value.certificateId = try reader["CertificateId"].readIfPresent()
+        value.commonName = try reader["CommonName"].readIfPresent()
+        value.state = try reader["State"].readIfPresent()
+        value.expiryDateTime = try reader["ExpiryDateTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.type = try reader["Type"].readIfPresent()
         return value
     }
 }
@@ -10865,6 +10863,33 @@ extension DirectoryClientTypes.ClientAuthenticationSettingInfo {
     }
 }
 
+extension DirectoryClientTypes.ClientCertAuthSettings {
+
+    static func write(value: DirectoryClientTypes.ClientCertAuthSettings?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["OCSPUrl"].write(value.ocspUrl)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> DirectoryClientTypes.ClientCertAuthSettings {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = DirectoryClientTypes.ClientCertAuthSettings()
+        value.ocspUrl = try reader["OCSPUrl"].readIfPresent()
+        return value
+    }
+}
+
+extension DirectoryClientTypes.Computer {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> DirectoryClientTypes.Computer {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = DirectoryClientTypes.Computer()
+        value.computerId = try reader["ComputerId"].readIfPresent()
+        value.computerName = try reader["ComputerName"].readIfPresent()
+        value.computerAttributes = try reader["ComputerAttributes"].readListIfPresent(memberReadingClosure: DirectoryClientTypes.Attribute.read(from:), memberNodeInfo: "member", isFlattened: false)
+        return value
+    }
+}
+
 extension DirectoryClientTypes.ConditionalForwarder {
 
     static func read(from reader: SmithyJSON.Reader) throws -> DirectoryClientTypes.ConditionalForwarder {
@@ -10874,6 +10899,34 @@ extension DirectoryClientTypes.ConditionalForwarder {
         value.dnsIpAddrs = try reader["DnsIpAddrs"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
         value.dnsIpv6Addrs = try reader["DnsIpv6Addrs"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
         value.replicationScope = try reader["ReplicationScope"].readIfPresent()
+        return value
+    }
+}
+
+extension DirectoryClientTypes.DirectoryConnectSettings {
+
+    static func write(value: DirectoryClientTypes.DirectoryConnectSettings?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["CustomerDnsIps"].writeList(value.customerDnsIps, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["CustomerDnsIpsV6"].writeList(value.customerDnsIpsV6, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["CustomerUserName"].write(value.customerUserName)
+        try writer["SubnetIds"].writeList(value.subnetIds, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["VpcId"].write(value.vpcId)
+    }
+}
+
+extension DirectoryClientTypes.DirectoryConnectSettingsDescription {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> DirectoryClientTypes.DirectoryConnectSettingsDescription {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = DirectoryClientTypes.DirectoryConnectSettingsDescription()
+        value.vpcId = try reader["VpcId"].readIfPresent()
+        value.subnetIds = try reader["SubnetIds"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        value.customerUserName = try reader["CustomerUserName"].readIfPresent()
+        value.securityGroupId = try reader["SecurityGroupId"].readIfPresent()
+        value.availabilityZones = try reader["AvailabilityZones"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        value.connectIps = try reader["ConnectIps"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        value.connectIpsV6 = try reader["ConnectIpsV6"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
         return value
     }
 }
@@ -10916,6 +10969,113 @@ extension DirectoryClientTypes.DirectoryDescription {
     }
 }
 
+extension DirectoryClientTypes.DirectoryLimits {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> DirectoryClientTypes.DirectoryLimits {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = DirectoryClientTypes.DirectoryLimits()
+        value.cloudOnlyDirectoriesLimit = try reader["CloudOnlyDirectoriesLimit"].readIfPresent()
+        value.cloudOnlyDirectoriesCurrentCount = try reader["CloudOnlyDirectoriesCurrentCount"].readIfPresent()
+        value.cloudOnlyDirectoriesLimitReached = try reader["CloudOnlyDirectoriesLimitReached"].readIfPresent() ?? false
+        value.cloudOnlyMicrosoftADLimit = try reader["CloudOnlyMicrosoftADLimit"].readIfPresent()
+        value.cloudOnlyMicrosoftADCurrentCount = try reader["CloudOnlyMicrosoftADCurrentCount"].readIfPresent()
+        value.cloudOnlyMicrosoftADLimitReached = try reader["CloudOnlyMicrosoftADLimitReached"].readIfPresent() ?? false
+        value.connectedDirectoriesLimit = try reader["ConnectedDirectoriesLimit"].readIfPresent()
+        value.connectedDirectoriesCurrentCount = try reader["ConnectedDirectoriesCurrentCount"].readIfPresent()
+        value.connectedDirectoriesLimitReached = try reader["ConnectedDirectoriesLimitReached"].readIfPresent() ?? false
+        return value
+    }
+}
+
+extension DirectoryClientTypes.DirectorySizeUpdateSettings {
+
+    static func write(value: DirectoryClientTypes.DirectorySizeUpdateSettings?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["DirectorySize"].write(value.directorySize)
+    }
+}
+
+extension DirectoryClientTypes.DirectoryVpcSettings {
+
+    static func write(value: DirectoryClientTypes.DirectoryVpcSettings?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["SubnetIds"].writeList(value.subnetIds, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["VpcId"].write(value.vpcId)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> DirectoryClientTypes.DirectoryVpcSettings {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = DirectoryClientTypes.DirectoryVpcSettings()
+        value.vpcId = try reader["VpcId"].readIfPresent() ?? ""
+        value.subnetIds = try reader["SubnetIds"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        return value
+    }
+}
+
+extension DirectoryClientTypes.DirectoryVpcSettingsDescription {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> DirectoryClientTypes.DirectoryVpcSettingsDescription {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = DirectoryClientTypes.DirectoryVpcSettingsDescription()
+        value.vpcId = try reader["VpcId"].readIfPresent()
+        value.subnetIds = try reader["SubnetIds"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        value.securityGroupId = try reader["SecurityGroupId"].readIfPresent()
+        value.availabilityZones = try reader["AvailabilityZones"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        return value
+    }
+}
+
+extension DirectoryClientTypes.DomainController {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> DirectoryClientTypes.DomainController {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = DirectoryClientTypes.DomainController()
+        value.directoryId = try reader["DirectoryId"].readIfPresent()
+        value.domainControllerId = try reader["DomainControllerId"].readIfPresent()
+        value.dnsIpAddr = try reader["DnsIpAddr"].readIfPresent()
+        value.dnsIpv6Addr = try reader["DnsIpv6Addr"].readIfPresent()
+        value.vpcId = try reader["VpcId"].readIfPresent()
+        value.subnetId = try reader["SubnetId"].readIfPresent()
+        value.availabilityZone = try reader["AvailabilityZone"].readIfPresent()
+        value.status = try reader["Status"].readIfPresent()
+        value.statusReason = try reader["StatusReason"].readIfPresent()
+        value.launchTime = try reader["LaunchTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.statusLastUpdatedDateTime = try reader["StatusLastUpdatedDateTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        return value
+    }
+}
+
+extension DirectoryClientTypes.EventTopic {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> DirectoryClientTypes.EventTopic {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = DirectoryClientTypes.EventTopic()
+        value.directoryId = try reader["DirectoryId"].readIfPresent()
+        value.topicName = try reader["TopicName"].readIfPresent()
+        value.topicArn = try reader["TopicArn"].readIfPresent()
+        value.createdDateTime = try reader["CreatedDateTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.status = try reader["Status"].readIfPresent()
+        return value
+    }
+}
+
+extension DirectoryClientTypes.HybridAdministratorAccountUpdate {
+
+    static func write(value: DirectoryClientTypes.HybridAdministratorAccountUpdate?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["SecretArn"].write(value.secretArn)
+    }
+}
+
+extension DirectoryClientTypes.HybridCustomerInstancesSettings {
+
+    static func write(value: DirectoryClientTypes.HybridCustomerInstancesSettings?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["CustomerDnsIps"].writeList(value.customerDnsIps, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["InstanceIds"].writeList(value.instanceIds, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+    }
+}
+
 extension DirectoryClientTypes.HybridSettingsDescription {
 
     static func read(from reader: SmithyJSON.Reader) throws -> DirectoryClientTypes.HybridSettingsDescription {
@@ -10927,13 +11087,115 @@ extension DirectoryClientTypes.HybridSettingsDescription {
     }
 }
 
-extension DirectoryClientTypes.RegionsInfo {
+extension DirectoryClientTypes.HybridUpdateActivities {
 
-    static func read(from reader: SmithyJSON.Reader) throws -> DirectoryClientTypes.RegionsInfo {
+    static func read(from reader: SmithyJSON.Reader) throws -> DirectoryClientTypes.HybridUpdateActivities {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = DirectoryClientTypes.RegionsInfo()
-        value.primaryRegion = try reader["PrimaryRegion"].readIfPresent()
-        value.additionalRegions = try reader["AdditionalRegions"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        var value = DirectoryClientTypes.HybridUpdateActivities()
+        value.selfManagedInstances = try reader["SelfManagedInstances"].readListIfPresent(memberReadingClosure: DirectoryClientTypes.HybridUpdateInfoEntry.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.hybridAdministratorAccount = try reader["HybridAdministratorAccount"].readListIfPresent(memberReadingClosure: DirectoryClientTypes.HybridUpdateInfoEntry.read(from:), memberNodeInfo: "member", isFlattened: false)
+        return value
+    }
+}
+
+extension DirectoryClientTypes.HybridUpdateInfoEntry {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> DirectoryClientTypes.HybridUpdateInfoEntry {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = DirectoryClientTypes.HybridUpdateInfoEntry()
+        value.status = try reader["Status"].readIfPresent()
+        value.statusReason = try reader["StatusReason"].readIfPresent()
+        value.initiatedBy = try reader["InitiatedBy"].readIfPresent()
+        value.newValue = try reader["NewValue"].readIfPresent(with: DirectoryClientTypes.HybridUpdateValue.read(from:))
+        value.previousValue = try reader["PreviousValue"].readIfPresent(with: DirectoryClientTypes.HybridUpdateValue.read(from:))
+        value.startTime = try reader["StartTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.lastUpdatedDateTime = try reader["LastUpdatedDateTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.assessmentId = try reader["AssessmentId"].readIfPresent()
+        return value
+    }
+}
+
+extension DirectoryClientTypes.HybridUpdateValue {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> DirectoryClientTypes.HybridUpdateValue {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = DirectoryClientTypes.HybridUpdateValue()
+        value.instanceIds = try reader["InstanceIds"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        value.dnsIps = try reader["DnsIps"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        return value
+    }
+}
+
+extension DirectoryClientTypes.IpRoute {
+
+    static func write(value: DirectoryClientTypes.IpRoute?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["CidrIp"].write(value.cidrIp)
+        try writer["CidrIpv6"].write(value.cidrIpv6)
+        try writer["Description"].write(value.description)
+    }
+}
+
+extension DirectoryClientTypes.IpRouteInfo {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> DirectoryClientTypes.IpRouteInfo {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = DirectoryClientTypes.IpRouteInfo()
+        value.directoryId = try reader["DirectoryId"].readIfPresent()
+        value.cidrIp = try reader["CidrIp"].readIfPresent()
+        value.cidrIpv6 = try reader["CidrIpv6"].readIfPresent()
+        value.ipRouteStatusMsg = try reader["IpRouteStatusMsg"].readIfPresent()
+        value.addedDateTime = try reader["AddedDateTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.ipRouteStatusReason = try reader["IpRouteStatusReason"].readIfPresent()
+        value.description = try reader["Description"].readIfPresent()
+        return value
+    }
+}
+
+extension DirectoryClientTypes.LDAPSSettingInfo {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> DirectoryClientTypes.LDAPSSettingInfo {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = DirectoryClientTypes.LDAPSSettingInfo()
+        value.ldapsStatus = try reader["LDAPSStatus"].readIfPresent()
+        value.ldapsStatusReason = try reader["LDAPSStatusReason"].readIfPresent()
+        value.lastUpdatedDateTime = try reader["LastUpdatedDateTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        return value
+    }
+}
+
+extension DirectoryClientTypes.LogSubscription {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> DirectoryClientTypes.LogSubscription {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = DirectoryClientTypes.LogSubscription()
+        value.directoryId = try reader["DirectoryId"].readIfPresent()
+        value.logGroupName = try reader["LogGroupName"].readIfPresent()
+        value.subscriptionCreatedDateTime = try reader["SubscriptionCreatedDateTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        return value
+    }
+}
+
+extension DirectoryClientTypes.NetworkUpdateSettings {
+
+    static func write(value: DirectoryClientTypes.NetworkUpdateSettings?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["CustomerDnsIpsV6"].writeList(value.customerDnsIpsV6, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["NetworkType"].write(value.networkType)
+    }
+}
+
+extension DirectoryClientTypes.OSUpdateSettings {
+
+    static func write(value: DirectoryClientTypes.OSUpdateSettings?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["OSVersion"].write(value.osVersion)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> DirectoryClientTypes.OSUpdateSettings {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = DirectoryClientTypes.OSUpdateSettings()
+        value.osVersion = try reader["OSVersion"].readIfPresent()
         return value
     }
 }
@@ -10986,120 +11248,6 @@ extension DirectoryClientTypes.RadiusSettings {
     }
 }
 
-extension DirectoryClientTypes.DirectoryVpcSettingsDescription {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> DirectoryClientTypes.DirectoryVpcSettingsDescription {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = DirectoryClientTypes.DirectoryVpcSettingsDescription()
-        value.vpcId = try reader["VpcId"].readIfPresent()
-        value.subnetIds = try reader["SubnetIds"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
-        value.securityGroupId = try reader["SecurityGroupId"].readIfPresent()
-        value.availabilityZones = try reader["AvailabilityZones"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
-        return value
-    }
-}
-
-extension DirectoryClientTypes.DirectoryConnectSettingsDescription {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> DirectoryClientTypes.DirectoryConnectSettingsDescription {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = DirectoryClientTypes.DirectoryConnectSettingsDescription()
-        value.vpcId = try reader["VpcId"].readIfPresent()
-        value.subnetIds = try reader["SubnetIds"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
-        value.customerUserName = try reader["CustomerUserName"].readIfPresent()
-        value.securityGroupId = try reader["SecurityGroupId"].readIfPresent()
-        value.availabilityZones = try reader["AvailabilityZones"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
-        value.connectIps = try reader["ConnectIps"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
-        value.connectIpsV6 = try reader["ConnectIpsV6"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
-        return value
-    }
-}
-
-extension DirectoryClientTypes.DomainController {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> DirectoryClientTypes.DomainController {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = DirectoryClientTypes.DomainController()
-        value.directoryId = try reader["DirectoryId"].readIfPresent()
-        value.domainControllerId = try reader["DomainControllerId"].readIfPresent()
-        value.dnsIpAddr = try reader["DnsIpAddr"].readIfPresent()
-        value.dnsIpv6Addr = try reader["DnsIpv6Addr"].readIfPresent()
-        value.vpcId = try reader["VpcId"].readIfPresent()
-        value.subnetId = try reader["SubnetId"].readIfPresent()
-        value.availabilityZone = try reader["AvailabilityZone"].readIfPresent()
-        value.status = try reader["Status"].readIfPresent()
-        value.statusReason = try reader["StatusReason"].readIfPresent()
-        value.launchTime = try reader["LaunchTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
-        value.statusLastUpdatedDateTime = try reader["StatusLastUpdatedDateTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
-        return value
-    }
-}
-
-extension DirectoryClientTypes.EventTopic {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> DirectoryClientTypes.EventTopic {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = DirectoryClientTypes.EventTopic()
-        value.directoryId = try reader["DirectoryId"].readIfPresent()
-        value.topicName = try reader["TopicName"].readIfPresent()
-        value.topicArn = try reader["TopicArn"].readIfPresent()
-        value.createdDateTime = try reader["CreatedDateTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
-        value.status = try reader["Status"].readIfPresent()
-        return value
-    }
-}
-
-extension DirectoryClientTypes.HybridUpdateActivities {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> DirectoryClientTypes.HybridUpdateActivities {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = DirectoryClientTypes.HybridUpdateActivities()
-        value.selfManagedInstances = try reader["SelfManagedInstances"].readListIfPresent(memberReadingClosure: DirectoryClientTypes.HybridUpdateInfoEntry.read(from:), memberNodeInfo: "member", isFlattened: false)
-        value.hybridAdministratorAccount = try reader["HybridAdministratorAccount"].readListIfPresent(memberReadingClosure: DirectoryClientTypes.HybridUpdateInfoEntry.read(from:), memberNodeInfo: "member", isFlattened: false)
-        return value
-    }
-}
-
-extension DirectoryClientTypes.HybridUpdateInfoEntry {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> DirectoryClientTypes.HybridUpdateInfoEntry {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = DirectoryClientTypes.HybridUpdateInfoEntry()
-        value.status = try reader["Status"].readIfPresent()
-        value.statusReason = try reader["StatusReason"].readIfPresent()
-        value.initiatedBy = try reader["InitiatedBy"].readIfPresent()
-        value.newValue = try reader["NewValue"].readIfPresent(with: DirectoryClientTypes.HybridUpdateValue.read(from:))
-        value.previousValue = try reader["PreviousValue"].readIfPresent(with: DirectoryClientTypes.HybridUpdateValue.read(from:))
-        value.startTime = try reader["StartTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
-        value.lastUpdatedDateTime = try reader["LastUpdatedDateTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
-        value.assessmentId = try reader["AssessmentId"].readIfPresent()
-        return value
-    }
-}
-
-extension DirectoryClientTypes.HybridUpdateValue {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> DirectoryClientTypes.HybridUpdateValue {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = DirectoryClientTypes.HybridUpdateValue()
-        value.instanceIds = try reader["InstanceIds"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
-        value.dnsIps = try reader["DnsIps"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
-        return value
-    }
-}
-
-extension DirectoryClientTypes.LDAPSSettingInfo {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> DirectoryClientTypes.LDAPSSettingInfo {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = DirectoryClientTypes.LDAPSSettingInfo()
-        value.ldapsStatus = try reader["LDAPSStatus"].readIfPresent()
-        value.ldapsStatusReason = try reader["LDAPSStatusReason"].readIfPresent()
-        value.lastUpdatedDateTime = try reader["LastUpdatedDateTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
-        return value
-    }
-}
-
 extension DirectoryClientTypes.RegionDescription {
 
     static func read(from reader: SmithyJSON.Reader) throws -> DirectoryClientTypes.RegionDescription {
@@ -11118,20 +11266,39 @@ extension DirectoryClientTypes.RegionDescription {
     }
 }
 
-extension DirectoryClientTypes.DirectoryVpcSettings {
+extension DirectoryClientTypes.RegionsInfo {
 
-    static func write(value: DirectoryClientTypes.DirectoryVpcSettings?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["SubnetIds"].writeList(value.subnetIds, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["VpcId"].write(value.vpcId)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> DirectoryClientTypes.DirectoryVpcSettings {
+    static func read(from reader: SmithyJSON.Reader) throws -> DirectoryClientTypes.RegionsInfo {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = DirectoryClientTypes.DirectoryVpcSettings()
-        value.vpcId = try reader["VpcId"].readIfPresent() ?? ""
-        value.subnetIds = try reader["SubnetIds"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        var value = DirectoryClientTypes.RegionsInfo()
+        value.primaryRegion = try reader["PrimaryRegion"].readIfPresent()
+        value.additionalRegions = try reader["AdditionalRegions"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
         return value
+    }
+}
+
+extension DirectoryClientTypes.SchemaExtensionInfo {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> DirectoryClientTypes.SchemaExtensionInfo {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = DirectoryClientTypes.SchemaExtensionInfo()
+        value.directoryId = try reader["DirectoryId"].readIfPresent()
+        value.schemaExtensionId = try reader["SchemaExtensionId"].readIfPresent()
+        value.description = try reader["Description"].readIfPresent()
+        value.schemaExtensionStatus = try reader["SchemaExtensionStatus"].readIfPresent()
+        value.schemaExtensionStatusReason = try reader["SchemaExtensionStatusReason"].readIfPresent()
+        value.startDateTime = try reader["StartDateTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.endDateTime = try reader["EndDateTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        return value
+    }
+}
+
+extension DirectoryClientTypes.Setting {
+
+    static func write(value: DirectoryClientTypes.Setting?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["Name"].write(value.name)
+        try writer["Value"].write(value.value)
     }
 }
 
@@ -11155,6 +11322,33 @@ extension DirectoryClientTypes.SettingEntry {
     }
 }
 
+extension DirectoryClientTypes.SharedDirectory {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> DirectoryClientTypes.SharedDirectory {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = DirectoryClientTypes.SharedDirectory()
+        value.ownerAccountId = try reader["OwnerAccountId"].readIfPresent()
+        value.ownerDirectoryId = try reader["OwnerDirectoryId"].readIfPresent()
+        value.shareMethod = try reader["ShareMethod"].readIfPresent()
+        value.sharedAccountId = try reader["SharedAccountId"].readIfPresent()
+        value.sharedDirectoryId = try reader["SharedDirectoryId"].readIfPresent()
+        value.shareStatus = try reader["ShareStatus"].readIfPresent()
+        value.shareNotes = try reader["ShareNotes"].readIfPresent()
+        value.createdDateTime = try reader["CreatedDateTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.lastUpdatedDateTime = try reader["LastUpdatedDateTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        return value
+    }
+}
+
+extension DirectoryClientTypes.ShareTarget {
+
+    static func write(value: DirectoryClientTypes.ShareTarget?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["Id"].write(value.id)
+        try writer["Type"].write(value.type)
+    }
+}
+
 extension DirectoryClientTypes.Snapshot {
 
     static func read(from reader: SmithyJSON.Reader) throws -> DirectoryClientTypes.Snapshot {
@@ -11166,6 +11360,35 @@ extension DirectoryClientTypes.Snapshot {
         value.name = try reader["Name"].readIfPresent()
         value.status = try reader["Status"].readIfPresent()
         value.startTime = try reader["StartTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        return value
+    }
+}
+
+extension DirectoryClientTypes.SnapshotLimits {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> DirectoryClientTypes.SnapshotLimits {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = DirectoryClientTypes.SnapshotLimits()
+        value.manualSnapshotsLimit = try reader["ManualSnapshotsLimit"].readIfPresent()
+        value.manualSnapshotsCurrentCount = try reader["ManualSnapshotsCurrentCount"].readIfPresent()
+        value.manualSnapshotsLimitReached = try reader["ManualSnapshotsLimitReached"].readIfPresent() ?? false
+        return value
+    }
+}
+
+extension DirectoryClientTypes.Tag {
+
+    static func write(value: DirectoryClientTypes.Tag?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["Key"].write(value.key)
+        try writer["Value"].write(value.value)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> DirectoryClientTypes.Tag {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = DirectoryClientTypes.Tag()
+        value.key = try reader["Key"].readIfPresent() ?? ""
+        value.value = try reader["Value"].readIfPresent() ?? ""
         return value
     }
 }
@@ -11187,6 +11410,15 @@ extension DirectoryClientTypes.Trust {
         value.trustStateReason = try reader["TrustStateReason"].readIfPresent()
         value.selectiveAuth = try reader["SelectiveAuth"].readIfPresent()
         return value
+    }
+}
+
+extension DirectoryClientTypes.UnshareTarget {
+
+    static func write(value: DirectoryClientTypes.UnshareTarget?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["Id"].write(value.id)
+        try writer["Type"].write(value.type)
     }
 }
 
@@ -11214,238 +11446,6 @@ extension DirectoryClientTypes.UpdateValue {
         var value = DirectoryClientTypes.UpdateValue()
         value.osUpdateSettings = try reader["OSUpdateSettings"].readIfPresent(with: DirectoryClientTypes.OSUpdateSettings.read(from:))
         return value
-    }
-}
-
-extension DirectoryClientTypes.OSUpdateSettings {
-
-    static func write(value: DirectoryClientTypes.OSUpdateSettings?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["OSVersion"].write(value.osVersion)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> DirectoryClientTypes.OSUpdateSettings {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = DirectoryClientTypes.OSUpdateSettings()
-        value.osVersion = try reader["OSVersion"].readIfPresent()
-        return value
-    }
-}
-
-extension DirectoryClientTypes.DirectoryLimits {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> DirectoryClientTypes.DirectoryLimits {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = DirectoryClientTypes.DirectoryLimits()
-        value.cloudOnlyDirectoriesLimit = try reader["CloudOnlyDirectoriesLimit"].readIfPresent()
-        value.cloudOnlyDirectoriesCurrentCount = try reader["CloudOnlyDirectoriesCurrentCount"].readIfPresent()
-        value.cloudOnlyDirectoriesLimitReached = try reader["CloudOnlyDirectoriesLimitReached"].readIfPresent() ?? false
-        value.cloudOnlyMicrosoftADLimit = try reader["CloudOnlyMicrosoftADLimit"].readIfPresent()
-        value.cloudOnlyMicrosoftADCurrentCount = try reader["CloudOnlyMicrosoftADCurrentCount"].readIfPresent()
-        value.cloudOnlyMicrosoftADLimitReached = try reader["CloudOnlyMicrosoftADLimitReached"].readIfPresent() ?? false
-        value.connectedDirectoriesLimit = try reader["ConnectedDirectoriesLimit"].readIfPresent()
-        value.connectedDirectoriesCurrentCount = try reader["ConnectedDirectoriesCurrentCount"].readIfPresent()
-        value.connectedDirectoriesLimitReached = try reader["ConnectedDirectoriesLimitReached"].readIfPresent() ?? false
-        return value
-    }
-}
-
-extension DirectoryClientTypes.SnapshotLimits {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> DirectoryClientTypes.SnapshotLimits {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = DirectoryClientTypes.SnapshotLimits()
-        value.manualSnapshotsLimit = try reader["ManualSnapshotsLimit"].readIfPresent()
-        value.manualSnapshotsCurrentCount = try reader["ManualSnapshotsCurrentCount"].readIfPresent()
-        value.manualSnapshotsLimitReached = try reader["ManualSnapshotsLimitReached"].readIfPresent() ?? false
-        return value
-    }
-}
-
-extension DirectoryClientTypes.AssessmentSummary {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> DirectoryClientTypes.AssessmentSummary {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = DirectoryClientTypes.AssessmentSummary()
-        value.assessmentId = try reader["AssessmentId"].readIfPresent()
-        value.directoryId = try reader["DirectoryId"].readIfPresent()
-        value.dnsName = try reader["DnsName"].readIfPresent()
-        value.startTime = try reader["StartTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
-        value.lastUpdateDateTime = try reader["LastUpdateDateTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
-        value.status = try reader["Status"].readIfPresent()
-        value.customerDnsIps = try reader["CustomerDnsIps"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
-        value.reportType = try reader["ReportType"].readIfPresent()
-        return value
-    }
-}
-
-extension DirectoryClientTypes.CertificateInfo {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> DirectoryClientTypes.CertificateInfo {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = DirectoryClientTypes.CertificateInfo()
-        value.certificateId = try reader["CertificateId"].readIfPresent()
-        value.commonName = try reader["CommonName"].readIfPresent()
-        value.state = try reader["State"].readIfPresent()
-        value.expiryDateTime = try reader["ExpiryDateTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
-        value.type = try reader["Type"].readIfPresent()
-        return value
-    }
-}
-
-extension DirectoryClientTypes.IpRouteInfo {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> DirectoryClientTypes.IpRouteInfo {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = DirectoryClientTypes.IpRouteInfo()
-        value.directoryId = try reader["DirectoryId"].readIfPresent()
-        value.cidrIp = try reader["CidrIp"].readIfPresent()
-        value.cidrIpv6 = try reader["CidrIpv6"].readIfPresent()
-        value.ipRouteStatusMsg = try reader["IpRouteStatusMsg"].readIfPresent()
-        value.addedDateTime = try reader["AddedDateTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
-        value.ipRouteStatusReason = try reader["IpRouteStatusReason"].readIfPresent()
-        value.description = try reader["Description"].readIfPresent()
-        return value
-    }
-}
-
-extension DirectoryClientTypes.LogSubscription {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> DirectoryClientTypes.LogSubscription {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = DirectoryClientTypes.LogSubscription()
-        value.directoryId = try reader["DirectoryId"].readIfPresent()
-        value.logGroupName = try reader["LogGroupName"].readIfPresent()
-        value.subscriptionCreatedDateTime = try reader["SubscriptionCreatedDateTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
-        return value
-    }
-}
-
-extension DirectoryClientTypes.SchemaExtensionInfo {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> DirectoryClientTypes.SchemaExtensionInfo {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = DirectoryClientTypes.SchemaExtensionInfo()
-        value.directoryId = try reader["DirectoryId"].readIfPresent()
-        value.schemaExtensionId = try reader["SchemaExtensionId"].readIfPresent()
-        value.description = try reader["Description"].readIfPresent()
-        value.schemaExtensionStatus = try reader["SchemaExtensionStatus"].readIfPresent()
-        value.schemaExtensionStatusReason = try reader["SchemaExtensionStatusReason"].readIfPresent()
-        value.startDateTime = try reader["StartDateTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
-        value.endDateTime = try reader["EndDateTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
-        return value
-    }
-}
-
-extension DirectoryClientTypes.Tag {
-
-    static func write(value: DirectoryClientTypes.Tag?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["Key"].write(value.key)
-        try writer["Value"].write(value.value)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> DirectoryClientTypes.Tag {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = DirectoryClientTypes.Tag()
-        value.key = try reader["Key"].readIfPresent() ?? ""
-        value.value = try reader["Value"].readIfPresent() ?? ""
-        return value
-    }
-}
-
-extension DirectoryClientTypes.IpRoute {
-
-    static func write(value: DirectoryClientTypes.IpRoute?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["CidrIp"].write(value.cidrIp)
-        try writer["CidrIpv6"].write(value.cidrIpv6)
-        try writer["Description"].write(value.description)
-    }
-}
-
-extension DirectoryClientTypes.DirectoryConnectSettings {
-
-    static func write(value: DirectoryClientTypes.DirectoryConnectSettings?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["CustomerDnsIps"].writeList(value.customerDnsIps, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["CustomerDnsIpsV6"].writeList(value.customerDnsIpsV6, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["CustomerUserName"].write(value.customerUserName)
-        try writer["SubnetIds"].writeList(value.subnetIds, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["VpcId"].write(value.vpcId)
-    }
-}
-
-extension DirectoryClientTypes.ShareTarget {
-
-    static func write(value: DirectoryClientTypes.ShareTarget?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["Id"].write(value.id)
-        try writer["Type"].write(value.type)
-    }
-}
-
-extension DirectoryClientTypes.AssessmentConfiguration {
-
-    static func write(value: DirectoryClientTypes.AssessmentConfiguration?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["CustomerDnsIps"].writeList(value.customerDnsIps, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["DnsName"].write(value.dnsName)
-        try writer["InstanceIds"].writeList(value.instanceIds, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["SecurityGroupIds"].writeList(value.securityGroupIds, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["VpcSettings"].write(value.vpcSettings, with: DirectoryClientTypes.DirectoryVpcSettings.write(value:to:))
-    }
-}
-
-extension DirectoryClientTypes.UnshareTarget {
-
-    static func write(value: DirectoryClientTypes.UnshareTarget?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["Id"].write(value.id)
-        try writer["Type"].write(value.type)
-    }
-}
-
-extension DirectoryClientTypes.DirectorySizeUpdateSettings {
-
-    static func write(value: DirectoryClientTypes.DirectorySizeUpdateSettings?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["DirectorySize"].write(value.directorySize)
-    }
-}
-
-extension DirectoryClientTypes.NetworkUpdateSettings {
-
-    static func write(value: DirectoryClientTypes.NetworkUpdateSettings?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["CustomerDnsIpsV6"].writeList(value.customerDnsIpsV6, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["NetworkType"].write(value.networkType)
-    }
-}
-
-extension DirectoryClientTypes.HybridAdministratorAccountUpdate {
-
-    static func write(value: DirectoryClientTypes.HybridAdministratorAccountUpdate?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["SecretArn"].write(value.secretArn)
-    }
-}
-
-extension DirectoryClientTypes.HybridCustomerInstancesSettings {
-
-    static func write(value: DirectoryClientTypes.HybridCustomerInstancesSettings?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["CustomerDnsIps"].writeList(value.customerDnsIps, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["InstanceIds"].writeList(value.instanceIds, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
-    }
-}
-
-extension DirectoryClientTypes.Setting {
-
-    static func write(value: DirectoryClientTypes.Setting?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["Name"].write(value.name)
-        try writer["Value"].write(value.value)
     }
 }
 

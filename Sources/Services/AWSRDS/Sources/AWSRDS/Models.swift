@@ -22,8 +22,8 @@ import protocol ClientRuntime.HTTPError
 import protocol ClientRuntime.ModeledError
 @_spi(SmithyReadWrite) import protocol SmithyReadWrite.SmithyReader
 @_spi(SmithyReadWrite) import protocol SmithyReadWrite.SmithyWriter
-@_spi(SmithyReadWrite) import struct AWSClientRuntime.AWSQueryError
 @_spi(UnknownAWSHTTPServiceError) import struct AWSClientRuntime.UnknownAWSHTTPServiceError
+@_spi(SmithyReadWrite) import struct ClientRuntime.AWSQueryError
 @_spi(SmithyTimestamps) import struct SmithyTimestamps.TimestampFormatter
 
 
@@ -1908,6 +1908,38 @@ extension CopyDBClusterSnapshotInput: Swift.CustomDebugStringConvertible {
 
 extension RDSClientTypes {
 
+    public enum StorageEncryptionType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case cmk
+        case sse
+        case unencrypted
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [StorageEncryptionType] {
+            return [
+                .cmk,
+                .sse,
+                .unencrypted
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .cmk: return "sse-kms"
+            case .sse: return "sse-rds"
+            case .unencrypted: return "none"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension RDSClientTypes {
+
     /// Contains the details for an Amazon RDS DB cluster snapshot This data type is used as a response element in the DescribeDBClusterSnapshots action.
     public struct DBClusterSnapshot: Swift.Sendable {
         /// The allocated storage size of the DB cluster snapshot in gibibytes (GiB).
@@ -1964,6 +1996,14 @@ extension RDSClientTypes {
         public var status: Swift.String?
         /// Indicates whether the DB cluster snapshot is encrypted.
         public var storageEncrypted: Swift.Bool?
+        /// The type of encryption used to protect data at rest in the DB cluster snapshot. Possible values:
+        ///
+        /// * none - The DB cluster snapshot is not encrypted.
+        ///
+        /// * sse-rds - The DB cluster snapshot is encrypted using an Amazon Web Services owned KMS key.
+        ///
+        /// * sse-kms - The DB cluster snapshot is encrypted using a customer managed KMS key or Amazon Web Services managed KMS key.
+        public var storageEncryptionType: RDSClientTypes.StorageEncryptionType?
         /// The storage throughput for the DB cluster snapshot. The throughput is automatically set based on the IOPS that you provision, and is not configurable. This setting is only for non-Aurora Multi-AZ DB clusters.
         public var storageThroughput: Swift.Int?
         /// The storage type associated with the DB cluster snapshot. This setting is only for Aurora DB clusters.
@@ -1998,6 +2038,7 @@ extension RDSClientTypes {
             sourceDBClusterSnapshotArn: Swift.String? = nil,
             status: Swift.String? = nil,
             storageEncrypted: Swift.Bool? = nil,
+            storageEncryptionType: RDSClientTypes.StorageEncryptionType? = nil,
             storageThroughput: Swift.Int? = nil,
             storageType: Swift.String? = nil,
             tagList: [RDSClientTypes.Tag]? = nil,
@@ -2027,6 +2068,7 @@ extension RDSClientTypes {
             self.sourceDBClusterSnapshotArn = sourceDBClusterSnapshotArn
             self.status = status
             self.storageEncrypted = storageEncrypted
+            self.storageEncryptionType = storageEncryptionType
             self.storageThroughput = storageThroughput
             self.storageType = storageType
             self.tagList = tagList
@@ -2405,6 +2447,14 @@ extension RDSClientTypes {
         public var sourceRegion: Swift.String?
         /// Specifies the status of this DB snapshot.
         public var status: Swift.String?
+        /// The type of encryption used to protect data at rest in the DB snapshot. Possible values:
+        ///
+        /// * none - The DB snapshot is not encrypted.
+        ///
+        /// * sse-rds - The DB snapshot is encrypted using an Amazon Web Services owned KMS key.
+        ///
+        /// * sse-kms - The DB snapshot is encrypted using a customer managed KMS key or Amazon Web Services managed KMS key.
+        public var storageEncryptionType: RDSClientTypes.StorageEncryptionType?
         /// Specifies the storage throughput for the DB snapshot.
         public var storageThroughput: Swift.Int?
         /// Specifies the storage type associated with DB snapshot.
@@ -2453,6 +2503,7 @@ extension RDSClientTypes {
             sourceDBSnapshotIdentifier: Swift.String? = nil,
             sourceRegion: Swift.String? = nil,
             status: Swift.String? = nil,
+            storageEncryptionType: RDSClientTypes.StorageEncryptionType? = nil,
             storageThroughput: Swift.Int? = nil,
             storageType: Swift.String? = nil,
             tagList: [RDSClientTypes.Tag]? = nil,
@@ -2494,6 +2545,7 @@ extension RDSClientTypes {
             self.sourceDBSnapshotIdentifier = sourceDBSnapshotIdentifier
             self.sourceRegion = sourceRegion
             self.status = status
+            self.storageEncryptionType = storageEncryptionType
             self.storageThroughput = storageThroughput
             self.storageType = storageType
             self.tagList = tagList
@@ -5342,6 +5394,14 @@ extension RDSClientTypes {
         public var statusInfos: [RDSClientTypes.DBClusterStatusInfo]?
         /// Indicates whether the DB cluster is encrypted.
         public var storageEncrypted: Swift.Bool?
+        /// The type of encryption used to protect data at rest in the DB cluster. Possible values:
+        ///
+        /// * none - The DB cluster is not encrypted.
+        ///
+        /// * sse-rds - The DB cluster is encrypted using an Amazon Web Services owned KMS key.
+        ///
+        /// * sse-kms - The DB cluster is encrypted using a customer managed KMS key or Amazon Web Services managed KMS key.
+        public var storageEncryptionType: RDSClientTypes.StorageEncryptionType?
         /// The storage throughput for the DB cluster. The throughput is automatically set based on the IOPS that you provision, and is not configurable. This setting is only for non-Aurora Multi-AZ DB clusters.
         public var storageThroughput: Swift.Int?
         /// The storage type associated with the DB cluster.
@@ -5440,6 +5500,7 @@ extension RDSClientTypes {
             status: Swift.String? = nil,
             statusInfos: [RDSClientTypes.DBClusterStatusInfo]? = nil,
             storageEncrypted: Swift.Bool? = nil,
+            storageEncryptionType: RDSClientTypes.StorageEncryptionType? = nil,
             storageThroughput: Swift.Int? = nil,
             storageType: Swift.String? = nil,
             tagList: [RDSClientTypes.Tag]? = nil,
@@ -5526,6 +5587,7 @@ extension RDSClientTypes {
             self.status = status
             self.statusInfos = statusInfos
             self.storageEncrypted = storageEncrypted
+            self.storageEncryptionType = storageEncryptionType
             self.storageThroughput = storageThroughput
             self.storageType = storageType
             self.tagList = tagList
@@ -7192,6 +7254,14 @@ extension RDSClientTypes {
         public var statusInfos: [RDSClientTypes.DBInstanceStatusInfo]?
         /// Indicates whether the DB instance is encrypted.
         public var storageEncrypted: Swift.Bool?
+        /// The type of encryption used to protect data at rest in the DB instance. Possible values:
+        ///
+        /// * none - The DB instance is not encrypted.
+        ///
+        /// * sse-rds - The DB instance is encrypted using an Amazon Web Services owned KMS key.
+        ///
+        /// * sse-kms - The DB instance is encrypted using a customer managed KMS key or Amazon Web Services managed KMS key.
+        public var storageEncryptionType: RDSClientTypes.StorageEncryptionType?
         /// The storage throughput for the DB instance. This setting applies only to the gp3 storage type.
         public var storageThroughput: Swift.Int?
         /// The storage type associated with the DB instance.
@@ -7298,6 +7368,7 @@ extension RDSClientTypes {
             secondaryAvailabilityZone: Swift.String? = nil,
             statusInfos: [RDSClientTypes.DBInstanceStatusInfo]? = nil,
             storageEncrypted: Swift.Bool? = nil,
+            storageEncryptionType: RDSClientTypes.StorageEncryptionType? = nil,
             storageThroughput: Swift.Int? = nil,
             storageType: Swift.String? = nil,
             storageVolumeStatus: Swift.String? = nil,
@@ -7389,6 +7460,7 @@ extension RDSClientTypes {
             self.secondaryAvailabilityZone = secondaryAvailabilityZone
             self.statusInfos = statusInfos
             self.storageEncrypted = storageEncrypted
+            self.storageEncryptionType = storageEncryptionType
             self.storageThroughput = storageThroughput
             self.storageType = storageType
             self.storageVolumeStatus = storageVolumeStatus
@@ -9634,6 +9706,14 @@ extension RDSClientTypes {
         public var status: Swift.String?
         /// The storage encryption setting for the global database cluster.
         public var storageEncrypted: Swift.Bool?
+        /// The type of encryption used to protect data at rest in the global database cluster. Possible values:
+        ///
+        /// * none - The global database cluster is not encrypted.
+        ///
+        /// * sse-rds - The global database cluster is encrypted using an Amazon Web Services owned KMS key.
+        ///
+        /// * sse-kms - The global database cluster is encrypted using a customer managed KMS key or Amazon Web Services managed KMS key.
+        public var storageEncryptionType: RDSClientTypes.StorageEncryptionType?
         /// A list of tags. For more information, see [Tagging Amazon RDS resources](https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/USER_Tagging.html) in the Amazon RDS User Guide or [Tagging Amazon Aurora and Amazon RDS resources](https://docs.aws.amazon.com/AmazonRDS/latest/AuroraUserGuide/USER_Tagging.html) in the Amazon Aurora User Guide.
         public var tagList: [RDSClientTypes.Tag]?
 
@@ -9651,6 +9731,7 @@ extension RDSClientTypes {
             globalClusterResourceId: Swift.String? = nil,
             status: Swift.String? = nil,
             storageEncrypted: Swift.Bool? = nil,
+            storageEncryptionType: RDSClientTypes.StorageEncryptionType? = nil,
             tagList: [RDSClientTypes.Tag]? = nil
         ) {
             self.databaseName = databaseName
@@ -9666,6 +9747,7 @@ extension RDSClientTypes {
             self.globalClusterResourceId = globalClusterResourceId
             self.status = status
             self.storageEncrypted = storageEncrypted
+            self.storageEncryptionType = storageEncryptionType
             self.tagList = tagList
         }
     }
@@ -10624,6 +10706,14 @@ extension RDSClientTypes {
         public var status: Swift.String?
         /// Indicates whether the source DB cluster is encrypted.
         public var storageEncrypted: Swift.Bool?
+        /// The type of encryption used to protect data at rest in the automated backup. Possible values:
+        ///
+        /// * none - The automated backup is not encrypted.
+        ///
+        /// * sse-rds - The automated backup is encrypted using an Amazon Web Services owned KMS key.
+        ///
+        /// * sse-kms - The automated backup is encrypted using a customer managed KMS key or Amazon Web Services managed KMS key.
+        public var storageEncryptionType: RDSClientTypes.StorageEncryptionType?
         /// The storage throughput for the automated backup. The throughput is automatically set based on the IOPS that you provision, and is not configurable. This setting is only for non-Aurora Multi-AZ DB clusters.
         public var storageThroughput: Swift.Int?
         /// The storage type associated with the DB cluster. This setting is only for non-Aurora Multi-AZ DB clusters.
@@ -10657,6 +10747,7 @@ extension RDSClientTypes {
             restoreWindow: RDSClientTypes.RestoreWindow? = nil,
             status: Swift.String? = nil,
             storageEncrypted: Swift.Bool? = nil,
+            storageEncryptionType: RDSClientTypes.StorageEncryptionType? = nil,
             storageThroughput: Swift.Int? = nil,
             storageType: Swift.String? = nil,
             tagList: [RDSClientTypes.Tag]? = nil,
@@ -10685,6 +10776,7 @@ extension RDSClientTypes {
             self.restoreWindow = restoreWindow
             self.status = status
             self.storageEncrypted = storageEncrypted
+            self.storageEncryptionType = storageEncryptionType
             self.storageThroughput = storageThroughput
             self.storageType = storageType
             self.tagList = tagList
@@ -11061,6 +11153,14 @@ extension RDSClientTypes {
         ///
         /// * creating - Automated backups that are waiting for the first automated snapshot to be available.
         public var status: Swift.String?
+        /// The type of encryption used to protect data at rest in the automated backup. Possible values:
+        ///
+        /// * none - The automated backup is not encrypted.
+        ///
+        /// * sse-rds - The automated backup is encrypted using an Amazon Web Services owned KMS key.
+        ///
+        /// * sse-kms - The automated backup is encrypted using a customer managed KMS key or Amazon Web Services managed KMS key.
+        public var storageEncryptionType: RDSClientTypes.StorageEncryptionType?
         /// The storage throughput for the automated backup.
         public var storageThroughput: Swift.Int?
         /// The storage type associated with the automated backup.
@@ -11103,6 +11203,7 @@ extension RDSClientTypes {
             region: Swift.String? = nil,
             restoreWindow: RDSClientTypes.RestoreWindow? = nil,
             status: Swift.String? = nil,
+            storageEncryptionType: RDSClientTypes.StorageEncryptionType? = nil,
             storageThroughput: Swift.Int? = nil,
             storageType: Swift.String? = nil,
             tagList: [RDSClientTypes.Tag]? = nil,
@@ -11138,6 +11239,7 @@ extension RDSClientTypes {
             self.region = region
             self.restoreWindow = restoreWindow
             self.status = status
+            self.storageEncryptionType = storageEncryptionType
             self.storageThroughput = storageThroughput
             self.storageType = storageType
             self.tagList = tagList
@@ -28623,7 +28725,7 @@ enum AddRoleToDBClusterOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "DBClusterNotFoundFault": return try DBClusterNotFoundFault.makeError(baseError: baseError)
@@ -28640,7 +28742,7 @@ enum AddRoleToDBInstanceOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "DBInstanceNotFound": return try DBInstanceNotFoundFault.makeError(baseError: baseError)
@@ -28657,7 +28759,7 @@ enum AddSourceIdentifierToSubscriptionOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "SourceNotFound": return try SourceNotFoundFault.makeError(baseError: baseError)
@@ -28672,7 +28774,7 @@ enum AddTagsToResourceOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "BlueGreenDeploymentNotFoundFault": return try BlueGreenDeploymentNotFoundFault.makeError(baseError: baseError)
@@ -28699,7 +28801,7 @@ enum ApplyPendingMaintenanceActionOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "InvalidDBClusterStateFault": return try InvalidDBClusterStateFault.makeError(baseError: baseError)
@@ -28715,7 +28817,7 @@ enum AuthorizeDBSecurityGroupIngressOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AuthorizationAlreadyExists": return try AuthorizationAlreadyExistsFault.makeError(baseError: baseError)
@@ -28732,7 +28834,7 @@ enum BacktrackDBClusterOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "DBClusterNotFoundFault": return try DBClusterNotFoundFault.makeError(baseError: baseError)
@@ -28747,7 +28849,7 @@ enum CancelExportTaskOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "ExportTaskNotFound": return try ExportTaskNotFoundFault.makeError(baseError: baseError)
@@ -28762,7 +28864,7 @@ enum CopyDBClusterParameterGroupOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "DBParameterGroupAlreadyExists": return try DBParameterGroupAlreadyExistsFault.makeError(baseError: baseError)
@@ -28778,7 +28880,7 @@ enum CopyDBClusterSnapshotOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "DBClusterSnapshotAlreadyExistsFault": return try DBClusterSnapshotAlreadyExistsFault.makeError(baseError: baseError)
@@ -28797,7 +28899,7 @@ enum CopyDBParameterGroupOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "DBParameterGroupAlreadyExists": return try DBParameterGroupAlreadyExistsFault.makeError(baseError: baseError)
@@ -28813,7 +28915,7 @@ enum CopyDBSnapshotOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "CustomAvailabilityZoneNotFound": return try CustomAvailabilityZoneNotFoundFault.makeError(baseError: baseError)
@@ -28832,7 +28934,7 @@ enum CopyOptionGroupOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "OptionGroupAlreadyExistsFault": return try OptionGroupAlreadyExistsFault.makeError(baseError: baseError)
@@ -28848,7 +28950,7 @@ enum CreateBlueGreenDeploymentOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "BlueGreenDeploymentAlreadyExistsFault": return try BlueGreenDeploymentAlreadyExistsFault.makeError(baseError: baseError)
@@ -28873,7 +28975,7 @@ enum CreateCustomDBEngineVersionOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "CreateCustomDBEngineVersionFault": return try CreateCustomDBEngineVersionFault.makeError(baseError: baseError)
@@ -28893,7 +28995,7 @@ enum CreateDBClusterOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "DBClusterAlreadyExistsFault": return try DBClusterAlreadyExistsFault.makeError(baseError: baseError)
@@ -28930,7 +29032,7 @@ enum CreateDBClusterEndpointOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "DBClusterEndpointAlreadyExistsFault": return try DBClusterEndpointAlreadyExistsFault.makeError(baseError: baseError)
@@ -28949,7 +29051,7 @@ enum CreateDBClusterParameterGroupOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "DBParameterGroupAlreadyExists": return try DBParameterGroupAlreadyExistsFault.makeError(baseError: baseError)
@@ -28964,7 +29066,7 @@ enum CreateDBClusterSnapshotOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "DBClusterNotFoundFault": return try DBClusterNotFoundFault.makeError(baseError: baseError)
@@ -28982,7 +29084,7 @@ enum CreateDBInstanceOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AuthorizationNotFound": return try AuthorizationNotFoundFault.makeError(baseError: baseError)
@@ -29018,7 +29120,7 @@ enum CreateDBInstanceReadReplicaOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "CertificateNotFound": return try CertificateNotFoundFault.makeError(baseError: baseError)
@@ -29056,7 +29158,7 @@ enum CreateDBParameterGroupOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "DBParameterGroupAlreadyExists": return try DBParameterGroupAlreadyExistsFault.makeError(baseError: baseError)
@@ -29071,7 +29173,7 @@ enum CreateDBProxyOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "DBProxyAlreadyExistsFault": return try DBProxyAlreadyExistsFault.makeError(baseError: baseError)
@@ -29087,7 +29189,7 @@ enum CreateDBProxyEndpointOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "DBProxyEndpointAlreadyExistsFault": return try DBProxyEndpointAlreadyExistsFault.makeError(baseError: baseError)
@@ -29105,7 +29207,7 @@ enum CreateDBSecurityGroupOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "DBSecurityGroupAlreadyExists": return try DBSecurityGroupAlreadyExistsFault.makeError(baseError: baseError)
@@ -29121,7 +29223,7 @@ enum CreateDBShardGroupOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "DBClusterNotFoundFault": return try DBClusterNotFoundFault.makeError(baseError: baseError)
@@ -29141,7 +29243,7 @@ enum CreateDBSnapshotOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "DBInstanceNotFound": return try DBInstanceNotFoundFault.makeError(baseError: baseError)
@@ -29158,7 +29260,7 @@ enum CreateDBSubnetGroupOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "DBSubnetGroupAlreadyExists": return try DBSubnetGroupAlreadyExistsFault.makeError(baseError: baseError)
@@ -29176,7 +29278,7 @@ enum CreateEventSubscriptionOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "EventSubscriptionQuotaExceeded": return try EventSubscriptionQuotaExceededFault.makeError(baseError: baseError)
@@ -29196,7 +29298,7 @@ enum CreateGlobalClusterOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "DBClusterNotFoundFault": return try DBClusterNotFoundFault.makeError(baseError: baseError)
@@ -29215,7 +29317,7 @@ enum CreateIntegrationOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "DBClusterNotFoundFault": return try DBClusterNotFoundFault.makeError(baseError: baseError)
@@ -29234,7 +29336,7 @@ enum CreateOptionGroupOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "OptionGroupAlreadyExistsFault": return try OptionGroupAlreadyExistsFault.makeError(baseError: baseError)
@@ -29249,7 +29351,7 @@ enum CreateTenantDatabaseOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "DBInstanceNotFound": return try DBInstanceNotFoundFault.makeError(baseError: baseError)
@@ -29267,7 +29369,7 @@ enum DeleteBlueGreenDeploymentOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "BlueGreenDeploymentNotFoundFault": return try BlueGreenDeploymentNotFoundFault.makeError(baseError: baseError)
@@ -29282,7 +29384,7 @@ enum DeleteCustomDBEngineVersionOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "CustomDBEngineVersionNotFoundFault": return try CustomDBEngineVersionNotFoundFault.makeError(baseError: baseError)
@@ -29297,7 +29399,7 @@ enum DeleteDBClusterOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "DBClusterAutomatedBackupQuotaExceededFault": return try DBClusterAutomatedBackupQuotaExceededFault.makeError(baseError: baseError)
@@ -29318,7 +29420,7 @@ enum DeleteDBClusterAutomatedBackupOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "DBClusterAutomatedBackupNotFoundFault": return try DBClusterAutomatedBackupNotFoundFault.makeError(baseError: baseError)
@@ -29333,7 +29435,7 @@ enum DeleteDBClusterEndpointOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "DBClusterEndpointNotFoundFault": return try DBClusterEndpointNotFoundFault.makeError(baseError: baseError)
@@ -29349,7 +29451,7 @@ enum DeleteDBClusterParameterGroupOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "DBParameterGroupNotFound": return try DBParameterGroupNotFoundFault.makeError(baseError: baseError)
@@ -29364,7 +29466,7 @@ enum DeleteDBClusterSnapshotOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "DBClusterSnapshotNotFoundFault": return try DBClusterSnapshotNotFoundFault.makeError(baseError: baseError)
@@ -29379,7 +29481,7 @@ enum DeleteDBInstanceOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "DBInstanceAutomatedBackupQuotaExceeded": return try DBInstanceAutomatedBackupQuotaExceededFault.makeError(baseError: baseError)
@@ -29399,7 +29501,7 @@ enum DeleteDBInstanceAutomatedBackupOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "DBInstanceAutomatedBackupNotFound": return try DBInstanceAutomatedBackupNotFoundFault.makeError(baseError: baseError)
@@ -29414,7 +29516,7 @@ enum DeleteDBParameterGroupOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "DBParameterGroupNotFound": return try DBParameterGroupNotFoundFault.makeError(baseError: baseError)
@@ -29429,7 +29531,7 @@ enum DeleteDBProxyOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "DBProxyNotFoundFault": return try DBProxyNotFoundFault.makeError(baseError: baseError)
@@ -29444,7 +29546,7 @@ enum DeleteDBProxyEndpointOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "DBProxyEndpointNotFoundFault": return try DBProxyEndpointNotFoundFault.makeError(baseError: baseError)
@@ -29459,7 +29561,7 @@ enum DeleteDBSecurityGroupOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "DBSecurityGroupNotFound": return try DBSecurityGroupNotFoundFault.makeError(baseError: baseError)
@@ -29474,7 +29576,7 @@ enum DeleteDBShardGroupOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "DBShardGroupNotFound": return try DBShardGroupNotFoundFault.makeError(baseError: baseError)
@@ -29490,7 +29592,7 @@ enum DeleteDBSnapshotOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "DBSnapshotNotFound": return try DBSnapshotNotFoundFault.makeError(baseError: baseError)
@@ -29505,7 +29607,7 @@ enum DeleteDBSubnetGroupOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "DBSubnetGroupNotFoundFault": return try DBSubnetGroupNotFoundFault.makeError(baseError: baseError)
@@ -29521,7 +29623,7 @@ enum DeleteEventSubscriptionOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "InvalidEventSubscriptionState": return try InvalidEventSubscriptionStateFault.makeError(baseError: baseError)
@@ -29536,7 +29638,7 @@ enum DeleteGlobalClusterOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "GlobalClusterNotFoundFault": return try GlobalClusterNotFoundFault.makeError(baseError: baseError)
@@ -29551,7 +29653,7 @@ enum DeleteIntegrationOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "IntegrationConflictOperationFault": return try IntegrationConflictOperationFault.makeError(baseError: baseError)
@@ -29567,7 +29669,7 @@ enum DeleteOptionGroupOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "InvalidOptionGroupStateFault": return try InvalidOptionGroupStateFault.makeError(baseError: baseError)
@@ -29582,7 +29684,7 @@ enum DeleteTenantDatabaseOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "DBInstanceNotFound": return try DBInstanceNotFoundFault.makeError(baseError: baseError)
@@ -29599,7 +29701,7 @@ enum DeregisterDBProxyTargetsOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "DBProxyNotFoundFault": return try DBProxyNotFoundFault.makeError(baseError: baseError)
@@ -29616,7 +29718,7 @@ enum DescribeAccountAttributesOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
@@ -29629,7 +29731,7 @@ enum DescribeBlueGreenDeploymentsOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "BlueGreenDeploymentNotFoundFault": return try BlueGreenDeploymentNotFoundFault.makeError(baseError: baseError)
@@ -29643,7 +29745,7 @@ enum DescribeCertificatesOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "CertificateNotFound": return try CertificateNotFoundFault.makeError(baseError: baseError)
@@ -29657,7 +29759,7 @@ enum DescribeDBClusterAutomatedBackupsOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "DBClusterAutomatedBackupNotFoundFault": return try DBClusterAutomatedBackupNotFoundFault.makeError(baseError: baseError)
@@ -29671,7 +29773,7 @@ enum DescribeDBClusterBacktracksOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "DBClusterBacktrackNotFoundFault": return try DBClusterBacktrackNotFoundFault.makeError(baseError: baseError)
@@ -29686,7 +29788,7 @@ enum DescribeDBClusterEndpointsOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "DBClusterNotFoundFault": return try DBClusterNotFoundFault.makeError(baseError: baseError)
@@ -29700,7 +29802,7 @@ enum DescribeDBClusterParameterGroupsOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "DBParameterGroupNotFound": return try DBParameterGroupNotFoundFault.makeError(baseError: baseError)
@@ -29714,7 +29816,7 @@ enum DescribeDBClusterParametersOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "DBParameterGroupNotFound": return try DBParameterGroupNotFoundFault.makeError(baseError: baseError)
@@ -29728,7 +29830,7 @@ enum DescribeDBClustersOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "DBClusterNotFoundFault": return try DBClusterNotFoundFault.makeError(baseError: baseError)
@@ -29742,7 +29844,7 @@ enum DescribeDBClusterSnapshotAttributesOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "DBClusterSnapshotNotFoundFault": return try DBClusterSnapshotNotFoundFault.makeError(baseError: baseError)
@@ -29756,7 +29858,7 @@ enum DescribeDBClusterSnapshotsOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "DBClusterSnapshotNotFoundFault": return try DBClusterSnapshotNotFoundFault.makeError(baseError: baseError)
@@ -29770,7 +29872,7 @@ enum DescribeDBEngineVersionsOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
@@ -29783,7 +29885,7 @@ enum DescribeDBInstanceAutomatedBackupsOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "DBInstanceAutomatedBackupNotFound": return try DBInstanceAutomatedBackupNotFoundFault.makeError(baseError: baseError)
@@ -29797,7 +29899,7 @@ enum DescribeDBInstancesOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "DBInstanceNotFound": return try DBInstanceNotFoundFault.makeError(baseError: baseError)
@@ -29811,7 +29913,7 @@ enum DescribeDBLogFilesOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "DBInstanceNotFound": return try DBInstanceNotFoundFault.makeError(baseError: baseError)
@@ -29826,7 +29928,7 @@ enum DescribeDBMajorEngineVersionsOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
@@ -29839,7 +29941,7 @@ enum DescribeDBParameterGroupsOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "DBParameterGroupNotFound": return try DBParameterGroupNotFoundFault.makeError(baseError: baseError)
@@ -29853,7 +29955,7 @@ enum DescribeDBParametersOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "DBParameterGroupNotFound": return try DBParameterGroupNotFoundFault.makeError(baseError: baseError)
@@ -29867,7 +29969,7 @@ enum DescribeDBProxiesOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "DBProxyNotFoundFault": return try DBProxyNotFoundFault.makeError(baseError: baseError)
@@ -29881,7 +29983,7 @@ enum DescribeDBProxyEndpointsOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "DBProxyEndpointNotFoundFault": return try DBProxyEndpointNotFoundFault.makeError(baseError: baseError)
@@ -29896,7 +29998,7 @@ enum DescribeDBProxyTargetGroupsOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "DBProxyNotFoundFault": return try DBProxyNotFoundFault.makeError(baseError: baseError)
@@ -29912,7 +30014,7 @@ enum DescribeDBProxyTargetsOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "DBProxyNotFoundFault": return try DBProxyNotFoundFault.makeError(baseError: baseError)
@@ -29929,7 +30031,7 @@ enum DescribeDBRecommendationsOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
@@ -29942,7 +30044,7 @@ enum DescribeDBSecurityGroupsOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "DBSecurityGroupNotFound": return try DBSecurityGroupNotFoundFault.makeError(baseError: baseError)
@@ -29956,7 +30058,7 @@ enum DescribeDBShardGroupsOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "DBClusterNotFoundFault": return try DBClusterNotFoundFault.makeError(baseError: baseError)
@@ -29971,7 +30073,7 @@ enum DescribeDBSnapshotAttributesOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "DBSnapshotNotFound": return try DBSnapshotNotFoundFault.makeError(baseError: baseError)
@@ -29985,7 +30087,7 @@ enum DescribeDBSnapshotsOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "DBSnapshotNotFound": return try DBSnapshotNotFoundFault.makeError(baseError: baseError)
@@ -29999,7 +30101,7 @@ enum DescribeDBSnapshotTenantDatabasesOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "DBSnapshotNotFound": return try DBSnapshotNotFoundFault.makeError(baseError: baseError)
@@ -30013,7 +30115,7 @@ enum DescribeDBSubnetGroupsOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "DBSubnetGroupNotFoundFault": return try DBSubnetGroupNotFoundFault.makeError(baseError: baseError)
@@ -30027,7 +30129,7 @@ enum DescribeEngineDefaultClusterParametersOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
@@ -30040,7 +30142,7 @@ enum DescribeEngineDefaultParametersOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
@@ -30053,7 +30155,7 @@ enum DescribeEventCategoriesOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
@@ -30066,7 +30168,7 @@ enum DescribeEventsOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
@@ -30079,7 +30181,7 @@ enum DescribeEventSubscriptionsOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "SubscriptionNotFound": return try SubscriptionNotFoundFault.makeError(baseError: baseError)
@@ -30093,7 +30195,7 @@ enum DescribeExportTasksOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "ExportTaskNotFound": return try ExportTaskNotFoundFault.makeError(baseError: baseError)
@@ -30107,7 +30209,7 @@ enum DescribeGlobalClustersOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "GlobalClusterNotFoundFault": return try GlobalClusterNotFoundFault.makeError(baseError: baseError)
@@ -30121,7 +30223,7 @@ enum DescribeIntegrationsOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "IntegrationNotFoundFault": return try IntegrationNotFoundFault.makeError(baseError: baseError)
@@ -30135,7 +30237,7 @@ enum DescribeOptionGroupOptionsOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
@@ -30148,7 +30250,7 @@ enum DescribeOptionGroupsOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "OptionGroupNotFoundFault": return try OptionGroupNotFoundFault.makeError(baseError: baseError)
@@ -30162,7 +30264,7 @@ enum DescribeOrderableDBInstanceOptionsOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
@@ -30175,7 +30277,7 @@ enum DescribePendingMaintenanceActionsOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "ResourceNotFoundFault": return try ResourceNotFoundFault.makeError(baseError: baseError)
@@ -30189,7 +30291,7 @@ enum DescribeReservedDBInstancesOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "ReservedDBInstanceNotFound": return try ReservedDBInstanceNotFoundFault.makeError(baseError: baseError)
@@ -30203,7 +30305,7 @@ enum DescribeReservedDBInstancesOfferingsOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "ReservedDBInstancesOfferingNotFound": return try ReservedDBInstancesOfferingNotFoundFault.makeError(baseError: baseError)
@@ -30217,7 +30319,7 @@ enum DescribeSourceRegionsOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
@@ -30230,7 +30332,7 @@ enum DescribeTenantDatabasesOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "DBInstanceNotFound": return try DBInstanceNotFoundFault.makeError(baseError: baseError)
@@ -30244,7 +30346,7 @@ enum DescribeValidDBInstanceModificationsOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "DBInstanceNotFound": return try DBInstanceNotFoundFault.makeError(baseError: baseError)
@@ -30259,7 +30361,7 @@ enum DisableHttpEndpointOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "InvalidResourceStateFault": return try InvalidResourceStateFault.makeError(baseError: baseError)
@@ -30274,7 +30376,7 @@ enum DownloadDBLogFilePortionOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "DBInstanceNotFound": return try DBInstanceNotFoundFault.makeError(baseError: baseError)
@@ -30290,7 +30392,7 @@ enum EnableHttpEndpointOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "InvalidResourceStateFault": return try InvalidResourceStateFault.makeError(baseError: baseError)
@@ -30305,7 +30407,7 @@ enum FailoverDBClusterOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "DBClusterNotFoundFault": return try DBClusterNotFoundFault.makeError(baseError: baseError)
@@ -30321,7 +30423,7 @@ enum FailoverGlobalClusterOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "DBClusterNotFoundFault": return try DBClusterNotFoundFault.makeError(baseError: baseError)
@@ -30338,7 +30440,7 @@ enum ListTagsForResourceOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "BlueGreenDeploymentNotFoundFault": return try BlueGreenDeploymentNotFoundFault.makeError(baseError: baseError)
@@ -30362,7 +30464,7 @@ enum ModifyActivityStreamOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "DBInstanceNotFound": return try DBInstanceNotFoundFault.makeError(baseError: baseError)
@@ -30378,7 +30480,7 @@ enum ModifyCertificatesOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "CertificateNotFound": return try CertificateNotFoundFault.makeError(baseError: baseError)
@@ -30392,7 +30494,7 @@ enum ModifyCurrentDBClusterCapacityOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "DBClusterNotFoundFault": return try DBClusterNotFoundFault.makeError(baseError: baseError)
@@ -30408,7 +30510,7 @@ enum ModifyCustomDBEngineVersionOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "CustomDBEngineVersionNotFoundFault": return try CustomDBEngineVersionNotFoundFault.makeError(baseError: baseError)
@@ -30423,7 +30525,7 @@ enum ModifyDBClusterOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "DBClusterAlreadyExistsFault": return try DBClusterAlreadyExistsFault.makeError(baseError: baseError)
@@ -30457,7 +30559,7 @@ enum ModifyDBClusterEndpointOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "DBClusterEndpointNotFoundFault": return try DBClusterEndpointNotFoundFault.makeError(baseError: baseError)
@@ -30475,7 +30577,7 @@ enum ModifyDBClusterParameterGroupOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "DBParameterGroupNotFound": return try DBParameterGroupNotFoundFault.makeError(baseError: baseError)
@@ -30490,7 +30592,7 @@ enum ModifyDBClusterSnapshotAttributeOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "DBClusterSnapshotNotFoundFault": return try DBClusterSnapshotNotFoundFault.makeError(baseError: baseError)
@@ -30506,7 +30608,7 @@ enum ModifyDBInstanceOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AuthorizationNotFound": return try AuthorizationNotFoundFault.makeError(baseError: baseError)
@@ -30541,7 +30643,7 @@ enum ModifyDBParameterGroupOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "DBParameterGroupNotFound": return try DBParameterGroupNotFoundFault.makeError(baseError: baseError)
@@ -30556,7 +30658,7 @@ enum ModifyDBProxyOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "DBProxyAlreadyExistsFault": return try DBProxyAlreadyExistsFault.makeError(baseError: baseError)
@@ -30572,7 +30674,7 @@ enum ModifyDBProxyEndpointOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "DBProxyEndpointAlreadyExistsFault": return try DBProxyEndpointAlreadyExistsFault.makeError(baseError: baseError)
@@ -30589,7 +30691,7 @@ enum ModifyDBProxyTargetGroupOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "DBProxyNotFoundFault": return try DBProxyNotFoundFault.makeError(baseError: baseError)
@@ -30605,7 +30707,7 @@ enum ModifyDBRecommendationOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
@@ -30618,7 +30720,7 @@ enum ModifyDBShardGroupOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "DBShardGroupAlreadyExists": return try DBShardGroupAlreadyExistsFault.makeError(baseError: baseError)
@@ -30634,7 +30736,7 @@ enum ModifyDBSnapshotOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "DBSnapshotNotFound": return try DBSnapshotNotFoundFault.makeError(baseError: baseError)
@@ -30650,7 +30752,7 @@ enum ModifyDBSnapshotAttributeOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "DBSnapshotNotFound": return try DBSnapshotNotFoundFault.makeError(baseError: baseError)
@@ -30666,7 +30768,7 @@ enum ModifyDBSubnetGroupOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "DBSubnetGroupDoesNotCoverEnoughAZs": return try DBSubnetGroupDoesNotCoverEnoughAZs.makeError(baseError: baseError)
@@ -30685,7 +30787,7 @@ enum ModifyEventSubscriptionOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "EventSubscriptionQuotaExceeded": return try EventSubscriptionQuotaExceededFault.makeError(baseError: baseError)
@@ -30704,7 +30806,7 @@ enum ModifyGlobalClusterOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "GlobalClusterAlreadyExistsFault": return try GlobalClusterAlreadyExistsFault.makeError(baseError: baseError)
@@ -30722,7 +30824,7 @@ enum ModifyIntegrationOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "IntegrationConflictOperationFault": return try IntegrationConflictOperationFault.makeError(baseError: baseError)
@@ -30738,7 +30840,7 @@ enum ModifyOptionGroupOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "InvalidOptionGroupStateFault": return try InvalidOptionGroupStateFault.makeError(baseError: baseError)
@@ -30753,7 +30855,7 @@ enum ModifyTenantDatabaseOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "DBInstanceNotFound": return try DBInstanceNotFoundFault.makeError(baseError: baseError)
@@ -30771,7 +30873,7 @@ enum PromoteReadReplicaOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "DBInstanceNotFound": return try DBInstanceNotFoundFault.makeError(baseError: baseError)
@@ -30786,7 +30888,7 @@ enum PromoteReadReplicaDBClusterOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "DBClusterNotFoundFault": return try DBClusterNotFoundFault.makeError(baseError: baseError)
@@ -30801,7 +30903,7 @@ enum PurchaseReservedDBInstancesOfferingOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "ReservedDBInstanceAlreadyExists": return try ReservedDBInstanceAlreadyExistsFault.makeError(baseError: baseError)
@@ -30817,7 +30919,7 @@ enum RebootDBClusterOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "DBClusterNotFoundFault": return try DBClusterNotFoundFault.makeError(baseError: baseError)
@@ -30833,7 +30935,7 @@ enum RebootDBInstanceOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "DBInstanceNotFound": return try DBInstanceNotFoundFault.makeError(baseError: baseError)
@@ -30849,7 +30951,7 @@ enum RebootDBShardGroupOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "DBShardGroupNotFound": return try DBShardGroupNotFoundFault.makeError(baseError: baseError)
@@ -30864,7 +30966,7 @@ enum RegisterDBProxyTargetsOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "DBClusterNotFoundFault": return try DBClusterNotFoundFault.makeError(baseError: baseError)
@@ -30886,7 +30988,7 @@ enum RemoveFromGlobalClusterOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "DBClusterNotFoundFault": return try DBClusterNotFoundFault.makeError(baseError: baseError)
@@ -30903,7 +31005,7 @@ enum RemoveRoleFromDBClusterOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "DBClusterNotFoundFault": return try DBClusterNotFoundFault.makeError(baseError: baseError)
@@ -30919,7 +31021,7 @@ enum RemoveRoleFromDBInstanceOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "DBInstanceNotFound": return try DBInstanceNotFoundFault.makeError(baseError: baseError)
@@ -30935,7 +31037,7 @@ enum RemoveSourceIdentifierFromSubscriptionOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "SourceNotFound": return try SourceNotFoundFault.makeError(baseError: baseError)
@@ -30950,7 +31052,7 @@ enum RemoveTagsFromResourceOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "BlueGreenDeploymentNotFoundFault": return try BlueGreenDeploymentNotFoundFault.makeError(baseError: baseError)
@@ -30977,7 +31079,7 @@ enum ResetDBClusterParameterGroupOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "DBParameterGroupNotFound": return try DBParameterGroupNotFoundFault.makeError(baseError: baseError)
@@ -30992,7 +31094,7 @@ enum ResetDBParameterGroupOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "DBParameterGroupNotFound": return try DBParameterGroupNotFoundFault.makeError(baseError: baseError)
@@ -31007,7 +31109,7 @@ enum RestoreDBClusterFromS3OutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "DBClusterAlreadyExistsFault": return try DBClusterAlreadyExistsFault.makeError(baseError: baseError)
@@ -31036,7 +31138,7 @@ enum RestoreDBClusterFromSnapshotOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "DBClusterAlreadyExistsFault": return try DBClusterAlreadyExistsFault.makeError(baseError: baseError)
@@ -31072,7 +31174,7 @@ enum RestoreDBClusterToPointInTimeOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "DBClusterAlreadyExistsFault": return try DBClusterAlreadyExistsFault.makeError(baseError: baseError)
@@ -31108,7 +31210,7 @@ enum RestoreDBInstanceFromDBSnapshotOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AuthorizationNotFound": return try AuthorizationNotFoundFault.makeError(baseError: baseError)
@@ -31146,7 +31248,7 @@ enum RestoreDBInstanceFromS3OutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AuthorizationNotFound": return try AuthorizationNotFoundFault.makeError(baseError: baseError)
@@ -31179,7 +31281,7 @@ enum RestoreDBInstanceToPointInTimeOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AuthorizationNotFound": return try AuthorizationNotFoundFault.makeError(baseError: baseError)
@@ -31218,7 +31320,7 @@ enum RevokeDBSecurityGroupIngressOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AuthorizationNotFound": return try AuthorizationNotFoundFault.makeError(baseError: baseError)
@@ -31234,7 +31336,7 @@ enum StartActivityStreamOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "DBClusterNotFoundFault": return try DBClusterNotFoundFault.makeError(baseError: baseError)
@@ -31253,7 +31355,7 @@ enum StartDBClusterOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "DBClusterNotFoundFault": return try DBClusterNotFoundFault.makeError(baseError: baseError)
@@ -31272,7 +31374,7 @@ enum StartDBInstanceOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AuthorizationNotFound": return try AuthorizationNotFoundFault.makeError(baseError: baseError)
@@ -31297,7 +31399,7 @@ enum StartDBInstanceAutomatedBackupsReplicationOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "DBInstanceAutomatedBackupQuotaExceeded": return try DBInstanceAutomatedBackupQuotaExceededFault.makeError(baseError: baseError)
@@ -31316,7 +31418,7 @@ enum StartExportTaskOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "DBClusterNotFoundFault": return try DBClusterNotFoundFault.makeError(baseError: baseError)
@@ -31339,7 +31441,7 @@ enum StopActivityStreamOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "DBClusterNotFoundFault": return try DBClusterNotFoundFault.makeError(baseError: baseError)
@@ -31357,7 +31459,7 @@ enum StopDBClusterOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "DBClusterNotFoundFault": return try DBClusterNotFoundFault.makeError(baseError: baseError)
@@ -31374,7 +31476,7 @@ enum StopDBInstanceOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "DBInstanceNotFound": return try DBInstanceNotFoundFault.makeError(baseError: baseError)
@@ -31392,7 +31494,7 @@ enum StopDBInstanceAutomatedBackupsReplicationOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "DBInstanceNotFound": return try DBInstanceNotFoundFault.makeError(baseError: baseError)
@@ -31407,7 +31509,7 @@ enum SwitchoverBlueGreenDeploymentOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "BlueGreenDeploymentNotFoundFault": return try BlueGreenDeploymentNotFoundFault.makeError(baseError: baseError)
@@ -31422,7 +31524,7 @@ enum SwitchoverGlobalClusterOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "DBClusterNotFoundFault": return try DBClusterNotFoundFault.makeError(baseError: baseError)
@@ -31439,7 +31541,7 @@ enum SwitchoverReadReplicaOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "DBInstanceNotFound": return try DBInstanceNotFoundFault.makeError(baseError: baseError)
@@ -31451,7 +31553,7 @@ enum SwitchoverReadReplicaOutputError {
 
 extension DBClusterNotFoundFault {
 
-    static func makeError(baseError: AWSClientRuntime.AWSQueryError) throws -> DBClusterNotFoundFault {
+    static func makeError(baseError: ClientRuntime.AWSQueryError) throws -> DBClusterNotFoundFault {
         let reader = baseError.errorBodyReader
         var value = DBClusterNotFoundFault()
         value.properties.message = try reader["message"].readIfPresent()
@@ -31464,7 +31566,7 @@ extension DBClusterNotFoundFault {
 
 extension DBClusterRoleAlreadyExistsFault {
 
-    static func makeError(baseError: AWSClientRuntime.AWSQueryError) throws -> DBClusterRoleAlreadyExistsFault {
+    static func makeError(baseError: ClientRuntime.AWSQueryError) throws -> DBClusterRoleAlreadyExistsFault {
         let reader = baseError.errorBodyReader
         var value = DBClusterRoleAlreadyExistsFault()
         value.properties.message = try reader["message"].readIfPresent()
@@ -31477,7 +31579,7 @@ extension DBClusterRoleAlreadyExistsFault {
 
 extension DBClusterRoleQuotaExceededFault {
 
-    static func makeError(baseError: AWSClientRuntime.AWSQueryError) throws -> DBClusterRoleQuotaExceededFault {
+    static func makeError(baseError: ClientRuntime.AWSQueryError) throws -> DBClusterRoleQuotaExceededFault {
         let reader = baseError.errorBodyReader
         var value = DBClusterRoleQuotaExceededFault()
         value.properties.message = try reader["message"].readIfPresent()
@@ -31490,7 +31592,7 @@ extension DBClusterRoleQuotaExceededFault {
 
 extension InvalidDBClusterStateFault {
 
-    static func makeError(baseError: AWSClientRuntime.AWSQueryError) throws -> InvalidDBClusterStateFault {
+    static func makeError(baseError: ClientRuntime.AWSQueryError) throws -> InvalidDBClusterStateFault {
         let reader = baseError.errorBodyReader
         var value = InvalidDBClusterStateFault()
         value.properties.message = try reader["message"].readIfPresent()
@@ -31503,7 +31605,7 @@ extension InvalidDBClusterStateFault {
 
 extension DBInstanceNotFoundFault {
 
-    static func makeError(baseError: AWSClientRuntime.AWSQueryError) throws -> DBInstanceNotFoundFault {
+    static func makeError(baseError: ClientRuntime.AWSQueryError) throws -> DBInstanceNotFoundFault {
         let reader = baseError.errorBodyReader
         var value = DBInstanceNotFoundFault()
         value.properties.message = try reader["message"].readIfPresent()
@@ -31516,7 +31618,7 @@ extension DBInstanceNotFoundFault {
 
 extension DBInstanceRoleAlreadyExistsFault {
 
-    static func makeError(baseError: AWSClientRuntime.AWSQueryError) throws -> DBInstanceRoleAlreadyExistsFault {
+    static func makeError(baseError: ClientRuntime.AWSQueryError) throws -> DBInstanceRoleAlreadyExistsFault {
         let reader = baseError.errorBodyReader
         var value = DBInstanceRoleAlreadyExistsFault()
         value.properties.message = try reader["message"].readIfPresent()
@@ -31529,7 +31631,7 @@ extension DBInstanceRoleAlreadyExistsFault {
 
 extension DBInstanceRoleQuotaExceededFault {
 
-    static func makeError(baseError: AWSClientRuntime.AWSQueryError) throws -> DBInstanceRoleQuotaExceededFault {
+    static func makeError(baseError: ClientRuntime.AWSQueryError) throws -> DBInstanceRoleQuotaExceededFault {
         let reader = baseError.errorBodyReader
         var value = DBInstanceRoleQuotaExceededFault()
         value.properties.message = try reader["message"].readIfPresent()
@@ -31542,7 +31644,7 @@ extension DBInstanceRoleQuotaExceededFault {
 
 extension InvalidDBInstanceStateFault {
 
-    static func makeError(baseError: AWSClientRuntime.AWSQueryError) throws -> InvalidDBInstanceStateFault {
+    static func makeError(baseError: ClientRuntime.AWSQueryError) throws -> InvalidDBInstanceStateFault {
         let reader = baseError.errorBodyReader
         var value = InvalidDBInstanceStateFault()
         value.properties.message = try reader["message"].readIfPresent()
@@ -31555,7 +31657,7 @@ extension InvalidDBInstanceStateFault {
 
 extension SourceNotFoundFault {
 
-    static func makeError(baseError: AWSClientRuntime.AWSQueryError) throws -> SourceNotFoundFault {
+    static func makeError(baseError: ClientRuntime.AWSQueryError) throws -> SourceNotFoundFault {
         let reader = baseError.errorBodyReader
         var value = SourceNotFoundFault()
         value.properties.message = try reader["message"].readIfPresent()
@@ -31568,7 +31670,7 @@ extension SourceNotFoundFault {
 
 extension SubscriptionNotFoundFault {
 
-    static func makeError(baseError: AWSClientRuntime.AWSQueryError) throws -> SubscriptionNotFoundFault {
+    static func makeError(baseError: ClientRuntime.AWSQueryError) throws -> SubscriptionNotFoundFault {
         let reader = baseError.errorBodyReader
         var value = SubscriptionNotFoundFault()
         value.properties.message = try reader["message"].readIfPresent()
@@ -31581,7 +31683,7 @@ extension SubscriptionNotFoundFault {
 
 extension BlueGreenDeploymentNotFoundFault {
 
-    static func makeError(baseError: AWSClientRuntime.AWSQueryError) throws -> BlueGreenDeploymentNotFoundFault {
+    static func makeError(baseError: ClientRuntime.AWSQueryError) throws -> BlueGreenDeploymentNotFoundFault {
         let reader = baseError.errorBodyReader
         var value = BlueGreenDeploymentNotFoundFault()
         value.properties.message = try reader["message"].readIfPresent()
@@ -31594,7 +31696,7 @@ extension BlueGreenDeploymentNotFoundFault {
 
 extension DBProxyEndpointNotFoundFault {
 
-    static func makeError(baseError: AWSClientRuntime.AWSQueryError) throws -> DBProxyEndpointNotFoundFault {
+    static func makeError(baseError: ClientRuntime.AWSQueryError) throws -> DBProxyEndpointNotFoundFault {
         let reader = baseError.errorBodyReader
         var value = DBProxyEndpointNotFoundFault()
         value.properties.message = try reader["message"].readIfPresent()
@@ -31607,7 +31709,7 @@ extension DBProxyEndpointNotFoundFault {
 
 extension DBProxyNotFoundFault {
 
-    static func makeError(baseError: AWSClientRuntime.AWSQueryError) throws -> DBProxyNotFoundFault {
+    static func makeError(baseError: ClientRuntime.AWSQueryError) throws -> DBProxyNotFoundFault {
         let reader = baseError.errorBodyReader
         var value = DBProxyNotFoundFault()
         value.properties.message = try reader["message"].readIfPresent()
@@ -31620,7 +31722,7 @@ extension DBProxyNotFoundFault {
 
 extension DBProxyTargetGroupNotFoundFault {
 
-    static func makeError(baseError: AWSClientRuntime.AWSQueryError) throws -> DBProxyTargetGroupNotFoundFault {
+    static func makeError(baseError: ClientRuntime.AWSQueryError) throws -> DBProxyTargetGroupNotFoundFault {
         let reader = baseError.errorBodyReader
         var value = DBProxyTargetGroupNotFoundFault()
         value.properties.message = try reader["message"].readIfPresent()
@@ -31633,7 +31735,7 @@ extension DBProxyTargetGroupNotFoundFault {
 
 extension DBShardGroupNotFoundFault {
 
-    static func makeError(baseError: AWSClientRuntime.AWSQueryError) throws -> DBShardGroupNotFoundFault {
+    static func makeError(baseError: ClientRuntime.AWSQueryError) throws -> DBShardGroupNotFoundFault {
         let reader = baseError.errorBodyReader
         var value = DBShardGroupNotFoundFault()
         value.properties.message = try reader["message"].readIfPresent()
@@ -31646,7 +31748,7 @@ extension DBShardGroupNotFoundFault {
 
 extension DBSnapshotNotFoundFault {
 
-    static func makeError(baseError: AWSClientRuntime.AWSQueryError) throws -> DBSnapshotNotFoundFault {
+    static func makeError(baseError: ClientRuntime.AWSQueryError) throws -> DBSnapshotNotFoundFault {
         let reader = baseError.errorBodyReader
         var value = DBSnapshotNotFoundFault()
         value.properties.message = try reader["message"].readIfPresent()
@@ -31659,7 +31761,7 @@ extension DBSnapshotNotFoundFault {
 
 extension DBSnapshotTenantDatabaseNotFoundFault {
 
-    static func makeError(baseError: AWSClientRuntime.AWSQueryError) throws -> DBSnapshotTenantDatabaseNotFoundFault {
+    static func makeError(baseError: ClientRuntime.AWSQueryError) throws -> DBSnapshotTenantDatabaseNotFoundFault {
         let reader = baseError.errorBodyReader
         var value = DBSnapshotTenantDatabaseNotFoundFault()
         value.properties.message = try reader["message"].readIfPresent()
@@ -31672,7 +31774,7 @@ extension DBSnapshotTenantDatabaseNotFoundFault {
 
 extension IntegrationNotFoundFault {
 
-    static func makeError(baseError: AWSClientRuntime.AWSQueryError) throws -> IntegrationNotFoundFault {
+    static func makeError(baseError: ClientRuntime.AWSQueryError) throws -> IntegrationNotFoundFault {
         let reader = baseError.errorBodyReader
         var value = IntegrationNotFoundFault()
         value.properties.message = try reader["message"].readIfPresent()
@@ -31685,7 +31787,7 @@ extension IntegrationNotFoundFault {
 
 extension InvalidDBClusterEndpointStateFault {
 
-    static func makeError(baseError: AWSClientRuntime.AWSQueryError) throws -> InvalidDBClusterEndpointStateFault {
+    static func makeError(baseError: ClientRuntime.AWSQueryError) throws -> InvalidDBClusterEndpointStateFault {
         let reader = baseError.errorBodyReader
         var value = InvalidDBClusterEndpointStateFault()
         value.properties.message = try reader["message"].readIfPresent()
@@ -31698,7 +31800,7 @@ extension InvalidDBClusterEndpointStateFault {
 
 extension TenantDatabaseNotFoundFault {
 
-    static func makeError(baseError: AWSClientRuntime.AWSQueryError) throws -> TenantDatabaseNotFoundFault {
+    static func makeError(baseError: ClientRuntime.AWSQueryError) throws -> TenantDatabaseNotFoundFault {
         let reader = baseError.errorBodyReader
         var value = TenantDatabaseNotFoundFault()
         value.properties.message = try reader["message"].readIfPresent()
@@ -31711,7 +31813,7 @@ extension TenantDatabaseNotFoundFault {
 
 extension ResourceNotFoundFault {
 
-    static func makeError(baseError: AWSClientRuntime.AWSQueryError) throws -> ResourceNotFoundFault {
+    static func makeError(baseError: ClientRuntime.AWSQueryError) throws -> ResourceNotFoundFault {
         let reader = baseError.errorBodyReader
         var value = ResourceNotFoundFault()
         value.properties.message = try reader["message"].readIfPresent()
@@ -31724,7 +31826,7 @@ extension ResourceNotFoundFault {
 
 extension AuthorizationAlreadyExistsFault {
 
-    static func makeError(baseError: AWSClientRuntime.AWSQueryError) throws -> AuthorizationAlreadyExistsFault {
+    static func makeError(baseError: ClientRuntime.AWSQueryError) throws -> AuthorizationAlreadyExistsFault {
         let reader = baseError.errorBodyReader
         var value = AuthorizationAlreadyExistsFault()
         value.properties.message = try reader["message"].readIfPresent()
@@ -31737,7 +31839,7 @@ extension AuthorizationAlreadyExistsFault {
 
 extension AuthorizationQuotaExceededFault {
 
-    static func makeError(baseError: AWSClientRuntime.AWSQueryError) throws -> AuthorizationQuotaExceededFault {
+    static func makeError(baseError: ClientRuntime.AWSQueryError) throws -> AuthorizationQuotaExceededFault {
         let reader = baseError.errorBodyReader
         var value = AuthorizationQuotaExceededFault()
         value.properties.message = try reader["message"].readIfPresent()
@@ -31750,7 +31852,7 @@ extension AuthorizationQuotaExceededFault {
 
 extension DBSecurityGroupNotFoundFault {
 
-    static func makeError(baseError: AWSClientRuntime.AWSQueryError) throws -> DBSecurityGroupNotFoundFault {
+    static func makeError(baseError: ClientRuntime.AWSQueryError) throws -> DBSecurityGroupNotFoundFault {
         let reader = baseError.errorBodyReader
         var value = DBSecurityGroupNotFoundFault()
         value.properties.message = try reader["message"].readIfPresent()
@@ -31763,7 +31865,7 @@ extension DBSecurityGroupNotFoundFault {
 
 extension InvalidDBSecurityGroupStateFault {
 
-    static func makeError(baseError: AWSClientRuntime.AWSQueryError) throws -> InvalidDBSecurityGroupStateFault {
+    static func makeError(baseError: ClientRuntime.AWSQueryError) throws -> InvalidDBSecurityGroupStateFault {
         let reader = baseError.errorBodyReader
         var value = InvalidDBSecurityGroupStateFault()
         value.properties.message = try reader["message"].readIfPresent()
@@ -31776,7 +31878,7 @@ extension InvalidDBSecurityGroupStateFault {
 
 extension ExportTaskNotFoundFault {
 
-    static func makeError(baseError: AWSClientRuntime.AWSQueryError) throws -> ExportTaskNotFoundFault {
+    static func makeError(baseError: ClientRuntime.AWSQueryError) throws -> ExportTaskNotFoundFault {
         let reader = baseError.errorBodyReader
         var value = ExportTaskNotFoundFault()
         value.properties.message = try reader["message"].readIfPresent()
@@ -31789,7 +31891,7 @@ extension ExportTaskNotFoundFault {
 
 extension InvalidExportTaskStateFault {
 
-    static func makeError(baseError: AWSClientRuntime.AWSQueryError) throws -> InvalidExportTaskStateFault {
+    static func makeError(baseError: ClientRuntime.AWSQueryError) throws -> InvalidExportTaskStateFault {
         let reader = baseError.errorBodyReader
         var value = InvalidExportTaskStateFault()
         value.properties.message = try reader["message"].readIfPresent()
@@ -31802,7 +31904,7 @@ extension InvalidExportTaskStateFault {
 
 extension DBParameterGroupAlreadyExistsFault {
 
-    static func makeError(baseError: AWSClientRuntime.AWSQueryError) throws -> DBParameterGroupAlreadyExistsFault {
+    static func makeError(baseError: ClientRuntime.AWSQueryError) throws -> DBParameterGroupAlreadyExistsFault {
         let reader = baseError.errorBodyReader
         var value = DBParameterGroupAlreadyExistsFault()
         value.properties.message = try reader["message"].readIfPresent()
@@ -31815,7 +31917,7 @@ extension DBParameterGroupAlreadyExistsFault {
 
 extension DBParameterGroupNotFoundFault {
 
-    static func makeError(baseError: AWSClientRuntime.AWSQueryError) throws -> DBParameterGroupNotFoundFault {
+    static func makeError(baseError: ClientRuntime.AWSQueryError) throws -> DBParameterGroupNotFoundFault {
         let reader = baseError.errorBodyReader
         var value = DBParameterGroupNotFoundFault()
         value.properties.message = try reader["message"].readIfPresent()
@@ -31828,7 +31930,7 @@ extension DBParameterGroupNotFoundFault {
 
 extension DBParameterGroupQuotaExceededFault {
 
-    static func makeError(baseError: AWSClientRuntime.AWSQueryError) throws -> DBParameterGroupQuotaExceededFault {
+    static func makeError(baseError: ClientRuntime.AWSQueryError) throws -> DBParameterGroupQuotaExceededFault {
         let reader = baseError.errorBodyReader
         var value = DBParameterGroupQuotaExceededFault()
         value.properties.message = try reader["message"].readIfPresent()
@@ -31841,7 +31943,7 @@ extension DBParameterGroupQuotaExceededFault {
 
 extension DBClusterSnapshotAlreadyExistsFault {
 
-    static func makeError(baseError: AWSClientRuntime.AWSQueryError) throws -> DBClusterSnapshotAlreadyExistsFault {
+    static func makeError(baseError: ClientRuntime.AWSQueryError) throws -> DBClusterSnapshotAlreadyExistsFault {
         let reader = baseError.errorBodyReader
         var value = DBClusterSnapshotAlreadyExistsFault()
         value.properties.message = try reader["message"].readIfPresent()
@@ -31854,7 +31956,7 @@ extension DBClusterSnapshotAlreadyExistsFault {
 
 extension DBClusterSnapshotNotFoundFault {
 
-    static func makeError(baseError: AWSClientRuntime.AWSQueryError) throws -> DBClusterSnapshotNotFoundFault {
+    static func makeError(baseError: ClientRuntime.AWSQueryError) throws -> DBClusterSnapshotNotFoundFault {
         let reader = baseError.errorBodyReader
         var value = DBClusterSnapshotNotFoundFault()
         value.properties.message = try reader["message"].readIfPresent()
@@ -31867,7 +31969,7 @@ extension DBClusterSnapshotNotFoundFault {
 
 extension InvalidDBClusterSnapshotStateFault {
 
-    static func makeError(baseError: AWSClientRuntime.AWSQueryError) throws -> InvalidDBClusterSnapshotStateFault {
+    static func makeError(baseError: ClientRuntime.AWSQueryError) throws -> InvalidDBClusterSnapshotStateFault {
         let reader = baseError.errorBodyReader
         var value = InvalidDBClusterSnapshotStateFault()
         value.properties.message = try reader["message"].readIfPresent()
@@ -31880,7 +31982,7 @@ extension InvalidDBClusterSnapshotStateFault {
 
 extension KMSKeyNotAccessibleFault {
 
-    static func makeError(baseError: AWSClientRuntime.AWSQueryError) throws -> KMSKeyNotAccessibleFault {
+    static func makeError(baseError: ClientRuntime.AWSQueryError) throws -> KMSKeyNotAccessibleFault {
         let reader = baseError.errorBodyReader
         var value = KMSKeyNotAccessibleFault()
         value.properties.message = try reader["message"].readIfPresent()
@@ -31893,7 +31995,7 @@ extension KMSKeyNotAccessibleFault {
 
 extension SnapshotQuotaExceededFault {
 
-    static func makeError(baseError: AWSClientRuntime.AWSQueryError) throws -> SnapshotQuotaExceededFault {
+    static func makeError(baseError: ClientRuntime.AWSQueryError) throws -> SnapshotQuotaExceededFault {
         let reader = baseError.errorBodyReader
         var value = SnapshotQuotaExceededFault()
         value.properties.message = try reader["message"].readIfPresent()
@@ -31906,7 +32008,7 @@ extension SnapshotQuotaExceededFault {
 
 extension CustomAvailabilityZoneNotFoundFault {
 
-    static func makeError(baseError: AWSClientRuntime.AWSQueryError) throws -> CustomAvailabilityZoneNotFoundFault {
+    static func makeError(baseError: ClientRuntime.AWSQueryError) throws -> CustomAvailabilityZoneNotFoundFault {
         let reader = baseError.errorBodyReader
         var value = CustomAvailabilityZoneNotFoundFault()
         value.properties.message = try reader["message"].readIfPresent()
@@ -31919,7 +32021,7 @@ extension CustomAvailabilityZoneNotFoundFault {
 
 extension DBSnapshotAlreadyExistsFault {
 
-    static func makeError(baseError: AWSClientRuntime.AWSQueryError) throws -> DBSnapshotAlreadyExistsFault {
+    static func makeError(baseError: ClientRuntime.AWSQueryError) throws -> DBSnapshotAlreadyExistsFault {
         let reader = baseError.errorBodyReader
         var value = DBSnapshotAlreadyExistsFault()
         value.properties.message = try reader["message"].readIfPresent()
@@ -31932,7 +32034,7 @@ extension DBSnapshotAlreadyExistsFault {
 
 extension InvalidDBSnapshotStateFault {
 
-    static func makeError(baseError: AWSClientRuntime.AWSQueryError) throws -> InvalidDBSnapshotStateFault {
+    static func makeError(baseError: ClientRuntime.AWSQueryError) throws -> InvalidDBSnapshotStateFault {
         let reader = baseError.errorBodyReader
         var value = InvalidDBSnapshotStateFault()
         value.properties.message = try reader["message"].readIfPresent()
@@ -31945,7 +32047,7 @@ extension InvalidDBSnapshotStateFault {
 
 extension OptionGroupAlreadyExistsFault {
 
-    static func makeError(baseError: AWSClientRuntime.AWSQueryError) throws -> OptionGroupAlreadyExistsFault {
+    static func makeError(baseError: ClientRuntime.AWSQueryError) throws -> OptionGroupAlreadyExistsFault {
         let reader = baseError.errorBodyReader
         var value = OptionGroupAlreadyExistsFault()
         value.properties.message = try reader["message"].readIfPresent()
@@ -31958,7 +32060,7 @@ extension OptionGroupAlreadyExistsFault {
 
 extension OptionGroupNotFoundFault {
 
-    static func makeError(baseError: AWSClientRuntime.AWSQueryError) throws -> OptionGroupNotFoundFault {
+    static func makeError(baseError: ClientRuntime.AWSQueryError) throws -> OptionGroupNotFoundFault {
         let reader = baseError.errorBodyReader
         var value = OptionGroupNotFoundFault()
         value.properties.message = try reader["message"].readIfPresent()
@@ -31971,7 +32073,7 @@ extension OptionGroupNotFoundFault {
 
 extension OptionGroupQuotaExceededFault {
 
-    static func makeError(baseError: AWSClientRuntime.AWSQueryError) throws -> OptionGroupQuotaExceededFault {
+    static func makeError(baseError: ClientRuntime.AWSQueryError) throws -> OptionGroupQuotaExceededFault {
         let reader = baseError.errorBodyReader
         var value = OptionGroupQuotaExceededFault()
         value.properties.message = try reader["message"].readIfPresent()
@@ -31984,7 +32086,7 @@ extension OptionGroupQuotaExceededFault {
 
 extension BlueGreenDeploymentAlreadyExistsFault {
 
-    static func makeError(baseError: AWSClientRuntime.AWSQueryError) throws -> BlueGreenDeploymentAlreadyExistsFault {
+    static func makeError(baseError: ClientRuntime.AWSQueryError) throws -> BlueGreenDeploymentAlreadyExistsFault {
         let reader = baseError.errorBodyReader
         var value = BlueGreenDeploymentAlreadyExistsFault()
         value.properties.message = try reader["message"].readIfPresent()
@@ -31997,7 +32099,7 @@ extension BlueGreenDeploymentAlreadyExistsFault {
 
 extension DBClusterParameterGroupNotFoundFault {
 
-    static func makeError(baseError: AWSClientRuntime.AWSQueryError) throws -> DBClusterParameterGroupNotFoundFault {
+    static func makeError(baseError: ClientRuntime.AWSQueryError) throws -> DBClusterParameterGroupNotFoundFault {
         let reader = baseError.errorBodyReader
         var value = DBClusterParameterGroupNotFoundFault()
         value.properties.message = try reader["message"].readIfPresent()
@@ -32010,7 +32112,7 @@ extension DBClusterParameterGroupNotFoundFault {
 
 extension DBClusterQuotaExceededFault {
 
-    static func makeError(baseError: AWSClientRuntime.AWSQueryError) throws -> DBClusterQuotaExceededFault {
+    static func makeError(baseError: ClientRuntime.AWSQueryError) throws -> DBClusterQuotaExceededFault {
         let reader = baseError.errorBodyReader
         var value = DBClusterQuotaExceededFault()
         value.properties.message = try reader["message"].readIfPresent()
@@ -32023,7 +32125,7 @@ extension DBClusterQuotaExceededFault {
 
 extension InstanceQuotaExceededFault {
 
-    static func makeError(baseError: AWSClientRuntime.AWSQueryError) throws -> InstanceQuotaExceededFault {
+    static func makeError(baseError: ClientRuntime.AWSQueryError) throws -> InstanceQuotaExceededFault {
         let reader = baseError.errorBodyReader
         var value = InstanceQuotaExceededFault()
         value.properties.message = try reader["message"].readIfPresent()
@@ -32036,7 +32138,7 @@ extension InstanceQuotaExceededFault {
 
 extension SourceClusterNotSupportedFault {
 
-    static func makeError(baseError: AWSClientRuntime.AWSQueryError) throws -> SourceClusterNotSupportedFault {
+    static func makeError(baseError: ClientRuntime.AWSQueryError) throws -> SourceClusterNotSupportedFault {
         let reader = baseError.errorBodyReader
         var value = SourceClusterNotSupportedFault()
         value.properties.message = try reader["message"].readIfPresent()
@@ -32049,7 +32151,7 @@ extension SourceClusterNotSupportedFault {
 
 extension SourceDatabaseNotSupportedFault {
 
-    static func makeError(baseError: AWSClientRuntime.AWSQueryError) throws -> SourceDatabaseNotSupportedFault {
+    static func makeError(baseError: ClientRuntime.AWSQueryError) throws -> SourceDatabaseNotSupportedFault {
         let reader = baseError.errorBodyReader
         var value = SourceDatabaseNotSupportedFault()
         value.properties.message = try reader["message"].readIfPresent()
@@ -32062,7 +32164,7 @@ extension SourceDatabaseNotSupportedFault {
 
 extension StorageQuotaExceededFault {
 
-    static func makeError(baseError: AWSClientRuntime.AWSQueryError) throws -> StorageQuotaExceededFault {
+    static func makeError(baseError: ClientRuntime.AWSQueryError) throws -> StorageQuotaExceededFault {
         let reader = baseError.errorBodyReader
         var value = StorageQuotaExceededFault()
         value.properties.message = try reader["message"].readIfPresent()
@@ -32075,7 +32177,7 @@ extension StorageQuotaExceededFault {
 
 extension CreateCustomDBEngineVersionFault {
 
-    static func makeError(baseError: AWSClientRuntime.AWSQueryError) throws -> CreateCustomDBEngineVersionFault {
+    static func makeError(baseError: ClientRuntime.AWSQueryError) throws -> CreateCustomDBEngineVersionFault {
         let reader = baseError.errorBodyReader
         var value = CreateCustomDBEngineVersionFault()
         value.properties.message = try reader["message"].readIfPresent()
@@ -32088,7 +32190,7 @@ extension CreateCustomDBEngineVersionFault {
 
 extension CustomDBEngineVersionAlreadyExistsFault {
 
-    static func makeError(baseError: AWSClientRuntime.AWSQueryError) throws -> CustomDBEngineVersionAlreadyExistsFault {
+    static func makeError(baseError: ClientRuntime.AWSQueryError) throws -> CustomDBEngineVersionAlreadyExistsFault {
         let reader = baseError.errorBodyReader
         var value = CustomDBEngineVersionAlreadyExistsFault()
         value.properties.message = try reader["message"].readIfPresent()
@@ -32101,7 +32203,7 @@ extension CustomDBEngineVersionAlreadyExistsFault {
 
 extension CustomDBEngineVersionNotFoundFault {
 
-    static func makeError(baseError: AWSClientRuntime.AWSQueryError) throws -> CustomDBEngineVersionNotFoundFault {
+    static func makeError(baseError: ClientRuntime.AWSQueryError) throws -> CustomDBEngineVersionNotFoundFault {
         let reader = baseError.errorBodyReader
         var value = CustomDBEngineVersionNotFoundFault()
         value.properties.message = try reader["message"].readIfPresent()
@@ -32114,7 +32216,7 @@ extension CustomDBEngineVersionNotFoundFault {
 
 extension CustomDBEngineVersionQuotaExceededFault {
 
-    static func makeError(baseError: AWSClientRuntime.AWSQueryError) throws -> CustomDBEngineVersionQuotaExceededFault {
+    static func makeError(baseError: ClientRuntime.AWSQueryError) throws -> CustomDBEngineVersionQuotaExceededFault {
         let reader = baseError.errorBodyReader
         var value = CustomDBEngineVersionQuotaExceededFault()
         value.properties.message = try reader["message"].readIfPresent()
@@ -32127,7 +32229,7 @@ extension CustomDBEngineVersionQuotaExceededFault {
 
 extension Ec2ImagePropertiesNotSupportedFault {
 
-    static func makeError(baseError: AWSClientRuntime.AWSQueryError) throws -> Ec2ImagePropertiesNotSupportedFault {
+    static func makeError(baseError: ClientRuntime.AWSQueryError) throws -> Ec2ImagePropertiesNotSupportedFault {
         let reader = baseError.errorBodyReader
         var value = Ec2ImagePropertiesNotSupportedFault()
         value.properties.message = try reader["message"].readIfPresent()
@@ -32140,7 +32242,7 @@ extension Ec2ImagePropertiesNotSupportedFault {
 
 extension InvalidCustomDBEngineVersionStateFault {
 
-    static func makeError(baseError: AWSClientRuntime.AWSQueryError) throws -> InvalidCustomDBEngineVersionStateFault {
+    static func makeError(baseError: ClientRuntime.AWSQueryError) throws -> InvalidCustomDBEngineVersionStateFault {
         let reader = baseError.errorBodyReader
         var value = InvalidCustomDBEngineVersionStateFault()
         value.properties.message = try reader["message"].readIfPresent()
@@ -32153,7 +32255,7 @@ extension InvalidCustomDBEngineVersionStateFault {
 
 extension DBClusterAlreadyExistsFault {
 
-    static func makeError(baseError: AWSClientRuntime.AWSQueryError) throws -> DBClusterAlreadyExistsFault {
+    static func makeError(baseError: ClientRuntime.AWSQueryError) throws -> DBClusterAlreadyExistsFault {
         let reader = baseError.errorBodyReader
         var value = DBClusterAlreadyExistsFault()
         value.properties.message = try reader["message"].readIfPresent()
@@ -32166,7 +32268,7 @@ extension DBClusterAlreadyExistsFault {
 
 extension DBSubnetGroupDoesNotCoverEnoughAZs {
 
-    static func makeError(baseError: AWSClientRuntime.AWSQueryError) throws -> DBSubnetGroupDoesNotCoverEnoughAZs {
+    static func makeError(baseError: ClientRuntime.AWSQueryError) throws -> DBSubnetGroupDoesNotCoverEnoughAZs {
         let reader = baseError.errorBodyReader
         var value = DBSubnetGroupDoesNotCoverEnoughAZs()
         value.properties.message = try reader["message"].readIfPresent()
@@ -32179,7 +32281,7 @@ extension DBSubnetGroupDoesNotCoverEnoughAZs {
 
 extension DBSubnetGroupNotFoundFault {
 
-    static func makeError(baseError: AWSClientRuntime.AWSQueryError) throws -> DBSubnetGroupNotFoundFault {
+    static func makeError(baseError: ClientRuntime.AWSQueryError) throws -> DBSubnetGroupNotFoundFault {
         let reader = baseError.errorBodyReader
         var value = DBSubnetGroupNotFoundFault()
         value.properties.message = try reader["message"].readIfPresent()
@@ -32192,7 +32294,7 @@ extension DBSubnetGroupNotFoundFault {
 
 extension DomainNotFoundFault {
 
-    static func makeError(baseError: AWSClientRuntime.AWSQueryError) throws -> DomainNotFoundFault {
+    static func makeError(baseError: ClientRuntime.AWSQueryError) throws -> DomainNotFoundFault {
         let reader = baseError.errorBodyReader
         var value = DomainNotFoundFault()
         value.properties.message = try reader["message"].readIfPresent()
@@ -32205,7 +32307,7 @@ extension DomainNotFoundFault {
 
 extension GlobalClusterNotFoundFault {
 
-    static func makeError(baseError: AWSClientRuntime.AWSQueryError) throws -> GlobalClusterNotFoundFault {
+    static func makeError(baseError: ClientRuntime.AWSQueryError) throws -> GlobalClusterNotFoundFault {
         let reader = baseError.errorBodyReader
         var value = GlobalClusterNotFoundFault()
         value.properties.message = try reader["message"].readIfPresent()
@@ -32218,7 +32320,7 @@ extension GlobalClusterNotFoundFault {
 
 extension InsufficientDBInstanceCapacityFault {
 
-    static func makeError(baseError: AWSClientRuntime.AWSQueryError) throws -> InsufficientDBInstanceCapacityFault {
+    static func makeError(baseError: ClientRuntime.AWSQueryError) throws -> InsufficientDBInstanceCapacityFault {
         let reader = baseError.errorBodyReader
         var value = InsufficientDBInstanceCapacityFault()
         value.properties.message = try reader["message"].readIfPresent()
@@ -32231,7 +32333,7 @@ extension InsufficientDBInstanceCapacityFault {
 
 extension InsufficientStorageClusterCapacityFault {
 
-    static func makeError(baseError: AWSClientRuntime.AWSQueryError) throws -> InsufficientStorageClusterCapacityFault {
+    static func makeError(baseError: ClientRuntime.AWSQueryError) throws -> InsufficientStorageClusterCapacityFault {
         let reader = baseError.errorBodyReader
         var value = InsufficientStorageClusterCapacityFault()
         value.properties.message = try reader["message"].readIfPresent()
@@ -32244,7 +32346,7 @@ extension InsufficientStorageClusterCapacityFault {
 
 extension InvalidDBSubnetGroupFault {
 
-    static func makeError(baseError: AWSClientRuntime.AWSQueryError) throws -> InvalidDBSubnetGroupFault {
+    static func makeError(baseError: ClientRuntime.AWSQueryError) throws -> InvalidDBSubnetGroupFault {
         let reader = baseError.errorBodyReader
         var value = InvalidDBSubnetGroupFault()
         value.properties.message = try reader["message"].readIfPresent()
@@ -32257,7 +32359,7 @@ extension InvalidDBSubnetGroupFault {
 
 extension InvalidDBSubnetGroupStateFault {
 
-    static func makeError(baseError: AWSClientRuntime.AWSQueryError) throws -> InvalidDBSubnetGroupStateFault {
+    static func makeError(baseError: ClientRuntime.AWSQueryError) throws -> InvalidDBSubnetGroupStateFault {
         let reader = baseError.errorBodyReader
         var value = InvalidDBSubnetGroupStateFault()
         value.properties.message = try reader["message"].readIfPresent()
@@ -32270,7 +32372,7 @@ extension InvalidDBSubnetGroupStateFault {
 
 extension InvalidGlobalClusterStateFault {
 
-    static func makeError(baseError: AWSClientRuntime.AWSQueryError) throws -> InvalidGlobalClusterStateFault {
+    static func makeError(baseError: ClientRuntime.AWSQueryError) throws -> InvalidGlobalClusterStateFault {
         let reader = baseError.errorBodyReader
         var value = InvalidGlobalClusterStateFault()
         value.properties.message = try reader["message"].readIfPresent()
@@ -32283,7 +32385,7 @@ extension InvalidGlobalClusterStateFault {
 
 extension InvalidSubnet {
 
-    static func makeError(baseError: AWSClientRuntime.AWSQueryError) throws -> InvalidSubnet {
+    static func makeError(baseError: ClientRuntime.AWSQueryError) throws -> InvalidSubnet {
         let reader = baseError.errorBodyReader
         var value = InvalidSubnet()
         value.properties.message = try reader["message"].readIfPresent()
@@ -32296,7 +32398,7 @@ extension InvalidSubnet {
 
 extension InvalidVPCNetworkStateFault {
 
-    static func makeError(baseError: AWSClientRuntime.AWSQueryError) throws -> InvalidVPCNetworkStateFault {
+    static func makeError(baseError: ClientRuntime.AWSQueryError) throws -> InvalidVPCNetworkStateFault {
         let reader = baseError.errorBodyReader
         var value = InvalidVPCNetworkStateFault()
         value.properties.message = try reader["message"].readIfPresent()
@@ -32309,7 +32411,7 @@ extension InvalidVPCNetworkStateFault {
 
 extension NetworkTypeNotSupported {
 
-    static func makeError(baseError: AWSClientRuntime.AWSQueryError) throws -> NetworkTypeNotSupported {
+    static func makeError(baseError: ClientRuntime.AWSQueryError) throws -> NetworkTypeNotSupported {
         let reader = baseError.errorBodyReader
         var value = NetworkTypeNotSupported()
         value.properties.message = try reader["message"].readIfPresent()
@@ -32322,7 +32424,7 @@ extension NetworkTypeNotSupported {
 
 extension StorageTypeNotSupportedFault {
 
-    static func makeError(baseError: AWSClientRuntime.AWSQueryError) throws -> StorageTypeNotSupportedFault {
+    static func makeError(baseError: ClientRuntime.AWSQueryError) throws -> StorageTypeNotSupportedFault {
         let reader = baseError.errorBodyReader
         var value = StorageTypeNotSupportedFault()
         value.properties.message = try reader["message"].readIfPresent()
@@ -32335,7 +32437,7 @@ extension StorageTypeNotSupportedFault {
 
 extension VpcEncryptionControlViolationException {
 
-    static func makeError(baseError: AWSClientRuntime.AWSQueryError) throws -> VpcEncryptionControlViolationException {
+    static func makeError(baseError: ClientRuntime.AWSQueryError) throws -> VpcEncryptionControlViolationException {
         let reader = baseError.errorBodyReader
         var value = VpcEncryptionControlViolationException()
         value.properties.message = try reader["message"].readIfPresent()
@@ -32348,7 +32450,7 @@ extension VpcEncryptionControlViolationException {
 
 extension DBClusterEndpointAlreadyExistsFault {
 
-    static func makeError(baseError: AWSClientRuntime.AWSQueryError) throws -> DBClusterEndpointAlreadyExistsFault {
+    static func makeError(baseError: ClientRuntime.AWSQueryError) throws -> DBClusterEndpointAlreadyExistsFault {
         let reader = baseError.errorBodyReader
         var value = DBClusterEndpointAlreadyExistsFault()
         value.properties.message = try reader["message"].readIfPresent()
@@ -32361,7 +32463,7 @@ extension DBClusterEndpointAlreadyExistsFault {
 
 extension DBClusterEndpointQuotaExceededFault {
 
-    static func makeError(baseError: AWSClientRuntime.AWSQueryError) throws -> DBClusterEndpointQuotaExceededFault {
+    static func makeError(baseError: ClientRuntime.AWSQueryError) throws -> DBClusterEndpointQuotaExceededFault {
         let reader = baseError.errorBodyReader
         var value = DBClusterEndpointQuotaExceededFault()
         value.properties.message = try reader["message"].readIfPresent()
@@ -32374,7 +32476,7 @@ extension DBClusterEndpointQuotaExceededFault {
 
 extension AuthorizationNotFoundFault {
 
-    static func makeError(baseError: AWSClientRuntime.AWSQueryError) throws -> AuthorizationNotFoundFault {
+    static func makeError(baseError: ClientRuntime.AWSQueryError) throws -> AuthorizationNotFoundFault {
         let reader = baseError.errorBodyReader
         var value = AuthorizationNotFoundFault()
         value.properties.message = try reader["message"].readIfPresent()
@@ -32387,7 +32489,7 @@ extension AuthorizationNotFoundFault {
 
 extension BackupPolicyNotFoundFault {
 
-    static func makeError(baseError: AWSClientRuntime.AWSQueryError) throws -> BackupPolicyNotFoundFault {
+    static func makeError(baseError: ClientRuntime.AWSQueryError) throws -> BackupPolicyNotFoundFault {
         let reader = baseError.errorBodyReader
         var value = BackupPolicyNotFoundFault()
         value.properties.message = try reader["message"].readIfPresent()
@@ -32400,7 +32502,7 @@ extension BackupPolicyNotFoundFault {
 
 extension CertificateNotFoundFault {
 
-    static func makeError(baseError: AWSClientRuntime.AWSQueryError) throws -> CertificateNotFoundFault {
+    static func makeError(baseError: ClientRuntime.AWSQueryError) throws -> CertificateNotFoundFault {
         let reader = baseError.errorBodyReader
         var value = CertificateNotFoundFault()
         value.properties.message = try reader["message"].readIfPresent()
@@ -32413,7 +32515,7 @@ extension CertificateNotFoundFault {
 
 extension DBInstanceAlreadyExistsFault {
 
-    static func makeError(baseError: AWSClientRuntime.AWSQueryError) throws -> DBInstanceAlreadyExistsFault {
+    static func makeError(baseError: ClientRuntime.AWSQueryError) throws -> DBInstanceAlreadyExistsFault {
         let reader = baseError.errorBodyReader
         var value = DBInstanceAlreadyExistsFault()
         value.properties.message = try reader["message"].readIfPresent()
@@ -32426,7 +32528,7 @@ extension DBInstanceAlreadyExistsFault {
 
 extension ProvisionedIopsNotAvailableInAZFault {
 
-    static func makeError(baseError: AWSClientRuntime.AWSQueryError) throws -> ProvisionedIopsNotAvailableInAZFault {
+    static func makeError(baseError: ClientRuntime.AWSQueryError) throws -> ProvisionedIopsNotAvailableInAZFault {
         let reader = baseError.errorBodyReader
         var value = ProvisionedIopsNotAvailableInAZFault()
         value.properties.message = try reader["message"].readIfPresent()
@@ -32439,7 +32541,7 @@ extension ProvisionedIopsNotAvailableInAZFault {
 
 extension TenantDatabaseQuotaExceededFault {
 
-    static func makeError(baseError: AWSClientRuntime.AWSQueryError) throws -> TenantDatabaseQuotaExceededFault {
+    static func makeError(baseError: ClientRuntime.AWSQueryError) throws -> TenantDatabaseQuotaExceededFault {
         let reader = baseError.errorBodyReader
         var value = TenantDatabaseQuotaExceededFault()
         value.properties.message = try reader["message"].readIfPresent()
@@ -32452,7 +32554,7 @@ extension TenantDatabaseQuotaExceededFault {
 
 extension DBSubnetGroupNotAllowedFault {
 
-    static func makeError(baseError: AWSClientRuntime.AWSQueryError) throws -> DBSubnetGroupNotAllowedFault {
+    static func makeError(baseError: ClientRuntime.AWSQueryError) throws -> DBSubnetGroupNotAllowedFault {
         let reader = baseError.errorBodyReader
         var value = DBSubnetGroupNotAllowedFault()
         value.properties.message = try reader["message"].readIfPresent()
@@ -32465,7 +32567,7 @@ extension DBSubnetGroupNotAllowedFault {
 
 extension DBProxyAlreadyExistsFault {
 
-    static func makeError(baseError: AWSClientRuntime.AWSQueryError) throws -> DBProxyAlreadyExistsFault {
+    static func makeError(baseError: ClientRuntime.AWSQueryError) throws -> DBProxyAlreadyExistsFault {
         let reader = baseError.errorBodyReader
         var value = DBProxyAlreadyExistsFault()
         value.properties.message = try reader["message"].readIfPresent()
@@ -32478,7 +32580,7 @@ extension DBProxyAlreadyExistsFault {
 
 extension DBProxyQuotaExceededFault {
 
-    static func makeError(baseError: AWSClientRuntime.AWSQueryError) throws -> DBProxyQuotaExceededFault {
+    static func makeError(baseError: ClientRuntime.AWSQueryError) throws -> DBProxyQuotaExceededFault {
         let reader = baseError.errorBodyReader
         var value = DBProxyQuotaExceededFault()
         value.properties.message = try reader["message"].readIfPresent()
@@ -32491,7 +32593,7 @@ extension DBProxyQuotaExceededFault {
 
 extension DBProxyEndpointAlreadyExistsFault {
 
-    static func makeError(baseError: AWSClientRuntime.AWSQueryError) throws -> DBProxyEndpointAlreadyExistsFault {
+    static func makeError(baseError: ClientRuntime.AWSQueryError) throws -> DBProxyEndpointAlreadyExistsFault {
         let reader = baseError.errorBodyReader
         var value = DBProxyEndpointAlreadyExistsFault()
         value.properties.message = try reader["message"].readIfPresent()
@@ -32504,7 +32606,7 @@ extension DBProxyEndpointAlreadyExistsFault {
 
 extension DBProxyEndpointQuotaExceededFault {
 
-    static func makeError(baseError: AWSClientRuntime.AWSQueryError) throws -> DBProxyEndpointQuotaExceededFault {
+    static func makeError(baseError: ClientRuntime.AWSQueryError) throws -> DBProxyEndpointQuotaExceededFault {
         let reader = baseError.errorBodyReader
         var value = DBProxyEndpointQuotaExceededFault()
         value.properties.message = try reader["message"].readIfPresent()
@@ -32517,7 +32619,7 @@ extension DBProxyEndpointQuotaExceededFault {
 
 extension InvalidDBProxyStateFault {
 
-    static func makeError(baseError: AWSClientRuntime.AWSQueryError) throws -> InvalidDBProxyStateFault {
+    static func makeError(baseError: ClientRuntime.AWSQueryError) throws -> InvalidDBProxyStateFault {
         let reader = baseError.errorBodyReader
         var value = InvalidDBProxyStateFault()
         value.properties.message = try reader["message"].readIfPresent()
@@ -32530,7 +32632,7 @@ extension InvalidDBProxyStateFault {
 
 extension DBSecurityGroupAlreadyExistsFault {
 
-    static func makeError(baseError: AWSClientRuntime.AWSQueryError) throws -> DBSecurityGroupAlreadyExistsFault {
+    static func makeError(baseError: ClientRuntime.AWSQueryError) throws -> DBSecurityGroupAlreadyExistsFault {
         let reader = baseError.errorBodyReader
         var value = DBSecurityGroupAlreadyExistsFault()
         value.properties.message = try reader["message"].readIfPresent()
@@ -32543,7 +32645,7 @@ extension DBSecurityGroupAlreadyExistsFault {
 
 extension DBSecurityGroupNotSupportedFault {
 
-    static func makeError(baseError: AWSClientRuntime.AWSQueryError) throws -> DBSecurityGroupNotSupportedFault {
+    static func makeError(baseError: ClientRuntime.AWSQueryError) throws -> DBSecurityGroupNotSupportedFault {
         let reader = baseError.errorBodyReader
         var value = DBSecurityGroupNotSupportedFault()
         value.properties.message = try reader["message"].readIfPresent()
@@ -32556,7 +32658,7 @@ extension DBSecurityGroupNotSupportedFault {
 
 extension DBSecurityGroupQuotaExceededFault {
 
-    static func makeError(baseError: AWSClientRuntime.AWSQueryError) throws -> DBSecurityGroupQuotaExceededFault {
+    static func makeError(baseError: ClientRuntime.AWSQueryError) throws -> DBSecurityGroupQuotaExceededFault {
         let reader = baseError.errorBodyReader
         var value = DBSecurityGroupQuotaExceededFault()
         value.properties.message = try reader["message"].readIfPresent()
@@ -32569,7 +32671,7 @@ extension DBSecurityGroupQuotaExceededFault {
 
 extension DBShardGroupAlreadyExistsFault {
 
-    static func makeError(baseError: AWSClientRuntime.AWSQueryError) throws -> DBShardGroupAlreadyExistsFault {
+    static func makeError(baseError: ClientRuntime.AWSQueryError) throws -> DBShardGroupAlreadyExistsFault {
         let reader = baseError.errorBodyReader
         var value = DBShardGroupAlreadyExistsFault()
         value.properties.message = try reader["message"].readIfPresent()
@@ -32582,7 +32684,7 @@ extension DBShardGroupAlreadyExistsFault {
 
 extension MaxDBShardGroupLimitReached {
 
-    static func makeError(baseError: AWSClientRuntime.AWSQueryError) throws -> MaxDBShardGroupLimitReached {
+    static func makeError(baseError: ClientRuntime.AWSQueryError) throws -> MaxDBShardGroupLimitReached {
         let reader = baseError.errorBodyReader
         var value = MaxDBShardGroupLimitReached()
         value.properties.message = try reader["message"].readIfPresent()
@@ -32595,7 +32697,7 @@ extension MaxDBShardGroupLimitReached {
 
 extension UnsupportedDBEngineVersionFault {
 
-    static func makeError(baseError: AWSClientRuntime.AWSQueryError) throws -> UnsupportedDBEngineVersionFault {
+    static func makeError(baseError: ClientRuntime.AWSQueryError) throws -> UnsupportedDBEngineVersionFault {
         let reader = baseError.errorBodyReader
         var value = UnsupportedDBEngineVersionFault()
         value.properties.message = try reader["message"].readIfPresent()
@@ -32608,7 +32710,7 @@ extension UnsupportedDBEngineVersionFault {
 
 extension DBSubnetGroupAlreadyExistsFault {
 
-    static func makeError(baseError: AWSClientRuntime.AWSQueryError) throws -> DBSubnetGroupAlreadyExistsFault {
+    static func makeError(baseError: ClientRuntime.AWSQueryError) throws -> DBSubnetGroupAlreadyExistsFault {
         let reader = baseError.errorBodyReader
         var value = DBSubnetGroupAlreadyExistsFault()
         value.properties.message = try reader["message"].readIfPresent()
@@ -32621,7 +32723,7 @@ extension DBSubnetGroupAlreadyExistsFault {
 
 extension DBSubnetGroupQuotaExceededFault {
 
-    static func makeError(baseError: AWSClientRuntime.AWSQueryError) throws -> DBSubnetGroupQuotaExceededFault {
+    static func makeError(baseError: ClientRuntime.AWSQueryError) throws -> DBSubnetGroupQuotaExceededFault {
         let reader = baseError.errorBodyReader
         var value = DBSubnetGroupQuotaExceededFault()
         value.properties.message = try reader["message"].readIfPresent()
@@ -32634,7 +32736,7 @@ extension DBSubnetGroupQuotaExceededFault {
 
 extension DBSubnetQuotaExceededFault {
 
-    static func makeError(baseError: AWSClientRuntime.AWSQueryError) throws -> DBSubnetQuotaExceededFault {
+    static func makeError(baseError: ClientRuntime.AWSQueryError) throws -> DBSubnetQuotaExceededFault {
         let reader = baseError.errorBodyReader
         var value = DBSubnetQuotaExceededFault()
         value.properties.message = try reader["message"].readIfPresent()
@@ -32647,7 +32749,7 @@ extension DBSubnetQuotaExceededFault {
 
 extension EventSubscriptionQuotaExceededFault {
 
-    static func makeError(baseError: AWSClientRuntime.AWSQueryError) throws -> EventSubscriptionQuotaExceededFault {
+    static func makeError(baseError: ClientRuntime.AWSQueryError) throws -> EventSubscriptionQuotaExceededFault {
         let reader = baseError.errorBodyReader
         var value = EventSubscriptionQuotaExceededFault()
         value.properties.message = try reader["message"].readIfPresent()
@@ -32660,7 +32762,7 @@ extension EventSubscriptionQuotaExceededFault {
 
 extension SNSInvalidTopicFault {
 
-    static func makeError(baseError: AWSClientRuntime.AWSQueryError) throws -> SNSInvalidTopicFault {
+    static func makeError(baseError: ClientRuntime.AWSQueryError) throws -> SNSInvalidTopicFault {
         let reader = baseError.errorBodyReader
         var value = SNSInvalidTopicFault()
         value.properties.message = try reader["message"].readIfPresent()
@@ -32673,7 +32775,7 @@ extension SNSInvalidTopicFault {
 
 extension SNSNoAuthorizationFault {
 
-    static func makeError(baseError: AWSClientRuntime.AWSQueryError) throws -> SNSNoAuthorizationFault {
+    static func makeError(baseError: ClientRuntime.AWSQueryError) throws -> SNSNoAuthorizationFault {
         let reader = baseError.errorBodyReader
         var value = SNSNoAuthorizationFault()
         value.properties.message = try reader["message"].readIfPresent()
@@ -32686,7 +32788,7 @@ extension SNSNoAuthorizationFault {
 
 extension SNSTopicArnNotFoundFault {
 
-    static func makeError(baseError: AWSClientRuntime.AWSQueryError) throws -> SNSTopicArnNotFoundFault {
+    static func makeError(baseError: ClientRuntime.AWSQueryError) throws -> SNSTopicArnNotFoundFault {
         let reader = baseError.errorBodyReader
         var value = SNSTopicArnNotFoundFault()
         value.properties.message = try reader["message"].readIfPresent()
@@ -32699,7 +32801,7 @@ extension SNSTopicArnNotFoundFault {
 
 extension SubscriptionAlreadyExistFault {
 
-    static func makeError(baseError: AWSClientRuntime.AWSQueryError) throws -> SubscriptionAlreadyExistFault {
+    static func makeError(baseError: ClientRuntime.AWSQueryError) throws -> SubscriptionAlreadyExistFault {
         let reader = baseError.errorBodyReader
         var value = SubscriptionAlreadyExistFault()
         value.properties.message = try reader["message"].readIfPresent()
@@ -32712,7 +32814,7 @@ extension SubscriptionAlreadyExistFault {
 
 extension SubscriptionCategoryNotFoundFault {
 
-    static func makeError(baseError: AWSClientRuntime.AWSQueryError) throws -> SubscriptionCategoryNotFoundFault {
+    static func makeError(baseError: ClientRuntime.AWSQueryError) throws -> SubscriptionCategoryNotFoundFault {
         let reader = baseError.errorBodyReader
         var value = SubscriptionCategoryNotFoundFault()
         value.properties.message = try reader["message"].readIfPresent()
@@ -32725,7 +32827,7 @@ extension SubscriptionCategoryNotFoundFault {
 
 extension GlobalClusterAlreadyExistsFault {
 
-    static func makeError(baseError: AWSClientRuntime.AWSQueryError) throws -> GlobalClusterAlreadyExistsFault {
+    static func makeError(baseError: ClientRuntime.AWSQueryError) throws -> GlobalClusterAlreadyExistsFault {
         let reader = baseError.errorBodyReader
         var value = GlobalClusterAlreadyExistsFault()
         value.properties.message = try reader["message"].readIfPresent()
@@ -32738,7 +32840,7 @@ extension GlobalClusterAlreadyExistsFault {
 
 extension GlobalClusterQuotaExceededFault {
 
-    static func makeError(baseError: AWSClientRuntime.AWSQueryError) throws -> GlobalClusterQuotaExceededFault {
+    static func makeError(baseError: ClientRuntime.AWSQueryError) throws -> GlobalClusterQuotaExceededFault {
         let reader = baseError.errorBodyReader
         var value = GlobalClusterQuotaExceededFault()
         value.properties.message = try reader["message"].readIfPresent()
@@ -32751,7 +32853,7 @@ extension GlobalClusterQuotaExceededFault {
 
 extension InvalidDBShardGroupStateFault {
 
-    static func makeError(baseError: AWSClientRuntime.AWSQueryError) throws -> InvalidDBShardGroupStateFault {
+    static func makeError(baseError: ClientRuntime.AWSQueryError) throws -> InvalidDBShardGroupStateFault {
         let reader = baseError.errorBodyReader
         var value = InvalidDBShardGroupStateFault()
         value.properties.message = try reader["message"].readIfPresent()
@@ -32764,7 +32866,7 @@ extension InvalidDBShardGroupStateFault {
 
 extension IntegrationAlreadyExistsFault {
 
-    static func makeError(baseError: AWSClientRuntime.AWSQueryError) throws -> IntegrationAlreadyExistsFault {
+    static func makeError(baseError: ClientRuntime.AWSQueryError) throws -> IntegrationAlreadyExistsFault {
         let reader = baseError.errorBodyReader
         var value = IntegrationAlreadyExistsFault()
         value.properties.message = try reader["message"].readIfPresent()
@@ -32777,7 +32879,7 @@ extension IntegrationAlreadyExistsFault {
 
 extension IntegrationConflictOperationFault {
 
-    static func makeError(baseError: AWSClientRuntime.AWSQueryError) throws -> IntegrationConflictOperationFault {
+    static func makeError(baseError: ClientRuntime.AWSQueryError) throws -> IntegrationConflictOperationFault {
         let reader = baseError.errorBodyReader
         var value = IntegrationConflictOperationFault()
         value.properties.message = try reader["message"].readIfPresent()
@@ -32790,7 +32892,7 @@ extension IntegrationConflictOperationFault {
 
 extension IntegrationQuotaExceededFault {
 
-    static func makeError(baseError: AWSClientRuntime.AWSQueryError) throws -> IntegrationQuotaExceededFault {
+    static func makeError(baseError: ClientRuntime.AWSQueryError) throws -> IntegrationQuotaExceededFault {
         let reader = baseError.errorBodyReader
         var value = IntegrationQuotaExceededFault()
         value.properties.message = try reader["message"].readIfPresent()
@@ -32803,7 +32905,7 @@ extension IntegrationQuotaExceededFault {
 
 extension TenantDatabaseAlreadyExistsFault {
 
-    static func makeError(baseError: AWSClientRuntime.AWSQueryError) throws -> TenantDatabaseAlreadyExistsFault {
+    static func makeError(baseError: ClientRuntime.AWSQueryError) throws -> TenantDatabaseAlreadyExistsFault {
         let reader = baseError.errorBodyReader
         var value = TenantDatabaseAlreadyExistsFault()
         value.properties.message = try reader["message"].readIfPresent()
@@ -32816,7 +32918,7 @@ extension TenantDatabaseAlreadyExistsFault {
 
 extension InvalidBlueGreenDeploymentStateFault {
 
-    static func makeError(baseError: AWSClientRuntime.AWSQueryError) throws -> InvalidBlueGreenDeploymentStateFault {
+    static func makeError(baseError: ClientRuntime.AWSQueryError) throws -> InvalidBlueGreenDeploymentStateFault {
         let reader = baseError.errorBodyReader
         var value = InvalidBlueGreenDeploymentStateFault()
         value.properties.message = try reader["message"].readIfPresent()
@@ -32829,7 +32931,7 @@ extension InvalidBlueGreenDeploymentStateFault {
 
 extension DBClusterAutomatedBackupQuotaExceededFault {
 
-    static func makeError(baseError: AWSClientRuntime.AWSQueryError) throws -> DBClusterAutomatedBackupQuotaExceededFault {
+    static func makeError(baseError: ClientRuntime.AWSQueryError) throws -> DBClusterAutomatedBackupQuotaExceededFault {
         let reader = baseError.errorBodyReader
         var value = DBClusterAutomatedBackupQuotaExceededFault()
         value.properties.message = try reader["message"].readIfPresent()
@@ -32842,7 +32944,7 @@ extension DBClusterAutomatedBackupQuotaExceededFault {
 
 extension DBClusterAutomatedBackupNotFoundFault {
 
-    static func makeError(baseError: AWSClientRuntime.AWSQueryError) throws -> DBClusterAutomatedBackupNotFoundFault {
+    static func makeError(baseError: ClientRuntime.AWSQueryError) throws -> DBClusterAutomatedBackupNotFoundFault {
         let reader = baseError.errorBodyReader
         var value = DBClusterAutomatedBackupNotFoundFault()
         value.properties.message = try reader["message"].readIfPresent()
@@ -32855,7 +32957,7 @@ extension DBClusterAutomatedBackupNotFoundFault {
 
 extension InvalidDBClusterAutomatedBackupStateFault {
 
-    static func makeError(baseError: AWSClientRuntime.AWSQueryError) throws -> InvalidDBClusterAutomatedBackupStateFault {
+    static func makeError(baseError: ClientRuntime.AWSQueryError) throws -> InvalidDBClusterAutomatedBackupStateFault {
         let reader = baseError.errorBodyReader
         var value = InvalidDBClusterAutomatedBackupStateFault()
         value.properties.message = try reader["message"].readIfPresent()
@@ -32868,7 +32970,7 @@ extension InvalidDBClusterAutomatedBackupStateFault {
 
 extension DBClusterEndpointNotFoundFault {
 
-    static func makeError(baseError: AWSClientRuntime.AWSQueryError) throws -> DBClusterEndpointNotFoundFault {
+    static func makeError(baseError: ClientRuntime.AWSQueryError) throws -> DBClusterEndpointNotFoundFault {
         let reader = baseError.errorBodyReader
         var value = DBClusterEndpointNotFoundFault()
         value.properties.message = try reader["message"].readIfPresent()
@@ -32881,7 +32983,7 @@ extension DBClusterEndpointNotFoundFault {
 
 extension InvalidDBParameterGroupStateFault {
 
-    static func makeError(baseError: AWSClientRuntime.AWSQueryError) throws -> InvalidDBParameterGroupStateFault {
+    static func makeError(baseError: ClientRuntime.AWSQueryError) throws -> InvalidDBParameterGroupStateFault {
         let reader = baseError.errorBodyReader
         var value = InvalidDBParameterGroupStateFault()
         value.properties.message = try reader["message"].readIfPresent()
@@ -32894,7 +32996,7 @@ extension InvalidDBParameterGroupStateFault {
 
 extension DBInstanceAutomatedBackupQuotaExceededFault {
 
-    static func makeError(baseError: AWSClientRuntime.AWSQueryError) throws -> DBInstanceAutomatedBackupQuotaExceededFault {
+    static func makeError(baseError: ClientRuntime.AWSQueryError) throws -> DBInstanceAutomatedBackupQuotaExceededFault {
         let reader = baseError.errorBodyReader
         var value = DBInstanceAutomatedBackupQuotaExceededFault()
         value.properties.message = try reader["message"].readIfPresent()
@@ -32907,7 +33009,7 @@ extension DBInstanceAutomatedBackupQuotaExceededFault {
 
 extension DBInstanceAutomatedBackupNotFoundFault {
 
-    static func makeError(baseError: AWSClientRuntime.AWSQueryError) throws -> DBInstanceAutomatedBackupNotFoundFault {
+    static func makeError(baseError: ClientRuntime.AWSQueryError) throws -> DBInstanceAutomatedBackupNotFoundFault {
         let reader = baseError.errorBodyReader
         var value = DBInstanceAutomatedBackupNotFoundFault()
         value.properties.message = try reader["message"].readIfPresent()
@@ -32920,7 +33022,7 @@ extension DBInstanceAutomatedBackupNotFoundFault {
 
 extension InvalidDBInstanceAutomatedBackupStateFault {
 
-    static func makeError(baseError: AWSClientRuntime.AWSQueryError) throws -> InvalidDBInstanceAutomatedBackupStateFault {
+    static func makeError(baseError: ClientRuntime.AWSQueryError) throws -> InvalidDBInstanceAutomatedBackupStateFault {
         let reader = baseError.errorBodyReader
         var value = InvalidDBInstanceAutomatedBackupStateFault()
         value.properties.message = try reader["message"].readIfPresent()
@@ -32933,7 +33035,7 @@ extension InvalidDBInstanceAutomatedBackupStateFault {
 
 extension InvalidDBProxyEndpointStateFault {
 
-    static func makeError(baseError: AWSClientRuntime.AWSQueryError) throws -> InvalidDBProxyEndpointStateFault {
+    static func makeError(baseError: ClientRuntime.AWSQueryError) throws -> InvalidDBProxyEndpointStateFault {
         let reader = baseError.errorBodyReader
         var value = InvalidDBProxyEndpointStateFault()
         value.properties.message = try reader["message"].readIfPresent()
@@ -32946,7 +33048,7 @@ extension InvalidDBProxyEndpointStateFault {
 
 extension InvalidDBSubnetStateFault {
 
-    static func makeError(baseError: AWSClientRuntime.AWSQueryError) throws -> InvalidDBSubnetStateFault {
+    static func makeError(baseError: ClientRuntime.AWSQueryError) throws -> InvalidDBSubnetStateFault {
         let reader = baseError.errorBodyReader
         var value = InvalidDBSubnetStateFault()
         value.properties.message = try reader["message"].readIfPresent()
@@ -32959,7 +33061,7 @@ extension InvalidDBSubnetStateFault {
 
 extension InvalidEventSubscriptionStateFault {
 
-    static func makeError(baseError: AWSClientRuntime.AWSQueryError) throws -> InvalidEventSubscriptionStateFault {
+    static func makeError(baseError: ClientRuntime.AWSQueryError) throws -> InvalidEventSubscriptionStateFault {
         let reader = baseError.errorBodyReader
         var value = InvalidEventSubscriptionStateFault()
         value.properties.message = try reader["message"].readIfPresent()
@@ -32972,7 +33074,7 @@ extension InvalidEventSubscriptionStateFault {
 
 extension InvalidIntegrationStateFault {
 
-    static func makeError(baseError: AWSClientRuntime.AWSQueryError) throws -> InvalidIntegrationStateFault {
+    static func makeError(baseError: ClientRuntime.AWSQueryError) throws -> InvalidIntegrationStateFault {
         let reader = baseError.errorBodyReader
         var value = InvalidIntegrationStateFault()
         value.properties.message = try reader["message"].readIfPresent()
@@ -32985,7 +33087,7 @@ extension InvalidIntegrationStateFault {
 
 extension InvalidOptionGroupStateFault {
 
-    static func makeError(baseError: AWSClientRuntime.AWSQueryError) throws -> InvalidOptionGroupStateFault {
+    static func makeError(baseError: ClientRuntime.AWSQueryError) throws -> InvalidOptionGroupStateFault {
         let reader = baseError.errorBodyReader
         var value = InvalidOptionGroupStateFault()
         value.properties.message = try reader["message"].readIfPresent()
@@ -32998,7 +33100,7 @@ extension InvalidOptionGroupStateFault {
 
 extension DBProxyTargetNotFoundFault {
 
-    static func makeError(baseError: AWSClientRuntime.AWSQueryError) throws -> DBProxyTargetNotFoundFault {
+    static func makeError(baseError: ClientRuntime.AWSQueryError) throws -> DBProxyTargetNotFoundFault {
         let reader = baseError.errorBodyReader
         var value = DBProxyTargetNotFoundFault()
         value.properties.message = try reader["message"].readIfPresent()
@@ -33011,7 +33113,7 @@ extension DBProxyTargetNotFoundFault {
 
 extension DBClusterBacktrackNotFoundFault {
 
-    static func makeError(baseError: AWSClientRuntime.AWSQueryError) throws -> DBClusterBacktrackNotFoundFault {
+    static func makeError(baseError: ClientRuntime.AWSQueryError) throws -> DBClusterBacktrackNotFoundFault {
         let reader = baseError.errorBodyReader
         var value = DBClusterBacktrackNotFoundFault()
         value.properties.message = try reader["message"].readIfPresent()
@@ -33024,7 +33126,7 @@ extension DBClusterBacktrackNotFoundFault {
 
 extension DBInstanceNotReadyFault {
 
-    static func makeError(baseError: AWSClientRuntime.AWSQueryError) throws -> DBInstanceNotReadyFault {
+    static func makeError(baseError: ClientRuntime.AWSQueryError) throws -> DBInstanceNotReadyFault {
         let reader = baseError.errorBodyReader
         var value = DBInstanceNotReadyFault()
         value.properties.message = try reader["message"].readIfPresent()
@@ -33037,7 +33139,7 @@ extension DBInstanceNotReadyFault {
 
 extension ReservedDBInstanceNotFoundFault {
 
-    static func makeError(baseError: AWSClientRuntime.AWSQueryError) throws -> ReservedDBInstanceNotFoundFault {
+    static func makeError(baseError: ClientRuntime.AWSQueryError) throws -> ReservedDBInstanceNotFoundFault {
         let reader = baseError.errorBodyReader
         var value = ReservedDBInstanceNotFoundFault()
         value.properties.message = try reader["message"].readIfPresent()
@@ -33050,7 +33152,7 @@ extension ReservedDBInstanceNotFoundFault {
 
 extension ReservedDBInstancesOfferingNotFoundFault {
 
-    static func makeError(baseError: AWSClientRuntime.AWSQueryError) throws -> ReservedDBInstancesOfferingNotFoundFault {
+    static func makeError(baseError: ClientRuntime.AWSQueryError) throws -> ReservedDBInstancesOfferingNotFoundFault {
         let reader = baseError.errorBodyReader
         var value = ReservedDBInstancesOfferingNotFoundFault()
         value.properties.message = try reader["message"].readIfPresent()
@@ -33063,7 +33165,7 @@ extension ReservedDBInstancesOfferingNotFoundFault {
 
 extension InvalidResourceStateFault {
 
-    static func makeError(baseError: AWSClientRuntime.AWSQueryError) throws -> InvalidResourceStateFault {
+    static func makeError(baseError: ClientRuntime.AWSQueryError) throws -> InvalidResourceStateFault {
         let reader = baseError.errorBodyReader
         var value = InvalidResourceStateFault()
         value.properties.message = try reader["message"].readIfPresent()
@@ -33076,7 +33178,7 @@ extension InvalidResourceStateFault {
 
 extension DBLogFileNotFoundFault {
 
-    static func makeError(baseError: AWSClientRuntime.AWSQueryError) throws -> DBLogFileNotFoundFault {
+    static func makeError(baseError: ClientRuntime.AWSQueryError) throws -> DBLogFileNotFoundFault {
         let reader = baseError.errorBodyReader
         var value = DBLogFileNotFoundFault()
         value.properties.message = try reader["message"].readIfPresent()
@@ -33089,7 +33191,7 @@ extension DBLogFileNotFoundFault {
 
 extension InvalidDBClusterCapacityFault {
 
-    static func makeError(baseError: AWSClientRuntime.AWSQueryError) throws -> InvalidDBClusterCapacityFault {
+    static func makeError(baseError: ClientRuntime.AWSQueryError) throws -> InvalidDBClusterCapacityFault {
         let reader = baseError.errorBodyReader
         var value = InvalidDBClusterCapacityFault()
         value.properties.message = try reader["message"].readIfPresent()
@@ -33102,7 +33204,7 @@ extension InvalidDBClusterCapacityFault {
 
 extension StorageTypeNotAvailableFault {
 
-    static func makeError(baseError: AWSClientRuntime.AWSQueryError) throws -> StorageTypeNotAvailableFault {
+    static func makeError(baseError: ClientRuntime.AWSQueryError) throws -> StorageTypeNotAvailableFault {
         let reader = baseError.errorBodyReader
         var value = StorageTypeNotAvailableFault()
         value.properties.message = try reader["message"].readIfPresent()
@@ -33115,7 +33217,7 @@ extension StorageTypeNotAvailableFault {
 
 extension SharedSnapshotQuotaExceededFault {
 
-    static func makeError(baseError: AWSClientRuntime.AWSQueryError) throws -> SharedSnapshotQuotaExceededFault {
+    static func makeError(baseError: ClientRuntime.AWSQueryError) throws -> SharedSnapshotQuotaExceededFault {
         let reader = baseError.errorBodyReader
         var value = SharedSnapshotQuotaExceededFault()
         value.properties.message = try reader["message"].readIfPresent()
@@ -33128,7 +33230,7 @@ extension SharedSnapshotQuotaExceededFault {
 
 extension DBUpgradeDependencyFailureFault {
 
-    static func makeError(baseError: AWSClientRuntime.AWSQueryError) throws -> DBUpgradeDependencyFailureFault {
+    static func makeError(baseError: ClientRuntime.AWSQueryError) throws -> DBUpgradeDependencyFailureFault {
         let reader = baseError.errorBodyReader
         var value = DBUpgradeDependencyFailureFault()
         value.properties.message = try reader["message"].readIfPresent()
@@ -33141,7 +33243,7 @@ extension DBUpgradeDependencyFailureFault {
 
 extension SubnetAlreadyInUse {
 
-    static func makeError(baseError: AWSClientRuntime.AWSQueryError) throws -> SubnetAlreadyInUse {
+    static func makeError(baseError: ClientRuntime.AWSQueryError) throws -> SubnetAlreadyInUse {
         let reader = baseError.errorBodyReader
         var value = SubnetAlreadyInUse()
         value.properties.message = try reader["message"].readIfPresent()
@@ -33154,7 +33256,7 @@ extension SubnetAlreadyInUse {
 
 extension ReservedDBInstanceAlreadyExistsFault {
 
-    static func makeError(baseError: AWSClientRuntime.AWSQueryError) throws -> ReservedDBInstanceAlreadyExistsFault {
+    static func makeError(baseError: ClientRuntime.AWSQueryError) throws -> ReservedDBInstanceAlreadyExistsFault {
         let reader = baseError.errorBodyReader
         var value = ReservedDBInstanceAlreadyExistsFault()
         value.properties.message = try reader["message"].readIfPresent()
@@ -33167,7 +33269,7 @@ extension ReservedDBInstanceAlreadyExistsFault {
 
 extension ReservedDBInstanceQuotaExceededFault {
 
-    static func makeError(baseError: AWSClientRuntime.AWSQueryError) throws -> ReservedDBInstanceQuotaExceededFault {
+    static func makeError(baseError: ClientRuntime.AWSQueryError) throws -> ReservedDBInstanceQuotaExceededFault {
         let reader = baseError.errorBodyReader
         var value = ReservedDBInstanceQuotaExceededFault()
         value.properties.message = try reader["message"].readIfPresent()
@@ -33180,7 +33282,7 @@ extension ReservedDBInstanceQuotaExceededFault {
 
 extension DBProxyTargetAlreadyRegisteredFault {
 
-    static func makeError(baseError: AWSClientRuntime.AWSQueryError) throws -> DBProxyTargetAlreadyRegisteredFault {
+    static func makeError(baseError: ClientRuntime.AWSQueryError) throws -> DBProxyTargetAlreadyRegisteredFault {
         let reader = baseError.errorBodyReader
         var value = DBProxyTargetAlreadyRegisteredFault()
         value.properties.message = try reader["message"].readIfPresent()
@@ -33193,7 +33295,7 @@ extension DBProxyTargetAlreadyRegisteredFault {
 
 extension InsufficientAvailableIPsInSubnetFault {
 
-    static func makeError(baseError: AWSClientRuntime.AWSQueryError) throws -> InsufficientAvailableIPsInSubnetFault {
+    static func makeError(baseError: ClientRuntime.AWSQueryError) throws -> InsufficientAvailableIPsInSubnetFault {
         let reader = baseError.errorBodyReader
         var value = InsufficientAvailableIPsInSubnetFault()
         value.properties.message = try reader["message"].readIfPresent()
@@ -33206,7 +33308,7 @@ extension InsufficientAvailableIPsInSubnetFault {
 
 extension DBClusterRoleNotFoundFault {
 
-    static func makeError(baseError: AWSClientRuntime.AWSQueryError) throws -> DBClusterRoleNotFoundFault {
+    static func makeError(baseError: ClientRuntime.AWSQueryError) throws -> DBClusterRoleNotFoundFault {
         let reader = baseError.errorBodyReader
         var value = DBClusterRoleNotFoundFault()
         value.properties.message = try reader["message"].readIfPresent()
@@ -33219,7 +33321,7 @@ extension DBClusterRoleNotFoundFault {
 
 extension DBInstanceRoleNotFoundFault {
 
-    static func makeError(baseError: AWSClientRuntime.AWSQueryError) throws -> DBInstanceRoleNotFoundFault {
+    static func makeError(baseError: ClientRuntime.AWSQueryError) throws -> DBInstanceRoleNotFoundFault {
         let reader = baseError.errorBodyReader
         var value = DBInstanceRoleNotFoundFault()
         value.properties.message = try reader["message"].readIfPresent()
@@ -33232,7 +33334,7 @@ extension DBInstanceRoleNotFoundFault {
 
 extension InvalidS3BucketFault {
 
-    static func makeError(baseError: AWSClientRuntime.AWSQueryError) throws -> InvalidS3BucketFault {
+    static func makeError(baseError: ClientRuntime.AWSQueryError) throws -> InvalidS3BucketFault {
         let reader = baseError.errorBodyReader
         var value = InvalidS3BucketFault()
         value.properties.message = try reader["message"].readIfPresent()
@@ -33245,7 +33347,7 @@ extension InvalidS3BucketFault {
 
 extension InsufficientDBClusterCapacityFault {
 
-    static func makeError(baseError: AWSClientRuntime.AWSQueryError) throws -> InsufficientDBClusterCapacityFault {
+    static func makeError(baseError: ClientRuntime.AWSQueryError) throws -> InsufficientDBClusterCapacityFault {
         let reader = baseError.errorBodyReader
         var value = InsufficientDBClusterCapacityFault()
         value.properties.message = try reader["message"].readIfPresent()
@@ -33258,7 +33360,7 @@ extension InsufficientDBClusterCapacityFault {
 
 extension InvalidRestoreFault {
 
-    static func makeError(baseError: AWSClientRuntime.AWSQueryError) throws -> InvalidRestoreFault {
+    static func makeError(baseError: ClientRuntime.AWSQueryError) throws -> InvalidRestoreFault {
         let reader = baseError.errorBodyReader
         var value = InvalidRestoreFault()
         value.properties.message = try reader["message"].readIfPresent()
@@ -33271,7 +33373,7 @@ extension InvalidRestoreFault {
 
 extension PointInTimeRestoreNotEnabledFault {
 
-    static func makeError(baseError: AWSClientRuntime.AWSQueryError) throws -> PointInTimeRestoreNotEnabledFault {
+    static func makeError(baseError: ClientRuntime.AWSQueryError) throws -> PointInTimeRestoreNotEnabledFault {
         let reader = baseError.errorBodyReader
         var value = PointInTimeRestoreNotEnabledFault()
         value.properties.message = try reader["message"].readIfPresent()
@@ -33284,7 +33386,7 @@ extension PointInTimeRestoreNotEnabledFault {
 
 extension ExportTaskAlreadyExistsFault {
 
-    static func makeError(baseError: AWSClientRuntime.AWSQueryError) throws -> ExportTaskAlreadyExistsFault {
+    static func makeError(baseError: ClientRuntime.AWSQueryError) throws -> ExportTaskAlreadyExistsFault {
         let reader = baseError.errorBodyReader
         var value = ExportTaskAlreadyExistsFault()
         value.properties.message = try reader["message"].readIfPresent()
@@ -33297,7 +33399,7 @@ extension ExportTaskAlreadyExistsFault {
 
 extension IamRoleMissingPermissionsFault {
 
-    static func makeError(baseError: AWSClientRuntime.AWSQueryError) throws -> IamRoleMissingPermissionsFault {
+    static func makeError(baseError: ClientRuntime.AWSQueryError) throws -> IamRoleMissingPermissionsFault {
         let reader = baseError.errorBodyReader
         var value = IamRoleMissingPermissionsFault()
         value.properties.message = try reader["message"].readIfPresent()
@@ -33310,7 +33412,7 @@ extension IamRoleMissingPermissionsFault {
 
 extension IamRoleNotFoundFault {
 
-    static func makeError(baseError: AWSClientRuntime.AWSQueryError) throws -> IamRoleNotFoundFault {
+    static func makeError(baseError: ClientRuntime.AWSQueryError) throws -> IamRoleNotFoundFault {
         let reader = baseError.errorBodyReader
         var value = IamRoleNotFoundFault()
         value.properties.message = try reader["message"].readIfPresent()
@@ -33323,7 +33425,7 @@ extension IamRoleNotFoundFault {
 
 extension InvalidExportOnlyFault {
 
-    static func makeError(baseError: AWSClientRuntime.AWSQueryError) throws -> InvalidExportOnlyFault {
+    static func makeError(baseError: ClientRuntime.AWSQueryError) throws -> InvalidExportOnlyFault {
         let reader = baseError.errorBodyReader
         var value = InvalidExportOnlyFault()
         value.properties.message = try reader["message"].readIfPresent()
@@ -33336,7 +33438,7 @@ extension InvalidExportOnlyFault {
 
 extension InvalidExportSourceStateFault {
 
-    static func makeError(baseError: AWSClientRuntime.AWSQueryError) throws -> InvalidExportSourceStateFault {
+    static func makeError(baseError: ClientRuntime.AWSQueryError) throws -> InvalidExportSourceStateFault {
         let reader = baseError.errorBodyReader
         var value = InvalidExportSourceStateFault()
         value.properties.message = try reader["message"].readIfPresent()
@@ -33347,216 +33449,14 @@ extension InvalidExportSourceStateFault {
     }
 }
 
-extension RDSClientTypes.EventSubscription {
+extension RDSClientTypes.AccountQuota {
 
-    static func read(from reader: SmithyXML.Reader) throws -> RDSClientTypes.EventSubscription {
+    static func read(from reader: SmithyXML.Reader) throws -> RDSClientTypes.AccountQuota {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = RDSClientTypes.EventSubscription()
-        value.customerAwsId = try reader["CustomerAwsId"].readIfPresent()
-        value.custSubscriptionId = try reader["CustSubscriptionId"].readIfPresent()
-        value.snsTopicArn = try reader["SnsTopicArn"].readIfPresent()
-        value.status = try reader["Status"].readIfPresent()
-        value.subscriptionCreationTime = try reader["SubscriptionCreationTime"].readIfPresent()
-        value.sourceType = try reader["SourceType"].readIfPresent()
-        value.sourceIdsList = try reader["SourceIdsList"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "SourceId", isFlattened: false)
-        value.eventCategoriesList = try reader["EventCategoriesList"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "EventCategory", isFlattened: false)
-        value.enabled = try reader["Enabled"].readIfPresent()
-        value.eventSubscriptionArn = try reader["EventSubscriptionArn"].readIfPresent()
-        return value
-    }
-}
-
-extension RDSClientTypes.ResourcePendingMaintenanceActions {
-
-    static func read(from reader: SmithyXML.Reader) throws -> RDSClientTypes.ResourcePendingMaintenanceActions {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = RDSClientTypes.ResourcePendingMaintenanceActions()
-        value.resourceIdentifier = try reader["ResourceIdentifier"].readIfPresent()
-        value.pendingMaintenanceActionDetails = try reader["PendingMaintenanceActionDetails"].readListIfPresent(memberReadingClosure: RDSClientTypes.PendingMaintenanceAction.read(from:), memberNodeInfo: "PendingMaintenanceAction", isFlattened: false)
-        return value
-    }
-}
-
-extension RDSClientTypes.PendingMaintenanceAction {
-
-    static func read(from reader: SmithyXML.Reader) throws -> RDSClientTypes.PendingMaintenanceAction {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = RDSClientTypes.PendingMaintenanceAction()
-        value.action = try reader["Action"].readIfPresent()
-        value.autoAppliedAfterDate = try reader["AutoAppliedAfterDate"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
-        value.forcedApplyDate = try reader["ForcedApplyDate"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
-        value.optInStatus = try reader["OptInStatus"].readIfPresent()
-        value.currentApplyDate = try reader["CurrentApplyDate"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
-        value.description = try reader["Description"].readIfPresent()
-        return value
-    }
-}
-
-extension RDSClientTypes.DBSecurityGroup {
-
-    static func read(from reader: SmithyXML.Reader) throws -> RDSClientTypes.DBSecurityGroup {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = RDSClientTypes.DBSecurityGroup()
-        value.ownerId = try reader["OwnerId"].readIfPresent()
-        value.dbSecurityGroupName = try reader["DBSecurityGroupName"].readIfPresent()
-        value.dbSecurityGroupDescription = try reader["DBSecurityGroupDescription"].readIfPresent()
-        value.vpcId = try reader["VpcId"].readIfPresent()
-        value.ec2SecurityGroups = try reader["EC2SecurityGroups"].readListIfPresent(memberReadingClosure: RDSClientTypes.EC2SecurityGroup.read(from:), memberNodeInfo: "EC2SecurityGroup", isFlattened: false)
-        value.ipRanges = try reader["IPRanges"].readListIfPresent(memberReadingClosure: RDSClientTypes.IPRange.read(from:), memberNodeInfo: "IPRange", isFlattened: false)
-        value.dbSecurityGroupArn = try reader["DBSecurityGroupArn"].readIfPresent()
-        return value
-    }
-}
-
-extension RDSClientTypes.IPRange {
-
-    static func read(from reader: SmithyXML.Reader) throws -> RDSClientTypes.IPRange {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = RDSClientTypes.IPRange()
-        value.status = try reader["Status"].readIfPresent()
-        value.cidrip = try reader["CIDRIP"].readIfPresent()
-        return value
-    }
-}
-
-extension RDSClientTypes.EC2SecurityGroup {
-
-    static func read(from reader: SmithyXML.Reader) throws -> RDSClientTypes.EC2SecurityGroup {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = RDSClientTypes.EC2SecurityGroup()
-        value.status = try reader["Status"].readIfPresent()
-        value.ec2SecurityGroupName = try reader["EC2SecurityGroupName"].readIfPresent()
-        value.ec2SecurityGroupId = try reader["EC2SecurityGroupId"].readIfPresent()
-        value.ec2SecurityGroupOwnerId = try reader["EC2SecurityGroupOwnerId"].readIfPresent()
-        return value
-    }
-}
-
-extension RDSClientTypes.DBClusterParameterGroup {
-
-    static func read(from reader: SmithyXML.Reader) throws -> RDSClientTypes.DBClusterParameterGroup {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = RDSClientTypes.DBClusterParameterGroup()
-        value.dbClusterParameterGroupName = try reader["DBClusterParameterGroupName"].readIfPresent()
-        value.dbParameterGroupFamily = try reader["DBParameterGroupFamily"].readIfPresent()
-        value.description = try reader["Description"].readIfPresent()
-        value.dbClusterParameterGroupArn = try reader["DBClusterParameterGroupArn"].readIfPresent()
-        return value
-    }
-}
-
-extension RDSClientTypes.DBClusterSnapshot {
-
-    static func read(from reader: SmithyXML.Reader) throws -> RDSClientTypes.DBClusterSnapshot {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = RDSClientTypes.DBClusterSnapshot()
-        value.availabilityZones = try reader["AvailabilityZones"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "AvailabilityZone", isFlattened: false)
-        value.dbClusterSnapshotIdentifier = try reader["DBClusterSnapshotIdentifier"].readIfPresent()
-        value.dbClusterIdentifier = try reader["DBClusterIdentifier"].readIfPresent()
-        value.snapshotCreateTime = try reader["SnapshotCreateTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
-        value.engine = try reader["Engine"].readIfPresent()
-        value.engineMode = try reader["EngineMode"].readIfPresent()
-        value.allocatedStorage = try reader["AllocatedStorage"].readIfPresent()
-        value.status = try reader["Status"].readIfPresent()
-        value.port = try reader["Port"].readIfPresent()
-        value.vpcId = try reader["VpcId"].readIfPresent()
-        value.clusterCreateTime = try reader["ClusterCreateTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
-        value.masterUsername = try reader["MasterUsername"].readIfPresent()
-        value.engineVersion = try reader["EngineVersion"].readIfPresent()
-        value.licenseModel = try reader["LicenseModel"].readIfPresent()
-        value.snapshotType = try reader["SnapshotType"].readIfPresent()
-        value.percentProgress = try reader["PercentProgress"].readIfPresent()
-        value.storageEncrypted = try reader["StorageEncrypted"].readIfPresent()
-        value.backupRetentionPeriod = try reader["BackupRetentionPeriod"].readIfPresent()
-        value.preferredBackupWindow = try reader["PreferredBackupWindow"].readIfPresent()
-        value.kmsKeyId = try reader["KmsKeyId"].readIfPresent()
-        value.dbClusterSnapshotArn = try reader["DBClusterSnapshotArn"].readIfPresent()
-        value.sourceDBClusterSnapshotArn = try reader["SourceDBClusterSnapshotArn"].readIfPresent()
-        value.iamDatabaseAuthenticationEnabled = try reader["IAMDatabaseAuthenticationEnabled"].readIfPresent()
-        value.tagList = try reader["TagList"].readListIfPresent(memberReadingClosure: RDSClientTypes.Tag.read(from:), memberNodeInfo: "Tag", isFlattened: false)
-        value.storageType = try reader["StorageType"].readIfPresent()
-        value.storageThroughput = try reader["StorageThroughput"].readIfPresent()
-        value.dbClusterResourceId = try reader["DbClusterResourceId"].readIfPresent()
-        value.dbSystemId = try reader["DBSystemId"].readIfPresent()
-        return value
-    }
-}
-
-extension RDSClientTypes.Tag {
-
-    static func write(value: RDSClientTypes.Tag?, to writer: SmithyFormURL.Writer) throws {
-        guard let value else { return }
-        try writer["Key"].write(value.key)
-        try writer["Value"].write(value.value)
-    }
-
-    static func read(from reader: SmithyXML.Reader) throws -> RDSClientTypes.Tag {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = RDSClientTypes.Tag()
-        value.key = try reader["Key"].readIfPresent()
-        value.value = try reader["Value"].readIfPresent()
-        return value
-    }
-}
-
-extension RDSClientTypes.DBParameterGroup {
-
-    static func read(from reader: SmithyXML.Reader) throws -> RDSClientTypes.DBParameterGroup {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = RDSClientTypes.DBParameterGroup()
-        value.dbParameterGroupName = try reader["DBParameterGroupName"].readIfPresent()
-        value.dbParameterGroupFamily = try reader["DBParameterGroupFamily"].readIfPresent()
-        value.description = try reader["Description"].readIfPresent()
-        value.dbParameterGroupArn = try reader["DBParameterGroupArn"].readIfPresent()
-        return value
-    }
-}
-
-extension RDSClientTypes.DBSnapshot {
-
-    static func read(from reader: SmithyXML.Reader) throws -> RDSClientTypes.DBSnapshot {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = RDSClientTypes.DBSnapshot()
-        value.dbSnapshotIdentifier = try reader["DBSnapshotIdentifier"].readIfPresent()
-        value.dbInstanceIdentifier = try reader["DBInstanceIdentifier"].readIfPresent()
-        value.snapshotCreateTime = try reader["SnapshotCreateTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
-        value.engine = try reader["Engine"].readIfPresent()
-        value.allocatedStorage = try reader["AllocatedStorage"].readIfPresent()
-        value.status = try reader["Status"].readIfPresent()
-        value.port = try reader["Port"].readIfPresent()
-        value.availabilityZone = try reader["AvailabilityZone"].readIfPresent()
-        value.vpcId = try reader["VpcId"].readIfPresent()
-        value.instanceCreateTime = try reader["InstanceCreateTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
-        value.masterUsername = try reader["MasterUsername"].readIfPresent()
-        value.engineVersion = try reader["EngineVersion"].readIfPresent()
-        value.licenseModel = try reader["LicenseModel"].readIfPresent()
-        value.snapshotType = try reader["SnapshotType"].readIfPresent()
-        value.iops = try reader["Iops"].readIfPresent()
-        value.storageThroughput = try reader["StorageThroughput"].readIfPresent()
-        value.optionGroupName = try reader["OptionGroupName"].readIfPresent()
-        value.percentProgress = try reader["PercentProgress"].readIfPresent()
-        value.sourceRegion = try reader["SourceRegion"].readIfPresent()
-        value.sourceDBSnapshotIdentifier = try reader["SourceDBSnapshotIdentifier"].readIfPresent()
-        value.storageType = try reader["StorageType"].readIfPresent()
-        value.tdeCredentialArn = try reader["TdeCredentialArn"].readIfPresent()
-        value.encrypted = try reader["Encrypted"].readIfPresent()
-        value.backupRetentionPeriod = try reader["BackupRetentionPeriod"].readIfPresent()
-        value.preferredBackupWindow = try reader["PreferredBackupWindow"].readIfPresent()
-        value.kmsKeyId = try reader["KmsKeyId"].readIfPresent()
-        value.dbSnapshotArn = try reader["DBSnapshotArn"].readIfPresent()
-        value.timezone = try reader["Timezone"].readIfPresent()
-        value.iamDatabaseAuthenticationEnabled = try reader["IAMDatabaseAuthenticationEnabled"].readIfPresent()
-        value.processorFeatures = try reader["ProcessorFeatures"].readListIfPresent(memberReadingClosure: RDSClientTypes.ProcessorFeature.read(from:), memberNodeInfo: "ProcessorFeature", isFlattened: false)
-        value.dbiResourceId = try reader["DbiResourceId"].readIfPresent()
-        value.tagList = try reader["TagList"].readListIfPresent(memberReadingClosure: RDSClientTypes.Tag.read(from:), memberNodeInfo: "Tag", isFlattened: false)
-        value.snapshotTarget = try reader["SnapshotTarget"].readIfPresent()
-        value.originalSnapshotCreateTime = try reader["OriginalSnapshotCreateTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
-        value.snapshotDatabaseTime = try reader["SnapshotDatabaseTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
-        value.dbSystemId = try reader["DBSystemId"].readIfPresent()
-        value.multiTenant = try reader["MultiTenant"].readIfPresent()
-        value.dedicatedLogVolume = try reader["DedicatedLogVolume"].readIfPresent()
-        value.additionalStorageVolumes = try reader["AdditionalStorageVolumes"].readListIfPresent(memberReadingClosure: RDSClientTypes.AdditionalStorageVolume.read(from:), memberNodeInfo: "member", isFlattened: false)
-        value.snapshotAvailabilityZone = try reader["SnapshotAvailabilityZone"].readIfPresent()
+        var value = RDSClientTypes.AccountQuota()
+        value.accountQuotaName = try reader["AccountQuotaName"].readIfPresent()
+        value.used = try reader["Used"].readIfPresent()
+        value.max = try reader["Max"].readIfPresent()
         return value
     }
 }
@@ -33586,110 +33486,61 @@ extension RDSClientTypes.AdditionalStorageVolume {
     }
 }
 
-extension RDSClientTypes.ProcessorFeature {
+extension RDSClientTypes.AdditionalStorageVolumeOutput {
 
-    static func write(value: RDSClientTypes.ProcessorFeature?, to writer: SmithyFormURL.Writer) throws {
-        guard let value else { return }
-        try writer["Name"].write(value.name)
-        try writer["Value"].write(value.value)
-    }
-
-    static func read(from reader: SmithyXML.Reader) throws -> RDSClientTypes.ProcessorFeature {
+    static func read(from reader: SmithyXML.Reader) throws -> RDSClientTypes.AdditionalStorageVolumeOutput {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = RDSClientTypes.ProcessorFeature()
+        var value = RDSClientTypes.AdditionalStorageVolumeOutput()
+        value.volumeName = try reader["VolumeName"].readIfPresent()
+        value.storageVolumeStatus = try reader["StorageVolumeStatus"].readIfPresent()
+        value.allocatedStorage = try reader["AllocatedStorage"].readIfPresent()
+        value.iops = try reader["IOPS"].readIfPresent()
+        value.maxAllocatedStorage = try reader["MaxAllocatedStorage"].readIfPresent()
+        value.storageThroughput = try reader["StorageThroughput"].readIfPresent()
+        value.storageType = try reader["StorageType"].readIfPresent()
+        return value
+    }
+}
+
+extension RDSClientTypes.AvailabilityZone {
+
+    static func read(from reader: SmithyXML.Reader) throws -> RDSClientTypes.AvailabilityZone {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = RDSClientTypes.AvailabilityZone()
         value.name = try reader["Name"].readIfPresent()
-        value.value = try reader["Value"].readIfPresent()
         return value
     }
 }
 
-extension RDSClientTypes.OptionGroup {
+extension RDSClientTypes.AvailableAdditionalStorageVolumesOption {
 
-    static func read(from reader: SmithyXML.Reader) throws -> RDSClientTypes.OptionGroup {
+    static func read(from reader: SmithyXML.Reader) throws -> RDSClientTypes.AvailableAdditionalStorageVolumesOption {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = RDSClientTypes.OptionGroup()
-        value.optionGroupName = try reader["OptionGroupName"].readIfPresent()
-        value.optionGroupDescription = try reader["OptionGroupDescription"].readIfPresent()
-        value.engineName = try reader["EngineName"].readIfPresent()
-        value.majorEngineVersion = try reader["MajorEngineVersion"].readIfPresent()
-        value.options = try reader["Options"].readListIfPresent(memberReadingClosure: RDSClientTypes.Option.read(from:), memberNodeInfo: "Option", isFlattened: false)
-        value.allowsVpcAndNonVpcInstanceMemberships = try reader["AllowsVpcAndNonVpcInstanceMemberships"].readIfPresent()
-        value.vpcId = try reader["VpcId"].readIfPresent()
-        value.optionGroupArn = try reader["OptionGroupArn"].readIfPresent()
-        value.sourceOptionGroup = try reader["SourceOptionGroup"].readIfPresent()
-        value.sourceAccountId = try reader["SourceAccountId"].readIfPresent()
-        value.copyTimestamp = try reader["CopyTimestamp"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
+        var value = RDSClientTypes.AvailableAdditionalStorageVolumesOption()
+        value.supportsStorageAutoscaling = try reader["SupportsStorageAutoscaling"].readIfPresent()
+        value.supportsStorageThroughput = try reader["SupportsStorageThroughput"].readIfPresent()
+        value.supportsIops = try reader["SupportsIops"].readIfPresent()
+        value.storageType = try reader["StorageType"].readIfPresent()
+        value.minStorageSize = try reader["MinStorageSize"].readIfPresent()
+        value.maxStorageSize = try reader["MaxStorageSize"].readIfPresent()
+        value.minIops = try reader["MinIops"].readIfPresent()
+        value.maxIops = try reader["MaxIops"].readIfPresent()
+        value.minIopsPerGib = try reader["MinIopsPerGib"].readIfPresent()
+        value.maxIopsPerGib = try reader["MaxIopsPerGib"].readIfPresent()
+        value.minStorageThroughput = try reader["MinStorageThroughput"].readIfPresent()
+        value.maxStorageThroughput = try reader["MaxStorageThroughput"].readIfPresent()
         return value
     }
 }
 
-extension RDSClientTypes.Option {
+extension RDSClientTypes.AvailableProcessorFeature {
 
-    static func read(from reader: SmithyXML.Reader) throws -> RDSClientTypes.Option {
+    static func read(from reader: SmithyXML.Reader) throws -> RDSClientTypes.AvailableProcessorFeature {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = RDSClientTypes.Option()
-        value.optionName = try reader["OptionName"].readIfPresent()
-        value.optionDescription = try reader["OptionDescription"].readIfPresent()
-        value.persistent = try reader["Persistent"].readIfPresent()
-        value.permanent = try reader["Permanent"].readIfPresent()
-        value.port = try reader["Port"].readIfPresent()
-        value.optionVersion = try reader["OptionVersion"].readIfPresent()
-        value.optionSettings = try reader["OptionSettings"].readListIfPresent(memberReadingClosure: RDSClientTypes.OptionSetting.read(from:), memberNodeInfo: "OptionSetting", isFlattened: false)
-        value.dbSecurityGroupMemberships = try reader["DBSecurityGroupMemberships"].readListIfPresent(memberReadingClosure: RDSClientTypes.DBSecurityGroupMembership.read(from:), memberNodeInfo: "DBSecurityGroup", isFlattened: false)
-        value.vpcSecurityGroupMemberships = try reader["VpcSecurityGroupMemberships"].readListIfPresent(memberReadingClosure: RDSClientTypes.VpcSecurityGroupMembership.read(from:), memberNodeInfo: "VpcSecurityGroupMembership", isFlattened: false)
-        return value
-    }
-}
-
-extension RDSClientTypes.VpcSecurityGroupMembership {
-
-    static func read(from reader: SmithyXML.Reader) throws -> RDSClientTypes.VpcSecurityGroupMembership {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = RDSClientTypes.VpcSecurityGroupMembership()
-        value.vpcSecurityGroupId = try reader["VpcSecurityGroupId"].readIfPresent()
-        value.status = try reader["Status"].readIfPresent()
-        return value
-    }
-}
-
-extension RDSClientTypes.DBSecurityGroupMembership {
-
-    static func read(from reader: SmithyXML.Reader) throws -> RDSClientTypes.DBSecurityGroupMembership {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = RDSClientTypes.DBSecurityGroupMembership()
-        value.dbSecurityGroupName = try reader["DBSecurityGroupName"].readIfPresent()
-        value.status = try reader["Status"].readIfPresent()
-        return value
-    }
-}
-
-extension RDSClientTypes.OptionSetting {
-
-    static func write(value: RDSClientTypes.OptionSetting?, to writer: SmithyFormURL.Writer) throws {
-        guard let value else { return }
-        try writer["AllowedValues"].write(value.allowedValues)
-        try writer["ApplyType"].write(value.applyType)
-        try writer["DataType"].write(value.dataType)
-        try writer["DefaultValue"].write(value.defaultValue)
-        try writer["Description"].write(value.description)
-        try writer["IsCollection"].write(value.isCollection)
-        try writer["IsModifiable"].write(value.isModifiable)
-        try writer["Name"].write(value.name)
-        try writer["Value"].write(value.value)
-    }
-
-    static func read(from reader: SmithyXML.Reader) throws -> RDSClientTypes.OptionSetting {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = RDSClientTypes.OptionSetting()
+        var value = RDSClientTypes.AvailableProcessorFeature()
         value.name = try reader["Name"].readIfPresent()
-        value.value = try reader["Value"].readIfPresent()
         value.defaultValue = try reader["DefaultValue"].readIfPresent()
-        value.description = try reader["Description"].readIfPresent()
-        value.applyType = try reader["ApplyType"].readIfPresent()
-        value.dataType = try reader["DataType"].readIfPresent()
         value.allowedValues = try reader["AllowedValues"].readIfPresent()
-        value.isModifiable = try reader["IsModifiable"].readIfPresent()
-        value.isCollection = try reader["IsCollection"].readIfPresent()
         return value
     }
 }
@@ -33725,14 +33576,30 @@ extension RDSClientTypes.BlueGreenDeploymentTask {
     }
 }
 
-extension RDSClientTypes.SwitchoverDetail {
+extension RDSClientTypes.Certificate {
 
-    static func read(from reader: SmithyXML.Reader) throws -> RDSClientTypes.SwitchoverDetail {
+    static func read(from reader: SmithyXML.Reader) throws -> RDSClientTypes.Certificate {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = RDSClientTypes.SwitchoverDetail()
-        value.sourceMember = try reader["SourceMember"].readIfPresent()
-        value.targetMember = try reader["TargetMember"].readIfPresent()
-        value.status = try reader["Status"].readIfPresent()
+        var value = RDSClientTypes.Certificate()
+        value.certificateIdentifier = try reader["CertificateIdentifier"].readIfPresent()
+        value.certificateType = try reader["CertificateType"].readIfPresent()
+        value.thumbprint = try reader["Thumbprint"].readIfPresent()
+        value.validFrom = try reader["ValidFrom"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
+        value.validTill = try reader["ValidTill"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
+        value.certificateArn = try reader["CertificateArn"].readIfPresent()
+        value.customerOverride = try reader["CustomerOverride"].readIfPresent()
+        value.customerOverrideValidTill = try reader["CustomerOverrideValidTill"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
+        return value
+    }
+}
+
+extension RDSClientTypes.CertificateDetails {
+
+    static func read(from reader: SmithyXML.Reader) throws -> RDSClientTypes.CertificateDetails {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = RDSClientTypes.CertificateDetails()
+        value.caIdentifier = try reader["CAIdentifier"].readIfPresent()
+        value.validTill = try reader["ValidTill"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
         return value
     }
 }
@@ -33748,6 +33615,72 @@ extension RDSClientTypes.CharacterSet {
     }
 }
 
+extension RDSClientTypes.CloudwatchLogsExportConfiguration {
+
+    static func write(value: RDSClientTypes.CloudwatchLogsExportConfiguration?, to writer: SmithyFormURL.Writer) throws {
+        guard let value else { return }
+        try writer["DisableLogTypes"].writeList(value.disableLogTypes, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["EnableLogTypes"].writeList(value.enableLogTypes, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+    }
+}
+
+extension RDSClientTypes.ClusterPendingModifiedValues {
+
+    static func read(from reader: SmithyXML.Reader) throws -> RDSClientTypes.ClusterPendingModifiedValues {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = RDSClientTypes.ClusterPendingModifiedValues()
+        value.pendingCloudwatchLogsExports = try reader["PendingCloudwatchLogsExports"].readIfPresent(with: RDSClientTypes.PendingCloudwatchLogsExports.read(from:))
+        value.dbClusterIdentifier = try reader["DBClusterIdentifier"].readIfPresent()
+        value.masterUserPassword = try reader["MasterUserPassword"].readIfPresent()
+        value.iamDatabaseAuthenticationEnabled = try reader["IAMDatabaseAuthenticationEnabled"].readIfPresent()
+        value.engineVersion = try reader["EngineVersion"].readIfPresent()
+        value.backupRetentionPeriod = try reader["BackupRetentionPeriod"].readIfPresent()
+        value.storageType = try reader["StorageType"].readIfPresent()
+        value.allocatedStorage = try reader["AllocatedStorage"].readIfPresent()
+        value.rdsCustomClusterConfiguration = try reader["RdsCustomClusterConfiguration"].readIfPresent(with: RDSClientTypes.RdsCustomClusterConfiguration.read(from:))
+        value.iops = try reader["Iops"].readIfPresent()
+        value.certificateDetails = try reader["CertificateDetails"].readIfPresent(with: RDSClientTypes.CertificateDetails.read(from:))
+        return value
+    }
+}
+
+extension RDSClientTypes.ConnectionPoolConfiguration {
+
+    static func write(value: RDSClientTypes.ConnectionPoolConfiguration?, to writer: SmithyFormURL.Writer) throws {
+        guard let value else { return }
+        try writer["ConnectionBorrowTimeout"].write(value.connectionBorrowTimeout)
+        try writer["InitQuery"].write(value.initQuery)
+        try writer["MaxConnectionsPercent"].write(value.maxConnectionsPercent)
+        try writer["MaxIdleConnectionsPercent"].write(value.maxIdleConnectionsPercent)
+        try writer["SessionPinningFilters"].writeList(value.sessionPinningFilters, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+    }
+}
+
+extension RDSClientTypes.ConnectionPoolConfigurationInfo {
+
+    static func read(from reader: SmithyXML.Reader) throws -> RDSClientTypes.ConnectionPoolConfigurationInfo {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = RDSClientTypes.ConnectionPoolConfigurationInfo()
+        value.maxConnectionsPercent = try reader["MaxConnectionsPercent"].readIfPresent()
+        value.maxIdleConnectionsPercent = try reader["MaxIdleConnectionsPercent"].readIfPresent()
+        value.connectionBorrowTimeout = try reader["ConnectionBorrowTimeout"].readIfPresent()
+        value.sessionPinningFilters = try reader["SessionPinningFilters"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        value.initQuery = try reader["InitQuery"].readIfPresent()
+        return value
+    }
+}
+
+extension RDSClientTypes.ContextAttribute {
+
+    static func read(from reader: SmithyXML.Reader) throws -> RDSClientTypes.ContextAttribute {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = RDSClientTypes.ContextAttribute()
+        value.key = try reader["Key"].readIfPresent()
+        value.value = try reader["Value"].readIfPresent()
+        return value
+    }
+}
+
 extension RDSClientTypes.CustomDBEngineVersionAMI {
 
     static func read(from reader: SmithyXML.Reader) throws -> RDSClientTypes.CustomDBEngineVersionAMI {
@@ -33755,48 +33688,6 @@ extension RDSClientTypes.CustomDBEngineVersionAMI {
         var value = RDSClientTypes.CustomDBEngineVersionAMI()
         value.imageId = try reader["ImageId"].readIfPresent()
         value.status = try reader["Status"].readIfPresent()
-        return value
-    }
-}
-
-extension RDSClientTypes.UpgradeTarget {
-
-    static func read(from reader: SmithyXML.Reader) throws -> RDSClientTypes.UpgradeTarget {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = RDSClientTypes.UpgradeTarget()
-        value.engine = try reader["Engine"].readIfPresent()
-        value.engineVersion = try reader["EngineVersion"].readIfPresent()
-        value.description = try reader["Description"].readIfPresent()
-        value.autoUpgrade = try reader["AutoUpgrade"].readIfPresent()
-        value.isMajorVersionUpgrade = try reader["IsMajorVersionUpgrade"].readIfPresent()
-        value.supportedEngineModes = try reader["SupportedEngineModes"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
-        value.supportsParallelQuery = try reader["SupportsParallelQuery"].readIfPresent()
-        value.supportsGlobalDatabases = try reader["SupportsGlobalDatabases"].readIfPresent()
-        value.supportsBabelfish = try reader["SupportsBabelfish"].readIfPresent()
-        value.supportsLimitlessDatabase = try reader["SupportsLimitlessDatabase"].readIfPresent()
-        value.supportsLocalWriteForwarding = try reader["SupportsLocalWriteForwarding"].readIfPresent()
-        value.supportsIntegrations = try reader["SupportsIntegrations"].readIfPresent()
-        return value
-    }
-}
-
-extension RDSClientTypes.Timezone {
-
-    static func read(from reader: SmithyXML.Reader) throws -> RDSClientTypes.Timezone {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = RDSClientTypes.Timezone()
-        value.timezoneName = try reader["TimezoneName"].readIfPresent()
-        return value
-    }
-}
-
-extension RDSClientTypes.ServerlessV2FeaturesSupport {
-
-    static func read(from reader: SmithyXML.Reader) throws -> RDSClientTypes.ServerlessV2FeaturesSupport {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = RDSClientTypes.ServerlessV2FeaturesSupport()
-        value.minCapacity = try reader["MinCapacity"].readIfPresent()
-        value.maxCapacity = try reader["MaxCapacity"].readIfPresent()
         return value
     }
 }
@@ -33837,6 +33728,7 @@ extension RDSClientTypes.DBCluster {
         value.vpcSecurityGroups = try reader["VpcSecurityGroups"].readListIfPresent(memberReadingClosure: RDSClientTypes.VpcSecurityGroupMembership.read(from:), memberNodeInfo: "VpcSecurityGroupMembership", isFlattened: false)
         value.hostedZoneId = try reader["HostedZoneId"].readIfPresent()
         value.storageEncrypted = try reader["StorageEncrypted"].readIfPresent()
+        value.storageEncryptionType = try reader["StorageEncryptionType"].readIfPresent()
         value.kmsKeyId = try reader["KmsKeyId"].readIfPresent()
         value.dbClusterResourceId = try reader["DbClusterResourceId"].readIfPresent()
         value.dbClusterArn = try reader["DBClusterArn"].readIfPresent()
@@ -33895,141 +33787,73 @@ extension RDSClientTypes.DBCluster {
     }
 }
 
-extension RDSClientTypes.CertificateDetails {
+extension RDSClientTypes.DBClusterAutomatedBackup {
 
-    static func read(from reader: SmithyXML.Reader) throws -> RDSClientTypes.CertificateDetails {
+    static func read(from reader: SmithyXML.Reader) throws -> RDSClientTypes.DBClusterAutomatedBackup {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = RDSClientTypes.CertificateDetails()
-        value.caIdentifier = try reader["CAIdentifier"].readIfPresent()
-        value.validTill = try reader["ValidTill"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
-        return value
-    }
-}
-
-extension RDSClientTypes.LimitlessDatabase {
-
-    static func read(from reader: SmithyXML.Reader) throws -> RDSClientTypes.LimitlessDatabase {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = RDSClientTypes.LimitlessDatabase()
-        value.status = try reader["Status"].readIfPresent()
-        value.minRequiredACU = try reader["MinRequiredACU"].readIfPresent()
-        return value
-    }
-}
-
-extension RDSClientTypes.MasterUserSecret {
-
-    static func read(from reader: SmithyXML.Reader) throws -> RDSClientTypes.MasterUserSecret {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = RDSClientTypes.MasterUserSecret()
-        value.secretArn = try reader["SecretArn"].readIfPresent()
-        value.secretStatus = try reader["SecretStatus"].readIfPresent()
-        value.kmsKeyId = try reader["KmsKeyId"].readIfPresent()
-        return value
-    }
-}
-
-extension RDSClientTypes.ServerlessV2ScalingConfigurationInfo {
-
-    static func read(from reader: SmithyXML.Reader) throws -> RDSClientTypes.ServerlessV2ScalingConfigurationInfo {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = RDSClientTypes.ServerlessV2ScalingConfigurationInfo()
-        value.minCapacity = try reader["MinCapacity"].readIfPresent()
-        value.maxCapacity = try reader["MaxCapacity"].readIfPresent()
-        value.secondsUntilAutoPause = try reader["SecondsUntilAutoPause"].readIfPresent()
-        return value
-    }
-}
-
-extension RDSClientTypes.DomainMembership {
-
-    static func read(from reader: SmithyXML.Reader) throws -> RDSClientTypes.DomainMembership {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = RDSClientTypes.DomainMembership()
-        value.domain = try reader["Domain"].readIfPresent()
-        value.status = try reader["Status"].readIfPresent()
-        value.fqdn = try reader["FQDN"].readIfPresent()
-        value.iamRoleName = try reader["IAMRoleName"].readIfPresent()
-        value.ou = try reader["OU"].readIfPresent()
-        value.authSecretArn = try reader["AuthSecretArn"].readIfPresent()
-        value.dnsIps = try reader["DnsIps"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
-        return value
-    }
-}
-
-extension RDSClientTypes.RdsCustomClusterConfiguration {
-
-    static func write(value: RDSClientTypes.RdsCustomClusterConfiguration?, to writer: SmithyFormURL.Writer) throws {
-        guard let value else { return }
-        try writer["InterconnectSubnetId"].write(value.interconnectSubnetId)
-        try writer["ReplicaMode"].write(value.replicaMode)
-        try writer["TransitGatewayMulticastDomainId"].write(value.transitGatewayMulticastDomainId)
-    }
-
-    static func read(from reader: SmithyXML.Reader) throws -> RDSClientTypes.RdsCustomClusterConfiguration {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = RDSClientTypes.RdsCustomClusterConfiguration()
-        value.interconnectSubnetId = try reader["InterconnectSubnetId"].readIfPresent()
-        value.transitGatewayMulticastDomainId = try reader["TransitGatewayMulticastDomainId"].readIfPresent()
-        value.replicaMode = try reader["ReplicaMode"].readIfPresent()
-        return value
-    }
-}
-
-extension RDSClientTypes.ScalingConfigurationInfo {
-
-    static func read(from reader: SmithyXML.Reader) throws -> RDSClientTypes.ScalingConfigurationInfo {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = RDSClientTypes.ScalingConfigurationInfo()
-        value.minCapacity = try reader["MinCapacity"].readIfPresent()
-        value.maxCapacity = try reader["MaxCapacity"].readIfPresent()
-        value.autoPause = try reader["AutoPause"].readIfPresent()
-        value.secondsUntilAutoPause = try reader["SecondsUntilAutoPause"].readIfPresent()
-        value.timeoutAction = try reader["TimeoutAction"].readIfPresent()
-        value.secondsBeforeTimeout = try reader["SecondsBeforeTimeout"].readIfPresent()
-        return value
-    }
-}
-
-extension RDSClientTypes.ClusterPendingModifiedValues {
-
-    static func read(from reader: SmithyXML.Reader) throws -> RDSClientTypes.ClusterPendingModifiedValues {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = RDSClientTypes.ClusterPendingModifiedValues()
-        value.pendingCloudwatchLogsExports = try reader["PendingCloudwatchLogsExports"].readIfPresent(with: RDSClientTypes.PendingCloudwatchLogsExports.read(from:))
+        var value = RDSClientTypes.DBClusterAutomatedBackup()
+        value.engine = try reader["Engine"].readIfPresent()
+        value.vpcId = try reader["VpcId"].readIfPresent()
+        value.dbClusterAutomatedBackupsArn = try reader["DBClusterAutomatedBackupsArn"].readIfPresent()
         value.dbClusterIdentifier = try reader["DBClusterIdentifier"].readIfPresent()
-        value.masterUserPassword = try reader["MasterUserPassword"].readIfPresent()
-        value.iamDatabaseAuthenticationEnabled = try reader["IAMDatabaseAuthenticationEnabled"].readIfPresent()
-        value.engineVersion = try reader["EngineVersion"].readIfPresent()
-        value.backupRetentionPeriod = try reader["BackupRetentionPeriod"].readIfPresent()
-        value.storageType = try reader["StorageType"].readIfPresent()
-        value.allocatedStorage = try reader["AllocatedStorage"].readIfPresent()
-        value.rdsCustomClusterConfiguration = try reader["RdsCustomClusterConfiguration"].readIfPresent(with: RDSClientTypes.RdsCustomClusterConfiguration.read(from:))
-        value.iops = try reader["Iops"].readIfPresent()
-        value.certificateDetails = try reader["CertificateDetails"].readIfPresent(with: RDSClientTypes.CertificateDetails.read(from:))
-        return value
-    }
-}
-
-extension RDSClientTypes.PendingCloudwatchLogsExports {
-
-    static func read(from reader: SmithyXML.Reader) throws -> RDSClientTypes.PendingCloudwatchLogsExports {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = RDSClientTypes.PendingCloudwatchLogsExports()
-        value.logTypesToEnable = try reader["LogTypesToEnable"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
-        value.logTypesToDisable = try reader["LogTypesToDisable"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
-        return value
-    }
-}
-
-extension RDSClientTypes.DBClusterRole {
-
-    static func read(from reader: SmithyXML.Reader) throws -> RDSClientTypes.DBClusterRole {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = RDSClientTypes.DBClusterRole()
-        value.roleArn = try reader["RoleArn"].readIfPresent()
+        value.restoreWindow = try reader["RestoreWindow"].readIfPresent(with: RDSClientTypes.RestoreWindow.read(from:))
+        value.masterUsername = try reader["MasterUsername"].readIfPresent()
+        value.dbClusterResourceId = try reader["DbClusterResourceId"].readIfPresent()
+        value.region = try reader["Region"].readIfPresent()
+        value.licenseModel = try reader["LicenseModel"].readIfPresent()
         value.status = try reader["Status"].readIfPresent()
-        value.featureName = try reader["FeatureName"].readIfPresent()
+        value.iamDatabaseAuthenticationEnabled = try reader["IAMDatabaseAuthenticationEnabled"].readIfPresent()
+        value.clusterCreateTime = try reader["ClusterCreateTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
+        value.storageEncrypted = try reader["StorageEncrypted"].readIfPresent()
+        value.storageEncryptionType = try reader["StorageEncryptionType"].readIfPresent()
+        value.allocatedStorage = try reader["AllocatedStorage"].readIfPresent()
+        value.engineVersion = try reader["EngineVersion"].readIfPresent()
+        value.dbClusterArn = try reader["DBClusterArn"].readIfPresent()
+        value.backupRetentionPeriod = try reader["BackupRetentionPeriod"].readIfPresent()
+        value.preferredBackupWindow = try reader["PreferredBackupWindow"].readIfPresent()
+        value.engineMode = try reader["EngineMode"].readIfPresent()
+        value.availabilityZones = try reader["AvailabilityZones"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "AvailabilityZone", isFlattened: false)
+        value.port = try reader["Port"].readIfPresent()
+        value.kmsKeyId = try reader["KmsKeyId"].readIfPresent()
+        value.storageType = try reader["StorageType"].readIfPresent()
+        value.iops = try reader["Iops"].readIfPresent()
+        value.storageThroughput = try reader["StorageThroughput"].readIfPresent()
+        value.awsBackupRecoveryPointArn = try reader["AwsBackupRecoveryPointArn"].readIfPresent()
+        value.tagList = try reader["TagList"].readListIfPresent(memberReadingClosure: RDSClientTypes.Tag.read(from:), memberNodeInfo: "Tag", isFlattened: false)
+        return value
+    }
+}
+
+extension RDSClientTypes.DBClusterBacktrack {
+
+    static func read(from reader: SmithyXML.Reader) throws -> RDSClientTypes.DBClusterBacktrack {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = RDSClientTypes.DBClusterBacktrack()
+        value.dbClusterIdentifier = try reader["DBClusterIdentifier"].readIfPresent()
+        value.backtrackIdentifier = try reader["BacktrackIdentifier"].readIfPresent()
+        value.backtrackTo = try reader["BacktrackTo"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
+        value.backtrackedFrom = try reader["BacktrackedFrom"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
+        value.backtrackRequestCreationTime = try reader["BacktrackRequestCreationTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
+        value.status = try reader["Status"].readIfPresent()
+        return value
+    }
+}
+
+extension RDSClientTypes.DBClusterEndpoint {
+
+    static func read(from reader: SmithyXML.Reader) throws -> RDSClientTypes.DBClusterEndpoint {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = RDSClientTypes.DBClusterEndpoint()
+        value.dbClusterEndpointIdentifier = try reader["DBClusterEndpointIdentifier"].readIfPresent()
+        value.dbClusterIdentifier = try reader["DBClusterIdentifier"].readIfPresent()
+        value.dbClusterEndpointResourceIdentifier = try reader["DBClusterEndpointResourceIdentifier"].readIfPresent()
+        value.endpoint = try reader["Endpoint"].readIfPresent()
+        value.status = try reader["Status"].readIfPresent()
+        value.endpointType = try reader["EndpointType"].readIfPresent()
+        value.customEndpointType = try reader["CustomEndpointType"].readIfPresent()
+        value.staticMembers = try reader["StaticMembers"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        value.excludedMembers = try reader["ExcludedMembers"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        value.dbClusterEndpointArn = try reader["DBClusterEndpointArn"].readIfPresent()
         return value
     }
 }
@@ -34047,6 +33871,102 @@ extension RDSClientTypes.DBClusterMember {
     }
 }
 
+extension RDSClientTypes.DBClusterOptionGroupStatus {
+
+    static func read(from reader: SmithyXML.Reader) throws -> RDSClientTypes.DBClusterOptionGroupStatus {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = RDSClientTypes.DBClusterOptionGroupStatus()
+        value.dbClusterOptionGroupName = try reader["DBClusterOptionGroupName"].readIfPresent()
+        value.status = try reader["Status"].readIfPresent()
+        return value
+    }
+}
+
+extension RDSClientTypes.DBClusterParameterGroup {
+
+    static func read(from reader: SmithyXML.Reader) throws -> RDSClientTypes.DBClusterParameterGroup {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = RDSClientTypes.DBClusterParameterGroup()
+        value.dbClusterParameterGroupName = try reader["DBClusterParameterGroupName"].readIfPresent()
+        value.dbParameterGroupFamily = try reader["DBParameterGroupFamily"].readIfPresent()
+        value.description = try reader["Description"].readIfPresent()
+        value.dbClusterParameterGroupArn = try reader["DBClusterParameterGroupArn"].readIfPresent()
+        return value
+    }
+}
+
+extension RDSClientTypes.DBClusterRole {
+
+    static func read(from reader: SmithyXML.Reader) throws -> RDSClientTypes.DBClusterRole {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = RDSClientTypes.DBClusterRole()
+        value.roleArn = try reader["RoleArn"].readIfPresent()
+        value.status = try reader["Status"].readIfPresent()
+        value.featureName = try reader["FeatureName"].readIfPresent()
+        return value
+    }
+}
+
+extension RDSClientTypes.DBClusterSnapshot {
+
+    static func read(from reader: SmithyXML.Reader) throws -> RDSClientTypes.DBClusterSnapshot {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = RDSClientTypes.DBClusterSnapshot()
+        value.availabilityZones = try reader["AvailabilityZones"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "AvailabilityZone", isFlattened: false)
+        value.dbClusterSnapshotIdentifier = try reader["DBClusterSnapshotIdentifier"].readIfPresent()
+        value.dbClusterIdentifier = try reader["DBClusterIdentifier"].readIfPresent()
+        value.snapshotCreateTime = try reader["SnapshotCreateTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
+        value.engine = try reader["Engine"].readIfPresent()
+        value.engineMode = try reader["EngineMode"].readIfPresent()
+        value.allocatedStorage = try reader["AllocatedStorage"].readIfPresent()
+        value.status = try reader["Status"].readIfPresent()
+        value.port = try reader["Port"].readIfPresent()
+        value.vpcId = try reader["VpcId"].readIfPresent()
+        value.clusterCreateTime = try reader["ClusterCreateTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
+        value.masterUsername = try reader["MasterUsername"].readIfPresent()
+        value.engineVersion = try reader["EngineVersion"].readIfPresent()
+        value.licenseModel = try reader["LicenseModel"].readIfPresent()
+        value.snapshotType = try reader["SnapshotType"].readIfPresent()
+        value.percentProgress = try reader["PercentProgress"].readIfPresent()
+        value.storageEncrypted = try reader["StorageEncrypted"].readIfPresent()
+        value.storageEncryptionType = try reader["StorageEncryptionType"].readIfPresent()
+        value.backupRetentionPeriod = try reader["BackupRetentionPeriod"].readIfPresent()
+        value.preferredBackupWindow = try reader["PreferredBackupWindow"].readIfPresent()
+        value.kmsKeyId = try reader["KmsKeyId"].readIfPresent()
+        value.dbClusterSnapshotArn = try reader["DBClusterSnapshotArn"].readIfPresent()
+        value.sourceDBClusterSnapshotArn = try reader["SourceDBClusterSnapshotArn"].readIfPresent()
+        value.iamDatabaseAuthenticationEnabled = try reader["IAMDatabaseAuthenticationEnabled"].readIfPresent()
+        value.tagList = try reader["TagList"].readListIfPresent(memberReadingClosure: RDSClientTypes.Tag.read(from:), memberNodeInfo: "Tag", isFlattened: false)
+        value.storageType = try reader["StorageType"].readIfPresent()
+        value.storageThroughput = try reader["StorageThroughput"].readIfPresent()
+        value.dbClusterResourceId = try reader["DbClusterResourceId"].readIfPresent()
+        value.dbSystemId = try reader["DBSystemId"].readIfPresent()
+        return value
+    }
+}
+
+extension RDSClientTypes.DBClusterSnapshotAttribute {
+
+    static func read(from reader: SmithyXML.Reader) throws -> RDSClientTypes.DBClusterSnapshotAttribute {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = RDSClientTypes.DBClusterSnapshotAttribute()
+        value.attributeName = try reader["AttributeName"].readIfPresent()
+        value.attributeValues = try reader["AttributeValues"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "AttributeValue", isFlattened: false)
+        return value
+    }
+}
+
+extension RDSClientTypes.DBClusterSnapshotAttributesResult {
+
+    static func read(from reader: SmithyXML.Reader) throws -> RDSClientTypes.DBClusterSnapshotAttributesResult {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = RDSClientTypes.DBClusterSnapshotAttributesResult()
+        value.dbClusterSnapshotIdentifier = try reader["DBClusterSnapshotIdentifier"].readIfPresent()
+        value.dbClusterSnapshotAttributes = try reader["DBClusterSnapshotAttributes"].readListIfPresent(memberReadingClosure: RDSClientTypes.DBClusterSnapshotAttribute.read(from:), memberNodeInfo: "DBClusterSnapshotAttribute", isFlattened: false)
+        return value
+    }
+}
+
 extension RDSClientTypes.DBClusterStatusInfo {
 
     static func read(from reader: SmithyXML.Reader) throws -> RDSClientTypes.DBClusterStatusInfo {
@@ -34060,13 +33980,48 @@ extension RDSClientTypes.DBClusterStatusInfo {
     }
 }
 
-extension RDSClientTypes.DBClusterOptionGroupStatus {
+extension RDSClientTypes.DBEngineVersion {
 
-    static func read(from reader: SmithyXML.Reader) throws -> RDSClientTypes.DBClusterOptionGroupStatus {
+    static func read(from reader: SmithyXML.Reader) throws -> RDSClientTypes.DBEngineVersion {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = RDSClientTypes.DBClusterOptionGroupStatus()
-        value.dbClusterOptionGroupName = try reader["DBClusterOptionGroupName"].readIfPresent()
+        var value = RDSClientTypes.DBEngineVersion()
+        value.engine = try reader["Engine"].readIfPresent()
+        value.majorEngineVersion = try reader["MajorEngineVersion"].readIfPresent()
+        value.engineVersion = try reader["EngineVersion"].readIfPresent()
+        value.databaseInstallationFilesS3BucketName = try reader["DatabaseInstallationFilesS3BucketName"].readIfPresent()
+        value.databaseInstallationFilesS3Prefix = try reader["DatabaseInstallationFilesS3Prefix"].readIfPresent()
+        value.databaseInstallationFiles = try reader["DatabaseInstallationFiles"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        value.customDBEngineVersionManifest = try reader["CustomDBEngineVersionManifest"].readIfPresent()
+        value.dbParameterGroupFamily = try reader["DBParameterGroupFamily"].readIfPresent()
+        value.dbEngineDescription = try reader["DBEngineDescription"].readIfPresent()
+        value.dbEngineVersionArn = try reader["DBEngineVersionArn"].readIfPresent()
+        value.dbEngineVersionDescription = try reader["DBEngineVersionDescription"].readIfPresent()
+        value.defaultCharacterSet = try reader["DefaultCharacterSet"].readIfPresent(with: RDSClientTypes.CharacterSet.read(from:))
+        value.failureReason = try reader["FailureReason"].readIfPresent()
+        value.image = try reader["Image"].readIfPresent(with: RDSClientTypes.CustomDBEngineVersionAMI.read(from:))
+        value.dbEngineMediaType = try reader["DBEngineMediaType"].readIfPresent()
+        value.kmsKeyId = try reader["KMSKeyId"].readIfPresent()
+        value.createTime = try reader["CreateTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
+        value.supportedCharacterSets = try reader["SupportedCharacterSets"].readListIfPresent(memberReadingClosure: RDSClientTypes.CharacterSet.read(from:), memberNodeInfo: "CharacterSet", isFlattened: false)
+        value.supportedNcharCharacterSets = try reader["SupportedNcharCharacterSets"].readListIfPresent(memberReadingClosure: RDSClientTypes.CharacterSet.read(from:), memberNodeInfo: "CharacterSet", isFlattened: false)
+        value.validUpgradeTarget = try reader["ValidUpgradeTarget"].readListIfPresent(memberReadingClosure: RDSClientTypes.UpgradeTarget.read(from:), memberNodeInfo: "UpgradeTarget", isFlattened: false)
+        value.supportedTimezones = try reader["SupportedTimezones"].readListIfPresent(memberReadingClosure: RDSClientTypes.Timezone.read(from:), memberNodeInfo: "Timezone", isFlattened: false)
+        value.exportableLogTypes = try reader["ExportableLogTypes"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        value.supportsLogExportsToCloudwatchLogs = try reader["SupportsLogExportsToCloudwatchLogs"].readIfPresent()
+        value.supportsReadReplica = try reader["SupportsReadReplica"].readIfPresent()
+        value.supportedEngineModes = try reader["SupportedEngineModes"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        value.supportedFeatureNames = try reader["SupportedFeatureNames"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
         value.status = try reader["Status"].readIfPresent()
+        value.supportsParallelQuery = try reader["SupportsParallelQuery"].readIfPresent()
+        value.supportsGlobalDatabases = try reader["SupportsGlobalDatabases"].readIfPresent()
+        value.tagList = try reader["TagList"].readListIfPresent(memberReadingClosure: RDSClientTypes.Tag.read(from:), memberNodeInfo: "Tag", isFlattened: false)
+        value.supportsBabelfish = try reader["SupportsBabelfish"].readIfPresent()
+        value.supportsLimitlessDatabase = try reader["SupportsLimitlessDatabase"].readIfPresent()
+        value.supportsCertificateRotationWithoutRestart = try reader["SupportsCertificateRotationWithoutRestart"].readIfPresent()
+        value.supportedCACertificateIdentifiers = try reader["SupportedCACertificateIdentifiers"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        value.supportsLocalWriteForwarding = try reader["SupportsLocalWriteForwarding"].readIfPresent()
+        value.supportsIntegrations = try reader["SupportsIntegrations"].readIfPresent()
+        value.serverlessV2FeaturesSupport = try reader["ServerlessV2FeaturesSupport"].readIfPresent(with: RDSClientTypes.ServerlessV2FeaturesSupport.read(from:))
         return value
     }
 }
@@ -34113,6 +34068,7 @@ extension RDSClientTypes.DBInstance {
         value.publiclyAccessible = try reader["PubliclyAccessible"].readIfPresent()
         value.statusInfos = try reader["StatusInfos"].readListIfPresent(memberReadingClosure: RDSClientTypes.DBInstanceStatusInfo.read(from:), memberNodeInfo: "DBInstanceStatusInfo", isFlattened: false)
         value.storageType = try reader["StorageType"].readIfPresent()
+        value.storageEncryptionType = try reader["StorageEncryptionType"].readIfPresent()
         value.tdeCredentialArn = try reader["TdeCredentialArn"].readIfPresent()
         value.dbInstancePort = try reader["DbInstancePort"].readIfPresent()
         value.dbClusterIdentifier = try reader["DBClusterIdentifier"].readIfPresent()
@@ -34170,18 +34126,46 @@ extension RDSClientTypes.DBInstance {
     }
 }
 
-extension RDSClientTypes.AdditionalStorageVolumeOutput {
+extension RDSClientTypes.DBInstanceAutomatedBackup {
 
-    static func read(from reader: SmithyXML.Reader) throws -> RDSClientTypes.AdditionalStorageVolumeOutput {
+    static func read(from reader: SmithyXML.Reader) throws -> RDSClientTypes.DBInstanceAutomatedBackup {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = RDSClientTypes.AdditionalStorageVolumeOutput()
-        value.volumeName = try reader["VolumeName"].readIfPresent()
-        value.storageVolumeStatus = try reader["StorageVolumeStatus"].readIfPresent()
+        var value = RDSClientTypes.DBInstanceAutomatedBackup()
+        value.dbInstanceArn = try reader["DBInstanceArn"].readIfPresent()
+        value.dbiResourceId = try reader["DbiResourceId"].readIfPresent()
+        value.region = try reader["Region"].readIfPresent()
+        value.dbInstanceIdentifier = try reader["DBInstanceIdentifier"].readIfPresent()
+        value.restoreWindow = try reader["RestoreWindow"].readIfPresent(with: RDSClientTypes.RestoreWindow.read(from:))
         value.allocatedStorage = try reader["AllocatedStorage"].readIfPresent()
-        value.iops = try reader["IOPS"].readIfPresent()
-        value.maxAllocatedStorage = try reader["MaxAllocatedStorage"].readIfPresent()
+        value.status = try reader["Status"].readIfPresent()
+        value.port = try reader["Port"].readIfPresent()
+        value.availabilityZone = try reader["AvailabilityZone"].readIfPresent()
+        value.vpcId = try reader["VpcId"].readIfPresent()
+        value.instanceCreateTime = try reader["InstanceCreateTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
+        value.masterUsername = try reader["MasterUsername"].readIfPresent()
+        value.engine = try reader["Engine"].readIfPresent()
+        value.engineVersion = try reader["EngineVersion"].readIfPresent()
+        value.licenseModel = try reader["LicenseModel"].readIfPresent()
+        value.iops = try reader["Iops"].readIfPresent()
         value.storageThroughput = try reader["StorageThroughput"].readIfPresent()
+        value.optionGroupName = try reader["OptionGroupName"].readIfPresent()
+        value.tdeCredentialArn = try reader["TdeCredentialArn"].readIfPresent()
+        value.encrypted = try reader["Encrypted"].readIfPresent()
+        value.storageEncryptionType = try reader["StorageEncryptionType"].readIfPresent()
         value.storageType = try reader["StorageType"].readIfPresent()
+        value.kmsKeyId = try reader["KmsKeyId"].readIfPresent()
+        value.timezone = try reader["Timezone"].readIfPresent()
+        value.iamDatabaseAuthenticationEnabled = try reader["IAMDatabaseAuthenticationEnabled"].readIfPresent()
+        value.backupRetentionPeriod = try reader["BackupRetentionPeriod"].readIfPresent()
+        value.preferredBackupWindow = try reader["PreferredBackupWindow"].readIfPresent()
+        value.dbInstanceAutomatedBackupsArn = try reader["DBInstanceAutomatedBackupsArn"].readIfPresent()
+        value.dbInstanceAutomatedBackupsReplications = try reader["DBInstanceAutomatedBackupsReplications"].readListIfPresent(memberReadingClosure: RDSClientTypes.DBInstanceAutomatedBackupsReplication.read(from:), memberNodeInfo: "DBInstanceAutomatedBackupsReplication", isFlattened: false)
+        value.backupTarget = try reader["BackupTarget"].readIfPresent()
+        value.multiTenant = try reader["MultiTenant"].readIfPresent()
+        value.awsBackupRecoveryPointArn = try reader["AwsBackupRecoveryPointArn"].readIfPresent()
+        value.tagList = try reader["TagList"].readListIfPresent(memberReadingClosure: RDSClientTypes.Tag.read(from:), memberNodeInfo: "Tag", isFlattened: false)
+        value.dedicatedLogVolume = try reader["DedicatedLogVolume"].readIfPresent()
+        value.additionalStorageVolumes = try reader["AdditionalStorageVolumes"].readListIfPresent(memberReadingClosure: RDSClientTypes.AdditionalStorageVolume.read(from:), memberNodeInfo: "member", isFlattened: false)
         return value
     }
 }
@@ -34192,18 +34176,6 @@ extension RDSClientTypes.DBInstanceAutomatedBackupsReplication {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = RDSClientTypes.DBInstanceAutomatedBackupsReplication()
         value.dbInstanceAutomatedBackupsArn = try reader["DBInstanceAutomatedBackupsArn"].readIfPresent()
-        return value
-    }
-}
-
-extension RDSClientTypes.Endpoint {
-
-    static func read(from reader: SmithyXML.Reader) throws -> RDSClientTypes.Endpoint {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = RDSClientTypes.Endpoint()
-        value.address = try reader["Address"].readIfPresent()
-        value.port = try reader["Port"].readIfPresent()
-        value.hostedZoneId = try reader["HostedZoneId"].readIfPresent()
         return value
     }
 }
@@ -34233,94 +34205,27 @@ extension RDSClientTypes.DBInstanceStatusInfo {
     }
 }
 
-extension RDSClientTypes.OptionGroupMembership {
+extension RDSClientTypes.DBMajorEngineVersion {
 
-    static func read(from reader: SmithyXML.Reader) throws -> RDSClientTypes.OptionGroupMembership {
+    static func read(from reader: SmithyXML.Reader) throws -> RDSClientTypes.DBMajorEngineVersion {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = RDSClientTypes.OptionGroupMembership()
-        value.optionGroupName = try reader["OptionGroupName"].readIfPresent()
-        value.status = try reader["Status"].readIfPresent()
-        return value
-    }
-}
-
-extension RDSClientTypes.PendingModifiedValues {
-
-    static func read(from reader: SmithyXML.Reader) throws -> RDSClientTypes.PendingModifiedValues {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = RDSClientTypes.PendingModifiedValues()
-        value.dbInstanceClass = try reader["DBInstanceClass"].readIfPresent()
-        value.allocatedStorage = try reader["AllocatedStorage"].readIfPresent()
-        value.masterUserPassword = try reader["MasterUserPassword"].readIfPresent()
-        value.port = try reader["Port"].readIfPresent()
-        value.backupRetentionPeriod = try reader["BackupRetentionPeriod"].readIfPresent()
-        value.multiAZ = try reader["MultiAZ"].readIfPresent()
-        value.engineVersion = try reader["EngineVersion"].readIfPresent()
-        value.licenseModel = try reader["LicenseModel"].readIfPresent()
-        value.iops = try reader["Iops"].readIfPresent()
-        value.storageThroughput = try reader["StorageThroughput"].readIfPresent()
-        value.dbInstanceIdentifier = try reader["DBInstanceIdentifier"].readIfPresent()
-        value.storageType = try reader["StorageType"].readIfPresent()
-        value.caCertificateIdentifier = try reader["CACertificateIdentifier"].readIfPresent()
-        value.dbSubnetGroupName = try reader["DBSubnetGroupName"].readIfPresent()
-        value.pendingCloudwatchLogsExports = try reader["PendingCloudwatchLogsExports"].readIfPresent(with: RDSClientTypes.PendingCloudwatchLogsExports.read(from:))
-        value.processorFeatures = try reader["ProcessorFeatures"].readListIfPresent(memberReadingClosure: RDSClientTypes.ProcessorFeature.read(from:), memberNodeInfo: "ProcessorFeature", isFlattened: false)
-        value.automationMode = try reader["AutomationMode"].readIfPresent()
-        value.resumeFullAutomationModeTime = try reader["ResumeFullAutomationModeTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
-        value.multiTenant = try reader["MultiTenant"].readIfPresent()
-        value.iamDatabaseAuthenticationEnabled = try reader["IAMDatabaseAuthenticationEnabled"].readIfPresent()
-        value.dedicatedLogVolume = try reader["DedicatedLogVolume"].readIfPresent()
+        var value = RDSClientTypes.DBMajorEngineVersion()
         value.engine = try reader["Engine"].readIfPresent()
-        value.additionalStorageVolumes = try reader["AdditionalStorageVolumes"].readListIfPresent(memberReadingClosure: RDSClientTypes.AdditionalStorageVolume.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.majorEngineVersion = try reader["MajorEngineVersion"].readIfPresent()
+        value.supportedEngineLifecycles = try reader["SupportedEngineLifecycles"].readListIfPresent(memberReadingClosure: RDSClientTypes.SupportedEngineLifecycle.read(from:), memberNodeInfo: "SupportedEngineLifecycle", isFlattened: false)
         return value
     }
 }
 
-extension RDSClientTypes.DBSubnetGroup {
+extension RDSClientTypes.DBParameterGroup {
 
-    static func read(from reader: SmithyXML.Reader) throws -> RDSClientTypes.DBSubnetGroup {
+    static func read(from reader: SmithyXML.Reader) throws -> RDSClientTypes.DBParameterGroup {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = RDSClientTypes.DBSubnetGroup()
-        value.dbSubnetGroupName = try reader["DBSubnetGroupName"].readIfPresent()
-        value.dbSubnetGroupDescription = try reader["DBSubnetGroupDescription"].readIfPresent()
-        value.vpcId = try reader["VpcId"].readIfPresent()
-        value.subnetGroupStatus = try reader["SubnetGroupStatus"].readIfPresent()
-        value.subnets = try reader["Subnets"].readListIfPresent(memberReadingClosure: RDSClientTypes.Subnet.read(from:), memberNodeInfo: "Subnet", isFlattened: false)
-        value.dbSubnetGroupArn = try reader["DBSubnetGroupArn"].readIfPresent()
-        value.supportedNetworkTypes = try reader["SupportedNetworkTypes"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
-        return value
-    }
-}
-
-extension RDSClientTypes.Subnet {
-
-    static func read(from reader: SmithyXML.Reader) throws -> RDSClientTypes.Subnet {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = RDSClientTypes.Subnet()
-        value.subnetIdentifier = try reader["SubnetIdentifier"].readIfPresent()
-        value.subnetAvailabilityZone = try reader["SubnetAvailabilityZone"].readIfPresent(with: RDSClientTypes.AvailabilityZone.read(from:))
-        value.subnetOutpost = try reader["SubnetOutpost"].readIfPresent(with: RDSClientTypes.Outpost.read(from:))
-        value.subnetStatus = try reader["SubnetStatus"].readIfPresent()
-        return value
-    }
-}
-
-extension RDSClientTypes.Outpost {
-
-    static func read(from reader: SmithyXML.Reader) throws -> RDSClientTypes.Outpost {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = RDSClientTypes.Outpost()
-        value.arn = try reader["Arn"].readIfPresent()
-        return value
-    }
-}
-
-extension RDSClientTypes.AvailabilityZone {
-
-    static func read(from reader: SmithyXML.Reader) throws -> RDSClientTypes.AvailabilityZone {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = RDSClientTypes.AvailabilityZone()
-        value.name = try reader["Name"].readIfPresent()
+        var value = RDSClientTypes.DBParameterGroup()
+        value.dbParameterGroupName = try reader["DBParameterGroupName"].readIfPresent()
+        value.dbParameterGroupFamily = try reader["DBParameterGroupFamily"].readIfPresent()
+        value.description = try reader["Description"].readIfPresent()
+        value.dbParameterGroupArn = try reader["DBParameterGroupArn"].readIfPresent()
         return value
     }
 }
@@ -34363,21 +34268,6 @@ extension RDSClientTypes.DBProxy {
     }
 }
 
-extension RDSClientTypes.UserAuthConfigInfo {
-
-    static func read(from reader: SmithyXML.Reader) throws -> RDSClientTypes.UserAuthConfigInfo {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = RDSClientTypes.UserAuthConfigInfo()
-        value.description = try reader["Description"].readIfPresent()
-        value.userName = try reader["UserName"].readIfPresent()
-        value.authScheme = try reader["AuthScheme"].readIfPresent()
-        value.secretArn = try reader["SecretArn"].readIfPresent()
-        value.iamAuth = try reader["IAMAuth"].readIfPresent()
-        value.clientPasswordAuthType = try reader["ClientPasswordAuthType"].readIfPresent()
-        return value
-    }
-}
-
 extension RDSClientTypes.DBProxyEndpoint {
 
     static func read(from reader: SmithyXML.Reader) throws -> RDSClientTypes.DBProxyEndpoint {
@@ -34399,424 +34289,6 @@ extension RDSClientTypes.DBProxyEndpoint {
     }
 }
 
-extension RDSClientTypes.GlobalCluster {
-
-    static func read(from reader: SmithyXML.Reader) throws -> RDSClientTypes.GlobalCluster {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = RDSClientTypes.GlobalCluster()
-        value.globalClusterIdentifier = try reader["GlobalClusterIdentifier"].readIfPresent()
-        value.globalClusterResourceId = try reader["GlobalClusterResourceId"].readIfPresent()
-        value.globalClusterArn = try reader["GlobalClusterArn"].readIfPresent()
-        value.status = try reader["Status"].readIfPresent()
-        value.engine = try reader["Engine"].readIfPresent()
-        value.engineVersion = try reader["EngineVersion"].readIfPresent()
-        value.engineLifecycleSupport = try reader["EngineLifecycleSupport"].readIfPresent()
-        value.databaseName = try reader["DatabaseName"].readIfPresent()
-        value.storageEncrypted = try reader["StorageEncrypted"].readIfPresent()
-        value.deletionProtection = try reader["DeletionProtection"].readIfPresent()
-        value.globalClusterMembers = try reader["GlobalClusterMembers"].readListIfPresent(memberReadingClosure: RDSClientTypes.GlobalClusterMember.read(from:), memberNodeInfo: "GlobalClusterMember", isFlattened: false)
-        value.endpoint = try reader["Endpoint"].readIfPresent()
-        value.failoverState = try reader["FailoverState"].readIfPresent(with: RDSClientTypes.FailoverState.read(from:))
-        value.tagList = try reader["TagList"].readListIfPresent(memberReadingClosure: RDSClientTypes.Tag.read(from:), memberNodeInfo: "Tag", isFlattened: false)
-        return value
-    }
-}
-
-extension RDSClientTypes.FailoverState {
-
-    static func read(from reader: SmithyXML.Reader) throws -> RDSClientTypes.FailoverState {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = RDSClientTypes.FailoverState()
-        value.status = try reader["Status"].readIfPresent()
-        value.fromDbClusterArn = try reader["FromDbClusterArn"].readIfPresent()
-        value.toDbClusterArn = try reader["ToDbClusterArn"].readIfPresent()
-        value.isDataLossAllowed = try reader["IsDataLossAllowed"].readIfPresent()
-        return value
-    }
-}
-
-extension RDSClientTypes.GlobalClusterMember {
-
-    static func read(from reader: SmithyXML.Reader) throws -> RDSClientTypes.GlobalClusterMember {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = RDSClientTypes.GlobalClusterMember()
-        value.dbClusterArn = try reader["DBClusterArn"].readIfPresent()
-        value.readers = try reader["Readers"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
-        value.isWriter = try reader["IsWriter"].readIfPresent()
-        value.globalWriteForwardingStatus = try reader["GlobalWriteForwardingStatus"].readIfPresent()
-        value.synchronizationStatus = try reader["SynchronizationStatus"].readIfPresent()
-        return value
-    }
-}
-
-extension RDSClientTypes.IntegrationError {
-
-    static func read(from reader: SmithyXML.Reader) throws -> RDSClientTypes.IntegrationError {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = RDSClientTypes.IntegrationError()
-        value.errorCode = try reader["ErrorCode"].readIfPresent() ?? ""
-        value.errorMessage = try reader["ErrorMessage"].readIfPresent()
-        return value
-    }
-}
-
-extension RDSClientTypes.TenantDatabase {
-
-    static func read(from reader: SmithyXML.Reader) throws -> RDSClientTypes.TenantDatabase {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = RDSClientTypes.TenantDatabase()
-        value.tenantDatabaseCreateTime = try reader["TenantDatabaseCreateTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
-        value.dbInstanceIdentifier = try reader["DBInstanceIdentifier"].readIfPresent()
-        value.tenantDBName = try reader["TenantDBName"].readIfPresent()
-        value.status = try reader["Status"].readIfPresent()
-        value.masterUsername = try reader["MasterUsername"].readIfPresent()
-        value.dbiResourceId = try reader["DbiResourceId"].readIfPresent()
-        value.tenantDatabaseResourceId = try reader["TenantDatabaseResourceId"].readIfPresent()
-        value.tenantDatabaseARN = try reader["TenantDatabaseARN"].readIfPresent()
-        value.characterSetName = try reader["CharacterSetName"].readIfPresent()
-        value.ncharCharacterSetName = try reader["NcharCharacterSetName"].readIfPresent()
-        value.deletionProtection = try reader["DeletionProtection"].readIfPresent()
-        value.pendingModifiedValues = try reader["PendingModifiedValues"].readIfPresent(with: RDSClientTypes.TenantDatabasePendingModifiedValues.read(from:))
-        value.masterUserSecret = try reader["MasterUserSecret"].readIfPresent(with: RDSClientTypes.MasterUserSecret.read(from:))
-        value.tagList = try reader["TagList"].readListIfPresent(memberReadingClosure: RDSClientTypes.Tag.read(from:), memberNodeInfo: "Tag", isFlattened: false)
-        return value
-    }
-}
-
-extension RDSClientTypes.TenantDatabasePendingModifiedValues {
-
-    static func read(from reader: SmithyXML.Reader) throws -> RDSClientTypes.TenantDatabasePendingModifiedValues {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = RDSClientTypes.TenantDatabasePendingModifiedValues()
-        value.masterUserPassword = try reader["MasterUserPassword"].readIfPresent()
-        value.tenantDBName = try reader["TenantDBName"].readIfPresent()
-        return value
-    }
-}
-
-extension RDSClientTypes.DBClusterAutomatedBackup {
-
-    static func read(from reader: SmithyXML.Reader) throws -> RDSClientTypes.DBClusterAutomatedBackup {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = RDSClientTypes.DBClusterAutomatedBackup()
-        value.engine = try reader["Engine"].readIfPresent()
-        value.vpcId = try reader["VpcId"].readIfPresent()
-        value.dbClusterAutomatedBackupsArn = try reader["DBClusterAutomatedBackupsArn"].readIfPresent()
-        value.dbClusterIdentifier = try reader["DBClusterIdentifier"].readIfPresent()
-        value.restoreWindow = try reader["RestoreWindow"].readIfPresent(with: RDSClientTypes.RestoreWindow.read(from:))
-        value.masterUsername = try reader["MasterUsername"].readIfPresent()
-        value.dbClusterResourceId = try reader["DbClusterResourceId"].readIfPresent()
-        value.region = try reader["Region"].readIfPresent()
-        value.licenseModel = try reader["LicenseModel"].readIfPresent()
-        value.status = try reader["Status"].readIfPresent()
-        value.iamDatabaseAuthenticationEnabled = try reader["IAMDatabaseAuthenticationEnabled"].readIfPresent()
-        value.clusterCreateTime = try reader["ClusterCreateTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
-        value.storageEncrypted = try reader["StorageEncrypted"].readIfPresent()
-        value.allocatedStorage = try reader["AllocatedStorage"].readIfPresent()
-        value.engineVersion = try reader["EngineVersion"].readIfPresent()
-        value.dbClusterArn = try reader["DBClusterArn"].readIfPresent()
-        value.backupRetentionPeriod = try reader["BackupRetentionPeriod"].readIfPresent()
-        value.preferredBackupWindow = try reader["PreferredBackupWindow"].readIfPresent()
-        value.engineMode = try reader["EngineMode"].readIfPresent()
-        value.availabilityZones = try reader["AvailabilityZones"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "AvailabilityZone", isFlattened: false)
-        value.port = try reader["Port"].readIfPresent()
-        value.kmsKeyId = try reader["KmsKeyId"].readIfPresent()
-        value.storageType = try reader["StorageType"].readIfPresent()
-        value.iops = try reader["Iops"].readIfPresent()
-        value.storageThroughput = try reader["StorageThroughput"].readIfPresent()
-        value.awsBackupRecoveryPointArn = try reader["AwsBackupRecoveryPointArn"].readIfPresent()
-        value.tagList = try reader["TagList"].readListIfPresent(memberReadingClosure: RDSClientTypes.Tag.read(from:), memberNodeInfo: "Tag", isFlattened: false)
-        return value
-    }
-}
-
-extension RDSClientTypes.RestoreWindow {
-
-    static func read(from reader: SmithyXML.Reader) throws -> RDSClientTypes.RestoreWindow {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = RDSClientTypes.RestoreWindow()
-        value.earliestTime = try reader["EarliestTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
-        value.latestTime = try reader["LatestTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
-        return value
-    }
-}
-
-extension RDSClientTypes.DBInstanceAutomatedBackup {
-
-    static func read(from reader: SmithyXML.Reader) throws -> RDSClientTypes.DBInstanceAutomatedBackup {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = RDSClientTypes.DBInstanceAutomatedBackup()
-        value.dbInstanceArn = try reader["DBInstanceArn"].readIfPresent()
-        value.dbiResourceId = try reader["DbiResourceId"].readIfPresent()
-        value.region = try reader["Region"].readIfPresent()
-        value.dbInstanceIdentifier = try reader["DBInstanceIdentifier"].readIfPresent()
-        value.restoreWindow = try reader["RestoreWindow"].readIfPresent(with: RDSClientTypes.RestoreWindow.read(from:))
-        value.allocatedStorage = try reader["AllocatedStorage"].readIfPresent()
-        value.status = try reader["Status"].readIfPresent()
-        value.port = try reader["Port"].readIfPresent()
-        value.availabilityZone = try reader["AvailabilityZone"].readIfPresent()
-        value.vpcId = try reader["VpcId"].readIfPresent()
-        value.instanceCreateTime = try reader["InstanceCreateTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
-        value.masterUsername = try reader["MasterUsername"].readIfPresent()
-        value.engine = try reader["Engine"].readIfPresent()
-        value.engineVersion = try reader["EngineVersion"].readIfPresent()
-        value.licenseModel = try reader["LicenseModel"].readIfPresent()
-        value.iops = try reader["Iops"].readIfPresent()
-        value.storageThroughput = try reader["StorageThroughput"].readIfPresent()
-        value.optionGroupName = try reader["OptionGroupName"].readIfPresent()
-        value.tdeCredentialArn = try reader["TdeCredentialArn"].readIfPresent()
-        value.encrypted = try reader["Encrypted"].readIfPresent()
-        value.storageType = try reader["StorageType"].readIfPresent()
-        value.kmsKeyId = try reader["KmsKeyId"].readIfPresent()
-        value.timezone = try reader["Timezone"].readIfPresent()
-        value.iamDatabaseAuthenticationEnabled = try reader["IAMDatabaseAuthenticationEnabled"].readIfPresent()
-        value.backupRetentionPeriod = try reader["BackupRetentionPeriod"].readIfPresent()
-        value.preferredBackupWindow = try reader["PreferredBackupWindow"].readIfPresent()
-        value.dbInstanceAutomatedBackupsArn = try reader["DBInstanceAutomatedBackupsArn"].readIfPresent()
-        value.dbInstanceAutomatedBackupsReplications = try reader["DBInstanceAutomatedBackupsReplications"].readListIfPresent(memberReadingClosure: RDSClientTypes.DBInstanceAutomatedBackupsReplication.read(from:), memberNodeInfo: "DBInstanceAutomatedBackupsReplication", isFlattened: false)
-        value.backupTarget = try reader["BackupTarget"].readIfPresent()
-        value.multiTenant = try reader["MultiTenant"].readIfPresent()
-        value.awsBackupRecoveryPointArn = try reader["AwsBackupRecoveryPointArn"].readIfPresent()
-        value.tagList = try reader["TagList"].readListIfPresent(memberReadingClosure: RDSClientTypes.Tag.read(from:), memberNodeInfo: "Tag", isFlattened: false)
-        value.dedicatedLogVolume = try reader["DedicatedLogVolume"].readIfPresent()
-        value.additionalStorageVolumes = try reader["AdditionalStorageVolumes"].readListIfPresent(memberReadingClosure: RDSClientTypes.AdditionalStorageVolume.read(from:), memberNodeInfo: "member", isFlattened: false)
-        return value
-    }
-}
-
-extension RDSClientTypes.AccountQuota {
-
-    static func read(from reader: SmithyXML.Reader) throws -> RDSClientTypes.AccountQuota {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = RDSClientTypes.AccountQuota()
-        value.accountQuotaName = try reader["AccountQuotaName"].readIfPresent()
-        value.used = try reader["Used"].readIfPresent()
-        value.max = try reader["Max"].readIfPresent()
-        return value
-    }
-}
-
-extension RDSClientTypes.Certificate {
-
-    static func read(from reader: SmithyXML.Reader) throws -> RDSClientTypes.Certificate {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = RDSClientTypes.Certificate()
-        value.certificateIdentifier = try reader["CertificateIdentifier"].readIfPresent()
-        value.certificateType = try reader["CertificateType"].readIfPresent()
-        value.thumbprint = try reader["Thumbprint"].readIfPresent()
-        value.validFrom = try reader["ValidFrom"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
-        value.validTill = try reader["ValidTill"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
-        value.certificateArn = try reader["CertificateArn"].readIfPresent()
-        value.customerOverride = try reader["CustomerOverride"].readIfPresent()
-        value.customerOverrideValidTill = try reader["CustomerOverrideValidTill"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
-        return value
-    }
-}
-
-extension RDSClientTypes.DBClusterBacktrack {
-
-    static func read(from reader: SmithyXML.Reader) throws -> RDSClientTypes.DBClusterBacktrack {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = RDSClientTypes.DBClusterBacktrack()
-        value.dbClusterIdentifier = try reader["DBClusterIdentifier"].readIfPresent()
-        value.backtrackIdentifier = try reader["BacktrackIdentifier"].readIfPresent()
-        value.backtrackTo = try reader["BacktrackTo"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
-        value.backtrackedFrom = try reader["BacktrackedFrom"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
-        value.backtrackRequestCreationTime = try reader["BacktrackRequestCreationTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
-        value.status = try reader["Status"].readIfPresent()
-        return value
-    }
-}
-
-extension RDSClientTypes.DBClusterEndpoint {
-
-    static func read(from reader: SmithyXML.Reader) throws -> RDSClientTypes.DBClusterEndpoint {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = RDSClientTypes.DBClusterEndpoint()
-        value.dbClusterEndpointIdentifier = try reader["DBClusterEndpointIdentifier"].readIfPresent()
-        value.dbClusterIdentifier = try reader["DBClusterIdentifier"].readIfPresent()
-        value.dbClusterEndpointResourceIdentifier = try reader["DBClusterEndpointResourceIdentifier"].readIfPresent()
-        value.endpoint = try reader["Endpoint"].readIfPresent()
-        value.status = try reader["Status"].readIfPresent()
-        value.endpointType = try reader["EndpointType"].readIfPresent()
-        value.customEndpointType = try reader["CustomEndpointType"].readIfPresent()
-        value.staticMembers = try reader["StaticMembers"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
-        value.excludedMembers = try reader["ExcludedMembers"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
-        value.dbClusterEndpointArn = try reader["DBClusterEndpointArn"].readIfPresent()
-        return value
-    }
-}
-
-extension RDSClientTypes.Parameter {
-
-    static func write(value: RDSClientTypes.Parameter?, to writer: SmithyFormURL.Writer) throws {
-        guard let value else { return }
-        try writer["AllowedValues"].write(value.allowedValues)
-        try writer["ApplyMethod"].write(value.applyMethod)
-        try writer["ApplyType"].write(value.applyType)
-        try writer["DataType"].write(value.dataType)
-        try writer["Description"].write(value.description)
-        try writer["IsModifiable"].write(value.isModifiable)
-        try writer["MinimumEngineVersion"].write(value.minimumEngineVersion)
-        try writer["ParameterName"].write(value.parameterName)
-        try writer["ParameterValue"].write(value.parameterValue)
-        try writer["Source"].write(value.source)
-        try writer["SupportedEngineModes"].writeList(value.supportedEngineModes, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
-    }
-
-    static func read(from reader: SmithyXML.Reader) throws -> RDSClientTypes.Parameter {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = RDSClientTypes.Parameter()
-        value.parameterName = try reader["ParameterName"].readIfPresent()
-        value.parameterValue = try reader["ParameterValue"].readIfPresent()
-        value.description = try reader["Description"].readIfPresent()
-        value.source = try reader["Source"].readIfPresent()
-        value.applyType = try reader["ApplyType"].readIfPresent()
-        value.dataType = try reader["DataType"].readIfPresent()
-        value.allowedValues = try reader["AllowedValues"].readIfPresent()
-        value.isModifiable = try reader["IsModifiable"].readIfPresent()
-        value.minimumEngineVersion = try reader["MinimumEngineVersion"].readIfPresent()
-        value.applyMethod = try reader["ApplyMethod"].readIfPresent()
-        value.supportedEngineModes = try reader["SupportedEngineModes"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
-        return value
-    }
-}
-
-extension RDSClientTypes.DBClusterSnapshotAttributesResult {
-
-    static func read(from reader: SmithyXML.Reader) throws -> RDSClientTypes.DBClusterSnapshotAttributesResult {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = RDSClientTypes.DBClusterSnapshotAttributesResult()
-        value.dbClusterSnapshotIdentifier = try reader["DBClusterSnapshotIdentifier"].readIfPresent()
-        value.dbClusterSnapshotAttributes = try reader["DBClusterSnapshotAttributes"].readListIfPresent(memberReadingClosure: RDSClientTypes.DBClusterSnapshotAttribute.read(from:), memberNodeInfo: "DBClusterSnapshotAttribute", isFlattened: false)
-        return value
-    }
-}
-
-extension RDSClientTypes.DBClusterSnapshotAttribute {
-
-    static func read(from reader: SmithyXML.Reader) throws -> RDSClientTypes.DBClusterSnapshotAttribute {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = RDSClientTypes.DBClusterSnapshotAttribute()
-        value.attributeName = try reader["AttributeName"].readIfPresent()
-        value.attributeValues = try reader["AttributeValues"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "AttributeValue", isFlattened: false)
-        return value
-    }
-}
-
-extension RDSClientTypes.DBEngineVersion {
-
-    static func read(from reader: SmithyXML.Reader) throws -> RDSClientTypes.DBEngineVersion {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = RDSClientTypes.DBEngineVersion()
-        value.engine = try reader["Engine"].readIfPresent()
-        value.majorEngineVersion = try reader["MajorEngineVersion"].readIfPresent()
-        value.engineVersion = try reader["EngineVersion"].readIfPresent()
-        value.databaseInstallationFilesS3BucketName = try reader["DatabaseInstallationFilesS3BucketName"].readIfPresent()
-        value.databaseInstallationFilesS3Prefix = try reader["DatabaseInstallationFilesS3Prefix"].readIfPresent()
-        value.databaseInstallationFiles = try reader["DatabaseInstallationFiles"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
-        value.customDBEngineVersionManifest = try reader["CustomDBEngineVersionManifest"].readIfPresent()
-        value.dbParameterGroupFamily = try reader["DBParameterGroupFamily"].readIfPresent()
-        value.dbEngineDescription = try reader["DBEngineDescription"].readIfPresent()
-        value.dbEngineVersionArn = try reader["DBEngineVersionArn"].readIfPresent()
-        value.dbEngineVersionDescription = try reader["DBEngineVersionDescription"].readIfPresent()
-        value.defaultCharacterSet = try reader["DefaultCharacterSet"].readIfPresent(with: RDSClientTypes.CharacterSet.read(from:))
-        value.failureReason = try reader["FailureReason"].readIfPresent()
-        value.image = try reader["Image"].readIfPresent(with: RDSClientTypes.CustomDBEngineVersionAMI.read(from:))
-        value.dbEngineMediaType = try reader["DBEngineMediaType"].readIfPresent()
-        value.kmsKeyId = try reader["KMSKeyId"].readIfPresent()
-        value.createTime = try reader["CreateTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
-        value.supportedCharacterSets = try reader["SupportedCharacterSets"].readListIfPresent(memberReadingClosure: RDSClientTypes.CharacterSet.read(from:), memberNodeInfo: "CharacterSet", isFlattened: false)
-        value.supportedNcharCharacterSets = try reader["SupportedNcharCharacterSets"].readListIfPresent(memberReadingClosure: RDSClientTypes.CharacterSet.read(from:), memberNodeInfo: "CharacterSet", isFlattened: false)
-        value.validUpgradeTarget = try reader["ValidUpgradeTarget"].readListIfPresent(memberReadingClosure: RDSClientTypes.UpgradeTarget.read(from:), memberNodeInfo: "UpgradeTarget", isFlattened: false)
-        value.supportedTimezones = try reader["SupportedTimezones"].readListIfPresent(memberReadingClosure: RDSClientTypes.Timezone.read(from:), memberNodeInfo: "Timezone", isFlattened: false)
-        value.exportableLogTypes = try reader["ExportableLogTypes"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
-        value.supportsLogExportsToCloudwatchLogs = try reader["SupportsLogExportsToCloudwatchLogs"].readIfPresent()
-        value.supportsReadReplica = try reader["SupportsReadReplica"].readIfPresent()
-        value.supportedEngineModes = try reader["SupportedEngineModes"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
-        value.supportedFeatureNames = try reader["SupportedFeatureNames"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
-        value.status = try reader["Status"].readIfPresent()
-        value.supportsParallelQuery = try reader["SupportsParallelQuery"].readIfPresent()
-        value.supportsGlobalDatabases = try reader["SupportsGlobalDatabases"].readIfPresent()
-        value.tagList = try reader["TagList"].readListIfPresent(memberReadingClosure: RDSClientTypes.Tag.read(from:), memberNodeInfo: "Tag", isFlattened: false)
-        value.supportsBabelfish = try reader["SupportsBabelfish"].readIfPresent()
-        value.supportsLimitlessDatabase = try reader["SupportsLimitlessDatabase"].readIfPresent()
-        value.supportsCertificateRotationWithoutRestart = try reader["SupportsCertificateRotationWithoutRestart"].readIfPresent()
-        value.supportedCACertificateIdentifiers = try reader["SupportedCACertificateIdentifiers"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
-        value.supportsLocalWriteForwarding = try reader["SupportsLocalWriteForwarding"].readIfPresent()
-        value.supportsIntegrations = try reader["SupportsIntegrations"].readIfPresent()
-        value.serverlessV2FeaturesSupport = try reader["ServerlessV2FeaturesSupport"].readIfPresent(with: RDSClientTypes.ServerlessV2FeaturesSupport.read(from:))
-        return value
-    }
-}
-
-extension RDSClientTypes.DescribeDBLogFilesDetails {
-
-    static func read(from reader: SmithyXML.Reader) throws -> RDSClientTypes.DescribeDBLogFilesDetails {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = RDSClientTypes.DescribeDBLogFilesDetails()
-        value.logFileName = try reader["LogFileName"].readIfPresent()
-        value.lastWritten = try reader["LastWritten"].readIfPresent()
-        value.size = try reader["Size"].readIfPresent()
-        return value
-    }
-}
-
-extension RDSClientTypes.DBMajorEngineVersion {
-
-    static func read(from reader: SmithyXML.Reader) throws -> RDSClientTypes.DBMajorEngineVersion {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = RDSClientTypes.DBMajorEngineVersion()
-        value.engine = try reader["Engine"].readIfPresent()
-        value.majorEngineVersion = try reader["MajorEngineVersion"].readIfPresent()
-        value.supportedEngineLifecycles = try reader["SupportedEngineLifecycles"].readListIfPresent(memberReadingClosure: RDSClientTypes.SupportedEngineLifecycle.read(from:), memberNodeInfo: "SupportedEngineLifecycle", isFlattened: false)
-        return value
-    }
-}
-
-extension RDSClientTypes.SupportedEngineLifecycle {
-
-    static func read(from reader: SmithyXML.Reader) throws -> RDSClientTypes.SupportedEngineLifecycle {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = RDSClientTypes.SupportedEngineLifecycle()
-        value.lifecycleSupportName = try reader["LifecycleSupportName"].readIfPresent() ?? .sdkUnknown("")
-        value.lifecycleSupportStartDate = try reader["LifecycleSupportStartDate"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
-        value.lifecycleSupportEndDate = try reader["LifecycleSupportEndDate"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
-        return value
-    }
-}
-
-extension RDSClientTypes.DBProxyTargetGroup {
-
-    static func read(from reader: SmithyXML.Reader) throws -> RDSClientTypes.DBProxyTargetGroup {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = RDSClientTypes.DBProxyTargetGroup()
-        value.dbProxyName = try reader["DBProxyName"].readIfPresent()
-        value.targetGroupName = try reader["TargetGroupName"].readIfPresent()
-        value.targetGroupArn = try reader["TargetGroupArn"].readIfPresent()
-        value.isDefault = try reader["IsDefault"].readIfPresent()
-        value.status = try reader["Status"].readIfPresent()
-        value.connectionPoolConfig = try reader["ConnectionPoolConfig"].readIfPresent(with: RDSClientTypes.ConnectionPoolConfigurationInfo.read(from:))
-        value.createdDate = try reader["CreatedDate"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
-        value.updatedDate = try reader["UpdatedDate"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
-        return value
-    }
-}
-
-extension RDSClientTypes.ConnectionPoolConfigurationInfo {
-
-    static func read(from reader: SmithyXML.Reader) throws -> RDSClientTypes.ConnectionPoolConfigurationInfo {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = RDSClientTypes.ConnectionPoolConfigurationInfo()
-        value.maxConnectionsPercent = try reader["MaxConnectionsPercent"].readIfPresent()
-        value.maxIdleConnectionsPercent = try reader["MaxIdleConnectionsPercent"].readIfPresent()
-        value.connectionBorrowTimeout = try reader["ConnectionBorrowTimeout"].readIfPresent()
-        value.sessionPinningFilters = try reader["SessionPinningFilters"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
-        value.initQuery = try reader["InitQuery"].readIfPresent()
-        return value
-    }
-}
-
 extension RDSClientTypes.DBProxyTarget {
 
     static func read(from reader: SmithyXML.Reader) throws -> RDSClientTypes.DBProxyTarget {
@@ -34834,14 +34306,19 @@ extension RDSClientTypes.DBProxyTarget {
     }
 }
 
-extension RDSClientTypes.TargetHealth {
+extension RDSClientTypes.DBProxyTargetGroup {
 
-    static func read(from reader: SmithyXML.Reader) throws -> RDSClientTypes.TargetHealth {
+    static func read(from reader: SmithyXML.Reader) throws -> RDSClientTypes.DBProxyTargetGroup {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = RDSClientTypes.TargetHealth()
-        value.state = try reader["State"].readIfPresent()
-        value.reason = try reader["Reason"].readIfPresent()
-        value.description = try reader["Description"].readIfPresent()
+        var value = RDSClientTypes.DBProxyTargetGroup()
+        value.dbProxyName = try reader["DBProxyName"].readIfPresent()
+        value.targetGroupName = try reader["TargetGroupName"].readIfPresent()
+        value.targetGroupArn = try reader["TargetGroupArn"].readIfPresent()
+        value.isDefault = try reader["IsDefault"].readIfPresent()
+        value.status = try reader["Status"].readIfPresent()
+        value.connectionPoolConfig = try reader["ConnectionPoolConfig"].readIfPresent(with: RDSClientTypes.ConnectionPoolConfigurationInfo.read(from:))
+        value.createdDate = try reader["CreatedDate"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
+        value.updatedDate = try reader["UpdatedDate"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
         return value
     }
 }
@@ -34875,153 +34352,29 @@ extension RDSClientTypes.DBRecommendation {
     }
 }
 
-extension RDSClientTypes.IssueDetails {
+extension RDSClientTypes.DBSecurityGroup {
 
-    static func read(from reader: SmithyXML.Reader) throws -> RDSClientTypes.IssueDetails {
+    static func read(from reader: SmithyXML.Reader) throws -> RDSClientTypes.DBSecurityGroup {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = RDSClientTypes.IssueDetails()
-        value.performanceIssueDetails = try reader["PerformanceIssueDetails"].readIfPresent(with: RDSClientTypes.PerformanceIssueDetails.read(from:))
+        var value = RDSClientTypes.DBSecurityGroup()
+        value.ownerId = try reader["OwnerId"].readIfPresent()
+        value.dbSecurityGroupName = try reader["DBSecurityGroupName"].readIfPresent()
+        value.dbSecurityGroupDescription = try reader["DBSecurityGroupDescription"].readIfPresent()
+        value.vpcId = try reader["VpcId"].readIfPresent()
+        value.ec2SecurityGroups = try reader["EC2SecurityGroups"].readListIfPresent(memberReadingClosure: RDSClientTypes.EC2SecurityGroup.read(from:), memberNodeInfo: "EC2SecurityGroup", isFlattened: false)
+        value.ipRanges = try reader["IPRanges"].readListIfPresent(memberReadingClosure: RDSClientTypes.IPRange.read(from:), memberNodeInfo: "IPRange", isFlattened: false)
+        value.dbSecurityGroupArn = try reader["DBSecurityGroupArn"].readIfPresent()
         return value
     }
 }
 
-extension RDSClientTypes.PerformanceIssueDetails {
+extension RDSClientTypes.DBSecurityGroupMembership {
 
-    static func read(from reader: SmithyXML.Reader) throws -> RDSClientTypes.PerformanceIssueDetails {
+    static func read(from reader: SmithyXML.Reader) throws -> RDSClientTypes.DBSecurityGroupMembership {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = RDSClientTypes.PerformanceIssueDetails()
-        value.startTime = try reader["StartTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
-        value.endTime = try reader["EndTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
-        value.metrics = try reader["Metrics"].readListIfPresent(memberReadingClosure: RDSClientTypes.Metric.read(from:), memberNodeInfo: "member", isFlattened: false)
-        value.analysis = try reader["Analysis"].readIfPresent()
-        return value
-    }
-}
-
-extension RDSClientTypes.Metric {
-
-    static func read(from reader: SmithyXML.Reader) throws -> RDSClientTypes.Metric {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = RDSClientTypes.Metric()
-        value.name = try reader["Name"].readIfPresent()
-        value.references = try reader["References"].readListIfPresent(memberReadingClosure: RDSClientTypes.MetricReference.read(from:), memberNodeInfo: "member", isFlattened: false)
-        value.statisticsDetails = try reader["StatisticsDetails"].readIfPresent()
-        value.metricQuery = try reader["MetricQuery"].readIfPresent(with: RDSClientTypes.MetricQuery.read(from:))
-        return value
-    }
-}
-
-extension RDSClientTypes.MetricQuery {
-
-    static func read(from reader: SmithyXML.Reader) throws -> RDSClientTypes.MetricQuery {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = RDSClientTypes.MetricQuery()
-        value.performanceInsightsMetricQuery = try reader["PerformanceInsightsMetricQuery"].readIfPresent(with: RDSClientTypes.PerformanceInsightsMetricQuery.read(from:))
-        return value
-    }
-}
-
-extension RDSClientTypes.PerformanceInsightsMetricQuery {
-
-    static func read(from reader: SmithyXML.Reader) throws -> RDSClientTypes.PerformanceInsightsMetricQuery {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = RDSClientTypes.PerformanceInsightsMetricQuery()
-        value.groupBy = try reader["GroupBy"].readIfPresent(with: RDSClientTypes.PerformanceInsightsMetricDimensionGroup.read(from:))
-        value.metric = try reader["Metric"].readIfPresent()
-        return value
-    }
-}
-
-extension RDSClientTypes.PerformanceInsightsMetricDimensionGroup {
-
-    static func read(from reader: SmithyXML.Reader) throws -> RDSClientTypes.PerformanceInsightsMetricDimensionGroup {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = RDSClientTypes.PerformanceInsightsMetricDimensionGroup()
-        value.dimensions = try reader["Dimensions"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
-        value.group = try reader["Group"].readIfPresent()
-        value.limit = try reader["Limit"].readIfPresent()
-        return value
-    }
-}
-
-extension RDSClientTypes.MetricReference {
-
-    static func read(from reader: SmithyXML.Reader) throws -> RDSClientTypes.MetricReference {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = RDSClientTypes.MetricReference()
-        value.name = try reader["Name"].readIfPresent()
-        value.referenceDetails = try reader["ReferenceDetails"].readIfPresent(with: RDSClientTypes.ReferenceDetails.read(from:))
-        return value
-    }
-}
-
-extension RDSClientTypes.ReferenceDetails {
-
-    static func read(from reader: SmithyXML.Reader) throws -> RDSClientTypes.ReferenceDetails {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = RDSClientTypes.ReferenceDetails()
-        value.scalarReferenceDetails = try reader["ScalarReferenceDetails"].readIfPresent(with: RDSClientTypes.ScalarReferenceDetails.read(from:))
-        return value
-    }
-}
-
-extension RDSClientTypes.ScalarReferenceDetails {
-
-    static func read(from reader: SmithyXML.Reader) throws -> RDSClientTypes.ScalarReferenceDetails {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = RDSClientTypes.ScalarReferenceDetails()
-        value.value = try reader["Value"].readIfPresent()
-        return value
-    }
-}
-
-extension RDSClientTypes.DocLink {
-
-    static func read(from reader: SmithyXML.Reader) throws -> RDSClientTypes.DocLink {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = RDSClientTypes.DocLink()
-        value.text = try reader["Text"].readIfPresent()
-        value.url = try reader["Url"].readIfPresent()
-        return value
-    }
-}
-
-extension RDSClientTypes.RecommendedAction {
-
-    static func read(from reader: SmithyXML.Reader) throws -> RDSClientTypes.RecommendedAction {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = RDSClientTypes.RecommendedAction()
-        value.actionId = try reader["ActionId"].readIfPresent()
-        value.title = try reader["Title"].readIfPresent()
-        value.description = try reader["Description"].readIfPresent()
-        value.operation = try reader["Operation"].readIfPresent()
-        value.parameters = try reader["Parameters"].readListIfPresent(memberReadingClosure: RDSClientTypes.RecommendedActionParameter.read(from:), memberNodeInfo: "member", isFlattened: false)
-        value.applyModes = try reader["ApplyModes"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        var value = RDSClientTypes.DBSecurityGroupMembership()
+        value.dbSecurityGroupName = try reader["DBSecurityGroupName"].readIfPresent()
         value.status = try reader["Status"].readIfPresent()
-        value.issueDetails = try reader["IssueDetails"].readIfPresent(with: RDSClientTypes.IssueDetails.read(from:))
-        value.contextAttributes = try reader["ContextAttributes"].readListIfPresent(memberReadingClosure: RDSClientTypes.ContextAttribute.read(from:), memberNodeInfo: "member", isFlattened: false)
-        return value
-    }
-}
-
-extension RDSClientTypes.ContextAttribute {
-
-    static func read(from reader: SmithyXML.Reader) throws -> RDSClientTypes.ContextAttribute {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = RDSClientTypes.ContextAttribute()
-        value.key = try reader["Key"].readIfPresent()
-        value.value = try reader["Value"].readIfPresent()
-        return value
-    }
-}
-
-extension RDSClientTypes.RecommendedActionParameter {
-
-    static func read(from reader: SmithyXML.Reader) throws -> RDSClientTypes.RecommendedActionParameter {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = RDSClientTypes.RecommendedActionParameter()
-        value.key = try reader["Key"].readIfPresent()
-        value.value = try reader["Value"].readIfPresent()
         return value
     }
 }
@@ -35046,13 +34399,52 @@ extension RDSClientTypes.DBShardGroup {
     }
 }
 
-extension RDSClientTypes.DBSnapshotAttributesResult {
+extension RDSClientTypes.DBSnapshot {
 
-    static func read(from reader: SmithyXML.Reader) throws -> RDSClientTypes.DBSnapshotAttributesResult {
+    static func read(from reader: SmithyXML.Reader) throws -> RDSClientTypes.DBSnapshot {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = RDSClientTypes.DBSnapshotAttributesResult()
+        var value = RDSClientTypes.DBSnapshot()
         value.dbSnapshotIdentifier = try reader["DBSnapshotIdentifier"].readIfPresent()
-        value.dbSnapshotAttributes = try reader["DBSnapshotAttributes"].readListIfPresent(memberReadingClosure: RDSClientTypes.DBSnapshotAttribute.read(from:), memberNodeInfo: "DBSnapshotAttribute", isFlattened: false)
+        value.dbInstanceIdentifier = try reader["DBInstanceIdentifier"].readIfPresent()
+        value.snapshotCreateTime = try reader["SnapshotCreateTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
+        value.engine = try reader["Engine"].readIfPresent()
+        value.allocatedStorage = try reader["AllocatedStorage"].readIfPresent()
+        value.status = try reader["Status"].readIfPresent()
+        value.port = try reader["Port"].readIfPresent()
+        value.availabilityZone = try reader["AvailabilityZone"].readIfPresent()
+        value.vpcId = try reader["VpcId"].readIfPresent()
+        value.instanceCreateTime = try reader["InstanceCreateTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
+        value.masterUsername = try reader["MasterUsername"].readIfPresent()
+        value.engineVersion = try reader["EngineVersion"].readIfPresent()
+        value.licenseModel = try reader["LicenseModel"].readIfPresent()
+        value.snapshotType = try reader["SnapshotType"].readIfPresent()
+        value.iops = try reader["Iops"].readIfPresent()
+        value.storageThroughput = try reader["StorageThroughput"].readIfPresent()
+        value.optionGroupName = try reader["OptionGroupName"].readIfPresent()
+        value.percentProgress = try reader["PercentProgress"].readIfPresent()
+        value.sourceRegion = try reader["SourceRegion"].readIfPresent()
+        value.sourceDBSnapshotIdentifier = try reader["SourceDBSnapshotIdentifier"].readIfPresent()
+        value.storageType = try reader["StorageType"].readIfPresent()
+        value.tdeCredentialArn = try reader["TdeCredentialArn"].readIfPresent()
+        value.encrypted = try reader["Encrypted"].readIfPresent()
+        value.storageEncryptionType = try reader["StorageEncryptionType"].readIfPresent()
+        value.backupRetentionPeriod = try reader["BackupRetentionPeriod"].readIfPresent()
+        value.preferredBackupWindow = try reader["PreferredBackupWindow"].readIfPresent()
+        value.kmsKeyId = try reader["KmsKeyId"].readIfPresent()
+        value.dbSnapshotArn = try reader["DBSnapshotArn"].readIfPresent()
+        value.timezone = try reader["Timezone"].readIfPresent()
+        value.iamDatabaseAuthenticationEnabled = try reader["IAMDatabaseAuthenticationEnabled"].readIfPresent()
+        value.processorFeatures = try reader["ProcessorFeatures"].readListIfPresent(memberReadingClosure: RDSClientTypes.ProcessorFeature.read(from:), memberNodeInfo: "ProcessorFeature", isFlattened: false)
+        value.dbiResourceId = try reader["DbiResourceId"].readIfPresent()
+        value.tagList = try reader["TagList"].readListIfPresent(memberReadingClosure: RDSClientTypes.Tag.read(from:), memberNodeInfo: "Tag", isFlattened: false)
+        value.snapshotTarget = try reader["SnapshotTarget"].readIfPresent()
+        value.originalSnapshotCreateTime = try reader["OriginalSnapshotCreateTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
+        value.snapshotDatabaseTime = try reader["SnapshotDatabaseTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
+        value.dbSystemId = try reader["DBSystemId"].readIfPresent()
+        value.multiTenant = try reader["MultiTenant"].readIfPresent()
+        value.dedicatedLogVolume = try reader["DedicatedLogVolume"].readIfPresent()
+        value.additionalStorageVolumes = try reader["AdditionalStorageVolumes"].readListIfPresent(memberReadingClosure: RDSClientTypes.AdditionalStorageVolume.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.snapshotAvailabilityZone = try reader["SnapshotAvailabilityZone"].readIfPresent()
         return value
     }
 }
@@ -35064,6 +34456,17 @@ extension RDSClientTypes.DBSnapshotAttribute {
         var value = RDSClientTypes.DBSnapshotAttribute()
         value.attributeName = try reader["AttributeName"].readIfPresent()
         value.attributeValues = try reader["AttributeValues"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "AttributeValue", isFlattened: false)
+        return value
+    }
+}
+
+extension RDSClientTypes.DBSnapshotAttributesResult {
+
+    static func read(from reader: SmithyXML.Reader) throws -> RDSClientTypes.DBSnapshotAttributesResult {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = RDSClientTypes.DBSnapshotAttributesResult()
+        value.dbSnapshotIdentifier = try reader["DBSnapshotIdentifier"].readIfPresent()
+        value.dbSnapshotAttributes = try reader["DBSnapshotAttributes"].readListIfPresent(memberReadingClosure: RDSClientTypes.DBSnapshotAttribute.read(from:), memberNodeInfo: "DBSnapshotAttribute", isFlattened: false)
         return value
     }
 }
@@ -35090,6 +34493,97 @@ extension RDSClientTypes.DBSnapshotTenantDatabase {
     }
 }
 
+extension RDSClientTypes.DBSubnetGroup {
+
+    static func read(from reader: SmithyXML.Reader) throws -> RDSClientTypes.DBSubnetGroup {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = RDSClientTypes.DBSubnetGroup()
+        value.dbSubnetGroupName = try reader["DBSubnetGroupName"].readIfPresent()
+        value.dbSubnetGroupDescription = try reader["DBSubnetGroupDescription"].readIfPresent()
+        value.vpcId = try reader["VpcId"].readIfPresent()
+        value.subnetGroupStatus = try reader["SubnetGroupStatus"].readIfPresent()
+        value.subnets = try reader["Subnets"].readListIfPresent(memberReadingClosure: RDSClientTypes.Subnet.read(from:), memberNodeInfo: "Subnet", isFlattened: false)
+        value.dbSubnetGroupArn = try reader["DBSubnetGroupArn"].readIfPresent()
+        value.supportedNetworkTypes = try reader["SupportedNetworkTypes"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        return value
+    }
+}
+
+extension RDSClientTypes.DescribeDBLogFilesDetails {
+
+    static func read(from reader: SmithyXML.Reader) throws -> RDSClientTypes.DescribeDBLogFilesDetails {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = RDSClientTypes.DescribeDBLogFilesDetails()
+        value.logFileName = try reader["LogFileName"].readIfPresent()
+        value.lastWritten = try reader["LastWritten"].readIfPresent()
+        value.size = try reader["Size"].readIfPresent()
+        return value
+    }
+}
+
+extension RDSClientTypes.DocLink {
+
+    static func read(from reader: SmithyXML.Reader) throws -> RDSClientTypes.DocLink {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = RDSClientTypes.DocLink()
+        value.text = try reader["Text"].readIfPresent()
+        value.url = try reader["Url"].readIfPresent()
+        return value
+    }
+}
+
+extension RDSClientTypes.DomainMembership {
+
+    static func read(from reader: SmithyXML.Reader) throws -> RDSClientTypes.DomainMembership {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = RDSClientTypes.DomainMembership()
+        value.domain = try reader["Domain"].readIfPresent()
+        value.status = try reader["Status"].readIfPresent()
+        value.fqdn = try reader["FQDN"].readIfPresent()
+        value.iamRoleName = try reader["IAMRoleName"].readIfPresent()
+        value.ou = try reader["OU"].readIfPresent()
+        value.authSecretArn = try reader["AuthSecretArn"].readIfPresent()
+        value.dnsIps = try reader["DnsIps"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        return value
+    }
+}
+
+extension RDSClientTypes.DoubleRange {
+
+    static func read(from reader: SmithyXML.Reader) throws -> RDSClientTypes.DoubleRange {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = RDSClientTypes.DoubleRange()
+        value.from = try reader["From"].readIfPresent()
+        value.to = try reader["To"].readIfPresent()
+        return value
+    }
+}
+
+extension RDSClientTypes.EC2SecurityGroup {
+
+    static func read(from reader: SmithyXML.Reader) throws -> RDSClientTypes.EC2SecurityGroup {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = RDSClientTypes.EC2SecurityGroup()
+        value.status = try reader["Status"].readIfPresent()
+        value.ec2SecurityGroupName = try reader["EC2SecurityGroupName"].readIfPresent()
+        value.ec2SecurityGroupId = try reader["EC2SecurityGroupId"].readIfPresent()
+        value.ec2SecurityGroupOwnerId = try reader["EC2SecurityGroupOwnerId"].readIfPresent()
+        return value
+    }
+}
+
+extension RDSClientTypes.Endpoint {
+
+    static func read(from reader: SmithyXML.Reader) throws -> RDSClientTypes.Endpoint {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = RDSClientTypes.Endpoint()
+        value.address = try reader["Address"].readIfPresent()
+        value.port = try reader["Port"].readIfPresent()
+        value.hostedZoneId = try reader["HostedZoneId"].readIfPresent()
+        return value
+    }
+}
+
 extension RDSClientTypes.EngineDefaults {
 
     static func read(from reader: SmithyXML.Reader) throws -> RDSClientTypes.EngineDefaults {
@@ -35098,17 +34592,6 @@ extension RDSClientTypes.EngineDefaults {
         value.dbParameterGroupFamily = try reader["DBParameterGroupFamily"].readIfPresent()
         value.marker = try reader["Marker"].readIfPresent()
         value.parameters = try reader["Parameters"].readListIfPresent(memberReadingClosure: RDSClientTypes.Parameter.read(from:), memberNodeInfo: "Parameter", isFlattened: false)
-        return value
-    }
-}
-
-extension RDSClientTypes.EventCategoriesMap {
-
-    static func read(from reader: SmithyXML.Reader) throws -> RDSClientTypes.EventCategoriesMap {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = RDSClientTypes.EventCategoriesMap()
-        value.sourceType = try reader["SourceType"].readIfPresent()
-        value.eventCategories = try reader["EventCategories"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "EventCategory", isFlattened: false)
         return value
     }
 }
@@ -35124,6 +34607,36 @@ extension RDSClientTypes.Event {
         value.eventCategories = try reader["EventCategories"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "EventCategory", isFlattened: false)
         value.date = try reader["Date"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
         value.sourceArn = try reader["SourceArn"].readIfPresent()
+        return value
+    }
+}
+
+extension RDSClientTypes.EventCategoriesMap {
+
+    static func read(from reader: SmithyXML.Reader) throws -> RDSClientTypes.EventCategoriesMap {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = RDSClientTypes.EventCategoriesMap()
+        value.sourceType = try reader["SourceType"].readIfPresent()
+        value.eventCategories = try reader["EventCategories"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "EventCategory", isFlattened: false)
+        return value
+    }
+}
+
+extension RDSClientTypes.EventSubscription {
+
+    static func read(from reader: SmithyXML.Reader) throws -> RDSClientTypes.EventSubscription {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = RDSClientTypes.EventSubscription()
+        value.customerAwsId = try reader["CustomerAwsId"].readIfPresent()
+        value.custSubscriptionId = try reader["CustSubscriptionId"].readIfPresent()
+        value.snsTopicArn = try reader["SnsTopicArn"].readIfPresent()
+        value.status = try reader["Status"].readIfPresent()
+        value.subscriptionCreationTime = try reader["SubscriptionCreationTime"].readIfPresent()
+        value.sourceType = try reader["SourceType"].readIfPresent()
+        value.sourceIdsList = try reader["SourceIdsList"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "SourceId", isFlattened: false)
+        value.eventCategoriesList = try reader["EventCategoriesList"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "EventCategory", isFlattened: false)
+        value.enabled = try reader["Enabled"].readIfPresent()
+        value.eventSubscriptionArn = try reader["EventSubscriptionArn"].readIfPresent()
         return value
     }
 }
@@ -35153,6 +34666,66 @@ extension RDSClientTypes.ExportTask {
     }
 }
 
+extension RDSClientTypes.FailoverState {
+
+    static func read(from reader: SmithyXML.Reader) throws -> RDSClientTypes.FailoverState {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = RDSClientTypes.FailoverState()
+        value.status = try reader["Status"].readIfPresent()
+        value.fromDbClusterArn = try reader["FromDbClusterArn"].readIfPresent()
+        value.toDbClusterArn = try reader["ToDbClusterArn"].readIfPresent()
+        value.isDataLossAllowed = try reader["IsDataLossAllowed"].readIfPresent()
+        return value
+    }
+}
+
+extension RDSClientTypes.Filter {
+
+    static func write(value: RDSClientTypes.Filter?, to writer: SmithyFormURL.Writer) throws {
+        guard let value else { return }
+        try writer["Name"].write(value.name)
+        try writer["Values"].writeList(value.values, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "Value", isFlattened: false)
+    }
+}
+
+extension RDSClientTypes.GlobalCluster {
+
+    static func read(from reader: SmithyXML.Reader) throws -> RDSClientTypes.GlobalCluster {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = RDSClientTypes.GlobalCluster()
+        value.globalClusterIdentifier = try reader["GlobalClusterIdentifier"].readIfPresent()
+        value.globalClusterResourceId = try reader["GlobalClusterResourceId"].readIfPresent()
+        value.globalClusterArn = try reader["GlobalClusterArn"].readIfPresent()
+        value.status = try reader["Status"].readIfPresent()
+        value.engine = try reader["Engine"].readIfPresent()
+        value.engineVersion = try reader["EngineVersion"].readIfPresent()
+        value.engineLifecycleSupport = try reader["EngineLifecycleSupport"].readIfPresent()
+        value.databaseName = try reader["DatabaseName"].readIfPresent()
+        value.storageEncrypted = try reader["StorageEncrypted"].readIfPresent()
+        value.storageEncryptionType = try reader["StorageEncryptionType"].readIfPresent()
+        value.deletionProtection = try reader["DeletionProtection"].readIfPresent()
+        value.globalClusterMembers = try reader["GlobalClusterMembers"].readListIfPresent(memberReadingClosure: RDSClientTypes.GlobalClusterMember.read(from:), memberNodeInfo: "GlobalClusterMember", isFlattened: false)
+        value.endpoint = try reader["Endpoint"].readIfPresent()
+        value.failoverState = try reader["FailoverState"].readIfPresent(with: RDSClientTypes.FailoverState.read(from:))
+        value.tagList = try reader["TagList"].readListIfPresent(memberReadingClosure: RDSClientTypes.Tag.read(from:), memberNodeInfo: "Tag", isFlattened: false)
+        return value
+    }
+}
+
+extension RDSClientTypes.GlobalClusterMember {
+
+    static func read(from reader: SmithyXML.Reader) throws -> RDSClientTypes.GlobalClusterMember {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = RDSClientTypes.GlobalClusterMember()
+        value.dbClusterArn = try reader["DBClusterArn"].readIfPresent()
+        value.readers = try reader["Readers"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        value.isWriter = try reader["IsWriter"].readIfPresent()
+        value.globalWriteForwardingStatus = try reader["GlobalWriteForwardingStatus"].readIfPresent()
+        value.synchronizationStatus = try reader["SynchronizationStatus"].readIfPresent()
+        return value
+    }
+}
+
 extension RDSClientTypes.Integration {
 
     static func read(from reader: SmithyXML.Reader) throws -> RDSClientTypes.Integration {
@@ -35170,6 +34743,182 @@ extension RDSClientTypes.Integration {
         value.description = try reader["Description"].readIfPresent()
         value.createTime = try reader["CreateTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
         value.errors = try reader["Errors"].readListIfPresent(memberReadingClosure: RDSClientTypes.IntegrationError.read(from:), memberNodeInfo: "IntegrationError", isFlattened: false)
+        return value
+    }
+}
+
+extension RDSClientTypes.IntegrationError {
+
+    static func read(from reader: SmithyXML.Reader) throws -> RDSClientTypes.IntegrationError {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = RDSClientTypes.IntegrationError()
+        value.errorCode = try reader["ErrorCode"].readIfPresent() ?? ""
+        value.errorMessage = try reader["ErrorMessage"].readIfPresent()
+        return value
+    }
+}
+
+extension RDSClientTypes.IPRange {
+
+    static func read(from reader: SmithyXML.Reader) throws -> RDSClientTypes.IPRange {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = RDSClientTypes.IPRange()
+        value.status = try reader["Status"].readIfPresent()
+        value.cidrip = try reader["CIDRIP"].readIfPresent()
+        return value
+    }
+}
+
+extension RDSClientTypes.IssueDetails {
+
+    static func read(from reader: SmithyXML.Reader) throws -> RDSClientTypes.IssueDetails {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = RDSClientTypes.IssueDetails()
+        value.performanceIssueDetails = try reader["PerformanceIssueDetails"].readIfPresent(with: RDSClientTypes.PerformanceIssueDetails.read(from:))
+        return value
+    }
+}
+
+extension RDSClientTypes.LimitlessDatabase {
+
+    static func read(from reader: SmithyXML.Reader) throws -> RDSClientTypes.LimitlessDatabase {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = RDSClientTypes.LimitlessDatabase()
+        value.status = try reader["Status"].readIfPresent()
+        value.minRequiredACU = try reader["MinRequiredACU"].readIfPresent()
+        return value
+    }
+}
+
+extension RDSClientTypes.MasterUserSecret {
+
+    static func read(from reader: SmithyXML.Reader) throws -> RDSClientTypes.MasterUserSecret {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = RDSClientTypes.MasterUserSecret()
+        value.secretArn = try reader["SecretArn"].readIfPresent()
+        value.secretStatus = try reader["SecretStatus"].readIfPresent()
+        value.kmsKeyId = try reader["KmsKeyId"].readIfPresent()
+        return value
+    }
+}
+
+extension RDSClientTypes.Metric {
+
+    static func read(from reader: SmithyXML.Reader) throws -> RDSClientTypes.Metric {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = RDSClientTypes.Metric()
+        value.name = try reader["Name"].readIfPresent()
+        value.references = try reader["References"].readListIfPresent(memberReadingClosure: RDSClientTypes.MetricReference.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.statisticsDetails = try reader["StatisticsDetails"].readIfPresent()
+        value.metricQuery = try reader["MetricQuery"].readIfPresent(with: RDSClientTypes.MetricQuery.read(from:))
+        return value
+    }
+}
+
+extension RDSClientTypes.MetricQuery {
+
+    static func read(from reader: SmithyXML.Reader) throws -> RDSClientTypes.MetricQuery {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = RDSClientTypes.MetricQuery()
+        value.performanceInsightsMetricQuery = try reader["PerformanceInsightsMetricQuery"].readIfPresent(with: RDSClientTypes.PerformanceInsightsMetricQuery.read(from:))
+        return value
+    }
+}
+
+extension RDSClientTypes.MetricReference {
+
+    static func read(from reader: SmithyXML.Reader) throws -> RDSClientTypes.MetricReference {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = RDSClientTypes.MetricReference()
+        value.name = try reader["Name"].readIfPresent()
+        value.referenceDetails = try reader["ReferenceDetails"].readIfPresent(with: RDSClientTypes.ReferenceDetails.read(from:))
+        return value
+    }
+}
+
+extension RDSClientTypes.MinimumEngineVersionPerAllowedValue {
+
+    static func read(from reader: SmithyXML.Reader) throws -> RDSClientTypes.MinimumEngineVersionPerAllowedValue {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = RDSClientTypes.MinimumEngineVersionPerAllowedValue()
+        value.allowedValue = try reader["AllowedValue"].readIfPresent()
+        value.minimumEngineVersion = try reader["MinimumEngineVersion"].readIfPresent()
+        return value
+    }
+}
+
+extension RDSClientTypes.ModifyAdditionalStorageVolume {
+
+    static func write(value: RDSClientTypes.ModifyAdditionalStorageVolume?, to writer: SmithyFormURL.Writer) throws {
+        guard let value else { return }
+        try writer["AllocatedStorage"].write(value.allocatedStorage)
+        try writer["IOPS"].write(value.iops)
+        try writer["MaxAllocatedStorage"].write(value.maxAllocatedStorage)
+        try writer["SetForDelete"].write(value.setForDelete)
+        try writer["StorageThroughput"].write(value.storageThroughput)
+        try writer["StorageType"].write(value.storageType)
+        try writer["VolumeName"].write(value.volumeName)
+    }
+}
+
+extension RDSClientTypes.Option {
+
+    static func read(from reader: SmithyXML.Reader) throws -> RDSClientTypes.Option {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = RDSClientTypes.Option()
+        value.optionName = try reader["OptionName"].readIfPresent()
+        value.optionDescription = try reader["OptionDescription"].readIfPresent()
+        value.persistent = try reader["Persistent"].readIfPresent()
+        value.permanent = try reader["Permanent"].readIfPresent()
+        value.port = try reader["Port"].readIfPresent()
+        value.optionVersion = try reader["OptionVersion"].readIfPresent()
+        value.optionSettings = try reader["OptionSettings"].readListIfPresent(memberReadingClosure: RDSClientTypes.OptionSetting.read(from:), memberNodeInfo: "OptionSetting", isFlattened: false)
+        value.dbSecurityGroupMemberships = try reader["DBSecurityGroupMemberships"].readListIfPresent(memberReadingClosure: RDSClientTypes.DBSecurityGroupMembership.read(from:), memberNodeInfo: "DBSecurityGroup", isFlattened: false)
+        value.vpcSecurityGroupMemberships = try reader["VpcSecurityGroupMemberships"].readListIfPresent(memberReadingClosure: RDSClientTypes.VpcSecurityGroupMembership.read(from:), memberNodeInfo: "VpcSecurityGroupMembership", isFlattened: false)
+        return value
+    }
+}
+
+extension RDSClientTypes.OptionConfiguration {
+
+    static func write(value: RDSClientTypes.OptionConfiguration?, to writer: SmithyFormURL.Writer) throws {
+        guard let value else { return }
+        try writer["DBSecurityGroupMemberships"].writeList(value.dbSecurityGroupMemberships, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "DBSecurityGroupName", isFlattened: false)
+        try writer["OptionName"].write(value.optionName)
+        try writer["OptionSettings"].writeList(value.optionSettings, memberWritingClosure: RDSClientTypes.OptionSetting.write(value:to:), memberNodeInfo: "OptionSetting", isFlattened: false)
+        try writer["OptionVersion"].write(value.optionVersion)
+        try writer["Port"].write(value.port)
+        try writer["VpcSecurityGroupMemberships"].writeList(value.vpcSecurityGroupMemberships, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "VpcSecurityGroupId", isFlattened: false)
+    }
+}
+
+extension RDSClientTypes.OptionGroup {
+
+    static func read(from reader: SmithyXML.Reader) throws -> RDSClientTypes.OptionGroup {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = RDSClientTypes.OptionGroup()
+        value.optionGroupName = try reader["OptionGroupName"].readIfPresent()
+        value.optionGroupDescription = try reader["OptionGroupDescription"].readIfPresent()
+        value.engineName = try reader["EngineName"].readIfPresent()
+        value.majorEngineVersion = try reader["MajorEngineVersion"].readIfPresent()
+        value.options = try reader["Options"].readListIfPresent(memberReadingClosure: RDSClientTypes.Option.read(from:), memberNodeInfo: "Option", isFlattened: false)
+        value.allowsVpcAndNonVpcInstanceMemberships = try reader["AllowsVpcAndNonVpcInstanceMemberships"].readIfPresent()
+        value.vpcId = try reader["VpcId"].readIfPresent()
+        value.optionGroupArn = try reader["OptionGroupArn"].readIfPresent()
+        value.sourceOptionGroup = try reader["SourceOptionGroup"].readIfPresent()
+        value.sourceAccountId = try reader["SourceAccountId"].readIfPresent()
+        value.copyTimestamp = try reader["CopyTimestamp"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
+        return value
+    }
+}
+
+extension RDSClientTypes.OptionGroupMembership {
+
+    static func read(from reader: SmithyXML.Reader) throws -> RDSClientTypes.OptionGroupMembership {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = RDSClientTypes.OptionGroupMembership()
+        value.optionGroupName = try reader["OptionGroupName"].readIfPresent()
+        value.status = try reader["Status"].readIfPresent()
         return value
     }
 }
@@ -35200,17 +34949,6 @@ extension RDSClientTypes.OptionGroupOption {
     }
 }
 
-extension RDSClientTypes.OptionVersion {
-
-    static func read(from reader: SmithyXML.Reader) throws -> RDSClientTypes.OptionVersion {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = RDSClientTypes.OptionVersion()
-        value.version = try reader["Version"].readIfPresent()
-        value.isDefault = try reader["IsDefault"].readIfPresent()
-        return value
-    }
-}
-
 extension RDSClientTypes.OptionGroupOptionSetting {
 
     static func read(from reader: SmithyXML.Reader) throws -> RDSClientTypes.OptionGroupOptionSetting {
@@ -35228,13 +34966,44 @@ extension RDSClientTypes.OptionGroupOptionSetting {
     }
 }
 
-extension RDSClientTypes.MinimumEngineVersionPerAllowedValue {
+extension RDSClientTypes.OptionSetting {
 
-    static func read(from reader: SmithyXML.Reader) throws -> RDSClientTypes.MinimumEngineVersionPerAllowedValue {
+    static func write(value: RDSClientTypes.OptionSetting?, to writer: SmithyFormURL.Writer) throws {
+        guard let value else { return }
+        try writer["AllowedValues"].write(value.allowedValues)
+        try writer["ApplyType"].write(value.applyType)
+        try writer["DataType"].write(value.dataType)
+        try writer["DefaultValue"].write(value.defaultValue)
+        try writer["Description"].write(value.description)
+        try writer["IsCollection"].write(value.isCollection)
+        try writer["IsModifiable"].write(value.isModifiable)
+        try writer["Name"].write(value.name)
+        try writer["Value"].write(value.value)
+    }
+
+    static func read(from reader: SmithyXML.Reader) throws -> RDSClientTypes.OptionSetting {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = RDSClientTypes.MinimumEngineVersionPerAllowedValue()
-        value.allowedValue = try reader["AllowedValue"].readIfPresent()
-        value.minimumEngineVersion = try reader["MinimumEngineVersion"].readIfPresent()
+        var value = RDSClientTypes.OptionSetting()
+        value.name = try reader["Name"].readIfPresent()
+        value.value = try reader["Value"].readIfPresent()
+        value.defaultValue = try reader["DefaultValue"].readIfPresent()
+        value.description = try reader["Description"].readIfPresent()
+        value.applyType = try reader["ApplyType"].readIfPresent()
+        value.dataType = try reader["DataType"].readIfPresent()
+        value.allowedValues = try reader["AllowedValues"].readIfPresent()
+        value.isModifiable = try reader["IsModifiable"].readIfPresent()
+        value.isCollection = try reader["IsCollection"].readIfPresent()
+        return value
+    }
+}
+
+extension RDSClientTypes.OptionVersion {
+
+    static func read(from reader: SmithyXML.Reader) throws -> RDSClientTypes.OptionVersion {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = RDSClientTypes.OptionVersion()
+        value.version = try reader["Version"].readIfPresent()
+        value.isDefault = try reader["IsDefault"].readIfPresent()
         return value
     }
 }
@@ -35287,35 +35056,248 @@ extension RDSClientTypes.OrderableDBInstanceOption {
     }
 }
 
-extension RDSClientTypes.AvailableAdditionalStorageVolumesOption {
+extension RDSClientTypes.Outpost {
 
-    static func read(from reader: SmithyXML.Reader) throws -> RDSClientTypes.AvailableAdditionalStorageVolumesOption {
+    static func read(from reader: SmithyXML.Reader) throws -> RDSClientTypes.Outpost {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = RDSClientTypes.AvailableAdditionalStorageVolumesOption()
-        value.supportsStorageAutoscaling = try reader["SupportsStorageAutoscaling"].readIfPresent()
-        value.supportsStorageThroughput = try reader["SupportsStorageThroughput"].readIfPresent()
-        value.supportsIops = try reader["SupportsIops"].readIfPresent()
-        value.storageType = try reader["StorageType"].readIfPresent()
-        value.minStorageSize = try reader["MinStorageSize"].readIfPresent()
-        value.maxStorageSize = try reader["MaxStorageSize"].readIfPresent()
-        value.minIops = try reader["MinIops"].readIfPresent()
-        value.maxIops = try reader["MaxIops"].readIfPresent()
-        value.minIopsPerGib = try reader["MinIopsPerGib"].readIfPresent()
-        value.maxIopsPerGib = try reader["MaxIopsPerGib"].readIfPresent()
-        value.minStorageThroughput = try reader["MinStorageThroughput"].readIfPresent()
-        value.maxStorageThroughput = try reader["MaxStorageThroughput"].readIfPresent()
+        var value = RDSClientTypes.Outpost()
+        value.arn = try reader["Arn"].readIfPresent()
         return value
     }
 }
 
-extension RDSClientTypes.AvailableProcessorFeature {
+extension RDSClientTypes.Parameter {
 
-    static func read(from reader: SmithyXML.Reader) throws -> RDSClientTypes.AvailableProcessorFeature {
+    static func write(value: RDSClientTypes.Parameter?, to writer: SmithyFormURL.Writer) throws {
+        guard let value else { return }
+        try writer["AllowedValues"].write(value.allowedValues)
+        try writer["ApplyMethod"].write(value.applyMethod)
+        try writer["ApplyType"].write(value.applyType)
+        try writer["DataType"].write(value.dataType)
+        try writer["Description"].write(value.description)
+        try writer["IsModifiable"].write(value.isModifiable)
+        try writer["MinimumEngineVersion"].write(value.minimumEngineVersion)
+        try writer["ParameterName"].write(value.parameterName)
+        try writer["ParameterValue"].write(value.parameterValue)
+        try writer["Source"].write(value.source)
+        try writer["SupportedEngineModes"].writeList(value.supportedEngineModes, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+    }
+
+    static func read(from reader: SmithyXML.Reader) throws -> RDSClientTypes.Parameter {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = RDSClientTypes.AvailableProcessorFeature()
-        value.name = try reader["Name"].readIfPresent()
-        value.defaultValue = try reader["DefaultValue"].readIfPresent()
+        var value = RDSClientTypes.Parameter()
+        value.parameterName = try reader["ParameterName"].readIfPresent()
+        value.parameterValue = try reader["ParameterValue"].readIfPresent()
+        value.description = try reader["Description"].readIfPresent()
+        value.source = try reader["Source"].readIfPresent()
+        value.applyType = try reader["ApplyType"].readIfPresent()
+        value.dataType = try reader["DataType"].readIfPresent()
         value.allowedValues = try reader["AllowedValues"].readIfPresent()
+        value.isModifiable = try reader["IsModifiable"].readIfPresent()
+        value.minimumEngineVersion = try reader["MinimumEngineVersion"].readIfPresent()
+        value.applyMethod = try reader["ApplyMethod"].readIfPresent()
+        value.supportedEngineModes = try reader["SupportedEngineModes"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        return value
+    }
+}
+
+extension RDSClientTypes.PendingCloudwatchLogsExports {
+
+    static func read(from reader: SmithyXML.Reader) throws -> RDSClientTypes.PendingCloudwatchLogsExports {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = RDSClientTypes.PendingCloudwatchLogsExports()
+        value.logTypesToEnable = try reader["LogTypesToEnable"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        value.logTypesToDisable = try reader["LogTypesToDisable"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        return value
+    }
+}
+
+extension RDSClientTypes.PendingMaintenanceAction {
+
+    static func read(from reader: SmithyXML.Reader) throws -> RDSClientTypes.PendingMaintenanceAction {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = RDSClientTypes.PendingMaintenanceAction()
+        value.action = try reader["Action"].readIfPresent()
+        value.autoAppliedAfterDate = try reader["AutoAppliedAfterDate"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
+        value.forcedApplyDate = try reader["ForcedApplyDate"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
+        value.optInStatus = try reader["OptInStatus"].readIfPresent()
+        value.currentApplyDate = try reader["CurrentApplyDate"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
+        value.description = try reader["Description"].readIfPresent()
+        return value
+    }
+}
+
+extension RDSClientTypes.PendingModifiedValues {
+
+    static func read(from reader: SmithyXML.Reader) throws -> RDSClientTypes.PendingModifiedValues {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = RDSClientTypes.PendingModifiedValues()
+        value.dbInstanceClass = try reader["DBInstanceClass"].readIfPresent()
+        value.allocatedStorage = try reader["AllocatedStorage"].readIfPresent()
+        value.masterUserPassword = try reader["MasterUserPassword"].readIfPresent()
+        value.port = try reader["Port"].readIfPresent()
+        value.backupRetentionPeriod = try reader["BackupRetentionPeriod"].readIfPresent()
+        value.multiAZ = try reader["MultiAZ"].readIfPresent()
+        value.engineVersion = try reader["EngineVersion"].readIfPresent()
+        value.licenseModel = try reader["LicenseModel"].readIfPresent()
+        value.iops = try reader["Iops"].readIfPresent()
+        value.storageThroughput = try reader["StorageThroughput"].readIfPresent()
+        value.dbInstanceIdentifier = try reader["DBInstanceIdentifier"].readIfPresent()
+        value.storageType = try reader["StorageType"].readIfPresent()
+        value.caCertificateIdentifier = try reader["CACertificateIdentifier"].readIfPresent()
+        value.dbSubnetGroupName = try reader["DBSubnetGroupName"].readIfPresent()
+        value.pendingCloudwatchLogsExports = try reader["PendingCloudwatchLogsExports"].readIfPresent(with: RDSClientTypes.PendingCloudwatchLogsExports.read(from:))
+        value.processorFeatures = try reader["ProcessorFeatures"].readListIfPresent(memberReadingClosure: RDSClientTypes.ProcessorFeature.read(from:), memberNodeInfo: "ProcessorFeature", isFlattened: false)
+        value.automationMode = try reader["AutomationMode"].readIfPresent()
+        value.resumeFullAutomationModeTime = try reader["ResumeFullAutomationModeTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
+        value.multiTenant = try reader["MultiTenant"].readIfPresent()
+        value.iamDatabaseAuthenticationEnabled = try reader["IAMDatabaseAuthenticationEnabled"].readIfPresent()
+        value.dedicatedLogVolume = try reader["DedicatedLogVolume"].readIfPresent()
+        value.engine = try reader["Engine"].readIfPresent()
+        value.additionalStorageVolumes = try reader["AdditionalStorageVolumes"].readListIfPresent(memberReadingClosure: RDSClientTypes.AdditionalStorageVolume.read(from:), memberNodeInfo: "member", isFlattened: false)
+        return value
+    }
+}
+
+extension RDSClientTypes.PerformanceInsightsMetricDimensionGroup {
+
+    static func read(from reader: SmithyXML.Reader) throws -> RDSClientTypes.PerformanceInsightsMetricDimensionGroup {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = RDSClientTypes.PerformanceInsightsMetricDimensionGroup()
+        value.dimensions = try reader["Dimensions"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        value.group = try reader["Group"].readIfPresent()
+        value.limit = try reader["Limit"].readIfPresent()
+        return value
+    }
+}
+
+extension RDSClientTypes.PerformanceInsightsMetricQuery {
+
+    static func read(from reader: SmithyXML.Reader) throws -> RDSClientTypes.PerformanceInsightsMetricQuery {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = RDSClientTypes.PerformanceInsightsMetricQuery()
+        value.groupBy = try reader["GroupBy"].readIfPresent(with: RDSClientTypes.PerformanceInsightsMetricDimensionGroup.read(from:))
+        value.metric = try reader["Metric"].readIfPresent()
+        return value
+    }
+}
+
+extension RDSClientTypes.PerformanceIssueDetails {
+
+    static func read(from reader: SmithyXML.Reader) throws -> RDSClientTypes.PerformanceIssueDetails {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = RDSClientTypes.PerformanceIssueDetails()
+        value.startTime = try reader["StartTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
+        value.endTime = try reader["EndTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
+        value.metrics = try reader["Metrics"].readListIfPresent(memberReadingClosure: RDSClientTypes.Metric.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.analysis = try reader["Analysis"].readIfPresent()
+        return value
+    }
+}
+
+extension RDSClientTypes.ProcessorFeature {
+
+    static func write(value: RDSClientTypes.ProcessorFeature?, to writer: SmithyFormURL.Writer) throws {
+        guard let value else { return }
+        try writer["Name"].write(value.name)
+        try writer["Value"].write(value.value)
+    }
+
+    static func read(from reader: SmithyXML.Reader) throws -> RDSClientTypes.ProcessorFeature {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = RDSClientTypes.ProcessorFeature()
+        value.name = try reader["Name"].readIfPresent()
+        value.value = try reader["Value"].readIfPresent()
+        return value
+    }
+}
+
+extension RDSClientTypes.Range {
+
+    static func read(from reader: SmithyXML.Reader) throws -> RDSClientTypes.Range {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = RDSClientTypes.Range()
+        value.from = try reader["From"].readIfPresent()
+        value.to = try reader["To"].readIfPresent()
+        value.step = try reader["Step"].readIfPresent()
+        return value
+    }
+}
+
+extension RDSClientTypes.RdsCustomClusterConfiguration {
+
+    static func write(value: RDSClientTypes.RdsCustomClusterConfiguration?, to writer: SmithyFormURL.Writer) throws {
+        guard let value else { return }
+        try writer["InterconnectSubnetId"].write(value.interconnectSubnetId)
+        try writer["ReplicaMode"].write(value.replicaMode)
+        try writer["TransitGatewayMulticastDomainId"].write(value.transitGatewayMulticastDomainId)
+    }
+
+    static func read(from reader: SmithyXML.Reader) throws -> RDSClientTypes.RdsCustomClusterConfiguration {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = RDSClientTypes.RdsCustomClusterConfiguration()
+        value.interconnectSubnetId = try reader["InterconnectSubnetId"].readIfPresent()
+        value.transitGatewayMulticastDomainId = try reader["TransitGatewayMulticastDomainId"].readIfPresent()
+        value.replicaMode = try reader["ReplicaMode"].readIfPresent()
+        return value
+    }
+}
+
+extension RDSClientTypes.RecommendedAction {
+
+    static func read(from reader: SmithyXML.Reader) throws -> RDSClientTypes.RecommendedAction {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = RDSClientTypes.RecommendedAction()
+        value.actionId = try reader["ActionId"].readIfPresent()
+        value.title = try reader["Title"].readIfPresent()
+        value.description = try reader["Description"].readIfPresent()
+        value.operation = try reader["Operation"].readIfPresent()
+        value.parameters = try reader["Parameters"].readListIfPresent(memberReadingClosure: RDSClientTypes.RecommendedActionParameter.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.applyModes = try reader["ApplyModes"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        value.status = try reader["Status"].readIfPresent()
+        value.issueDetails = try reader["IssueDetails"].readIfPresent(with: RDSClientTypes.IssueDetails.read(from:))
+        value.contextAttributes = try reader["ContextAttributes"].readListIfPresent(memberReadingClosure: RDSClientTypes.ContextAttribute.read(from:), memberNodeInfo: "member", isFlattened: false)
+        return value
+    }
+}
+
+extension RDSClientTypes.RecommendedActionParameter {
+
+    static func read(from reader: SmithyXML.Reader) throws -> RDSClientTypes.RecommendedActionParameter {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = RDSClientTypes.RecommendedActionParameter()
+        value.key = try reader["Key"].readIfPresent()
+        value.value = try reader["Value"].readIfPresent()
+        return value
+    }
+}
+
+extension RDSClientTypes.RecommendedActionUpdate {
+
+    static func write(value: RDSClientTypes.RecommendedActionUpdate?, to writer: SmithyFormURL.Writer) throws {
+        guard let value else { return }
+        try writer["ActionId"].write(value.actionId)
+        try writer["Status"].write(value.status)
+    }
+}
+
+extension RDSClientTypes.RecurringCharge {
+
+    static func read(from reader: SmithyXML.Reader) throws -> RDSClientTypes.RecurringCharge {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = RDSClientTypes.RecurringCharge()
+        value.recurringChargeAmount = try reader["RecurringChargeAmount"].readIfPresent()
+        value.recurringChargeFrequency = try reader["RecurringChargeFrequency"].readIfPresent()
+        return value
+    }
+}
+
+extension RDSClientTypes.ReferenceDetails {
+
+    static func read(from reader: SmithyXML.Reader) throws -> RDSClientTypes.ReferenceDetails {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = RDSClientTypes.ReferenceDetails()
+        value.scalarReferenceDetails = try reader["ScalarReferenceDetails"].readIfPresent(with: RDSClientTypes.ScalarReferenceDetails.read(from:))
         return value
     }
 }
@@ -35345,17 +35327,6 @@ extension RDSClientTypes.ReservedDBInstance {
     }
 }
 
-extension RDSClientTypes.RecurringCharge {
-
-    static func read(from reader: SmithyXML.Reader) throws -> RDSClientTypes.RecurringCharge {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = RDSClientTypes.RecurringCharge()
-        value.recurringChargeAmount = try reader["RecurringChargeAmount"].readIfPresent()
-        value.recurringChargeFrequency = try reader["RecurringChargeFrequency"].readIfPresent()
-        return value
-    }
-}
-
 extension RDSClientTypes.ReservedDBInstancesOffering {
 
     static func read(from reader: SmithyXML.Reader) throws -> RDSClientTypes.ReservedDBInstancesOffering {
@@ -35375,6 +35346,99 @@ extension RDSClientTypes.ReservedDBInstancesOffering {
     }
 }
 
+extension RDSClientTypes.ResourcePendingMaintenanceActions {
+
+    static func read(from reader: SmithyXML.Reader) throws -> RDSClientTypes.ResourcePendingMaintenanceActions {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = RDSClientTypes.ResourcePendingMaintenanceActions()
+        value.resourceIdentifier = try reader["ResourceIdentifier"].readIfPresent()
+        value.pendingMaintenanceActionDetails = try reader["PendingMaintenanceActionDetails"].readListIfPresent(memberReadingClosure: RDSClientTypes.PendingMaintenanceAction.read(from:), memberNodeInfo: "PendingMaintenanceAction", isFlattened: false)
+        return value
+    }
+}
+
+extension RDSClientTypes.RestoreWindow {
+
+    static func read(from reader: SmithyXML.Reader) throws -> RDSClientTypes.RestoreWindow {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = RDSClientTypes.RestoreWindow()
+        value.earliestTime = try reader["EarliestTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
+        value.latestTime = try reader["LatestTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
+        return value
+    }
+}
+
+extension RDSClientTypes.ScalarReferenceDetails {
+
+    static func read(from reader: SmithyXML.Reader) throws -> RDSClientTypes.ScalarReferenceDetails {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = RDSClientTypes.ScalarReferenceDetails()
+        value.value = try reader["Value"].readIfPresent()
+        return value
+    }
+}
+
+extension RDSClientTypes.ScalingConfiguration {
+
+    static func write(value: RDSClientTypes.ScalingConfiguration?, to writer: SmithyFormURL.Writer) throws {
+        guard let value else { return }
+        try writer["AutoPause"].write(value.autoPause)
+        try writer["MaxCapacity"].write(value.maxCapacity)
+        try writer["MinCapacity"].write(value.minCapacity)
+        try writer["SecondsBeforeTimeout"].write(value.secondsBeforeTimeout)
+        try writer["SecondsUntilAutoPause"].write(value.secondsUntilAutoPause)
+        try writer["TimeoutAction"].write(value.timeoutAction)
+    }
+}
+
+extension RDSClientTypes.ScalingConfigurationInfo {
+
+    static func read(from reader: SmithyXML.Reader) throws -> RDSClientTypes.ScalingConfigurationInfo {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = RDSClientTypes.ScalingConfigurationInfo()
+        value.minCapacity = try reader["MinCapacity"].readIfPresent()
+        value.maxCapacity = try reader["MaxCapacity"].readIfPresent()
+        value.autoPause = try reader["AutoPause"].readIfPresent()
+        value.secondsUntilAutoPause = try reader["SecondsUntilAutoPause"].readIfPresent()
+        value.timeoutAction = try reader["TimeoutAction"].readIfPresent()
+        value.secondsBeforeTimeout = try reader["SecondsBeforeTimeout"].readIfPresent()
+        return value
+    }
+}
+
+extension RDSClientTypes.ServerlessV2FeaturesSupport {
+
+    static func read(from reader: SmithyXML.Reader) throws -> RDSClientTypes.ServerlessV2FeaturesSupport {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = RDSClientTypes.ServerlessV2FeaturesSupport()
+        value.minCapacity = try reader["MinCapacity"].readIfPresent()
+        value.maxCapacity = try reader["MaxCapacity"].readIfPresent()
+        return value
+    }
+}
+
+extension RDSClientTypes.ServerlessV2ScalingConfiguration {
+
+    static func write(value: RDSClientTypes.ServerlessV2ScalingConfiguration?, to writer: SmithyFormURL.Writer) throws {
+        guard let value else { return }
+        try writer["MaxCapacity"].write(value.maxCapacity)
+        try writer["MinCapacity"].write(value.minCapacity)
+        try writer["SecondsUntilAutoPause"].write(value.secondsUntilAutoPause)
+    }
+}
+
+extension RDSClientTypes.ServerlessV2ScalingConfigurationInfo {
+
+    static func read(from reader: SmithyXML.Reader) throws -> RDSClientTypes.ServerlessV2ScalingConfigurationInfo {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = RDSClientTypes.ServerlessV2ScalingConfigurationInfo()
+        value.minCapacity = try reader["MinCapacity"].readIfPresent()
+        value.maxCapacity = try reader["MaxCapacity"].readIfPresent()
+        value.secondsUntilAutoPause = try reader["SecondsUntilAutoPause"].readIfPresent()
+        return value
+    }
+}
+
 extension RDSClientTypes.SourceRegion {
 
     static func read(from reader: SmithyXML.Reader) throws -> RDSClientTypes.SourceRegion {
@@ -35388,15 +35452,170 @@ extension RDSClientTypes.SourceRegion {
     }
 }
 
-extension RDSClientTypes.ValidDBInstanceModificationsMessage {
+extension RDSClientTypes.Subnet {
 
-    static func read(from reader: SmithyXML.Reader) throws -> RDSClientTypes.ValidDBInstanceModificationsMessage {
+    static func read(from reader: SmithyXML.Reader) throws -> RDSClientTypes.Subnet {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = RDSClientTypes.ValidDBInstanceModificationsMessage()
-        value.storage = try reader["Storage"].readListIfPresent(memberReadingClosure: RDSClientTypes.ValidStorageOptions.read(from:), memberNodeInfo: "ValidStorageOptions", isFlattened: false)
-        value.validProcessorFeatures = try reader["ValidProcessorFeatures"].readListIfPresent(memberReadingClosure: RDSClientTypes.AvailableProcessorFeature.read(from:), memberNodeInfo: "AvailableProcessorFeature", isFlattened: false)
-        value.supportsDedicatedLogVolume = try reader["SupportsDedicatedLogVolume"].readIfPresent()
-        value.additionalStorage = try reader["AdditionalStorage"].readIfPresent(with: RDSClientTypes.ValidAdditionalStorageOptions.read(from:))
+        var value = RDSClientTypes.Subnet()
+        value.subnetIdentifier = try reader["SubnetIdentifier"].readIfPresent()
+        value.subnetAvailabilityZone = try reader["SubnetAvailabilityZone"].readIfPresent(with: RDSClientTypes.AvailabilityZone.read(from:))
+        value.subnetOutpost = try reader["SubnetOutpost"].readIfPresent(with: RDSClientTypes.Outpost.read(from:))
+        value.subnetStatus = try reader["SubnetStatus"].readIfPresent()
+        return value
+    }
+}
+
+extension RDSClientTypes.SupportedEngineLifecycle {
+
+    static func read(from reader: SmithyXML.Reader) throws -> RDSClientTypes.SupportedEngineLifecycle {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = RDSClientTypes.SupportedEngineLifecycle()
+        value.lifecycleSupportName = try reader["LifecycleSupportName"].readIfPresent() ?? .sdkUnknown("")
+        value.lifecycleSupportStartDate = try reader["LifecycleSupportStartDate"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        value.lifecycleSupportEndDate = try reader["LifecycleSupportEndDate"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        return value
+    }
+}
+
+extension RDSClientTypes.SwitchoverDetail {
+
+    static func read(from reader: SmithyXML.Reader) throws -> RDSClientTypes.SwitchoverDetail {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = RDSClientTypes.SwitchoverDetail()
+        value.sourceMember = try reader["SourceMember"].readIfPresent()
+        value.targetMember = try reader["TargetMember"].readIfPresent()
+        value.status = try reader["Status"].readIfPresent()
+        return value
+    }
+}
+
+extension RDSClientTypes.Tag {
+
+    static func write(value: RDSClientTypes.Tag?, to writer: SmithyFormURL.Writer) throws {
+        guard let value else { return }
+        try writer["Key"].write(value.key)
+        try writer["Value"].write(value.value)
+    }
+
+    static func read(from reader: SmithyXML.Reader) throws -> RDSClientTypes.Tag {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = RDSClientTypes.Tag()
+        value.key = try reader["Key"].readIfPresent()
+        value.value = try reader["Value"].readIfPresent()
+        return value
+    }
+}
+
+extension RDSClientTypes.TagSpecification {
+
+    static func write(value: RDSClientTypes.TagSpecification?, to writer: SmithyFormURL.Writer) throws {
+        guard let value else { return }
+        try writer["ResourceType"].write(value.resourceType)
+        try writer["Tags"].writeList(value.tags, memberWritingClosure: RDSClientTypes.Tag.write(value:to:), memberNodeInfo: "Tag", isFlattened: false)
+    }
+}
+
+extension RDSClientTypes.TargetHealth {
+
+    static func read(from reader: SmithyXML.Reader) throws -> RDSClientTypes.TargetHealth {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = RDSClientTypes.TargetHealth()
+        value.state = try reader["State"].readIfPresent()
+        value.reason = try reader["Reason"].readIfPresent()
+        value.description = try reader["Description"].readIfPresent()
+        return value
+    }
+}
+
+extension RDSClientTypes.TenantDatabase {
+
+    static func read(from reader: SmithyXML.Reader) throws -> RDSClientTypes.TenantDatabase {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = RDSClientTypes.TenantDatabase()
+        value.tenantDatabaseCreateTime = try reader["TenantDatabaseCreateTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
+        value.dbInstanceIdentifier = try reader["DBInstanceIdentifier"].readIfPresent()
+        value.tenantDBName = try reader["TenantDBName"].readIfPresent()
+        value.status = try reader["Status"].readIfPresent()
+        value.masterUsername = try reader["MasterUsername"].readIfPresent()
+        value.dbiResourceId = try reader["DbiResourceId"].readIfPresent()
+        value.tenantDatabaseResourceId = try reader["TenantDatabaseResourceId"].readIfPresent()
+        value.tenantDatabaseARN = try reader["TenantDatabaseARN"].readIfPresent()
+        value.characterSetName = try reader["CharacterSetName"].readIfPresent()
+        value.ncharCharacterSetName = try reader["NcharCharacterSetName"].readIfPresent()
+        value.deletionProtection = try reader["DeletionProtection"].readIfPresent()
+        value.pendingModifiedValues = try reader["PendingModifiedValues"].readIfPresent(with: RDSClientTypes.TenantDatabasePendingModifiedValues.read(from:))
+        value.masterUserSecret = try reader["MasterUserSecret"].readIfPresent(with: RDSClientTypes.MasterUserSecret.read(from:))
+        value.tagList = try reader["TagList"].readListIfPresent(memberReadingClosure: RDSClientTypes.Tag.read(from:), memberNodeInfo: "Tag", isFlattened: false)
+        return value
+    }
+}
+
+extension RDSClientTypes.TenantDatabasePendingModifiedValues {
+
+    static func read(from reader: SmithyXML.Reader) throws -> RDSClientTypes.TenantDatabasePendingModifiedValues {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = RDSClientTypes.TenantDatabasePendingModifiedValues()
+        value.masterUserPassword = try reader["MasterUserPassword"].readIfPresent()
+        value.tenantDBName = try reader["TenantDBName"].readIfPresent()
+        return value
+    }
+}
+
+extension RDSClientTypes.Timezone {
+
+    static func read(from reader: SmithyXML.Reader) throws -> RDSClientTypes.Timezone {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = RDSClientTypes.Timezone()
+        value.timezoneName = try reader["TimezoneName"].readIfPresent()
+        return value
+    }
+}
+
+extension RDSClientTypes.UpgradeTarget {
+
+    static func read(from reader: SmithyXML.Reader) throws -> RDSClientTypes.UpgradeTarget {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = RDSClientTypes.UpgradeTarget()
+        value.engine = try reader["Engine"].readIfPresent()
+        value.engineVersion = try reader["EngineVersion"].readIfPresent()
+        value.description = try reader["Description"].readIfPresent()
+        value.autoUpgrade = try reader["AutoUpgrade"].readIfPresent()
+        value.isMajorVersionUpgrade = try reader["IsMajorVersionUpgrade"].readIfPresent()
+        value.supportedEngineModes = try reader["SupportedEngineModes"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        value.supportsParallelQuery = try reader["SupportsParallelQuery"].readIfPresent()
+        value.supportsGlobalDatabases = try reader["SupportsGlobalDatabases"].readIfPresent()
+        value.supportsBabelfish = try reader["SupportsBabelfish"].readIfPresent()
+        value.supportsLimitlessDatabase = try reader["SupportsLimitlessDatabase"].readIfPresent()
+        value.supportsLocalWriteForwarding = try reader["SupportsLocalWriteForwarding"].readIfPresent()
+        value.supportsIntegrations = try reader["SupportsIntegrations"].readIfPresent()
+        return value
+    }
+}
+
+extension RDSClientTypes.UserAuthConfig {
+
+    static func write(value: RDSClientTypes.UserAuthConfig?, to writer: SmithyFormURL.Writer) throws {
+        guard let value else { return }
+        try writer["AuthScheme"].write(value.authScheme)
+        try writer["ClientPasswordAuthType"].write(value.clientPasswordAuthType)
+        try writer["Description"].write(value.description)
+        try writer["IAMAuth"].write(value.iamAuth)
+        try writer["SecretArn"].write(value.secretArn)
+        try writer["UserName"].write(value.userName)
+    }
+}
+
+extension RDSClientTypes.UserAuthConfigInfo {
+
+    static func read(from reader: SmithyXML.Reader) throws -> RDSClientTypes.UserAuthConfigInfo {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = RDSClientTypes.UserAuthConfigInfo()
+        value.description = try reader["Description"].readIfPresent()
+        value.userName = try reader["UserName"].readIfPresent()
+        value.authScheme = try reader["AuthScheme"].readIfPresent()
+        value.secretArn = try reader["SecretArn"].readIfPresent()
+        value.iamAuth = try reader["IAMAuth"].readIfPresent()
+        value.clientPasswordAuthType = try reader["ClientPasswordAuthType"].readIfPresent()
         return value
     }
 }
@@ -35412,13 +35631,15 @@ extension RDSClientTypes.ValidAdditionalStorageOptions {
     }
 }
 
-extension RDSClientTypes.ValidVolumeOptions {
+extension RDSClientTypes.ValidDBInstanceModificationsMessage {
 
-    static func read(from reader: SmithyXML.Reader) throws -> RDSClientTypes.ValidVolumeOptions {
+    static func read(from reader: SmithyXML.Reader) throws -> RDSClientTypes.ValidDBInstanceModificationsMessage {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = RDSClientTypes.ValidVolumeOptions()
-        value.volumeName = try reader["VolumeName"].readIfPresent()
+        var value = RDSClientTypes.ValidDBInstanceModificationsMessage()
         value.storage = try reader["Storage"].readListIfPresent(memberReadingClosure: RDSClientTypes.ValidStorageOptions.read(from:), memberNodeInfo: "ValidStorageOptions", isFlattened: false)
+        value.validProcessorFeatures = try reader["ValidProcessorFeatures"].readListIfPresent(memberReadingClosure: RDSClientTypes.AvailableProcessorFeature.read(from:), memberNodeInfo: "AvailableProcessorFeature", isFlattened: false)
+        value.supportsDedicatedLogVolume = try reader["SupportsDedicatedLogVolume"].readIfPresent()
+        value.additionalStorage = try reader["AdditionalStorage"].readIfPresent(with: RDSClientTypes.ValidAdditionalStorageOptions.read(from:))
         return value
     }
 }
@@ -35439,137 +35660,25 @@ extension RDSClientTypes.ValidStorageOptions {
     }
 }
 
-extension RDSClientTypes.DoubleRange {
+extension RDSClientTypes.ValidVolumeOptions {
 
-    static func read(from reader: SmithyXML.Reader) throws -> RDSClientTypes.DoubleRange {
+    static func read(from reader: SmithyXML.Reader) throws -> RDSClientTypes.ValidVolumeOptions {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = RDSClientTypes.DoubleRange()
-        value.from = try reader["From"].readIfPresent()
-        value.to = try reader["To"].readIfPresent()
+        var value = RDSClientTypes.ValidVolumeOptions()
+        value.volumeName = try reader["VolumeName"].readIfPresent()
+        value.storage = try reader["Storage"].readListIfPresent(memberReadingClosure: RDSClientTypes.ValidStorageOptions.read(from:), memberNodeInfo: "ValidStorageOptions", isFlattened: false)
         return value
     }
 }
 
-extension RDSClientTypes.Range {
+extension RDSClientTypes.VpcSecurityGroupMembership {
 
-    static func read(from reader: SmithyXML.Reader) throws -> RDSClientTypes.Range {
+    static func read(from reader: SmithyXML.Reader) throws -> RDSClientTypes.VpcSecurityGroupMembership {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = RDSClientTypes.Range()
-        value.from = try reader["From"].readIfPresent()
-        value.to = try reader["To"].readIfPresent()
-        value.step = try reader["Step"].readIfPresent()
+        var value = RDSClientTypes.VpcSecurityGroupMembership()
+        value.vpcSecurityGroupId = try reader["VpcSecurityGroupId"].readIfPresent()
+        value.status = try reader["Status"].readIfPresent()
         return value
-    }
-}
-
-extension RDSClientTypes.ScalingConfiguration {
-
-    static func write(value: RDSClientTypes.ScalingConfiguration?, to writer: SmithyFormURL.Writer) throws {
-        guard let value else { return }
-        try writer["AutoPause"].write(value.autoPause)
-        try writer["MaxCapacity"].write(value.maxCapacity)
-        try writer["MinCapacity"].write(value.minCapacity)
-        try writer["SecondsBeforeTimeout"].write(value.secondsBeforeTimeout)
-        try writer["SecondsUntilAutoPause"].write(value.secondsUntilAutoPause)
-        try writer["TimeoutAction"].write(value.timeoutAction)
-    }
-}
-
-extension RDSClientTypes.ServerlessV2ScalingConfiguration {
-
-    static func write(value: RDSClientTypes.ServerlessV2ScalingConfiguration?, to writer: SmithyFormURL.Writer) throws {
-        guard let value else { return }
-        try writer["MaxCapacity"].write(value.maxCapacity)
-        try writer["MinCapacity"].write(value.minCapacity)
-        try writer["SecondsUntilAutoPause"].write(value.secondsUntilAutoPause)
-    }
-}
-
-extension RDSClientTypes.TagSpecification {
-
-    static func write(value: RDSClientTypes.TagSpecification?, to writer: SmithyFormURL.Writer) throws {
-        guard let value else { return }
-        try writer["ResourceType"].write(value.resourceType)
-        try writer["Tags"].writeList(value.tags, memberWritingClosure: RDSClientTypes.Tag.write(value:to:), memberNodeInfo: "Tag", isFlattened: false)
-    }
-}
-
-extension RDSClientTypes.UserAuthConfig {
-
-    static func write(value: RDSClientTypes.UserAuthConfig?, to writer: SmithyFormURL.Writer) throws {
-        guard let value else { return }
-        try writer["AuthScheme"].write(value.authScheme)
-        try writer["ClientPasswordAuthType"].write(value.clientPasswordAuthType)
-        try writer["Description"].write(value.description)
-        try writer["IAMAuth"].write(value.iamAuth)
-        try writer["SecretArn"].write(value.secretArn)
-        try writer["UserName"].write(value.userName)
-    }
-}
-
-extension RDSClientTypes.Filter {
-
-    static func write(value: RDSClientTypes.Filter?, to writer: SmithyFormURL.Writer) throws {
-        guard let value else { return }
-        try writer["Name"].write(value.name)
-        try writer["Values"].writeList(value.values, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "Value", isFlattened: false)
-    }
-}
-
-extension RDSClientTypes.CloudwatchLogsExportConfiguration {
-
-    static func write(value: RDSClientTypes.CloudwatchLogsExportConfiguration?, to writer: SmithyFormURL.Writer) throws {
-        guard let value else { return }
-        try writer["DisableLogTypes"].writeList(value.disableLogTypes, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["EnableLogTypes"].writeList(value.enableLogTypes, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
-    }
-}
-
-extension RDSClientTypes.ModifyAdditionalStorageVolume {
-
-    static func write(value: RDSClientTypes.ModifyAdditionalStorageVolume?, to writer: SmithyFormURL.Writer) throws {
-        guard let value else { return }
-        try writer["AllocatedStorage"].write(value.allocatedStorage)
-        try writer["IOPS"].write(value.iops)
-        try writer["MaxAllocatedStorage"].write(value.maxAllocatedStorage)
-        try writer["SetForDelete"].write(value.setForDelete)
-        try writer["StorageThroughput"].write(value.storageThroughput)
-        try writer["StorageType"].write(value.storageType)
-        try writer["VolumeName"].write(value.volumeName)
-    }
-}
-
-extension RDSClientTypes.ConnectionPoolConfiguration {
-
-    static func write(value: RDSClientTypes.ConnectionPoolConfiguration?, to writer: SmithyFormURL.Writer) throws {
-        guard let value else { return }
-        try writer["ConnectionBorrowTimeout"].write(value.connectionBorrowTimeout)
-        try writer["InitQuery"].write(value.initQuery)
-        try writer["MaxConnectionsPercent"].write(value.maxConnectionsPercent)
-        try writer["MaxIdleConnectionsPercent"].write(value.maxIdleConnectionsPercent)
-        try writer["SessionPinningFilters"].writeList(value.sessionPinningFilters, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
-    }
-}
-
-extension RDSClientTypes.RecommendedActionUpdate {
-
-    static func write(value: RDSClientTypes.RecommendedActionUpdate?, to writer: SmithyFormURL.Writer) throws {
-        guard let value else { return }
-        try writer["ActionId"].write(value.actionId)
-        try writer["Status"].write(value.status)
-    }
-}
-
-extension RDSClientTypes.OptionConfiguration {
-
-    static func write(value: RDSClientTypes.OptionConfiguration?, to writer: SmithyFormURL.Writer) throws {
-        guard let value else { return }
-        try writer["DBSecurityGroupMemberships"].writeList(value.dbSecurityGroupMemberships, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "DBSecurityGroupName", isFlattened: false)
-        try writer["OptionName"].write(value.optionName)
-        try writer["OptionSettings"].writeList(value.optionSettings, memberWritingClosure: RDSClientTypes.OptionSetting.write(value:to:), memberNodeInfo: "OptionSetting", isFlattened: false)
-        try writer["OptionVersion"].write(value.optionVersion)
-        try writer["Port"].write(value.port)
-        try writer["VpcSecurityGroupMemberships"].writeList(value.vpcSecurityGroupMemberships, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "VpcSecurityGroupId", isFlattened: false)
     }
 }
 

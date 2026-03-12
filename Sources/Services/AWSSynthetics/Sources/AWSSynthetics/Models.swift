@@ -23,8 +23,8 @@ import protocol ClientRuntime.HTTPError
 import protocol ClientRuntime.ModeledError
 @_spi(SmithyReadWrite) import protocol SmithyReadWrite.SmithyReader
 @_spi(SmithyReadWrite) import protocol SmithyReadWrite.SmithyWriter
-@_spi(SmithyReadWrite) import struct AWSClientRuntime.RestJSONError
 @_spi(UnknownAWSHTTPServiceError) import struct AWSClientRuntime.UnknownAWSHTTPServiceError
+@_spi(SmithyReadWrite) import struct ClientRuntime.RestJSONError
 import struct Smithy.URIQueryItem
 @_spi(SmithyReadWrite) import struct SmithyReadWrite.WritingClosureBox
 
@@ -2878,7 +2878,7 @@ enum AssociateResourceOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "ConflictException": return try ConflictException.makeError(baseError: baseError)
@@ -2896,7 +2896,7 @@ enum CreateCanaryOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
@@ -2912,7 +2912,7 @@ enum CreateGroupOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "ConflictException": return try ConflictException.makeError(baseError: baseError)
@@ -2929,7 +2929,7 @@ enum DeleteCanaryOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "ConflictException": return try ConflictException.makeError(baseError: baseError)
@@ -2946,7 +2946,7 @@ enum DeleteGroupOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "ConflictException": return try ConflictException.makeError(baseError: baseError)
@@ -2963,7 +2963,7 @@ enum DescribeCanariesOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
@@ -2978,7 +2978,7 @@ enum DescribeCanariesLastRunOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
@@ -2993,7 +2993,7 @@ enum DescribeRuntimeVersionsOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
@@ -3008,7 +3008,7 @@ enum DisassociateResourceOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "ConflictException": return try ConflictException.makeError(baseError: baseError)
@@ -3025,7 +3025,7 @@ enum GetCanaryOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
@@ -3040,7 +3040,7 @@ enum GetCanaryRunsOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
@@ -3056,7 +3056,7 @@ enum GetGroupOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "ConflictException": return try ConflictException.makeError(baseError: baseError)
@@ -3073,7 +3073,7 @@ enum ListAssociatedGroupsOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
@@ -3089,7 +3089,7 @@ enum ListGroupResourcesOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "ConflictException": return try ConflictException.makeError(baseError: baseError)
@@ -3106,7 +3106,7 @@ enum ListGroupsOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
@@ -3121,7 +3121,7 @@ enum ListTagsForResourceOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "BadRequestException": return try BadRequestException.makeError(baseError: baseError)
@@ -3139,7 +3139,7 @@ enum StartCanaryOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "ConflictException": return try ConflictException.makeError(baseError: baseError)
@@ -3156,7 +3156,7 @@ enum StartCanaryDryRunOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
@@ -3174,7 +3174,7 @@ enum StopCanaryOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "ConflictException": return try ConflictException.makeError(baseError: baseError)
@@ -3191,7 +3191,7 @@ enum TagResourceOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "BadRequestException": return try BadRequestException.makeError(baseError: baseError)
@@ -3209,7 +3209,7 @@ enum UntagResourceOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "BadRequestException": return try BadRequestException.makeError(baseError: baseError)
@@ -3227,7 +3227,7 @@ enum UpdateCanaryOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
@@ -3243,7 +3243,7 @@ enum UpdateCanaryOutputError {
 
 extension ConflictException {
 
-    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> ConflictException {
+    static func makeError(baseError: ClientRuntime.RestJSONError) throws -> ConflictException {
         let reader = baseError.errorBodyReader
         var value = ConflictException()
         value.properties.message = try reader["Message"].readIfPresent()
@@ -3256,7 +3256,7 @@ extension ConflictException {
 
 extension InternalServerException {
 
-    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> InternalServerException {
+    static func makeError(baseError: ClientRuntime.RestJSONError) throws -> InternalServerException {
         let reader = baseError.errorBodyReader
         var value = InternalServerException()
         value.properties.message = try reader["Message"].readIfPresent()
@@ -3269,7 +3269,7 @@ extension InternalServerException {
 
 extension ResourceNotFoundException {
 
-    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> ResourceNotFoundException {
+    static func makeError(baseError: ClientRuntime.RestJSONError) throws -> ResourceNotFoundException {
         let reader = baseError.errorBodyReader
         var value = ResourceNotFoundException()
         value.properties.message = try reader["Message"].readIfPresent()
@@ -3282,7 +3282,7 @@ extension ResourceNotFoundException {
 
 extension ServiceQuotaExceededException {
 
-    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> ServiceQuotaExceededException {
+    static func makeError(baseError: ClientRuntime.RestJSONError) throws -> ServiceQuotaExceededException {
         let reader = baseError.errorBodyReader
         var value = ServiceQuotaExceededException()
         value.properties.message = try reader["Message"].readIfPresent()
@@ -3295,7 +3295,7 @@ extension ServiceQuotaExceededException {
 
 extension ValidationException {
 
-    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> ValidationException {
+    static func makeError(baseError: ClientRuntime.RestJSONError) throws -> ValidationException {
         let reader = baseError.errorBodyReader
         var value = ValidationException()
         value.properties.message = try reader["Message"].readIfPresent()
@@ -3308,7 +3308,7 @@ extension ValidationException {
 
 extension RequestEntityTooLargeException {
 
-    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> RequestEntityTooLargeException {
+    static func makeError(baseError: ClientRuntime.RestJSONError) throws -> RequestEntityTooLargeException {
         let reader = baseError.errorBodyReader
         var value = RequestEntityTooLargeException()
         value.properties.message = try reader["Message"].readIfPresent()
@@ -3321,7 +3321,7 @@ extension RequestEntityTooLargeException {
 
 extension BadRequestException {
 
-    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> BadRequestException {
+    static func makeError(baseError: ClientRuntime.RestJSONError) throws -> BadRequestException {
         let reader = baseError.errorBodyReader
         var value = BadRequestException()
         value.properties.message = try reader["Message"].readIfPresent()
@@ -3334,7 +3334,7 @@ extension BadRequestException {
 
 extension InternalFailureException {
 
-    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> InternalFailureException {
+    static func makeError(baseError: ClientRuntime.RestJSONError) throws -> InternalFailureException {
         let reader = baseError.errorBodyReader
         var value = InternalFailureException()
         value.properties.message = try reader["Message"].readIfPresent()
@@ -3347,7 +3347,7 @@ extension InternalFailureException {
 
 extension NotFoundException {
 
-    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> NotFoundException {
+    static func makeError(baseError: ClientRuntime.RestJSONError) throws -> NotFoundException {
         let reader = baseError.errorBodyReader
         var value = NotFoundException()
         value.properties.message = try reader["Message"].readIfPresent()
@@ -3360,7 +3360,7 @@ extension NotFoundException {
 
 extension TooManyRequestsException {
 
-    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> TooManyRequestsException {
+    static func makeError(baseError: ClientRuntime.RestJSONError) throws -> TooManyRequestsException {
         let reader = baseError.errorBodyReader
         var value = TooManyRequestsException()
         value.properties.message = try reader["Message"].readIfPresent()
@@ -3373,13 +3373,63 @@ extension TooManyRequestsException {
 
 extension AccessDeniedException {
 
-    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> AccessDeniedException {
+    static func makeError(baseError: ClientRuntime.RestJSONError) throws -> AccessDeniedException {
         let reader = baseError.errorBodyReader
         var value = AccessDeniedException()
         value.properties.message = try reader["Message"].readIfPresent()
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
         value.message = baseError.message
+        return value
+    }
+}
+
+extension SyntheticsClientTypes.ArtifactConfigInput {
+
+    static func write(value: SyntheticsClientTypes.ArtifactConfigInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["S3Encryption"].write(value.s3Encryption, with: SyntheticsClientTypes.S3EncryptionConfig.write(value:to:))
+    }
+}
+
+extension SyntheticsClientTypes.ArtifactConfigOutput {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> SyntheticsClientTypes.ArtifactConfigOutput {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = SyntheticsClientTypes.ArtifactConfigOutput()
+        value.s3Encryption = try reader["S3Encryption"].readIfPresent(with: SyntheticsClientTypes.S3EncryptionConfig.read(from:))
+        return value
+    }
+}
+
+extension SyntheticsClientTypes.BaseScreenshot {
+
+    static func write(value: SyntheticsClientTypes.BaseScreenshot?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["IgnoreCoordinates"].writeList(value.ignoreCoordinates, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["ScreenshotName"].write(value.screenshotName)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> SyntheticsClientTypes.BaseScreenshot {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = SyntheticsClientTypes.BaseScreenshot()
+        value.screenshotName = try reader["ScreenshotName"].readIfPresent() ?? ""
+        value.ignoreCoordinates = try reader["IgnoreCoordinates"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        return value
+    }
+}
+
+extension SyntheticsClientTypes.BrowserConfig {
+
+    static func write(value: SyntheticsClientTypes.BrowserConfig?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["BrowserType"].write(value.browserType)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> SyntheticsClientTypes.BrowserConfig {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = SyntheticsClientTypes.BrowserConfig()
+        value.browserType = try reader["BrowserType"].readIfPresent()
         return value
     }
 }
@@ -3415,169 +3465,17 @@ extension SyntheticsClientTypes.Canary {
     }
 }
 
-extension SyntheticsClientTypes.DryRunConfigOutput {
+extension SyntheticsClientTypes.CanaryCodeInput {
 
-    static func read(from reader: SmithyJSON.Reader) throws -> SyntheticsClientTypes.DryRunConfigOutput {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = SyntheticsClientTypes.DryRunConfigOutput()
-        value.dryRunId = try reader["DryRunId"].readIfPresent()
-        value.lastDryRunExecutionStatus = try reader["LastDryRunExecutionStatus"].readIfPresent()
-        return value
-    }
-}
-
-extension SyntheticsClientTypes.ArtifactConfigOutput {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> SyntheticsClientTypes.ArtifactConfigOutput {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = SyntheticsClientTypes.ArtifactConfigOutput()
-        value.s3Encryption = try reader["S3Encryption"].readIfPresent(with: SyntheticsClientTypes.S3EncryptionConfig.read(from:))
-        return value
-    }
-}
-
-extension SyntheticsClientTypes.S3EncryptionConfig {
-
-    static func write(value: SyntheticsClientTypes.S3EncryptionConfig?, to writer: SmithyJSON.Writer) throws {
+    static func write(value: SyntheticsClientTypes.CanaryCodeInput?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
-        try writer["EncryptionMode"].write(value.encryptionMode)
-        try writer["KmsKeyArn"].write(value.kmsKeyArn)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> SyntheticsClientTypes.S3EncryptionConfig {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = SyntheticsClientTypes.S3EncryptionConfig()
-        value.encryptionMode = try reader["EncryptionMode"].readIfPresent()
-        value.kmsKeyArn = try reader["KmsKeyArn"].readIfPresent()
-        return value
-    }
-}
-
-extension SyntheticsClientTypes.VisualReferenceOutput {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> SyntheticsClientTypes.VisualReferenceOutput {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = SyntheticsClientTypes.VisualReferenceOutput()
-        value.baseScreenshots = try reader["BaseScreenshots"].readListIfPresent(memberReadingClosure: SyntheticsClientTypes.BaseScreenshot.read(from:), memberNodeInfo: "member", isFlattened: false)
-        value.baseCanaryRunId = try reader["BaseCanaryRunId"].readIfPresent()
-        value.browserType = try reader["BrowserType"].readIfPresent()
-        return value
-    }
-}
-
-extension SyntheticsClientTypes.BaseScreenshot {
-
-    static func write(value: SyntheticsClientTypes.BaseScreenshot?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["IgnoreCoordinates"].writeList(value.ignoreCoordinates, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["ScreenshotName"].write(value.screenshotName)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> SyntheticsClientTypes.BaseScreenshot {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = SyntheticsClientTypes.BaseScreenshot()
-        value.screenshotName = try reader["ScreenshotName"].readIfPresent() ?? ""
-        value.ignoreCoordinates = try reader["IgnoreCoordinates"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
-        return value
-    }
-}
-
-extension SyntheticsClientTypes.EngineConfig {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> SyntheticsClientTypes.EngineConfig {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = SyntheticsClientTypes.EngineConfig()
-        value.engineArn = try reader["EngineArn"].readIfPresent()
-        value.browserType = try reader["BrowserType"].readIfPresent()
-        return value
-    }
-}
-
-extension SyntheticsClientTypes.BrowserConfig {
-
-    static func write(value: SyntheticsClientTypes.BrowserConfig?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["BrowserType"].write(value.browserType)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> SyntheticsClientTypes.BrowserConfig {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = SyntheticsClientTypes.BrowserConfig()
-        value.browserType = try reader["BrowserType"].readIfPresent()
-        return value
-    }
-}
-
-extension SyntheticsClientTypes.VpcConfigOutput {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> SyntheticsClientTypes.VpcConfigOutput {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = SyntheticsClientTypes.VpcConfigOutput()
-        value.vpcId = try reader["VpcId"].readIfPresent()
-        value.subnetIds = try reader["SubnetIds"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
-        value.securityGroupIds = try reader["SecurityGroupIds"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
-        value.ipv6AllowedForDualStack = try reader["Ipv6AllowedForDualStack"].readIfPresent()
-        return value
-    }
-}
-
-extension SyntheticsClientTypes.CanaryTimeline {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> SyntheticsClientTypes.CanaryTimeline {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = SyntheticsClientTypes.CanaryTimeline()
-        value.created = try reader["Created"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
-        value.lastModified = try reader["LastModified"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
-        value.lastStarted = try reader["LastStarted"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
-        value.lastStopped = try reader["LastStopped"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
-        return value
-    }
-}
-
-extension SyntheticsClientTypes.CanaryStatus {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> SyntheticsClientTypes.CanaryStatus {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = SyntheticsClientTypes.CanaryStatus()
-        value.state = try reader["State"].readIfPresent()
-        value.stateReason = try reader["StateReason"].readIfPresent()
-        value.stateReasonCode = try reader["StateReasonCode"].readIfPresent()
-        return value
-    }
-}
-
-extension SyntheticsClientTypes.CanaryRunConfigOutput {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> SyntheticsClientTypes.CanaryRunConfigOutput {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = SyntheticsClientTypes.CanaryRunConfigOutput()
-        value.timeoutInSeconds = try reader["TimeoutInSeconds"].readIfPresent()
-        value.memoryInMB = try reader["MemoryInMB"].readIfPresent()
-        value.activeTracing = try reader["ActiveTracing"].readIfPresent()
-        value.ephemeralStorage = try reader["EphemeralStorage"].readIfPresent()
-        return value
-    }
-}
-
-extension SyntheticsClientTypes.CanaryScheduleOutput {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> SyntheticsClientTypes.CanaryScheduleOutput {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = SyntheticsClientTypes.CanaryScheduleOutput()
-        value.expression = try reader["Expression"].readIfPresent()
-        value.durationInSeconds = try reader["DurationInSeconds"].readIfPresent()
-        value.retryConfig = try reader["RetryConfig"].readIfPresent(with: SyntheticsClientTypes.RetryConfigOutput.read(from:))
-        return value
-    }
-}
-
-extension SyntheticsClientTypes.RetryConfigOutput {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> SyntheticsClientTypes.RetryConfigOutput {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = SyntheticsClientTypes.RetryConfigOutput()
-        value.maxRetries = try reader["MaxRetries"].readIfPresent()
-        return value
+        try writer["BlueprintTypes"].writeList(value.blueprintTypes, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["Dependencies"].writeList(value.dependencies, memberWritingClosure: SyntheticsClientTypes.Dependency.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["Handler"].write(value.handler)
+        try writer["S3Bucket"].write(value.s3Bucket)
+        try writer["S3Key"].write(value.s3Key)
+        try writer["S3Version"].write(value.s3Version)
+        try writer["ZipFile"].write(value.zipFile)
     }
 }
 
@@ -3594,34 +3492,12 @@ extension SyntheticsClientTypes.CanaryCodeOutput {
     }
 }
 
-extension SyntheticsClientTypes.Dependency {
+extension SyntheticsClientTypes.CanaryDryRunConfigOutput {
 
-    static func write(value: SyntheticsClientTypes.Dependency?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["Reference"].write(value.reference)
-        try writer["Type"].write(value.type)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> SyntheticsClientTypes.Dependency {
+    static func read(from reader: SmithyJSON.Reader) throws -> SyntheticsClientTypes.CanaryDryRunConfigOutput {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = SyntheticsClientTypes.Dependency()
-        value.type = try reader["Type"].readIfPresent()
-        value.reference = try reader["Reference"].readIfPresent() ?? ""
-        return value
-    }
-}
-
-extension SyntheticsClientTypes.Group {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> SyntheticsClientTypes.Group {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = SyntheticsClientTypes.Group()
-        value.id = try reader["Id"].readIfPresent()
-        value.name = try reader["Name"].readIfPresent()
-        value.arn = try reader["Arn"].readIfPresent()
-        value.tags = try reader["Tags"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
-        value.createdTime = try reader["CreatedTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
-        value.lastModifiedTime = try reader["LastModifiedTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        var value = SyntheticsClientTypes.CanaryDryRunConfigOutput()
+        value.dryRunId = try reader["DryRunId"].readIfPresent()
         return value
     }
 }
@@ -3655,24 +3531,27 @@ extension SyntheticsClientTypes.CanaryRun {
     }
 }
 
-extension SyntheticsClientTypes.CanaryDryRunConfigOutput {
+extension SyntheticsClientTypes.CanaryRunConfigInput {
 
-    static func read(from reader: SmithyJSON.Reader) throws -> SyntheticsClientTypes.CanaryDryRunConfigOutput {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = SyntheticsClientTypes.CanaryDryRunConfigOutput()
-        value.dryRunId = try reader["DryRunId"].readIfPresent()
-        return value
+    static func write(value: SyntheticsClientTypes.CanaryRunConfigInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["ActiveTracing"].write(value.activeTracing)
+        try writer["EnvironmentVariables"].writeMap(value.environmentVariables, valueWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+        try writer["EphemeralStorage"].write(value.ephemeralStorage)
+        try writer["MemoryInMB"].write(value.memoryInMB)
+        try writer["TimeoutInSeconds"].write(value.timeoutInSeconds)
     }
 }
 
-extension SyntheticsClientTypes.CanaryRunTimeline {
+extension SyntheticsClientTypes.CanaryRunConfigOutput {
 
-    static func read(from reader: SmithyJSON.Reader) throws -> SyntheticsClientTypes.CanaryRunTimeline {
+    static func read(from reader: SmithyJSON.Reader) throws -> SyntheticsClientTypes.CanaryRunConfigOutput {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = SyntheticsClientTypes.CanaryRunTimeline()
-        value.started = try reader["Started"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
-        value.completed = try reader["Completed"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
-        value.metricTimestampForRunAndRetries = try reader["MetricTimestampForRunAndRetries"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        var value = SyntheticsClientTypes.CanaryRunConfigOutput()
+        value.timeoutInSeconds = try reader["TimeoutInSeconds"].readIfPresent()
+        value.memoryInMB = try reader["MemoryInMB"].readIfPresent()
+        value.activeTracing = try reader["ActiveTracing"].readIfPresent()
+        value.ephemeralStorage = try reader["EphemeralStorage"].readIfPresent()
         return value
     }
 }
@@ -3690,15 +3569,115 @@ extension SyntheticsClientTypes.CanaryRunStatus {
     }
 }
 
-extension SyntheticsClientTypes.RuntimeVersion {
+extension SyntheticsClientTypes.CanaryRunTimeline {
 
-    static func read(from reader: SmithyJSON.Reader) throws -> SyntheticsClientTypes.RuntimeVersion {
+    static func read(from reader: SmithyJSON.Reader) throws -> SyntheticsClientTypes.CanaryRunTimeline {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = SyntheticsClientTypes.RuntimeVersion()
-        value.versionName = try reader["VersionName"].readIfPresent()
-        value.description = try reader["Description"].readIfPresent()
-        value.releaseDate = try reader["ReleaseDate"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
-        value.deprecationDate = try reader["DeprecationDate"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        var value = SyntheticsClientTypes.CanaryRunTimeline()
+        value.started = try reader["Started"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.completed = try reader["Completed"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.metricTimestampForRunAndRetries = try reader["MetricTimestampForRunAndRetries"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        return value
+    }
+}
+
+extension SyntheticsClientTypes.CanaryScheduleInput {
+
+    static func write(value: SyntheticsClientTypes.CanaryScheduleInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["DurationInSeconds"].write(value.durationInSeconds)
+        try writer["Expression"].write(value.expression)
+        try writer["RetryConfig"].write(value.retryConfig, with: SyntheticsClientTypes.RetryConfigInput.write(value:to:))
+    }
+}
+
+extension SyntheticsClientTypes.CanaryScheduleOutput {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> SyntheticsClientTypes.CanaryScheduleOutput {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = SyntheticsClientTypes.CanaryScheduleOutput()
+        value.expression = try reader["Expression"].readIfPresent()
+        value.durationInSeconds = try reader["DurationInSeconds"].readIfPresent()
+        value.retryConfig = try reader["RetryConfig"].readIfPresent(with: SyntheticsClientTypes.RetryConfigOutput.read(from:))
+        return value
+    }
+}
+
+extension SyntheticsClientTypes.CanaryStatus {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> SyntheticsClientTypes.CanaryStatus {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = SyntheticsClientTypes.CanaryStatus()
+        value.state = try reader["State"].readIfPresent()
+        value.stateReason = try reader["StateReason"].readIfPresent()
+        value.stateReasonCode = try reader["StateReasonCode"].readIfPresent()
+        return value
+    }
+}
+
+extension SyntheticsClientTypes.CanaryTimeline {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> SyntheticsClientTypes.CanaryTimeline {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = SyntheticsClientTypes.CanaryTimeline()
+        value.created = try reader["Created"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.lastModified = try reader["LastModified"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.lastStarted = try reader["LastStarted"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.lastStopped = try reader["LastStopped"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        return value
+    }
+}
+
+extension SyntheticsClientTypes.Dependency {
+
+    static func write(value: SyntheticsClientTypes.Dependency?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["Reference"].write(value.reference)
+        try writer["Type"].write(value.type)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> SyntheticsClientTypes.Dependency {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = SyntheticsClientTypes.Dependency()
+        value.type = try reader["Type"].readIfPresent()
+        value.reference = try reader["Reference"].readIfPresent() ?? ""
+        return value
+    }
+}
+
+extension SyntheticsClientTypes.DryRunConfigOutput {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> SyntheticsClientTypes.DryRunConfigOutput {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = SyntheticsClientTypes.DryRunConfigOutput()
+        value.dryRunId = try reader["DryRunId"].readIfPresent()
+        value.lastDryRunExecutionStatus = try reader["LastDryRunExecutionStatus"].readIfPresent()
+        return value
+    }
+}
+
+extension SyntheticsClientTypes.EngineConfig {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> SyntheticsClientTypes.EngineConfig {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = SyntheticsClientTypes.EngineConfig()
+        value.engineArn = try reader["EngineArn"].readIfPresent()
+        value.browserType = try reader["BrowserType"].readIfPresent()
+        return value
+    }
+}
+
+extension SyntheticsClientTypes.Group {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> SyntheticsClientTypes.Group {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = SyntheticsClientTypes.Group()
+        value.id = try reader["Id"].readIfPresent()
+        value.name = try reader["Name"].readIfPresent()
+        value.arn = try reader["Arn"].readIfPresent()
+        value.tags = try reader["Tags"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+        value.createdTime = try reader["CreatedTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.lastModifiedTime = try reader["LastModifiedTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
         return value
     }
 }
@@ -3715,30 +3694,6 @@ extension SyntheticsClientTypes.GroupSummary {
     }
 }
 
-extension SyntheticsClientTypes.CanaryCodeInput {
-
-    static func write(value: SyntheticsClientTypes.CanaryCodeInput?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["BlueprintTypes"].writeList(value.blueprintTypes, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["Dependencies"].writeList(value.dependencies, memberWritingClosure: SyntheticsClientTypes.Dependency.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["Handler"].write(value.handler)
-        try writer["S3Bucket"].write(value.s3Bucket)
-        try writer["S3Key"].write(value.s3Key)
-        try writer["S3Version"].write(value.s3Version)
-        try writer["ZipFile"].write(value.zipFile)
-    }
-}
-
-extension SyntheticsClientTypes.CanaryScheduleInput {
-
-    static func write(value: SyntheticsClientTypes.CanaryScheduleInput?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["DurationInSeconds"].write(value.durationInSeconds)
-        try writer["Expression"].write(value.expression)
-        try writer["RetryConfig"].write(value.retryConfig, with: SyntheticsClientTypes.RetryConfigInput.write(value:to:))
-    }
-}
-
 extension SyntheticsClientTypes.RetryConfigInput {
 
     static func write(value: SyntheticsClientTypes.RetryConfigInput?, to writer: SmithyJSON.Writer) throws {
@@ -3747,15 +3702,65 @@ extension SyntheticsClientTypes.RetryConfigInput {
     }
 }
 
-extension SyntheticsClientTypes.CanaryRunConfigInput {
+extension SyntheticsClientTypes.RetryConfigOutput {
 
-    static func write(value: SyntheticsClientTypes.CanaryRunConfigInput?, to writer: SmithyJSON.Writer) throws {
+    static func read(from reader: SmithyJSON.Reader) throws -> SyntheticsClientTypes.RetryConfigOutput {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = SyntheticsClientTypes.RetryConfigOutput()
+        value.maxRetries = try reader["MaxRetries"].readIfPresent()
+        return value
+    }
+}
+
+extension SyntheticsClientTypes.RuntimeVersion {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> SyntheticsClientTypes.RuntimeVersion {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = SyntheticsClientTypes.RuntimeVersion()
+        value.versionName = try reader["VersionName"].readIfPresent()
+        value.description = try reader["Description"].readIfPresent()
+        value.releaseDate = try reader["ReleaseDate"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.deprecationDate = try reader["DeprecationDate"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        return value
+    }
+}
+
+extension SyntheticsClientTypes.S3EncryptionConfig {
+
+    static func write(value: SyntheticsClientTypes.S3EncryptionConfig?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
-        try writer["ActiveTracing"].write(value.activeTracing)
-        try writer["EnvironmentVariables"].writeMap(value.environmentVariables, valueWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
-        try writer["EphemeralStorage"].write(value.ephemeralStorage)
-        try writer["MemoryInMB"].write(value.memoryInMB)
-        try writer["TimeoutInSeconds"].write(value.timeoutInSeconds)
+        try writer["EncryptionMode"].write(value.encryptionMode)
+        try writer["KmsKeyArn"].write(value.kmsKeyArn)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> SyntheticsClientTypes.S3EncryptionConfig {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = SyntheticsClientTypes.S3EncryptionConfig()
+        value.encryptionMode = try reader["EncryptionMode"].readIfPresent()
+        value.kmsKeyArn = try reader["KmsKeyArn"].readIfPresent()
+        return value
+    }
+}
+
+extension SyntheticsClientTypes.VisualReferenceInput {
+
+    static func write(value: SyntheticsClientTypes.VisualReferenceInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["BaseCanaryRunId"].write(value.baseCanaryRunId)
+        try writer["BaseScreenshots"].writeList(value.baseScreenshots, memberWritingClosure: SyntheticsClientTypes.BaseScreenshot.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["BrowserType"].write(value.browserType)
+    }
+}
+
+extension SyntheticsClientTypes.VisualReferenceOutput {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> SyntheticsClientTypes.VisualReferenceOutput {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = SyntheticsClientTypes.VisualReferenceOutput()
+        value.baseScreenshots = try reader["BaseScreenshots"].readListIfPresent(memberReadingClosure: SyntheticsClientTypes.BaseScreenshot.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.baseCanaryRunId = try reader["BaseCanaryRunId"].readIfPresent()
+        value.browserType = try reader["BrowserType"].readIfPresent()
+        return value
     }
 }
 
@@ -3769,21 +3774,16 @@ extension SyntheticsClientTypes.VpcConfigInput {
     }
 }
 
-extension SyntheticsClientTypes.ArtifactConfigInput {
+extension SyntheticsClientTypes.VpcConfigOutput {
 
-    static func write(value: SyntheticsClientTypes.ArtifactConfigInput?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["S3Encryption"].write(value.s3Encryption, with: SyntheticsClientTypes.S3EncryptionConfig.write(value:to:))
-    }
-}
-
-extension SyntheticsClientTypes.VisualReferenceInput {
-
-    static func write(value: SyntheticsClientTypes.VisualReferenceInput?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["BaseCanaryRunId"].write(value.baseCanaryRunId)
-        try writer["BaseScreenshots"].writeList(value.baseScreenshots, memberWritingClosure: SyntheticsClientTypes.BaseScreenshot.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["BrowserType"].write(value.browserType)
+    static func read(from reader: SmithyJSON.Reader) throws -> SyntheticsClientTypes.VpcConfigOutput {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = SyntheticsClientTypes.VpcConfigOutput()
+        value.vpcId = try reader["VpcId"].readIfPresent()
+        value.subnetIds = try reader["SubnetIds"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        value.securityGroupIds = try reader["SecurityGroupIds"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        value.ipv6AllowedForDualStack = try reader["Ipv6AllowedForDualStack"].readIfPresent()
+        return value
     }
 }
 

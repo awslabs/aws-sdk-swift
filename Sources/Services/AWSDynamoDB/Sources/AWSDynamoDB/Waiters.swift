@@ -164,7 +164,7 @@ extension DynamoDBClient {
                 guard case .success(let output) = result else { return false }
                 let kinesisDataStreamDestinations = output.kinesisDataStreamDestinations
                 let count = Double(kinesisDataStreamDestinations?.count ?? 0)
-                let number = Double(0.0)
+                let number = Double(0)
                 let comparison = SmithyWaitersAPI.JMESUtils.compare(count, >, number)
                 let kinesisDataStreamDestinations2 = output.kinesisDataStreamDestinations
                 let kinesisDataStreamDestinations2Filtered: [DynamoDBClientTypes.KinesisDataStreamDestination]? = kinesisDataStreamDestinations2?.filter { original in

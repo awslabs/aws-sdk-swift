@@ -23,8 +23,8 @@ import protocol ClientRuntime.HTTPError
 import protocol ClientRuntime.ModeledError
 @_spi(SmithyReadWrite) import protocol SmithyReadWrite.SmithyReader
 @_spi(SmithyReadWrite) import protocol SmithyReadWrite.SmithyWriter
-@_spi(SmithyReadWrite) import struct AWSClientRuntime.RestJSONError
 @_spi(UnknownAWSHTTPServiceError) import struct AWSClientRuntime.UnknownAWSHTTPServiceError
+@_spi(SmithyReadWrite) import struct ClientRuntime.RestJSONError
 import struct Smithy.URIQueryItem
 @_spi(SmithyTimestamps) import struct SmithyTimestamps.TimestampFormatter
 
@@ -152,14 +152,14 @@ public struct ServiceQuotaExceededException: ClientRuntime.ModeledError, AWSClie
     public struct Properties: Swift.Sendable {
         /// This member is required.
         public internal(set) var message: Swift.String? = nil
-        /// The quota code recognized by the AWS Service Quotas service.
+        /// The quota code recognized by the Amazon Web Services Service Quotas service.
         public internal(set) var quotaCode: Swift.String? = nil
         /// The unique ID of the resource referenced in the failed request.
         public internal(set) var resourceId: Swift.String? = nil
         /// The resource type of the resource referenced in the failed request.
         /// This member is required.
         public internal(set) var resourceType: Swift.String? = nil
-        /// The code for the AWS service that owns the quota.
+        /// The code for the Amazon Web Services service that owns the quota.
         public internal(set) var serviceCode: Swift.String? = nil
     }
 
@@ -193,11 +193,11 @@ public struct ThrottlingException: ClientRuntime.ModeledError, AWSClientRuntime.
     public struct Properties: Swift.Sendable {
         /// This member is required.
         public internal(set) var message: Swift.String? = nil
-        /// The quota code recognized by the AWS Service Quotas service.
+        /// The quota code recognized by the Amazon Web Services Service Quotas service.
         public internal(set) var quotaCode: Swift.String? = nil
         /// Number of seconds in which the caller can retry the request.
         public internal(set) var retryAfterSeconds: Swift.Int? = nil
-        /// The code for the AWS service that owns the quota.
+        /// The code for the Amazon Web Services service that owns the quota.
         public internal(set) var serviceCode: Swift.String? = nil
     }
 
@@ -1244,7 +1244,7 @@ public struct AssociateHostedZoneOutput: Swift.Sendable {
     /// An Amazon Resource Name (ARN) of the Route 53 Global Resolver the private hosted zone is associated to.
     /// This member is required.
     public var resourceArn: Swift.String?
-    /// Aggregate status for all the AWS Regions in which the Route 53 Global Resolver exists.
+    /// Aggregate status for all the Amazon Web Services Regions in which the Route 53 Global Resolver exists.
     /// This member is required.
     public var status: Route53GlobalResolverClientTypes.HostedZoneAssociationStatus?
     /// The date and time the private hosted zone association was modified.
@@ -1398,12 +1398,14 @@ extension Route53GlobalResolverClientTypes {
 
     public enum DnsAdvancedProtection: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case dga
+        case dictionaryDga
         case dnsTunneling
         case sdkUnknown(Swift.String)
 
         public static var allCases: [DnsAdvancedProtection] {
             return [
                 .dga,
+                .dictionaryDga,
                 .dnsTunneling
             ]
         }
@@ -1416,6 +1418,7 @@ extension Route53GlobalResolverClientTypes {
         public var rawValue: Swift.String {
             switch self {
             case .dga: return "DGA"
+            case .dictionaryDga: return "DICTIONARY_DGA"
             case .dnsTunneling: return "DNS_TUNNELING"
             case let .sdkUnknown(s): return s
             }
@@ -2403,17 +2406,48 @@ public struct CreateFirewallRuleOutput: Swift.Sendable {
     }
 }
 
+extension Route53GlobalResolverClientTypes {
+
+    public enum GlobalResolverIpAddressType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case dualStack
+        case ipv4
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [GlobalResolverIpAddressType] {
+            return [
+                .dualStack,
+                .ipv4
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .dualStack: return "DUAL_STACK"
+            case .ipv4: return "IPV4"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
 public struct CreateGlobalResolverInput: Swift.Sendable {
     /// A unique string that identifies the request and ensures idempotency. If you make multiple requests with the same client token, only one Route 53 Global Resolver is created.
     public var clientToken: Swift.String?
     /// An optional description for the Route 53 Global Resolver instance. Maximum length of 1024 characters.
     public var description: Swift.String?
+    /// The IP address type for the Route 53 Global Resolver. Valid values are IPV4 (default) or DUAL_STACK for both IPv4 and IPv6 support.
+    public var ipAddressType: Route53GlobalResolverClientTypes.GlobalResolverIpAddressType?
     /// A descriptive name for the Route 53 Global Resolver instance. Maximum length of 64 characters.
     /// This member is required.
     public var name: Swift.String?
-    /// The AWS region where query resolution logs and metrics will be aggregated and delivered. If not specified, logging is not enabled.
+    /// The Amazon Web Services Region where query resolution logs and metrics will be aggregated and delivered. If not specified, logging is not enabled.
     public var observabilityRegion: Swift.String?
-    /// List of AWS regions where the Route 53 Global Resolver will operate. The resolver will be distributed across these regions to provide global availability and low-latency DNS resolution.
+    /// List of Amazon Web Services Regions where the Route 53 Global Resolver will operate. The resolver will be distributed across these Regions to provide global availability and low-latency DNS resolution.
     /// This member is required.
     public var regions: [Swift.String]?
     /// Tags to associate with the Route 53 Global Resolver. Tags are key-value pairs that help you organize and identify your resources.
@@ -2422,6 +2456,7 @@ public struct CreateGlobalResolverInput: Swift.Sendable {
     public init(
         clientToken: Swift.String? = nil,
         description: Swift.String? = nil,
+        ipAddressType: Route53GlobalResolverClientTypes.GlobalResolverIpAddressType? = nil,
         name: Swift.String? = nil,
         observabilityRegion: Swift.String? = nil,
         regions: [Swift.String]? = nil,
@@ -2429,6 +2464,7 @@ public struct CreateGlobalResolverInput: Swift.Sendable {
     ) {
         self.clientToken = clientToken
         self.description = description
+        self.ipAddressType = ipAddressType
         self.name = name
         self.observabilityRegion = observabilityRegion
         self.regions = regions
@@ -2454,15 +2490,19 @@ public struct CreateGlobalResolverOutput: Swift.Sendable {
     /// The unique identifier for the Route 53 Global Resolver.
     /// This member is required.
     public var id: Swift.String?
+    /// The IP address type configured for the Route 53 Global Resolver (IPV4 or DUAL_STACK).
+    public var ipAddressType: Route53GlobalResolverClientTypes.GlobalResolverIpAddressType?
     /// The global anycast IPv4 addresses associated with the Route 53 Global Resolver. DNS clients can send queries to these addresses from anywhere on the internet.
     /// This member is required.
     public var ipv4Addresses: [Swift.String]?
+    /// The global anycast IPv6 addresses associated with the Route 53 Global Resolver. This field is only populated when ipAddressType is DUAL_STACK. DNS clients can send queries to these addresses from anywhere on the internet.
+    public var ipv6Addresses: [Swift.String]?
     /// The name of the Route 53 Global Resolver.
     /// This member is required.
     public var name: Swift.String?
-    /// The AWS Region where observability data for the Route 53 Global Resolver is stored.
+    /// The Amazon Web Services Region where observability data for the Route 53 Global Resolver is stored.
     public var observabilityRegion: Swift.String?
-    /// The AWS Regions where the Route 53 Global Resolver is deployed and operational.
+    /// The Amazon Web Services Regions where the Route 53 Global Resolver is deployed and operational.
     /// This member is required.
     public var regions: [Swift.String]?
     /// The current status of the Route 53 Global Resolver. Possible values are CREATING (being provisioned), UPDATING (being modified), OPERATIONAL (ready to serve queries), or DELETING (being removed).
@@ -2479,7 +2519,9 @@ public struct CreateGlobalResolverOutput: Swift.Sendable {
         description: Swift.String? = nil,
         dnsName: Swift.String? = nil,
         id: Swift.String? = nil,
+        ipAddressType: Route53GlobalResolverClientTypes.GlobalResolverIpAddressType? = nil,
         ipv4Addresses: [Swift.String]? = nil,
+        ipv6Addresses: [Swift.String]? = nil,
         name: Swift.String? = nil,
         observabilityRegion: Swift.String? = nil,
         regions: [Swift.String]? = nil,
@@ -2492,7 +2534,9 @@ public struct CreateGlobalResolverOutput: Swift.Sendable {
         self.description = description
         self.dnsName = dnsName
         self.id = id
+        self.ipAddressType = ipAddressType
         self.ipv4Addresses = ipv4Addresses
+        self.ipv6Addresses = ipv6Addresses
         self.name = name
         self.observabilityRegion = observabilityRegion
         self.regions = regions
@@ -2742,15 +2786,19 @@ public struct DeleteGlobalResolverOutput: Swift.Sendable {
     /// The unique identifier of the deleted Route 53 Global Resolver.
     /// This member is required.
     public var id: Swift.String?
+    /// The IP address type that was configured for the deleted Route 53 Global Resolver.
+    public var ipAddressType: Route53GlobalResolverClientTypes.GlobalResolverIpAddressType?
     /// The global anycast IPv4 addresses that were associated with the deleted Route 53 Global Resolver.
     /// This member is required.
     public var ipv4Addresses: [Swift.String]?
+    /// The global anycast IPv6 addresses that were associated with the deleted Route 53 Global Resolver.
+    public var ipv6Addresses: [Swift.String]?
     /// The name of the deleted Route 53 Global Resolver.
     /// This member is required.
     public var name: Swift.String?
-    /// The AWS Region where observability data for the deleted Route 53 Global Resolver was stored.
+    /// The Amazon Web Services Region where observability data for the deleted Route 53 Global Resolver was stored.
     public var observabilityRegion: Swift.String?
-    /// The AWS Regions where the deleted Route 53 Global Resolver was deployed and operational.
+    /// The Amazon Web Services Regions where the deleted Route 53 Global Resolver was deployed and operational.
     /// This member is required.
     public var regions: [Swift.String]?
     /// The final status of the deleted Route 53 Global Resolver.
@@ -2767,7 +2815,9 @@ public struct DeleteGlobalResolverOutput: Swift.Sendable {
         description: Swift.String? = nil,
         dnsName: Swift.String? = nil,
         id: Swift.String? = nil,
+        ipAddressType: Route53GlobalResolverClientTypes.GlobalResolverIpAddressType? = nil,
         ipv4Addresses: [Swift.String]? = nil,
+        ipv6Addresses: [Swift.String]? = nil,
         name: Swift.String? = nil,
         observabilityRegion: Swift.String? = nil,
         regions: [Swift.String]? = nil,
@@ -2780,7 +2830,9 @@ public struct DeleteGlobalResolverOutput: Swift.Sendable {
         self.description = description
         self.dnsName = dnsName
         self.id = id
+        self.ipAddressType = ipAddressType
         self.ipv4Addresses = ipv4Addresses
+        self.ipv6Addresses = ipv6Addresses
         self.name = name
         self.observabilityRegion = observabilityRegion
         self.regions = regions
@@ -3598,7 +3650,7 @@ public struct GetFirewallRuleOutput: Swift.Sendable {
     public var createdAt: Foundation.Date?
     /// The description of the DNS Firewall rule.
     public var description: Swift.String?
-    /// The type of the DNS Firewall Advanced rule. Valid values are DGA and DNS_TUNNELING.
+    /// The type of the DNS Firewall Advanced rule. Valid values are DGA, DNS_TUNNELING, and DICTIONARY_DGA.
     public var dnsAdvancedProtection: Route53GlobalResolverClientTypes.DnsAdvancedProtection?
     /// The DNS view ID the DNS Firewall is associated with.
     /// This member is required.
@@ -3807,7 +3859,7 @@ public struct UpdateFirewallRuleInput: Swift.Sendable {
     public var confidenceThreshold: Route53GlobalResolverClientTypes.ConfidenceThreshold?
     /// The description for the Firewall rule.
     public var description: Swift.String?
-    /// The type of the DNS Firewall Advanced rule. Valid values are DGA and DNS_TUNNELING.
+    /// The type of the DNS Firewall Advanced rule. Valid values are DGA, DNS_TUNNELING, and DICTIONARY_DGA.
     public var dnsAdvancedProtection: Route53GlobalResolverClientTypes.DnsAdvancedProtection?
     /// The ID of the DNS Firewall rule.
     /// This member is required.
@@ -3865,7 +3917,7 @@ public struct UpdateFirewallRuleOutput: Swift.Sendable {
     public var createdAt: Foundation.Date?
     /// The description of the Firewall rule.
     public var description: Swift.String?
-    /// The type of the DNS Firewall Advanced rule. Valid values are DGA and DNS_TUNNELING.
+    /// The type of the DNS Firewall Advanced rule. Valid values are DGA, DNS_TUNNELING, and DICTIONARY_DGA.
     public var dnsAdvancedProtection: Route53GlobalResolverClientTypes.DnsAdvancedProtection?
     /// The ID of the DNS view the Firewall rule is associated with.
     /// This member is required.
@@ -3959,15 +4011,19 @@ public struct GetGlobalResolverOutput: Swift.Sendable {
     /// The ID of the Global Resolver.
     /// This member is required.
     public var id: Swift.String?
+    /// The IP address type configured for the Global Resolver.
+    public var ipAddressType: Route53GlobalResolverClientTypes.GlobalResolverIpAddressType?
     /// List of anycast IPv4 addresses associated with the Global Resolver instance.
     /// This member is required.
     public var ipv4Addresses: [Swift.String]?
+    /// List of anycast IPv6 addresses associated with the Global Resolver instance. This field is only populated when ipAddressType is DUAL_STACK.
+    public var ipv6Addresses: [Swift.String]?
     /// The name of the Global Resolver.
     /// This member is required.
     public var name: Swift.String?
-    /// The AWS Regions in which the users' Global Resolver query resolution logs will be propagated.
+    /// The Amazon Web Services Regions in which the users' Global Resolver query resolution logs will be propagated.
     public var observabilityRegion: Swift.String?
-    /// The AWS Regions in which the Global Resolver operate.
+    /// The Amazon Web Services Regions in which the Global Resolver operate.
     /// This member is required.
     public var regions: [Swift.String]?
     /// The operational status of the Global Resolver.
@@ -3984,7 +4040,9 @@ public struct GetGlobalResolverOutput: Swift.Sendable {
         description: Swift.String? = nil,
         dnsName: Swift.String? = nil,
         id: Swift.String? = nil,
+        ipAddressType: Route53GlobalResolverClientTypes.GlobalResolverIpAddressType? = nil,
         ipv4Addresses: [Swift.String]? = nil,
+        ipv6Addresses: [Swift.String]? = nil,
         name: Swift.String? = nil,
         observabilityRegion: Swift.String? = nil,
         regions: [Swift.String]? = nil,
@@ -3997,7 +4055,9 @@ public struct GetGlobalResolverOutput: Swift.Sendable {
         self.description = description
         self.dnsName = dnsName
         self.id = id
+        self.ipAddressType = ipAddressType
         self.ipv4Addresses = ipv4Addresses
+        self.ipv6Addresses = ipv6Addresses
         self.name = name
         self.observabilityRegion = observabilityRegion
         self.regions = regions
@@ -4042,15 +4102,19 @@ extension Route53GlobalResolverClientTypes {
         /// The unique identifier of the global resolver.
         /// This member is required.
         public var id: Swift.String?
+        /// The IP address type configured for the global resolver.
+        public var ipAddressType: Route53GlobalResolverClientTypes.GlobalResolverIpAddressType?
         /// The IPv4 addresses assigned to the global resolver.
         /// This member is required.
         public var ipv4Addresses: [Swift.String]?
+        /// The IPv6 addresses assigned to the global resolver. This field is only populated when ipAddressType is DUAL_STACK.
+        public var ipv6Addresses: [Swift.String]?
         /// The name of the global resolver.
         /// This member is required.
         public var name: Swift.String?
-        /// The AWS Region where observability data is collected for the global resolver.
+        /// The Amazon Web Services Region where observability data is collected for the global resolver.
         public var observabilityRegion: Swift.String?
-        /// The AWS Regions where the global resolver is deployed.
+        /// The Amazon Web Services Regions where the global resolver is deployed.
         /// This member is required.
         public var regions: [Swift.String]?
         /// The current status of the global resolver.
@@ -4067,7 +4131,9 @@ extension Route53GlobalResolverClientTypes {
             description: Swift.String? = nil,
             dnsName: Swift.String? = nil,
             id: Swift.String? = nil,
+            ipAddressType: Route53GlobalResolverClientTypes.GlobalResolverIpAddressType? = nil,
             ipv4Addresses: [Swift.String]? = nil,
+            ipv6Addresses: [Swift.String]? = nil,
             name: Swift.String? = nil,
             observabilityRegion: Swift.String? = nil,
             regions: [Swift.String]? = nil,
@@ -4080,7 +4146,9 @@ extension Route53GlobalResolverClientTypes {
             self.description = description
             self.dnsName = dnsName
             self.id = id
+            self.ipAddressType = ipAddressType
             self.ipv4Addresses = ipv4Addresses
+            self.ipv6Addresses = ipv6Addresses
             self.name = name
             self.observabilityRegion = observabilityRegion
             self.regions = regions
@@ -4112,19 +4180,23 @@ public struct UpdateGlobalResolverInput: Swift.Sendable {
     /// The ID of the Global Resolver.
     /// This member is required.
     public var globalResolverId: Swift.String?
+    /// The IP address type for the Global Resolver. Valid values are IPV4 or DUAL_STACK for both IPv4 and IPv6 support.
+    public var ipAddressType: Route53GlobalResolverClientTypes.GlobalResolverIpAddressType?
     /// The name of the Global Resolver.
     public var name: Swift.String?
-    /// The AWS Regions in which the users' Global Resolver query resolution logs will be propagated.
+    /// The Amazon Web Services Regions in which the users' Global Resolver query resolution logs will be propagated.
     public var observabilityRegion: Swift.String?
 
     public init(
         description: Swift.String? = nil,
         globalResolverId: Swift.String? = nil,
+        ipAddressType: Route53GlobalResolverClientTypes.GlobalResolverIpAddressType? = nil,
         name: Swift.String? = nil,
         observabilityRegion: Swift.String? = nil
     ) {
         self.description = description
         self.globalResolverId = globalResolverId
+        self.ipAddressType = ipAddressType
         self.name = name
         self.observabilityRegion = observabilityRegion
     }
@@ -4148,15 +4220,19 @@ public struct UpdateGlobalResolverOutput: Swift.Sendable {
     /// The ID of the Global Resolver.
     /// This member is required.
     public var id: Swift.String?
+    /// The IP address type configured for the updated Global Resolver.
+    public var ipAddressType: Route53GlobalResolverClientTypes.GlobalResolverIpAddressType?
     /// List of anycast IPv4 addresses associated with the Global Resolver instance.
     /// This member is required.
     public var ipv4Addresses: [Swift.String]?
+    /// List of anycast IPv6 addresses associated with the updated Global Resolver instance. This field is only populated when ipAddressType is DUAL_STACK.
+    public var ipv6Addresses: [Swift.String]?
     /// Name of the Global Resolver.
     /// This member is required.
     public var name: Swift.String?
-    /// The AWS Regions in which the users' Global Resolver query resolution logs will be propagated.
+    /// The Amazon Web Services Regions in which the users' Global Resolver query resolution logs will be propagated.
     public var observabilityRegion: Swift.String?
-    /// The AWS Regions in which the Global Resolver will operate.
+    /// The Amazon Web Services Regions in which the Global Resolver will operate.
     /// This member is required.
     public var regions: [Swift.String]?
     /// The operational status of the Global Resolver.
@@ -4173,7 +4249,9 @@ public struct UpdateGlobalResolverOutput: Swift.Sendable {
         description: Swift.String? = nil,
         dnsName: Swift.String? = nil,
         id: Swift.String? = nil,
+        ipAddressType: Route53GlobalResolverClientTypes.GlobalResolverIpAddressType? = nil,
         ipv4Addresses: [Swift.String]? = nil,
+        ipv6Addresses: [Swift.String]? = nil,
         name: Swift.String? = nil,
         observabilityRegion: Swift.String? = nil,
         regions: [Swift.String]? = nil,
@@ -4186,7 +4264,9 @@ public struct UpdateGlobalResolverOutput: Swift.Sendable {
         self.description = description
         self.dnsName = dnsName
         self.id = id
+        self.ipAddressType = ipAddressType
         self.ipv4Addresses = ipv4Addresses
+        self.ipv6Addresses = ipv6Addresses
         self.name = name
         self.observabilityRegion = observabilityRegion
         self.regions = regions
@@ -5306,6 +5386,7 @@ extension CreateGlobalResolverInput {
         guard let value else { return }
         try writer["clientToken"].write(value.clientToken)
         try writer["description"].write(value.description)
+        try writer["ipAddressType"].write(value.ipAddressType)
         try writer["name"].write(value.name)
         try writer["observabilityRegion"].write(value.observabilityRegion)
         try writer["regions"].writeList(value.regions, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
@@ -5411,6 +5492,7 @@ extension UpdateGlobalResolverInput {
     static func write(value: UpdateGlobalResolverInput?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
         try writer["description"].write(value.description)
+        try writer["ipAddressType"].write(value.ipAddressType)
         try writer["name"].write(value.name)
         try writer["observabilityRegion"].write(value.observabilityRegion)
     }
@@ -5607,7 +5689,9 @@ extension CreateGlobalResolverOutput {
         value.description = try reader["description"].readIfPresent()
         value.dnsName = try reader["dnsName"].readIfPresent() ?? ""
         value.id = try reader["id"].readIfPresent() ?? ""
+        value.ipAddressType = try reader["ipAddressType"].readIfPresent()
         value.ipv4Addresses = try reader["ipv4Addresses"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        value.ipv6Addresses = try reader["ipv6Addresses"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
         value.name = try reader["name"].readIfPresent() ?? ""
         value.observabilityRegion = try reader["observabilityRegion"].readIfPresent()
         value.regions = try reader["regions"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false) ?? []
@@ -5731,7 +5815,9 @@ extension DeleteGlobalResolverOutput {
         value.description = try reader["description"].readIfPresent()
         value.dnsName = try reader["dnsName"].readIfPresent() ?? ""
         value.id = try reader["id"].readIfPresent() ?? ""
+        value.ipAddressType = try reader["ipAddressType"].readIfPresent()
         value.ipv4Addresses = try reader["ipv4Addresses"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        value.ipv6Addresses = try reader["ipv6Addresses"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
         value.name = try reader["name"].readIfPresent() ?? ""
         value.observabilityRegion = try reader["observabilityRegion"].readIfPresent()
         value.regions = try reader["regions"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false) ?? []
@@ -5935,7 +6021,9 @@ extension GetGlobalResolverOutput {
         value.description = try reader["description"].readIfPresent()
         value.dnsName = try reader["dnsName"].readIfPresent() ?? ""
         value.id = try reader["id"].readIfPresent() ?? ""
+        value.ipAddressType = try reader["ipAddressType"].readIfPresent()
         value.ipv4Addresses = try reader["ipv4Addresses"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        value.ipv6Addresses = try reader["ipv6Addresses"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
         value.name = try reader["name"].readIfPresent() ?? ""
         value.observabilityRegion = try reader["observabilityRegion"].readIfPresent()
         value.regions = try reader["regions"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false) ?? []
@@ -6248,7 +6336,9 @@ extension UpdateGlobalResolverOutput {
         value.description = try reader["description"].readIfPresent()
         value.dnsName = try reader["dnsName"].readIfPresent() ?? ""
         value.id = try reader["id"].readIfPresent() ?? ""
+        value.ipAddressType = try reader["ipAddressType"].readIfPresent()
         value.ipv4Addresses = try reader["ipv4Addresses"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        value.ipv6Addresses = try reader["ipv6Addresses"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
         value.name = try reader["name"].readIfPresent() ?? ""
         value.observabilityRegion = try reader["observabilityRegion"].readIfPresent()
         value.regions = try reader["regions"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false) ?? []
@@ -6282,7 +6372,7 @@ enum AssociateHostedZoneOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
@@ -6302,7 +6392,7 @@ enum BatchCreateFirewallRuleOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
@@ -6319,7 +6409,7 @@ enum BatchDeleteFirewallRuleOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
@@ -6336,7 +6426,7 @@ enum BatchUpdateFirewallRuleOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
@@ -6353,7 +6443,7 @@ enum CreateAccessSourceOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
@@ -6373,7 +6463,7 @@ enum CreateAccessTokenOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
@@ -6393,7 +6483,7 @@ enum CreateDNSViewOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
@@ -6413,7 +6503,7 @@ enum CreateFirewallDomainListOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
@@ -6433,7 +6523,7 @@ enum CreateFirewallRuleOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
@@ -6453,7 +6543,7 @@ enum CreateGlobalResolverOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
@@ -6472,7 +6562,7 @@ enum DeleteAccessSourceOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
@@ -6491,7 +6581,7 @@ enum DeleteAccessTokenOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
@@ -6509,7 +6599,7 @@ enum DeleteDNSViewOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
@@ -6528,7 +6618,7 @@ enum DeleteFirewallDomainListOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
@@ -6547,7 +6637,7 @@ enum DeleteFirewallRuleOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
@@ -6566,7 +6656,7 @@ enum DeleteGlobalResolverOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
@@ -6585,13 +6675,14 @@ enum DisableDNSViewOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
             case "ConflictException": return try ConflictException.makeError(baseError: baseError)
             case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
             case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ServiceQuotaExceededException": return try ServiceQuotaExceededException.makeError(baseError: baseError)
             case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
             case "ValidationException": return try ValidationException.makeError(baseError: baseError)
             default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
@@ -6604,7 +6695,7 @@ enum DisassociateHostedZoneOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
@@ -6623,13 +6714,14 @@ enum EnableDNSViewOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
             case "ConflictException": return try ConflictException.makeError(baseError: baseError)
             case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
             case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ServiceQuotaExceededException": return try ServiceQuotaExceededException.makeError(baseError: baseError)
             case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
             case "ValidationException": return try ValidationException.makeError(baseError: baseError)
             default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
@@ -6642,7 +6734,7 @@ enum GetAccessSourceOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
@@ -6660,7 +6752,7 @@ enum GetAccessTokenOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
@@ -6678,7 +6770,7 @@ enum GetDNSViewOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
@@ -6696,7 +6788,7 @@ enum GetFirewallDomainListOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
@@ -6714,7 +6806,7 @@ enum GetFirewallRuleOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
@@ -6732,7 +6824,7 @@ enum GetGlobalResolverOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
@@ -6750,7 +6842,7 @@ enum GetHostedZoneAssociationOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
@@ -6768,7 +6860,7 @@ enum GetManagedFirewallDomainListOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
@@ -6786,13 +6878,14 @@ enum ImportFirewallDomainsOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
             case "ConflictException": return try ConflictException.makeError(baseError: baseError)
             case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
             case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ServiceQuotaExceededException": return try ServiceQuotaExceededException.makeError(baseError: baseError)
             case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
             case "ValidationException": return try ValidationException.makeError(baseError: baseError)
             default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
@@ -6805,7 +6898,7 @@ enum ListAccessSourcesOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
@@ -6822,7 +6915,7 @@ enum ListAccessTokensOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
@@ -6840,7 +6933,7 @@ enum ListDNSViewsOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
@@ -6858,7 +6951,7 @@ enum ListFirewallDomainListsOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
@@ -6876,7 +6969,7 @@ enum ListFirewallDomainsOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
@@ -6894,7 +6987,7 @@ enum ListFirewallRulesOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
@@ -6912,7 +7005,7 @@ enum ListGlobalResolversOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
@@ -6929,7 +7022,7 @@ enum ListHostedZoneAssociationsOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
@@ -6947,7 +7040,7 @@ enum ListManagedFirewallDomainListsOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
@@ -6964,7 +7057,7 @@ enum ListTagsForResourceOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
@@ -6978,7 +7071,7 @@ enum TagResourceOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
@@ -6994,7 +7087,7 @@ enum UntagResourceOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
@@ -7009,7 +7102,7 @@ enum UpdateAccessSourceOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
@@ -7029,13 +7122,14 @@ enum UpdateAccessTokenOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
             case "ConflictException": return try ConflictException.makeError(baseError: baseError)
             case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
             case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ServiceQuotaExceededException": return try ServiceQuotaExceededException.makeError(baseError: baseError)
             case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
             case "ValidationException": return try ValidationException.makeError(baseError: baseError)
             default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
@@ -7048,13 +7142,14 @@ enum UpdateDNSViewOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
             case "ConflictException": return try ConflictException.makeError(baseError: baseError)
             case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
             case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ServiceQuotaExceededException": return try ServiceQuotaExceededException.makeError(baseError: baseError)
             case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
             case "ValidationException": return try ValidationException.makeError(baseError: baseError)
             default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
@@ -7067,13 +7162,14 @@ enum UpdateFirewallDomainsOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
             case "ConflictException": return try ConflictException.makeError(baseError: baseError)
             case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
             case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ServiceQuotaExceededException": return try ServiceQuotaExceededException.makeError(baseError: baseError)
             case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
             case "ValidationException": return try ValidationException.makeError(baseError: baseError)
             default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
@@ -7086,13 +7182,14 @@ enum UpdateFirewallRuleOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
             case "ConflictException": return try ConflictException.makeError(baseError: baseError)
             case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
             case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ServiceQuotaExceededException": return try ServiceQuotaExceededException.makeError(baseError: baseError)
             case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
             case "ValidationException": return try ValidationException.makeError(baseError: baseError)
             default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
@@ -7105,13 +7202,14 @@ enum UpdateGlobalResolverOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
             case "ConflictException": return try ConflictException.makeError(baseError: baseError)
             case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
             case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ServiceQuotaExceededException": return try ServiceQuotaExceededException.makeError(baseError: baseError)
             case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
             case "ValidationException": return try ValidationException.makeError(baseError: baseError)
             default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
@@ -7124,13 +7222,14 @@ enum UpdateHostedZoneAssociationOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
             case "ConflictException": return try ConflictException.makeError(baseError: baseError)
             case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
             case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ServiceQuotaExceededException": return try ServiceQuotaExceededException.makeError(baseError: baseError)
             case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
             case "ValidationException": return try ValidationException.makeError(baseError: baseError)
             default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
@@ -7140,7 +7239,7 @@ enum UpdateHostedZoneAssociationOutputError {
 
 extension AccessDeniedException {
 
-    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> AccessDeniedException {
+    static func makeError(baseError: ClientRuntime.RestJSONError) throws -> AccessDeniedException {
         let reader = baseError.errorBodyReader
         var value = AccessDeniedException()
         value.properties.message = try reader["message"].readIfPresent() ?? ""
@@ -7153,7 +7252,7 @@ extension AccessDeniedException {
 
 extension ConflictException {
 
-    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> ConflictException {
+    static func makeError(baseError: ClientRuntime.RestJSONError) throws -> ConflictException {
         let reader = baseError.errorBodyReader
         var value = ConflictException()
         value.properties.message = try reader["message"].readIfPresent() ?? ""
@@ -7168,7 +7267,7 @@ extension ConflictException {
 
 extension InternalServerException {
 
-    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> InternalServerException {
+    static func makeError(baseError: ClientRuntime.RestJSONError) throws -> InternalServerException {
         let reader = baseError.errorBodyReader
         let httpResponse = baseError.httpResponse
         var value = InternalServerException()
@@ -7185,7 +7284,7 @@ extension InternalServerException {
 
 extension ResourceNotFoundException {
 
-    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> ResourceNotFoundException {
+    static func makeError(baseError: ClientRuntime.RestJSONError) throws -> ResourceNotFoundException {
         let reader = baseError.errorBodyReader
         var value = ResourceNotFoundException()
         value.properties.message = try reader["message"].readIfPresent() ?? ""
@@ -7200,7 +7299,7 @@ extension ResourceNotFoundException {
 
 extension ServiceQuotaExceededException {
 
-    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> ServiceQuotaExceededException {
+    static func makeError(baseError: ClientRuntime.RestJSONError) throws -> ServiceQuotaExceededException {
         let reader = baseError.errorBodyReader
         var value = ServiceQuotaExceededException()
         value.properties.message = try reader["message"].readIfPresent() ?? ""
@@ -7217,7 +7316,7 @@ extension ServiceQuotaExceededException {
 
 extension ThrottlingException {
 
-    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> ThrottlingException {
+    static func makeError(baseError: ClientRuntime.RestJSONError) throws -> ThrottlingException {
         let reader = baseError.errorBodyReader
         let httpResponse = baseError.httpResponse
         var value = ThrottlingException()
@@ -7236,7 +7335,7 @@ extension ThrottlingException {
 
 extension ValidationException {
 
-    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> ValidationException {
+    static func makeError(baseError: ClientRuntime.RestJSONError) throws -> ValidationException {
         let reader = baseError.errorBodyReader
         var value = ValidationException()
         value.properties.fieldList = try reader["fieldList"].readListIfPresent(memberReadingClosure: Route53GlobalResolverClientTypes.ValidationExceptionField.read(from:), memberNodeInfo: "member", isFlattened: false)
@@ -7246,6 +7345,64 @@ extension ValidationException {
         value.requestID = baseError.requestID
         value.message = baseError.message
         return value
+    }
+}
+
+extension Route53GlobalResolverClientTypes.AccessSourcesItem {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> Route53GlobalResolverClientTypes.AccessSourcesItem {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = Route53GlobalResolverClientTypes.AccessSourcesItem()
+        value.arn = try reader["arn"].readIfPresent() ?? ""
+        value.cidr = try reader["cidr"].readIfPresent() ?? ""
+        value.createdAt = try reader["createdAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        value.id = try reader["id"].readIfPresent() ?? ""
+        value.ipAddressType = try reader["ipAddressType"].readIfPresent() ?? .sdkUnknown("")
+        value.name = try reader["name"].readIfPresent()
+        value.dnsViewId = try reader["dnsViewId"].readIfPresent() ?? ""
+        value.`protocol` = try reader["protocol"].readIfPresent() ?? .sdkUnknown("")
+        value.status = try reader["status"].readIfPresent() ?? .sdkUnknown("")
+        value.updatedAt = try reader["updatedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        return value
+    }
+}
+
+extension Route53GlobalResolverClientTypes.AccessTokenItem {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> Route53GlobalResolverClientTypes.AccessTokenItem {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = Route53GlobalResolverClientTypes.AccessTokenItem()
+        value.id = try reader["id"].readIfPresent() ?? ""
+        value.arn = try reader["arn"].readIfPresent() ?? ""
+        value.createdAt = try reader["createdAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        value.dnsViewId = try reader["dnsViewId"].readIfPresent() ?? ""
+        value.expiresAt = try reader["expiresAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        value.globalResolverId = try reader["globalResolverId"].readIfPresent() ?? ""
+        value.name = try reader["name"].readIfPresent()
+        value.status = try reader["status"].readIfPresent() ?? .sdkUnknown("")
+        value.updatedAt = try reader["updatedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        return value
+    }
+}
+
+extension Route53GlobalResolverClientTypes.BatchCreateFirewallRuleInputItem {
+
+    static func write(value: Route53GlobalResolverClientTypes.BatchCreateFirewallRuleInputItem?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["action"].write(value.action)
+        try writer["blockOverrideDnsType"].write(value.blockOverrideDnsType)
+        try writer["blockOverrideDomain"].write(value.blockOverrideDomain)
+        try writer["blockOverrideTtl"].write(value.blockOverrideTtl)
+        try writer["blockResponse"].write(value.blockResponse)
+        try writer["clientToken"].write(value.clientToken)
+        try writer["confidenceThreshold"].write(value.confidenceThreshold)
+        try writer["description"].write(value.description)
+        try writer["dnsAdvancedProtection"].write(value.dnsAdvancedProtection)
+        try writer["dnsViewId"].write(value.dnsViewId)
+        try writer["firewallDomainListId"].write(value.firewallDomainListId)
+        try writer["name"].write(value.name)
+        try writer["priority"].write(value.priority)
+        try writer["qType"].write(value.qType)
     }
 }
 
@@ -7289,6 +7446,14 @@ extension Route53GlobalResolverClientTypes.BatchCreateFirewallRuleResult {
     }
 }
 
+extension Route53GlobalResolverClientTypes.BatchDeleteFirewallRuleInputItem {
+
+    static func write(value: Route53GlobalResolverClientTypes.BatchDeleteFirewallRuleInputItem?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["firewallRuleId"].write(value.firewallRuleId)
+    }
+}
+
 extension Route53GlobalResolverClientTypes.BatchDeleteFirewallRuleOutputItem {
 
     static func read(from reader: SmithyJSON.Reader) throws -> Route53GlobalResolverClientTypes.BatchDeleteFirewallRuleOutputItem {
@@ -7311,6 +7476,24 @@ extension Route53GlobalResolverClientTypes.BatchDeleteFirewallRuleResult {
         value.name = try reader["name"].readIfPresent()
         value.status = try reader["status"].readIfPresent()
         return value
+    }
+}
+
+extension Route53GlobalResolverClientTypes.BatchUpdateFirewallRuleInputItem {
+
+    static func write(value: Route53GlobalResolverClientTypes.BatchUpdateFirewallRuleInputItem?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["action"].write(value.action)
+        try writer["blockOverrideDnsType"].write(value.blockOverrideDnsType)
+        try writer["blockOverrideDomain"].write(value.blockOverrideDomain)
+        try writer["blockOverrideTtl"].write(value.blockOverrideTtl)
+        try writer["blockResponse"].write(value.blockResponse)
+        try writer["confidenceThreshold"].write(value.confidenceThreshold)
+        try writer["description"].write(value.description)
+        try writer["dnsAdvancedProtection"].write(value.dnsAdvancedProtection)
+        try writer["firewallRuleId"].write(value.firewallRuleId)
+        try writer["name"].write(value.name)
+        try writer["priority"].write(value.priority)
     }
 }
 
@@ -7349,43 +7532,6 @@ extension Route53GlobalResolverClientTypes.BatchUpdateFirewallRuleResult {
         value.queryType = try reader["queryType"].readIfPresent()
         value.status = try reader["status"].readIfPresent()
         value.updatedAt = try reader["updatedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
-        return value
-    }
-}
-
-extension Route53GlobalResolverClientTypes.AccessSourcesItem {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> Route53GlobalResolverClientTypes.AccessSourcesItem {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = Route53GlobalResolverClientTypes.AccessSourcesItem()
-        value.arn = try reader["arn"].readIfPresent() ?? ""
-        value.cidr = try reader["cidr"].readIfPresent() ?? ""
-        value.createdAt = try reader["createdAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
-        value.id = try reader["id"].readIfPresent() ?? ""
-        value.ipAddressType = try reader["ipAddressType"].readIfPresent() ?? .sdkUnknown("")
-        value.name = try reader["name"].readIfPresent()
-        value.dnsViewId = try reader["dnsViewId"].readIfPresent() ?? ""
-        value.`protocol` = try reader["protocol"].readIfPresent() ?? .sdkUnknown("")
-        value.status = try reader["status"].readIfPresent() ?? .sdkUnknown("")
-        value.updatedAt = try reader["updatedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
-        return value
-    }
-}
-
-extension Route53GlobalResolverClientTypes.AccessTokenItem {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> Route53GlobalResolverClientTypes.AccessTokenItem {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = Route53GlobalResolverClientTypes.AccessTokenItem()
-        value.id = try reader["id"].readIfPresent() ?? ""
-        value.arn = try reader["arn"].readIfPresent() ?? ""
-        value.createdAt = try reader["createdAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
-        value.dnsViewId = try reader["dnsViewId"].readIfPresent() ?? ""
-        value.expiresAt = try reader["expiresAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
-        value.globalResolverId = try reader["globalResolverId"].readIfPresent() ?? ""
-        value.name = try reader["name"].readIfPresent()
-        value.status = try reader["status"].readIfPresent() ?? .sdkUnknown("")
-        value.updatedAt = try reader["updatedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
         return value
     }
 }
@@ -7471,6 +7617,8 @@ extension Route53GlobalResolverClientTypes.GlobalResolversItem {
         value.updatedAt = try reader["updatedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
         value.status = try reader["status"].readIfPresent() ?? .sdkUnknown("")
         value.ipv4Addresses = try reader["ipv4Addresses"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        value.ipv6Addresses = try reader["ipv6Addresses"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        value.ipAddressType = try reader["ipAddressType"].readIfPresent()
         return value
     }
 }
@@ -7513,53 +7661,6 @@ extension Route53GlobalResolverClientTypes.ValidationExceptionField {
         value.name = try reader["name"].readIfPresent() ?? ""
         value.message = try reader["message"].readIfPresent() ?? ""
         return value
-    }
-}
-
-extension Route53GlobalResolverClientTypes.BatchCreateFirewallRuleInputItem {
-
-    static func write(value: Route53GlobalResolverClientTypes.BatchCreateFirewallRuleInputItem?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["action"].write(value.action)
-        try writer["blockOverrideDnsType"].write(value.blockOverrideDnsType)
-        try writer["blockOverrideDomain"].write(value.blockOverrideDomain)
-        try writer["blockOverrideTtl"].write(value.blockOverrideTtl)
-        try writer["blockResponse"].write(value.blockResponse)
-        try writer["clientToken"].write(value.clientToken)
-        try writer["confidenceThreshold"].write(value.confidenceThreshold)
-        try writer["description"].write(value.description)
-        try writer["dnsAdvancedProtection"].write(value.dnsAdvancedProtection)
-        try writer["dnsViewId"].write(value.dnsViewId)
-        try writer["firewallDomainListId"].write(value.firewallDomainListId)
-        try writer["name"].write(value.name)
-        try writer["priority"].write(value.priority)
-        try writer["qType"].write(value.qType)
-    }
-}
-
-extension Route53GlobalResolverClientTypes.BatchDeleteFirewallRuleInputItem {
-
-    static func write(value: Route53GlobalResolverClientTypes.BatchDeleteFirewallRuleInputItem?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["firewallRuleId"].write(value.firewallRuleId)
-    }
-}
-
-extension Route53GlobalResolverClientTypes.BatchUpdateFirewallRuleInputItem {
-
-    static func write(value: Route53GlobalResolverClientTypes.BatchUpdateFirewallRuleInputItem?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["action"].write(value.action)
-        try writer["blockOverrideDnsType"].write(value.blockOverrideDnsType)
-        try writer["blockOverrideDomain"].write(value.blockOverrideDomain)
-        try writer["blockOverrideTtl"].write(value.blockOverrideTtl)
-        try writer["blockResponse"].write(value.blockResponse)
-        try writer["confidenceThreshold"].write(value.confidenceThreshold)
-        try writer["description"].write(value.description)
-        try writer["dnsAdvancedProtection"].write(value.dnsAdvancedProtection)
-        try writer["firewallRuleId"].write(value.firewallRuleId)
-        try writer["name"].write(value.name)
-        try writer["priority"].write(value.priority)
     }
 }
 

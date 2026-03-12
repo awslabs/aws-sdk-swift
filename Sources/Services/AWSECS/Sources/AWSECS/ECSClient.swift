@@ -49,7 +49,6 @@ import protocol SmithyIdentity.BearerTokenIdentityResolver
 @_spi(AWSEndpointResolverMiddleware) import struct AWSClientRuntime.AWSEndpointResolverMiddleware
 import struct AWSClientRuntime.AmzSdkInvocationIdMiddleware
 import struct AWSClientRuntime.UserAgentMiddleware
-import struct AWSClientRuntime.XAmzTargetMiddleware
 import struct AWSSDKHTTPAuth.SigV4AuthScheme
 import struct ClientRuntime.AuthSchemeMiddleware
 @_spi(SmithyReadWrite) import struct ClientRuntime.BodyMiddleware
@@ -58,6 +57,7 @@ import struct ClientRuntime.ContentTypeMiddleware
 @_spi(SmithyReadWrite) import struct ClientRuntime.DeserializeMiddleware
 import struct ClientRuntime.IdempotencyTokenMiddleware
 import struct ClientRuntime.LoggerMiddleware
+import struct ClientRuntime.MutateHeadersMiddleware
 import struct ClientRuntime.SendableHttpInterceptorProviderBox
 import struct ClientRuntime.SendableInterceptorProviderBox
 import struct ClientRuntime.SignerMiddleware
@@ -666,7 +666,7 @@ extension ECSClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<CreateCapacityProviderOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<CreateCapacityProviderInput, CreateCapacityProviderOutput>(xAmzTarget: "AmazonEC2ContainerServiceV20141113.CreateCapacityProvider"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<CreateCapacityProviderInput, CreateCapacityProviderOutput>(overrides: ["X-Amz-Target": "AmazonEC2ContainerServiceV20141113.CreateCapacityProvider"]))
         builder.serialize(ClientRuntime.BodyMiddleware<CreateCapacityProviderInput, CreateCapacityProviderOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: CreateCapacityProviderInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<CreateCapacityProviderInput, CreateCapacityProviderOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<CreateCapacityProviderOutput>())
@@ -692,9 +692,9 @@ extension ECSClient {
     ///
     /// Creates a new Amazon ECS cluster. By default, your account receives a default cluster when you launch your first container instance. However, you can create your own cluster with a unique name. When you call the [CreateCluster](https://docs.aws.amazon.com/AmazonECS/latest/APIReference/API_CreateCluster.html) API operation, Amazon ECS attempts to create the Amazon ECS service-linked role for your account. This is so that it can manage required resources in other Amazon Web Services services on your behalf. However, if the user that makes the call doesn't have permissions to create the service-linked role, it isn't created. For more information, see [Using service-linked roles for Amazon ECS](https://docs.aws.amazon.com/AmazonECS/latest/developerguide/using-service-linked-roles.html) in the Amazon Elastic Container Service Developer Guide.
     ///
-    /// - Parameter input: [no documentation found] (Type: `CreateClusterInput`)
+    /// - Parameter input: (Type: `CreateClusterInput`)
     ///
-    /// - Returns: [no documentation found] (Type: `CreateClusterOutput`)
+    /// - Returns: (Type: `CreateClusterOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -738,7 +738,7 @@ extension ECSClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<CreateClusterOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<CreateClusterInput, CreateClusterOutput>(xAmzTarget: "AmazonEC2ContainerServiceV20141113.CreateCluster"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<CreateClusterInput, CreateClusterOutput>(overrides: ["X-Amz-Target": "AmazonEC2ContainerServiceV20141113.CreateCluster"]))
         builder.serialize(ClientRuntime.BodyMiddleware<CreateClusterInput, CreateClusterOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: CreateClusterInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<CreateClusterInput, CreateClusterOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<CreateClusterOutput>())
@@ -814,7 +814,7 @@ extension ECSClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<CreateExpressGatewayServiceOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<CreateExpressGatewayServiceInput, CreateExpressGatewayServiceOutput>(xAmzTarget: "AmazonEC2ContainerServiceV20141113.CreateExpressGatewayService"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<CreateExpressGatewayServiceInput, CreateExpressGatewayServiceOutput>(overrides: ["X-Amz-Target": "AmazonEC2ContainerServiceV20141113.CreateExpressGatewayService"]))
         builder.serialize(ClientRuntime.BodyMiddleware<CreateExpressGatewayServiceInput, CreateExpressGatewayServiceOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: CreateExpressGatewayServiceInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<CreateExpressGatewayServiceInput, CreateExpressGatewayServiceOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<CreateExpressGatewayServiceOutput>())
@@ -919,9 +919,9 @@ extension ECSClient {
     ///
     /// When creating a service that uses the EXTERNAL deployment controller, you can specify only parameters that aren't controlled at the task set level. The only required parameter is the service name. You control your services using the [CreateTaskSet](https://docs.aws.amazon.com/AmazonECS/latest/APIReference/API_CreateTaskSet.html). For more information, see [Amazon ECS deployment types](https://docs.aws.amazon.com/AmazonECS/latest/developerguide/deployment-types.html) in the Amazon Elastic Container Service Developer Guide. When the service scheduler launches new tasks, it determines task placement. For information about task placement and task placement strategies, see [Amazon ECS task placement](https://docs.aws.amazon.com/AmazonECS/latest/developerguide/task-placement.html) in the Amazon Elastic Container Service Developer Guide
     ///
-    /// - Parameter input: [no documentation found] (Type: `CreateServiceInput`)
+    /// - Parameter input: (Type: `CreateServiceInput`)
     ///
-    /// - Returns: [no documentation found] (Type: `CreateServiceOutput`)
+    /// - Returns: (Type: `CreateServiceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -970,7 +970,7 @@ extension ECSClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<CreateServiceOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<CreateServiceInput, CreateServiceOutput>(xAmzTarget: "AmazonEC2ContainerServiceV20141113.CreateService"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<CreateServiceInput, CreateServiceOutput>(overrides: ["X-Amz-Target": "AmazonEC2ContainerServiceV20141113.CreateService"]))
         builder.serialize(ClientRuntime.BodyMiddleware<CreateServiceInput, CreateServiceOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: CreateServiceInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<CreateServiceInput, CreateServiceOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<CreateServiceOutput>())
@@ -1049,7 +1049,7 @@ extension ECSClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<CreateTaskSetOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<CreateTaskSetInput, CreateTaskSetOutput>(xAmzTarget: "AmazonEC2ContainerServiceV20141113.CreateTaskSet"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<CreateTaskSetInput, CreateTaskSetOutput>(overrides: ["X-Amz-Target": "AmazonEC2ContainerServiceV20141113.CreateTaskSet"]))
         builder.serialize(ClientRuntime.BodyMiddleware<CreateTaskSetInput, CreateTaskSetOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: CreateTaskSetInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<CreateTaskSetInput, CreateTaskSetOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<CreateTaskSetOutput>())
@@ -1120,7 +1120,7 @@ extension ECSClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<DeleteAccountSettingOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<DeleteAccountSettingInput, DeleteAccountSettingOutput>(xAmzTarget: "AmazonEC2ContainerServiceV20141113.DeleteAccountSetting"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<DeleteAccountSettingInput, DeleteAccountSettingOutput>(overrides: ["X-Amz-Target": "AmazonEC2ContainerServiceV20141113.DeleteAccountSetting"]))
         builder.serialize(ClientRuntime.BodyMiddleware<DeleteAccountSettingInput, DeleteAccountSettingOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: DeleteAccountSettingInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DeleteAccountSettingInput, DeleteAccountSettingOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DeleteAccountSettingOutput>())
@@ -1146,9 +1146,9 @@ extension ECSClient {
     ///
     /// Deletes one or more custom attributes from an Amazon ECS resource.
     ///
-    /// - Parameter input: [no documentation found] (Type: `DeleteAttributesInput`)
+    /// - Parameter input: (Type: `DeleteAttributesInput`)
     ///
-    /// - Returns: [no documentation found] (Type: `DeleteAttributesOutput`)
+    /// - Returns: (Type: `DeleteAttributesOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1191,7 +1191,7 @@ extension ECSClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<DeleteAttributesOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<DeleteAttributesInput, DeleteAttributesOutput>(xAmzTarget: "AmazonEC2ContainerServiceV20141113.DeleteAttributes"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<DeleteAttributesInput, DeleteAttributesOutput>(overrides: ["X-Amz-Target": "AmazonEC2ContainerServiceV20141113.DeleteAttributes"]))
         builder.serialize(ClientRuntime.BodyMiddleware<DeleteAttributesInput, DeleteAttributesOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: DeleteAttributesInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DeleteAttributesInput, DeleteAttributesOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DeleteAttributesOutput>())
@@ -1264,7 +1264,7 @@ extension ECSClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<DeleteCapacityProviderOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<DeleteCapacityProviderInput, DeleteCapacityProviderOutput>(xAmzTarget: "AmazonEC2ContainerServiceV20141113.DeleteCapacityProvider"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<DeleteCapacityProviderInput, DeleteCapacityProviderOutput>(overrides: ["X-Amz-Target": "AmazonEC2ContainerServiceV20141113.DeleteCapacityProvider"]))
         builder.serialize(ClientRuntime.BodyMiddleware<DeleteCapacityProviderInput, DeleteCapacityProviderOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: DeleteCapacityProviderInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DeleteCapacityProviderInput, DeleteCapacityProviderOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DeleteCapacityProviderOutput>())
@@ -1290,9 +1290,9 @@ extension ECSClient {
     ///
     /// Deletes the specified cluster. The cluster transitions to the INACTIVE state. Clusters with an INACTIVE status might remain discoverable in your account for a period of time. However, this behavior is subject to change in the future. We don't recommend that you rely on INACTIVE clusters persisting. You must deregister all container instances from this cluster before you may delete it. You can list the container instances in a cluster with [ListContainerInstances](https://docs.aws.amazon.com/AmazonECS/latest/APIReference/API_ListContainerInstances.html) and deregister them with [DeregisterContainerInstance](https://docs.aws.amazon.com/AmazonECS/latest/APIReference/API_DeregisterContainerInstance.html).
     ///
-    /// - Parameter input: [no documentation found] (Type: `DeleteClusterInput`)
+    /// - Parameter input: (Type: `DeleteClusterInput`)
     ///
-    /// - Returns: [no documentation found] (Type: `DeleteClusterOutput`)
+    /// - Returns: (Type: `DeleteClusterOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1341,7 +1341,7 @@ extension ECSClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<DeleteClusterOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<DeleteClusterInput, DeleteClusterOutput>(xAmzTarget: "AmazonEC2ContainerServiceV20141113.DeleteCluster"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<DeleteClusterInput, DeleteClusterOutput>(overrides: ["X-Amz-Target": "AmazonEC2ContainerServiceV20141113.DeleteCluster"]))
         builder.serialize(ClientRuntime.BodyMiddleware<DeleteClusterInput, DeleteClusterOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: DeleteClusterInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DeleteClusterInput, DeleteClusterOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DeleteClusterOutput>())
@@ -1417,7 +1417,7 @@ extension ECSClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<DeleteExpressGatewayServiceOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<DeleteExpressGatewayServiceInput, DeleteExpressGatewayServiceOutput>(xAmzTarget: "AmazonEC2ContainerServiceV20141113.DeleteExpressGatewayService"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<DeleteExpressGatewayServiceInput, DeleteExpressGatewayServiceOutput>(overrides: ["X-Amz-Target": "AmazonEC2ContainerServiceV20141113.DeleteExpressGatewayService"]))
         builder.serialize(ClientRuntime.BodyMiddleware<DeleteExpressGatewayServiceInput, DeleteExpressGatewayServiceOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: DeleteExpressGatewayServiceInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DeleteExpressGatewayServiceInput, DeleteExpressGatewayServiceOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DeleteExpressGatewayServiceOutput>())
@@ -1443,9 +1443,9 @@ extension ECSClient {
     ///
     /// Deletes a specified service within a cluster. You can delete a service if you have no running tasks in it and the desired task count is zero. If the service is actively maintaining tasks, you can't delete it, and you must update the service to a desired task count of zero. For more information, see [UpdateService](https://docs.aws.amazon.com/AmazonECS/latest/APIReference/API_UpdateService.html). When you delete a service, if there are still running tasks that require cleanup, the service status moves from ACTIVE to DRAINING, and the service is no longer visible in the console or in the [ListServices](https://docs.aws.amazon.com/AmazonECS/latest/APIReference/API_ListServices.html) API operation. After all tasks have transitioned to either STOPPING or STOPPED status, the service status moves from DRAINING to INACTIVE. Services in the DRAINING or INACTIVE status can still be viewed with the [DescribeServices](https://docs.aws.amazon.com/AmazonECS/latest/APIReference/API_DescribeServices.html) API operation. However, in the future, INACTIVE services may be cleaned up and purged from Amazon ECS record keeping, and [DescribeServices](https://docs.aws.amazon.com/AmazonECS/latest/APIReference/API_DescribeServices.html) calls on those services return a ServiceNotFoundException error. If you attempt to create a new service with the same name as an existing service in either ACTIVE or DRAINING status, you receive an error.
     ///
-    /// - Parameter input: [no documentation found] (Type: `DeleteServiceInput`)
+    /// - Parameter input: (Type: `DeleteServiceInput`)
     ///
-    /// - Returns: [no documentation found] (Type: `DeleteServiceOutput`)
+    /// - Returns: (Type: `DeleteServiceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1490,7 +1490,7 @@ extension ECSClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<DeleteServiceOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<DeleteServiceInput, DeleteServiceOutput>(xAmzTarget: "AmazonEC2ContainerServiceV20141113.DeleteService"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<DeleteServiceInput, DeleteServiceOutput>(overrides: ["X-Amz-Target": "AmazonEC2ContainerServiceV20141113.DeleteService"]))
         builder.serialize(ClientRuntime.BodyMiddleware<DeleteServiceInput, DeleteServiceOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: DeleteServiceInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DeleteServiceInput, DeleteServiceOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DeleteServiceOutput>())
@@ -1562,7 +1562,7 @@ extension ECSClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<DeleteTaskDefinitionsOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<DeleteTaskDefinitionsInput, DeleteTaskDefinitionsOutput>(xAmzTarget: "AmazonEC2ContainerServiceV20141113.DeleteTaskDefinitions"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<DeleteTaskDefinitionsInput, DeleteTaskDefinitionsOutput>(overrides: ["X-Amz-Target": "AmazonEC2ContainerServiceV20141113.DeleteTaskDefinitions"]))
         builder.serialize(ClientRuntime.BodyMiddleware<DeleteTaskDefinitionsInput, DeleteTaskDefinitionsOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: DeleteTaskDefinitionsInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DeleteTaskDefinitionsInput, DeleteTaskDefinitionsOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DeleteTaskDefinitionsOutput>())
@@ -1639,7 +1639,7 @@ extension ECSClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<DeleteTaskSetOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<DeleteTaskSetInput, DeleteTaskSetOutput>(xAmzTarget: "AmazonEC2ContainerServiceV20141113.DeleteTaskSet"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<DeleteTaskSetInput, DeleteTaskSetOutput>(overrides: ["X-Amz-Target": "AmazonEC2ContainerServiceV20141113.DeleteTaskSet"]))
         builder.serialize(ClientRuntime.BodyMiddleware<DeleteTaskSetInput, DeleteTaskSetOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: DeleteTaskSetInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DeleteTaskSetInput, DeleteTaskSetOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DeleteTaskSetOutput>())
@@ -1665,9 +1665,9 @@ extension ECSClient {
     ///
     /// Deregisters an Amazon ECS container instance from the specified cluster. This instance is no longer available to run tasks. If you intend to use the container instance for some other purpose after deregistration, we recommend that you stop all of the tasks running on the container instance before deregistration. That prevents any orphaned tasks from consuming resources. Deregistering a container instance removes the instance from a cluster, but it doesn't terminate the EC2 instance. If you are finished using the instance, be sure to terminate it in the Amazon EC2 console to stop billing. If you terminate a running container instance, Amazon ECS automatically deregisters the instance from your cluster (stopped container instances or instances with disconnected agents aren't automatically deregistered when terminated).
     ///
-    /// - Parameter input: [no documentation found] (Type: `DeregisterContainerInstanceInput`)
+    /// - Parameter input: (Type: `DeregisterContainerInstanceInput`)
     ///
-    /// - Returns: [no documentation found] (Type: `DeregisterContainerInstanceOutput`)
+    /// - Returns: (Type: `DeregisterContainerInstanceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1711,7 +1711,7 @@ extension ECSClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<DeregisterContainerInstanceOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<DeregisterContainerInstanceInput, DeregisterContainerInstanceOutput>(xAmzTarget: "AmazonEC2ContainerServiceV20141113.DeregisterContainerInstance"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<DeregisterContainerInstanceInput, DeregisterContainerInstanceOutput>(overrides: ["X-Amz-Target": "AmazonEC2ContainerServiceV20141113.DeregisterContainerInstance"]))
         builder.serialize(ClientRuntime.BodyMiddleware<DeregisterContainerInstanceInput, DeregisterContainerInstanceOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: DeregisterContainerInstanceInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DeregisterContainerInstanceInput, DeregisterContainerInstanceOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DeregisterContainerInstanceOutput>())
@@ -1737,9 +1737,9 @@ extension ECSClient {
     ///
     /// Deregisters the specified task definition by family and revision. Upon deregistration, the task definition is marked as INACTIVE. Existing tasks and services that reference an INACTIVE task definition continue to run without disruption. Existing services that reference an INACTIVE task definition can still scale up or down by modifying the service's desired count. If you want to delete a task definition revision, you must first deregister the task definition revision. You can't use an INACTIVE task definition to run new tasks or create new services, and you can't update an existing service to reference an INACTIVE task definition. However, there may be up to a 10-minute window following deregistration where these restrictions have not yet taken effect. At this time, INACTIVE task definitions remain discoverable in your account indefinitely. However, this behavior is subject to change in the future. We don't recommend that you rely on INACTIVE task definitions persisting beyond the lifecycle of any associated tasks and services. You must deregister a task definition revision before you delete it. For more information, see [DeleteTaskDefinitions](https://docs.aws.amazon.com/AmazonECS/latest/APIReference/API_DeleteTaskDefinitions.html).
     ///
-    /// - Parameter input: [no documentation found] (Type: `DeregisterTaskDefinitionInput`)
+    /// - Parameter input: (Type: `DeregisterTaskDefinitionInput`)
     ///
-    /// - Returns: [no documentation found] (Type: `DeregisterTaskDefinitionOutput`)
+    /// - Returns: (Type: `DeregisterTaskDefinitionOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1782,7 +1782,7 @@ extension ECSClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<DeregisterTaskDefinitionOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<DeregisterTaskDefinitionInput, DeregisterTaskDefinitionOutput>(xAmzTarget: "AmazonEC2ContainerServiceV20141113.DeregisterTaskDefinition"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<DeregisterTaskDefinitionInput, DeregisterTaskDefinitionOutput>(overrides: ["X-Amz-Target": "AmazonEC2ContainerServiceV20141113.DeregisterTaskDefinition"]))
         builder.serialize(ClientRuntime.BodyMiddleware<DeregisterTaskDefinitionInput, DeregisterTaskDefinitionOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: DeregisterTaskDefinitionInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DeregisterTaskDefinitionInput, DeregisterTaskDefinitionOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DeregisterTaskDefinitionOutput>())
@@ -1855,7 +1855,7 @@ extension ECSClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<DescribeCapacityProvidersOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<DescribeCapacityProvidersInput, DescribeCapacityProvidersOutput>(xAmzTarget: "AmazonEC2ContainerServiceV20141113.DescribeCapacityProviders"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<DescribeCapacityProvidersInput, DescribeCapacityProvidersOutput>(overrides: ["X-Amz-Target": "AmazonEC2ContainerServiceV20141113.DescribeCapacityProviders"]))
         builder.serialize(ClientRuntime.BodyMiddleware<DescribeCapacityProvidersInput, DescribeCapacityProvidersOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: DescribeCapacityProvidersInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DescribeCapacityProvidersInput, DescribeCapacityProvidersOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DescribeCapacityProvidersOutput>())
@@ -1881,9 +1881,9 @@ extension ECSClient {
     ///
     /// Describes one or more of your clusters. For CLI examples, see [describe-clusters.rst](https://github.com/aws/aws-cli/blob/develop/awscli/examples/ecs/describe-clusters.rst) on GitHub.
     ///
-    /// - Parameter input: [no documentation found] (Type: `DescribeClustersInput`)
+    /// - Parameter input: (Type: `DescribeClustersInput`)
     ///
-    /// - Returns: [no documentation found] (Type: `DescribeClustersOutput`)
+    /// - Returns: (Type: `DescribeClustersOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1926,7 +1926,7 @@ extension ECSClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<DescribeClustersOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<DescribeClustersInput, DescribeClustersOutput>(xAmzTarget: "AmazonEC2ContainerServiceV20141113.DescribeClusters"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<DescribeClustersInput, DescribeClustersOutput>(overrides: ["X-Amz-Target": "AmazonEC2ContainerServiceV20141113.DescribeClusters"]))
         builder.serialize(ClientRuntime.BodyMiddleware<DescribeClustersInput, DescribeClustersOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: DescribeClustersInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DescribeClustersInput, DescribeClustersOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DescribeClustersOutput>())
@@ -1952,9 +1952,9 @@ extension ECSClient {
     ///
     /// Describes one or more container instances. Returns metadata about each container instance requested.
     ///
-    /// - Parameter input: [no documentation found] (Type: `DescribeContainerInstancesInput`)
+    /// - Parameter input: (Type: `DescribeContainerInstancesInput`)
     ///
-    /// - Returns: [no documentation found] (Type: `DescribeContainerInstancesOutput`)
+    /// - Returns: (Type: `DescribeContainerInstancesOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1998,7 +1998,7 @@ extension ECSClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<DescribeContainerInstancesOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<DescribeContainerInstancesInput, DescribeContainerInstancesOutput>(xAmzTarget: "AmazonEC2ContainerServiceV20141113.DescribeContainerInstances"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<DescribeContainerInstancesInput, DescribeContainerInstancesOutput>(overrides: ["X-Amz-Target": "AmazonEC2ContainerServiceV20141113.DescribeContainerInstances"]))
         builder.serialize(ClientRuntime.BodyMiddleware<DescribeContainerInstancesInput, DescribeContainerInstancesOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: DescribeContainerInstancesInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DescribeContainerInstancesInput, DescribeContainerInstancesOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DescribeContainerInstancesOutput>())
@@ -2073,7 +2073,7 @@ extension ECSClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<DescribeExpressGatewayServiceOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<DescribeExpressGatewayServiceInput, DescribeExpressGatewayServiceOutput>(xAmzTarget: "AmazonEC2ContainerServiceV20141113.DescribeExpressGatewayService"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<DescribeExpressGatewayServiceInput, DescribeExpressGatewayServiceOutput>(overrides: ["X-Amz-Target": "AmazonEC2ContainerServiceV20141113.DescribeExpressGatewayService"]))
         builder.serialize(ClientRuntime.BodyMiddleware<DescribeExpressGatewayServiceInput, DescribeExpressGatewayServiceOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: DescribeExpressGatewayServiceInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DescribeExpressGatewayServiceInput, DescribeExpressGatewayServiceOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DescribeExpressGatewayServiceOutput>())
@@ -2148,7 +2148,7 @@ extension ECSClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<DescribeServiceDeploymentsOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<DescribeServiceDeploymentsInput, DescribeServiceDeploymentsOutput>(xAmzTarget: "AmazonEC2ContainerServiceV20141113.DescribeServiceDeployments"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<DescribeServiceDeploymentsInput, DescribeServiceDeploymentsOutput>(overrides: ["X-Amz-Target": "AmazonEC2ContainerServiceV20141113.DescribeServiceDeployments"]))
         builder.serialize(ClientRuntime.BodyMiddleware<DescribeServiceDeploymentsInput, DescribeServiceDeploymentsOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: DescribeServiceDeploymentsInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DescribeServiceDeploymentsInput, DescribeServiceDeploymentsOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DescribeServiceDeploymentsOutput>())
@@ -2223,7 +2223,7 @@ extension ECSClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<DescribeServiceRevisionsOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<DescribeServiceRevisionsInput, DescribeServiceRevisionsOutput>(xAmzTarget: "AmazonEC2ContainerServiceV20141113.DescribeServiceRevisions"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<DescribeServiceRevisionsInput, DescribeServiceRevisionsOutput>(overrides: ["X-Amz-Target": "AmazonEC2ContainerServiceV20141113.DescribeServiceRevisions"]))
         builder.serialize(ClientRuntime.BodyMiddleware<DescribeServiceRevisionsInput, DescribeServiceRevisionsOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: DescribeServiceRevisionsInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DescribeServiceRevisionsInput, DescribeServiceRevisionsOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DescribeServiceRevisionsOutput>())
@@ -2249,9 +2249,9 @@ extension ECSClient {
     ///
     /// Describes the specified services running in your cluster.
     ///
-    /// - Parameter input: [no documentation found] (Type: `DescribeServicesInput`)
+    /// - Parameter input: (Type: `DescribeServicesInput`)
     ///
-    /// - Returns: [no documentation found] (Type: `DescribeServicesOutput`)
+    /// - Returns: (Type: `DescribeServicesOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2295,7 +2295,7 @@ extension ECSClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<DescribeServicesOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<DescribeServicesInput, DescribeServicesOutput>(xAmzTarget: "AmazonEC2ContainerServiceV20141113.DescribeServices"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<DescribeServicesInput, DescribeServicesOutput>(overrides: ["X-Amz-Target": "AmazonEC2ContainerServiceV20141113.DescribeServices"]))
         builder.serialize(ClientRuntime.BodyMiddleware<DescribeServicesInput, DescribeServicesOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: DescribeServicesInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DescribeServicesInput, DescribeServicesOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DescribeServicesOutput>())
@@ -2321,9 +2321,9 @@ extension ECSClient {
     ///
     /// Describes a task definition. You can specify a family and revision to find information about a specific task definition, or you can simply specify the family to find the latest ACTIVE revision in that family. You can only describe INACTIVE task definitions while an active task or service references them.
     ///
-    /// - Parameter input: [no documentation found] (Type: `DescribeTaskDefinitionInput`)
+    /// - Parameter input: (Type: `DescribeTaskDefinitionInput`)
     ///
-    /// - Returns: [no documentation found] (Type: `DescribeTaskDefinitionOutput`)
+    /// - Returns: (Type: `DescribeTaskDefinitionOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2366,7 +2366,7 @@ extension ECSClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<DescribeTaskDefinitionOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<DescribeTaskDefinitionInput, DescribeTaskDefinitionOutput>(xAmzTarget: "AmazonEC2ContainerServiceV20141113.DescribeTaskDefinition"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<DescribeTaskDefinitionInput, DescribeTaskDefinitionOutput>(overrides: ["X-Amz-Target": "AmazonEC2ContainerServiceV20141113.DescribeTaskDefinition"]))
         builder.serialize(ClientRuntime.BodyMiddleware<DescribeTaskDefinitionInput, DescribeTaskDefinitionOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: DescribeTaskDefinitionInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DescribeTaskDefinitionInput, DescribeTaskDefinitionOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DescribeTaskDefinitionOutput>())
@@ -2442,7 +2442,7 @@ extension ECSClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<DescribeTaskSetsOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<DescribeTaskSetsInput, DescribeTaskSetsOutput>(xAmzTarget: "AmazonEC2ContainerServiceV20141113.DescribeTaskSets"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<DescribeTaskSetsInput, DescribeTaskSetsOutput>(overrides: ["X-Amz-Target": "AmazonEC2ContainerServiceV20141113.DescribeTaskSets"]))
         builder.serialize(ClientRuntime.BodyMiddleware<DescribeTaskSetsInput, DescribeTaskSetsOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: DescribeTaskSetsInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DescribeTaskSetsInput, DescribeTaskSetsOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DescribeTaskSetsOutput>())
@@ -2468,9 +2468,9 @@ extension ECSClient {
     ///
     /// Describes a specified task or tasks. Currently, stopped tasks appear in the returned results for at least one hour. If you have tasks with tags, and then delete the cluster, the tagged tasks are returned in the response. If you create a new cluster with the same name as the deleted cluster, the tagged tasks are not included in the response.
     ///
-    /// - Parameter input: [no documentation found] (Type: `DescribeTasksInput`)
+    /// - Parameter input: (Type: `DescribeTasksInput`)
     ///
-    /// - Returns: [no documentation found] (Type: `DescribeTasksOutput`)
+    /// - Returns: (Type: `DescribeTasksOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2514,7 +2514,7 @@ extension ECSClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<DescribeTasksOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<DescribeTasksInput, DescribeTasksOutput>(xAmzTarget: "AmazonEC2ContainerServiceV20141113.DescribeTasks"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<DescribeTasksInput, DescribeTasksOutput>(overrides: ["X-Amz-Target": "AmazonEC2ContainerServiceV20141113.DescribeTasks"]))
         builder.serialize(ClientRuntime.BodyMiddleware<DescribeTasksInput, DescribeTasksOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: DescribeTasksInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DescribeTasksInput, DescribeTasksOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DescribeTasksOutput>())
@@ -2540,9 +2540,9 @@ extension ECSClient {
     ///
     /// This action is only used by the Amazon ECS agent, and it is not intended for use outside of the agent. Returns an endpoint for the Amazon ECS agent to poll for updates.
     ///
-    /// - Parameter input: [no documentation found] (Type: `DiscoverPollEndpointInput`)
+    /// - Parameter input: (Type: `DiscoverPollEndpointInput`)
     ///
-    /// - Returns: [no documentation found] (Type: `DiscoverPollEndpointOutput`)
+    /// - Returns: (Type: `DiscoverPollEndpointOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2584,7 +2584,7 @@ extension ECSClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<DiscoverPollEndpointOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<DiscoverPollEndpointInput, DiscoverPollEndpointOutput>(xAmzTarget: "AmazonEC2ContainerServiceV20141113.DiscoverPollEndpoint"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<DiscoverPollEndpointInput, DiscoverPollEndpointOutput>(overrides: ["X-Amz-Target": "AmazonEC2ContainerServiceV20141113.DiscoverPollEndpoint"]))
         builder.serialize(ClientRuntime.BodyMiddleware<DiscoverPollEndpointInput, DiscoverPollEndpointOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: DiscoverPollEndpointInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DiscoverPollEndpointInput, DiscoverPollEndpointOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DiscoverPollEndpointOutput>())
@@ -2667,7 +2667,7 @@ extension ECSClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<ExecuteCommandOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<ExecuteCommandInput, ExecuteCommandOutput>(xAmzTarget: "AmazonEC2ContainerServiceV20141113.ExecuteCommand"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<ExecuteCommandInput, ExecuteCommandOutput>(overrides: ["X-Amz-Target": "AmazonEC2ContainerServiceV20141113.ExecuteCommand"]))
         builder.serialize(ClientRuntime.BodyMiddleware<ExecuteCommandInput, ExecuteCommandOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: ExecuteCommandInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<ExecuteCommandInput, ExecuteCommandOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ExecuteCommandOutput>())
@@ -2742,7 +2742,7 @@ extension ECSClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<GetTaskProtectionOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<GetTaskProtectionInput, GetTaskProtectionOutput>(xAmzTarget: "AmazonEC2ContainerServiceV20141113.GetTaskProtection"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<GetTaskProtectionInput, GetTaskProtectionOutput>(overrides: ["X-Amz-Target": "AmazonEC2ContainerServiceV20141113.GetTaskProtection"]))
         builder.serialize(ClientRuntime.BodyMiddleware<GetTaskProtectionInput, GetTaskProtectionOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: GetTaskProtectionInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<GetTaskProtectionInput, GetTaskProtectionOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<GetTaskProtectionOutput>())
@@ -2813,7 +2813,7 @@ extension ECSClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<ListAccountSettingsOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<ListAccountSettingsInput, ListAccountSettingsOutput>(xAmzTarget: "AmazonEC2ContainerServiceV20141113.ListAccountSettings"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<ListAccountSettingsInput, ListAccountSettingsOutput>(overrides: ["X-Amz-Target": "AmazonEC2ContainerServiceV20141113.ListAccountSettings"]))
         builder.serialize(ClientRuntime.BodyMiddleware<ListAccountSettingsInput, ListAccountSettingsOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: ListAccountSettingsInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<ListAccountSettingsInput, ListAccountSettingsOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ListAccountSettingsOutput>())
@@ -2841,7 +2841,7 @@ extension ECSClient {
     ///
     /// - Parameter input: [no documentation found] (Type: `ListAttributesInput`)
     ///
-    /// - Returns: [no documentation found] (Type: `ListAttributesOutput`)
+    /// - Returns: (Type: `ListAttributesOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2883,7 +2883,7 @@ extension ECSClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<ListAttributesOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<ListAttributesInput, ListAttributesOutput>(xAmzTarget: "AmazonEC2ContainerServiceV20141113.ListAttributes"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<ListAttributesInput, ListAttributesOutput>(overrides: ["X-Amz-Target": "AmazonEC2ContainerServiceV20141113.ListAttributes"]))
         builder.serialize(ClientRuntime.BodyMiddleware<ListAttributesInput, ListAttributesOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: ListAttributesInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<ListAttributesInput, ListAttributesOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ListAttributesOutput>())
@@ -2909,9 +2909,9 @@ extension ECSClient {
     ///
     /// Returns a list of existing clusters.
     ///
-    /// - Parameter input: [no documentation found] (Type: `ListClustersInput`)
+    /// - Parameter input: (Type: `ListClustersInput`)
     ///
-    /// - Returns: [no documentation found] (Type: `ListClustersOutput`)
+    /// - Returns: (Type: `ListClustersOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2954,7 +2954,7 @@ extension ECSClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<ListClustersOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<ListClustersInput, ListClustersOutput>(xAmzTarget: "AmazonEC2ContainerServiceV20141113.ListClusters"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<ListClustersInput, ListClustersOutput>(overrides: ["X-Amz-Target": "AmazonEC2ContainerServiceV20141113.ListClusters"]))
         builder.serialize(ClientRuntime.BodyMiddleware<ListClustersInput, ListClustersOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: ListClustersInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<ListClustersInput, ListClustersOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ListClustersOutput>())
@@ -2980,9 +2980,9 @@ extension ECSClient {
     ///
     /// Returns a list of container instances in a specified cluster. You can filter the results of a ListContainerInstances operation with cluster query language statements inside the filter parameter. For more information, see [Cluster Query Language](https://docs.aws.amazon.com/AmazonECS/latest/developerguide/cluster-query-language.html) in the Amazon Elastic Container Service Developer Guide.
     ///
-    /// - Parameter input: [no documentation found] (Type: `ListContainerInstancesInput`)
+    /// - Parameter input: (Type: `ListContainerInstancesInput`)
     ///
-    /// - Returns: [no documentation found] (Type: `ListContainerInstancesOutput`)
+    /// - Returns: (Type: `ListContainerInstancesOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3026,7 +3026,7 @@ extension ECSClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<ListContainerInstancesOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<ListContainerInstancesInput, ListContainerInstancesOutput>(xAmzTarget: "AmazonEC2ContainerServiceV20141113.ListContainerInstances"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<ListContainerInstancesInput, ListContainerInstancesOutput>(overrides: ["X-Amz-Target": "AmazonEC2ContainerServiceV20141113.ListContainerInstances"]))
         builder.serialize(ClientRuntime.BodyMiddleware<ListContainerInstancesInput, ListContainerInstancesOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: ListContainerInstancesInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<ListContainerInstancesInput, ListContainerInstancesOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ListContainerInstancesOutput>())
@@ -3100,7 +3100,7 @@ extension ECSClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<ListServiceDeploymentsOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<ListServiceDeploymentsInput, ListServiceDeploymentsOutput>(xAmzTarget: "AmazonEC2ContainerServiceV20141113.ListServiceDeployments"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<ListServiceDeploymentsInput, ListServiceDeploymentsOutput>(overrides: ["X-Amz-Target": "AmazonEC2ContainerServiceV20141113.ListServiceDeployments"]))
         builder.serialize(ClientRuntime.BodyMiddleware<ListServiceDeploymentsInput, ListServiceDeploymentsOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: ListServiceDeploymentsInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<ListServiceDeploymentsInput, ListServiceDeploymentsOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ListServiceDeploymentsOutput>())
@@ -3126,9 +3126,9 @@ extension ECSClient {
     ///
     /// Returns a list of services. You can filter the results by cluster, launch type, and scheduling strategy.
     ///
-    /// - Parameter input: [no documentation found] (Type: `ListServicesInput`)
+    /// - Parameter input: (Type: `ListServicesInput`)
     ///
-    /// - Returns: [no documentation found] (Type: `ListServicesOutput`)
+    /// - Returns: (Type: `ListServicesOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3172,7 +3172,7 @@ extension ECSClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<ListServicesOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<ListServicesInput, ListServicesOutput>(xAmzTarget: "AmazonEC2ContainerServiceV20141113.ListServices"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<ListServicesInput, ListServicesOutput>(overrides: ["X-Amz-Target": "AmazonEC2ContainerServiceV20141113.ListServices"]))
         builder.serialize(ClientRuntime.BodyMiddleware<ListServicesInput, ListServicesOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: ListServicesInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<ListServicesInput, ListServicesOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ListServicesOutput>())
@@ -3244,7 +3244,7 @@ extension ECSClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<ListServicesByNamespaceOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<ListServicesByNamespaceInput, ListServicesByNamespaceOutput>(xAmzTarget: "AmazonEC2ContainerServiceV20141113.ListServicesByNamespace"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<ListServicesByNamespaceInput, ListServicesByNamespaceOutput>(overrides: ["X-Amz-Target": "AmazonEC2ContainerServiceV20141113.ListServicesByNamespace"]))
         builder.serialize(ClientRuntime.BodyMiddleware<ListServicesByNamespaceInput, ListServicesByNamespaceOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: ListServicesByNamespaceInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<ListServicesByNamespaceInput, ListServicesByNamespaceOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ListServicesByNamespaceOutput>())
@@ -3316,7 +3316,7 @@ extension ECSClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<ListTagsForResourceOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<ListTagsForResourceInput, ListTagsForResourceOutput>(xAmzTarget: "AmazonEC2ContainerServiceV20141113.ListTagsForResource"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<ListTagsForResourceInput, ListTagsForResourceOutput>(overrides: ["X-Amz-Target": "AmazonEC2ContainerServiceV20141113.ListTagsForResource"]))
         builder.serialize(ClientRuntime.BodyMiddleware<ListTagsForResourceInput, ListTagsForResourceOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: ListTagsForResourceInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<ListTagsForResourceInput, ListTagsForResourceOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ListTagsForResourceOutput>())
@@ -3342,9 +3342,9 @@ extension ECSClient {
     ///
     /// Returns a list of task definition families that are registered to your account. This list includes task definition families that no longer have any ACTIVE task definition revisions. You can filter out task definition families that don't contain any ACTIVE task definition revisions by setting the status parameter to ACTIVE. You can also filter the results with the familyPrefix parameter.
     ///
-    /// - Parameter input: [no documentation found] (Type: `ListTaskDefinitionFamiliesInput`)
+    /// - Parameter input: (Type: `ListTaskDefinitionFamiliesInput`)
     ///
-    /// - Returns: [no documentation found] (Type: `ListTaskDefinitionFamiliesOutput`)
+    /// - Returns: (Type: `ListTaskDefinitionFamiliesOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3387,7 +3387,7 @@ extension ECSClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<ListTaskDefinitionFamiliesOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<ListTaskDefinitionFamiliesInput, ListTaskDefinitionFamiliesOutput>(xAmzTarget: "AmazonEC2ContainerServiceV20141113.ListTaskDefinitionFamilies"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<ListTaskDefinitionFamiliesInput, ListTaskDefinitionFamiliesOutput>(overrides: ["X-Amz-Target": "AmazonEC2ContainerServiceV20141113.ListTaskDefinitionFamilies"]))
         builder.serialize(ClientRuntime.BodyMiddleware<ListTaskDefinitionFamiliesInput, ListTaskDefinitionFamiliesOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: ListTaskDefinitionFamiliesInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<ListTaskDefinitionFamiliesInput, ListTaskDefinitionFamiliesOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ListTaskDefinitionFamiliesOutput>())
@@ -3413,9 +3413,9 @@ extension ECSClient {
     ///
     /// Returns a list of task definitions that are registered to your account. You can filter the results by family name with the familyPrefix parameter or by status with the status parameter.
     ///
-    /// - Parameter input: [no documentation found] (Type: `ListTaskDefinitionsInput`)
+    /// - Parameter input: (Type: `ListTaskDefinitionsInput`)
     ///
-    /// - Returns: [no documentation found] (Type: `ListTaskDefinitionsOutput`)
+    /// - Returns: (Type: `ListTaskDefinitionsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3458,7 +3458,7 @@ extension ECSClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<ListTaskDefinitionsOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<ListTaskDefinitionsInput, ListTaskDefinitionsOutput>(xAmzTarget: "AmazonEC2ContainerServiceV20141113.ListTaskDefinitions"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<ListTaskDefinitionsInput, ListTaskDefinitionsOutput>(overrides: ["X-Amz-Target": "AmazonEC2ContainerServiceV20141113.ListTaskDefinitions"]))
         builder.serialize(ClientRuntime.BodyMiddleware<ListTaskDefinitionsInput, ListTaskDefinitionsOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: ListTaskDefinitionsInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<ListTaskDefinitionsInput, ListTaskDefinitionsOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ListTaskDefinitionsOutput>())
@@ -3484,9 +3484,9 @@ extension ECSClient {
     ///
     /// Returns a list of tasks. You can filter the results by cluster, task definition family, container instance, launch type, what IAM principal started the task, or by the desired status of the task. Recently stopped tasks might appear in the returned results.
     ///
-    /// - Parameter input: [no documentation found] (Type: `ListTasksInput`)
+    /// - Parameter input: (Type: `ListTasksInput`)
     ///
-    /// - Returns: [no documentation found] (Type: `ListTasksOutput`)
+    /// - Returns: (Type: `ListTasksOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3531,7 +3531,7 @@ extension ECSClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<ListTasksOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<ListTasksInput, ListTasksOutput>(xAmzTarget: "AmazonEC2ContainerServiceV20141113.ListTasks"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<ListTasksInput, ListTasksOutput>(overrides: ["X-Amz-Target": "AmazonEC2ContainerServiceV20141113.ListTasks"]))
         builder.serialize(ClientRuntime.BodyMiddleware<ListTasksInput, ListTasksOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: ListTasksInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<ListTasksInput, ListTasksOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ListTasksOutput>())
@@ -3602,7 +3602,7 @@ extension ECSClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<PutAccountSettingOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<PutAccountSettingInput, PutAccountSettingOutput>(xAmzTarget: "AmazonEC2ContainerServiceV20141113.PutAccountSetting"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<PutAccountSettingInput, PutAccountSettingOutput>(overrides: ["X-Amz-Target": "AmazonEC2ContainerServiceV20141113.PutAccountSetting"]))
         builder.serialize(ClientRuntime.BodyMiddleware<PutAccountSettingInput, PutAccountSettingOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: PutAccountSettingInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<PutAccountSettingInput, PutAccountSettingOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<PutAccountSettingOutput>())
@@ -3673,7 +3673,7 @@ extension ECSClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<PutAccountSettingDefaultOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<PutAccountSettingDefaultInput, PutAccountSettingDefaultOutput>(xAmzTarget: "AmazonEC2ContainerServiceV20141113.PutAccountSettingDefault"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<PutAccountSettingDefaultInput, PutAccountSettingDefaultOutput>(overrides: ["X-Amz-Target": "AmazonEC2ContainerServiceV20141113.PutAccountSettingDefault"]))
         builder.serialize(ClientRuntime.BodyMiddleware<PutAccountSettingDefaultInput, PutAccountSettingDefaultOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: PutAccountSettingDefaultInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<PutAccountSettingDefaultInput, PutAccountSettingDefaultOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<PutAccountSettingDefaultOutput>())
@@ -3699,9 +3699,9 @@ extension ECSClient {
     ///
     /// Create or update an attribute on an Amazon ECS resource. If the attribute doesn't exist, it's created. If the attribute exists, its value is replaced with the specified value. To delete an attribute, use [DeleteAttributes](https://docs.aws.amazon.com/AmazonECS/latest/APIReference/API_DeleteAttributes.html). For more information, see [Attributes](https://docs.aws.amazon.com/AmazonECS/latest/developerguide/task-placement-constraints.html#attributes) in the Amazon Elastic Container Service Developer Guide.
     ///
-    /// - Parameter input: [no documentation found] (Type: `PutAttributesInput`)
+    /// - Parameter input: (Type: `PutAttributesInput`)
     ///
-    /// - Returns: [no documentation found] (Type: `PutAttributesOutput`)
+    /// - Returns: (Type: `PutAttributesOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3745,7 +3745,7 @@ extension ECSClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<PutAttributesOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<PutAttributesInput, PutAttributesOutput>(xAmzTarget: "AmazonEC2ContainerServiceV20141113.PutAttributes"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<PutAttributesInput, PutAttributesOutput>(overrides: ["X-Amz-Target": "AmazonEC2ContainerServiceV20141113.PutAttributes"]))
         builder.serialize(ClientRuntime.BodyMiddleware<PutAttributesInput, PutAttributesOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: PutAttributesInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<PutAttributesInput, PutAttributesOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<PutAttributesOutput>())
@@ -3819,7 +3819,7 @@ extension ECSClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<PutClusterCapacityProvidersOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<PutClusterCapacityProvidersInput, PutClusterCapacityProvidersOutput>(xAmzTarget: "AmazonEC2ContainerServiceV20141113.PutClusterCapacityProviders"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<PutClusterCapacityProvidersInput, PutClusterCapacityProvidersOutput>(overrides: ["X-Amz-Target": "AmazonEC2ContainerServiceV20141113.PutClusterCapacityProviders"]))
         builder.serialize(ClientRuntime.BodyMiddleware<PutClusterCapacityProvidersInput, PutClusterCapacityProvidersOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: PutClusterCapacityProvidersInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<PutClusterCapacityProvidersInput, PutClusterCapacityProvidersOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<PutClusterCapacityProvidersOutput>())
@@ -3845,9 +3845,9 @@ extension ECSClient {
     ///
     /// This action is only used by the Amazon ECS agent, and it is not intended for use outside of the agent. Registers an EC2 instance into the specified cluster. This instance becomes available to place containers on.
     ///
-    /// - Parameter input: [no documentation found] (Type: `RegisterContainerInstanceInput`)
+    /// - Parameter input: (Type: `RegisterContainerInstanceInput`)
     ///
-    /// - Returns: [no documentation found] (Type: `RegisterContainerInstanceOutput`)
+    /// - Returns: (Type: `RegisterContainerInstanceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3890,7 +3890,7 @@ extension ECSClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<RegisterContainerInstanceOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<RegisterContainerInstanceInput, RegisterContainerInstanceOutput>(xAmzTarget: "AmazonEC2ContainerServiceV20141113.RegisterContainerInstance"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<RegisterContainerInstanceInput, RegisterContainerInstanceOutput>(overrides: ["X-Amz-Target": "AmazonEC2ContainerServiceV20141113.RegisterContainerInstance"]))
         builder.serialize(ClientRuntime.BodyMiddleware<RegisterContainerInstanceInput, RegisterContainerInstanceOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: RegisterContainerInstanceInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<RegisterContainerInstanceInput, RegisterContainerInstanceOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<RegisterContainerInstanceOutput>())
@@ -3916,9 +3916,9 @@ extension ECSClient {
     ///
     /// Registers a new task definition from the supplied family and containerDefinitions. Optionally, you can add data volumes to your containers with the volumes parameter. For more information about task definition parameters and defaults, see [Amazon ECS Task Definitions](https://docs.aws.amazon.com/AmazonECS/latest/developerguide/task_defintions.html) in the Amazon Elastic Container Service Developer Guide. You can specify a role for your task with the taskRoleArn parameter. When you specify a role for a task, its containers can then use the latest versions of the CLI or SDKs to make API requests to the Amazon Web Services services that are specified in the policy that's associated with the role. For more information, see [IAM Roles for Tasks](https://docs.aws.amazon.com/AmazonECS/latest/developerguide/task-iam-roles.html) in the Amazon Elastic Container Service Developer Guide. You can specify a Docker networking mode for the containers in your task definition with the networkMode parameter. If you specify the awsvpc network mode, the task is allocated an elastic network interface, and you must specify a [NetworkConfiguration](https://docs.aws.amazon.com/AmazonECS/latest/APIReference/API_NetworkConfiguration.html) when you create a service or run a task with the task definition. For more information, see [Task Networking](https://docs.aws.amazon.com/AmazonECS/latest/developerguide/task-networking.html) in the Amazon Elastic Container Service Developer Guide.
     ///
-    /// - Parameter input: [no documentation found] (Type: `RegisterTaskDefinitionInput`)
+    /// - Parameter input: (Type: `RegisterTaskDefinitionInput`)
     ///
-    /// - Returns: [no documentation found] (Type: `RegisterTaskDefinitionOutput`)
+    /// - Returns: (Type: `RegisterTaskDefinitionOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3961,7 +3961,7 @@ extension ECSClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<RegisterTaskDefinitionOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<RegisterTaskDefinitionInput, RegisterTaskDefinitionOutput>(xAmzTarget: "AmazonEC2ContainerServiceV20141113.RegisterTaskDefinition"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<RegisterTaskDefinitionInput, RegisterTaskDefinitionOutput>(overrides: ["X-Amz-Target": "AmazonEC2ContainerServiceV20141113.RegisterTaskDefinition"]))
         builder.serialize(ClientRuntime.BodyMiddleware<RegisterTaskDefinitionInput, RegisterTaskDefinitionOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: RegisterTaskDefinitionInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<RegisterTaskDefinitionInput, RegisterTaskDefinitionOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<RegisterTaskDefinitionOutput>())
@@ -4001,9 +4001,9 @@ extension ECSClient {
     ///
     /// If you get a ClientExceptionerror, the RunTask could not be processed because you use managed scaling and there is a capacity error because the quota of tasks in the PROVISIONING per cluster has been reached. For information about the service quotas, see [Amazon ECS service quotas](https://docs.aws.amazon.com/AmazonECS/latest/developerguide/service-quotas.html).
     ///
-    /// - Parameter input: [no documentation found] (Type: `RunTaskInput`)
+    /// - Parameter input: (Type: `RunTaskInput`)
     ///
-    /// - Returns: [no documentation found] (Type: `RunTaskOutput`)
+    /// - Returns: (Type: `RunTaskOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4054,7 +4054,7 @@ extension ECSClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<RunTaskOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<RunTaskInput, RunTaskOutput>(xAmzTarget: "AmazonEC2ContainerServiceV20141113.RunTask"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<RunTaskInput, RunTaskOutput>(overrides: ["X-Amz-Target": "AmazonEC2ContainerServiceV20141113.RunTask"]))
         builder.serialize(ClientRuntime.BodyMiddleware<RunTaskInput, RunTaskOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: RunTaskInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<RunTaskInput, RunTaskOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<RunTaskOutput>())
@@ -4080,9 +4080,9 @@ extension ECSClient {
     ///
     /// Starts a new task from the specified task definition on the specified container instance or instances. On March 21, 2024, a change was made to resolve the task definition revision before authorization. When a task definition revision is not specified, authorization will occur using the latest revision of a task definition. Amazon Elastic Inference (EI) is no longer available to customers. Alternatively, you can useRunTask to place tasks for you. For more information, see [Scheduling Tasks](https://docs.aws.amazon.com/AmazonECS/latest/developerguide/scheduling_tasks.html) in the Amazon Elastic Container Service Developer Guide. You can attach Amazon EBS volumes to Amazon ECS tasks by configuring the volume when creating or updating a service. For more information, see [Amazon EBS volumes](https://docs.aws.amazon.com/AmazonECS/latest/developerguide/ebs-volumes.html#ebs-volume-types) in the Amazon Elastic Container Service Developer Guide.
     ///
-    /// - Parameter input: [no documentation found] (Type: `StartTaskInput`)
+    /// - Parameter input: (Type: `StartTaskInput`)
     ///
-    /// - Returns: [no documentation found] (Type: `StartTaskOutput`)
+    /// - Returns: (Type: `StartTaskOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4127,7 +4127,7 @@ extension ECSClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<StartTaskOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<StartTaskInput, StartTaskOutput>(xAmzTarget: "AmazonEC2ContainerServiceV20141113.StartTask"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<StartTaskInput, StartTaskOutput>(overrides: ["X-Amz-Target": "AmazonEC2ContainerServiceV20141113.StartTask"]))
         builder.serialize(ClientRuntime.BodyMiddleware<StartTaskInput, StartTaskOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: StartTaskInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<StartTaskInput, StartTaskOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<StartTaskOutput>())
@@ -4207,7 +4207,7 @@ extension ECSClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<StopServiceDeploymentOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<StopServiceDeploymentInput, StopServiceDeploymentOutput>(xAmzTarget: "AmazonEC2ContainerServiceV20141113.StopServiceDeployment"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<StopServiceDeploymentInput, StopServiceDeploymentOutput>(overrides: ["X-Amz-Target": "AmazonEC2ContainerServiceV20141113.StopServiceDeployment"]))
         builder.serialize(ClientRuntime.BodyMiddleware<StopServiceDeploymentInput, StopServiceDeploymentOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: StopServiceDeploymentInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<StopServiceDeploymentInput, StopServiceDeploymentOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<StopServiceDeploymentOutput>())
@@ -4233,9 +4233,9 @@ extension ECSClient {
     ///
     /// Stops a running task. Any tags associated with the task will be deleted. When you call StopTask on a task, the equivalent of docker stop is issued to the containers running in the task. This results in a stop signal value and a default 30-second timeout, after which the SIGKILL value is sent and the containers are forcibly stopped. This signal can be defined in your container image with the STOPSIGNAL instruction and will default to SIGTERM. If the container handles the SIGTERM value gracefully and exits within 30 seconds from receiving it, no SIGKILL value is sent. For Windows containers, POSIX signals do not work and runtime stops the container by sending a CTRL_SHUTDOWN_EVENT. For more information, see [Unable to react to graceful shutdown of (Windows) container #25982](https://github.com/moby/moby/issues/25982) on GitHub. The default 30-second timeout can be configured on the Amazon ECS container agent with the ECS_CONTAINER_STOP_TIMEOUT variable. For more information, see [Amazon ECS Container Agent Configuration](https://docs.aws.amazon.com/AmazonECS/latest/developerguide/ecs-agent-config.html) in the Amazon Elastic Container Service Developer Guide.
     ///
-    /// - Parameter input: [no documentation found] (Type: `StopTaskInput`)
+    /// - Parameter input: (Type: `StopTaskInput`)
     ///
-    /// - Returns: [no documentation found] (Type: `StopTaskOutput`)
+    /// - Returns: (Type: `StopTaskOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4279,7 +4279,7 @@ extension ECSClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<StopTaskOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<StopTaskInput, StopTaskOutput>(xAmzTarget: "AmazonEC2ContainerServiceV20141113.StopTask"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<StopTaskInput, StopTaskOutput>(overrides: ["X-Amz-Target": "AmazonEC2ContainerServiceV20141113.StopTask"]))
         builder.serialize(ClientRuntime.BodyMiddleware<StopTaskInput, StopTaskOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: StopTaskInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<StopTaskInput, StopTaskOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<StopTaskOutput>())
@@ -4351,7 +4351,7 @@ extension ECSClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<SubmitAttachmentStateChangesOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<SubmitAttachmentStateChangesInput, SubmitAttachmentStateChangesOutput>(xAmzTarget: "AmazonEC2ContainerServiceV20141113.SubmitAttachmentStateChanges"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<SubmitAttachmentStateChangesInput, SubmitAttachmentStateChangesOutput>(overrides: ["X-Amz-Target": "AmazonEC2ContainerServiceV20141113.SubmitAttachmentStateChanges"]))
         builder.serialize(ClientRuntime.BodyMiddleware<SubmitAttachmentStateChangesInput, SubmitAttachmentStateChangesOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: SubmitAttachmentStateChangesInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<SubmitAttachmentStateChangesInput, SubmitAttachmentStateChangesOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<SubmitAttachmentStateChangesOutput>())
@@ -4377,9 +4377,9 @@ extension ECSClient {
     ///
     /// This action is only used by the Amazon ECS agent, and it is not intended for use outside of the agent. Sent to acknowledge that a container changed states.
     ///
-    /// - Parameter input: [no documentation found] (Type: `SubmitContainerStateChangeInput`)
+    /// - Parameter input: (Type: `SubmitContainerStateChangeInput`)
     ///
-    /// - Returns: [no documentation found] (Type: `SubmitContainerStateChangeOutput`)
+    /// - Returns: (Type: `SubmitContainerStateChangeOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4422,7 +4422,7 @@ extension ECSClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<SubmitContainerStateChangeOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<SubmitContainerStateChangeInput, SubmitContainerStateChangeOutput>(xAmzTarget: "AmazonEC2ContainerServiceV20141113.SubmitContainerStateChange"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<SubmitContainerStateChangeInput, SubmitContainerStateChangeOutput>(overrides: ["X-Amz-Target": "AmazonEC2ContainerServiceV20141113.SubmitContainerStateChange"]))
         builder.serialize(ClientRuntime.BodyMiddleware<SubmitContainerStateChangeInput, SubmitContainerStateChangeOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: SubmitContainerStateChangeInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<SubmitContainerStateChangeInput, SubmitContainerStateChangeOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<SubmitContainerStateChangeOutput>())
@@ -4448,9 +4448,9 @@ extension ECSClient {
     ///
     /// This action is only used by the Amazon ECS agent, and it is not intended for use outside of the agent. Sent to acknowledge that a task changed states.
     ///
-    /// - Parameter input: [no documentation found] (Type: `SubmitTaskStateChangeInput`)
+    /// - Parameter input: (Type: `SubmitTaskStateChangeInput`)
     ///
-    /// - Returns: [no documentation found] (Type: `SubmitTaskStateChangeOutput`)
+    /// - Returns: (Type: `SubmitTaskStateChangeOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4494,7 +4494,7 @@ extension ECSClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<SubmitTaskStateChangeOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<SubmitTaskStateChangeInput, SubmitTaskStateChangeOutput>(xAmzTarget: "AmazonEC2ContainerServiceV20141113.SubmitTaskStateChange"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<SubmitTaskStateChangeInput, SubmitTaskStateChangeOutput>(overrides: ["X-Amz-Target": "AmazonEC2ContainerServiceV20141113.SubmitTaskStateChange"]))
         builder.serialize(ClientRuntime.BodyMiddleware<SubmitTaskStateChangeInput, SubmitTaskStateChangeOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: SubmitTaskStateChangeInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<SubmitTaskStateChangeInput, SubmitTaskStateChangeOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<SubmitTaskStateChangeOutput>())
@@ -4567,7 +4567,7 @@ extension ECSClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<TagResourceOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<TagResourceInput, TagResourceOutput>(xAmzTarget: "AmazonEC2ContainerServiceV20141113.TagResource"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<TagResourceInput, TagResourceOutput>(overrides: ["X-Amz-Target": "AmazonEC2ContainerServiceV20141113.TagResource"]))
         builder.serialize(ClientRuntime.BodyMiddleware<TagResourceInput, TagResourceOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: TagResourceInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<TagResourceInput, TagResourceOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<TagResourceOutput>())
@@ -4640,7 +4640,7 @@ extension ECSClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<UntagResourceOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<UntagResourceInput, UntagResourceOutput>(xAmzTarget: "AmazonEC2ContainerServiceV20141113.UntagResource"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<UntagResourceInput, UntagResourceOutput>(overrides: ["X-Amz-Target": "AmazonEC2ContainerServiceV20141113.UntagResource"]))
         builder.serialize(ClientRuntime.BodyMiddleware<UntagResourceInput, UntagResourceOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: UntagResourceInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<UntagResourceInput, UntagResourceOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<UntagResourceOutput>())
@@ -4713,7 +4713,7 @@ extension ECSClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<UpdateCapacityProviderOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<UpdateCapacityProviderInput, UpdateCapacityProviderOutput>(xAmzTarget: "AmazonEC2ContainerServiceV20141113.UpdateCapacityProvider"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<UpdateCapacityProviderInput, UpdateCapacityProviderOutput>(overrides: ["X-Amz-Target": "AmazonEC2ContainerServiceV20141113.UpdateCapacityProvider"]))
         builder.serialize(ClientRuntime.BodyMiddleware<UpdateCapacityProviderInput, UpdateCapacityProviderOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: UpdateCapacityProviderInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<UpdateCapacityProviderInput, UpdateCapacityProviderOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<UpdateCapacityProviderOutput>())
@@ -4786,7 +4786,7 @@ extension ECSClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<UpdateClusterOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<UpdateClusterInput, UpdateClusterOutput>(xAmzTarget: "AmazonEC2ContainerServiceV20141113.UpdateCluster"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<UpdateClusterInput, UpdateClusterOutput>(overrides: ["X-Amz-Target": "AmazonEC2ContainerServiceV20141113.UpdateCluster"]))
         builder.serialize(ClientRuntime.BodyMiddleware<UpdateClusterInput, UpdateClusterOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: UpdateClusterInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<UpdateClusterInput, UpdateClusterOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<UpdateClusterOutput>())
@@ -4858,7 +4858,7 @@ extension ECSClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<UpdateClusterSettingsOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<UpdateClusterSettingsInput, UpdateClusterSettingsOutput>(xAmzTarget: "AmazonEC2ContainerServiceV20141113.UpdateClusterSettings"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<UpdateClusterSettingsInput, UpdateClusterSettingsOutput>(overrides: ["X-Amz-Target": "AmazonEC2ContainerServiceV20141113.UpdateClusterSettings"]))
         builder.serialize(ClientRuntime.BodyMiddleware<UpdateClusterSettingsInput, UpdateClusterSettingsOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: UpdateClusterSettingsInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<UpdateClusterSettingsInput, UpdateClusterSettingsOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<UpdateClusterSettingsOutput>())
@@ -4884,9 +4884,9 @@ extension ECSClient {
     ///
     /// Updates the Amazon ECS container agent on a specified container instance. Updating the Amazon ECS container agent doesn't interrupt running tasks or services on the container instance. The process for updating the agent differs depending on whether your container instance was launched with the Amazon ECS-optimized AMI or another operating system. The UpdateContainerAgent API isn't supported for container instances using the Amazon ECS-optimized Amazon Linux 2 (arm64) AMI. To update the container agent, you can update the ecs-init package. This updates the agent. For more information, see [Updating the Amazon ECS container agent](https://docs.aws.amazon.com/AmazonECS/latest/developerguide/agent-update-ecs-ami.html) in the Amazon Elastic Container Service Developer Guide. Agent updates with the UpdateContainerAgent API operation do not apply to Windows container instances. We recommend that you launch new container instances to update the agent version in your Windows clusters. The UpdateContainerAgent API requires an Amazon ECS-optimized AMI or Amazon Linux AMI with the ecs-init service installed and running. For help updating the Amazon ECS container agent on other operating systems, see [Manually updating the Amazon ECS container agent](https://docs.aws.amazon.com/AmazonECS/latest/developerguide/ecs-agent-update.html#manually_update_agent) in the Amazon Elastic Container Service Developer Guide.
     ///
-    /// - Parameter input: [no documentation found] (Type: `UpdateContainerAgentInput`)
+    /// - Parameter input: (Type: `UpdateContainerAgentInput`)
     ///
-    /// - Returns: [no documentation found] (Type: `UpdateContainerAgentOutput`)
+    /// - Returns: (Type: `UpdateContainerAgentOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4933,7 +4933,7 @@ extension ECSClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<UpdateContainerAgentOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<UpdateContainerAgentInput, UpdateContainerAgentOutput>(xAmzTarget: "AmazonEC2ContainerServiceV20141113.UpdateContainerAgent"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<UpdateContainerAgentInput, UpdateContainerAgentOutput>(overrides: ["X-Amz-Target": "AmazonEC2ContainerServiceV20141113.UpdateContainerAgent"]))
         builder.serialize(ClientRuntime.BodyMiddleware<UpdateContainerAgentInput, UpdateContainerAgentOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: UpdateContainerAgentInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<UpdateContainerAgentInput, UpdateContainerAgentOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<UpdateContainerAgentOutput>())
@@ -4966,9 +4966,9 @@ extension ECSClient {
     ///
     /// Any PENDING or RUNNING tasks that do not belong to a service aren't affected. You must wait for them to finish or stop them manually. A container instance has completed draining when it has no more RUNNING tasks. You can verify this using [ListTasks](https://docs.aws.amazon.com/AmazonECS/latest/APIReference/API_ListTasks.html). When a container instance has been drained, you can set a container instance to ACTIVE status and once it has reached that status the Amazon ECS scheduler can begin scheduling tasks on the instance again.
     ///
-    /// - Parameter input: [no documentation found] (Type: `UpdateContainerInstancesStateInput`)
+    /// - Parameter input: (Type: `UpdateContainerInstancesStateInput`)
     ///
-    /// - Returns: [no documentation found] (Type: `UpdateContainerInstancesStateOutput`)
+    /// - Returns: (Type: `UpdateContainerInstancesStateOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -5012,7 +5012,7 @@ extension ECSClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<UpdateContainerInstancesStateOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<UpdateContainerInstancesStateInput, UpdateContainerInstancesStateOutput>(xAmzTarget: "AmazonEC2ContainerServiceV20141113.UpdateContainerInstancesState"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<UpdateContainerInstancesStateInput, UpdateContainerInstancesStateOutput>(overrides: ["X-Amz-Target": "AmazonEC2ContainerServiceV20141113.UpdateContainerInstancesState"]))
         builder.serialize(ClientRuntime.BodyMiddleware<UpdateContainerInstancesStateInput, UpdateContainerInstancesStateOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: UpdateContainerInstancesStateInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<UpdateContainerInstancesStateInput, UpdateContainerInstancesStateOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<UpdateContainerInstancesStateOutput>())
@@ -5088,7 +5088,7 @@ extension ECSClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<UpdateExpressGatewayServiceOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<UpdateExpressGatewayServiceInput, UpdateExpressGatewayServiceOutput>(xAmzTarget: "AmazonEC2ContainerServiceV20141113.UpdateExpressGatewayService"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<UpdateExpressGatewayServiceInput, UpdateExpressGatewayServiceOutput>(overrides: ["X-Amz-Target": "AmazonEC2ContainerServiceV20141113.UpdateExpressGatewayService"]))
         builder.serialize(ClientRuntime.BodyMiddleware<UpdateExpressGatewayServiceInput, UpdateExpressGatewayServiceOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: UpdateExpressGatewayServiceInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<UpdateExpressGatewayServiceInput, UpdateExpressGatewayServiceOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<UpdateExpressGatewayServiceOutput>())
@@ -5139,9 +5139,9 @@ extension ECSClient {
     ///
     /// * Stop the task on a container instance in an optimal Availability Zone (based on the previous steps), favoring container instances with the largest number of running tasks for this service.
     ///
-    /// - Parameter input: [no documentation found] (Type: `UpdateServiceInput`)
+    /// - Parameter input: (Type: `UpdateServiceInput`)
     ///
-    /// - Returns: [no documentation found] (Type: `UpdateServiceOutput`)
+    /// - Returns: (Type: `UpdateServiceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -5192,7 +5192,7 @@ extension ECSClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<UpdateServiceOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<UpdateServiceInput, UpdateServiceOutput>(xAmzTarget: "AmazonEC2ContainerServiceV20141113.UpdateService"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<UpdateServiceInput, UpdateServiceOutput>(overrides: ["X-Amz-Target": "AmazonEC2ContainerServiceV20141113.UpdateService"]))
         builder.serialize(ClientRuntime.BodyMiddleware<UpdateServiceInput, UpdateServiceOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: UpdateServiceInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<UpdateServiceInput, UpdateServiceOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<UpdateServiceOutput>())
@@ -5269,7 +5269,7 @@ extension ECSClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<UpdateServicePrimaryTaskSetOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<UpdateServicePrimaryTaskSetInput, UpdateServicePrimaryTaskSetOutput>(xAmzTarget: "AmazonEC2ContainerServiceV20141113.UpdateServicePrimaryTaskSet"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<UpdateServicePrimaryTaskSetInput, UpdateServicePrimaryTaskSetOutput>(overrides: ["X-Amz-Target": "AmazonEC2ContainerServiceV20141113.UpdateServicePrimaryTaskSet"]))
         builder.serialize(ClientRuntime.BodyMiddleware<UpdateServicePrimaryTaskSetInput, UpdateServicePrimaryTaskSetOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: UpdateServicePrimaryTaskSetInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<UpdateServicePrimaryTaskSetInput, UpdateServicePrimaryTaskSetOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<UpdateServicePrimaryTaskSetOutput>())
@@ -5344,7 +5344,7 @@ extension ECSClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<UpdateTaskProtectionOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<UpdateTaskProtectionInput, UpdateTaskProtectionOutput>(xAmzTarget: "AmazonEC2ContainerServiceV20141113.UpdateTaskProtection"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<UpdateTaskProtectionInput, UpdateTaskProtectionOutput>(overrides: ["X-Amz-Target": "AmazonEC2ContainerServiceV20141113.UpdateTaskProtection"]))
         builder.serialize(ClientRuntime.BodyMiddleware<UpdateTaskProtectionInput, UpdateTaskProtectionOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: UpdateTaskProtectionInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<UpdateTaskProtectionInput, UpdateTaskProtectionOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<UpdateTaskProtectionOutput>())
@@ -5421,7 +5421,7 @@ extension ECSClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<UpdateTaskSetOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<UpdateTaskSetInput, UpdateTaskSetOutput>(xAmzTarget: "AmazonEC2ContainerServiceV20141113.UpdateTaskSet"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<UpdateTaskSetInput, UpdateTaskSetOutput>(overrides: ["X-Amz-Target": "AmazonEC2ContainerServiceV20141113.UpdateTaskSet"]))
         builder.serialize(ClientRuntime.BodyMiddleware<UpdateTaskSetInput, UpdateTaskSetOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: UpdateTaskSetInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<UpdateTaskSetInput, UpdateTaskSetOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<UpdateTaskSetOutput>())

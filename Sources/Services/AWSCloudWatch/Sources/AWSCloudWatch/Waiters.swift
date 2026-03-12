@@ -9,6 +9,7 @@
 
 import class SmithyWaitersAPI.Waiter
 import enum SmithyWaitersAPI.JMESUtils
+import protocol ClientRuntime.ServiceError
 import struct SmithyWaitersAPI.WaiterConfiguration
 import struct SmithyWaitersAPI.WaiterOptions
 import struct SmithyWaitersAPI.WaiterOutcome
@@ -24,7 +25,7 @@ extension CloudWatchClient {
                 guard case .success(let output) = result else { return false }
                 let metricAlarms = output.metricAlarms
                 let count = Double(metricAlarms?.count ?? 0)
-                let number = Double(0.0)
+                let number = Double(0)
                 let comparison = SmithyWaitersAPI.JMESUtils.compare(count, >, number)
                 return SmithyWaitersAPI.JMESUtils.compare(comparison, ==, true)
             }),
@@ -57,7 +58,7 @@ extension CloudWatchClient {
                 guard case .success(let output) = result else { return false }
                 let compositeAlarms = output.compositeAlarms
                 let count = Double(compositeAlarms?.count ?? 0)
-                let number = Double(0.0)
+                let number = Double(0)
                 let comparison = SmithyWaitersAPI.JMESUtils.compare(count, >, number)
                 return SmithyWaitersAPI.JMESUtils.compare(comparison, ==, true)
             }),
@@ -78,6 +79,38 @@ extension CloudWatchClient {
     /// `WaiterTimeoutError` if the waiter times out.
     public func waitUntilCompositeAlarmExists(options: SmithyWaitersAPI.WaiterOptions, input: DescribeAlarmsInput) async throws -> SmithyWaitersAPI.WaiterOutcome<DescribeAlarmsOutput> {
         let waiter = SmithyWaitersAPI.Waiter(config: try Self.compositeAlarmExistsWaiterConfig(), operation: self.describeAlarms(input:))
+        return try await waiter.waitUntil(options: options, input: input)
+    }
+
+    static func alarmMuteRuleExistsWaiterConfig() throws -> SmithyWaitersAPI.WaiterConfiguration<GetAlarmMuteRuleInput, GetAlarmMuteRuleOutput> {
+        let acceptors: [SmithyWaitersAPI.WaiterConfiguration<GetAlarmMuteRuleInput, GetAlarmMuteRuleOutput>.Acceptor] = [
+            .init(state: .success, matcher: { (input: GetAlarmMuteRuleInput, result: Swift.Result<GetAlarmMuteRuleOutput, Swift.Error>) -> Bool in
+                switch result {
+                    case .success: return true
+                    case .failure: return false
+                }
+            }),
+            .init(state: .retry, matcher: { (input: GetAlarmMuteRuleInput, result: Swift.Result<GetAlarmMuteRuleOutput, Swift.Error>) -> Bool in
+                guard case .failure(let error) = result else { return false }
+                return (error as? ClientRuntime.ServiceError)?.typeName == "ResourceNotFoundException"
+            }),
+        ]
+        return try SmithyWaitersAPI.WaiterConfiguration<GetAlarmMuteRuleInput, GetAlarmMuteRuleOutput>(acceptors: acceptors, minDelay: 5.0, maxDelay: 120.0)
+    }
+
+    /// Initiates waiting for the AlarmMuteRuleExists event on the getAlarmMuteRule operation.
+    /// The operation will be tried and (if necessary) retried until the wait succeeds, fails, or times out.
+    /// Returns a `WaiterOutcome` asynchronously on waiter success, throws an error asynchronously on
+    /// waiter failure or timeout.
+    /// - Parameters:
+    ///   - options: `WaiterOptions` to be used to configure this wait.
+    ///   - input: The `GetAlarmMuteRuleInput` object to be used as a parameter when performing the operation.
+    /// - Returns: A `WaiterOutcome` with the result of the final, successful performance of the operation.
+    /// - Throws: `WaiterFailureError` if the waiter fails due to matching an `Acceptor` with state `failure`
+    /// or there is an error not handled by any `Acceptor.`
+    /// `WaiterTimeoutError` if the waiter times out.
+    public func waitUntilAlarmMuteRuleExists(options: SmithyWaitersAPI.WaiterOptions, input: GetAlarmMuteRuleInput) async throws -> SmithyWaitersAPI.WaiterOutcome<GetAlarmMuteRuleOutput> {
+        let waiter = SmithyWaitersAPI.Waiter(config: try Self.alarmMuteRuleExistsWaiterConfig(), operation: self.getAlarmMuteRule(input:))
         return try await waiter.waitUntil(options: options, input: input)
     }
 }

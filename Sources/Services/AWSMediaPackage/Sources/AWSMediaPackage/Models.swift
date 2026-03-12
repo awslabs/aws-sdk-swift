@@ -21,8 +21,8 @@ import protocol ClientRuntime.HTTPError
 import protocol ClientRuntime.ModeledError
 @_spi(SmithyReadWrite) import protocol SmithyReadWrite.SmithyReader
 @_spi(SmithyReadWrite) import protocol SmithyReadWrite.SmithyWriter
-@_spi(SmithyReadWrite) import struct AWSClientRuntime.RestJSONError
 @_spi(UnknownAWSHTTPServiceError) import struct AWSClientRuntime.UnknownAWSHTTPServiceError
+@_spi(SmithyReadWrite) import struct ClientRuntime.RestJSONError
 import struct Smithy.URIQueryItem
 @_spi(SmithyReadWrite) import struct SmithyReadWrite.ReadingClosureBox
 @_spi(SmithyReadWrite) import struct SmithyReadWrite.WritingClosureBox
@@ -3198,7 +3198,7 @@ enum ConfigureLogsOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "ForbiddenException": return try ForbiddenException.makeError(baseError: baseError)
@@ -3217,7 +3217,7 @@ enum CreateChannelOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "ForbiddenException": return try ForbiddenException.makeError(baseError: baseError)
@@ -3236,7 +3236,7 @@ enum CreateHarvestJobOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "ForbiddenException": return try ForbiddenException.makeError(baseError: baseError)
@@ -3255,7 +3255,7 @@ enum CreateOriginEndpointOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "ForbiddenException": return try ForbiddenException.makeError(baseError: baseError)
@@ -3274,7 +3274,7 @@ enum DeleteChannelOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "ForbiddenException": return try ForbiddenException.makeError(baseError: baseError)
@@ -3293,7 +3293,7 @@ enum DeleteOriginEndpointOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "ForbiddenException": return try ForbiddenException.makeError(baseError: baseError)
@@ -3312,7 +3312,7 @@ enum DescribeChannelOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "ForbiddenException": return try ForbiddenException.makeError(baseError: baseError)
@@ -3331,7 +3331,7 @@ enum DescribeHarvestJobOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "ForbiddenException": return try ForbiddenException.makeError(baseError: baseError)
@@ -3350,7 +3350,7 @@ enum DescribeOriginEndpointOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "ForbiddenException": return try ForbiddenException.makeError(baseError: baseError)
@@ -3369,7 +3369,7 @@ enum ListChannelsOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "ForbiddenException": return try ForbiddenException.makeError(baseError: baseError)
@@ -3388,7 +3388,7 @@ enum ListHarvestJobsOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "ForbiddenException": return try ForbiddenException.makeError(baseError: baseError)
@@ -3407,7 +3407,7 @@ enum ListOriginEndpointsOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "ForbiddenException": return try ForbiddenException.makeError(baseError: baseError)
@@ -3426,7 +3426,7 @@ enum ListTagsForResourceOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
@@ -3439,7 +3439,7 @@ enum RotateChannelCredentialsOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "ForbiddenException": return try ForbiddenException.makeError(baseError: baseError)
@@ -3458,7 +3458,7 @@ enum RotateIngestEndpointCredentialsOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "ForbiddenException": return try ForbiddenException.makeError(baseError: baseError)
@@ -3477,7 +3477,7 @@ enum TagResourceOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
@@ -3490,7 +3490,7 @@ enum UntagResourceOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
@@ -3503,7 +3503,7 @@ enum UpdateChannelOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "ForbiddenException": return try ForbiddenException.makeError(baseError: baseError)
@@ -3522,7 +3522,7 @@ enum UpdateOriginEndpointOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "ForbiddenException": return try ForbiddenException.makeError(baseError: baseError)
@@ -3538,7 +3538,7 @@ enum UpdateOriginEndpointOutputError {
 
 extension ForbiddenException {
 
-    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> ForbiddenException {
+    static func makeError(baseError: ClientRuntime.RestJSONError) throws -> ForbiddenException {
         let reader = baseError.errorBodyReader
         var value = ForbiddenException()
         value.properties.message = try reader["message"].readIfPresent()
@@ -3551,7 +3551,7 @@ extension ForbiddenException {
 
 extension InternalServerErrorException {
 
-    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> InternalServerErrorException {
+    static func makeError(baseError: ClientRuntime.RestJSONError) throws -> InternalServerErrorException {
         let reader = baseError.errorBodyReader
         var value = InternalServerErrorException()
         value.properties.message = try reader["message"].readIfPresent()
@@ -3564,7 +3564,7 @@ extension InternalServerErrorException {
 
 extension NotFoundException {
 
-    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> NotFoundException {
+    static func makeError(baseError: ClientRuntime.RestJSONError) throws -> NotFoundException {
         let reader = baseError.errorBodyReader
         var value = NotFoundException()
         value.properties.message = try reader["message"].readIfPresent()
@@ -3577,7 +3577,7 @@ extension NotFoundException {
 
 extension ServiceUnavailableException {
 
-    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> ServiceUnavailableException {
+    static func makeError(baseError: ClientRuntime.RestJSONError) throws -> ServiceUnavailableException {
         let reader = baseError.errorBodyReader
         var value = ServiceUnavailableException()
         value.properties.message = try reader["message"].readIfPresent()
@@ -3590,7 +3590,7 @@ extension ServiceUnavailableException {
 
 extension TooManyRequestsException {
 
-    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> TooManyRequestsException {
+    static func makeError(baseError: ClientRuntime.RestJSONError) throws -> TooManyRequestsException {
         let reader = baseError.errorBodyReader
         var value = TooManyRequestsException()
         value.properties.message = try reader["message"].readIfPresent()
@@ -3603,85 +3603,13 @@ extension TooManyRequestsException {
 
 extension UnprocessableEntityException {
 
-    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> UnprocessableEntityException {
+    static func makeError(baseError: ClientRuntime.RestJSONError) throws -> UnprocessableEntityException {
         let reader = baseError.errorBodyReader
         var value = UnprocessableEntityException()
         value.properties.message = try reader["message"].readIfPresent()
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
         value.message = baseError.message
-        return value
-    }
-}
-
-extension MediaPackageClientTypes.EgressAccessLogs {
-
-    static func write(value: MediaPackageClientTypes.EgressAccessLogs?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["logGroupName"].write(value.logGroupName)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> MediaPackageClientTypes.EgressAccessLogs {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = MediaPackageClientTypes.EgressAccessLogs()
-        value.logGroupName = try reader["logGroupName"].readIfPresent()
-        return value
-    }
-}
-
-extension MediaPackageClientTypes.HlsIngest {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> MediaPackageClientTypes.HlsIngest {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = MediaPackageClientTypes.HlsIngest()
-        value.ingestEndpoints = try reader["ingestEndpoints"].readListIfPresent(memberReadingClosure: MediaPackageClientTypes.IngestEndpoint.read(from:), memberNodeInfo: "member", isFlattened: false)
-        return value
-    }
-}
-
-extension MediaPackageClientTypes.IngestEndpoint {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> MediaPackageClientTypes.IngestEndpoint {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = MediaPackageClientTypes.IngestEndpoint()
-        value.id = try reader["id"].readIfPresent()
-        value.password = try reader["password"].readIfPresent()
-        value.url = try reader["url"].readIfPresent()
-        value.username = try reader["username"].readIfPresent()
-        return value
-    }
-}
-
-extension MediaPackageClientTypes.IngressAccessLogs {
-
-    static func write(value: MediaPackageClientTypes.IngressAccessLogs?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["logGroupName"].write(value.logGroupName)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> MediaPackageClientTypes.IngressAccessLogs {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = MediaPackageClientTypes.IngressAccessLogs()
-        value.logGroupName = try reader["logGroupName"].readIfPresent()
-        return value
-    }
-}
-
-extension MediaPackageClientTypes.S3Destination {
-
-    static func write(value: MediaPackageClientTypes.S3Destination?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["bucketName"].write(value.bucketName)
-        try writer["manifestKey"].write(value.manifestKey)
-        try writer["roleArn"].write(value.roleArn)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> MediaPackageClientTypes.S3Destination {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = MediaPackageClientTypes.S3Destination()
-        value.bucketName = try reader["bucketName"].readIfPresent() ?? ""
-        value.manifestKey = try reader["manifestKey"].readIfPresent() ?? ""
-        value.roleArn = try reader["roleArn"].readIfPresent() ?? ""
         return value
     }
 }
@@ -3703,54 +3631,19 @@ extension MediaPackageClientTypes.Authorization {
     }
 }
 
-extension MediaPackageClientTypes.CmafPackage {
+extension MediaPackageClientTypes.Channel {
 
-    static func read(from reader: SmithyJSON.Reader) throws -> MediaPackageClientTypes.CmafPackage {
+    static func read(from reader: SmithyJSON.Reader) throws -> MediaPackageClientTypes.Channel {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = MediaPackageClientTypes.CmafPackage()
-        value.encryption = try reader["encryption"].readIfPresent(with: MediaPackageClientTypes.CmafEncryption.read(from:))
-        value.hlsManifests = try reader["hlsManifests"].readListIfPresent(memberReadingClosure: MediaPackageClientTypes.HlsManifest.read(from:), memberNodeInfo: "member", isFlattened: false)
-        value.segmentDurationSeconds = try reader["segmentDurationSeconds"].readIfPresent()
-        value.segmentPrefix = try reader["segmentPrefix"].readIfPresent()
-        value.streamSelection = try reader["streamSelection"].readIfPresent(with: MediaPackageClientTypes.StreamSelection.read(from:))
-        return value
-    }
-}
-
-extension MediaPackageClientTypes.StreamSelection {
-
-    static func write(value: MediaPackageClientTypes.StreamSelection?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["maxVideoBitsPerSecond"].write(value.maxVideoBitsPerSecond)
-        try writer["minVideoBitsPerSecond"].write(value.minVideoBitsPerSecond)
-        try writer["streamOrder"].write(value.streamOrder)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> MediaPackageClientTypes.StreamSelection {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = MediaPackageClientTypes.StreamSelection()
-        value.maxVideoBitsPerSecond = try reader["maxVideoBitsPerSecond"].readIfPresent()
-        value.minVideoBitsPerSecond = try reader["minVideoBitsPerSecond"].readIfPresent()
-        value.streamOrder = try reader["streamOrder"].readIfPresent()
-        return value
-    }
-}
-
-extension MediaPackageClientTypes.HlsManifest {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> MediaPackageClientTypes.HlsManifest {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = MediaPackageClientTypes.HlsManifest()
-        value.adMarkers = try reader["adMarkers"].readIfPresent()
-        value.id = try reader["id"].readIfPresent() ?? ""
-        value.includeIframeOnlyStream = try reader["includeIframeOnlyStream"].readIfPresent()
-        value.manifestName = try reader["manifestName"].readIfPresent()
-        value.playlistType = try reader["playlistType"].readIfPresent()
-        value.playlistWindowSeconds = try reader["playlistWindowSeconds"].readIfPresent()
-        value.programDateTimeIntervalSeconds = try reader["programDateTimeIntervalSeconds"].readIfPresent()
-        value.url = try reader["url"].readIfPresent()
-        value.adTriggers = try reader["adTriggers"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosureBox<MediaPackageClientTypes.__AdTriggersElement>().read(from:), memberNodeInfo: "member", isFlattened: false)
-        value.adsOnDeliveryRestrictions = try reader["adsOnDeliveryRestrictions"].readIfPresent()
+        var value = MediaPackageClientTypes.Channel()
+        value.arn = try reader["arn"].readIfPresent()
+        value.createdAt = try reader["createdAt"].readIfPresent()
+        value.description = try reader["description"].readIfPresent()
+        value.egressAccessLogs = try reader["egressAccessLogs"].readIfPresent(with: MediaPackageClientTypes.EgressAccessLogs.read(from:))
+        value.hlsIngest = try reader["hlsIngest"].readIfPresent(with: MediaPackageClientTypes.HlsIngest.read(from:))
+        value.id = try reader["id"].readIfPresent()
+        value.ingressAccessLogs = try reader["ingressAccessLogs"].readIfPresent(with: MediaPackageClientTypes.IngressAccessLogs.read(from:))
+        value.tags = try reader["tags"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
         return value
     }
 }
@@ -3776,44 +3669,45 @@ extension MediaPackageClientTypes.CmafEncryption {
     }
 }
 
-extension MediaPackageClientTypes.SpekeKeyProvider {
+extension MediaPackageClientTypes.CmafPackage {
 
-    static func write(value: MediaPackageClientTypes.SpekeKeyProvider?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["certificateArn"].write(value.certificateArn)
-        try writer["encryptionContractConfiguration"].write(value.encryptionContractConfiguration, with: MediaPackageClientTypes.EncryptionContractConfiguration.write(value:to:))
-        try writer["resourceId"].write(value.resourceId)
-        try writer["roleArn"].write(value.roleArn)
-        try writer["systemIds"].writeList(value.systemIds, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["url"].write(value.url)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> MediaPackageClientTypes.SpekeKeyProvider {
+    static func read(from reader: SmithyJSON.Reader) throws -> MediaPackageClientTypes.CmafPackage {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = MediaPackageClientTypes.SpekeKeyProvider()
-        value.certificateArn = try reader["certificateArn"].readIfPresent()
-        value.encryptionContractConfiguration = try reader["encryptionContractConfiguration"].readIfPresent(with: MediaPackageClientTypes.EncryptionContractConfiguration.read(from:))
-        value.resourceId = try reader["resourceId"].readIfPresent() ?? ""
-        value.roleArn = try reader["roleArn"].readIfPresent() ?? ""
-        value.systemIds = try reader["systemIds"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false) ?? []
-        value.url = try reader["url"].readIfPresent() ?? ""
+        var value = MediaPackageClientTypes.CmafPackage()
+        value.encryption = try reader["encryption"].readIfPresent(with: MediaPackageClientTypes.CmafEncryption.read(from:))
+        value.hlsManifests = try reader["hlsManifests"].readListIfPresent(memberReadingClosure: MediaPackageClientTypes.HlsManifest.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.segmentDurationSeconds = try reader["segmentDurationSeconds"].readIfPresent()
+        value.segmentPrefix = try reader["segmentPrefix"].readIfPresent()
+        value.streamSelection = try reader["streamSelection"].readIfPresent(with: MediaPackageClientTypes.StreamSelection.read(from:))
         return value
     }
 }
 
-extension MediaPackageClientTypes.EncryptionContractConfiguration {
+extension MediaPackageClientTypes.CmafPackageCreateOrUpdateParameters {
 
-    static func write(value: MediaPackageClientTypes.EncryptionContractConfiguration?, to writer: SmithyJSON.Writer) throws {
+    static func write(value: MediaPackageClientTypes.CmafPackageCreateOrUpdateParameters?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
-        try writer["presetSpeke20Audio"].write(value.presetSpeke20Audio)
-        try writer["presetSpeke20Video"].write(value.presetSpeke20Video)
+        try writer["encryption"].write(value.encryption, with: MediaPackageClientTypes.CmafEncryption.write(value:to:))
+        try writer["hlsManifests"].writeList(value.hlsManifests, memberWritingClosure: MediaPackageClientTypes.HlsManifestCreateOrUpdateParameters.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["segmentDurationSeconds"].write(value.segmentDurationSeconds)
+        try writer["segmentPrefix"].write(value.segmentPrefix)
+        try writer["streamSelection"].write(value.streamSelection, with: MediaPackageClientTypes.StreamSelection.write(value:to:))
+    }
+}
+
+extension MediaPackageClientTypes.DashEncryption {
+
+    static func write(value: MediaPackageClientTypes.DashEncryption?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["keyRotationIntervalSeconds"].write(value.keyRotationIntervalSeconds)
+        try writer["spekeKeyProvider"].write(value.spekeKeyProvider, with: MediaPackageClientTypes.SpekeKeyProvider.write(value:to:))
     }
 
-    static func read(from reader: SmithyJSON.Reader) throws -> MediaPackageClientTypes.EncryptionContractConfiguration {
+    static func read(from reader: SmithyJSON.Reader) throws -> MediaPackageClientTypes.DashEncryption {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = MediaPackageClientTypes.EncryptionContractConfiguration()
-        value.presetSpeke20Audio = try reader["presetSpeke20Audio"].readIfPresent() ?? .sdkUnknown("")
-        value.presetSpeke20Video = try reader["presetSpeke20Video"].readIfPresent() ?? .sdkUnknown("")
+        var value = MediaPackageClientTypes.DashEncryption()
+        value.keyRotationIntervalSeconds = try reader["keyRotationIntervalSeconds"].readIfPresent()
+        value.spekeKeyProvider = try reader["spekeKeyProvider"].readIfPresent(with: MediaPackageClientTypes.SpekeKeyProvider.read(from:))
         return value
     }
 }
@@ -3863,20 +3757,121 @@ extension MediaPackageClientTypes.DashPackage {
     }
 }
 
-extension MediaPackageClientTypes.DashEncryption {
+extension MediaPackageClientTypes.EgressAccessLogs {
 
-    static func write(value: MediaPackageClientTypes.DashEncryption?, to writer: SmithyJSON.Writer) throws {
+    static func write(value: MediaPackageClientTypes.EgressAccessLogs?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
+        try writer["logGroupName"].write(value.logGroupName)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> MediaPackageClientTypes.EgressAccessLogs {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = MediaPackageClientTypes.EgressAccessLogs()
+        value.logGroupName = try reader["logGroupName"].readIfPresent()
+        return value
+    }
+}
+
+extension MediaPackageClientTypes.EncryptionContractConfiguration {
+
+    static func write(value: MediaPackageClientTypes.EncryptionContractConfiguration?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["presetSpeke20Audio"].write(value.presetSpeke20Audio)
+        try writer["presetSpeke20Video"].write(value.presetSpeke20Video)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> MediaPackageClientTypes.EncryptionContractConfiguration {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = MediaPackageClientTypes.EncryptionContractConfiguration()
+        value.presetSpeke20Audio = try reader["presetSpeke20Audio"].readIfPresent() ?? .sdkUnknown("")
+        value.presetSpeke20Video = try reader["presetSpeke20Video"].readIfPresent() ?? .sdkUnknown("")
+        return value
+    }
+}
+
+extension MediaPackageClientTypes.HarvestJob {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> MediaPackageClientTypes.HarvestJob {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = MediaPackageClientTypes.HarvestJob()
+        value.arn = try reader["arn"].readIfPresent()
+        value.channelId = try reader["channelId"].readIfPresent()
+        value.createdAt = try reader["createdAt"].readIfPresent()
+        value.endTime = try reader["endTime"].readIfPresent()
+        value.id = try reader["id"].readIfPresent()
+        value.originEndpointId = try reader["originEndpointId"].readIfPresent()
+        value.s3Destination = try reader["s3Destination"].readIfPresent(with: MediaPackageClientTypes.S3Destination.read(from:))
+        value.startTime = try reader["startTime"].readIfPresent()
+        value.status = try reader["status"].readIfPresent()
+        return value
+    }
+}
+
+extension MediaPackageClientTypes.HlsEncryption {
+
+    static func write(value: MediaPackageClientTypes.HlsEncryption?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["constantInitializationVector"].write(value.constantInitializationVector)
+        try writer["encryptionMethod"].write(value.encryptionMethod)
         try writer["keyRotationIntervalSeconds"].write(value.keyRotationIntervalSeconds)
+        try writer["repeatExtXKey"].write(value.repeatExtXKey)
         try writer["spekeKeyProvider"].write(value.spekeKeyProvider, with: MediaPackageClientTypes.SpekeKeyProvider.write(value:to:))
     }
 
-    static func read(from reader: SmithyJSON.Reader) throws -> MediaPackageClientTypes.DashEncryption {
+    static func read(from reader: SmithyJSON.Reader) throws -> MediaPackageClientTypes.HlsEncryption {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = MediaPackageClientTypes.DashEncryption()
+        var value = MediaPackageClientTypes.HlsEncryption()
+        value.constantInitializationVector = try reader["constantInitializationVector"].readIfPresent()
+        value.encryptionMethod = try reader["encryptionMethod"].readIfPresent()
         value.keyRotationIntervalSeconds = try reader["keyRotationIntervalSeconds"].readIfPresent()
+        value.repeatExtXKey = try reader["repeatExtXKey"].readIfPresent()
         value.spekeKeyProvider = try reader["spekeKeyProvider"].readIfPresent(with: MediaPackageClientTypes.SpekeKeyProvider.read(from:))
         return value
+    }
+}
+
+extension MediaPackageClientTypes.HlsIngest {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> MediaPackageClientTypes.HlsIngest {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = MediaPackageClientTypes.HlsIngest()
+        value.ingestEndpoints = try reader["ingestEndpoints"].readListIfPresent(memberReadingClosure: MediaPackageClientTypes.IngestEndpoint.read(from:), memberNodeInfo: "member", isFlattened: false)
+        return value
+    }
+}
+
+extension MediaPackageClientTypes.HlsManifest {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> MediaPackageClientTypes.HlsManifest {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = MediaPackageClientTypes.HlsManifest()
+        value.adMarkers = try reader["adMarkers"].readIfPresent()
+        value.id = try reader["id"].readIfPresent() ?? ""
+        value.includeIframeOnlyStream = try reader["includeIframeOnlyStream"].readIfPresent()
+        value.manifestName = try reader["manifestName"].readIfPresent()
+        value.playlistType = try reader["playlistType"].readIfPresent()
+        value.playlistWindowSeconds = try reader["playlistWindowSeconds"].readIfPresent()
+        value.programDateTimeIntervalSeconds = try reader["programDateTimeIntervalSeconds"].readIfPresent()
+        value.url = try reader["url"].readIfPresent()
+        value.adTriggers = try reader["adTriggers"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosureBox<MediaPackageClientTypes.__AdTriggersElement>().read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.adsOnDeliveryRestrictions = try reader["adsOnDeliveryRestrictions"].readIfPresent()
+        return value
+    }
+}
+
+extension MediaPackageClientTypes.HlsManifestCreateOrUpdateParameters {
+
+    static func write(value: MediaPackageClientTypes.HlsManifestCreateOrUpdateParameters?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["adMarkers"].write(value.adMarkers)
+        try writer["adTriggers"].writeList(value.adTriggers, memberWritingClosure: SmithyReadWrite.WritingClosureBox<MediaPackageClientTypes.__AdTriggersElement>().write(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["adsOnDeliveryRestrictions"].write(value.adsOnDeliveryRestrictions)
+        try writer["id"].write(value.id)
+        try writer["includeIframeOnlyStream"].write(value.includeIframeOnlyStream)
+        try writer["manifestName"].write(value.manifestName)
+        try writer["playlistType"].write(value.playlistType)
+        try writer["playlistWindowSeconds"].write(value.playlistWindowSeconds)
+        try writer["programDateTimeIntervalSeconds"].write(value.programDateTimeIntervalSeconds)
     }
 }
 
@@ -3917,24 +3912,44 @@ extension MediaPackageClientTypes.HlsPackage {
     }
 }
 
-extension MediaPackageClientTypes.HlsEncryption {
+extension MediaPackageClientTypes.IngestEndpoint {
 
-    static func write(value: MediaPackageClientTypes.HlsEncryption?, to writer: SmithyJSON.Writer) throws {
+    static func read(from reader: SmithyJSON.Reader) throws -> MediaPackageClientTypes.IngestEndpoint {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = MediaPackageClientTypes.IngestEndpoint()
+        value.id = try reader["id"].readIfPresent()
+        value.password = try reader["password"].readIfPresent()
+        value.url = try reader["url"].readIfPresent()
+        value.username = try reader["username"].readIfPresent()
+        return value
+    }
+}
+
+extension MediaPackageClientTypes.IngressAccessLogs {
+
+    static func write(value: MediaPackageClientTypes.IngressAccessLogs?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
-        try writer["constantInitializationVector"].write(value.constantInitializationVector)
-        try writer["encryptionMethod"].write(value.encryptionMethod)
-        try writer["keyRotationIntervalSeconds"].write(value.keyRotationIntervalSeconds)
-        try writer["repeatExtXKey"].write(value.repeatExtXKey)
+        try writer["logGroupName"].write(value.logGroupName)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> MediaPackageClientTypes.IngressAccessLogs {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = MediaPackageClientTypes.IngressAccessLogs()
+        value.logGroupName = try reader["logGroupName"].readIfPresent()
+        return value
+    }
+}
+
+extension MediaPackageClientTypes.MssEncryption {
+
+    static func write(value: MediaPackageClientTypes.MssEncryption?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
         try writer["spekeKeyProvider"].write(value.spekeKeyProvider, with: MediaPackageClientTypes.SpekeKeyProvider.write(value:to:))
     }
 
-    static func read(from reader: SmithyJSON.Reader) throws -> MediaPackageClientTypes.HlsEncryption {
+    static func read(from reader: SmithyJSON.Reader) throws -> MediaPackageClientTypes.MssEncryption {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = MediaPackageClientTypes.HlsEncryption()
-        value.constantInitializationVector = try reader["constantInitializationVector"].readIfPresent()
-        value.encryptionMethod = try reader["encryptionMethod"].readIfPresent()
-        value.keyRotationIntervalSeconds = try reader["keyRotationIntervalSeconds"].readIfPresent()
-        value.repeatExtXKey = try reader["repeatExtXKey"].readIfPresent()
+        var value = MediaPackageClientTypes.MssEncryption()
         value.spekeKeyProvider = try reader["spekeKeyProvider"].readIfPresent(with: MediaPackageClientTypes.SpekeKeyProvider.read(from:))
         return value
     }
@@ -3957,56 +3972,6 @@ extension MediaPackageClientTypes.MssPackage {
         value.manifestWindowSeconds = try reader["manifestWindowSeconds"].readIfPresent()
         value.segmentDurationSeconds = try reader["segmentDurationSeconds"].readIfPresent()
         value.streamSelection = try reader["streamSelection"].readIfPresent(with: MediaPackageClientTypes.StreamSelection.read(from:))
-        return value
-    }
-}
-
-extension MediaPackageClientTypes.MssEncryption {
-
-    static func write(value: MediaPackageClientTypes.MssEncryption?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["spekeKeyProvider"].write(value.spekeKeyProvider, with: MediaPackageClientTypes.SpekeKeyProvider.write(value:to:))
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> MediaPackageClientTypes.MssEncryption {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = MediaPackageClientTypes.MssEncryption()
-        value.spekeKeyProvider = try reader["spekeKeyProvider"].readIfPresent(with: MediaPackageClientTypes.SpekeKeyProvider.read(from:))
-        return value
-    }
-}
-
-extension MediaPackageClientTypes.Channel {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> MediaPackageClientTypes.Channel {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = MediaPackageClientTypes.Channel()
-        value.arn = try reader["arn"].readIfPresent()
-        value.createdAt = try reader["createdAt"].readIfPresent()
-        value.description = try reader["description"].readIfPresent()
-        value.egressAccessLogs = try reader["egressAccessLogs"].readIfPresent(with: MediaPackageClientTypes.EgressAccessLogs.read(from:))
-        value.hlsIngest = try reader["hlsIngest"].readIfPresent(with: MediaPackageClientTypes.HlsIngest.read(from:))
-        value.id = try reader["id"].readIfPresent()
-        value.ingressAccessLogs = try reader["ingressAccessLogs"].readIfPresent(with: MediaPackageClientTypes.IngressAccessLogs.read(from:))
-        value.tags = try reader["tags"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
-        return value
-    }
-}
-
-extension MediaPackageClientTypes.HarvestJob {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> MediaPackageClientTypes.HarvestJob {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = MediaPackageClientTypes.HarvestJob()
-        value.arn = try reader["arn"].readIfPresent()
-        value.channelId = try reader["channelId"].readIfPresent()
-        value.createdAt = try reader["createdAt"].readIfPresent()
-        value.endTime = try reader["endTime"].readIfPresent()
-        value.id = try reader["id"].readIfPresent()
-        value.originEndpointId = try reader["originEndpointId"].readIfPresent()
-        value.s3Destination = try reader["s3Destination"].readIfPresent(with: MediaPackageClientTypes.S3Destination.read(from:))
-        value.startTime = try reader["startTime"].readIfPresent()
-        value.status = try reader["status"].readIfPresent()
         return value
     }
 }
@@ -4037,31 +4002,66 @@ extension MediaPackageClientTypes.OriginEndpoint {
     }
 }
 
-extension MediaPackageClientTypes.CmafPackageCreateOrUpdateParameters {
+extension MediaPackageClientTypes.S3Destination {
 
-    static func write(value: MediaPackageClientTypes.CmafPackageCreateOrUpdateParameters?, to writer: SmithyJSON.Writer) throws {
+    static func write(value: MediaPackageClientTypes.S3Destination?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
-        try writer["encryption"].write(value.encryption, with: MediaPackageClientTypes.CmafEncryption.write(value:to:))
-        try writer["hlsManifests"].writeList(value.hlsManifests, memberWritingClosure: MediaPackageClientTypes.HlsManifestCreateOrUpdateParameters.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["segmentDurationSeconds"].write(value.segmentDurationSeconds)
-        try writer["segmentPrefix"].write(value.segmentPrefix)
-        try writer["streamSelection"].write(value.streamSelection, with: MediaPackageClientTypes.StreamSelection.write(value:to:))
+        try writer["bucketName"].write(value.bucketName)
+        try writer["manifestKey"].write(value.manifestKey)
+        try writer["roleArn"].write(value.roleArn)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> MediaPackageClientTypes.S3Destination {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = MediaPackageClientTypes.S3Destination()
+        value.bucketName = try reader["bucketName"].readIfPresent() ?? ""
+        value.manifestKey = try reader["manifestKey"].readIfPresent() ?? ""
+        value.roleArn = try reader["roleArn"].readIfPresent() ?? ""
+        return value
     }
 }
 
-extension MediaPackageClientTypes.HlsManifestCreateOrUpdateParameters {
+extension MediaPackageClientTypes.SpekeKeyProvider {
 
-    static func write(value: MediaPackageClientTypes.HlsManifestCreateOrUpdateParameters?, to writer: SmithyJSON.Writer) throws {
+    static func write(value: MediaPackageClientTypes.SpekeKeyProvider?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
-        try writer["adMarkers"].write(value.adMarkers)
-        try writer["adTriggers"].writeList(value.adTriggers, memberWritingClosure: SmithyReadWrite.WritingClosureBox<MediaPackageClientTypes.__AdTriggersElement>().write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["adsOnDeliveryRestrictions"].write(value.adsOnDeliveryRestrictions)
-        try writer["id"].write(value.id)
-        try writer["includeIframeOnlyStream"].write(value.includeIframeOnlyStream)
-        try writer["manifestName"].write(value.manifestName)
-        try writer["playlistType"].write(value.playlistType)
-        try writer["playlistWindowSeconds"].write(value.playlistWindowSeconds)
-        try writer["programDateTimeIntervalSeconds"].write(value.programDateTimeIntervalSeconds)
+        try writer["certificateArn"].write(value.certificateArn)
+        try writer["encryptionContractConfiguration"].write(value.encryptionContractConfiguration, with: MediaPackageClientTypes.EncryptionContractConfiguration.write(value:to:))
+        try writer["resourceId"].write(value.resourceId)
+        try writer["roleArn"].write(value.roleArn)
+        try writer["systemIds"].writeList(value.systemIds, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["url"].write(value.url)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> MediaPackageClientTypes.SpekeKeyProvider {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = MediaPackageClientTypes.SpekeKeyProvider()
+        value.certificateArn = try reader["certificateArn"].readIfPresent()
+        value.encryptionContractConfiguration = try reader["encryptionContractConfiguration"].readIfPresent(with: MediaPackageClientTypes.EncryptionContractConfiguration.read(from:))
+        value.resourceId = try reader["resourceId"].readIfPresent() ?? ""
+        value.roleArn = try reader["roleArn"].readIfPresent() ?? ""
+        value.systemIds = try reader["systemIds"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        value.url = try reader["url"].readIfPresent() ?? ""
+        return value
+    }
+}
+
+extension MediaPackageClientTypes.StreamSelection {
+
+    static func write(value: MediaPackageClientTypes.StreamSelection?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["maxVideoBitsPerSecond"].write(value.maxVideoBitsPerSecond)
+        try writer["minVideoBitsPerSecond"].write(value.minVideoBitsPerSecond)
+        try writer["streamOrder"].write(value.streamOrder)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> MediaPackageClientTypes.StreamSelection {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = MediaPackageClientTypes.StreamSelection()
+        value.maxVideoBitsPerSecond = try reader["maxVideoBitsPerSecond"].readIfPresent()
+        value.minVideoBitsPerSecond = try reader["minVideoBitsPerSecond"].readIfPresent()
+        value.streamOrder = try reader["streamOrder"].readIfPresent()
+        return value
     }
 }
 

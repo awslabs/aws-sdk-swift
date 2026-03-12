@@ -22,8 +22,8 @@ import protocol ClientRuntime.HTTPError
 import protocol ClientRuntime.ModeledError
 @_spi(SmithyReadWrite) import protocol SmithyReadWrite.SmithyReader
 @_spi(SmithyReadWrite) import protocol SmithyReadWrite.SmithyWriter
-@_spi(SmithyReadWrite) import struct AWSClientRuntime.AWSJSONError
 @_spi(UnknownAWSHTTPServiceError) import struct AWSClientRuntime.UnknownAWSHTTPServiceError
+@_spi(SmithyReadWrite) import struct ClientRuntime.AWSJSONError
 @_spi(SmithyReadWrite) import struct SmithyReadWrite.WritingClosureBox
 
 
@@ -4716,7 +4716,7 @@ enum AcceptDomainTransferFromAnotherAwsAccountOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "DomainLimitExceeded": return try DomainLimitExceeded.makeError(baseError: baseError)
@@ -4733,7 +4733,7 @@ enum AssociateDelegationSignerToDomainOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "DnssecLimitExceeded": return try DnssecLimitExceeded.makeError(baseError: baseError)
@@ -4752,7 +4752,7 @@ enum CancelDomainTransferToAnotherAwsAccountOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "InvalidInput": return try InvalidInput.makeError(baseError: baseError)
@@ -4768,7 +4768,7 @@ enum CheckDomainAvailabilityOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "InvalidInput": return try InvalidInput.makeError(baseError: baseError)
@@ -4783,7 +4783,7 @@ enum CheckDomainTransferabilityOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "InvalidInput": return try InvalidInput.makeError(baseError: baseError)
@@ -4798,7 +4798,7 @@ enum DeleteDomainOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "DuplicateRequest": return try DuplicateRequest.makeError(baseError: baseError)
@@ -4815,7 +4815,7 @@ enum DeleteTagsForDomainOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "InvalidInput": return try InvalidInput.makeError(baseError: baseError)
@@ -4831,7 +4831,7 @@ enum DisableDomainAutoRenewOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "InvalidInput": return try InvalidInput.makeError(baseError: baseError)
@@ -4846,7 +4846,7 @@ enum DisableDomainTransferLockOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "DuplicateRequest": return try DuplicateRequest.makeError(baseError: baseError)
@@ -4864,7 +4864,7 @@ enum DisassociateDelegationSignerFromDomainOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "DuplicateRequest": return try DuplicateRequest.makeError(baseError: baseError)
@@ -4882,7 +4882,7 @@ enum EnableDomainAutoRenewOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "InvalidInput": return try InvalidInput.makeError(baseError: baseError)
@@ -4898,7 +4898,7 @@ enum EnableDomainTransferLockOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "DuplicateRequest": return try DuplicateRequest.makeError(baseError: baseError)
@@ -4916,7 +4916,7 @@ enum GetContactReachabilityStatusOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "InvalidInput": return try InvalidInput.makeError(baseError: baseError)
@@ -4932,7 +4932,7 @@ enum GetDomainDetailOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "InvalidInput": return try InvalidInput.makeError(baseError: baseError)
@@ -4947,7 +4947,7 @@ enum GetDomainSuggestionsOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "InvalidInput": return try InvalidInput.makeError(baseError: baseError)
@@ -4962,7 +4962,7 @@ enum GetOperationDetailOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "InvalidInput": return try InvalidInput.makeError(baseError: baseError)
@@ -4976,7 +4976,7 @@ enum ListDomainsOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "InvalidInput": return try InvalidInput.makeError(baseError: baseError)
@@ -4990,7 +4990,7 @@ enum ListOperationsOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "InvalidInput": return try InvalidInput.makeError(baseError: baseError)
@@ -5004,7 +5004,7 @@ enum ListPricesOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "InvalidInput": return try InvalidInput.makeError(baseError: baseError)
@@ -5019,7 +5019,7 @@ enum ListTagsForDomainOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "InvalidInput": return try InvalidInput.makeError(baseError: baseError)
@@ -5035,7 +5035,7 @@ enum PushDomainOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "InvalidInput": return try InvalidInput.makeError(baseError: baseError)
@@ -5051,7 +5051,7 @@ enum RegisterDomainOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "DomainLimitExceeded": return try DomainLimitExceeded.makeError(baseError: baseError)
@@ -5070,7 +5070,7 @@ enum RejectDomainTransferFromAnotherAwsAccountOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "InvalidInput": return try InvalidInput.makeError(baseError: baseError)
@@ -5086,7 +5086,7 @@ enum RenewDomainOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "DuplicateRequest": return try DuplicateRequest.makeError(baseError: baseError)
@@ -5104,7 +5104,7 @@ enum ResendContactReachabilityEmailOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "InvalidInput": return try InvalidInput.makeError(baseError: baseError)
@@ -5120,7 +5120,7 @@ enum ResendOperationAuthorizationOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "InvalidInput": return try InvalidInput.makeError(baseError: baseError)
@@ -5134,7 +5134,7 @@ enum RetrieveDomainAuthCodeOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "InvalidInput": return try InvalidInput.makeError(baseError: baseError)
@@ -5149,7 +5149,7 @@ enum TransferDomainOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "DomainLimitExceeded": return try DomainLimitExceeded.makeError(baseError: baseError)
@@ -5168,7 +5168,7 @@ enum TransferDomainToAnotherAwsAccountOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "DuplicateRequest": return try DuplicateRequest.makeError(baseError: baseError)
@@ -5185,7 +5185,7 @@ enum UpdateDomainContactOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "DuplicateRequest": return try DuplicateRequest.makeError(baseError: baseError)
@@ -5203,7 +5203,7 @@ enum UpdateDomainContactPrivacyOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "DuplicateRequest": return try DuplicateRequest.makeError(baseError: baseError)
@@ -5221,7 +5221,7 @@ enum UpdateDomainNameserversOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "DuplicateRequest": return try DuplicateRequest.makeError(baseError: baseError)
@@ -5239,7 +5239,7 @@ enum UpdateTagsForDomainOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "InvalidInput": return try InvalidInput.makeError(baseError: baseError)
@@ -5255,7 +5255,7 @@ enum ViewBillingOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "InvalidInput": return try InvalidInput.makeError(baseError: baseError)
@@ -5266,7 +5266,7 @@ enum ViewBillingOutputError {
 
 extension DomainLimitExceeded {
 
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> DomainLimitExceeded {
+    static func makeError(baseError: ClientRuntime.AWSJSONError) throws -> DomainLimitExceeded {
         let reader = baseError.errorBodyReader
         var value = DomainLimitExceeded()
         value.properties.message = try reader["message"].readIfPresent()
@@ -5279,7 +5279,7 @@ extension DomainLimitExceeded {
 
 extension InvalidInput {
 
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> InvalidInput {
+    static func makeError(baseError: ClientRuntime.AWSJSONError) throws -> InvalidInput {
         let reader = baseError.errorBodyReader
         var value = InvalidInput()
         value.properties.message = try reader["message"].readIfPresent()
@@ -5292,7 +5292,7 @@ extension InvalidInput {
 
 extension OperationLimitExceeded {
 
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> OperationLimitExceeded {
+    static func makeError(baseError: ClientRuntime.AWSJSONError) throws -> OperationLimitExceeded {
         let reader = baseError.errorBodyReader
         var value = OperationLimitExceeded()
         value.properties.message = try reader["message"].readIfPresent()
@@ -5305,7 +5305,7 @@ extension OperationLimitExceeded {
 
 extension UnsupportedTLD {
 
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> UnsupportedTLD {
+    static func makeError(baseError: ClientRuntime.AWSJSONError) throws -> UnsupportedTLD {
         let reader = baseError.errorBodyReader
         var value = UnsupportedTLD()
         value.properties.message = try reader["message"].readIfPresent()
@@ -5318,7 +5318,7 @@ extension UnsupportedTLD {
 
 extension DnssecLimitExceeded {
 
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> DnssecLimitExceeded {
+    static func makeError(baseError: ClientRuntime.AWSJSONError) throws -> DnssecLimitExceeded {
         let reader = baseError.errorBodyReader
         var value = DnssecLimitExceeded()
         value.properties.message = try reader["message"].readIfPresent()
@@ -5331,7 +5331,7 @@ extension DnssecLimitExceeded {
 
 extension DuplicateRequest {
 
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> DuplicateRequest {
+    static func makeError(baseError: ClientRuntime.AWSJSONError) throws -> DuplicateRequest {
         let reader = baseError.errorBodyReader
         var value = DuplicateRequest()
         value.properties.message = try reader["message"].readIfPresent()
@@ -5345,7 +5345,7 @@ extension DuplicateRequest {
 
 extension TLDRulesViolation {
 
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> TLDRulesViolation {
+    static func makeError(baseError: ClientRuntime.AWSJSONError) throws -> TLDRulesViolation {
         let reader = baseError.errorBodyReader
         var value = TLDRulesViolation()
         value.properties.message = try reader["message"].readIfPresent()
@@ -5356,30 +5356,26 @@ extension TLDRulesViolation {
     }
 }
 
-extension Route53DomainsClientTypes.DomainTransferability {
+extension Route53DomainsClientTypes.BillingRecord {
 
-    static func read(from reader: SmithyJSON.Reader) throws -> Route53DomainsClientTypes.DomainTransferability {
+    static func read(from reader: SmithyJSON.Reader) throws -> Route53DomainsClientTypes.BillingRecord {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = Route53DomainsClientTypes.DomainTransferability()
-        value.transferable = try reader["Transferable"].readIfPresent()
+        var value = Route53DomainsClientTypes.BillingRecord()
+        value.domainName = try reader["DomainName"].readIfPresent()
+        value.operation = try reader["Operation"].readIfPresent()
+        value.invoiceId = try reader["InvoiceId"].readIfPresent()
+        value.billDate = try reader["BillDate"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.price = try reader["Price"].readIfPresent() ?? 0
         return value
     }
 }
 
-extension Route53DomainsClientTypes.Nameserver {
+extension Route53DomainsClientTypes.Consent {
 
-    static func write(value: Route53DomainsClientTypes.Nameserver?, to writer: SmithyJSON.Writer) throws {
+    static func write(value: Route53DomainsClientTypes.Consent?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
-        try writer["GlueIps"].writeList(value.glueIps, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["Name"].write(value.name)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> Route53DomainsClientTypes.Nameserver {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = Route53DomainsClientTypes.Nameserver()
-        value.name = try reader["Name"].readIfPresent() ?? ""
-        value.glueIps = try reader["GlueIps"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
-        return value
+        try writer["Currency"].write(value.currency)
+        try writer["MaxPrice"].write(value.maxPrice)
     }
 }
 
@@ -5424,23 +5420,6 @@ extension Route53DomainsClientTypes.ContactDetail {
     }
 }
 
-extension Route53DomainsClientTypes.ExtraParam {
-
-    static func write(value: Route53DomainsClientTypes.ExtraParam?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["Name"].write(value.name)
-        try writer["Value"].write(value.value)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> Route53DomainsClientTypes.ExtraParam {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = Route53DomainsClientTypes.ExtraParam()
-        value.name = try reader["Name"].readIfPresent() ?? .sdkUnknown("")
-        value.value = try reader["Value"].readIfPresent() ?? ""
-        return value
-    }
-}
-
 extension Route53DomainsClientTypes.DnssecKey {
 
     static func read(from reader: SmithyJSON.Reader) throws -> Route53DomainsClientTypes.DnssecKey {
@@ -5453,6 +5432,31 @@ extension Route53DomainsClientTypes.DnssecKey {
         value.digest = try reader["Digest"].readIfPresent()
         value.keyTag = try reader["KeyTag"].readIfPresent()
         value.id = try reader["Id"].readIfPresent()
+        return value
+    }
+}
+
+extension Route53DomainsClientTypes.DnssecSigningAttributes {
+
+    static func write(value: Route53DomainsClientTypes.DnssecSigningAttributes?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["Algorithm"].write(value.algorithm)
+        try writer["Flags"].write(value.flags)
+        try writer["PublicKey"].write(value.publicKey)
+    }
+}
+
+extension Route53DomainsClientTypes.DomainPrice {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> Route53DomainsClientTypes.DomainPrice {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = Route53DomainsClientTypes.DomainPrice()
+        value.name = try reader["Name"].readIfPresent()
+        value.registrationPrice = try reader["RegistrationPrice"].readIfPresent(with: Route53DomainsClientTypes.PriceWithCurrency.read(from:))
+        value.transferPrice = try reader["TransferPrice"].readIfPresent(with: Route53DomainsClientTypes.PriceWithCurrency.read(from:))
+        value.renewalPrice = try reader["RenewalPrice"].readIfPresent(with: Route53DomainsClientTypes.PriceWithCurrency.read(from:))
+        value.changeOwnershipPrice = try reader["ChangeOwnershipPrice"].readIfPresent(with: Route53DomainsClientTypes.PriceWithCurrency.read(from:))
+        value.restorationPrice = try reader["RestorationPrice"].readIfPresent(with: Route53DomainsClientTypes.PriceWithCurrency.read(from:))
         return value
     }
 }
@@ -5481,6 +5485,60 @@ extension Route53DomainsClientTypes.DomainSummary {
     }
 }
 
+extension Route53DomainsClientTypes.DomainTransferability {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> Route53DomainsClientTypes.DomainTransferability {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = Route53DomainsClientTypes.DomainTransferability()
+        value.transferable = try reader["Transferable"].readIfPresent()
+        return value
+    }
+}
+
+extension Route53DomainsClientTypes.ExtraParam {
+
+    static func write(value: Route53DomainsClientTypes.ExtraParam?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["Name"].write(value.name)
+        try writer["Value"].write(value.value)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> Route53DomainsClientTypes.ExtraParam {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = Route53DomainsClientTypes.ExtraParam()
+        value.name = try reader["Name"].readIfPresent() ?? .sdkUnknown("")
+        value.value = try reader["Value"].readIfPresent() ?? ""
+        return value
+    }
+}
+
+extension Route53DomainsClientTypes.FilterCondition {
+
+    static func write(value: Route53DomainsClientTypes.FilterCondition?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["Name"].write(value.name)
+        try writer["Operator"].write(value.`operator`)
+        try writer["Values"].writeList(value.values, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+    }
+}
+
+extension Route53DomainsClientTypes.Nameserver {
+
+    static func write(value: Route53DomainsClientTypes.Nameserver?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["GlueIps"].writeList(value.glueIps, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["Name"].write(value.name)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> Route53DomainsClientTypes.Nameserver {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = Route53DomainsClientTypes.Nameserver()
+        value.name = try reader["Name"].readIfPresent() ?? ""
+        value.glueIps = try reader["GlueIps"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        return value
+    }
+}
+
 extension Route53DomainsClientTypes.OperationSummary {
 
     static func read(from reader: SmithyJSON.Reader) throws -> Route53DomainsClientTypes.OperationSummary {
@@ -5498,21 +5556,6 @@ extension Route53DomainsClientTypes.OperationSummary {
     }
 }
 
-extension Route53DomainsClientTypes.DomainPrice {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> Route53DomainsClientTypes.DomainPrice {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = Route53DomainsClientTypes.DomainPrice()
-        value.name = try reader["Name"].readIfPresent()
-        value.registrationPrice = try reader["RegistrationPrice"].readIfPresent(with: Route53DomainsClientTypes.PriceWithCurrency.read(from:))
-        value.transferPrice = try reader["TransferPrice"].readIfPresent(with: Route53DomainsClientTypes.PriceWithCurrency.read(from:))
-        value.renewalPrice = try reader["RenewalPrice"].readIfPresent(with: Route53DomainsClientTypes.PriceWithCurrency.read(from:))
-        value.changeOwnershipPrice = try reader["ChangeOwnershipPrice"].readIfPresent(with: Route53DomainsClientTypes.PriceWithCurrency.read(from:))
-        value.restorationPrice = try reader["RestorationPrice"].readIfPresent(with: Route53DomainsClientTypes.PriceWithCurrency.read(from:))
-        return value
-    }
-}
-
 extension Route53DomainsClientTypes.PriceWithCurrency {
 
     static func read(from reader: SmithyJSON.Reader) throws -> Route53DomainsClientTypes.PriceWithCurrency {
@@ -5521,6 +5564,15 @@ extension Route53DomainsClientTypes.PriceWithCurrency {
         value.price = try reader["Price"].readIfPresent() ?? 0
         value.currency = try reader["Currency"].readIfPresent() ?? ""
         return value
+    }
+}
+
+extension Route53DomainsClientTypes.SortCondition {
+
+    static func write(value: Route53DomainsClientTypes.SortCondition?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["Name"].write(value.name)
+        try writer["SortOrder"].write(value.sortOrder)
     }
 }
 
@@ -5538,58 +5590,6 @@ extension Route53DomainsClientTypes.Tag {
         value.key = try reader["Key"].readIfPresent()
         value.value = try reader["Value"].readIfPresent()
         return value
-    }
-}
-
-extension Route53DomainsClientTypes.BillingRecord {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> Route53DomainsClientTypes.BillingRecord {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = Route53DomainsClientTypes.BillingRecord()
-        value.domainName = try reader["DomainName"].readIfPresent()
-        value.operation = try reader["Operation"].readIfPresent()
-        value.invoiceId = try reader["InvoiceId"].readIfPresent()
-        value.billDate = try reader["BillDate"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
-        value.price = try reader["Price"].readIfPresent() ?? 0
-        return value
-    }
-}
-
-extension Route53DomainsClientTypes.DnssecSigningAttributes {
-
-    static func write(value: Route53DomainsClientTypes.DnssecSigningAttributes?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["Algorithm"].write(value.algorithm)
-        try writer["Flags"].write(value.flags)
-        try writer["PublicKey"].write(value.publicKey)
-    }
-}
-
-extension Route53DomainsClientTypes.FilterCondition {
-
-    static func write(value: Route53DomainsClientTypes.FilterCondition?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["Name"].write(value.name)
-        try writer["Operator"].write(value.`operator`)
-        try writer["Values"].writeList(value.values, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
-    }
-}
-
-extension Route53DomainsClientTypes.SortCondition {
-
-    static func write(value: Route53DomainsClientTypes.SortCondition?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["Name"].write(value.name)
-        try writer["SortOrder"].write(value.sortOrder)
-    }
-}
-
-extension Route53DomainsClientTypes.Consent {
-
-    static func write(value: Route53DomainsClientTypes.Consent?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["Currency"].write(value.currency)
-        try writer["MaxPrice"].write(value.maxPrice)
     }
 }
 

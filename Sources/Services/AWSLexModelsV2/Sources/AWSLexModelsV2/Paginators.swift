@@ -12,6 +12,38 @@ import protocol ClientRuntime.PaginateToken
 import struct ClientRuntime.PaginatorSequence
 
 extension LexModelsV2Client {
+    /// Paginate over `[DescribeBotAnalyzerRecommendationOutput]` results.
+    ///
+    /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
+    /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
+    /// until then. If there are errors in your request, you will see the failures only after you start iterating.
+    /// - Parameters:
+    ///     - input: A `[DescribeBotAnalyzerRecommendationInput]` to start pagination
+    /// - Returns: An `AsyncSequence` that can iterate over `DescribeBotAnalyzerRecommendationOutput`
+    public func describeBotAnalyzerRecommendationPaginated(input: DescribeBotAnalyzerRecommendationInput) -> ClientRuntime.PaginatorSequence<DescribeBotAnalyzerRecommendationInput, DescribeBotAnalyzerRecommendationOutput> {
+        return ClientRuntime.PaginatorSequence<DescribeBotAnalyzerRecommendationInput, DescribeBotAnalyzerRecommendationOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.describeBotAnalyzerRecommendation(input:))
+    }
+}
+
+extension DescribeBotAnalyzerRecommendationInput: ClientRuntime.PaginateToken {
+    public func usingPaginationToken(_ token: Swift.String) -> DescribeBotAnalyzerRecommendationInput {
+        return DescribeBotAnalyzerRecommendationInput(
+            botAnalyzerRequestId: self.botAnalyzerRequestId,
+            botId: self.botId,
+            maxResults: self.maxResults,
+            nextToken: token
+        )}
+}
+
+extension PaginatorSequence where OperationStackInput == DescribeBotAnalyzerRecommendationInput, OperationStackOutput == DescribeBotAnalyzerRecommendationOutput {
+    /// This paginator transforms the `AsyncSequence` returned by `describeBotAnalyzerRecommendationPaginated`
+    /// to access the nested member `[LexModelsV2ClientTypes.BotAnalyzerRecommendation]`
+    /// - Returns: `[LexModelsV2ClientTypes.BotAnalyzerRecommendation]`
+    public func botAnalyzerRecommendationList() async throws -> [LexModelsV2ClientTypes.BotAnalyzerRecommendation] {
+        return try await self.asyncCompactMap { item in item.botAnalyzerRecommendationList }
+    }
+}
+extension LexModelsV2Client {
     /// Paginate over `[ListAggregatedUtterancesOutput]` results.
     ///
     /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
@@ -83,6 +115,39 @@ extension ListBotAliasReplicasInput: ClientRuntime.PaginateToken {
             nextToken: token,
             replicaRegion: self.replicaRegion
         )}
+}
+extension LexModelsV2Client {
+    /// Paginate over `[ListBotAnalyzerHistoryOutput]` results.
+    ///
+    /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
+    /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
+    /// until then. If there are errors in your request, you will see the failures only after you start iterating.
+    /// - Parameters:
+    ///     - input: A `[ListBotAnalyzerHistoryInput]` to start pagination
+    /// - Returns: An `AsyncSequence` that can iterate over `ListBotAnalyzerHistoryOutput`
+    public func listBotAnalyzerHistoryPaginated(input: ListBotAnalyzerHistoryInput) -> ClientRuntime.PaginatorSequence<ListBotAnalyzerHistoryInput, ListBotAnalyzerHistoryOutput> {
+        return ClientRuntime.PaginatorSequence<ListBotAnalyzerHistoryInput, ListBotAnalyzerHistoryOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listBotAnalyzerHistory(input:))
+    }
+}
+
+extension ListBotAnalyzerHistoryInput: ClientRuntime.PaginateToken {
+    public func usingPaginationToken(_ token: Swift.String) -> ListBotAnalyzerHistoryInput {
+        return ListBotAnalyzerHistoryInput(
+            botId: self.botId,
+            botVersion: self.botVersion,
+            localeId: self.localeId,
+            maxResults: self.maxResults,
+            nextToken: token
+        )}
+}
+
+extension PaginatorSequence where OperationStackInput == ListBotAnalyzerHistoryInput, OperationStackOutput == ListBotAnalyzerHistoryOutput {
+    /// This paginator transforms the `AsyncSequence` returned by `listBotAnalyzerHistoryPaginated`
+    /// to access the nested member `[LexModelsV2ClientTypes.BotAnalyzerHistorySummary]`
+    /// - Returns: `[LexModelsV2ClientTypes.BotAnalyzerHistorySummary]`
+    public func botAnalyzerHistoryList() async throws -> [LexModelsV2ClientTypes.BotAnalyzerHistorySummary] {
+        return try await self.asyncCompactMap { item in item.botAnalyzerHistoryList }
+    }
 }
 extension LexModelsV2Client {
     /// Paginate over `[ListBotLocalesOutput]` results.

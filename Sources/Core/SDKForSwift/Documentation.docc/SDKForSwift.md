@@ -295,6 +295,8 @@ This SDK is open-source.  Code is available on Github [here](https://github.com/
 
 [AWSConnectContactLens](/sdk-for-swift/latest/api/awsconnectcontactlens/documentation/awsconnectcontactlens)
 
+[AWSConnectHealth](/sdk-for-swift/latest/api/awsconnecthealth/documentation/awsconnecthealth)
+
 [AWSConnectParticipant](/sdk-for-swift/latest/api/awsconnectparticipant/documentation/awsconnectparticipant)
 
 [AWSControlCatalog](/sdk-for-swift/latest/api/awscontrolcatalog/documentation/awscontrolcatalog)
@@ -385,11 +387,11 @@ This SDK is open-source.  Code is available on Github [here](https://github.com/
 
 [AWSElasticsearchService](/sdk-for-swift/latest/api/awselasticsearchservice/documentation/awselasticsearchservice)
 
+[AWSElementalInference](/sdk-for-swift/latest/api/awselementalinference/documentation/awselementalinference)
+
 [AWSEntityResolution](/sdk-for-swift/latest/api/awsentityresolution/documentation/awsentityresolution)
 
 [AWSEventBridge](/sdk-for-swift/latest/api/awseventbridge/documentation/awseventbridge)
-
-[AWSEvidently](/sdk-for-swift/latest/api/awsevidently/documentation/awsevidently)
 
 [AWSEvs](/sdk-for-swift/latest/api/awsevs/documentation/awsevs)
 
@@ -462,8 +464,6 @@ This SDK is open-source.  Code is available on Github [here](https://github.com/
 [AWSInvoicing](/sdk-for-swift/latest/api/awsinvoicing/documentation/awsinvoicing)
 
 [AWSIoT](/sdk-for-swift/latest/api/awsiot/documentation/awsiot)
-
-[AWSIoTAnalytics](/sdk-for-swift/latest/api/awsiotanalytics/documentation/awsiotanalytics)
 
 [AWSIoTDataPlane](/sdk-for-swift/latest/api/awsiotdataplane/documentation/awsiotdataplane)
 
@@ -841,9 +841,13 @@ This SDK is open-source.  Code is available on Github [here](https://github.com/
 
 [AWSSigner](/sdk-for-swift/latest/api/awssigner/documentation/awssigner)
 
+[AWSSignerData](/sdk-for-swift/latest/api/awssignerdata/documentation/awssignerdata)
+
 [AWSSignin](/sdk-for-swift/latest/api/awssignin/documentation/awssignin)
 
 [AWSSimSpaceWeaver](/sdk-for-swift/latest/api/awssimspaceweaver/documentation/awssimspaceweaver)
+
+[AWSSimpleDBv2](/sdk-for-swift/latest/api/awssimpledbv2/documentation/awssimpledbv2)
 
 [AWSSnowDeviceManagement](/sdk-for-swift/latest/api/awssnowdevicemanagement/documentation/awssnowdevicemanagement)
 

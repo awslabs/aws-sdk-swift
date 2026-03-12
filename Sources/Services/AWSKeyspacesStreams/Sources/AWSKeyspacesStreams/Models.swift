@@ -21,8 +21,8 @@ import protocol ClientRuntime.HTTPError
 import protocol ClientRuntime.ModeledError
 @_spi(SmithyReadWrite) import protocol SmithyReadWrite.SmithyReader
 @_spi(SmithyReadWrite) import protocol SmithyReadWrite.SmithyWriter
-@_spi(SmithyReadWrite) import struct AWSClientRuntime.AWSJSONError
 @_spi(UnknownAWSHTTPServiceError) import struct AWSClientRuntime.UnknownAWSHTTPServiceError
+@_spi(SmithyReadWrite) import struct ClientRuntime.AWSJSONError
 @_spi(SmithyTimestamps) import struct SmithyTimestamps.TimestampFormatter
 
 /// You don't have sufficient access permissions to perform this operation. This exception occurs when your IAM user or role lacks the required permissions to access the Amazon Keyspaces resource or perform the requested action. Check your IAM policies and ensure they grant the necessary permissions.
@@ -97,7 +97,7 @@ public struct ResourceNotFoundException: ClientRuntime.ModeledError, AWSClientRu
     }
 }
 
-/// The request rate is too high and exceeds the service's throughput limits. This exception occurs when you send too many requests in a short period of time. Implement exponential backoff in your retry strategy to handle this exception. Reducing your request frequency or distributing requests more evenly can help avoid throughput exceptions.
+/// The request rate is too high and exceeds the service's throughput limits. This exception occurs when you send too many requests in a short period of time. Implement exponential backoff in your retry strategy to handle this exception. Reducing your request frequency or distributing requests more evenly can help avoid throughput exceptions. This exception can also occur when more than two processes are reading from the same stream shard at the same time. Ensure that only one process reads from a stream shard at the same time.
 public struct ThrottlingException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
     public struct Properties: Swift.Sendable {
@@ -185,9 +185,9 @@ public struct ValidationException: ClientRuntime.ModeledError, AWSClientRuntime.
 }
 
 public struct GetRecordsInput: Swift.Sendable {
-    /// The maximum number of records to return in a single GetRecords request. Default value is 1000. You can specify a limit between 1 and 1000, but the actual number returned might be less than the specified maximum if the size of the data for the returned records exceeds the internal size limit.
+    /// The maximum number of records to return in a single GetRecords request. The default value is 100. You can specify a limit between 1 and 1000, but the actual number returned might be less than the specified maximum if the size of the data for the returned records exceeds the internal size limit.
     public var maxResults: Swift.Int?
-    /// The unique identifier of the shard iterator. A shard iterator specifies the position in the shard from which you want to start reading data records sequentially. You obtain this value by calling the GetShardIterator operation. Each shard iterator is valid for 15 minutes after creation.
+    /// The unique identifier of the shard iterator. A shard iterator specifies the position in the shard from which you want to start reading data records sequentially. You obtain this value by calling the GetShardIterator  operation. Each shard iterator is valid for 15 minutes after creation.
     /// This member is required.
     public var shardIterator: Swift.String?
 
@@ -377,11 +377,11 @@ extension KeyspacesStreamsClientTypes {
 }
 
 public struct GetStreamInput: Swift.Sendable {
-    /// The maximum number of shard objects to return in a single GetStream request. Default value is 100. The minimum value is 1 and the maximum value is 100.
+    /// The maximum number of shard objects to return in a single GetStream request. The default value is 100. The minimum value is 1 and the maximum value is 100.
     public var maxResults: Swift.Int?
-    /// An optional pagination token provided by a previous GetStream operation. If this parameter is specified, the response includes only records beyond the token, up to the value specified by maxResults.
+    /// An optional pagination token provided by a previous GetStream operation. If this parameter is specified, the response includes only records beyond the token, up to the value specified by MaxResults.
     public var nextToken: Swift.String?
-    /// Optional filter criteria to apply when retrieving shards. You can filter shards based on their state or other attributes to narrow down the results returned by the GetStream operation.
+    /// Optional filter criteria to apply when retrieving shards. You can filter shards based on their parent shardID to get a list of children shards to narrow down the results returned by the GetStream operation.
     public var shardFilter: KeyspacesStreamsClientTypes.ShardFilter?
     /// The Amazon Resource Name (ARN) of the stream for which detailed information is requested. This uniquely identifies the specific stream you want to get information about.
     /// This member is required.
@@ -573,7 +573,7 @@ public struct GetStreamOutput: Swift.Sendable {
 public struct ListStreamsInput: Swift.Sendable {
     /// The name of the keyspace for which to list streams. If specified, only streams associated with tables in this keyspace are returned. If omitted, streams from all keyspaces are included in the results.
     public var keyspaceName: Swift.String?
-    /// The maximum number of streams to return in a single ListStreams request. Default value is 100. The minimum value is 1 and the maximum value is 100.
+    /// The maximum number of streams to return in a single ListStreams request. The default value is 100. The minimum value is 1 and the maximum value is 100.
     public var maxResults: Swift.Int?
     /// An optional pagination token provided by a previous ListStreams operation. If this parameter is specified, the response includes only records beyond the token, up to the value specified by maxResults.
     public var nextToken: Swift.String?
@@ -625,7 +625,7 @@ extension KeyspacesStreamsClientTypes {
 }
 
 public struct ListStreamsOutput: Swift.Sendable {
-    /// A pagination token that can be used in a subsequent ListStreams request. This token is returned if the response contains more streams than can be returned in a single response based on the MaxResults parameter.
+    /// A pagination token that can be used in a subsequent ListStreams request. This token is returned if the response contains more streams than can be returned in a single response based on the maxResults parameter.
     public var nextToken: Swift.String?
     /// An array of stream objects, each containing summary information about a stream including its ARN, status, and associated table information. This list includes all streams that match the request criteria.
     public var streams: [KeyspacesStreamsClientTypes.Stream]?
@@ -659,6 +659,8 @@ extension KeyspacesStreamsClientTypes {
         case decimalt(Swift.String)
         /// A 64-bit double-precision floating point value.
         case doublet(Swift.String)
+        /// A duration value with nanosecond precision, representing a period of time encoded as 32-bit months, 32-bit days, and 64-bit nanoseconds.
+        case durationt(Swift.String)
         /// A 32-bit single-precision floating point value.
         case floatt(Swift.String)
         /// An IP address value, either IPv4 or IPv6 format.
@@ -689,7 +691,7 @@ extension KeyspacesStreamsClientTypes {
         case uuidt(Swift.String)
         /// A UTF-8 encoded string value, functionally equivalent to text type.
         case varchart(Swift.String)
-        /// A variable precision integer value with arbitrary length.
+        /// An integer value within the +/-10^38 range.
         case varintt(Swift.String)
         /// A user-defined type (UDT) value consisting of named fields, each with its own data type.
         case udtt([Swift.String: KeyspacesStreamsClientTypes.KeyspacesCell])
@@ -808,7 +810,7 @@ extension KeyspacesStreamsClientTypes {
 public struct GetRecordsOutput: Swift.Sendable {
     /// An array of change data records retrieved from the specified shard. Each record represents a single data modification (insert, update, or delete) to a row in the Amazon Keyspaces table. Records include the primary key columns and information about what data was modified.
     public var changeRecords: [KeyspacesStreamsClientTypes.Record]?
-    /// The next position in the shard from which to start sequentially reading data records. If null, the shard has been closed and the requested iterator doesn't return any more data.
+    /// The next position in the shard from which to start sequentially reading data records. If null, the shard has been closed and the requested iterator will not return any more data.
     public var nextShardIterator: Swift.String?
 
     public init(
@@ -953,7 +955,7 @@ enum GetRecordsOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
@@ -971,7 +973,7 @@ enum GetShardIteratorOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
@@ -989,7 +991,7 @@ enum GetStreamOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
@@ -1007,7 +1009,7 @@ enum ListStreamsOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
@@ -1022,7 +1024,7 @@ enum ListStreamsOutputError {
 
 extension AccessDeniedException {
 
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> AccessDeniedException {
+    static func makeError(baseError: ClientRuntime.AWSJSONError) throws -> AccessDeniedException {
         let reader = baseError.errorBodyReader
         var value = AccessDeniedException()
         value.properties.message = try reader["message"].readIfPresent()
@@ -1035,7 +1037,7 @@ extension AccessDeniedException {
 
 extension InternalServerException {
 
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> InternalServerException {
+    static func makeError(baseError: ClientRuntime.AWSJSONError) throws -> InternalServerException {
         let reader = baseError.errorBodyReader
         var value = InternalServerException()
         value.properties.message = try reader["message"].readIfPresent()
@@ -1048,7 +1050,7 @@ extension InternalServerException {
 
 extension ResourceNotFoundException {
 
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> ResourceNotFoundException {
+    static func makeError(baseError: ClientRuntime.AWSJSONError) throws -> ResourceNotFoundException {
         let reader = baseError.errorBodyReader
         var value = ResourceNotFoundException()
         value.properties.message = try reader["message"].readIfPresent()
@@ -1061,7 +1063,7 @@ extension ResourceNotFoundException {
 
 extension ThrottlingException {
 
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> ThrottlingException {
+    static func makeError(baseError: ClientRuntime.AWSJSONError) throws -> ThrottlingException {
         let reader = baseError.errorBodyReader
         var value = ThrottlingException()
         value.properties.message = try reader["message"].readIfPresent()
@@ -1074,7 +1076,7 @@ extension ThrottlingException {
 
 extension ValidationException {
 
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> ValidationException {
+    static func makeError(baseError: ClientRuntime.AWSJSONError) throws -> ValidationException {
         let reader = baseError.errorBodyReader
         var value = ValidationException()
         value.properties.errorCode = try reader["errorCode"].readIfPresent()
@@ -1086,51 +1088,23 @@ extension ValidationException {
     }
 }
 
-extension KeyspacesStreamsClientTypes.Record {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> KeyspacesStreamsClientTypes.Record {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = KeyspacesStreamsClientTypes.Record()
-        value.eventVersion = try reader["eventVersion"].readIfPresent()
-        value.createdAt = try reader["createdAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
-        value.origin = try reader["origin"].readIfPresent()
-        value.partitionKeys = try reader["partitionKeys"].readMapIfPresent(valueReadingClosure: KeyspacesStreamsClientTypes.KeyspacesCellValue.read(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
-        value.clusteringKeys = try reader["clusteringKeys"].readMapIfPresent(valueReadingClosure: KeyspacesStreamsClientTypes.KeyspacesCellValue.read(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
-        value.newImage = try reader["newImage"].readIfPresent(with: KeyspacesStreamsClientTypes.KeyspacesRow.read(from:))
-        value.oldImage = try reader["oldImage"].readIfPresent(with: KeyspacesStreamsClientTypes.KeyspacesRow.read(from:))
-        value.sequenceNumber = try reader["sequenceNumber"].readIfPresent()
-        return value
-    }
-}
-
-extension KeyspacesStreamsClientTypes.KeyspacesRow {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> KeyspacesStreamsClientTypes.KeyspacesRow {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = KeyspacesStreamsClientTypes.KeyspacesRow()
-        value.valueCells = try reader["valueCells"].readMapIfPresent(valueReadingClosure: KeyspacesStreamsClientTypes.KeyspacesCell.read(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
-        value.staticCells = try reader["staticCells"].readMapIfPresent(valueReadingClosure: KeyspacesStreamsClientTypes.KeyspacesCell.read(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
-        value.rowMetadata = try reader["rowMetadata"].readIfPresent(with: KeyspacesStreamsClientTypes.KeyspacesMetadata.read(from:))
-        return value
-    }
-}
-
-extension KeyspacesStreamsClientTypes.KeyspacesMetadata {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> KeyspacesStreamsClientTypes.KeyspacesMetadata {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = KeyspacesStreamsClientTypes.KeyspacesMetadata()
-        value.expirationTime = try reader["expirationTime"].readIfPresent()
-        value.writeTime = try reader["writeTime"].readIfPresent()
-        return value
-    }
-}
-
 extension KeyspacesStreamsClientTypes.KeyspacesCell {
 
     static func read(from reader: SmithyJSON.Reader) throws -> KeyspacesStreamsClientTypes.KeyspacesCell {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = KeyspacesStreamsClientTypes.KeyspacesCell()
+        value.value = try reader["value"].readIfPresent(with: KeyspacesStreamsClientTypes.KeyspacesCellValue.read(from:))
+        value.metadata = try reader["metadata"].readIfPresent(with: KeyspacesStreamsClientTypes.KeyspacesMetadata.read(from:))
+        return value
+    }
+}
+
+extension KeyspacesStreamsClientTypes.KeyspacesCellMapDefinition {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> KeyspacesStreamsClientTypes.KeyspacesCellMapDefinition {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = KeyspacesStreamsClientTypes.KeyspacesCellMapDefinition()
+        value.key = try reader["key"].readIfPresent(with: KeyspacesStreamsClientTypes.KeyspacesCellValue.read(from:))
         value.value = try reader["value"].readIfPresent(with: KeyspacesStreamsClientTypes.KeyspacesCellValue.read(from:))
         value.metadata = try reader["metadata"].readIfPresent(with: KeyspacesStreamsClientTypes.KeyspacesMetadata.read(from:))
         return value
@@ -1159,6 +1133,8 @@ extension KeyspacesStreamsClientTypes.KeyspacesCellValue {
                 return .decimalt(try reader["decimalT"].read())
             case "doubleT":
                 return .doublet(try reader["doubleT"].read())
+            case "durationT":
+                return .durationt(try reader["durationT"].read())
             case "floatT":
                 return .floatt(try reader["floatT"].read())
             case "inetT":
@@ -1199,14 +1175,53 @@ extension KeyspacesStreamsClientTypes.KeyspacesCellValue {
     }
 }
 
-extension KeyspacesStreamsClientTypes.KeyspacesCellMapDefinition {
+extension KeyspacesStreamsClientTypes.KeyspacesMetadata {
 
-    static func read(from reader: SmithyJSON.Reader) throws -> KeyspacesStreamsClientTypes.KeyspacesCellMapDefinition {
+    static func read(from reader: SmithyJSON.Reader) throws -> KeyspacesStreamsClientTypes.KeyspacesMetadata {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = KeyspacesStreamsClientTypes.KeyspacesCellMapDefinition()
-        value.key = try reader["key"].readIfPresent(with: KeyspacesStreamsClientTypes.KeyspacesCellValue.read(from:))
-        value.value = try reader["value"].readIfPresent(with: KeyspacesStreamsClientTypes.KeyspacesCellValue.read(from:))
-        value.metadata = try reader["metadata"].readIfPresent(with: KeyspacesStreamsClientTypes.KeyspacesMetadata.read(from:))
+        var value = KeyspacesStreamsClientTypes.KeyspacesMetadata()
+        value.expirationTime = try reader["expirationTime"].readIfPresent()
+        value.writeTime = try reader["writeTime"].readIfPresent()
+        return value
+    }
+}
+
+extension KeyspacesStreamsClientTypes.KeyspacesRow {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> KeyspacesStreamsClientTypes.KeyspacesRow {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = KeyspacesStreamsClientTypes.KeyspacesRow()
+        value.valueCells = try reader["valueCells"].readMapIfPresent(valueReadingClosure: KeyspacesStreamsClientTypes.KeyspacesCell.read(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+        value.staticCells = try reader["staticCells"].readMapIfPresent(valueReadingClosure: KeyspacesStreamsClientTypes.KeyspacesCell.read(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+        value.rowMetadata = try reader["rowMetadata"].readIfPresent(with: KeyspacesStreamsClientTypes.KeyspacesMetadata.read(from:))
+        return value
+    }
+}
+
+extension KeyspacesStreamsClientTypes.Record {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> KeyspacesStreamsClientTypes.Record {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = KeyspacesStreamsClientTypes.Record()
+        value.eventVersion = try reader["eventVersion"].readIfPresent()
+        value.createdAt = try reader["createdAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.origin = try reader["origin"].readIfPresent()
+        value.partitionKeys = try reader["partitionKeys"].readMapIfPresent(valueReadingClosure: KeyspacesStreamsClientTypes.KeyspacesCellValue.read(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+        value.clusteringKeys = try reader["clusteringKeys"].readMapIfPresent(valueReadingClosure: KeyspacesStreamsClientTypes.KeyspacesCellValue.read(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+        value.newImage = try reader["newImage"].readIfPresent(with: KeyspacesStreamsClientTypes.KeyspacesRow.read(from:))
+        value.oldImage = try reader["oldImage"].readIfPresent(with: KeyspacesStreamsClientTypes.KeyspacesRow.read(from:))
+        value.sequenceNumber = try reader["sequenceNumber"].readIfPresent()
+        return value
+    }
+}
+
+extension KeyspacesStreamsClientTypes.SequenceNumberRange {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> KeyspacesStreamsClientTypes.SequenceNumberRange {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = KeyspacesStreamsClientTypes.SequenceNumberRange()
+        value.startingSequenceNumber = try reader["startingSequenceNumber"].readIfPresent()
+        value.endingSequenceNumber = try reader["endingSequenceNumber"].readIfPresent()
         return value
     }
 }
@@ -1223,14 +1238,12 @@ extension KeyspacesStreamsClientTypes.Shard {
     }
 }
 
-extension KeyspacesStreamsClientTypes.SequenceNumberRange {
+extension KeyspacesStreamsClientTypes.ShardFilter {
 
-    static func read(from reader: SmithyJSON.Reader) throws -> KeyspacesStreamsClientTypes.SequenceNumberRange {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = KeyspacesStreamsClientTypes.SequenceNumberRange()
-        value.startingSequenceNumber = try reader["startingSequenceNumber"].readIfPresent()
-        value.endingSequenceNumber = try reader["endingSequenceNumber"].readIfPresent()
-        return value
+    static func write(value: KeyspacesStreamsClientTypes.ShardFilter?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["shardId"].write(value.shardId)
+        try writer["type"].write(value.type)
     }
 }
 
@@ -1244,15 +1257,6 @@ extension KeyspacesStreamsClientTypes.Stream {
         value.tableName = try reader["tableName"].readIfPresent() ?? ""
         value.streamLabel = try reader["streamLabel"].readIfPresent() ?? ""
         return value
-    }
-}
-
-extension KeyspacesStreamsClientTypes.ShardFilter {
-
-    static func write(value: KeyspacesStreamsClientTypes.ShardFilter?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["shardId"].write(value.shardId)
-        try writer["type"].write(value.type)
     }
 }
 

@@ -23,8 +23,8 @@ import protocol ClientRuntime.HTTPError
 import protocol ClientRuntime.ModeledError
 @_spi(SmithyReadWrite) import protocol SmithyReadWrite.SmithyReader
 @_spi(SmithyReadWrite) import protocol SmithyReadWrite.SmithyWriter
-@_spi(SmithyReadWrite) import struct AWSClientRuntime.RestJSONError
 @_spi(UnknownAWSHTTPServiceError) import struct AWSClientRuntime.UnknownAWSHTTPServiceError
+@_spi(SmithyReadWrite) import struct ClientRuntime.RestJSONError
 
 /// You don't have sufficient access to perform this action.
 public struct AccessDeniedException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
@@ -1127,7 +1127,7 @@ enum BatchExecuteStatementOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
@@ -1155,7 +1155,7 @@ enum BeginTransactionOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
@@ -1183,7 +1183,7 @@ enum CommitTransactionOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
@@ -1211,7 +1211,7 @@ enum ExecuteStatementOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
@@ -1240,7 +1240,7 @@ enum RollbackTransactionOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
@@ -1265,7 +1265,7 @@ enum RollbackTransactionOutputError {
 
 extension AccessDeniedException {
 
-    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> AccessDeniedException {
+    static func makeError(baseError: ClientRuntime.RestJSONError) throws -> AccessDeniedException {
         let reader = baseError.errorBodyReader
         var value = AccessDeniedException()
         value.properties.message = try reader["message"].readIfPresent()
@@ -1278,7 +1278,7 @@ extension AccessDeniedException {
 
 extension BadRequestException {
 
-    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> BadRequestException {
+    static func makeError(baseError: ClientRuntime.RestJSONError) throws -> BadRequestException {
         let reader = baseError.errorBodyReader
         var value = BadRequestException()
         value.properties.message = try reader["message"].readIfPresent()
@@ -1291,7 +1291,7 @@ extension BadRequestException {
 
 extension DatabaseErrorException {
 
-    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> DatabaseErrorException {
+    static func makeError(baseError: ClientRuntime.RestJSONError) throws -> DatabaseErrorException {
         let reader = baseError.errorBodyReader
         var value = DatabaseErrorException()
         value.properties.message = try reader["message"].readIfPresent()
@@ -1304,7 +1304,7 @@ extension DatabaseErrorException {
 
 extension DatabaseNotFoundException {
 
-    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> DatabaseNotFoundException {
+    static func makeError(baseError: ClientRuntime.RestJSONError) throws -> DatabaseNotFoundException {
         let reader = baseError.errorBodyReader
         var value = DatabaseNotFoundException()
         value.properties.message = try reader["message"].readIfPresent()
@@ -1317,7 +1317,7 @@ extension DatabaseNotFoundException {
 
 extension DatabaseResumingException {
 
-    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> DatabaseResumingException {
+    static func makeError(baseError: ClientRuntime.RestJSONError) throws -> DatabaseResumingException {
         let reader = baseError.errorBodyReader
         var value = DatabaseResumingException()
         value.properties.message = try reader["message"].readIfPresent()
@@ -1330,7 +1330,7 @@ extension DatabaseResumingException {
 
 extension DatabaseUnavailableException {
 
-    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> DatabaseUnavailableException {
+    static func makeError(baseError: ClientRuntime.RestJSONError) throws -> DatabaseUnavailableException {
         var value = DatabaseUnavailableException()
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
@@ -1341,7 +1341,7 @@ extension DatabaseUnavailableException {
 
 extension ForbiddenException {
 
-    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> ForbiddenException {
+    static func makeError(baseError: ClientRuntime.RestJSONError) throws -> ForbiddenException {
         let reader = baseError.errorBodyReader
         var value = ForbiddenException()
         value.properties.message = try reader["message"].readIfPresent()
@@ -1354,7 +1354,7 @@ extension ForbiddenException {
 
 extension HttpEndpointNotEnabledException {
 
-    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> HttpEndpointNotEnabledException {
+    static func makeError(baseError: ClientRuntime.RestJSONError) throws -> HttpEndpointNotEnabledException {
         let reader = baseError.errorBodyReader
         var value = HttpEndpointNotEnabledException()
         value.properties.message = try reader["message"].readIfPresent()
@@ -1367,7 +1367,7 @@ extension HttpEndpointNotEnabledException {
 
 extension InternalServerErrorException {
 
-    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> InternalServerErrorException {
+    static func makeError(baseError: ClientRuntime.RestJSONError) throws -> InternalServerErrorException {
         var value = InternalServerErrorException()
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
@@ -1378,7 +1378,7 @@ extension InternalServerErrorException {
 
 extension InvalidResourceStateException {
 
-    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> InvalidResourceStateException {
+    static func makeError(baseError: ClientRuntime.RestJSONError) throws -> InvalidResourceStateException {
         let reader = baseError.errorBodyReader
         var value = InvalidResourceStateException()
         value.properties.message = try reader["message"].readIfPresent()
@@ -1391,7 +1391,7 @@ extension InvalidResourceStateException {
 
 extension InvalidSecretException {
 
-    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> InvalidSecretException {
+    static func makeError(baseError: ClientRuntime.RestJSONError) throws -> InvalidSecretException {
         let reader = baseError.errorBodyReader
         var value = InvalidSecretException()
         value.properties.message = try reader["message"].readIfPresent()
@@ -1404,7 +1404,7 @@ extension InvalidSecretException {
 
 extension SecretsErrorException {
 
-    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> SecretsErrorException {
+    static func makeError(baseError: ClientRuntime.RestJSONError) throws -> SecretsErrorException {
         let reader = baseError.errorBodyReader
         var value = SecretsErrorException()
         value.properties.message = try reader["message"].readIfPresent()
@@ -1417,7 +1417,7 @@ extension SecretsErrorException {
 
 extension ServiceUnavailableError {
 
-    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> ServiceUnavailableError {
+    static func makeError(baseError: ClientRuntime.RestJSONError) throws -> ServiceUnavailableError {
         var value = ServiceUnavailableError()
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
@@ -1428,7 +1428,7 @@ extension ServiceUnavailableError {
 
 extension StatementTimeoutException {
 
-    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> StatementTimeoutException {
+    static func makeError(baseError: ClientRuntime.RestJSONError) throws -> StatementTimeoutException {
         let reader = baseError.errorBodyReader
         var value = StatementTimeoutException()
         value.properties.dbConnectionId = try reader["dbConnectionId"].readIfPresent() ?? 0
@@ -1442,7 +1442,7 @@ extension StatementTimeoutException {
 
 extension TransactionNotFoundException {
 
-    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> TransactionNotFoundException {
+    static func makeError(baseError: ClientRuntime.RestJSONError) throws -> TransactionNotFoundException {
         let reader = baseError.errorBodyReader
         var value = TransactionNotFoundException()
         value.properties.message = try reader["message"].readIfPresent()
@@ -1455,7 +1455,7 @@ extension TransactionNotFoundException {
 
 extension NotFoundException {
 
-    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> NotFoundException {
+    static func makeError(baseError: ClientRuntime.RestJSONError) throws -> NotFoundException {
         let reader = baseError.errorBodyReader
         var value = NotFoundException()
         value.properties.message = try reader["message"].readIfPresent()
@@ -1468,7 +1468,7 @@ extension NotFoundException {
 
 extension UnsupportedResultException {
 
-    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> UnsupportedResultException {
+    static func makeError(baseError: ClientRuntime.RestJSONError) throws -> UnsupportedResultException {
         let reader = baseError.errorBodyReader
         var value = UnsupportedResultException()
         value.properties.message = try reader["message"].readIfPresent()
@@ -1476,64 +1476,6 @@ extension UnsupportedResultException {
         value.requestID = baseError.requestID
         value.message = baseError.message
         return value
-    }
-}
-
-extension RDSDataClientTypes.UpdateResult {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> RDSDataClientTypes.UpdateResult {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = RDSDataClientTypes.UpdateResult()
-        value.generatedFields = try reader["generatedFields"].readListIfPresent(memberReadingClosure: RDSDataClientTypes.Field.read(from:), memberNodeInfo: "member", isFlattened: false)
-        return value
-    }
-}
-
-extension RDSDataClientTypes.Field {
-
-    static func write(value: RDSDataClientTypes.Field?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        switch value {
-            case let .arrayvalue(arrayvalue):
-                try writer["arrayValue"].write(arrayvalue, with: RDSDataClientTypes.ArrayValue.write(value:to:))
-            case let .blobvalue(blobvalue):
-                try writer["blobValue"].write(blobvalue)
-            case let .booleanvalue(booleanvalue):
-                try writer["booleanValue"].write(booleanvalue)
-            case let .doublevalue(doublevalue):
-                try writer["doubleValue"].write(doublevalue)
-            case let .isnull(isnull):
-                try writer["isNull"].write(isnull)
-            case let .longvalue(longvalue):
-                try writer["longValue"].write(longvalue)
-            case let .stringvalue(stringvalue):
-                try writer["stringValue"].write(stringvalue)
-            case let .sdkUnknown(sdkUnknown):
-                try writer["sdkUnknown"].write(sdkUnknown)
-        }
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> RDSDataClientTypes.Field {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        let name = reader.children.filter { $0.hasContent && $0.nodeInfo.name != "__type" }.first?.nodeInfo.name
-        switch name {
-            case "isNull":
-                return .isnull(try reader["isNull"].read())
-            case "booleanValue":
-                return .booleanvalue(try reader["booleanValue"].read())
-            case "longValue":
-                return .longvalue(try reader["longValue"].read())
-            case "doubleValue":
-                return .doublevalue(try reader["doubleValue"].read())
-            case "stringValue":
-                return .stringvalue(try reader["stringValue"].read())
-            case "blobValue":
-                return .blobvalue(try reader["blobValue"].read())
-            case "arrayValue":
-                return .arrayvalue(try reader["arrayValue"].read(with: RDSDataClientTypes.ArrayValue.read(from:)))
-            default:
-                return .sdkUnknown(name ?? "")
-        }
     }
 }
 
@@ -1600,6 +1542,63 @@ extension RDSDataClientTypes.ColumnMetadata {
     }
 }
 
+extension RDSDataClientTypes.Field {
+
+    static func write(value: RDSDataClientTypes.Field?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        switch value {
+            case let .arrayvalue(arrayvalue):
+                try writer["arrayValue"].write(arrayvalue, with: RDSDataClientTypes.ArrayValue.write(value:to:))
+            case let .blobvalue(blobvalue):
+                try writer["blobValue"].write(blobvalue)
+            case let .booleanvalue(booleanvalue):
+                try writer["booleanValue"].write(booleanvalue)
+            case let .doublevalue(doublevalue):
+                try writer["doubleValue"].write(doublevalue)
+            case let .isnull(isnull):
+                try writer["isNull"].write(isnull)
+            case let .longvalue(longvalue):
+                try writer["longValue"].write(longvalue)
+            case let .stringvalue(stringvalue):
+                try writer["stringValue"].write(stringvalue)
+            case let .sdkUnknown(sdkUnknown):
+                try writer["sdkUnknown"].write(sdkUnknown)
+        }
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> RDSDataClientTypes.Field {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        let name = reader.children.filter { $0.hasContent && $0.nodeInfo.name != "__type" }.first?.nodeInfo.name
+        switch name {
+            case "isNull":
+                return .isnull(try reader["isNull"].read())
+            case "booleanValue":
+                return .booleanvalue(try reader["booleanValue"].read())
+            case "longValue":
+                return .longvalue(try reader["longValue"].read())
+            case "doubleValue":
+                return .doublevalue(try reader["doubleValue"].read())
+            case "stringValue":
+                return .stringvalue(try reader["stringValue"].read())
+            case "blobValue":
+                return .blobvalue(try reader["blobValue"].read())
+            case "arrayValue":
+                return .arrayvalue(try reader["arrayValue"].read(with: RDSDataClientTypes.ArrayValue.read(from:)))
+            default:
+                return .sdkUnknown(name ?? "")
+        }
+    }
+}
+
+extension RDSDataClientTypes.ResultSetOptions {
+
+    static func write(value: RDSDataClientTypes.ResultSetOptions?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["decimalReturnType"].write(value.decimalReturnType)
+        try writer["longReturnType"].write(value.longReturnType)
+    }
+}
+
 extension RDSDataClientTypes.SqlParameter {
 
     static func write(value: RDSDataClientTypes.SqlParameter?, to writer: SmithyJSON.Writer) throws {
@@ -1610,12 +1609,13 @@ extension RDSDataClientTypes.SqlParameter {
     }
 }
 
-extension RDSDataClientTypes.ResultSetOptions {
+extension RDSDataClientTypes.UpdateResult {
 
-    static func write(value: RDSDataClientTypes.ResultSetOptions?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["decimalReturnType"].write(value.decimalReturnType)
-        try writer["longReturnType"].write(value.longReturnType)
+    static func read(from reader: SmithyJSON.Reader) throws -> RDSDataClientTypes.UpdateResult {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = RDSDataClientTypes.UpdateResult()
+        value.generatedFields = try reader["generatedFields"].readListIfPresent(memberReadingClosure: RDSDataClientTypes.Field.read(from:), memberNodeInfo: "member", isFlattened: false)
+        return value
     }
 }
 

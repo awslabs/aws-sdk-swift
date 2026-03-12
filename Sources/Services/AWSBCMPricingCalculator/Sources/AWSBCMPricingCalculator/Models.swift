@@ -23,8 +23,8 @@ import protocol ClientRuntime.HTTPError
 import protocol ClientRuntime.ModeledError
 @_spi(SmithyReadWrite) import protocol SmithyReadWrite.SmithyReader
 @_spi(SmithyReadWrite) import protocol SmithyReadWrite.SmithyWriter
-@_spi(SmithyReadWrite) import struct AWSClientRuntime.AWSJSONError
 @_spi(UnknownAWSHTTPServiceError) import struct AWSClientRuntime.UnknownAWSHTTPServiceError
+@_spi(SmithyReadWrite) import struct ClientRuntime.AWSJSONError
 @_spi(SmithyReadWrite) import struct SmithyReadWrite.ReadingClosureBox
 @_spi(SmithyReadWrite) import struct SmithyReadWrite.WritingClosureBox
 
@@ -5250,7 +5250,7 @@ extension UpdateWorkloadEstimateOutput {
     }
 }
 
-func httpServiceError(baseError: AWSClientRuntime.AWSJSONError) throws -> Swift.Error? {
+func httpServiceError(baseError: ClientRuntime.AWSJSONError) throws -> Swift.Error? {
     switch baseError.code {
         case "AccessDeniedCode": return try AccessDeniedException.makeError(baseError: baseError)
         case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
@@ -5265,7 +5265,7 @@ enum BatchCreateBillScenarioCommitmentModificationOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         if let error = try httpServiceError(baseError: baseError) { return error }
         switch baseError.code {
@@ -5282,7 +5282,7 @@ enum BatchCreateBillScenarioUsageModificationOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         if let error = try httpServiceError(baseError: baseError) { return error }
         switch baseError.code {
@@ -5300,7 +5300,7 @@ enum BatchCreateWorkloadEstimateUsageOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         if let error = try httpServiceError(baseError: baseError) { return error }
         switch baseError.code {
@@ -5318,7 +5318,7 @@ enum BatchDeleteBillScenarioCommitmentModificationOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         if let error = try httpServiceError(baseError: baseError) { return error }
         switch baseError.code {
@@ -5335,7 +5335,7 @@ enum BatchDeleteBillScenarioUsageModificationOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         if let error = try httpServiceError(baseError: baseError) { return error }
         switch baseError.code {
@@ -5353,7 +5353,7 @@ enum BatchDeleteWorkloadEstimateUsageOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         if let error = try httpServiceError(baseError: baseError) { return error }
         switch baseError.code {
@@ -5370,7 +5370,7 @@ enum BatchUpdateBillScenarioCommitmentModificationOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         if let error = try httpServiceError(baseError: baseError) { return error }
         switch baseError.code {
@@ -5387,7 +5387,7 @@ enum BatchUpdateBillScenarioUsageModificationOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         if let error = try httpServiceError(baseError: baseError) { return error }
         switch baseError.code {
@@ -5405,7 +5405,7 @@ enum BatchUpdateWorkloadEstimateUsageOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         if let error = try httpServiceError(baseError: baseError) { return error }
         switch baseError.code {
@@ -5422,7 +5422,7 @@ enum CreateBillEstimateOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         if let error = try httpServiceError(baseError: baseError) { return error }
         switch baseError.code {
@@ -5439,7 +5439,7 @@ enum CreateBillScenarioOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         if let error = try httpServiceError(baseError: baseError) { return error }
         switch baseError.code {
@@ -5456,7 +5456,7 @@ enum CreateWorkloadEstimateOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         if let error = try httpServiceError(baseError: baseError) { return error }
         switch baseError.code {
@@ -5473,7 +5473,7 @@ enum DeleteBillEstimateOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         if let error = try httpServiceError(baseError: baseError) { return error }
         switch baseError.code {
@@ -5489,7 +5489,7 @@ enum DeleteBillScenarioOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         if let error = try httpServiceError(baseError: baseError) { return error }
         switch baseError.code {
@@ -5505,7 +5505,7 @@ enum DeleteWorkloadEstimateOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         if let error = try httpServiceError(baseError: baseError) { return error }
         switch baseError.code {
@@ -5520,7 +5520,7 @@ enum GetBillEstimateOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         if let error = try httpServiceError(baseError: baseError) { return error }
         switch baseError.code {
@@ -5536,7 +5536,7 @@ enum GetBillScenarioOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         if let error = try httpServiceError(baseError: baseError) { return error }
         switch baseError.code {
@@ -5552,7 +5552,7 @@ enum GetPreferencesOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         if let error = try httpServiceError(baseError: baseError) { return error }
         switch baseError.code {
@@ -5567,7 +5567,7 @@ enum GetWorkloadEstimateOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         if let error = try httpServiceError(baseError: baseError) { return error }
         switch baseError.code {
@@ -5583,7 +5583,7 @@ enum ListBillEstimateCommitmentsOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         if let error = try httpServiceError(baseError: baseError) { return error }
         switch baseError.code {
@@ -5599,7 +5599,7 @@ enum ListBillEstimateInputCommitmentModificationsOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         if let error = try httpServiceError(baseError: baseError) { return error }
         switch baseError.code {
@@ -5615,7 +5615,7 @@ enum ListBillEstimateInputUsageModificationsOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         if let error = try httpServiceError(baseError: baseError) { return error }
         switch baseError.code {
@@ -5631,7 +5631,7 @@ enum ListBillEstimateLineItemsOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         if let error = try httpServiceError(baseError: baseError) { return error }
         switch baseError.code {
@@ -5647,7 +5647,7 @@ enum ListBillEstimatesOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         if let error = try httpServiceError(baseError: baseError) { return error }
         switch baseError.code {
@@ -5662,7 +5662,7 @@ enum ListBillScenarioCommitmentModificationsOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         if let error = try httpServiceError(baseError: baseError) { return error }
         switch baseError.code {
@@ -5678,7 +5678,7 @@ enum ListBillScenariosOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         if let error = try httpServiceError(baseError: baseError) { return error }
         switch baseError.code {
@@ -5693,7 +5693,7 @@ enum ListBillScenarioUsageModificationsOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         if let error = try httpServiceError(baseError: baseError) { return error }
         switch baseError.code {
@@ -5709,7 +5709,7 @@ enum ListTagsForResourceOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         if let error = try httpServiceError(baseError: baseError) { return error }
         switch baseError.code {
@@ -5724,7 +5724,7 @@ enum ListWorkloadEstimatesOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         if let error = try httpServiceError(baseError: baseError) { return error }
         switch baseError.code {
@@ -5739,7 +5739,7 @@ enum ListWorkloadEstimateUsageOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         if let error = try httpServiceError(baseError: baseError) { return error }
         switch baseError.code {
@@ -5755,7 +5755,7 @@ enum TagResourceOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         if let error = try httpServiceError(baseError: baseError) { return error }
         switch baseError.code {
@@ -5771,7 +5771,7 @@ enum UntagResourceOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         if let error = try httpServiceError(baseError: baseError) { return error }
         switch baseError.code {
@@ -5786,7 +5786,7 @@ enum UpdateBillEstimateOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         if let error = try httpServiceError(baseError: baseError) { return error }
         switch baseError.code {
@@ -5803,7 +5803,7 @@ enum UpdateBillScenarioOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         if let error = try httpServiceError(baseError: baseError) { return error }
         switch baseError.code {
@@ -5820,7 +5820,7 @@ enum UpdatePreferencesOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         if let error = try httpServiceError(baseError: baseError) { return error }
         switch baseError.code {
@@ -5836,7 +5836,7 @@ enum UpdateWorkloadEstimateOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         if let error = try httpServiceError(baseError: baseError) { return error }
         switch baseError.code {
@@ -5850,7 +5850,7 @@ enum UpdateWorkloadEstimateOutputError {
 
 extension ConflictException {
 
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> ConflictException {
+    static func makeError(baseError: ClientRuntime.AWSJSONError) throws -> ConflictException {
         let reader = baseError.errorBodyReader
         var value = ConflictException()
         value.properties.message = try reader["message"].readIfPresent() ?? ""
@@ -5865,7 +5865,7 @@ extension ConflictException {
 
 extension DataUnavailableException {
 
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> DataUnavailableException {
+    static func makeError(baseError: ClientRuntime.AWSJSONError) throws -> DataUnavailableException {
         let reader = baseError.errorBodyReader
         var value = DataUnavailableException()
         value.properties.message = try reader["message"].readIfPresent() ?? ""
@@ -5878,7 +5878,7 @@ extension DataUnavailableException {
 
 extension ResourceNotFoundException {
 
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> ResourceNotFoundException {
+    static func makeError(baseError: ClientRuntime.AWSJSONError) throws -> ResourceNotFoundException {
         let reader = baseError.errorBodyReader
         var value = ResourceNotFoundException()
         value.properties.message = try reader["message"].readIfPresent() ?? ""
@@ -5893,7 +5893,7 @@ extension ResourceNotFoundException {
 
 extension ServiceQuotaExceededException {
 
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> ServiceQuotaExceededException {
+    static func makeError(baseError: ClientRuntime.AWSJSONError) throws -> ServiceQuotaExceededException {
         let reader = baseError.errorBodyReader
         var value = ServiceQuotaExceededException()
         value.properties.message = try reader["message"].readIfPresent() ?? ""
@@ -5910,7 +5910,7 @@ extension ServiceQuotaExceededException {
 
 extension AccessDeniedException {
 
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> AccessDeniedException {
+    static func makeError(baseError: ClientRuntime.AWSJSONError) throws -> AccessDeniedException {
         let reader = baseError.errorBodyReader
         var value = AccessDeniedException()
         value.properties.message = try reader["message"].readIfPresent() ?? ""
@@ -5923,7 +5923,7 @@ extension AccessDeniedException {
 
 extension InternalServerException {
 
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> InternalServerException {
+    static func makeError(baseError: ClientRuntime.AWSJSONError) throws -> InternalServerException {
         let reader = baseError.errorBodyReader
         let httpResponse = baseError.httpResponse
         var value = InternalServerException()
@@ -5940,7 +5940,7 @@ extension InternalServerException {
 
 extension ThrottlingException {
 
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> ThrottlingException {
+    static func makeError(baseError: ClientRuntime.AWSJSONError) throws -> ThrottlingException {
         let reader = baseError.errorBodyReader
         let httpResponse = baseError.httpResponse
         var value = ThrottlingException()
@@ -5959,7 +5959,7 @@ extension ThrottlingException {
 
 extension ValidationException {
 
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> ValidationException {
+    static func makeError(baseError: ClientRuntime.AWSJSONError) throws -> ValidationException {
         let reader = baseError.errorBodyReader
         var value = ValidationException()
         value.properties.fieldList = try reader["fieldList"].readListIfPresent(memberReadingClosure: BCMPricingCalculatorClientTypes.ValidationExceptionField.read(from:), memberNodeInfo: "member", isFlattened: false)
@@ -5968,103 +5968,6 @@ extension ValidationException {
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
         value.message = baseError.message
-        return value
-    }
-}
-
-extension BCMPricingCalculatorClientTypes.BatchCreateBillScenarioCommitmentModificationItem {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> BCMPricingCalculatorClientTypes.BatchCreateBillScenarioCommitmentModificationItem {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = BCMPricingCalculatorClientTypes.BatchCreateBillScenarioCommitmentModificationItem()
-        value.key = try reader["key"].readIfPresent()
-        value.id = try reader["id"].readIfPresent()
-        value.group = try reader["group"].readIfPresent()
-        value.usageAccountId = try reader["usageAccountId"].readIfPresent()
-        value.commitmentAction = try reader["commitmentAction"].readIfPresent(with: BCMPricingCalculatorClientTypes.BillScenarioCommitmentModificationAction.read(from:))
-        return value
-    }
-}
-
-extension BCMPricingCalculatorClientTypes.BillScenarioCommitmentModificationAction {
-
-    static func write(value: BCMPricingCalculatorClientTypes.BillScenarioCommitmentModificationAction?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        switch value {
-            case let .addreservedinstanceaction(addreservedinstanceaction):
-                try writer["addReservedInstanceAction"].write(addreservedinstanceaction, with: BCMPricingCalculatorClientTypes.AddReservedInstanceAction.write(value:to:))
-            case let .addsavingsplanaction(addsavingsplanaction):
-                try writer["addSavingsPlanAction"].write(addsavingsplanaction, with: BCMPricingCalculatorClientTypes.AddSavingsPlanAction.write(value:to:))
-            case let .negatereservedinstanceaction(negatereservedinstanceaction):
-                try writer["negateReservedInstanceAction"].write(negatereservedinstanceaction, with: BCMPricingCalculatorClientTypes.NegateReservedInstanceAction.write(value:to:))
-            case let .negatesavingsplanaction(negatesavingsplanaction):
-                try writer["negateSavingsPlanAction"].write(negatesavingsplanaction, with: BCMPricingCalculatorClientTypes.NegateSavingsPlanAction.write(value:to:))
-            case let .sdkUnknown(sdkUnknown):
-                try writer["sdkUnknown"].write(sdkUnknown)
-        }
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> BCMPricingCalculatorClientTypes.BillScenarioCommitmentModificationAction {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        let name = reader.children.filter { $0.hasContent && $0.nodeInfo.name != "__type" }.first?.nodeInfo.name
-        switch name {
-            case "addReservedInstanceAction":
-                return .addreservedinstanceaction(try reader["addReservedInstanceAction"].read(with: BCMPricingCalculatorClientTypes.AddReservedInstanceAction.read(from:)))
-            case "addSavingsPlanAction":
-                return .addsavingsplanaction(try reader["addSavingsPlanAction"].read(with: BCMPricingCalculatorClientTypes.AddSavingsPlanAction.read(from:)))
-            case "negateReservedInstanceAction":
-                return .negatereservedinstanceaction(try reader["negateReservedInstanceAction"].read(with: BCMPricingCalculatorClientTypes.NegateReservedInstanceAction.read(from:)))
-            case "negateSavingsPlanAction":
-                return .negatesavingsplanaction(try reader["negateSavingsPlanAction"].read(with: BCMPricingCalculatorClientTypes.NegateSavingsPlanAction.read(from:)))
-            default:
-                return .sdkUnknown(name ?? "")
-        }
-    }
-}
-
-extension BCMPricingCalculatorClientTypes.NegateSavingsPlanAction {
-
-    static func write(value: BCMPricingCalculatorClientTypes.NegateSavingsPlanAction?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["savingsPlanId"].write(value.savingsPlanId)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> BCMPricingCalculatorClientTypes.NegateSavingsPlanAction {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = BCMPricingCalculatorClientTypes.NegateSavingsPlanAction()
-        value.savingsPlanId = try reader["savingsPlanId"].readIfPresent()
-        return value
-    }
-}
-
-extension BCMPricingCalculatorClientTypes.NegateReservedInstanceAction {
-
-    static func write(value: BCMPricingCalculatorClientTypes.NegateReservedInstanceAction?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["reservedInstancesId"].write(value.reservedInstancesId)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> BCMPricingCalculatorClientTypes.NegateReservedInstanceAction {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = BCMPricingCalculatorClientTypes.NegateReservedInstanceAction()
-        value.reservedInstancesId = try reader["reservedInstancesId"].readIfPresent()
-        return value
-    }
-}
-
-extension BCMPricingCalculatorClientTypes.AddSavingsPlanAction {
-
-    static func write(value: BCMPricingCalculatorClientTypes.AddSavingsPlanAction?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["commitment"].write(value.commitment)
-        try writer["savingsPlanOfferingId"].write(value.savingsPlanOfferingId)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> BCMPricingCalculatorClientTypes.AddSavingsPlanAction {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = BCMPricingCalculatorClientTypes.AddSavingsPlanAction()
-        value.savingsPlanOfferingId = try reader["savingsPlanOfferingId"].readIfPresent()
-        value.commitment = try reader["commitment"].readIfPresent()
         return value
     }
 }
@@ -6086,11 +5989,81 @@ extension BCMPricingCalculatorClientTypes.AddReservedInstanceAction {
     }
 }
 
+extension BCMPricingCalculatorClientTypes.AddSavingsPlanAction {
+
+    static func write(value: BCMPricingCalculatorClientTypes.AddSavingsPlanAction?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["commitment"].write(value.commitment)
+        try writer["savingsPlanOfferingId"].write(value.savingsPlanOfferingId)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> BCMPricingCalculatorClientTypes.AddSavingsPlanAction {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = BCMPricingCalculatorClientTypes.AddSavingsPlanAction()
+        value.savingsPlanOfferingId = try reader["savingsPlanOfferingId"].readIfPresent()
+        value.commitment = try reader["commitment"].readIfPresent()
+        return value
+    }
+}
+
+extension BCMPricingCalculatorClientTypes.BatchCreateBillScenarioCommitmentModificationEntry {
+
+    static func write(value: BCMPricingCalculatorClientTypes.BatchCreateBillScenarioCommitmentModificationEntry?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["commitmentAction"].write(value.commitmentAction, with: BCMPricingCalculatorClientTypes.BillScenarioCommitmentModificationAction.write(value:to:))
+        try writer["group"].write(value.group)
+        try writer["key"].write(value.key)
+        try writer["usageAccountId"].write(value.usageAccountId)
+    }
+}
+
 extension BCMPricingCalculatorClientTypes.BatchCreateBillScenarioCommitmentModificationError {
 
     static func read(from reader: SmithyJSON.Reader) throws -> BCMPricingCalculatorClientTypes.BatchCreateBillScenarioCommitmentModificationError {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = BCMPricingCalculatorClientTypes.BatchCreateBillScenarioCommitmentModificationError()
+        value.key = try reader["key"].readIfPresent()
+        value.errorMessage = try reader["errorMessage"].readIfPresent()
+        value.errorCode = try reader["errorCode"].readIfPresent()
+        return value
+    }
+}
+
+extension BCMPricingCalculatorClientTypes.BatchCreateBillScenarioCommitmentModificationItem {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> BCMPricingCalculatorClientTypes.BatchCreateBillScenarioCommitmentModificationItem {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = BCMPricingCalculatorClientTypes.BatchCreateBillScenarioCommitmentModificationItem()
+        value.key = try reader["key"].readIfPresent()
+        value.id = try reader["id"].readIfPresent()
+        value.group = try reader["group"].readIfPresent()
+        value.usageAccountId = try reader["usageAccountId"].readIfPresent()
+        value.commitmentAction = try reader["commitmentAction"].readIfPresent(with: BCMPricingCalculatorClientTypes.BillScenarioCommitmentModificationAction.read(from:))
+        return value
+    }
+}
+
+extension BCMPricingCalculatorClientTypes.BatchCreateBillScenarioUsageModificationEntry {
+
+    static func write(value: BCMPricingCalculatorClientTypes.BatchCreateBillScenarioUsageModificationEntry?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["amounts"].writeList(value.amounts, memberWritingClosure: BCMPricingCalculatorClientTypes.UsageAmount.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["availabilityZone"].write(value.availabilityZone)
+        try writer["group"].write(value.group)
+        try writer["historicalUsage"].write(value.historicalUsage, with: BCMPricingCalculatorClientTypes.HistoricalUsageEntity.write(value:to:))
+        try writer["key"].write(value.key)
+        try writer["operation"].write(value.operation)
+        try writer["serviceCode"].write(value.serviceCode)
+        try writer["usageAccountId"].write(value.usageAccountId)
+        try writer["usageType"].write(value.usageType)
+    }
+}
+
+extension BCMPricingCalculatorClientTypes.BatchCreateBillScenarioUsageModificationError {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> BCMPricingCalculatorClientTypes.BatchCreateBillScenarioUsageModificationError {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = BCMPricingCalculatorClientTypes.BatchCreateBillScenarioUsageModificationError()
         value.key = try reader["key"].readIfPresent()
         value.errorMessage = try reader["errorMessage"].readIfPresent()
         value.errorCode = try reader["errorCode"].readIfPresent()
@@ -6118,114 +6091,29 @@ extension BCMPricingCalculatorClientTypes.BatchCreateBillScenarioUsageModificati
     }
 }
 
-extension BCMPricingCalculatorClientTypes.HistoricalUsageEntity {
+extension BCMPricingCalculatorClientTypes.BatchCreateWorkloadEstimateUsageEntry {
 
-    static func write(value: BCMPricingCalculatorClientTypes.HistoricalUsageEntity?, to writer: SmithyJSON.Writer) throws {
+    static func write(value: BCMPricingCalculatorClientTypes.BatchCreateWorkloadEstimateUsageEntry?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
-        try writer["billInterval"].write(value.billInterval, with: BCMPricingCalculatorClientTypes.BillInterval.write(value:to:))
-        try writer["filterExpression"].write(value.filterExpression, with: BCMPricingCalculatorClientTypes.Expression.write(value:to:))
-        try writer["location"].write(value.location)
+        try writer["amount"].write(value.amount)
+        try writer["group"].write(value.group)
+        try writer["historicalUsage"].write(value.historicalUsage, with: BCMPricingCalculatorClientTypes.HistoricalUsageEntity.write(value:to:))
+        try writer["key"].write(value.key)
         try writer["operation"].write(value.operation)
         try writer["serviceCode"].write(value.serviceCode)
         try writer["usageAccountId"].write(value.usageAccountId)
         try writer["usageType"].write(value.usageType)
     }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> BCMPricingCalculatorClientTypes.HistoricalUsageEntity {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = BCMPricingCalculatorClientTypes.HistoricalUsageEntity()
-        value.serviceCode = try reader["serviceCode"].readIfPresent() ?? ""
-        value.usageType = try reader["usageType"].readIfPresent() ?? ""
-        value.operation = try reader["operation"].readIfPresent() ?? ""
-        value.location = try reader["location"].readIfPresent()
-        value.usageAccountId = try reader["usageAccountId"].readIfPresent() ?? ""
-        value.billInterval = try reader["billInterval"].readIfPresent(with: BCMPricingCalculatorClientTypes.BillInterval.read(from:))
-        value.filterExpression = try reader["filterExpression"].readIfPresent(with: BCMPricingCalculatorClientTypes.Expression.read(from:))
-        return value
-    }
 }
 
-extension BCMPricingCalculatorClientTypes.Expression {
+extension BCMPricingCalculatorClientTypes.BatchCreateWorkloadEstimateUsageError {
 
-    static func write(value: BCMPricingCalculatorClientTypes.Expression?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["and"].writeList(value.and, memberWritingClosure: BCMPricingCalculatorClientTypes.Expression.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["costCategories"].write(value.costCategories, with: BCMPricingCalculatorClientTypes.ExpressionFilter.write(value:to:))
-        try writer["dimensions"].write(value.dimensions, with: BCMPricingCalculatorClientTypes.ExpressionFilter.write(value:to:))
-        try writer["not"].write(value.not, with: BCMPricingCalculatorClientTypes.Expression.write(value:to:))
-        try writer["or"].writeList(value.or, memberWritingClosure: BCMPricingCalculatorClientTypes.Expression.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["tags"].write(value.tags, with: BCMPricingCalculatorClientTypes.ExpressionFilter.write(value:to:))
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> BCMPricingCalculatorClientTypes.Expression {
+    static func read(from reader: SmithyJSON.Reader) throws -> BCMPricingCalculatorClientTypes.BatchCreateWorkloadEstimateUsageError {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = BCMPricingCalculatorClientTypes.Expression()
-        value.and = try reader["and"].readListIfPresent(memberReadingClosure: BCMPricingCalculatorClientTypes.Expression.read(from:), memberNodeInfo: "member", isFlattened: false)
-        value.or = try reader["or"].readListIfPresent(memberReadingClosure: BCMPricingCalculatorClientTypes.Expression.read(from:), memberNodeInfo: "member", isFlattened: false)
-        value.not = try reader["not"].readIfPresent(with: BCMPricingCalculatorClientTypes.Expression.read(from:))
-        value.costCategories = try reader["costCategories"].readIfPresent(with: BCMPricingCalculatorClientTypes.ExpressionFilter.read(from:))
-        value.dimensions = try reader["dimensions"].readIfPresent(with: BCMPricingCalculatorClientTypes.ExpressionFilter.read(from:))
-        value.tags = try reader["tags"].readIfPresent(with: BCMPricingCalculatorClientTypes.ExpressionFilter.read(from:))
-        return value
-    }
-}
-
-extension BCMPricingCalculatorClientTypes.ExpressionFilter {
-
-    static func write(value: BCMPricingCalculatorClientTypes.ExpressionFilter?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["key"].write(value.key)
-        try writer["matchOptions"].writeList(value.matchOptions, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["values"].writeList(value.values, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> BCMPricingCalculatorClientTypes.ExpressionFilter {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = BCMPricingCalculatorClientTypes.ExpressionFilter()
+        var value = BCMPricingCalculatorClientTypes.BatchCreateWorkloadEstimateUsageError()
         value.key = try reader["key"].readIfPresent()
-        value.matchOptions = try reader["matchOptions"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
-        value.values = try reader["values"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
-        return value
-    }
-}
-
-extension BCMPricingCalculatorClientTypes.BillInterval {
-
-    static func write(value: BCMPricingCalculatorClientTypes.BillInterval?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["end"].writeTimestamp(value.end, format: SmithyTimestamps.TimestampFormat.epochSeconds)
-        try writer["start"].writeTimestamp(value.start, format: SmithyTimestamps.TimestampFormat.epochSeconds)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> BCMPricingCalculatorClientTypes.BillInterval {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = BCMPricingCalculatorClientTypes.BillInterval()
-        value.start = try reader["start"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
-        value.end = try reader["end"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
-        return value
-    }
-}
-
-extension BCMPricingCalculatorClientTypes.UsageQuantity {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> BCMPricingCalculatorClientTypes.UsageQuantity {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = BCMPricingCalculatorClientTypes.UsageQuantity()
-        value.startHour = try reader["startHour"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
-        value.unit = try reader["unit"].readIfPresent()
-        value.amount = try reader["amount"].readIfPresent()
-        return value
-    }
-}
-
-extension BCMPricingCalculatorClientTypes.BatchCreateBillScenarioUsageModificationError {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> BCMPricingCalculatorClientTypes.BatchCreateBillScenarioUsageModificationError {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = BCMPricingCalculatorClientTypes.BatchCreateBillScenarioUsageModificationError()
-        value.key = try reader["key"].readIfPresent()
-        value.errorMessage = try reader["errorMessage"].readIfPresent()
         value.errorCode = try reader["errorCode"].readIfPresent()
+        value.errorMessage = try reader["errorMessage"].readIfPresent()
         return value
     }
 }
@@ -6248,29 +6136,6 @@ extension BCMPricingCalculatorClientTypes.BatchCreateWorkloadEstimateUsageItem {
         value.status = try reader["status"].readIfPresent()
         value.historicalUsage = try reader["historicalUsage"].readIfPresent(with: BCMPricingCalculatorClientTypes.HistoricalUsageEntity.read(from:))
         value.key = try reader["key"].readIfPresent()
-        return value
-    }
-}
-
-extension BCMPricingCalculatorClientTypes.WorkloadEstimateUsageQuantity {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> BCMPricingCalculatorClientTypes.WorkloadEstimateUsageQuantity {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = BCMPricingCalculatorClientTypes.WorkloadEstimateUsageQuantity()
-        value.unit = try reader["unit"].readIfPresent()
-        value.amount = try reader["amount"].readIfPresent()
-        return value
-    }
-}
-
-extension BCMPricingCalculatorClientTypes.BatchCreateWorkloadEstimateUsageError {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> BCMPricingCalculatorClientTypes.BatchCreateWorkloadEstimateUsageError {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = BCMPricingCalculatorClientTypes.BatchCreateWorkloadEstimateUsageError()
-        value.key = try reader["key"].readIfPresent()
-        value.errorCode = try reader["errorCode"].readIfPresent()
-        value.errorMessage = try reader["errorMessage"].readIfPresent()
         return value
     }
 }
@@ -6311,16 +6176,12 @@ extension BCMPricingCalculatorClientTypes.BatchDeleteWorkloadEstimateUsageError 
     }
 }
 
-extension BCMPricingCalculatorClientTypes.BillScenarioCommitmentModificationItem {
+extension BCMPricingCalculatorClientTypes.BatchUpdateBillScenarioCommitmentModificationEntry {
 
-    static func read(from reader: SmithyJSON.Reader) throws -> BCMPricingCalculatorClientTypes.BillScenarioCommitmentModificationItem {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = BCMPricingCalculatorClientTypes.BillScenarioCommitmentModificationItem()
-        value.id = try reader["id"].readIfPresent()
-        value.usageAccountId = try reader["usageAccountId"].readIfPresent()
-        value.group = try reader["group"].readIfPresent()
-        value.commitmentAction = try reader["commitmentAction"].readIfPresent(with: BCMPricingCalculatorClientTypes.BillScenarioCommitmentModificationAction.read(from:))
-        return value
+    static func write(value: BCMPricingCalculatorClientTypes.BatchUpdateBillScenarioCommitmentModificationEntry?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["group"].write(value.group)
+        try writer["id"].write(value.id)
     }
 }
 
@@ -6336,22 +6197,13 @@ extension BCMPricingCalculatorClientTypes.BatchUpdateBillScenarioCommitmentModif
     }
 }
 
-extension BCMPricingCalculatorClientTypes.BillScenarioUsageModificationItem {
+extension BCMPricingCalculatorClientTypes.BatchUpdateBillScenarioUsageModificationEntry {
 
-    static func read(from reader: SmithyJSON.Reader) throws -> BCMPricingCalculatorClientTypes.BillScenarioUsageModificationItem {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = BCMPricingCalculatorClientTypes.BillScenarioUsageModificationItem()
-        value.serviceCode = try reader["serviceCode"].readIfPresent() ?? ""
-        value.usageType = try reader["usageType"].readIfPresent() ?? ""
-        value.operation = try reader["operation"].readIfPresent() ?? ""
-        value.location = try reader["location"].readIfPresent()
-        value.availabilityZone = try reader["availabilityZone"].readIfPresent()
-        value.id = try reader["id"].readIfPresent()
-        value.group = try reader["group"].readIfPresent()
-        value.usageAccountId = try reader["usageAccountId"].readIfPresent()
-        value.quantities = try reader["quantities"].readListIfPresent(memberReadingClosure: BCMPricingCalculatorClientTypes.UsageQuantity.read(from:), memberNodeInfo: "member", isFlattened: false)
-        value.historicalUsage = try reader["historicalUsage"].readIfPresent(with: BCMPricingCalculatorClientTypes.HistoricalUsageEntity.read(from:))
-        return value
+    static func write(value: BCMPricingCalculatorClientTypes.BatchUpdateBillScenarioUsageModificationEntry?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["amounts"].writeList(value.amounts, memberWritingClosure: BCMPricingCalculatorClientTypes.UsageAmount.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["group"].write(value.group)
+        try writer["id"].write(value.id)
     }
 }
 
@@ -6367,24 +6219,13 @@ extension BCMPricingCalculatorClientTypes.BatchUpdateBillScenarioUsageModificati
     }
 }
 
-extension BCMPricingCalculatorClientTypes.WorkloadEstimateUsageItem {
+extension BCMPricingCalculatorClientTypes.BatchUpdateWorkloadEstimateUsageEntry {
 
-    static func read(from reader: SmithyJSON.Reader) throws -> BCMPricingCalculatorClientTypes.WorkloadEstimateUsageItem {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = BCMPricingCalculatorClientTypes.WorkloadEstimateUsageItem()
-        value.serviceCode = try reader["serviceCode"].readIfPresent() ?? ""
-        value.usageType = try reader["usageType"].readIfPresent() ?? ""
-        value.operation = try reader["operation"].readIfPresent() ?? ""
-        value.location = try reader["location"].readIfPresent()
-        value.id = try reader["id"].readIfPresent()
-        value.usageAccountId = try reader["usageAccountId"].readIfPresent()
-        value.group = try reader["group"].readIfPresent()
-        value.quantity = try reader["quantity"].readIfPresent(with: BCMPricingCalculatorClientTypes.WorkloadEstimateUsageQuantity.read(from:))
-        value.cost = try reader["cost"].readIfPresent()
-        value.currency = try reader["currency"].readIfPresent()
-        value.status = try reader["status"].readIfPresent()
-        value.historicalUsage = try reader["historicalUsage"].readIfPresent(with: BCMPricingCalculatorClientTypes.HistoricalUsageEntity.read(from:))
-        return value
+    static func write(value: BCMPricingCalculatorClientTypes.BatchUpdateWorkloadEstimateUsageEntry?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["amount"].write(value.amount)
+        try writer["group"].write(value.group)
+        try writer["id"].write(value.id)
     }
 }
 
@@ -6396,39 +6237,6 @@ extension BCMPricingCalculatorClientTypes.BatchUpdateWorkloadEstimateUsageError 
         value.id = try reader["id"].readIfPresent()
         value.errorMessage = try reader["errorMessage"].readIfPresent()
         value.errorCode = try reader["errorCode"].readIfPresent()
-        return value
-    }
-}
-
-extension BCMPricingCalculatorClientTypes.BillEstimateCostSummary {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> BCMPricingCalculatorClientTypes.BillEstimateCostSummary {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = BCMPricingCalculatorClientTypes.BillEstimateCostSummary()
-        value.totalCostDifference = try reader["totalCostDifference"].readIfPresent(with: BCMPricingCalculatorClientTypes.CostDifference.read(from:))
-        value.serviceCostDifferences = try reader["serviceCostDifferences"].readMapIfPresent(valueReadingClosure: BCMPricingCalculatorClientTypes.CostDifference.read(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
-        return value
-    }
-}
-
-extension BCMPricingCalculatorClientTypes.CostDifference {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> BCMPricingCalculatorClientTypes.CostDifference {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = BCMPricingCalculatorClientTypes.CostDifference()
-        value.historicalCost = try reader["historicalCost"].readIfPresent(with: BCMPricingCalculatorClientTypes.CostAmount.read(from:))
-        value.estimatedCost = try reader["estimatedCost"].readIfPresent(with: BCMPricingCalculatorClientTypes.CostAmount.read(from:))
-        return value
-    }
-}
-
-extension BCMPricingCalculatorClientTypes.CostAmount {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> BCMPricingCalculatorClientTypes.CostAmount {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = BCMPricingCalculatorClientTypes.CostAmount()
-        value.amount = try reader["amount"].readIfPresent()
-        value.currency = try reader["currency"].readIfPresent()
         return value
     }
 }
@@ -6447,6 +6255,17 @@ extension BCMPricingCalculatorClientTypes.BillEstimateCommitmentSummary {
         value.paymentOption = try reader["paymentOption"].readIfPresent()
         value.upfrontPayment = try reader["upfrontPayment"].readIfPresent(with: BCMPricingCalculatorClientTypes.CostAmount.read(from:))
         value.monthlyPayment = try reader["monthlyPayment"].readIfPresent(with: BCMPricingCalculatorClientTypes.CostAmount.read(from:))
+        return value
+    }
+}
+
+extension BCMPricingCalculatorClientTypes.BillEstimateCostSummary {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> BCMPricingCalculatorClientTypes.BillEstimateCostSummary {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = BCMPricingCalculatorClientTypes.BillEstimateCostSummary()
+        value.totalCostDifference = try reader["totalCostDifference"].readIfPresent(with: BCMPricingCalculatorClientTypes.CostDifference.read(from:))
+        value.serviceCostDifferences = try reader["serviceCostDifferences"].readMapIfPresent(valueReadingClosure: BCMPricingCalculatorClientTypes.CostDifference.read(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
         return value
     }
 }
@@ -6507,17 +6326,6 @@ extension BCMPricingCalculatorClientTypes.BillEstimateLineItemSummary {
     }
 }
 
-extension BCMPricingCalculatorClientTypes.UsageQuantityResult {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> BCMPricingCalculatorClientTypes.UsageQuantityResult {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = BCMPricingCalculatorClientTypes.UsageQuantityResult()
-        value.amount = try reader["amount"].readIfPresent()
-        value.unit = try reader["unit"].readIfPresent()
-        return value
-    }
-}
-
 extension BCMPricingCalculatorClientTypes.BillEstimateSummary {
 
     static func read(from reader: SmithyJSON.Reader) throws -> BCMPricingCalculatorClientTypes.BillEstimateSummary {
@@ -6529,6 +6337,72 @@ extension BCMPricingCalculatorClientTypes.BillEstimateSummary {
         value.billInterval = try reader["billInterval"].readIfPresent(with: BCMPricingCalculatorClientTypes.BillInterval.read(from:))
         value.createdAt = try reader["createdAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
         value.expiresAt = try reader["expiresAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        return value
+    }
+}
+
+extension BCMPricingCalculatorClientTypes.BillInterval {
+
+    static func write(value: BCMPricingCalculatorClientTypes.BillInterval?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["end"].writeTimestamp(value.end, format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        try writer["start"].writeTimestamp(value.start, format: SmithyTimestamps.TimestampFormat.epochSeconds)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> BCMPricingCalculatorClientTypes.BillInterval {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = BCMPricingCalculatorClientTypes.BillInterval()
+        value.start = try reader["start"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.end = try reader["end"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        return value
+    }
+}
+
+extension BCMPricingCalculatorClientTypes.BillScenarioCommitmentModificationAction {
+
+    static func write(value: BCMPricingCalculatorClientTypes.BillScenarioCommitmentModificationAction?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        switch value {
+            case let .addreservedinstanceaction(addreservedinstanceaction):
+                try writer["addReservedInstanceAction"].write(addreservedinstanceaction, with: BCMPricingCalculatorClientTypes.AddReservedInstanceAction.write(value:to:))
+            case let .addsavingsplanaction(addsavingsplanaction):
+                try writer["addSavingsPlanAction"].write(addsavingsplanaction, with: BCMPricingCalculatorClientTypes.AddSavingsPlanAction.write(value:to:))
+            case let .negatereservedinstanceaction(negatereservedinstanceaction):
+                try writer["negateReservedInstanceAction"].write(negatereservedinstanceaction, with: BCMPricingCalculatorClientTypes.NegateReservedInstanceAction.write(value:to:))
+            case let .negatesavingsplanaction(negatesavingsplanaction):
+                try writer["negateSavingsPlanAction"].write(negatesavingsplanaction, with: BCMPricingCalculatorClientTypes.NegateSavingsPlanAction.write(value:to:))
+            case let .sdkUnknown(sdkUnknown):
+                try writer["sdkUnknown"].write(sdkUnknown)
+        }
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> BCMPricingCalculatorClientTypes.BillScenarioCommitmentModificationAction {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        let name = reader.children.filter { $0.hasContent && $0.nodeInfo.name != "__type" }.first?.nodeInfo.name
+        switch name {
+            case "addReservedInstanceAction":
+                return .addreservedinstanceaction(try reader["addReservedInstanceAction"].read(with: BCMPricingCalculatorClientTypes.AddReservedInstanceAction.read(from:)))
+            case "addSavingsPlanAction":
+                return .addsavingsplanaction(try reader["addSavingsPlanAction"].read(with: BCMPricingCalculatorClientTypes.AddSavingsPlanAction.read(from:)))
+            case "negateReservedInstanceAction":
+                return .negatereservedinstanceaction(try reader["negateReservedInstanceAction"].read(with: BCMPricingCalculatorClientTypes.NegateReservedInstanceAction.read(from:)))
+            case "negateSavingsPlanAction":
+                return .negatesavingsplanaction(try reader["negateSavingsPlanAction"].read(with: BCMPricingCalculatorClientTypes.NegateSavingsPlanAction.read(from:)))
+            default:
+                return .sdkUnknown(name ?? "")
+        }
+    }
+}
+
+extension BCMPricingCalculatorClientTypes.BillScenarioCommitmentModificationItem {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> BCMPricingCalculatorClientTypes.BillScenarioCommitmentModificationItem {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = BCMPricingCalculatorClientTypes.BillScenarioCommitmentModificationItem()
+        value.id = try reader["id"].readIfPresent()
+        value.usageAccountId = try reader["usageAccountId"].readIfPresent()
+        value.group = try reader["group"].readIfPresent()
+        value.commitmentAction = try reader["commitmentAction"].readIfPresent(with: BCMPricingCalculatorClientTypes.BillScenarioCommitmentModificationAction.read(from:))
         return value
     }
 }
@@ -6551,123 +6425,124 @@ extension BCMPricingCalculatorClientTypes.BillScenarioSummary {
     }
 }
 
-extension BCMPricingCalculatorClientTypes.WorkloadEstimateSummary {
+extension BCMPricingCalculatorClientTypes.BillScenarioUsageModificationItem {
 
-    static func read(from reader: SmithyJSON.Reader) throws -> BCMPricingCalculatorClientTypes.WorkloadEstimateSummary {
+    static func read(from reader: SmithyJSON.Reader) throws -> BCMPricingCalculatorClientTypes.BillScenarioUsageModificationItem {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = BCMPricingCalculatorClientTypes.WorkloadEstimateSummary()
-        value.id = try reader["id"].readIfPresent() ?? ""
-        value.name = try reader["name"].readIfPresent()
-        value.createdAt = try reader["createdAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
-        value.expiresAt = try reader["expiresAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
-        value.rateType = try reader["rateType"].readIfPresent()
-        value.rateTimestamp = try reader["rateTimestamp"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
-        value.status = try reader["status"].readIfPresent()
-        value.totalCost = try reader["totalCost"].readIfPresent()
-        value.costCurrency = try reader["costCurrency"].readIfPresent()
-        value.failureMessage = try reader["failureMessage"].readIfPresent()
+        var value = BCMPricingCalculatorClientTypes.BillScenarioUsageModificationItem()
+        value.serviceCode = try reader["serviceCode"].readIfPresent() ?? ""
+        value.usageType = try reader["usageType"].readIfPresent() ?? ""
+        value.operation = try reader["operation"].readIfPresent() ?? ""
+        value.location = try reader["location"].readIfPresent()
+        value.availabilityZone = try reader["availabilityZone"].readIfPresent()
+        value.id = try reader["id"].readIfPresent()
+        value.group = try reader["group"].readIfPresent()
+        value.usageAccountId = try reader["usageAccountId"].readIfPresent()
+        value.quantities = try reader["quantities"].readListIfPresent(memberReadingClosure: BCMPricingCalculatorClientTypes.UsageQuantity.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.historicalUsage = try reader["historicalUsage"].readIfPresent(with: BCMPricingCalculatorClientTypes.HistoricalUsageEntity.read(from:))
         return value
     }
 }
 
-extension BCMPricingCalculatorClientTypes.ValidationExceptionField {
+extension BCMPricingCalculatorClientTypes.CostAmount {
 
-    static func read(from reader: SmithyJSON.Reader) throws -> BCMPricingCalculatorClientTypes.ValidationExceptionField {
+    static func read(from reader: SmithyJSON.Reader) throws -> BCMPricingCalculatorClientTypes.CostAmount {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = BCMPricingCalculatorClientTypes.ValidationExceptionField()
-        value.name = try reader["name"].readIfPresent() ?? ""
-        value.message = try reader["message"].readIfPresent() ?? ""
+        var value = BCMPricingCalculatorClientTypes.CostAmount()
+        value.amount = try reader["amount"].readIfPresent()
+        value.currency = try reader["currency"].readIfPresent()
         return value
     }
 }
 
-extension BCMPricingCalculatorClientTypes.BatchCreateBillScenarioCommitmentModificationEntry {
+extension BCMPricingCalculatorClientTypes.CostDifference {
 
-    static func write(value: BCMPricingCalculatorClientTypes.BatchCreateBillScenarioCommitmentModificationEntry?, to writer: SmithyJSON.Writer) throws {
+    static func read(from reader: SmithyJSON.Reader) throws -> BCMPricingCalculatorClientTypes.CostDifference {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = BCMPricingCalculatorClientTypes.CostDifference()
+        value.historicalCost = try reader["historicalCost"].readIfPresent(with: BCMPricingCalculatorClientTypes.CostAmount.read(from:))
+        value.estimatedCost = try reader["estimatedCost"].readIfPresent(with: BCMPricingCalculatorClientTypes.CostAmount.read(from:))
+        return value
+    }
+}
+
+extension BCMPricingCalculatorClientTypes.Expression {
+
+    static func write(value: BCMPricingCalculatorClientTypes.Expression?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
-        try writer["commitmentAction"].write(value.commitmentAction, with: BCMPricingCalculatorClientTypes.BillScenarioCommitmentModificationAction.write(value:to:))
-        try writer["group"].write(value.group)
+        try writer["and"].writeList(value.and, memberWritingClosure: BCMPricingCalculatorClientTypes.Expression.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["costCategories"].write(value.costCategories, with: BCMPricingCalculatorClientTypes.ExpressionFilter.write(value:to:))
+        try writer["dimensions"].write(value.dimensions, with: BCMPricingCalculatorClientTypes.ExpressionFilter.write(value:to:))
+        try writer["not"].write(value.not, with: BCMPricingCalculatorClientTypes.Expression.write(value:to:))
+        try writer["or"].writeList(value.or, memberWritingClosure: BCMPricingCalculatorClientTypes.Expression.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["tags"].write(value.tags, with: BCMPricingCalculatorClientTypes.ExpressionFilter.write(value:to:))
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> BCMPricingCalculatorClientTypes.Expression {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = BCMPricingCalculatorClientTypes.Expression()
+        value.and = try reader["and"].readListIfPresent(memberReadingClosure: BCMPricingCalculatorClientTypes.Expression.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.or = try reader["or"].readListIfPresent(memberReadingClosure: BCMPricingCalculatorClientTypes.Expression.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.not = try reader["not"].readIfPresent(with: BCMPricingCalculatorClientTypes.Expression.read(from:))
+        value.costCategories = try reader["costCategories"].readIfPresent(with: BCMPricingCalculatorClientTypes.ExpressionFilter.read(from:))
+        value.dimensions = try reader["dimensions"].readIfPresent(with: BCMPricingCalculatorClientTypes.ExpressionFilter.read(from:))
+        value.tags = try reader["tags"].readIfPresent(with: BCMPricingCalculatorClientTypes.ExpressionFilter.read(from:))
+        return value
+    }
+}
+
+extension BCMPricingCalculatorClientTypes.ExpressionFilter {
+
+    static func write(value: BCMPricingCalculatorClientTypes.ExpressionFilter?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
         try writer["key"].write(value.key)
-        try writer["usageAccountId"].write(value.usageAccountId)
-    }
-}
-
-extension BCMPricingCalculatorClientTypes.BatchCreateBillScenarioUsageModificationEntry {
-
-    static func write(value: BCMPricingCalculatorClientTypes.BatchCreateBillScenarioUsageModificationEntry?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["amounts"].writeList(value.amounts, memberWritingClosure: BCMPricingCalculatorClientTypes.UsageAmount.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["availabilityZone"].write(value.availabilityZone)
-        try writer["group"].write(value.group)
-        try writer["historicalUsage"].write(value.historicalUsage, with: BCMPricingCalculatorClientTypes.HistoricalUsageEntity.write(value:to:))
-        try writer["key"].write(value.key)
-        try writer["operation"].write(value.operation)
-        try writer["serviceCode"].write(value.serviceCode)
-        try writer["usageAccountId"].write(value.usageAccountId)
-        try writer["usageType"].write(value.usageType)
-    }
-}
-
-extension BCMPricingCalculatorClientTypes.UsageAmount {
-
-    static func write(value: BCMPricingCalculatorClientTypes.UsageAmount?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["amount"].write(value.amount)
-        try writer["startHour"].writeTimestamp(value.startHour, format: SmithyTimestamps.TimestampFormat.epochSeconds)
-    }
-}
-
-extension BCMPricingCalculatorClientTypes.BatchCreateWorkloadEstimateUsageEntry {
-
-    static func write(value: BCMPricingCalculatorClientTypes.BatchCreateWorkloadEstimateUsageEntry?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["amount"].write(value.amount)
-        try writer["group"].write(value.group)
-        try writer["historicalUsage"].write(value.historicalUsage, with: BCMPricingCalculatorClientTypes.HistoricalUsageEntity.write(value:to:))
-        try writer["key"].write(value.key)
-        try writer["operation"].write(value.operation)
-        try writer["serviceCode"].write(value.serviceCode)
-        try writer["usageAccountId"].write(value.usageAccountId)
-        try writer["usageType"].write(value.usageType)
-    }
-}
-
-extension BCMPricingCalculatorClientTypes.BatchUpdateBillScenarioCommitmentModificationEntry {
-
-    static func write(value: BCMPricingCalculatorClientTypes.BatchUpdateBillScenarioCommitmentModificationEntry?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["group"].write(value.group)
-        try writer["id"].write(value.id)
-    }
-}
-
-extension BCMPricingCalculatorClientTypes.BatchUpdateBillScenarioUsageModificationEntry {
-
-    static func write(value: BCMPricingCalculatorClientTypes.BatchUpdateBillScenarioUsageModificationEntry?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["amounts"].writeList(value.amounts, memberWritingClosure: BCMPricingCalculatorClientTypes.UsageAmount.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["group"].write(value.group)
-        try writer["id"].write(value.id)
-    }
-}
-
-extension BCMPricingCalculatorClientTypes.BatchUpdateWorkloadEstimateUsageEntry {
-
-    static func write(value: BCMPricingCalculatorClientTypes.BatchUpdateWorkloadEstimateUsageEntry?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["amount"].write(value.amount)
-        try writer["group"].write(value.group)
-        try writer["id"].write(value.id)
-    }
-}
-
-extension BCMPricingCalculatorClientTypes.ListUsageFilter {
-
-    static func write(value: BCMPricingCalculatorClientTypes.ListUsageFilter?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["matchOption"].write(value.matchOption)
-        try writer["name"].write(value.name)
+        try writer["matchOptions"].writeList(value.matchOptions, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["values"].writeList(value.values, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> BCMPricingCalculatorClientTypes.ExpressionFilter {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = BCMPricingCalculatorClientTypes.ExpressionFilter()
+        value.key = try reader["key"].readIfPresent()
+        value.matchOptions = try reader["matchOptions"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        value.values = try reader["values"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        return value
+    }
+}
+
+extension BCMPricingCalculatorClientTypes.FilterTimestamp {
+
+    static func write(value: BCMPricingCalculatorClientTypes.FilterTimestamp?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["afterTimestamp"].writeTimestamp(value.afterTimestamp, format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        try writer["beforeTimestamp"].writeTimestamp(value.beforeTimestamp, format: SmithyTimestamps.TimestampFormat.epochSeconds)
+    }
+}
+
+extension BCMPricingCalculatorClientTypes.HistoricalUsageEntity {
+
+    static func write(value: BCMPricingCalculatorClientTypes.HistoricalUsageEntity?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["billInterval"].write(value.billInterval, with: BCMPricingCalculatorClientTypes.BillInterval.write(value:to:))
+        try writer["filterExpression"].write(value.filterExpression, with: BCMPricingCalculatorClientTypes.Expression.write(value:to:))
+        try writer["location"].write(value.location)
+        try writer["operation"].write(value.operation)
+        try writer["serviceCode"].write(value.serviceCode)
+        try writer["usageAccountId"].write(value.usageAccountId)
+        try writer["usageType"].write(value.usageType)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> BCMPricingCalculatorClientTypes.HistoricalUsageEntity {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = BCMPricingCalculatorClientTypes.HistoricalUsageEntity()
+        value.serviceCode = try reader["serviceCode"].readIfPresent() ?? ""
+        value.usageType = try reader["usageType"].readIfPresent() ?? ""
+        value.operation = try reader["operation"].readIfPresent() ?? ""
+        value.location = try reader["location"].readIfPresent()
+        value.usageAccountId = try reader["usageAccountId"].readIfPresent() ?? ""
+        value.billInterval = try reader["billInterval"].readIfPresent(with: BCMPricingCalculatorClientTypes.BillInterval.read(from:))
+        value.filterExpression = try reader["filterExpression"].readIfPresent(with: BCMPricingCalculatorClientTypes.Expression.read(from:))
+        return value
     }
 }
 
@@ -6691,18 +6566,19 @@ extension BCMPricingCalculatorClientTypes.ListBillEstimatesFilter {
     }
 }
 
-extension BCMPricingCalculatorClientTypes.FilterTimestamp {
-
-    static func write(value: BCMPricingCalculatorClientTypes.FilterTimestamp?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["afterTimestamp"].writeTimestamp(value.afterTimestamp, format: SmithyTimestamps.TimestampFormat.epochSeconds)
-        try writer["beforeTimestamp"].writeTimestamp(value.beforeTimestamp, format: SmithyTimestamps.TimestampFormat.epochSeconds)
-    }
-}
-
 extension BCMPricingCalculatorClientTypes.ListBillScenariosFilter {
 
     static func write(value: BCMPricingCalculatorClientTypes.ListBillScenariosFilter?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["matchOption"].write(value.matchOption)
+        try writer["name"].write(value.name)
+        try writer["values"].writeList(value.values, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+    }
+}
+
+extension BCMPricingCalculatorClientTypes.ListUsageFilter {
+
+    static func write(value: BCMPricingCalculatorClientTypes.ListUsageFilter?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
         try writer["matchOption"].write(value.matchOption)
         try writer["name"].write(value.name)
@@ -6717,6 +6593,130 @@ extension BCMPricingCalculatorClientTypes.ListWorkloadEstimatesFilter {
         try writer["matchOption"].write(value.matchOption)
         try writer["name"].write(value.name)
         try writer["values"].writeList(value.values, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+    }
+}
+
+extension BCMPricingCalculatorClientTypes.NegateReservedInstanceAction {
+
+    static func write(value: BCMPricingCalculatorClientTypes.NegateReservedInstanceAction?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["reservedInstancesId"].write(value.reservedInstancesId)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> BCMPricingCalculatorClientTypes.NegateReservedInstanceAction {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = BCMPricingCalculatorClientTypes.NegateReservedInstanceAction()
+        value.reservedInstancesId = try reader["reservedInstancesId"].readIfPresent()
+        return value
+    }
+}
+
+extension BCMPricingCalculatorClientTypes.NegateSavingsPlanAction {
+
+    static func write(value: BCMPricingCalculatorClientTypes.NegateSavingsPlanAction?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["savingsPlanId"].write(value.savingsPlanId)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> BCMPricingCalculatorClientTypes.NegateSavingsPlanAction {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = BCMPricingCalculatorClientTypes.NegateSavingsPlanAction()
+        value.savingsPlanId = try reader["savingsPlanId"].readIfPresent()
+        return value
+    }
+}
+
+extension BCMPricingCalculatorClientTypes.UsageAmount {
+
+    static func write(value: BCMPricingCalculatorClientTypes.UsageAmount?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["amount"].write(value.amount)
+        try writer["startHour"].writeTimestamp(value.startHour, format: SmithyTimestamps.TimestampFormat.epochSeconds)
+    }
+}
+
+extension BCMPricingCalculatorClientTypes.UsageQuantity {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> BCMPricingCalculatorClientTypes.UsageQuantity {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = BCMPricingCalculatorClientTypes.UsageQuantity()
+        value.startHour = try reader["startHour"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.unit = try reader["unit"].readIfPresent()
+        value.amount = try reader["amount"].readIfPresent()
+        return value
+    }
+}
+
+extension BCMPricingCalculatorClientTypes.UsageQuantityResult {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> BCMPricingCalculatorClientTypes.UsageQuantityResult {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = BCMPricingCalculatorClientTypes.UsageQuantityResult()
+        value.amount = try reader["amount"].readIfPresent()
+        value.unit = try reader["unit"].readIfPresent()
+        return value
+    }
+}
+
+extension BCMPricingCalculatorClientTypes.ValidationExceptionField {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> BCMPricingCalculatorClientTypes.ValidationExceptionField {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = BCMPricingCalculatorClientTypes.ValidationExceptionField()
+        value.name = try reader["name"].readIfPresent() ?? ""
+        value.message = try reader["message"].readIfPresent() ?? ""
+        return value
+    }
+}
+
+extension BCMPricingCalculatorClientTypes.WorkloadEstimateSummary {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> BCMPricingCalculatorClientTypes.WorkloadEstimateSummary {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = BCMPricingCalculatorClientTypes.WorkloadEstimateSummary()
+        value.id = try reader["id"].readIfPresent() ?? ""
+        value.name = try reader["name"].readIfPresent()
+        value.createdAt = try reader["createdAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.expiresAt = try reader["expiresAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.rateType = try reader["rateType"].readIfPresent()
+        value.rateTimestamp = try reader["rateTimestamp"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.status = try reader["status"].readIfPresent()
+        value.totalCost = try reader["totalCost"].readIfPresent()
+        value.costCurrency = try reader["costCurrency"].readIfPresent()
+        value.failureMessage = try reader["failureMessage"].readIfPresent()
+        return value
+    }
+}
+
+extension BCMPricingCalculatorClientTypes.WorkloadEstimateUsageItem {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> BCMPricingCalculatorClientTypes.WorkloadEstimateUsageItem {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = BCMPricingCalculatorClientTypes.WorkloadEstimateUsageItem()
+        value.serviceCode = try reader["serviceCode"].readIfPresent() ?? ""
+        value.usageType = try reader["usageType"].readIfPresent() ?? ""
+        value.operation = try reader["operation"].readIfPresent() ?? ""
+        value.location = try reader["location"].readIfPresent()
+        value.id = try reader["id"].readIfPresent()
+        value.usageAccountId = try reader["usageAccountId"].readIfPresent()
+        value.group = try reader["group"].readIfPresent()
+        value.quantity = try reader["quantity"].readIfPresent(with: BCMPricingCalculatorClientTypes.WorkloadEstimateUsageQuantity.read(from:))
+        value.cost = try reader["cost"].readIfPresent()
+        value.currency = try reader["currency"].readIfPresent()
+        value.status = try reader["status"].readIfPresent()
+        value.historicalUsage = try reader["historicalUsage"].readIfPresent(with: BCMPricingCalculatorClientTypes.HistoricalUsageEntity.read(from:))
+        return value
+    }
+}
+
+extension BCMPricingCalculatorClientTypes.WorkloadEstimateUsageQuantity {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> BCMPricingCalculatorClientTypes.WorkloadEstimateUsageQuantity {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = BCMPricingCalculatorClientTypes.WorkloadEstimateUsageQuantity()
+        value.unit = try reader["unit"].readIfPresent()
+        value.amount = try reader["amount"].readIfPresent()
+        return value
     }
 }
 

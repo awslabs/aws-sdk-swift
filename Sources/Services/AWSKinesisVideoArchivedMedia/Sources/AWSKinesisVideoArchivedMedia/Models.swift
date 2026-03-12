@@ -22,8 +22,8 @@ import protocol ClientRuntime.HTTPError
 import protocol ClientRuntime.ModeledError
 @_spi(SmithyReadWrite) import protocol SmithyReadWrite.SmithyReader
 @_spi(SmithyReadWrite) import protocol SmithyReadWrite.SmithyWriter
-@_spi(SmithyReadWrite) import struct AWSClientRuntime.RestJSONError
 @_spi(UnknownAWSHTTPServiceError) import struct AWSClientRuntime.UnknownAWSHTTPServiceError
+@_spi(SmithyReadWrite) import struct ClientRuntime.RestJSONError
 
 /// Kinesis Video Streams has throttled the request because you have exceeded a limit. Try making the call later. For information about limits, see [Kinesis Video Streams Limits](http://docs.aws.amazon.com/kinesisvideostreams/latest/dg/limits.html).
 public struct ClientLimitExceededException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
@@ -1454,7 +1454,7 @@ enum GetClipOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "ClientLimitExceededException": return try ClientLimitExceededException.makeError(baseError: baseError)
@@ -1476,7 +1476,7 @@ enum GetDASHStreamingSessionURLOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "ClientLimitExceededException": return try ClientLimitExceededException.makeError(baseError: baseError)
@@ -1497,7 +1497,7 @@ enum GetHLSStreamingSessionURLOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "ClientLimitExceededException": return try ClientLimitExceededException.makeError(baseError: baseError)
@@ -1518,7 +1518,7 @@ enum GetImagesOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "ClientLimitExceededException": return try ClientLimitExceededException.makeError(baseError: baseError)
@@ -1536,7 +1536,7 @@ enum GetMediaForFragmentListOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "ClientLimitExceededException": return try ClientLimitExceededException.makeError(baseError: baseError)
@@ -1553,7 +1553,7 @@ enum ListFragmentsOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "ClientLimitExceededException": return try ClientLimitExceededException.makeError(baseError: baseError)
@@ -1567,7 +1567,7 @@ enum ListFragmentsOutputError {
 
 extension ClientLimitExceededException {
 
-    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> ClientLimitExceededException {
+    static func makeError(baseError: ClientRuntime.RestJSONError) throws -> ClientLimitExceededException {
         let reader = baseError.errorBodyReader
         var value = ClientLimitExceededException()
         value.properties.message = try reader["Message"].readIfPresent()
@@ -1580,7 +1580,7 @@ extension ClientLimitExceededException {
 
 extension InvalidArgumentException {
 
-    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> InvalidArgumentException {
+    static func makeError(baseError: ClientRuntime.RestJSONError) throws -> InvalidArgumentException {
         let reader = baseError.errorBodyReader
         var value = InvalidArgumentException()
         value.properties.message = try reader["Message"].readIfPresent()
@@ -1593,7 +1593,7 @@ extension InvalidArgumentException {
 
 extension InvalidCodecPrivateDataException {
 
-    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> InvalidCodecPrivateDataException {
+    static func makeError(baseError: ClientRuntime.RestJSONError) throws -> InvalidCodecPrivateDataException {
         let reader = baseError.errorBodyReader
         var value = InvalidCodecPrivateDataException()
         value.properties.message = try reader["Message"].readIfPresent()
@@ -1606,7 +1606,7 @@ extension InvalidCodecPrivateDataException {
 
 extension InvalidMediaFrameException {
 
-    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> InvalidMediaFrameException {
+    static func makeError(baseError: ClientRuntime.RestJSONError) throws -> InvalidMediaFrameException {
         let reader = baseError.errorBodyReader
         var value = InvalidMediaFrameException()
         value.properties.message = try reader["Message"].readIfPresent()
@@ -1619,7 +1619,7 @@ extension InvalidMediaFrameException {
 
 extension MissingCodecPrivateDataException {
 
-    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> MissingCodecPrivateDataException {
+    static func makeError(baseError: ClientRuntime.RestJSONError) throws -> MissingCodecPrivateDataException {
         let reader = baseError.errorBodyReader
         var value = MissingCodecPrivateDataException()
         value.properties.message = try reader["Message"].readIfPresent()
@@ -1632,7 +1632,7 @@ extension MissingCodecPrivateDataException {
 
 extension NoDataRetentionException {
 
-    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> NoDataRetentionException {
+    static func makeError(baseError: ClientRuntime.RestJSONError) throws -> NoDataRetentionException {
         let reader = baseError.errorBodyReader
         var value = NoDataRetentionException()
         value.properties.message = try reader["Message"].readIfPresent()
@@ -1645,7 +1645,7 @@ extension NoDataRetentionException {
 
 extension NotAuthorizedException {
 
-    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> NotAuthorizedException {
+    static func makeError(baseError: ClientRuntime.RestJSONError) throws -> NotAuthorizedException {
         let reader = baseError.errorBodyReader
         var value = NotAuthorizedException()
         value.properties.message = try reader["Message"].readIfPresent()
@@ -1658,7 +1658,7 @@ extension NotAuthorizedException {
 
 extension ResourceNotFoundException {
 
-    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> ResourceNotFoundException {
+    static func makeError(baseError: ClientRuntime.RestJSONError) throws -> ResourceNotFoundException {
         let reader = baseError.errorBodyReader
         var value = ResourceNotFoundException()
         value.properties.message = try reader["Message"].readIfPresent()
@@ -1671,39 +1671,13 @@ extension ResourceNotFoundException {
 
 extension UnsupportedStreamMediaTypeException {
 
-    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> UnsupportedStreamMediaTypeException {
+    static func makeError(baseError: ClientRuntime.RestJSONError) throws -> UnsupportedStreamMediaTypeException {
         let reader = baseError.errorBodyReader
         var value = UnsupportedStreamMediaTypeException()
         value.properties.message = try reader["Message"].readIfPresent()
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
         value.message = baseError.message
-        return value
-    }
-}
-
-extension KinesisVideoArchivedMediaClientTypes.Image {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> KinesisVideoArchivedMediaClientTypes.Image {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = KinesisVideoArchivedMediaClientTypes.Image()
-        value.timeStamp = try reader["TimeStamp"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
-        value.error = try reader["Error"].readIfPresent()
-        value.imageContent = try reader["ImageContent"].readIfPresent()
-        return value
-    }
-}
-
-extension KinesisVideoArchivedMediaClientTypes.Fragment {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> KinesisVideoArchivedMediaClientTypes.Fragment {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = KinesisVideoArchivedMediaClientTypes.Fragment()
-        value.fragmentNumber = try reader["FragmentNumber"].readIfPresent()
-        value.fragmentSizeInBytes = try reader["FragmentSizeInBytes"].readIfPresent() ?? 0
-        value.producerTimestamp = try reader["ProducerTimestamp"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
-        value.serverTimestamp = try reader["ServerTimestamp"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
-        value.fragmentLengthInMilliseconds = try reader["FragmentLengthInMilliseconds"].readIfPresent() ?? 0
         return value
     }
 }
@@ -1744,6 +1718,29 @@ extension KinesisVideoArchivedMediaClientTypes.DASHTimestampRange {
     }
 }
 
+extension KinesisVideoArchivedMediaClientTypes.Fragment {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> KinesisVideoArchivedMediaClientTypes.Fragment {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = KinesisVideoArchivedMediaClientTypes.Fragment()
+        value.fragmentNumber = try reader["FragmentNumber"].readIfPresent()
+        value.fragmentSizeInBytes = try reader["FragmentSizeInBytes"].readIfPresent() ?? 0
+        value.producerTimestamp = try reader["ProducerTimestamp"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.serverTimestamp = try reader["ServerTimestamp"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.fragmentLengthInMilliseconds = try reader["FragmentLengthInMilliseconds"].readIfPresent() ?? 0
+        return value
+    }
+}
+
+extension KinesisVideoArchivedMediaClientTypes.FragmentSelector {
+
+    static func write(value: KinesisVideoArchivedMediaClientTypes.FragmentSelector?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["FragmentSelectorType"].write(value.fragmentSelectorType)
+        try writer["TimestampRange"].write(value.timestampRange, with: KinesisVideoArchivedMediaClientTypes.TimestampRange.write(value:to:))
+    }
+}
+
 extension KinesisVideoArchivedMediaClientTypes.HLSFragmentSelector {
 
     static func write(value: KinesisVideoArchivedMediaClientTypes.HLSFragmentSelector?, to writer: SmithyJSON.Writer) throws {
@@ -1762,12 +1759,15 @@ extension KinesisVideoArchivedMediaClientTypes.HLSTimestampRange {
     }
 }
 
-extension KinesisVideoArchivedMediaClientTypes.FragmentSelector {
+extension KinesisVideoArchivedMediaClientTypes.Image {
 
-    static func write(value: KinesisVideoArchivedMediaClientTypes.FragmentSelector?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["FragmentSelectorType"].write(value.fragmentSelectorType)
-        try writer["TimestampRange"].write(value.timestampRange, with: KinesisVideoArchivedMediaClientTypes.TimestampRange.write(value:to:))
+    static func read(from reader: SmithyJSON.Reader) throws -> KinesisVideoArchivedMediaClientTypes.Image {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = KinesisVideoArchivedMediaClientTypes.Image()
+        value.timeStamp = try reader["TimeStamp"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.error = try reader["Error"].readIfPresent()
+        value.imageContent = try reader["ImageContent"].readIfPresent()
+        return value
     }
 }
 

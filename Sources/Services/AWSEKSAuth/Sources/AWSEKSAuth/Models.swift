@@ -20,8 +20,8 @@ import protocol ClientRuntime.HTTPError
 import protocol ClientRuntime.ModeledError
 @_spi(SmithyReadWrite) import protocol SmithyReadWrite.SmithyReader
 @_spi(SmithyReadWrite) import protocol SmithyReadWrite.SmithyWriter
-@_spi(SmithyReadWrite) import struct AWSClientRuntime.RestJSONError
 @_spi(UnknownAWSHTTPServiceError) import struct AWSClientRuntime.UnknownAWSHTTPServiceError
+@_spi(SmithyReadWrite) import struct ClientRuntime.RestJSONError
 @_spi(SmithyTimestamps) import struct SmithyTimestamps.TimestampFormatter
 
 /// You don't have permissions to perform the requested operation. The IAM principal making the request must have at least one IAM permissions policy attached that grants the required permissions. For more information, see [Access management](https://docs.aws.amazon.com/IAM/latest/UserGuide/access.html) in the IAM User Guide.
@@ -429,7 +429,7 @@ enum AssumeRoleForPodIdentityOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
@@ -448,7 +448,7 @@ enum AssumeRoleForPodIdentityOutputError {
 
 extension AccessDeniedException {
 
-    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> AccessDeniedException {
+    static func makeError(baseError: ClientRuntime.RestJSONError) throws -> AccessDeniedException {
         let reader = baseError.errorBodyReader
         var value = AccessDeniedException()
         value.properties.message = try reader["message"].readIfPresent()
@@ -461,7 +461,7 @@ extension AccessDeniedException {
 
 extension ExpiredTokenException {
 
-    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> ExpiredTokenException {
+    static func makeError(baseError: ClientRuntime.RestJSONError) throws -> ExpiredTokenException {
         let reader = baseError.errorBodyReader
         var value = ExpiredTokenException()
         value.properties.message = try reader["message"].readIfPresent()
@@ -474,7 +474,7 @@ extension ExpiredTokenException {
 
 extension InternalServerException {
 
-    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> InternalServerException {
+    static func makeError(baseError: ClientRuntime.RestJSONError) throws -> InternalServerException {
         let reader = baseError.errorBodyReader
         var value = InternalServerException()
         value.properties.message = try reader["message"].readIfPresent()
@@ -487,7 +487,7 @@ extension InternalServerException {
 
 extension InvalidParameterException {
 
-    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> InvalidParameterException {
+    static func makeError(baseError: ClientRuntime.RestJSONError) throws -> InvalidParameterException {
         let reader = baseError.errorBodyReader
         var value = InvalidParameterException()
         value.properties.message = try reader["message"].readIfPresent()
@@ -500,7 +500,7 @@ extension InvalidParameterException {
 
 extension InvalidRequestException {
 
-    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> InvalidRequestException {
+    static func makeError(baseError: ClientRuntime.RestJSONError) throws -> InvalidRequestException {
         let reader = baseError.errorBodyReader
         var value = InvalidRequestException()
         value.properties.message = try reader["message"].readIfPresent()
@@ -513,7 +513,7 @@ extension InvalidRequestException {
 
 extension InvalidTokenException {
 
-    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> InvalidTokenException {
+    static func makeError(baseError: ClientRuntime.RestJSONError) throws -> InvalidTokenException {
         let reader = baseError.errorBodyReader
         var value = InvalidTokenException()
         value.properties.message = try reader["message"].readIfPresent()
@@ -526,7 +526,7 @@ extension InvalidTokenException {
 
 extension ResourceNotFoundException {
 
-    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> ResourceNotFoundException {
+    static func makeError(baseError: ClientRuntime.RestJSONError) throws -> ResourceNotFoundException {
         let reader = baseError.errorBodyReader
         var value = ResourceNotFoundException()
         value.properties.message = try reader["message"].readIfPresent()
@@ -539,7 +539,7 @@ extension ResourceNotFoundException {
 
 extension ServiceUnavailableException {
 
-    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> ServiceUnavailableException {
+    static func makeError(baseError: ClientRuntime.RestJSONError) throws -> ServiceUnavailableException {
         let reader = baseError.errorBodyReader
         var value = ServiceUnavailableException()
         value.properties.message = try reader["message"].readIfPresent()
@@ -552,35 +552,13 @@ extension ServiceUnavailableException {
 
 extension ThrottlingException {
 
-    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> ThrottlingException {
+    static func makeError(baseError: ClientRuntime.RestJSONError) throws -> ThrottlingException {
         let reader = baseError.errorBodyReader
         var value = ThrottlingException()
         value.properties.message = try reader["message"].readIfPresent()
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
         value.message = baseError.message
-        return value
-    }
-}
-
-extension EKSAuthClientTypes.Subject {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> EKSAuthClientTypes.Subject {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = EKSAuthClientTypes.Subject()
-        value.namespace = try reader["namespace"].readIfPresent() ?? ""
-        value.serviceAccount = try reader["serviceAccount"].readIfPresent() ?? ""
-        return value
-    }
-}
-
-extension EKSAuthClientTypes.PodIdentityAssociation {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> EKSAuthClientTypes.PodIdentityAssociation {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = EKSAuthClientTypes.PodIdentityAssociation()
-        value.associationArn = try reader["associationArn"].readIfPresent() ?? ""
-        value.associationId = try reader["associationId"].readIfPresent() ?? ""
         return value
     }
 }
@@ -605,6 +583,28 @@ extension EKSAuthClientTypes.Credentials {
         value.secretAccessKey = try reader["secretAccessKey"].readIfPresent() ?? ""
         value.accessKeyId = try reader["accessKeyId"].readIfPresent() ?? ""
         value.expiration = try reader["expiration"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        return value
+    }
+}
+
+extension EKSAuthClientTypes.PodIdentityAssociation {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> EKSAuthClientTypes.PodIdentityAssociation {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = EKSAuthClientTypes.PodIdentityAssociation()
+        value.associationArn = try reader["associationArn"].readIfPresent() ?? ""
+        value.associationId = try reader["associationId"].readIfPresent() ?? ""
+        return value
+    }
+}
+
+extension EKSAuthClientTypes.Subject {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> EKSAuthClientTypes.Subject {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = EKSAuthClientTypes.Subject()
+        value.namespace = try reader["namespace"].readIfPresent() ?? ""
+        value.serviceAccount = try reader["serviceAccount"].readIfPresent() ?? ""
         return value
     }
 }
