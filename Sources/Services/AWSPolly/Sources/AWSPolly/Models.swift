@@ -383,6 +383,7 @@ extension PollyClientTypes {
     public enum VoiceId: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case aditi
         case adriano
+        case ambre
         case amy
         case andres
         case aria
@@ -390,6 +391,7 @@ extension PollyClientTypes {
         case arthur
         case astrid
         case ayanda
+        case beatrice
         case bianca
         case brian
         case burcu
@@ -408,6 +410,7 @@ extension PollyClientTypes {
         case enrique
         case ewa
         case filiz
+        case florian
         case gabrielle
         case geraint
         case giorgio
@@ -437,9 +440,11 @@ extension PollyClientTypes {
         case kimberly
         case laura
         case lea
+        case lennart
         case liam
         case lisa
         case liv
+        case lorenzo
         case lotte
         case lucia
         case lupe
@@ -475,6 +480,7 @@ extension PollyClientTypes {
         case takumi
         case tatyana
         case thiago
+        case tiffany
         case tomoko
         case vicki
         case vitoria
@@ -487,6 +493,7 @@ extension PollyClientTypes {
             return [
                 .aditi,
                 .adriano,
+                .ambre,
                 .amy,
                 .andres,
                 .aria,
@@ -494,6 +501,7 @@ extension PollyClientTypes {
                 .arthur,
                 .astrid,
                 .ayanda,
+                .beatrice,
                 .bianca,
                 .brian,
                 .burcu,
@@ -512,6 +520,7 @@ extension PollyClientTypes {
                 .enrique,
                 .ewa,
                 .filiz,
+                .florian,
                 .gabrielle,
                 .geraint,
                 .giorgio,
@@ -541,9 +550,11 @@ extension PollyClientTypes {
                 .kimberly,
                 .laura,
                 .lea,
+                .lennart,
                 .liam,
                 .lisa,
                 .liv,
+                .lorenzo,
                 .lotte,
                 .lucia,
                 .lupe,
@@ -579,6 +590,7 @@ extension PollyClientTypes {
                 .takumi,
                 .tatyana,
                 .thiago,
+                .tiffany,
                 .tomoko,
                 .vicki,
                 .vitoria,
@@ -597,6 +609,7 @@ extension PollyClientTypes {
             switch self {
             case .aditi: return "Aditi"
             case .adriano: return "Adriano"
+            case .ambre: return "Ambre"
             case .amy: return "Amy"
             case .andres: return "Andres"
             case .aria: return "Aria"
@@ -604,6 +617,7 @@ extension PollyClientTypes {
             case .arthur: return "Arthur"
             case .astrid: return "Astrid"
             case .ayanda: return "Ayanda"
+            case .beatrice: return "Beatrice"
             case .bianca: return "Bianca"
             case .brian: return "Brian"
             case .burcu: return "Burcu"
@@ -622,6 +636,7 @@ extension PollyClientTypes {
             case .enrique: return "Enrique"
             case .ewa: return "Ewa"
             case .filiz: return "Filiz"
+            case .florian: return "Florian"
             case .gabrielle: return "Gabrielle"
             case .geraint: return "Geraint"
             case .giorgio: return "Giorgio"
@@ -651,9 +666,11 @@ extension PollyClientTypes {
             case .kimberly: return "Kimberly"
             case .laura: return "Laura"
             case .lea: return "Lea"
+            case .lennart: return "Lennart"
             case .liam: return "Liam"
             case .lisa: return "Lisa"
             case .liv: return "Liv"
+            case .lorenzo: return "Lorenzo"
             case .lotte: return "Lotte"
             case .lucia: return "Lucia"
             case .lupe: return "Lupe"
@@ -689,6 +706,7 @@ extension PollyClientTypes {
             case .takumi: return "Takumi"
             case .tatyana: return "Tatyana"
             case .thiago: return "Thiago"
+            case .tiffany: return "Tiffany"
             case .tomoko: return "Tomoko"
             case .vicki: return "Vicki"
             case .vitoria: return "Vitoria"
