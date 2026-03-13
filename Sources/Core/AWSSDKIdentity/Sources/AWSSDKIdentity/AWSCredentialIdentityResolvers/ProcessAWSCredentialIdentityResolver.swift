@@ -187,8 +187,7 @@ private struct ProcessJSONCredentialResponse: Codable {
 
         // Handle the Expiration field which is a string in ISO8601 format.
         if let expirationString = try container.decodeIfPresent(String.self, forKey: .expiration) {
-            let formatter = ISO8601DateFormatter()
-            expiration = formatter.date(from: expirationString)
+            expiration = RFC3339DateParser.parse(expirationString)
         } else {
             expiration = nil
         }
