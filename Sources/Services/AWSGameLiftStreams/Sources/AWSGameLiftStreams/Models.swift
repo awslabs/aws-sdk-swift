@@ -200,6 +200,27 @@ public struct ValidationException: ClientRuntime.ModeledError, AWSClientRuntime.
 
 extension GameLiftStreamsClientTypes {
 
+    /// Configuration for connecting a stream group location to resources in your Amazon VPC using AWS Transit Gateway. When you specify a VPC transit configuration, Amazon GameLift Streams creates a Transit Gateway and shares it with your account using AWS Resource Access Manager. After the stream group is active, you must complete the setup by accepting the resource share, creating a VPC attachment, and configuring routing.
+    public struct VpcTransitConfiguration: Swift.Sendable {
+        /// A list of IPv4 CIDR blocks in your VPC that you want the stream group to be able to access. You can specify up to 5 CIDR blocks. The CIDR blocks must be valid subsets of the VPC's CIDR blocks and cannot overlap with the service VPC CIDR block.
+        /// This member is required.
+        public var ipv4CidrBlocks: [Swift.String]?
+        /// The ID of the Amazon VPC that you want to connect to the stream group. The VPC must be in the same Amazon Web Services account as the stream group. This value cannot be changed after the stream group is created.
+        /// This member is required.
+        public var vpcId: Swift.String?
+
+        public init(
+            ipv4CidrBlocks: [Swift.String]? = nil,
+            vpcId: Swift.String? = nil
+        ) {
+            self.ipv4CidrBlocks = ipv4CidrBlocks
+            self.vpcId = vpcId
+        }
+    }
+}
+
+extension GameLiftStreamsClientTypes {
+
     /// Configuration settings that define a stream group's stream capacity for a location. When configuring a location for the first time, you must specify a numeric value for at least one of the two capacity types. To update the capacity for an existing stream group, call [UpdateStreamGroup](https://docs.aws.amazon.com/gameliftstreams/latest/apireference/API_UpdateStreamGroup.html). To add a new location and specify its capacity, call [AddStreamGroupLocations](https://docs.aws.amazon.com/gameliftstreams/latest/apireference/API_AddStreamGroupLocations.html).
     public struct LocationConfiguration: Swift.Sendable {
         /// This setting, if non-zero, indicates minimum streaming capacity which is allocated to you and is never released back to the service. You pay for this base level of capacity at all times, whether used or idle.
@@ -214,19 +235,23 @@ extension GameLiftStreamsClientTypes {
         public var onDemandCapacity: Swift.Int?
         /// This indicates idle capacity which the service pre-allocates and holds for you in anticipation of future activity. This helps to insulate your users from capacity-allocation delays. You pay for capacity which is held in this intentional idle state.
         public var targetIdleCapacity: Swift.Int?
+        /// Configuration for connecting the stream group to resources in your Amazon VPC using AWS Transit Gateway. This setting is optional. If specified, Amazon GameLift Streams creates a Transit Gateway to enable private network connectivity between the service VPC and your VPC. The VPC ID cannot be changed after the stream group is created, but you can update the CIDR blocks by calling [UpdateStreamGroup](https://docs.aws.amazon.com/gameliftstreams/latest/apireference/API_UpdateStreamGroup.html).
+        public var vpcTransitConfiguration: GameLiftStreamsClientTypes.VpcTransitConfiguration?
 
         public init(
             alwaysOnCapacity: Swift.Int? = nil,
             locationName: Swift.String? = nil,
             maximumCapacity: Swift.Int? = nil,
             onDemandCapacity: Swift.Int? = nil,
-            targetIdleCapacity: Swift.Int? = nil
+            targetIdleCapacity: Swift.Int? = nil,
+            vpcTransitConfiguration: GameLiftStreamsClientTypes.VpcTransitConfiguration? = nil
         ) {
             self.alwaysOnCapacity = alwaysOnCapacity
             self.locationName = locationName
             self.maximumCapacity = maximumCapacity
             self.onDemandCapacity = onDemandCapacity
             self.targetIdleCapacity = targetIdleCapacity
+            self.vpcTransitConfiguration = vpcTransitConfiguration
         }
     }
 }
@@ -285,6 +310,33 @@ extension GameLiftStreamsClientTypes {
 
 extension GameLiftStreamsClientTypes {
 
+    /// The VPC transit configuration details for a stream group location, including the Transit Gateway information needed to complete the VPC attachment setup.
+    public struct VpcTransitConfigurationResponse: Swift.Sendable {
+        /// The IPv4 CIDR blocks in your VPC that the stream group can access.
+        public var ipv4CidrBlocks: [Swift.String]?
+        /// The ID of the Transit Gateway that Amazon GameLift Streams created for this VPC connection. Use this ID when creating your VPC attachment.
+        public var transitGatewayId: Swift.String?
+        /// The ARN of the AWS Resource Access Manager resource share for the Transit Gateway. You must accept this resource share before you can create a VPC attachment.
+        public var transitGatewayResourceShareArn: Swift.String?
+        /// The ID of the Amazon VPC that is connected to the stream group.
+        public var vpcId: Swift.String?
+
+        public init(
+            ipv4CidrBlocks: [Swift.String]? = nil,
+            transitGatewayId: Swift.String? = nil,
+            transitGatewayResourceShareArn: Swift.String? = nil,
+            vpcId: Swift.String? = nil
+        ) {
+            self.ipv4CidrBlocks = ipv4CidrBlocks
+            self.transitGatewayId = transitGatewayId
+            self.transitGatewayResourceShareArn = transitGatewayResourceShareArn
+            self.vpcId = vpcId
+        }
+    }
+}
+
+extension GameLiftStreamsClientTypes {
+
     /// Represents a location and its corresponding stream capacity and status.
     public struct LocationState: Swift.Sendable {
         /// This value is the stream capacity that Amazon GameLift Streams has provisioned in a stream group that can respond immediately to stream requests. It includes resources that are currently streaming and resources that are idle and ready to respond to stream requests. When target-idle capacity is configured, the idle resources include the capacity buffer maintained beyond ongoing sessions. You pay for this capacity whether it's in use or not. After making changes to capacity, it can take a few minutes for the allocated capacity count to reflect the change while compute resources are allocated or deallocated. Similarly, when allocated on-demand capacity is no longer needed, it can take a few minutes for Amazon GameLift Streams to spin down the allocated capacity.
@@ -293,6 +345,8 @@ extension GameLiftStreamsClientTypes {
         public var alwaysOnCapacity: Swift.Int?
         /// This value is the amount of allocated capacity that is not currently streaming. It represents the stream group's ability to respond immediately to new stream requests with near-instant startup time.
         public var idleCapacity: Swift.Int?
+        /// The CIDR block of the service VPC for this location. Add this CIDR block to your VPC route table to enable traffic routing through the Transit Gateway.
+        public var internalVpcIpv4CidrBlock: Swift.String?
         /// A location's name. For example, us-east-1. For a complete list of locations that Amazon GameLift Streams supports, refer to [Regions, quotas, and limitations](https://docs.aws.amazon.com/gameliftstreams/latest/developerguide/regions-quotas.html) in the Amazon GameLift Streams Developer Guide.
         public var locationName: Swift.String?
         /// This indicates the maximum capacity that the service can allocate for you. Newly created streams may take a few minutes to start. Capacity is released back to the service when idle. You pay for capacity that is allocated to you until it is released.
@@ -313,27 +367,33 @@ extension GameLiftStreamsClientTypes {
         public var status: GameLiftStreamsClientTypes.StreamGroupLocationStatus?
         /// This indicates idle capacity which the service pre-allocates and holds for you in anticipation of future activity. This helps to insulate your users from capacity-allocation delays. You pay for capacity which is held in this intentional idle state.
         public var targetIdleCapacity: Swift.Int?
+        /// The VPC transit configuration for this location, including the Transit Gateway details needed to complete the VPC attachment setup.
+        public var vpcTransitConfiguration: GameLiftStreamsClientTypes.VpcTransitConfigurationResponse?
 
         public init(
             allocatedCapacity: Swift.Int? = nil,
             alwaysOnCapacity: Swift.Int? = nil,
             idleCapacity: Swift.Int? = nil,
+            internalVpcIpv4CidrBlock: Swift.String? = nil,
             locationName: Swift.String? = nil,
             maximumCapacity: Swift.Int? = nil,
             onDemandCapacity: Swift.Int? = nil,
             requestedCapacity: Swift.Int? = nil,
             status: GameLiftStreamsClientTypes.StreamGroupLocationStatus? = nil,
-            targetIdleCapacity: Swift.Int? = nil
+            targetIdleCapacity: Swift.Int? = nil,
+            vpcTransitConfiguration: GameLiftStreamsClientTypes.VpcTransitConfigurationResponse? = nil
         ) {
             self.allocatedCapacity = allocatedCapacity
             self.alwaysOnCapacity = alwaysOnCapacity
             self.idleCapacity = idleCapacity
+            self.internalVpcIpv4CidrBlock = internalVpcIpv4CidrBlock
             self.locationName = locationName
             self.maximumCapacity = maximumCapacity
             self.onDemandCapacity = onDemandCapacity
             self.requestedCapacity = requestedCapacity
             self.status = status
             self.targetIdleCapacity = targetIdleCapacity
+            self.vpcTransitConfiguration = vpcTransitConfiguration
         }
     }
 }
@@ -1263,32 +1323,6 @@ public struct CreateStreamGroupInput: Swift.Sendable {
     ///
     ///
     ///
-    /// * gen6n_medium_win2022 (NVIDIA, medium) Supports applications with low 3D scene complexity. Uses NVIDIA L4 Tensor Core GPU.
-    ///
-    /// * Reference resolution: 1080p
-    ///
-    /// * Reference frame rate: 60 fps
-    ///
-    /// * Workload specifications: 8 vCPUs, 32 GB RAM, 6 GB VRAM
-    ///
-    /// * Tenancy: Supports 1 concurrent stream session
-    ///
-    ///
-    ///
-    ///
-    /// * gen6n_small_win2022 (NVIDIA, small) Supports applications with low 3D scene complexity. Uses NVIDIA L4 Tensor Core GPU.
-    ///
-    /// * Reference resolution: 1080p
-    ///
-    /// * Reference frame rate: 60 fps
-    ///
-    /// * Workload specifications: 2 vCPUs, 8 GB RAM, 3 GB VRAM
-    ///
-    /// * Tenancy: Supports 1 concurrent stream session
-    ///
-    ///
-    ///
-    ///
     /// * gen5n_win2022 (NVIDIA, ultra) Supports applications with extremely high 3D scene complexity. Runs applications on Microsoft Windows Server 2022 Base and supports DirectX 12. Compatible with Unreal Engine versions up through 5.6, 32 and 64-bit applications, and anti-cheat technology. Uses NVIDIA A10G Tensor Core GPU.
     ///
     /// * Reference resolution: 1080p
@@ -1616,32 +1650,6 @@ public struct CreateStreamGroupOutput: Swift.Sendable {
     /// * Workload specifications: 1 vCPUs, 4 GB RAM, 2 GB VRAM
     ///
     /// * Tenancy: Supports up to 12 concurrent stream sessions
-    ///
-    ///
-    ///
-    ///
-    /// * gen6n_medium_win2022 (NVIDIA, medium) Supports applications with low 3D scene complexity. Uses NVIDIA L4 Tensor Core GPU.
-    ///
-    /// * Reference resolution: 1080p
-    ///
-    /// * Reference frame rate: 60 fps
-    ///
-    /// * Workload specifications: 8 vCPUs, 32 GB RAM, 6 GB VRAM
-    ///
-    /// * Tenancy: Supports 1 concurrent stream session
-    ///
-    ///
-    ///
-    ///
-    /// * gen6n_small_win2022 (NVIDIA, small) Supports applications with low 3D scene complexity. Uses NVIDIA L4 Tensor Core GPU.
-    ///
-    /// * Reference resolution: 1080p
-    ///
-    /// * Reference frame rate: 60 fps
-    ///
-    /// * Workload specifications: 2 vCPUs, 8 GB RAM, 3 GB VRAM
-    ///
-    /// * Tenancy: Supports 1 concurrent stream session
     ///
     ///
     ///
@@ -2152,6 +2160,8 @@ public struct GetStreamSessionOutput: Swift.Sendable {
     ///
     /// * connectionTimeout: The stream session was terminated because the client failed to connect within the connection timeout period specified by ConnectionTimeoutSeconds.
     ///
+    /// * idleTimeout: The stream session was terminated because it exceeded the idle timeout period of 60 minutes with no user input activity.
+    ///
     /// * maxSessionLengthTimeout: The stream session was terminated because it exceeded the maximum session length timeout period specified by SessionLengthSeconds.
     ///
     /// * reconnectionTimeout: The stream session was terminated because the client failed to reconnect within the reconnection timeout period specified by ConnectionTimeoutSeconds after losing connection.
@@ -2303,6 +2313,8 @@ extension GameLiftStreamsClientTypes {
         /// * applicationExit: The streaming application exited or crashed. The stream session was terminated because the application is no longer running.
         ///
         /// * connectionTimeout: The stream session was terminated because the client failed to connect within the connection timeout period specified by ConnectionTimeoutSeconds.
+        ///
+        /// * idleTimeout: The stream session was terminated because it exceeded the idle timeout period of 60 minutes with no user input activity.
         ///
         /// * maxSessionLengthTimeout: The stream session was terminated because it exceeded the maximum session length timeout period specified by SessionLengthSeconds.
         ///
@@ -2568,6 +2580,8 @@ public struct StartStreamSessionOutput: Swift.Sendable {
     ///
     /// * connectionTimeout: The stream session was terminated because the client failed to connect within the connection timeout period specified by ConnectionTimeoutSeconds.
     ///
+    /// * idleTimeout: The stream session was terminated because it exceeded the idle timeout period of 60 minutes with no user input activity.
+    ///
     /// * maxSessionLengthTimeout: The stream session was terminated because it exceeded the maximum session length timeout period specified by SessionLengthSeconds.
     ///
     /// * reconnectionTimeout: The stream session was terminated because the client failed to reconnect within the reconnection timeout period specified by ConnectionTimeoutSeconds after losing connection.
@@ -2782,32 +2796,6 @@ public struct GetStreamGroupOutput: Swift.Sendable {
     /// * Workload specifications: 1 vCPUs, 4 GB RAM, 2 GB VRAM
     ///
     /// * Tenancy: Supports up to 12 concurrent stream sessions
-    ///
-    ///
-    ///
-    ///
-    /// * gen6n_medium_win2022 (NVIDIA, medium) Supports applications with low 3D scene complexity. Uses NVIDIA L4 Tensor Core GPU.
-    ///
-    /// * Reference resolution: 1080p
-    ///
-    /// * Reference frame rate: 60 fps
-    ///
-    /// * Workload specifications: 8 vCPUs, 32 GB RAM, 6 GB VRAM
-    ///
-    /// * Tenancy: Supports 1 concurrent stream session
-    ///
-    ///
-    ///
-    ///
-    /// * gen6n_small_win2022 (NVIDIA, small) Supports applications with low 3D scene complexity. Uses NVIDIA L4 Tensor Core GPU.
-    ///
-    /// * Reference resolution: 1080p
-    ///
-    /// * Reference frame rate: 60 fps
-    ///
-    /// * Workload specifications: 2 vCPUs, 8 GB RAM, 3 GB VRAM
-    ///
-    /// * Tenancy: Supports 1 concurrent stream session
     ///
     ///
     ///
@@ -3056,32 +3044,6 @@ extension GameLiftStreamsClientTypes {
         /// * Workload specifications: 1 vCPUs, 4 GB RAM, 2 GB VRAM
         ///
         /// * Tenancy: Supports up to 12 concurrent stream sessions
-        ///
-        ///
-        ///
-        ///
-        /// * gen6n_medium_win2022 (NVIDIA, medium) Supports applications with low 3D scene complexity. Uses NVIDIA L4 Tensor Core GPU.
-        ///
-        /// * Reference resolution: 1080p
-        ///
-        /// * Reference frame rate: 60 fps
-        ///
-        /// * Workload specifications: 8 vCPUs, 32 GB RAM, 6 GB VRAM
-        ///
-        /// * Tenancy: Supports 1 concurrent stream session
-        ///
-        ///
-        ///
-        ///
-        /// * gen6n_small_win2022 (NVIDIA, small) Supports applications with low 3D scene complexity. Uses NVIDIA L4 Tensor Core GPU.
-        ///
-        /// * Reference resolution: 1080p
-        ///
-        /// * Reference frame rate: 60 fps
-        ///
-        /// * Workload specifications: 2 vCPUs, 8 GB RAM, 3 GB VRAM
-        ///
-        /// * Tenancy: Supports 1 concurrent stream session
         ///
         ///
         ///
@@ -3364,32 +3326,6 @@ public struct UpdateStreamGroupOutput: Swift.Sendable {
     /// * Workload specifications: 1 vCPUs, 4 GB RAM, 2 GB VRAM
     ///
     /// * Tenancy: Supports up to 12 concurrent stream sessions
-    ///
-    ///
-    ///
-    ///
-    /// * gen6n_medium_win2022 (NVIDIA, medium) Supports applications with low 3D scene complexity. Uses NVIDIA L4 Tensor Core GPU.
-    ///
-    /// * Reference resolution: 1080p
-    ///
-    /// * Reference frame rate: 60 fps
-    ///
-    /// * Workload specifications: 8 vCPUs, 32 GB RAM, 6 GB VRAM
-    ///
-    /// * Tenancy: Supports 1 concurrent stream session
-    ///
-    ///
-    ///
-    ///
-    /// * gen6n_small_win2022 (NVIDIA, small) Supports applications with low 3D scene complexity. Uses NVIDIA L4 Tensor Core GPU.
-    ///
-    /// * Reference resolution: 1080p
-    ///
-    /// * Reference frame rate: 60 fps
-    ///
-    /// * Workload specifications: 2 vCPUs, 8 GB RAM, 3 GB VRAM
-    ///
-    /// * Tenancy: Supports 1 concurrent stream session
     ///
     ///
     ///
@@ -4973,6 +4909,7 @@ extension GameLiftStreamsClientTypes.LocationConfiguration {
         try writer["MaximumCapacity"].write(value.maximumCapacity)
         try writer["OnDemandCapacity"].write(value.onDemandCapacity)
         try writer["TargetIdleCapacity"].write(value.targetIdleCapacity)
+        try writer["VpcTransitConfiguration"].write(value.vpcTransitConfiguration, with: GameLiftStreamsClientTypes.VpcTransitConfiguration.write(value:to:))
     }
 }
 
@@ -4990,6 +4927,8 @@ extension GameLiftStreamsClientTypes.LocationState {
         value.requestedCapacity = try reader["RequestedCapacity"].readIfPresent()
         value.allocatedCapacity = try reader["AllocatedCapacity"].readIfPresent()
         value.idleCapacity = try reader["IdleCapacity"].readIfPresent()
+        value.internalVpcIpv4CidrBlock = try reader["InternalVpcIpv4CidrBlock"].readIfPresent()
+        value.vpcTransitConfiguration = try reader["VpcTransitConfiguration"].readIfPresent(with: GameLiftStreamsClientTypes.VpcTransitConfigurationResponse.read(from:))
         return value
     }
 }
@@ -5070,6 +5009,28 @@ extension GameLiftStreamsClientTypes.StreamSessionSummary {
         value.applicationArn = try reader["ApplicationArn"].readIfPresent()
         value.exportFilesMetadata = try reader["ExportFilesMetadata"].readIfPresent(with: GameLiftStreamsClientTypes.ExportFilesMetadata.read(from:))
         value.location = try reader["Location"].readIfPresent()
+        return value
+    }
+}
+
+extension GameLiftStreamsClientTypes.VpcTransitConfiguration {
+
+    static func write(value: GameLiftStreamsClientTypes.VpcTransitConfiguration?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["Ipv4CidrBlocks"].writeList(value.ipv4CidrBlocks, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["VpcId"].write(value.vpcId)
+    }
+}
+
+extension GameLiftStreamsClientTypes.VpcTransitConfigurationResponse {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> GameLiftStreamsClientTypes.VpcTransitConfigurationResponse {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = GameLiftStreamsClientTypes.VpcTransitConfigurationResponse()
+        value.vpcId = try reader["VpcId"].readIfPresent()
+        value.ipv4CidrBlocks = try reader["Ipv4CidrBlocks"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        value.transitGatewayId = try reader["TransitGatewayId"].readIfPresent()
+        value.transitGatewayResourceShareArn = try reader["TransitGatewayResourceShareArn"].readIfPresent()
         return value
     }
 }

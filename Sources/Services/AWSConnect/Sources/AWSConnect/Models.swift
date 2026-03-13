@@ -7645,6 +7645,7 @@ public struct CreateNotificationInput: Swift.Sendable {
     /// This member is required.
     public var instanceId: Swift.String?
     /// The unique identifier for a notification.
+    @available(*, deprecated, message: "PredefinedNotificationId is deprecated. Use ClientToken for idempotency. API deprecated since 3/13/2026")
     public var predefinedNotificationId: Swift.String?
     /// The priority level of the notification. Valid values are HIGH and LOW. High priority notifications are displayed above low priority notifications.
     public var priority: ConnectClientTypes.ConfigurableNotificationPriority?
