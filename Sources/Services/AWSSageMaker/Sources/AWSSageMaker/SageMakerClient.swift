@@ -14461,6 +14461,75 @@ extension SageMakerClient {
         return try await op.execute(input: input)
     }
 
+    /// Performs the `DescribeTrainingPlanExtensionHistory` operation on the `SageMaker` service.
+    ///
+    /// Retrieves the extension history for a specified training plan. The response includes details about each extension, such as the offering ID, start and end dates, status, payment status, and cost information.
+    ///
+    /// - Parameter input: [no documentation found] (Type: `DescribeTrainingPlanExtensionHistoryInput`)
+    ///
+    /// - Returns: [no documentation found] (Type: `DescribeTrainingPlanExtensionHistoryOutput`)
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `ResourceNotFound` : Resource being access is not found.
+    public func describeTrainingPlanExtensionHistory(input: DescribeTrainingPlanExtensionHistoryInput) async throws -> DescribeTrainingPlanExtensionHistoryOutput {
+        let context = Smithy.ContextBuilder()
+                      .withMethod(value: .post)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "describeTrainingPlanExtensionHistory")
+                      .withUnsignedPayloadTrait(value: false)
+                      .withSmithyDefaultConfig(config)
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
+                      .withSigningName(value: "sagemaker")
+                      .withSigningRegion(value: config.signingRegion)
+                      .build()
+        let builder = ClientRuntime.OrchestratorBuilder<DescribeTrainingPlanExtensionHistoryInput, DescribeTrainingPlanExtensionHistoryOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<DescribeTrainingPlanExtensionHistoryInput, DescribeTrainingPlanExtensionHistoryOutput>(DescribeTrainingPlanExtensionHistoryInput.urlPathProvider(_:)))
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<DescribeTrainingPlanExtensionHistoryInput, DescribeTrainingPlanExtensionHistoryOutput>())
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DescribeTrainingPlanExtensionHistoryInput, DescribeTrainingPlanExtensionHistoryOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeTrainingPlanExtensionHistoryOutput>(DescribeTrainingPlanExtensionHistoryOutput.httpOutput(from:), DescribeTrainingPlanExtensionHistoryOutputError.httpError(from:)))
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeTrainingPlanExtensionHistoryInput, DescribeTrainingPlanExtensionHistoryOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
+        builder.applySigner(ClientRuntime.SignerMiddleware<DescribeTrainingPlanExtensionHistoryOutput>())
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("SageMaker", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<DescribeTrainingPlanExtensionHistoryOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<DescribeTrainingPlanExtensionHistoryInput, DescribeTrainingPlanExtensionHistoryOutput>(overrides: ["X-Amz-Target": "SageMaker.DescribeTrainingPlanExtensionHistory"]))
+        builder.serialize(ClientRuntime.BodyMiddleware<DescribeTrainingPlanExtensionHistoryInput, DescribeTrainingPlanExtensionHistoryOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: DescribeTrainingPlanExtensionHistoryInput.write(value:to:)))
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DescribeTrainingPlanExtensionHistoryInput, DescribeTrainingPlanExtensionHistoryOutput>(contentType: "application/x-amz-json-1.1"))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DescribeTrainingPlanExtensionHistoryOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DescribeTrainingPlanExtensionHistoryInput, DescribeTrainingPlanExtensionHistoryOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<DescribeTrainingPlanExtensionHistoryInput, DescribeTrainingPlanExtensionHistoryOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<DescribeTrainingPlanExtensionHistoryInput, DescribeTrainingPlanExtensionHistoryOutput>(serviceID: serviceName, version: SageMakerClient.version, config: config))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "SageMaker")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "DescribeTrainingPlanExtensionHistory")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
+    }
+
     /// Performs the `DescribeTransformJob` operation on the `SageMaker` service.
     ///
     /// Returns information about a transform job.
@@ -15120,6 +15189,75 @@ extension SageMakerClient {
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "SageMaker")
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "EnableSagemakerServicecatalogPortfolio")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
+    }
+
+    /// Performs the `ExtendTrainingPlan` operation on the `SageMaker` service.
+    ///
+    /// Extends an existing training plan by purchasing an extension offering. This allows you to add additional compute capacity time to your training plan without creating a new plan or reconfiguring your workloads. To find available extension offerings, use the [SearchTrainingPlanOfferings](https://docs.aws.amazon.com/sagemaker/latest/APIReference/API_SearchTrainingPlanOfferings.html) API with the TrainingPlanArn parameter. To view the history of extensions for a training plan, use the [DescribeTrainingPlanExtensionHistory](https://docs.aws.amazon.com/sagemaker/latest/APIReference/API_DescribeTrainingPlanExtensionHistory.html) API.
+    ///
+    /// - Parameter input: [no documentation found] (Type: `ExtendTrainingPlanInput`)
+    ///
+    /// - Returns: [no documentation found] (Type: `ExtendTrainingPlanOutput`)
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `ResourceNotFound` : Resource being access is not found.
+    public func extendTrainingPlan(input: ExtendTrainingPlanInput) async throws -> ExtendTrainingPlanOutput {
+        let context = Smithy.ContextBuilder()
+                      .withMethod(value: .post)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "extendTrainingPlan")
+                      .withUnsignedPayloadTrait(value: false)
+                      .withSmithyDefaultConfig(config)
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
+                      .withSigningName(value: "sagemaker")
+                      .withSigningRegion(value: config.signingRegion)
+                      .build()
+        let builder = ClientRuntime.OrchestratorBuilder<ExtendTrainingPlanInput, ExtendTrainingPlanOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<ExtendTrainingPlanInput, ExtendTrainingPlanOutput>(ExtendTrainingPlanInput.urlPathProvider(_:)))
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<ExtendTrainingPlanInput, ExtendTrainingPlanOutput>())
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ExtendTrainingPlanInput, ExtendTrainingPlanOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<ExtendTrainingPlanOutput>(ExtendTrainingPlanOutput.httpOutput(from:), ExtendTrainingPlanOutputError.httpError(from:)))
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<ExtendTrainingPlanInput, ExtendTrainingPlanOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
+        builder.applySigner(ClientRuntime.SignerMiddleware<ExtendTrainingPlanOutput>())
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("SageMaker", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<ExtendTrainingPlanOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<ExtendTrainingPlanInput, ExtendTrainingPlanOutput>(overrides: ["X-Amz-Target": "SageMaker.ExtendTrainingPlan"]))
+        builder.serialize(ClientRuntime.BodyMiddleware<ExtendTrainingPlanInput, ExtendTrainingPlanOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: ExtendTrainingPlanInput.write(value:to:)))
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<ExtendTrainingPlanInput, ExtendTrainingPlanOutput>(contentType: "application/x-amz-json-1.1"))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ExtendTrainingPlanOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<ExtendTrainingPlanInput, ExtendTrainingPlanOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<ExtendTrainingPlanInput, ExtendTrainingPlanOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<ExtendTrainingPlanInput, ExtendTrainingPlanOutput>(serviceID: serviceName, version: SageMakerClient.version, config: config))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "SageMaker")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "ExtendTrainingPlan")
         let op = builder.attributes(context)
             .telemetry(ClientRuntime.OrchestratorTelemetry(
                 telemetryProvider: config.telemetryProvider,

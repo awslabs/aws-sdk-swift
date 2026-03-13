@@ -2551,6 +2551,7 @@ extension EKSClientTypes {
         case standard
         case tier2xl
         case tier4xl
+        case tier8xl
         case tierXl
         case sdkUnknown(Swift.String)
 
@@ -2559,6 +2560,7 @@ extension EKSClientTypes {
                 .standard,
                 .tier2xl,
                 .tier4xl,
+                .tier8xl,
                 .tierXl
             ]
         }
@@ -2573,6 +2575,7 @@ extension EKSClientTypes {
             case .standard: return "standard"
             case .tier2xl: return "tier-2xl"
             case .tier4xl: return "tier-4xl"
+            case .tier8xl: return "tier-8xl"
             case .tierXl: return "tier-xl"
             case let .sdkUnknown(s): return s
             }
@@ -2584,7 +2587,7 @@ extension EKSClientTypes {
 
     /// The control plane scaling tier configuration. For more information, see EKS Provisioned Control Plane in the Amazon EKS User Guide.
     public struct ControlPlaneScalingConfig: Swift.Sendable {
-        /// The control plane scaling tier configuration. Available options are standard, tier-xl, tier-2xl, or tier-4xl. For more information, see EKS Provisioned Control Plane in the Amazon EKS User Guide.
+        /// The control plane scaling tier configuration. Available options are standard, tier-xl, tier-2xl, tier-4xl, or tier-8xl. For more information, see EKS Provisioned Control Plane in the Amazon EKS User Guide.
         public var tier: EKSClientTypes.ProvisionedControlPlaneTier?
 
         public init(

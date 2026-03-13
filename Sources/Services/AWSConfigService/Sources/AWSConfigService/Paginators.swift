@@ -308,6 +308,15 @@ extension DescribeConformancePackComplianceInput: ClientRuntime.PaginateToken {
             nextToken: token
         )}
 }
+
+extension PaginatorSequence where OperationStackInput == DescribeConformancePackComplianceInput, OperationStackOutput == DescribeConformancePackComplianceOutput {
+    /// This paginator transforms the `AsyncSequence` returned by `describeConformancePackCompliancePaginated`
+    /// to access the nested member `[ConfigClientTypes.ConformancePackRuleCompliance]`
+    /// - Returns: `[ConfigClientTypes.ConformancePackRuleCompliance]`
+    public func conformancePackRuleComplianceList() async throws -> [ConfigClientTypes.ConformancePackRuleCompliance] {
+        return try await self.asyncCompactMap { item in item.conformancePackRuleComplianceList }
+    }
+}
 extension ConfigClient {
     /// Paginate over `[DescribeConformancePacksOutput]` results.
     ///
