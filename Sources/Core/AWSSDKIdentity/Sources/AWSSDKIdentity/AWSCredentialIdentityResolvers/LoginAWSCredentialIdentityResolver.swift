@@ -143,7 +143,6 @@ public struct LoginAWSCredentialIdentityResolver: AWSCredentialIdentityResolver 
             decoder.dateDecodingStrategy = .custom { decoder in
                 let container = try decoder.singleValueContainer()
                 let dateString = try container.decode(String.self)
-                formatter.formatOptions = [.withInternetDateTime]
                 guard let date = RFC3339DateParser.parse(dateString) else {
                     throw DecodingError.dataCorruptedError(
                         in: container,
