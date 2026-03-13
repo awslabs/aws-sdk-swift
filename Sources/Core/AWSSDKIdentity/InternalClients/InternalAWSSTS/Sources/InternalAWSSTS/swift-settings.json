@@ -1,7 +1,6 @@
 {
     "service": "com.amazonaws.sts#AWSSecurityTokenServiceV20110615",
     "module": "InternalAWSSTS",
-    "moduleVersion": "1.6.63",
     "sdkId": "STS",
     "internalClient": true,
     "operations": [

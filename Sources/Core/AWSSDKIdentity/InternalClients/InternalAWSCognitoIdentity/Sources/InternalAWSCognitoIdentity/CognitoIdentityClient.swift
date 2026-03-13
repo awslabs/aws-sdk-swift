@@ -18,8 +18,6 @@ import class ClientRuntime.OrchestratorTelemetry
 import class ClientRuntime.SdkHttpClient
 import class Smithy.Context
 import class Smithy.ContextBuilder
-import class SmithyHTTPAPI.HTTPRequest
-import class SmithyHTTPAPI.HTTPResponse
 import enum AWSClientRuntime.AWSClockSkewProvider
 import enum AWSClientRuntime.AWSRetryErrorInfoProvider
 import enum AWSClientRuntime.AWSRetryMode
@@ -46,8 +44,8 @@ import protocol SmithyIdentity.BearerTokenIdentityResolver
 @_spi(AWSEndpointResolverMiddleware) import struct AWSClientRuntime.AWSEndpointResolverMiddleware
 import struct AWSClientRuntime.AmzSdkInvocationIdMiddleware
 import struct AWSClientRuntime.UserAgentMiddleware
-import struct AWSSDKAWSJSON.ClientProtocol
-import struct AWSSDKAWSJSON.Plugin
+import struct AWSJSON.HTTPClientProtocol
+import struct AWSJSON.Plugin
 import struct AWSSDKHTTPAuth.SigV4AuthScheme
 import struct ClientRuntime.AuthSchemeMiddleware
 import struct ClientRuntime.ContentLengthMiddleware
@@ -630,7 +628,7 @@ extension CognitoIdentityClient {
     /// - `TooManyRequestsException` : Thrown when a request is throttled.
     public func getCredentialsForIdentity(input: GetCredentialsForIdentityInput) async throws -> GetCredentialsForIdentityOutput {
         var config = config
-        let plugins: [any ClientRuntime.Plugin] = [AWSSDKAWSJSON.Plugin()]
+        let plugins: [any ClientRuntime.Plugin] = [AWSJSON.Plugin()]
         for plugin in plugins {
             try await plugin.configureClient(clientConfiguration: &config)
         }
@@ -647,9 +645,8 @@ extension CognitoIdentityClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<GetCredentialsForIdentityInput, GetCredentialsForIdentityOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
-        let clientProtocol = AWSSDKAWSJSON.ClientProtocol()
-        builder.apply(operation, clientProtocol)
+        let clientProtocol = AWSJSON.HTTPClientProtocol(version: .v1_1)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
@@ -710,7 +707,7 @@ extension CognitoIdentityClient {
     /// - `TooManyRequestsException` : Thrown when a request is throttled.
     public func getId(input: GetIdInput) async throws -> GetIdOutput {
         var config = config
-        let plugins: [any ClientRuntime.Plugin] = [AWSSDKAWSJSON.Plugin()]
+        let plugins: [any ClientRuntime.Plugin] = [AWSJSON.Plugin()]
         for plugin in plugins {
             try await plugin.configureClient(clientConfiguration: &config)
         }
@@ -727,9 +724,8 @@ extension CognitoIdentityClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<GetIdInput, GetIdOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
-        let clientProtocol = AWSSDKAWSJSON.ClientProtocol()
-        builder.apply(operation, clientProtocol)
+        let clientProtocol = AWSJSON.HTTPClientProtocol(version: .v1_1)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
