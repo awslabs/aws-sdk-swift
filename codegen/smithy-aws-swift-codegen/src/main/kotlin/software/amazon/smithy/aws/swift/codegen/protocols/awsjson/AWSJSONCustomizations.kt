@@ -22,7 +22,6 @@ class AWSJSONCustomizations(
 
     override val plugins: List<Plugin> = listOf(AWSJSONPlugin())
 
-    override fun renderClientProtocol(writer: SwiftWriter): String {
-        return writer.format("\$N(version: .v\$L)", AWSJSONTypes.HTTPClientProtocol, version)
-    }
+    override fun renderClientProtocol(writer: SwiftWriter): String =
+        writer.format("\$N(version: .v\$L)", AWSJSONTypes.HTTPClientProtocol, version)
 }

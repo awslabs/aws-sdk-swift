@@ -9,7 +9,5 @@ import software.amazon.smithy.swift.codegen.swiftmodules.RPCv2CBORTypes
 class AWSRpcV2CborCustomizations : AWSHTTPProtocolCustomizations() {
     override val plugins: List<Plugin> = listOf(RPCv2CBORPlugin())
 
-    override fun renderClientProtocol(writer: SwiftWriter): String {
-        return writer.format("\$N()", RPCv2CBORTypes.HTTPClientProtocol)
-    }
+    override fun renderClientProtocol(writer: SwiftWriter): String = writer.format("\$N()", RPCv2CBORTypes.HTTPClientProtocol)
 }
