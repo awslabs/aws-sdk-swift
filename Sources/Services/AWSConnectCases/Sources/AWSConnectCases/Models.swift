@@ -1617,125 +1617,6 @@ extension ConnectCasesClientTypes {
 
 extension ConnectCasesClientTypes {
 
-    /// Boolean condition for a rule. In the Amazon Connect admin website, case rules are known as case field conditions. For more information about case field conditions, see [Add case field conditions to a case template](https://docs.aws.amazon.com/connect/latest/adminguide/case-field-conditions.html).
-    public enum BooleanCondition: Swift.Sendable {
-        /// Tests that operandOne is equal to operandTwo.
-        case equalto(ConnectCasesClientTypes.BooleanOperands)
-        /// Tests that operandOne is not equal to operandTwo.
-        case notequalto(ConnectCasesClientTypes.BooleanOperands)
-        case sdkUnknown(Swift.String)
-    }
-}
-
-extension ConnectCasesClientTypes {
-
-    /// A rule that controls field visibility based on conditions. Fields can be shown or hidden dynamically based on values in other fields.
-    public struct HiddenCaseRule: Swift.Sendable {
-        /// A list of conditions that determine field visibility.
-        /// This member is required.
-        public var conditions: [ConnectCasesClientTypes.BooleanCondition]?
-        /// Whether the field is hidden when no conditions match.
-        /// This member is required.
-        public var defaultValue: Swift.Bool?
-
-        public init(
-            conditions: [ConnectCasesClientTypes.BooleanCondition]? = nil,
-            defaultValue: Swift.Bool? = nil
-        ) {
-            self.conditions = conditions
-            self.defaultValue = defaultValue
-        }
-    }
-}
-
-extension ConnectCasesClientTypes {
-
-    /// Required rule type, used to indicate whether a field is required. In the Amazon Connect admin website, case rules are known as case field conditions. For more information about case field conditions, see [Add case field conditions to a case template](https://docs.aws.amazon.com/connect/latest/adminguide/case-field-conditions.html).
-    public struct RequiredCaseRule: Swift.Sendable {
-        /// List of conditions for the required rule; the first condition to evaluate to true dictates the value of the rule.
-        /// This member is required.
-        public var conditions: [ConnectCasesClientTypes.BooleanCondition]?
-        /// The value of the rule (that is, whether the field is required) should none of the conditions evaluate to true.
-        /// This member is required.
-        public var defaultValue: Swift.Bool?
-
-        public init(
-            conditions: [ConnectCasesClientTypes.BooleanCondition]? = nil,
-            defaultValue: Swift.Bool? = nil
-        ) {
-            self.conditions = conditions
-            self.defaultValue = defaultValue
-        }
-    }
-}
-
-extension ConnectCasesClientTypes {
-
-    /// Represents what rule type should take place, under what conditions. In the Amazon Connect admin website, case rules are known as case field conditions. For more information about case field conditions, see [Add case field conditions to a case template](https://docs.aws.amazon.com/connect/latest/adminguide/case-field-conditions.html).
-    public enum CaseRuleDetails: Swift.Sendable {
-        /// Required rule type, used to indicate whether a field is required.
-        case `required`(ConnectCasesClientTypes.RequiredCaseRule)
-        /// Which options are available in a child field based on the selected value in a parent field.
-        case fieldoptions(ConnectCasesClientTypes.FieldOptionsCaseRule)
-        /// Whether a field is visible, based on values in other fields.
-        case hidden(ConnectCasesClientTypes.HiddenCaseRule)
-        case sdkUnknown(Swift.String)
-    }
-}
-
-extension ConnectCasesClientTypes {
-
-    /// Detailed case rule information. In the Amazon Connect admin website, case rules are known as case field conditions. For more information about case field conditions, see [Add case field conditions to a case template](https://docs.aws.amazon.com/connect/latest/adminguide/case-field-conditions.html).
-    public struct GetCaseRuleResponse: Swift.Sendable {
-        /// The Amazon Resource Name (ARN) of the case rule.
-        /// This member is required.
-        public var caseRuleArn: Swift.String?
-        /// Unique identifier of a case rule.
-        /// This member is required.
-        public var caseRuleId: Swift.String?
-        /// Timestamp when the resource was created.
-        public var createdTime: Foundation.Date?
-        /// Indicates whether the resource has been deleted.
-        public var deleted: Swift.Bool
-        /// Description of a case rule.
-        public var description: Swift.String?
-        /// Timestamp when the resource was created or last modified.
-        public var lastModifiedTime: Foundation.Date?
-        /// Name of the case rule.
-        /// This member is required.
-        public var name: Swift.String?
-        /// Represents what rule type should take place, under what conditions.
-        /// This member is required.
-        public var rule: ConnectCasesClientTypes.CaseRuleDetails?
-        /// A map of of key-value pairs that represent tags on a resource. Tags are used to organize, track, or control access for this resource.
-        public var tags: [Swift.String: Swift.String?]?
-
-        public init(
-            caseRuleArn: Swift.String? = nil,
-            caseRuleId: Swift.String? = nil,
-            createdTime: Foundation.Date? = nil,
-            deleted: Swift.Bool = false,
-            description: Swift.String? = nil,
-            lastModifiedTime: Foundation.Date? = nil,
-            name: Swift.String? = nil,
-            rule: ConnectCasesClientTypes.CaseRuleDetails? = nil,
-            tags: [Swift.String: Swift.String?]? = nil
-        ) {
-            self.caseRuleArn = caseRuleArn
-            self.caseRuleId = caseRuleId
-            self.createdTime = createdTime
-            self.deleted = deleted
-            self.description = description
-            self.lastModifiedTime = lastModifiedTime
-            self.name = name
-            self.rule = rule
-            self.tags = tags
-        }
-    }
-}
-
-extension ConnectCasesClientTypes {
-
     /// Error for batch describe case rules API failure. In the Amazon Connect admin website, case rules are known as case field conditions. For more information about case field conditions, see [Add case field conditions to a case template](https://docs.aws.amazon.com/connect/latest/adminguide/case-field-conditions.html).
     public struct CaseRuleError: Swift.Sendable {
         /// Error code from getting a case rule.
@@ -1756,53 +1637,6 @@ extension ConnectCasesClientTypes {
             self.id = id
             self.message = message
         }
-    }
-}
-
-public struct BatchGetCaseRuleOutput: Swift.Sendable {
-    /// A list of detailed case rule information.
-    /// This member is required.
-    public var caseRules: [ConnectCasesClientTypes.GetCaseRuleResponse]?
-    /// A list of case rule errors.
-    /// This member is required.
-    public var errors: [ConnectCasesClientTypes.CaseRuleError]?
-    /// A list of unprocessed case rule identifiers.
-    public var unprocessedCaseRules: [Swift.String]?
-
-    public init(
-        caseRules: [ConnectCasesClientTypes.GetCaseRuleResponse]? = nil,
-        errors: [ConnectCasesClientTypes.CaseRuleError]? = nil,
-        unprocessedCaseRules: [Swift.String]? = nil
-    ) {
-        self.caseRules = caseRules
-        self.errors = errors
-        self.unprocessedCaseRules = unprocessedCaseRules
-    }
-}
-
-public struct CreateCaseRuleInput: Swift.Sendable {
-    /// The description of a case rule.
-    public var description: Swift.String?
-    /// Unique identifier of a Cases domain.
-    /// This member is required.
-    public var domainId: Swift.String?
-    /// Name of the case rule.
-    /// This member is required.
-    public var name: Swift.String?
-    /// Represents what rule type should take place, under what conditions.
-    /// This member is required.
-    public var rule: ConnectCasesClientTypes.CaseRuleDetails?
-
-    public init(
-        description: Swift.String? = nil,
-        domainId: Swift.String? = nil,
-        name: Swift.String? = nil,
-        rule: ConnectCasesClientTypes.CaseRuleDetails? = nil
-    ) {
-        self.description = description
-        self.domainId = domainId
-        self.name = name
-        self.rule = rule
     }
 }
 
@@ -1945,35 +1779,6 @@ public struct ListCaseRulesOutput: Swift.Sendable {
     ) {
         self.caseRules = caseRules
         self.nextToken = nextToken
-    }
-}
-
-public struct UpdateCaseRuleInput: Swift.Sendable {
-    /// Unique identifier of a case rule.
-    /// This member is required.
-    public var caseRuleId: Swift.String?
-    /// Description of a case rule.
-    public var description: Swift.String?
-    /// Unique identifier of a Cases domain.
-    /// This member is required.
-    public var domainId: Swift.String?
-    /// Name of the case rule.
-    public var name: Swift.String?
-    /// Represents what rule type should take place, under what conditions.
-    public var rule: ConnectCasesClientTypes.CaseRuleDetails?
-
-    public init(
-        caseRuleId: Swift.String? = nil,
-        description: Swift.String? = nil,
-        domainId: Swift.String? = nil,
-        name: Swift.String? = nil,
-        rule: ConnectCasesClientTypes.CaseRuleDetails? = nil
-    ) {
-        self.caseRuleId = caseRuleId
-        self.description = description
-        self.domainId = domainId
-        self.name = name
-        self.rule = rule
     }
 }
 
@@ -3733,6 +3538,38 @@ extension ConnectCasesClientTypes {
 
 extension ConnectCasesClientTypes {
 
+    /// Boolean condition for a rule. In the Amazon Connect admin website, case rules are known as case field conditions. For more information about case field conditions, see [Add case field conditions to a case template](https://docs.aws.amazon.com/connect/latest/adminguide/case-field-conditions.html).
+    public indirect enum BooleanCondition: Swift.Sendable {
+        /// Tests that operandOne is equal to operandTwo.
+        case equalto(ConnectCasesClientTypes.BooleanOperands)
+        /// Tests that operandOne is not equal to operandTwo.
+        case notequalto(ConnectCasesClientTypes.BooleanOperands)
+        /// Combines multiple conditions with AND operator. All conditions must be true for the compound condition to be true.
+        case andall(ConnectCasesClientTypes.CompoundCondition)
+        /// Combines multiple conditions with OR operator. At least one condition must be true for the compound condition to be true.
+        case orall(ConnectCasesClientTypes.CompoundCondition)
+        case sdkUnknown(Swift.String)
+    }
+}
+
+extension ConnectCasesClientTypes {
+
+    /// A compound condition that combines multiple boolean conditions using logical operators. In the Amazon Connect admin website, case rules are known as case field conditions. For more information about case field conditions, see [Add case field conditions to a case template](https://docs.aws.amazon.com/connect/latest/adminguide/case-field-conditions.html).
+    public struct CompoundCondition: Swift.Sendable {
+        /// The list of conditions to combine using the logical operator.
+        /// This member is required.
+        public var conditions: [ConnectCasesClientTypes.BooleanCondition]?
+
+        public init(
+            conditions: [ConnectCasesClientTypes.BooleanCondition]? = nil
+        ) {
+            self.conditions = conditions
+        }
+    }
+}
+
+extension ConnectCasesClientTypes {
+
     /// A filter for related items of type Custom.
     public struct CustomFilter: Swift.Sendable {
         /// Filter conditions for custom fields.
@@ -3742,6 +3579,48 @@ extension ConnectCasesClientTypes {
             fields: ConnectCasesClientTypes.CustomFieldsFilter? = nil
         ) {
             self.fields = fields
+        }
+    }
+}
+
+extension ConnectCasesClientTypes {
+
+    /// A rule that controls field visibility based on conditions. Fields can be shown or hidden dynamically based on values in other fields.
+    public struct HiddenCaseRule: Swift.Sendable {
+        /// A list of conditions that determine field visibility.
+        /// This member is required.
+        public var conditions: [ConnectCasesClientTypes.BooleanCondition]?
+        /// Whether the field is hidden when no conditions match.
+        /// This member is required.
+        public var defaultValue: Swift.Bool?
+
+        public init(
+            conditions: [ConnectCasesClientTypes.BooleanCondition]? = nil,
+            defaultValue: Swift.Bool? = nil
+        ) {
+            self.conditions = conditions
+            self.defaultValue = defaultValue
+        }
+    }
+}
+
+extension ConnectCasesClientTypes {
+
+    /// Required rule type, used to indicate whether a field is required. In the Amazon Connect admin website, case rules are known as case field conditions. For more information about case field conditions, see [Add case field conditions to a case template](https://docs.aws.amazon.com/connect/latest/adminguide/case-field-conditions.html).
+    public struct RequiredCaseRule: Swift.Sendable {
+        /// List of conditions for the required rule; the first condition to evaluate to true dictates the value of the rule.
+        /// This member is required.
+        public var conditions: [ConnectCasesClientTypes.BooleanCondition]?
+        /// The value of the rule (that is, whether the field is required) should none of the conditions evaluate to true.
+        /// This member is required.
+        public var defaultValue: Swift.Bool?
+
+        public init(
+            conditions: [ConnectCasesClientTypes.BooleanCondition]? = nil,
+            defaultValue: Swift.Bool? = nil
+        ) {
+            self.conditions = conditions
+            self.defaultValue = defaultValue
         }
     }
 }
@@ -3856,6 +3735,147 @@ public struct SearchRelatedItemsInput: Swift.Sendable {
         self.filters = filters
         self.maxResults = maxResults
         self.nextToken = nextToken
+    }
+}
+
+extension ConnectCasesClientTypes {
+
+    /// Represents what rule type should take place, under what conditions. In the Amazon Connect admin website, case rules are known as case field conditions. For more information about case field conditions, see [Add case field conditions to a case template](https://docs.aws.amazon.com/connect/latest/adminguide/case-field-conditions.html).
+    public indirect enum CaseRuleDetails: Swift.Sendable {
+        /// Required rule type, used to indicate whether a field is required.
+        case `required`(ConnectCasesClientTypes.RequiredCaseRule)
+        /// Which options are available in a child field based on the selected value in a parent field.
+        case fieldoptions(ConnectCasesClientTypes.FieldOptionsCaseRule)
+        /// Whether a field is visible, based on values in other fields.
+        case hidden(ConnectCasesClientTypes.HiddenCaseRule)
+        case sdkUnknown(Swift.String)
+    }
+}
+
+extension ConnectCasesClientTypes {
+
+    /// Detailed case rule information. In the Amazon Connect admin website, case rules are known as case field conditions. For more information about case field conditions, see [Add case field conditions to a case template](https://docs.aws.amazon.com/connect/latest/adminguide/case-field-conditions.html).
+    public struct GetCaseRuleResponse: Swift.Sendable {
+        /// The Amazon Resource Name (ARN) of the case rule.
+        /// This member is required.
+        public var caseRuleArn: Swift.String?
+        /// Unique identifier of a case rule.
+        /// This member is required.
+        public var caseRuleId: Swift.String?
+        /// Timestamp when the resource was created.
+        public var createdTime: Foundation.Date?
+        /// Indicates whether the resource has been deleted.
+        public var deleted: Swift.Bool
+        /// Description of a case rule.
+        public var description: Swift.String?
+        /// Timestamp when the resource was created or last modified.
+        public var lastModifiedTime: Foundation.Date?
+        /// Name of the case rule.
+        /// This member is required.
+        public var name: Swift.String?
+        /// Represents what rule type should take place, under what conditions.
+        /// This member is required.
+        public var rule: ConnectCasesClientTypes.CaseRuleDetails?
+        /// A map of of key-value pairs that represent tags on a resource. Tags are used to organize, track, or control access for this resource.
+        public var tags: [Swift.String: Swift.String?]?
+
+        public init(
+            caseRuleArn: Swift.String? = nil,
+            caseRuleId: Swift.String? = nil,
+            createdTime: Foundation.Date? = nil,
+            deleted: Swift.Bool = false,
+            description: Swift.String? = nil,
+            lastModifiedTime: Foundation.Date? = nil,
+            name: Swift.String? = nil,
+            rule: ConnectCasesClientTypes.CaseRuleDetails? = nil,
+            tags: [Swift.String: Swift.String?]? = nil
+        ) {
+            self.caseRuleArn = caseRuleArn
+            self.caseRuleId = caseRuleId
+            self.createdTime = createdTime
+            self.deleted = deleted
+            self.description = description
+            self.lastModifiedTime = lastModifiedTime
+            self.name = name
+            self.rule = rule
+            self.tags = tags
+        }
+    }
+}
+
+public struct CreateCaseRuleInput: Swift.Sendable {
+    /// The description of a case rule.
+    public var description: Swift.String?
+    /// Unique identifier of a Cases domain.
+    /// This member is required.
+    public var domainId: Swift.String?
+    /// Name of the case rule.
+    /// This member is required.
+    public var name: Swift.String?
+    /// Represents what rule type should take place, under what conditions.
+    /// This member is required.
+    public var rule: ConnectCasesClientTypes.CaseRuleDetails?
+
+    public init(
+        description: Swift.String? = nil,
+        domainId: Swift.String? = nil,
+        name: Swift.String? = nil,
+        rule: ConnectCasesClientTypes.CaseRuleDetails? = nil
+    ) {
+        self.description = description
+        self.domainId = domainId
+        self.name = name
+        self.rule = rule
+    }
+}
+
+public struct UpdateCaseRuleInput: Swift.Sendable {
+    /// Unique identifier of a case rule.
+    /// This member is required.
+    public var caseRuleId: Swift.String?
+    /// Description of a case rule.
+    public var description: Swift.String?
+    /// Unique identifier of a Cases domain.
+    /// This member is required.
+    public var domainId: Swift.String?
+    /// Name of the case rule.
+    public var name: Swift.String?
+    /// Represents what rule type should take place, under what conditions.
+    public var rule: ConnectCasesClientTypes.CaseRuleDetails?
+
+    public init(
+        caseRuleId: Swift.String? = nil,
+        description: Swift.String? = nil,
+        domainId: Swift.String? = nil,
+        name: Swift.String? = nil,
+        rule: ConnectCasesClientTypes.CaseRuleDetails? = nil
+    ) {
+        self.caseRuleId = caseRuleId
+        self.description = description
+        self.domainId = domainId
+        self.name = name
+        self.rule = rule
+    }
+}
+
+public struct BatchGetCaseRuleOutput: Swift.Sendable {
+    /// A list of detailed case rule information.
+    /// This member is required.
+    public var caseRules: [ConnectCasesClientTypes.GetCaseRuleResponse]?
+    /// A list of case rule errors.
+    /// This member is required.
+    public var errors: [ConnectCasesClientTypes.CaseRuleError]?
+    /// A list of unprocessed case rule identifiers.
+    public var unprocessedCaseRules: [Swift.String]?
+
+    public init(
+        caseRules: [ConnectCasesClientTypes.GetCaseRuleResponse]? = nil,
+        errors: [ConnectCasesClientTypes.CaseRuleError]? = nil,
+        unprocessedCaseRules: [Swift.String]? = nil
+    ) {
+        self.caseRules = caseRules
+        self.errors = errors
+        self.unprocessedCaseRules = unprocessedCaseRules
     }
 }
 
@@ -6123,10 +6143,14 @@ extension ConnectCasesClientTypes.BooleanCondition {
     static func write(value: ConnectCasesClientTypes.BooleanCondition?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
         switch value {
+            case let .andall(andall):
+                try writer["andAll"].write(andall, with: ConnectCasesClientTypes.CompoundCondition.write(value:to:))
             case let .equalto(equalto):
                 try writer["equalTo"].write(equalto, with: ConnectCasesClientTypes.BooleanOperands.write(value:to:))
             case let .notequalto(notequalto):
                 try writer["notEqualTo"].write(notequalto, with: ConnectCasesClientTypes.BooleanOperands.write(value:to:))
+            case let .orall(orall):
+                try writer["orAll"].write(orall, with: ConnectCasesClientTypes.CompoundCondition.write(value:to:))
             case let .sdkUnknown(sdkUnknown):
                 try writer["sdkUnknown"].write(sdkUnknown)
         }
@@ -6140,6 +6164,10 @@ extension ConnectCasesClientTypes.BooleanCondition {
                 return .equalto(try reader["equalTo"].read(with: ConnectCasesClientTypes.BooleanOperands.read(from:)))
             case "notEqualTo":
                 return .notequalto(try reader["notEqualTo"].read(with: ConnectCasesClientTypes.BooleanOperands.read(from:)))
+            case "andAll":
+                return .andall(try reader["andAll"].read(with: ConnectCasesClientTypes.CompoundCondition.read(from:)))
+            case "orAll":
+                return .orall(try reader["orAll"].read(with: ConnectCasesClientTypes.CompoundCondition.read(from:)))
             default:
                 return .sdkUnknown(name ?? "")
         }
@@ -6300,6 +6328,21 @@ extension ConnectCasesClientTypes.CommentFilter {
     static func write(value: ConnectCasesClientTypes.CommentFilter?, to writer: SmithyJSON.Writer) throws {
         guard value != nil else { return }
         _ = writer[""]  // create an empty structure
+    }
+}
+
+extension ConnectCasesClientTypes.CompoundCondition {
+
+    static func write(value: ConnectCasesClientTypes.CompoundCondition?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["conditions"].writeList(value.conditions, memberWritingClosure: ConnectCasesClientTypes.BooleanCondition.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> ConnectCasesClientTypes.CompoundCondition {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = ConnectCasesClientTypes.CompoundCondition()
+        value.conditions = try reader["conditions"].readListIfPresent(memberReadingClosure: ConnectCasesClientTypes.BooleanCondition.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        return value
     }
 }
 

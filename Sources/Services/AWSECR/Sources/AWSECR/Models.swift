@@ -1023,6 +1023,7 @@ extension ECRClientTypes {
 
     public enum UpstreamRegistry: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case azurecontainerregistry
+        case chainguard
         case dockerhub
         case ecr
         case ecrpublic
@@ -1035,6 +1036,7 @@ extension ECRClientTypes {
         public static var allCases: [UpstreamRegistry] {
             return [
                 .azurecontainerregistry,
+                .chainguard,
                 .dockerhub,
                 .ecr,
                 .ecrpublic,
@@ -1053,6 +1055,7 @@ extension ECRClientTypes {
         public var rawValue: Swift.String {
             switch self {
             case .azurecontainerregistry: return "azure-container-registry"
+            case .chainguard: return "chainguard"
             case .dockerhub: return "docker-hub"
             case .ecr: return "ecr"
             case .ecrpublic: return "ecr-public"

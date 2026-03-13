@@ -3590,7 +3590,7 @@ extension DatabaseMigrationClientTypes {
         public var explicitIds: Swift.Bool?
         /// The number of threads used to upload a single file. This parameter accepts a value from 1 through 64. It defaults to 10. The number of parallel streams used to upload a single .csv file to an S3 bucket using S3 Multipart Upload. For more information, see [Multipart upload overview](https://docs.aws.amazon.com/AmazonS3/latest/dev/mpuoverview.html). FileTransferUploadStreams accepts a value from 1 through 64. It defaults to 10.
         public var fileTransferUploadStreams: Swift.Int?
-        /// The amount of time to wait (in milliseconds) before timing out of operations performed by DMS on a Redshift cluster, such as Redshift COPY, INSERT, DELETE, and UPDATE.
+        /// The amount of time to wait (in seconds) before timing out of operations performed by DMS on a Redshift cluster, such as Redshift COPY, INSERT, DELETE, and UPDATE.
         public var loadTimeout: Swift.Int?
         /// When true, lets Redshift migrate the boolean type as boolean. By default, Redshift migrates booleans as varchar(1). You must set this setting on both the source and target endpoints for it to take effect.
         public var mapBooleanAsBoolean: Swift.Bool?

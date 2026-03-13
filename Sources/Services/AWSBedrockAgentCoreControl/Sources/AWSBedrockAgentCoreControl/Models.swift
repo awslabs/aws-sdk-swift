@@ -1087,6 +1087,7 @@ extension BedrockAgentCoreControlClientTypes {
 
     public enum ServerProtocol: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case a2a
+        case agui
         case http
         case mcp
         case sdkUnknown(Swift.String)
@@ -1094,6 +1095,7 @@ extension BedrockAgentCoreControlClientTypes {
         public static var allCases: [ServerProtocol] {
             return [
                 .a2a,
+                .agui,
                 .http,
                 .mcp
             ]
@@ -1107,6 +1109,7 @@ extension BedrockAgentCoreControlClientTypes {
         public var rawValue: Swift.String {
             switch self {
             case .a2a: return "A2A"
+            case .agui: return "AGUI"
             case .http: return "HTTP"
             case .mcp: return "MCP"
             case let .sdkUnknown(s): return s

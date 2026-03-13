@@ -1085,6 +1085,210 @@ extension MediaConvertClientTypes {
 
 extension MediaConvertClientTypes {
 
+    /// Specify the bitstream mode for the AC-4 stream that the encoder emits. For more information about the AC-4 bitstream mode, see ETSI TS 103 190. Maps to dlb_paec_ac4_bed_classifier in the encoder implementation. - COMPLETE_MAIN: Complete Main (standard mix) - EMERGENCY: Stereo Emergency content
+    public enum Ac4BitstreamMode: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case completeMain
+        case emergency
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [Ac4BitstreamMode] {
+            return [
+                .completeMain,
+                .emergency
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .completeMain: return "COMPLETE_MAIN"
+            case .emergency: return "EMERGENCY"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension MediaConvertClientTypes {
+
+    /// Dolby AC-4 coding mode. Determines number of channels. Maps to dlb_paec_ac4_bed_channel_config in the encoder implementation. - CODING_MODE_2_0: 2.0 (stereo) - maps to DLB_PAEC_AC4_BED_CHANNEL_CONFIG_20 - CODING_MODE_3_2_LFE: 5.1 surround - maps to DLB_PAEC_AC4_BED_CHANNEL_CONFIG_51 - CODING_MODE_5_1_4: 5.1.4 immersive - maps to DLB_PAEC_AC4_BED_CHANNEL_CONFIG_514
+    public enum Ac4CodingMode: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case codingMode20
+        case codingMode32Lfe
+        case codingMode514
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [Ac4CodingMode] {
+            return [
+                .codingMode20,
+                .codingMode32Lfe,
+                .codingMode514
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .codingMode20: return "CODING_MODE_2_0"
+            case .codingMode32Lfe: return "CODING_MODE_3_2_LFE"
+            case .codingMode514: return "CODING_MODE_5_1_4"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension MediaConvertClientTypes {
+
+    /// Choose the Dolby AC-4 dynamic range control (DRC) profile that MediaConvert uses when encoding the metadata in the Dolby AC-4 stream for the specified decoder mode. For information about the Dolby AC-4 DRC profiles, see the Dolby AC-4 specification.
+    public enum Ac4DynamicRangeCompressionDrcProfile: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case filmLight
+        case filmStandard
+        case musicLight
+        case musicStandard
+        case `none`
+        case speech
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [Ac4DynamicRangeCompressionDrcProfile] {
+            return [
+                .filmLight,
+                .filmStandard,
+                .musicLight,
+                .musicStandard,
+                .none,
+                .speech
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .filmLight: return "FILM_LIGHT"
+            case .filmStandard: return "FILM_STANDARD"
+            case .musicLight: return "MUSIC_LIGHT"
+            case .musicStandard: return "MUSIC_STANDARD"
+            case .none: return "NONE"
+            case .speech: return "SPEECH"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension MediaConvertClientTypes {
+
+    /// Choose the preferred stereo downmix method. This setting tells the decoder how to downmix multi-channel audio to stereo during playback.
+    public enum Ac4StereoDownmix: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case dpl2
+        case loRo
+        case ltRt
+        case notIndicated
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [Ac4StereoDownmix] {
+            return [
+                .dpl2,
+                .loRo,
+                .ltRt,
+                .notIndicated
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .dpl2: return "DPL2"
+            case .loRo: return "LO_RO"
+            case .ltRt: return "LT_RT"
+            case .notIndicated: return "NOT_INDICATED"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension MediaConvertClientTypes {
+
+    /// Required when you set Codec to the value AC4.
+    public struct Ac4Settings: Swift.Sendable {
+        /// Specify the average bitrate in bits per second. Leave blank to use the default bitrate for the coding mode you select according to ETSI TS 103 190. Valid bitrates for coding mode 2.0 (stereo): 192000, 256000, or 320000. Valid bitrates for coding mode 5.1 (3/2 with LFE): 512000. Valid bitrates for coding mode 5.1.4 (immersive): 512000, 768000, or 1024000.
+        public var bitrate: Swift.Int?
+        /// Specify the bitstream mode for the AC-4 stream that the encoder emits. For more information about the AC-4 bitstream mode, see ETSI TS 103 190. Maps to dlb_paec_ac4_bed_classifier in the encoder implementation. - COMPLETE_MAIN: Complete Main (standard mix) - EMERGENCY: Stereo Emergency content
+        public var bitstreamMode: MediaConvertClientTypes.Ac4BitstreamMode?
+        /// Dolby AC-4 coding mode. Determines number of channels. Maps to dlb_paec_ac4_bed_channel_config in the encoder implementation. - CODING_MODE_2_0: 2.0 (stereo) - maps to DLB_PAEC_AC4_BED_CHANNEL_CONFIG_20 - CODING_MODE_3_2_LFE: 5.1 surround - maps to DLB_PAEC_AC4_BED_CHANNEL_CONFIG_51 - CODING_MODE_5_1_4: 5.1.4 immersive - maps to DLB_PAEC_AC4_BED_CHANNEL_CONFIG_514
+        public var codingMode: MediaConvertClientTypes.Ac4CodingMode?
+        /// Choose the Dolby AC-4 dynamic range control (DRC) profile that MediaConvert uses when encoding the metadata in the Dolby AC-4 stream for the specified decoder mode. For information about the Dolby AC-4 DRC profiles, see the Dolby AC-4 specification.
+        public var dynamicRangeCompressionFlatPanelTv: MediaConvertClientTypes.Ac4DynamicRangeCompressionDrcProfile?
+        /// Choose the Dolby AC-4 dynamic range control (DRC) profile that MediaConvert uses when encoding the metadata in the Dolby AC-4 stream for the specified decoder mode. For information about the Dolby AC-4 DRC profiles, see the Dolby AC-4 specification.
+        public var dynamicRangeCompressionHomeTheater: MediaConvertClientTypes.Ac4DynamicRangeCompressionDrcProfile?
+        /// Choose the Dolby AC-4 dynamic range control (DRC) profile that MediaConvert uses when encoding the metadata in the Dolby AC-4 stream for the specified decoder mode. For information about the Dolby AC-4 DRC profiles, see the Dolby AC-4 specification.
+        public var dynamicRangeCompressionPortableHeadphones: MediaConvertClientTypes.Ac4DynamicRangeCompressionDrcProfile?
+        /// Choose the Dolby AC-4 dynamic range control (DRC) profile that MediaConvert uses when encoding the metadata in the Dolby AC-4 stream for the specified decoder mode. For information about the Dolby AC-4 DRC profiles, see the Dolby AC-4 specification.
+        public var dynamicRangeCompressionPortableSpeakers: MediaConvertClientTypes.Ac4DynamicRangeCompressionDrcProfile?
+        /// Specify a value for the following Dolby AC-4 setting: Left only/Right only center mix. MediaConvert uses this value for downmixing. How the service uses this value depends on the value that you choose for Stereo downmix. Valid values: 3.0, 1.5, 0.0, -1.5, -3.0, -4.5, -6.0, and -infinity. The value -infinity mutes the channel. This setting applies only if you keep the default value of 3/2 - L, R, C, Ls, Rs for the setting Coding mode. If you choose a different value for Coding mode, the service ignores Left only/Right only center.
+        public var loRoCenterMixLevel: Swift.Double?
+        /// Specify a value for the following Dolby AC-4 setting: Left only/Right only surround mix. MediaConvert uses this value for downmixing. How the service uses this value depends on the value that you choose for Stereo downmix. Valid values: -1.5, -3.0, -4.5, -6.0, and -infinity. The value -infinity mutes the channel. This setting applies only if you keep the default value of 3/2 - L, R, C, Ls, Rs for the setting Coding mode. If you choose a different value for Coding mode, the service ignores Left only/Right only surround.
+        public var loRoSurroundMixLevel: Swift.Double?
+        /// Specify a value for the following Dolby AC-4 setting: Left total/Right total center mix. MediaConvert uses this value for downmixing. How the service uses this value depends on the value that you choose for Stereo downmix. Valid values: 3.0, 1.5, 0.0, -1.5, -3.0, -4.5, -6.0, and -infinity. The value -infinity mutes the channel. This setting applies only if you keep the default value of 3/2 - L, R, C, Ls, Rs for the setting Coding mode. If you choose a different value for Coding mode, the service ignores Left total/Right total center.
+        public var ltRtCenterMixLevel: Swift.Double?
+        /// Specify a value for the following Dolby AC-4 setting: Left total/Right total surround mix. MediaConvert uses this value for downmixing. How the service uses this value depends on the value that you choose for Stereo downmix. Valid values: -1.5, -3.0, -4.5, -6.0, and -infinity. The value -infinity mutes the channel. This setting applies only if you keep the default value of 3/2 - L, R, C, Ls, Rs for the setting Coding mode. If you choose a different value for Coding mode, the service ignores Left total/Right total surround.
+        public var ltRtSurroundMixLevel: Swift.Double?
+        /// This value is always 48000. It represents the sample rate in Hz.
+        public var sampleRate: Swift.Int?
+        /// Choose the preferred stereo downmix method. This setting tells the decoder how to downmix multi-channel audio to stereo during playback.
+        public var stereoDownmix: MediaConvertClientTypes.Ac4StereoDownmix?
+
+        public init(
+            bitrate: Swift.Int? = nil,
+            bitstreamMode: MediaConvertClientTypes.Ac4BitstreamMode? = nil,
+            codingMode: MediaConvertClientTypes.Ac4CodingMode? = nil,
+            dynamicRangeCompressionFlatPanelTv: MediaConvertClientTypes.Ac4DynamicRangeCompressionDrcProfile? = nil,
+            dynamicRangeCompressionHomeTheater: MediaConvertClientTypes.Ac4DynamicRangeCompressionDrcProfile? = nil,
+            dynamicRangeCompressionPortableHeadphones: MediaConvertClientTypes.Ac4DynamicRangeCompressionDrcProfile? = nil,
+            dynamicRangeCompressionPortableSpeakers: MediaConvertClientTypes.Ac4DynamicRangeCompressionDrcProfile? = nil,
+            loRoCenterMixLevel: Swift.Double? = nil,
+            loRoSurroundMixLevel: Swift.Double? = nil,
+            ltRtCenterMixLevel: Swift.Double? = nil,
+            ltRtSurroundMixLevel: Swift.Double? = nil,
+            sampleRate: Swift.Int? = nil,
+            stereoDownmix: MediaConvertClientTypes.Ac4StereoDownmix? = nil
+        ) {
+            self.bitrate = bitrate
+            self.bitstreamMode = bitstreamMode
+            self.codingMode = codingMode
+            self.dynamicRangeCompressionFlatPanelTv = dynamicRangeCompressionFlatPanelTv
+            self.dynamicRangeCompressionHomeTheater = dynamicRangeCompressionHomeTheater
+            self.dynamicRangeCompressionPortableHeadphones = dynamicRangeCompressionPortableHeadphones
+            self.dynamicRangeCompressionPortableSpeakers = dynamicRangeCompressionPortableSpeakers
+            self.loRoCenterMixLevel = loRoCenterMixLevel
+            self.loRoSurroundMixLevel = loRoSurroundMixLevel
+            self.ltRtCenterMixLevel = ltRtCenterMixLevel
+            self.ltRtSurroundMixLevel = ltRtSurroundMixLevel
+            self.sampleRate = sampleRate
+            self.stereoDownmix = stereoDownmix
+        }
+    }
+}
+
+extension MediaConvertClientTypes {
+
     /// Required when you set Codec to the value AIFF.
     public struct AiffSettings: Swift.Sendable {
         /// Specify Bit depth, in bits per sample, to choose the encoding quality for this audio track.
@@ -1112,6 +1316,7 @@ extension MediaConvertClientTypes {
     public enum AudioCodec: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case aac
         case ac3
+        case ac4
         case aiff
         case eac3
         case eac3Atmos
@@ -1128,6 +1333,7 @@ extension MediaConvertClientTypes {
             return [
                 .aac,
                 .ac3,
+                .ac4,
                 .aiff,
                 .eac3,
                 .eac3Atmos,
@@ -1150,6 +1356,7 @@ extension MediaConvertClientTypes {
             switch self {
             case .aac: return "AAC"
             case .ac3: return "AC3"
+            case .ac4: return "AC4"
             case .aiff: return "AIFF"
             case .eac3: return "EAC3"
             case .eac3Atmos: return "EAC3_ATMOS"
@@ -2411,6 +2618,8 @@ extension MediaConvertClientTypes {
         public var aacSettings: MediaConvertClientTypes.AacSettings?
         /// Required when you set Codec to the value AC3.
         public var ac3Settings: MediaConvertClientTypes.Ac3Settings?
+        /// Required when you set Codec to the value AC4.
+        public var ac4Settings: MediaConvertClientTypes.Ac4Settings?
         /// Required when you set Codec to the value AIFF.
         public var aiffSettings: MediaConvertClientTypes.AiffSettings?
         /// Choose the audio codec for this output. Note that the option Dolby Digital passthrough applies only to Dolby Digital and Dolby Digital Plus audio inputs. Make sure that you choose a codec that's supported with your output container: https://docs.aws.amazon.com/mediaconvert/latest/ug/reference-codecs-containers.html#reference-codecs-containers-output-audio For audio-only outputs, make sure that both your input audio codec and your output audio codec are supported for audio-only workflows. For more information, see: https://docs.aws.amazon.com/mediaconvert/latest/ug/reference-codecs-containers-input.html#reference-codecs-containers-input-audio-only and https://docs.aws.amazon.com/mediaconvert/latest/ug/reference-codecs-containers.html#audio-only-output
@@ -2435,6 +2644,7 @@ extension MediaConvertClientTypes {
         public init(
             aacSettings: MediaConvertClientTypes.AacSettings? = nil,
             ac3Settings: MediaConvertClientTypes.Ac3Settings? = nil,
+            ac4Settings: MediaConvertClientTypes.Ac4Settings? = nil,
             aiffSettings: MediaConvertClientTypes.AiffSettings? = nil,
             codec: MediaConvertClientTypes.AudioCodec? = nil,
             eac3AtmosSettings: MediaConvertClientTypes.Eac3AtmosSettings? = nil,
@@ -2448,6 +2658,7 @@ extension MediaConvertClientTypes {
         ) {
             self.aacSettings = aacSettings
             self.ac3Settings = ac3Settings
+            self.ac4Settings = ac4Settings
             self.aiffSettings = aiffSettings
             self.codec = codec
             self.eac3AtmosSettings = eac3AtmosSettings
@@ -8593,6 +8804,36 @@ extension MediaConvertClientTypes {
 
 extension MediaConvertClientTypes {
 
+    /// Enable Clear Lead DRM to reduce video startup latency by leaving the first segment unencrypted while DRM license retrieval occurs in parallel. This optimization allows immediate playback startup while maintaining content protection for the remainder of the stream. When enabled, the first output segment remains fully unencrypted, and encryption begins at the start of the second segment. The HLS manifest will omit #EXT-X-KEY tags during the clear segment and insert the first #EXT-X-KEY immediately before the first encrypted fragment. This feature is supported exclusively for CMAF HLS (fMP4) outputs and is compatible with all existing key provider integrations (SPEKE v1, SPEKE v2, and Static Key encryption). Supported codecs: H.264 and H.265 video codecs, and AAC audio codec. Choose Enabled to activate Clear Lead DRM optimization. Choose Disabled to use standard encryption where all segments are encrypted from the beginning.
+    public enum HlsClearLead: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case disabled
+        case enabled
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [HlsClearLead] {
+            return [
+                .disabled,
+                .enabled
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .disabled: return "DISABLED"
+            case .enabled: return "ENABLED"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension MediaConvertClientTypes {
+
     /// Specify the encryption scheme that you want the service to use when encrypting your CMAF segments. Choose AES-CBC subsample or AES_CTR.
     public enum CmafEncryptionType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case aesCtr
@@ -8859,6 +9100,8 @@ extension MediaConvertClientTypes {
 
     /// Settings for CMAF encryption
     public struct CmafEncryptionSettings: Swift.Sendable {
+        /// Enable Clear Lead DRM to reduce video startup latency by leaving the first segment unencrypted while DRM license retrieval occurs in parallel. This optimization allows immediate playback startup while maintaining content protection for the remainder of the stream. When enabled, the first output segment remains fully unencrypted, and encryption begins at the start of the second segment. The HLS manifest will omit #EXT-X-KEY tags during the clear segment and insert the first #EXT-X-KEY immediately before the first encrypted fragment. This feature is supported exclusively for CMAF HLS (fMP4) outputs and is compatible with all existing key provider integrations (SPEKE v1, SPEKE v2, and Static Key encryption). Supported codecs: H.264 and H.265 video codecs, and AAC audio codec. Choose Enabled to activate Clear Lead DRM optimization. Choose Disabled to use standard encryption where all segments are encrypted from the beginning.
+        public var clearLead: MediaConvertClientTypes.HlsClearLead?
         /// This is a 128-bit, 16-byte hex value represented by a 32-character text string. If this parameter is not set then the Initialization Vector will follow the segment number by default.
         public var constantInitializationVector: Swift.String?
         /// Specify the encryption scheme that you want the service to use when encrypting your CMAF segments. Choose AES-CBC subsample or AES_CTR.
@@ -8873,6 +9116,7 @@ extension MediaConvertClientTypes {
         public var type: MediaConvertClientTypes.CmafKeyProviderType?
 
         public init(
+            clearLead: MediaConvertClientTypes.HlsClearLead? = nil,
             constantInitializationVector: Swift.String? = nil,
             encryptionMethod: MediaConvertClientTypes.CmafEncryptionType? = nil,
             initializationVectorInManifest: MediaConvertClientTypes.CmafInitializationVectorInManifest? = nil,
@@ -8880,6 +9124,7 @@ extension MediaConvertClientTypes {
             staticKeyProvider: MediaConvertClientTypes.StaticKeyProvider? = nil,
             type: MediaConvertClientTypes.CmafKeyProviderType? = nil
         ) {
+            self.clearLead = clearLead
             self.constantInitializationVector = constantInitializationVector
             self.encryptionMethod = encryptionMethod
             self.initializationVectorInManifest = initializationVectorInManifest
@@ -8928,16 +9173,18 @@ extension MediaConvertClientTypes {
 
 extension MediaConvertClientTypes {
 
-    /// The cadence MediaConvert follows for generating thumbnails. If set to FOLLOW_IFRAME, MediaConvert generates thumbnails for each IDR frame in the output (matching the GOP cadence). If set to FOLLOW_CUSTOM, MediaConvert generates thumbnails according to the interval you specify in thumbnailInterval.
+    /// The cadence MediaConvert follows for generating thumbnails. If set to FOLLOW_IFRAME, MediaConvert generates thumbnails for each IDR frame in the output (matching the GOP cadence). If set to FOLLOW_CUSTOM, MediaConvert generates thumbnails according to the interval you specify in thumbnailInterval. If set to FOLLOW_SEGMENTATION, MediaConvert generates thumbnail playlist entries that align exactly with video segment boundaries. FOLLOW_SEGMENTATION requires 1x1 tiling.
     public enum CmafIntervalCadence: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case followCustom
         case followIframe
+        case followSegmentation
         case sdkUnknown(Swift.String)
 
         public static var allCases: [CmafIntervalCadence] {
             return [
                 .followCustom,
-                .followIframe
+                .followIframe,
+                .followSegmentation
             ]
         }
 
@@ -8950,6 +9197,7 @@ extension MediaConvertClientTypes {
             switch self {
             case .followCustom: return "FOLLOW_CUSTOM"
             case .followIframe: return "FOLLOW_IFRAME"
+            case .followSegmentation: return "FOLLOW_SEGMENTATION"
             case let .sdkUnknown(s): return s
             }
         }
@@ -8960,7 +9208,7 @@ extension MediaConvertClientTypes {
 
     /// Tile and thumbnail settings applicable when imageBasedTrickPlay is ADVANCED
     public struct CmafImageBasedTrickPlaySettings: Swift.Sendable {
-        /// The cadence MediaConvert follows for generating thumbnails. If set to FOLLOW_IFRAME, MediaConvert generates thumbnails for each IDR frame in the output (matching the GOP cadence). If set to FOLLOW_CUSTOM, MediaConvert generates thumbnails according to the interval you specify in thumbnailInterval.
+        /// The cadence MediaConvert follows for generating thumbnails. If set to FOLLOW_IFRAME, MediaConvert generates thumbnails for each IDR frame in the output (matching the GOP cadence). If set to FOLLOW_CUSTOM, MediaConvert generates thumbnails according to the interval you specify in thumbnailInterval. If set to FOLLOW_SEGMENTATION, MediaConvert generates thumbnail playlist entries that align exactly with video segment boundaries. FOLLOW_SEGMENTATION requires 1x1 tiling.
         public var intervalCadence: MediaConvertClientTypes.CmafIntervalCadence?
         /// Height of each thumbnail within each tile image, in pixels. Leave blank to maintain aspect ratio with thumbnail width. If following the aspect ratio would lead to a total tile height greater than 4096, then the job will be rejected. Must be divisible by 2.
         public var thumbnailHeight: Swift.Int?
@@ -9685,16 +9933,18 @@ extension MediaConvertClientTypes {
 
 extension MediaConvertClientTypes {
 
-    /// The cadence MediaConvert follows for generating thumbnails. If set to FOLLOW_IFRAME, MediaConvert generates thumbnails for each IDR frame in the output (matching the GOP cadence). If set to FOLLOW_CUSTOM, MediaConvert generates thumbnails according to the interval you specify in thumbnailInterval.
+    /// The cadence MediaConvert follows for generating thumbnails. If set to FOLLOW_IFRAME, MediaConvert generates thumbnails for each IDR frame in the output (matching the GOP cadence). If set to FOLLOW_CUSTOM, MediaConvert generates thumbnails according to the interval you specify in thumbnailInterval. If set to FOLLOW_SEGMENTATION, MediaConvert generates thumbnail playlist entries that align exactly with video segment boundaries. FOLLOW_SEGMENTATION requires 1x1 tiling.
     public enum DashIsoIntervalCadence: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case followCustom
         case followIframe
+        case followSegmentation
         case sdkUnknown(Swift.String)
 
         public static var allCases: [DashIsoIntervalCadence] {
             return [
                 .followCustom,
-                .followIframe
+                .followIframe,
+                .followSegmentation
             ]
         }
 
@@ -9707,6 +9957,7 @@ extension MediaConvertClientTypes {
             switch self {
             case .followCustom: return "FOLLOW_CUSTOM"
             case .followIframe: return "FOLLOW_IFRAME"
+            case .followSegmentation: return "FOLLOW_SEGMENTATION"
             case let .sdkUnknown(s): return s
             }
         }
@@ -9717,7 +9968,7 @@ extension MediaConvertClientTypes {
 
     /// Tile and thumbnail settings applicable when imageBasedTrickPlay is ADVANCED
     public struct DashIsoImageBasedTrickPlaySettings: Swift.Sendable {
-        /// The cadence MediaConvert follows for generating thumbnails. If set to FOLLOW_IFRAME, MediaConvert generates thumbnails for each IDR frame in the output (matching the GOP cadence). If set to FOLLOW_CUSTOM, MediaConvert generates thumbnails according to the interval you specify in thumbnailInterval.
+        /// The cadence MediaConvert follows for generating thumbnails. If set to FOLLOW_IFRAME, MediaConvert generates thumbnails for each IDR frame in the output (matching the GOP cadence). If set to FOLLOW_CUSTOM, MediaConvert generates thumbnails according to the interval you specify in thumbnailInterval. If set to FOLLOW_SEGMENTATION, MediaConvert generates thumbnail playlist entries that align exactly with video segment boundaries. FOLLOW_SEGMENTATION requires 1x1 tiling.
         public var intervalCadence: MediaConvertClientTypes.DashIsoIntervalCadence?
         /// Height of each thumbnail within each tile image, in pixels. Leave blank to maintain aspect ratio with thumbnail width. If following the aspect ratio would lead to a total tile height greater than 4096, then the job will be rejected. Must be divisible by 2.
         public var thumbnailHeight: Swift.Int?
@@ -10459,16 +10710,18 @@ extension MediaConvertClientTypes {
 
 extension MediaConvertClientTypes {
 
-    /// The cadence MediaConvert follows for generating thumbnails. If set to FOLLOW_IFRAME, MediaConvert generates thumbnails for each IDR frame in the output (matching the GOP cadence). If set to FOLLOW_CUSTOM, MediaConvert generates thumbnails according to the interval you specify in thumbnailInterval.
+    /// The cadence MediaConvert follows for generating thumbnails. If set to FOLLOW_IFRAME, MediaConvert generates thumbnails for each IDR frame in the output (matching the GOP cadence). If set to FOLLOW_CUSTOM, MediaConvert generates thumbnails according to the interval you specify in thumbnailInterval. If set to FOLLOW_SEGMENTATION, MediaConvert generates thumbnail playlist entries that align exactly with video segment boundaries. FOLLOW_SEGMENTATION requires 1x1 tiling.
     public enum HlsIntervalCadence: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case followCustom
         case followIframe
+        case followSegmentation
         case sdkUnknown(Swift.String)
 
         public static var allCases: [HlsIntervalCadence] {
             return [
                 .followCustom,
-                .followIframe
+                .followIframe,
+                .followSegmentation
             ]
         }
 
@@ -10481,6 +10734,7 @@ extension MediaConvertClientTypes {
             switch self {
             case .followCustom: return "FOLLOW_CUSTOM"
             case .followIframe: return "FOLLOW_IFRAME"
+            case .followSegmentation: return "FOLLOW_SEGMENTATION"
             case let .sdkUnknown(s): return s
             }
         }
@@ -10491,7 +10745,7 @@ extension MediaConvertClientTypes {
 
     /// Tile and thumbnail settings applicable when imageBasedTrickPlay is ADVANCED
     public struct HlsImageBasedTrickPlaySettings: Swift.Sendable {
-        /// The cadence MediaConvert follows for generating thumbnails. If set to FOLLOW_IFRAME, MediaConvert generates thumbnails for each IDR frame in the output (matching the GOP cadence). If set to FOLLOW_CUSTOM, MediaConvert generates thumbnails according to the interval you specify in thumbnailInterval.
+        /// The cadence MediaConvert follows for generating thumbnails. If set to FOLLOW_IFRAME, MediaConvert generates thumbnails for each IDR frame in the output (matching the GOP cadence). If set to FOLLOW_CUSTOM, MediaConvert generates thumbnails according to the interval you specify in thumbnailInterval. If set to FOLLOW_SEGMENTATION, MediaConvert generates thumbnail playlist entries that align exactly with video segment boundaries. FOLLOW_SEGMENTATION requires 1x1 tiling.
         public var intervalCadence: MediaConvertClientTypes.HlsIntervalCadence?
         /// Height of each thumbnail within each tile image, in pixels. Leave blank to maintain aspect ratio with thumbnail width. If following the aspect ratio would lead to a total tile height greater than 4096, then the job will be rejected. Must be divisible by 2.
         public var thumbnailHeight: Swift.Int?
@@ -22616,6 +22870,7 @@ extension MediaConvertClientTypes {
 extension MediaConvertClientTypes {
 
     public enum Format: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case avi
         case matroska
         case mp4
         case mxf
@@ -22626,6 +22881,7 @@ extension MediaConvertClientTypes {
 
         public static var allCases: [Format] {
             return [
+                .avi,
                 .matroska,
                 .mp4,
                 .mxf,
@@ -22642,6 +22898,7 @@ extension MediaConvertClientTypes {
 
         public var rawValue: Swift.String {
             switch self {
+            case .avi: return "avi"
             case .matroska: return "matroska"
             case .mp4: return "mp4"
             case .mxf: return "mxf"
@@ -22731,6 +22988,7 @@ extension MediaConvertClientTypes {
         case prores
         case qtrle
         case theora
+        case uncompressed
         case unknown
         case vfw
         case vorbis
@@ -22761,6 +23019,7 @@ extension MediaConvertClientTypes {
                 .prores,
                 .qtrle,
                 .theora,
+                .uncompressed,
                 .unknown,
                 .vfw,
                 .vorbis,
@@ -22797,6 +23056,7 @@ extension MediaConvertClientTypes {
             case .prores: return "PRORES"
             case .qtrle: return "QTRLE"
             case .theora: return "THEORA"
+            case .uncompressed: return "UNCOMPRESSED"
             case .unknown: return "UNKNOWN"
             case .vfw: return "VFW"
             case .vorbis: return "VORBIS"
@@ -23234,7 +23494,7 @@ extension MediaConvertClientTypes {
     public struct Container: Swift.Sendable {
         /// The total duration of your media file, in seconds.
         public var duration: Swift.Double?
-        /// The format of your media file. For example: MP4, QuickTime (MOV), Matroska (MKV), WebM, MXF or Wave. Note that this will be blank if your media file has a format that the MediaConvert Probe operation does not recognize.
+        /// The format of your media file. For example: MP4, QuickTime (MOV), Matroska (MKV), WebM, MXF, Wave, or AVI. Note that this will be blank if your media file has a format that the MediaConvert Probe operation does not recognize.
         public var format: MediaConvertClientTypes.Format?
         /// Details about each track (video, audio, or data) in the media file.
         public var tracks: [MediaConvertClientTypes.Track]?
@@ -26924,6 +27184,45 @@ extension MediaConvertClientTypes.Ac3Settings {
     }
 }
 
+extension MediaConvertClientTypes.Ac4Settings {
+
+    static func write(value: MediaConvertClientTypes.Ac4Settings?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["bitrate"].write(value.bitrate)
+        try writer["bitstreamMode"].write(value.bitstreamMode)
+        try writer["codingMode"].write(value.codingMode)
+        try writer["dynamicRangeCompressionFlatPanelTv"].write(value.dynamicRangeCompressionFlatPanelTv)
+        try writer["dynamicRangeCompressionHomeTheater"].write(value.dynamicRangeCompressionHomeTheater)
+        try writer["dynamicRangeCompressionPortableHeadphones"].write(value.dynamicRangeCompressionPortableHeadphones)
+        try writer["dynamicRangeCompressionPortableSpeakers"].write(value.dynamicRangeCompressionPortableSpeakers)
+        try writer["loRoCenterMixLevel"].write(value.loRoCenterMixLevel)
+        try writer["loRoSurroundMixLevel"].write(value.loRoSurroundMixLevel)
+        try writer["ltRtCenterMixLevel"].write(value.ltRtCenterMixLevel)
+        try writer["ltRtSurroundMixLevel"].write(value.ltRtSurroundMixLevel)
+        try writer["sampleRate"].write(value.sampleRate)
+        try writer["stereoDownmix"].write(value.stereoDownmix)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> MediaConvertClientTypes.Ac4Settings {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = MediaConvertClientTypes.Ac4Settings()
+        value.bitrate = try reader["bitrate"].readIfPresent()
+        value.bitstreamMode = try reader["bitstreamMode"].readIfPresent()
+        value.codingMode = try reader["codingMode"].readIfPresent()
+        value.dynamicRangeCompressionFlatPanelTv = try reader["dynamicRangeCompressionFlatPanelTv"].readIfPresent()
+        value.dynamicRangeCompressionHomeTheater = try reader["dynamicRangeCompressionHomeTheater"].readIfPresent()
+        value.dynamicRangeCompressionPortableHeadphones = try reader["dynamicRangeCompressionPortableHeadphones"].readIfPresent()
+        value.dynamicRangeCompressionPortableSpeakers = try reader["dynamicRangeCompressionPortableSpeakers"].readIfPresent()
+        value.loRoCenterMixLevel = try reader["loRoCenterMixLevel"].readIfPresent()
+        value.loRoSurroundMixLevel = try reader["loRoSurroundMixLevel"].readIfPresent()
+        value.ltRtCenterMixLevel = try reader["ltRtCenterMixLevel"].readIfPresent()
+        value.ltRtSurroundMixLevel = try reader["ltRtSurroundMixLevel"].readIfPresent()
+        value.sampleRate = try reader["sampleRate"].readIfPresent()
+        value.stereoDownmix = try reader["stereoDownmix"].readIfPresent()
+        return value
+    }
+}
+
 extension MediaConvertClientTypes.AccelerationSettings {
 
     static func write(value: MediaConvertClientTypes.AccelerationSettings?, to writer: SmithyJSON.Writer) throws {
@@ -27036,6 +27335,7 @@ extension MediaConvertClientTypes.AudioCodecSettings {
         guard let value else { return }
         try writer["aacSettings"].write(value.aacSettings, with: MediaConvertClientTypes.AacSettings.write(value:to:))
         try writer["ac3Settings"].write(value.ac3Settings, with: MediaConvertClientTypes.Ac3Settings.write(value:to:))
+        try writer["ac4Settings"].write(value.ac4Settings, with: MediaConvertClientTypes.Ac4Settings.write(value:to:))
         try writer["aiffSettings"].write(value.aiffSettings, with: MediaConvertClientTypes.AiffSettings.write(value:to:))
         try writer["codec"].write(value.codec)
         try writer["eac3AtmosSettings"].write(value.eac3AtmosSettings, with: MediaConvertClientTypes.Eac3AtmosSettings.write(value:to:))
@@ -27053,6 +27353,7 @@ extension MediaConvertClientTypes.AudioCodecSettings {
         var value = MediaConvertClientTypes.AudioCodecSettings()
         value.aacSettings = try reader["aacSettings"].readIfPresent(with: MediaConvertClientTypes.AacSettings.read(from:))
         value.ac3Settings = try reader["ac3Settings"].readIfPresent(with: MediaConvertClientTypes.Ac3Settings.read(from:))
+        value.ac4Settings = try reader["ac4Settings"].readIfPresent(with: MediaConvertClientTypes.Ac4Settings.read(from:))
         value.aiffSettings = try reader["aiffSettings"].readIfPresent(with: MediaConvertClientTypes.AiffSettings.read(from:))
         value.codec = try reader["codec"].readIfPresent()
         value.eac3AtmosSettings = try reader["eac3AtmosSettings"].readIfPresent(with: MediaConvertClientTypes.Eac3AtmosSettings.read(from:))
@@ -27682,6 +27983,7 @@ extension MediaConvertClientTypes.CmafEncryptionSettings {
 
     static func write(value: MediaConvertClientTypes.CmafEncryptionSettings?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
+        try writer["clearLead"].write(value.clearLead)
         try writer["constantInitializationVector"].write(value.constantInitializationVector)
         try writer["encryptionMethod"].write(value.encryptionMethod)
         try writer["initializationVectorInManifest"].write(value.initializationVectorInManifest)
@@ -27693,6 +27995,7 @@ extension MediaConvertClientTypes.CmafEncryptionSettings {
     static func read(from reader: SmithyJSON.Reader) throws -> MediaConvertClientTypes.CmafEncryptionSettings {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = MediaConvertClientTypes.CmafEncryptionSettings()
+        value.clearLead = try reader["clearLead"].readIfPresent()
         value.constantInitializationVector = try reader["constantInitializationVector"].readIfPresent()
         value.encryptionMethod = try reader["encryptionMethod"].readIfPresent()
         value.initializationVectorInManifest = try reader["initializationVectorInManifest"].readIfPresent()

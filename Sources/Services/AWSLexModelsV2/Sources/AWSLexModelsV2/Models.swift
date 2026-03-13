@@ -395,6 +395,35 @@ extension LexModelsV2ClientTypes {
 
 extension LexModelsV2ClientTypes {
 
+    /// The scope of analysis to perform on the bot. Valid values include:
+    ///
+    /// * BotLocale
+    public enum AnalysisScope: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case botlocale
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [AnalysisScope] {
+            return [
+                .botlocale
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .botlocale: return "BotLocale"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension LexModelsV2ClientTypes {
+
     public enum AnalyticsInterval: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case oneday
         case onehour
@@ -3372,6 +3401,173 @@ extension LexModelsV2ClientTypes {
             self.botAliasId = botAliasId
             self.botId = botId
             self.localeId = localeId
+        }
+    }
+}
+
+extension LexModelsV2ClientTypes {
+
+    /// The status of the bot analysis execution. Valid values include:
+    ///
+    /// * Processing
+    ///
+    /// * Available
+    ///
+    /// * Failed
+    ///
+    /// * Stopping
+    ///
+    /// * Stopped
+    public enum BotAnalyzerStatus: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case available
+        case failed
+        case processing
+        case stopped
+        case stopping
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [BotAnalyzerStatus] {
+            return [
+                .available,
+                .failed,
+                .processing,
+                .stopped,
+                .stopping
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .available: return "Available"
+            case .failed: return "Failed"
+            case .processing: return "Processing"
+            case .stopped: return "Stopped"
+            case .stopping: return "Stopping"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension LexModelsV2ClientTypes {
+
+    /// Contains summary information about a historical bot analysis execution.
+    public struct BotAnalyzerHistorySummary: Swift.Sendable {
+        /// The unique identifier for the analysis request.
+        /// This member is required.
+        public var botAnalyzerRequestId: Swift.String?
+        /// The status of the historical analysis execution. Valid Values: Processing | Available | Failed | Stopping | Stopped
+        /// This member is required.
+        public var botAnalyzerStatus: LexModelsV2ClientTypes.BotAnalyzerStatus?
+        /// The date and time when the analysis was initiated.
+        public var creationDateTime: Foundation.Date?
+
+        public init(
+            botAnalyzerRequestId: Swift.String? = nil,
+            botAnalyzerStatus: LexModelsV2ClientTypes.BotAnalyzerStatus? = nil,
+            creationDateTime: Foundation.Date? = nil
+        ) {
+            self.botAnalyzerRequestId = botAnalyzerRequestId
+            self.botAnalyzerStatus = botAnalyzerStatus
+            self.creationDateTime = creationDateTime
+        }
+    }
+}
+
+extension LexModelsV2ClientTypes {
+
+    /// Specifies the location of an identified issue within the bot configuration.
+    public struct IssueLocation: Swift.Sendable {
+        /// The locale identifier where the issue was found.
+        public var botLocale: Swift.String?
+        /// The intent identifier where the issue was found, if applicable.
+        public var intentId: Swift.String?
+        /// The slot identifier where the issue was found, if applicable.
+        public var slotId: Swift.String?
+
+        public init(
+            botLocale: Swift.String? = nil,
+            intentId: Swift.String? = nil,
+            slotId: Swift.String? = nil
+        ) {
+            self.botLocale = botLocale
+            self.intentId = intentId
+            self.slotId = slotId
+        }
+    }
+}
+
+extension LexModelsV2ClientTypes {
+
+    /// The priority level of a recommendation. Valid values include:
+    ///
+    /// * High
+    ///
+    /// * Medium
+    ///
+    /// * Low
+    public enum Priority: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case high
+        case low
+        case medium
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [Priority] {
+            return [
+                .high,
+                .low,
+                .medium
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .high: return "High"
+            case .low: return "Low"
+            case .medium: return "Medium"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension LexModelsV2ClientTypes {
+
+    /// Contains a recommendation for bot optimization identified by the Bot Analyzer.
+    public struct BotAnalyzerRecommendation: Swift.Sendable {
+        /// A detailed description of the identified configuration issue.
+        /// This member is required.
+        public var issueDescription: Swift.String?
+        /// The location information for the identified issue within the bot configuration.
+        /// This member is required.
+        public var issueLocation: LexModelsV2ClientTypes.IssueLocation?
+        /// The priority level of the recommendation. Valid Values: High | Medium | Low
+        /// This member is required.
+        public var priority: LexModelsV2ClientTypes.Priority?
+        /// The recommended solution to address the identified issue.
+        /// This member is required.
+        public var proposedFix: Swift.String?
+
+        public init(
+            issueDescription: Swift.String? = nil,
+            issueLocation: LexModelsV2ClientTypes.IssueLocation? = nil,
+            priority: LexModelsV2ClientTypes.Priority? = nil,
+            proposedFix: Swift.String? = nil
+        ) {
+            self.issueDescription = issueDescription
+            self.issueLocation = issueLocation
+            self.priority = priority
+            self.proposedFix = proposedFix
         }
     }
 }
@@ -7910,6 +8106,28 @@ public struct DeleteBotAliasOutput: Swift.Sendable {
     }
 }
 
+public struct DeleteBotAnalyzerRecommendationInput: Swift.Sendable {
+    /// The unique identifier of the analysis request whose recommendations should be deleted.
+    /// This member is required.
+    public var botAnalyzerRequestId: Swift.String?
+    /// The unique identifier of the bot.
+    /// This member is required.
+    public var botId: Swift.String?
+
+    public init(
+        botAnalyzerRequestId: Swift.String? = nil,
+        botId: Swift.String? = nil
+    ) {
+        self.botAnalyzerRequestId = botAnalyzerRequestId
+        self.botId = botId
+    }
+}
+
+public struct DeleteBotAnalyzerRecommendationOutput: Swift.Sendable {
+
+    public init() { }
+}
+
 public struct DeleteBotLocaleInput: Swift.Sendable {
     /// The unique identifier of the bot that contains the locale.
     /// This member is required.
@@ -8524,6 +8742,66 @@ public struct DescribeBotAliasOutput: Swift.Sendable {
         self.lastUpdatedDateTime = lastUpdatedDateTime
         self.parentBotNetworks = parentBotNetworks
         self.sentimentAnalysisSettings = sentimentAnalysisSettings
+    }
+}
+
+public struct DescribeBotAnalyzerRecommendationInput: Swift.Sendable {
+    /// The unique identifier of the analysis request.
+    /// This member is required.
+    public var botAnalyzerRequestId: Swift.String?
+    /// The unique identifier of the bot.
+    /// This member is required.
+    public var botId: Swift.String?
+    /// The maximum number of recommendations to return in the response. The default is 5.
+    public var maxResults: Swift.Int?
+    /// If the response from a previous request was truncated, the nextToken value is used to retrieve the next page of recommendations.
+    public var nextToken: Swift.String?
+
+    public init(
+        botAnalyzerRequestId: Swift.String? = nil,
+        botId: Swift.String? = nil,
+        maxResults: Swift.Int? = nil,
+        nextToken: Swift.String? = nil
+    ) {
+        self.botAnalyzerRequestId = botAnalyzerRequestId
+        self.botId = botId
+        self.maxResults = maxResults
+        self.nextToken = nextToken
+    }
+}
+
+public struct DescribeBotAnalyzerRecommendationOutput: Swift.Sendable {
+    /// A list of recommendations for optimizing your bot configuration. Each recommendation includes the issue location, priority, description, and proposed fix.
+    public var botAnalyzerRecommendationList: [LexModelsV2ClientTypes.BotAnalyzerRecommendation]?
+    /// The current status of the analysis. Valid Values: Processing | Available | Failed | Stopping | Stopped
+    public var botAnalyzerStatus: LexModelsV2ClientTypes.BotAnalyzerStatus?
+    /// The unique identifier of the bot.
+    public var botId: Swift.String?
+    /// The version of the bot that was analyzed.
+    public var botVersion: Swift.String?
+    /// The date and time when the analysis was initiated.
+    public var creationDateTime: Foundation.Date?
+    /// The locale identifier of the bot locale that was analyzed.
+    public var localeId: Swift.String?
+    /// If the response is truncated, this token can be used in a subsequent request to retrieve the next page of recommendations.
+    public var nextToken: Swift.String?
+
+    public init(
+        botAnalyzerRecommendationList: [LexModelsV2ClientTypes.BotAnalyzerRecommendation]? = nil,
+        botAnalyzerStatus: LexModelsV2ClientTypes.BotAnalyzerStatus? = nil,
+        botId: Swift.String? = nil,
+        botVersion: Swift.String? = nil,
+        creationDateTime: Foundation.Date? = nil,
+        localeId: Swift.String? = nil,
+        nextToken: Swift.String? = nil
+    ) {
+        self.botAnalyzerRecommendationList = botAnalyzerRecommendationList
+        self.botAnalyzerStatus = botAnalyzerStatus
+        self.botId = botId
+        self.botVersion = botVersion
+        self.creationDateTime = creationDateTime
+        self.localeId = localeId
+        self.nextToken = nextToken
     }
 }
 
@@ -11373,6 +11651,61 @@ public struct ListBotAliasReplicasOutput: Swift.Sendable {
     }
 }
 
+public struct ListBotAnalyzerHistoryInput: Swift.Sendable {
+    /// The unique identifier of the bot.
+    /// This member is required.
+    public var botId: Swift.String?
+    /// The bot version to filter the history. If not specified, defaults to DRAFT.
+    public var botVersion: Swift.String?
+    /// The locale identifier to filter the history. If not specified, returns history for all locales.
+    public var localeId: Swift.String?
+    /// The maximum number of history entries to return in the response. The default is 10.
+    public var maxResults: Swift.Int?
+    /// If the response from a previous request was truncated, the nextToken value is used to retrieve the next page of history entries.
+    public var nextToken: Swift.String?
+
+    public init(
+        botId: Swift.String? = nil,
+        botVersion: Swift.String? = nil,
+        localeId: Swift.String? = nil,
+        maxResults: Swift.Int? = nil,
+        nextToken: Swift.String? = nil
+    ) {
+        self.botId = botId
+        self.botVersion = botVersion
+        self.localeId = localeId
+        self.maxResults = maxResults
+        self.nextToken = nextToken
+    }
+}
+
+public struct ListBotAnalyzerHistoryOutput: Swift.Sendable {
+    /// A list of historical analysis executions, ordered by creation date with the most recent first.
+    public var botAnalyzerHistoryList: [LexModelsV2ClientTypes.BotAnalyzerHistorySummary]?
+    /// The unique identifier of the bot.
+    public var botId: Swift.String?
+    /// The bot version used to filter the history.
+    public var botVersion: Swift.String?
+    /// The locale identifier used to filter the history.
+    public var localeId: Swift.String?
+    /// If the response is truncated, this token can be used in a subsequent request to retrieve the next page of history entries.
+    public var nextToken: Swift.String?
+
+    public init(
+        botAnalyzerHistoryList: [LexModelsV2ClientTypes.BotAnalyzerHistorySummary]? = nil,
+        botId: Swift.String? = nil,
+        botVersion: Swift.String? = nil,
+        localeId: Swift.String? = nil,
+        nextToken: Swift.String? = nil
+    ) {
+        self.botAnalyzerHistoryList = botAnalyzerHistoryList
+        self.botId = botId
+        self.botVersion = botVersion
+        self.localeId = localeId
+        self.nextToken = nextToken
+    }
+}
+
 public struct ListBotLocalesInput: Swift.Sendable {
     /// The identifier of the bot to list locales for.
     /// This member is required.
@@ -14012,6 +14345,62 @@ public struct SearchAssociatedTranscriptsOutput: Swift.Sendable {
     }
 }
 
+public struct StartBotAnalyzerInput: Swift.Sendable {
+    /// The scope of analysis to perform. Currently only BotLocale scope is supported. Valid Values: BotLocale
+    /// This member is required.
+    public var analysisScope: LexModelsV2ClientTypes.AnalysisScope?
+    /// The unique identifier of the bot to analyze.
+    /// This member is required.
+    public var botId: Swift.String?
+    /// The version of the bot to analyze. Defaults to DRAFT if not specified.
+    public var botVersion: Swift.String?
+    /// The locale identifier for the bot locale to analyze. Required when analysisScope is BotLocale.
+    public var localeId: Swift.String?
+
+    public init(
+        analysisScope: LexModelsV2ClientTypes.AnalysisScope? = nil,
+        botId: Swift.String? = nil,
+        botVersion: Swift.String? = nil,
+        localeId: Swift.String? = nil
+    ) {
+        self.analysisScope = analysisScope
+        self.botId = botId
+        self.botVersion = botVersion
+        self.localeId = localeId
+    }
+}
+
+public struct StartBotAnalyzerOutput: Swift.Sendable {
+    /// A unique identifier for this analysis request. Use this identifier to check the status and retrieve results.
+    public var botAnalyzerRequestId: Swift.String?
+    /// The current status of the analysis. The initial status is Processing. Valid Values: Processing | Available | Failed | Stopping | Stopped
+    public var botAnalyzerStatus: LexModelsV2ClientTypes.BotAnalyzerStatus?
+    /// The unique identifier of the bot being analyzed.
+    public var botId: Swift.String?
+    /// The version of the bot being analyzed.
+    public var botVersion: Swift.String?
+    /// The date and time when the analysis was initiated.
+    public var creationDateTime: Foundation.Date?
+    /// The locale identifier of the bot locale being analyzed.
+    public var localeId: Swift.String?
+
+    public init(
+        botAnalyzerRequestId: Swift.String? = nil,
+        botAnalyzerStatus: LexModelsV2ClientTypes.BotAnalyzerStatus? = nil,
+        botId: Swift.String? = nil,
+        botVersion: Swift.String? = nil,
+        creationDateTime: Foundation.Date? = nil,
+        localeId: Swift.String? = nil
+    ) {
+        self.botAnalyzerRequestId = botAnalyzerRequestId
+        self.botAnalyzerStatus = botAnalyzerStatus
+        self.botId = botId
+        self.botVersion = botVersion
+        self.creationDateTime = creationDateTime
+        self.localeId = localeId
+    }
+}
+
 public struct StartBotRecommendationInput: Swift.Sendable {
     /// The unique identifier of the bot containing the bot recommendation.
     /// This member is required.
@@ -14334,6 +14723,50 @@ public struct StartTestSetGenerationOutput: Swift.Sendable {
         self.testSetGenerationStatus = testSetGenerationStatus
         self.testSetName = testSetName
         self.testSetTags = testSetTags
+    }
+}
+
+public struct StopBotAnalyzerInput: Swift.Sendable {
+    /// The unique identifier of the analysis request to stop.
+    /// This member is required.
+    public var botAnalyzerRequestId: Swift.String?
+    /// The unique identifier of the bot.
+    /// This member is required.
+    public var botId: Swift.String?
+
+    public init(
+        botAnalyzerRequestId: Swift.String? = nil,
+        botId: Swift.String? = nil
+    ) {
+        self.botAnalyzerRequestId = botAnalyzerRequestId
+        self.botId = botId
+    }
+}
+
+public struct StopBotAnalyzerOutput: Swift.Sendable {
+    /// The unique identifier of the analysis request.
+    public var botAnalyzerRequestId: Swift.String?
+    /// The updated status of the analysis. The status will be Stopping and will eventually transition to Stopped. Valid Values: Processing | Available | Failed | Stopping | Stopped
+    public var botAnalyzerStatus: LexModelsV2ClientTypes.BotAnalyzerStatus?
+    /// The unique identifier of the bot.
+    public var botId: Swift.String?
+    /// The version of the bot.
+    public var botVersion: Swift.String?
+    /// The locale identifier of the bot locale.
+    public var localeId: Swift.String?
+
+    public init(
+        botAnalyzerRequestId: Swift.String? = nil,
+        botAnalyzerStatus: LexModelsV2ClientTypes.BotAnalyzerStatus? = nil,
+        botId: Swift.String? = nil,
+        botVersion: Swift.String? = nil,
+        localeId: Swift.String? = nil
+    ) {
+        self.botAnalyzerRequestId = botAnalyzerRequestId
+        self.botAnalyzerStatus = botAnalyzerStatus
+        self.botId = botId
+        self.botVersion = botVersion
+        self.localeId = localeId
     }
 }
 
@@ -17003,6 +17436,19 @@ extension DeleteBotAliasInput {
     }
 }
 
+extension DeleteBotAnalyzerRecommendationInput {
+
+    static func urlPathProvider(_ value: DeleteBotAnalyzerRecommendationInput) -> Swift.String? {
+        guard let botId = value.botId else {
+            return nil
+        }
+        guard let botAnalyzerRequestId = value.botAnalyzerRequestId else {
+            return nil
+        }
+        return "/bots/\(botId.urlPercentEncoding())/botanalyzer/\(botAnalyzerRequestId.urlPercentEncoding())"
+    }
+}
+
 extension DeleteBotLocaleInput {
 
     static func urlPathProvider(_ value: DeleteBotLocaleInput) -> Swift.String? {
@@ -17268,6 +17714,19 @@ extension DescribeBotAliasInput {
             return nil
         }
         return "/bots/\(botId.urlPercentEncoding())/botaliases/\(botAliasId.urlPercentEncoding())"
+    }
+}
+
+extension DescribeBotAnalyzerRecommendationInput {
+
+    static func urlPathProvider(_ value: DescribeBotAnalyzerRecommendationInput) -> Swift.String? {
+        guard let botId = value.botId else {
+            return nil
+        }
+        guard let botAnalyzerRequestId = value.botAnalyzerRequestId else {
+            return nil
+        }
+        return "/bots/\(botId.urlPercentEncoding())/botanalyzer/describe/\(botAnalyzerRequestId.urlPercentEncoding())"
     }
 }
 
@@ -17553,6 +18012,16 @@ extension ListBotAliasReplicasInput {
             return nil
         }
         return "/bots/\(botId.urlPercentEncoding())/replicas/\(replicaRegion.urlPercentEncoding())/botaliases"
+    }
+}
+
+extension ListBotAnalyzerHistoryInput {
+
+    static func urlPathProvider(_ value: ListBotAnalyzerHistoryInput) -> Swift.String? {
+        guard let botId = value.botId else {
+            return nil
+        }
+        return "/bots/\(botId.urlPercentEncoding())/botanalyzer/history"
     }
 }
 
@@ -17894,6 +18363,16 @@ extension SearchAssociatedTranscriptsInput {
     }
 }
 
+extension StartBotAnalyzerInput {
+
+    static func urlPathProvider(_ value: StartBotAnalyzerInput) -> Swift.String? {
+        guard let botId = value.botId else {
+            return nil
+        }
+        return "/bots/\(botId.urlPercentEncoding())/botanalyzer"
+    }
+}
+
 extension StartBotRecommendationInput {
 
     static func urlPathProvider(_ value: StartBotRecommendationInput) -> Swift.String? {
@@ -17947,6 +18426,19 @@ extension StartTestSetGenerationInput {
 
     static func urlPathProvider(_ value: StartTestSetGenerationInput) -> Swift.String? {
         return "/testsetgenerations"
+    }
+}
+
+extension StopBotAnalyzerInput {
+
+    static func urlPathProvider(_ value: StopBotAnalyzerInput) -> Swift.String? {
+        guard let botId = value.botId else {
+            return nil
+        }
+        guard let botAnalyzerRequestId = value.botAnalyzerRequestId else {
+            return nil
+        }
+        return "/bots/\(botId.urlPercentEncoding())/botanalyzer/\(botAnalyzerRequestId.urlPercentEncoding())/stop"
     }
 }
 
@@ -18340,6 +18832,15 @@ extension CreateTestSetDiscrepancyReportInput {
     }
 }
 
+extension DescribeBotAnalyzerRecommendationInput {
+
+    static func write(value: DescribeBotAnalyzerRecommendationInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["maxResults"].write(value.maxResults)
+        try writer["nextToken"].write(value.nextToken)
+    }
+}
+
 extension GenerateBotElementInput {
 
     static func write(value: GenerateBotElementInput?, to writer: SmithyJSON.Writer) throws {
@@ -18376,6 +18877,17 @@ extension ListBotAliasReplicasInput {
 
     static func write(value: ListBotAliasReplicasInput?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
+        try writer["maxResults"].write(value.maxResults)
+        try writer["nextToken"].write(value.nextToken)
+    }
+}
+
+extension ListBotAnalyzerHistoryInput {
+
+    static func write(value: ListBotAnalyzerHistoryInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["botVersion"].write(value.botVersion)
+        try writer["localeId"].write(value.localeId)
         try writer["maxResults"].write(value.maxResults)
         try writer["nextToken"].write(value.nextToken)
     }
@@ -18686,6 +19198,16 @@ extension SearchAssociatedTranscriptsInput {
         try writer["maxResults"].write(value.maxResults)
         try writer["nextIndex"].write(value.nextIndex)
         try writer["searchOrder"].write(value.searchOrder)
+    }
+}
+
+extension StartBotAnalyzerInput {
+
+    static func write(value: StartBotAnalyzerInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["analysisScope"].write(value.analysisScope)
+        try writer["botVersion"].write(value.botVersion)
+        try writer["localeId"].write(value.localeId)
     }
 }
 
@@ -19216,6 +19738,13 @@ extension DeleteBotAliasOutput {
     }
 }
 
+extension DeleteBotAnalyzerRecommendationOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> DeleteBotAnalyzerRecommendationOutput {
+        return DeleteBotAnalyzerRecommendationOutput()
+    }
+}
+
 extension DeleteBotLocaleOutput {
 
     static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> DeleteBotLocaleOutput {
@@ -19405,6 +19934,24 @@ extension DescribeBotAliasOutput {
         value.lastUpdatedDateTime = try reader["lastUpdatedDateTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
         value.parentBotNetworks = try reader["parentBotNetworks"].readListIfPresent(memberReadingClosure: LexModelsV2ClientTypes.ParentBotNetwork.read(from:), memberNodeInfo: "member", isFlattened: false)
         value.sentimentAnalysisSettings = try reader["sentimentAnalysisSettings"].readIfPresent(with: LexModelsV2ClientTypes.SentimentAnalysisSettings.read(from:))
+        return value
+    }
+}
+
+extension DescribeBotAnalyzerRecommendationOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> DescribeBotAnalyzerRecommendationOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = DescribeBotAnalyzerRecommendationOutput()
+        value.botAnalyzerRecommendationList = try reader["botAnalyzerRecommendationList"].readListIfPresent(memberReadingClosure: LexModelsV2ClientTypes.BotAnalyzerRecommendation.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.botAnalyzerStatus = try reader["botAnalyzerStatus"].readIfPresent()
+        value.botId = try reader["botId"].readIfPresent()
+        value.botVersion = try reader["botVersion"].readIfPresent()
+        value.creationDateTime = try reader["creationDateTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.localeId = try reader["localeId"].readIfPresent()
+        value.nextToken = try reader["nextToken"].readIfPresent()
         return value
     }
 }
@@ -19841,6 +20388,22 @@ extension ListBotAliasReplicasOutput {
     }
 }
 
+extension ListBotAnalyzerHistoryOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> ListBotAnalyzerHistoryOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = ListBotAnalyzerHistoryOutput()
+        value.botAnalyzerHistoryList = try reader["botAnalyzerHistoryList"].readListIfPresent(memberReadingClosure: LexModelsV2ClientTypes.BotAnalyzerHistorySummary.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.botId = try reader["botId"].readIfPresent()
+        value.botVersion = try reader["botVersion"].readIfPresent()
+        value.localeId = try reader["localeId"].readIfPresent()
+        value.nextToken = try reader["nextToken"].readIfPresent()
+        return value
+    }
+}
+
 extension ListBotLocalesOutput {
 
     static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> ListBotLocalesOutput {
@@ -20265,6 +20828,23 @@ extension SearchAssociatedTranscriptsOutput {
     }
 }
 
+extension StartBotAnalyzerOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> StartBotAnalyzerOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = StartBotAnalyzerOutput()
+        value.botAnalyzerRequestId = try reader["botAnalyzerRequestId"].readIfPresent()
+        value.botAnalyzerStatus = try reader["botAnalyzerStatus"].readIfPresent()
+        value.botId = try reader["botId"].readIfPresent()
+        value.botVersion = try reader["botVersion"].readIfPresent()
+        value.creationDateTime = try reader["creationDateTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.localeId = try reader["localeId"].readIfPresent()
+        return value
+    }
+}
+
 extension StartBotRecommendationOutput {
 
     static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> StartBotRecommendationOutput {
@@ -20351,6 +20931,22 @@ extension StartTestSetGenerationOutput {
         value.testSetGenerationStatus = try reader["testSetGenerationStatus"].readIfPresent()
         value.testSetName = try reader["testSetName"].readIfPresent()
         value.testSetTags = try reader["testSetTags"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+        return value
+    }
+}
+
+extension StopBotAnalyzerOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> StopBotAnalyzerOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = StopBotAnalyzerOutput()
+        value.botAnalyzerRequestId = try reader["botAnalyzerRequestId"].readIfPresent()
+        value.botAnalyzerStatus = try reader["botAnalyzerStatus"].readIfPresent()
+        value.botId = try reader["botId"].readIfPresent()
+        value.botVersion = try reader["botVersion"].readIfPresent()
+        value.localeId = try reader["localeId"].readIfPresent()
         return value
     }
 }
@@ -20968,6 +21564,23 @@ enum DeleteBotAliasOutputError {
     }
 }
 
+enum DeleteBotAnalyzerRecommendationOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
+            case "ValidationException": return try ValidationException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
 enum DeleteBotLocaleOutputError {
 
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
@@ -21235,6 +21848,23 @@ enum DescribeBotAliasOutputError {
             case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
             case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
             case "ServiceQuotaExceededException": return try ServiceQuotaExceededException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
+            case "ValidationException": return try ValidationException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum DescribeBotAnalyzerRecommendationOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
             case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
             case "ValidationException": return try ValidationException.makeError(baseError: baseError)
             default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
@@ -21606,6 +22236,23 @@ enum ListBotAliasReplicasOutputError {
         switch baseError.code {
             case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
             case "ServiceQuotaExceededException": return try ServiceQuotaExceededException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
+            case "ValidationException": return try ValidationException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum ListBotAnalyzerHistoryOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
             case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
             case "ValidationException": return try ValidationException.makeError(baseError: baseError)
             default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
@@ -22116,6 +22763,24 @@ enum SearchAssociatedTranscriptsOutputError {
     }
 }
 
+enum StartBotAnalyzerOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "ConflictException": return try ConflictException.makeError(baseError: baseError)
+            case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
+            case "ValidationException": return try ValidationException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
 enum StartBotRecommendationOutputError {
 
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
@@ -22205,6 +22870,23 @@ enum StartTestSetGenerationOutputError {
             case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
             case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
             case "ServiceQuotaExceededException": return try ServiceQuotaExceededException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
+            case "ValidationException": return try ValidationException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum StopBotAnalyzerOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
             case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
             case "ValidationException": return try ValidationException.makeError(baseError: baseError)
             default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
@@ -23204,6 +23886,31 @@ extension LexModelsV2ClientTypes.BotAliasTestExecutionTarget {
         value.botId = try reader["botId"].readIfPresent() ?? ""
         value.botAliasId = try reader["botAliasId"].readIfPresent() ?? ""
         value.localeId = try reader["localeId"].readIfPresent() ?? ""
+        return value
+    }
+}
+
+extension LexModelsV2ClientTypes.BotAnalyzerHistorySummary {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> LexModelsV2ClientTypes.BotAnalyzerHistorySummary {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = LexModelsV2ClientTypes.BotAnalyzerHistorySummary()
+        value.botAnalyzerStatus = try reader["botAnalyzerStatus"].readIfPresent() ?? .sdkUnknown("")
+        value.creationDateTime = try reader["creationDateTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.botAnalyzerRequestId = try reader["botAnalyzerRequestId"].readIfPresent() ?? ""
+        return value
+    }
+}
+
+extension LexModelsV2ClientTypes.BotAnalyzerRecommendation {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> LexModelsV2ClientTypes.BotAnalyzerRecommendation {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = LexModelsV2ClientTypes.BotAnalyzerRecommendation()
+        value.issueLocation = try reader["issueLocation"].readIfPresent(with: LexModelsV2ClientTypes.IssueLocation.read(from:))
+        value.priority = try reader["priority"].readIfPresent() ?? .sdkUnknown("")
+        value.issueDescription = try reader["issueDescription"].readIfPresent() ?? ""
+        value.proposedFix = try reader["proposedFix"].readIfPresent() ?? ""
         return value
     }
 }
@@ -24734,6 +25441,18 @@ extension LexModelsV2ClientTypes.InvokedIntentSample {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = LexModelsV2ClientTypes.InvokedIntentSample()
         value.intentName = try reader["intentName"].readIfPresent()
+        return value
+    }
+}
+
+extension LexModelsV2ClientTypes.IssueLocation {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> LexModelsV2ClientTypes.IssueLocation {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = LexModelsV2ClientTypes.IssueLocation()
+        value.botLocale = try reader["botLocale"].readIfPresent()
+        value.intentId = try reader["intentId"].readIfPresent()
+        value.slotId = try reader["slotId"].readIfPresent()
         return value
     }
 }
