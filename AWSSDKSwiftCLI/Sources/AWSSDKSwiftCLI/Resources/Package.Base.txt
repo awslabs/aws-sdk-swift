@@ -12,8 +12,6 @@ extension Target.Dependency {
     static var AWSSDKIdentityAPI: Self { "AWSSDKIdentityAPI" }
     static var AWSSDKChecksums: Self { "AWSSDKChecksums" }
     static var AWSSDKDynamic: Self { "AWSSDKDynamic" }
-    static var AWSSDKRPCv2CBOR: Self { "AWSSDKRPCv2CBOR" }
-    static var AWSSDKAWSJSON: Self { "AWSSDKAWSJSON" }
 
     // CRT module
     static var CRT: Self { .product(name: "AwsCommonRuntimeKit", package: "aws-crt-swift") }
@@ -21,6 +19,7 @@ extension Target.Dependency {
     // Smithy modules
     static var ClientRuntime: Self { .product(name: "ClientRuntime", package: "smithy-swift") }
     static var Smithy: Self { .product(name: "Smithy", package: "smithy-swift") }
+    static var AWSJSON: Self { .product(name: "AWSJSON", package: "smithy-swift") }
     static var RPCv2CBOR: Self { .product(name: "RPCv2CBOR", package: "smithy-swift") }
     static var SmithySerialization: Self { .product(name: "SmithySerialization", package: "smithy-swift") }
     static var SmithyCBOR: Self { .product(name: "SmithyCBOR", package: "smithy-swift") }
@@ -84,8 +83,6 @@ private var runtimeProducts: [Product] {
         "AWSSDKIdentityAPI",
         "AWSSDKIdentity",
         "AWSSDKChecksums",
-        "AWSSDKRPCv2CBOR",
-        "AWSSDKAWSJSON",
     ].map { .library(name: $0, targets: [$0]) }
 }
 
@@ -223,28 +220,6 @@ private var runtimeTargets: [Target] {
         .target(
             name: "AWSSDKDynamic",
             path: "Sources/Core/AWSSDKDynamic/Sources/AWSSDKDynamic"
-        ),
-        .target(
-            name: "AWSSDKRPCv2CBOR",
-            dependencies: [
-                .RPCv2CBOR,
-                .ClientRuntime,
-                .AWSClientRuntime,
-                .Smithy,
-                .SmithySerialization,
-            ],
-            path: "Sources/Core/AWSSDKRPCv2CBOR/Sources/AWSSDKRPCv2CBOR"
-        ),
-        .target(
-            name: "AWSSDKAWSJSON",
-            dependencies: [
-                .ClientRuntime,
-                .AWSClientRuntime,
-                .Smithy,
-                .SmithyJSON,
-                .SmithySerialization,
-            ],
-            path: "Sources/Core/AWSSDKAWSJSON/Sources/AWSSDKAWSJSON"
         ),
     ] + internalServiceTargets
 }

@@ -61,23 +61,5 @@ class AWSSwiftDependency {
                 "../../../aws-sdk-swift",
                 "AWSClientRuntime",
             )
-        val AWS_SDK_RPCV2CBOR =
-            SwiftDependency(
-                "AWSSDKRPCv2CBOR",
-                "main",
-                "0.0.1",
-                "aws-sdk-swift",
-                "../../../aws-sdk-swift",
-                "AWSSDKRPCv2CBOR",
-            )
-        val AWS_SDK_AWSJSON =
-            SwiftDependency(
-                "AWSSDKAWSJSON",
-                "main",
-                "0.0.1",
-                "aws-sdk-swift",
-                "../../../aws-sdk-swift",
-                "AWSSDKAWSJSON",
-            )
     }
 }
