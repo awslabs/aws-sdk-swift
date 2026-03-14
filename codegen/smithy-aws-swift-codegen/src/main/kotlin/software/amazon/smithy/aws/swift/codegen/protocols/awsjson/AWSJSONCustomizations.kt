@@ -10,8 +10,8 @@ import software.amazon.smithy.codegen.core.Symbol
 import software.amazon.smithy.model.traits.TimestampFormatTrait
 import software.amazon.smithy.swift.codegen.SwiftWriter
 import software.amazon.smithy.swift.codegen.integration.Plugin
-import software.amazon.smithy.swift.codegen.swiftmodules.AWSJSONTypes
 import software.amazon.smithy.swift.codegen.swiftmodules.ClientRuntimeTypes
+import software.amazon.smithy.swift.codegen.swiftmodules.SmithyAWSJSONTypes
 
 class AWSJSONCustomizations(
     private val version: String,
@@ -23,5 +23,5 @@ class AWSJSONCustomizations(
     override val plugins: List<Plugin> = listOf(AWSJSONPlugin())
 
     override fun renderClientProtocol(writer: SwiftWriter): String =
-        writer.format("\$N(version: .v\$L)", AWSJSONTypes.HTTPClientProtocol, version)
+        writer.format("\$N(version: .v\$L)", SmithyAWSJSONTypes.HTTPClientProtocol, version)
 }
