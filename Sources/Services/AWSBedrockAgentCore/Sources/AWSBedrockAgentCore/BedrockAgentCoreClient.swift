@@ -61,6 +61,7 @@ import struct ClientRuntime.ContentTypeMiddleware
 import struct ClientRuntime.HeaderMiddleware
 import struct ClientRuntime.IdempotencyTokenMiddleware
 import struct ClientRuntime.LoggerMiddleware
+import struct ClientRuntime.PayloadBodyMiddleware
 import struct ClientRuntime.QueryItemMiddleware
 import struct ClientRuntime.SendableHttpInterceptorProviderBox
 import struct ClientRuntime.SendableInterceptorProviderBox
@@ -1940,7 +1941,7 @@ extension BedrockAgentCoreClient {
 
     /// Performs the `InvokeAgentRuntime` operation on the `BedrockAgentCore` service.
     ///
-    /// Sends a request to an agent or tool hosted in an Amazon Bedrock AgentCore Runtime and receives responses in real-time. To invoke an agent you must specify the AgentCore Runtime ARN and provide a payload containing your request. You can optionally specify a qualifier to target a specific version or endpoint of the agent. This operation supports streaming responses, allowing you to receive partial responses as they become available. We recommend using pagination to ensure that the operation returns quickly and successfully when processing large responses. For example code, see [Invoke an AgentCore Runtime agent](https://docs.aws.amazon.com/bedrock-agentcore/latest/devguide/runtime-invoke-agent.html). If you're integrating your agent with OAuth, you can't use the Amazon Web Services SDK to call InvokeAgentRuntime. Instead, make a HTTPS request to InvokeAgentRuntime. For an example, see [Authenticate and authorize with Inbound Auth and Outbound Auth](https://docs.aws.amazon.com/bedrock-agentcore/latest/devguide/runtime-oauth.html). To use this operation, you must have the bedrock-agentcore:InvokeAgentRuntime permission. If you are making a call to InvokeAgentRuntime on behalf of a user ID with the X-Amzn-Bedrock-AgentCore-Runtime-User-Id header, You require permissions to both actions (bedrock-agentcore:InvokeAgentRuntime and bedrock-agentcore:InvokeAgentRuntimeForUser).
+    /// Sends a request to an agent or tool hosted in an Amazon Bedrock AgentCore Runtime and receives responses in real-time. To invoke an agent, you can specify either the AgentCore Runtime ARN or the agent ID with an account ID, and provide a payload containing your request. When you use the agent ID instead of the full ARN, you don't need to URL-encode the identifier. You can optionally specify a qualifier to target a specific endpoint of the agent. This operation supports streaming responses, allowing you to receive partial responses as they become available. We recommend using pagination to ensure that the operation returns quickly and successfully when processing large responses. For example code, see [Invoke an AgentCore Runtime agent](https://docs.aws.amazon.com/bedrock-agentcore/latest/devguide/runtime-invoke-agent.html). If you're integrating your agent with OAuth, you can't use the Amazon Web Services SDK to call InvokeAgentRuntime. Instead, make a HTTPS request to InvokeAgentRuntime. For an example, see [Authenticate and authorize with Inbound Auth and Outbound Auth](https://docs.aws.amazon.com/bedrock-agentcore/latest/devguide/runtime-oauth.html). To use this operation, you must have the bedrock-agentcore:InvokeAgentRuntime permission. If you are making a call to InvokeAgentRuntime on behalf of a user ID with the X-Amzn-Bedrock-AgentCore-Runtime-User-Id header, You require permissions to both actions (bedrock-agentcore:InvokeAgentRuntime and bedrock-agentcore:InvokeAgentRuntimeForUser).
     ///
     /// - Parameter input: [no documentation found] (Type: `InvokeAgentRuntimeInput`)
     ///
@@ -2003,6 +2004,83 @@ extension BedrockAgentCoreClient {
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "BedrockAgentCore")
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "InvokeAgentRuntime")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
+    }
+
+    /// Performs the `InvokeAgentRuntimeCommand` operation on the `BedrockAgentCore` service.
+    ///
+    /// Executes a command in a runtime session container. Returns streaming output with contentStart, contentDelta, and contentStop events.
+    ///
+    /// - Parameter input: Request for InvokeAgentRuntimeCommand operation (Type: `InvokeAgentRuntimeCommandInput`)
+    ///
+    /// - Returns: Response for InvokeAgentRuntimeCommand operation (Type: `InvokeAgentRuntimeCommandOutput`)
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : The exception that occurs when you do not have sufficient permissions to perform an action. Verify that your IAM policy includes the necessary permissions for the operation you are trying to perform.
+    /// - `InternalServerException` : The exception that occurs when the service encounters an unexpected internal error. This is a temporary condition that will resolve itself with retries. We recommend implementing exponential backoff retry logic in your application.
+    /// - `ResourceNotFoundException` : The exception that occurs when the specified resource does not exist. This can happen when using an invalid identifier or when trying to access a resource that has been deleted.
+    /// - `RuntimeClientError` : The exception that occurs when there is an error in the runtime client. This can happen due to network issues, invalid configuration, or other client-side problems. Check the error message for specific details about the error.
+    /// - `ServiceQuotaExceededException` : The exception that occurs when the request would cause a service quota to be exceeded. Review your service quotas and either reduce your request rate or request a quota increase.
+    /// - `ThrottlingException` : The exception that occurs when the request was denied due to request throttling. This happens when you exceed the allowed request rate for an operation. Reduce the frequency of requests or implement exponential backoff retry logic in your application.
+    /// - `ValidationException` : The exception that occurs when the input fails to satisfy the constraints specified by the service. Check the error message for details about which input parameter is invalid and correct your request.
+    public func invokeAgentRuntimeCommand(input: InvokeAgentRuntimeCommandInput) async throws -> InvokeAgentRuntimeCommandOutput {
+        let context = Smithy.ContextBuilder()
+                      .withMethod(value: .post)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "invokeAgentRuntimeCommand")
+                      .withUnsignedPayloadTrait(value: false)
+                      .withSmithyDefaultConfig(config)
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
+                      .withSigningName(value: "bedrock-agentcore")
+                      .withSigningRegion(value: config.signingRegion)
+                      .build()
+        let builder = ClientRuntime.OrchestratorBuilder<InvokeAgentRuntimeCommandInput, InvokeAgentRuntimeCommandOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        builder.interceptors.add(ClientRuntime.IdempotencyTokenMiddleware<InvokeAgentRuntimeCommandInput, InvokeAgentRuntimeCommandOutput>(keyPath: \.runtimeSessionId))
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<InvokeAgentRuntimeCommandInput, InvokeAgentRuntimeCommandOutput>(InvokeAgentRuntimeCommandInput.urlPathProvider(_:)))
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<InvokeAgentRuntimeCommandInput, InvokeAgentRuntimeCommandOutput>())
+        builder.serialize(ClientRuntime.HeaderMiddleware<InvokeAgentRuntimeCommandInput, InvokeAgentRuntimeCommandOutput>(InvokeAgentRuntimeCommandInput.headerProvider(_:)))
+        builder.serialize(ClientRuntime.QueryItemMiddleware<InvokeAgentRuntimeCommandInput, InvokeAgentRuntimeCommandOutput>(InvokeAgentRuntimeCommandInput.queryItemProvider(_:)))
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<InvokeAgentRuntimeCommandInput, InvokeAgentRuntimeCommandOutput>(contentType: "application/json"))
+        builder.serialize(ClientRuntime.PayloadBodyMiddleware<InvokeAgentRuntimeCommandInput, InvokeAgentRuntimeCommandOutput, BedrockAgentCoreClientTypes.InvokeAgentRuntimeCommandRequestBody, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: BedrockAgentCoreClientTypes.InvokeAgentRuntimeCommandRequestBody.write(value:to:), keyPath: \.body, defaultBody: "{}"))
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<InvokeAgentRuntimeCommandInput, InvokeAgentRuntimeCommandOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<InvokeAgentRuntimeCommandOutput>(InvokeAgentRuntimeCommandOutput.httpOutput(from:), InvokeAgentRuntimeCommandOutputError.httpError(from:)))
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<InvokeAgentRuntimeCommandInput, InvokeAgentRuntimeCommandOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
+        builder.applySigner(ClientRuntime.SignerMiddleware<InvokeAgentRuntimeCommandOutput>())
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Bedrock AgentCore", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<InvokeAgentRuntimeCommandOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<InvokeAgentRuntimeCommandOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<InvokeAgentRuntimeCommandInput, InvokeAgentRuntimeCommandOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<InvokeAgentRuntimeCommandInput, InvokeAgentRuntimeCommandOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<InvokeAgentRuntimeCommandInput, InvokeAgentRuntimeCommandOutput>(serviceID: serviceName, version: BedrockAgentCoreClient.version, config: config))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "BedrockAgentCore")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "InvokeAgentRuntimeCommand")
         let op = builder.attributes(context)
             .telemetry(ClientRuntime.OrchestratorTelemetry(
                 telemetryProvider: config.telemetryProvider,
