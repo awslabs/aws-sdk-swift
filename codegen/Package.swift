@@ -19,7 +19,6 @@ extension Target.Dependency {
     static var awsSDKHTTPAuth: Self { .product(name: "AWSSDKHTTPAuth", package: "aws-sdk-swift") }
     static var awsSDKIdentity: Self { .product(name: "AWSSDKIdentity", package: "aws-sdk-swift") }
     static var awsSDKChecksums: Self { .product(name: "AWSSDKChecksums", package: "aws-sdk-swift") }
-    static var AWSSDKRPCv2CBOR: Self { .product(name: "AWSSDKRPCv2CBOR", package: "aws-sdk-swift") }
 
     // smithy-swift modules
     static var clientRuntime: Self { .product(name: "ClientRuntime", package: "smithy-swift") }
@@ -39,7 +38,7 @@ extension Target.Dependency {
     static var smithyWaitersAPI: Self { .product(name: "SmithyWaitersAPI", package: "smithy-swift") }
     static var smithyTestUtils: Self { .product(name: "SmithyTestUtil", package: "smithy-swift") }
     static var smithyStreams: Self { .product(name: "SmithyStreams", package: "smithy-swift") }
-    static var RPCv2CBOR: Self { .product(name: "RPCv2CBOR", package: "smithy-swift") }
+    static var smithyRPCv2CBOR: Self { .product(name: "SmithyRPCv2CBOR", package: "smithy-swift") }
 }
 
 // MARK: - Base Package
@@ -112,8 +111,7 @@ private var protocolTestTargets: [Target] {
             dependencies: [
                 .clientRuntime,
                 .awsClientRuntime,
-                .RPCv2CBOR,
-                .AWSSDKRPCv2CBOR,
+                .smithyRPCv2CBOR,
                 .smithyRetriesAPI,
                 .smithyRetries,
                 .smithy,
