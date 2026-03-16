@@ -15,9 +15,9 @@ This SDK is open-source.  Code is available on Github [here](https://github.com/
 
 [ClientRuntime](../../../../../swift/api/clientruntime/latest)
 
-[RPCv2CBOR](../../../../../swift/api/rpcv2cbor/latest)
-
 [Smithy](../../../../../swift/api/smithy/latest)
+
+[SmithyAWSJSON](../../../../../swift/api/smithyawsjson/latest)
 
 [SmithyCBOR](../../../../../swift/api/smithycbor/latest)
 
@@ -49,6 +49,8 @@ This SDK is open-source.  Code is available on Github [here](https://github.com/
 
 [SmithyJSON](../../../../../swift/api/smithyjson/latest)
 
+[SmithyRPCv2CBOR](../../../../../swift/api/smithyrpcv2cbor/latest)
+
 [SmithyReadWrite](../../../../../swift/api/smithyreadwrite/latest)
 
 [SmithyRetries](../../../../../swift/api/smithyretries/latest)
@@ -76,8 +78,6 @@ This SDK is open-source.  Code is available on Github [here](https://github.com/
 
 [AWSClientRuntime](../../../../../swift/api/awsclientruntime/latest)
 
-[AWSSDKAWSJSON](../../../../../swift/api/awssdkawsjson/latest)
-
 [AWSSDKChecksums](../../../../../swift/api/awssdkchecksums/latest)
 
 [AWSSDKCommon](../../../../../swift/api/awssdkcommon/latest)
@@ -89,8 +89,6 @@ This SDK is open-source.  Code is available on Github [here](https://github.com/
 [AWSSDKIdentity](../../../../../swift/api/awssdkidentity/latest)
 
 [AWSSDKIdentityAPI](../../../../../swift/api/awssdkidentityapi/latest)
-
-[AWSSDKRPCv2CBOR](../../../../../swift/api/awssdkrpcv2cbor/latest)
 
 
 ## Service Documentation
