@@ -5,12 +5,17 @@
 // SPDX-License-Identifier: Apache-2.0
 //
 
+import struct Smithy.AttributeKey
 import struct Smithy.Attributes
 import class Smithy.Context
 import protocol SmithyHTTPAuthAPI.AuthScheme
 import enum SmithyHTTPAuthAPI.AWSSignedBodyHeader
 import protocol SmithyHTTPAuthAPI.Signer
 import enum SmithyHTTPAuthAPI.SigningPropertyKeys
+
+extension SigningPropertyKeys {
+    public static let sigV4aSigningRegionSet = AttributeKey<[String]>(name: "SigV4aSigningRegionSet")
+}
 
 public struct SigV4AAuthScheme: AuthScheme {
     public let schemeID: String = "aws.auth#sigv4a"

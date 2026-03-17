@@ -5,6 +5,7 @@
 
 package software.amazon.smithy.aws.swift.codegen.config
 
+import software.amazon.smithy.aws.swift.codegen.AWSAuthUtils
 import software.amazon.smithy.aws.swift.codegen.swiftmodules.AWSClientRuntimeTypes
 import software.amazon.smithy.aws.swift.codegen.swiftmodules.AWSSDKChecksumsTypes
 import software.amazon.smithy.aws.swift.codegen.swiftmodules.AWSSDKIdentityTypes
@@ -20,8 +21,8 @@ import software.amazon.smithy.swift.codegen.swiftmodules.SwiftTypes
 class AWSDefaultClientConfiguration : ClientConfiguration {
     override val swiftProtocolName: Symbol = AWSClientRuntimeTypes.Core.AWSDefaultClientConfiguration
 
-    override fun getProperties(ctx: ProtocolGenerator.GenerationContext): Set<ConfigProperty> =
-        setOf(
+    override fun getProperties(ctx: ProtocolGenerator.GenerationContext): Set<ConfigProperty> {
+        val properties = mutableSetOf(
             ConfigProperty("useFIPS", SwiftTypes.Bool.toOptional()),
             ConfigProperty("useDualStack", SwiftTypes.Bool.toOptional()),
             ConfigProperty(
@@ -71,6 +72,12 @@ class AWSDefaultClientConfiguration : ClientConfiguration {
                 true,
             ),
             ConfigProperty("ignoreConfiguredEndpointURLs", SwiftTypes.Bool.toOptional()),
-            ConfigProperty("sigV4aSigningRegionSet", SwiftTypes.StringList.toOptional()),
         )
+
+        if (AWSAuthUtils.serviceUsesSigV4A(ctx)) {
+            properties.add(ConfigProperty("sigV4aSigningRegionSet", SwiftTypes.StringList.toOptional()))
+        }
+
+        return properties
+    }
 }
