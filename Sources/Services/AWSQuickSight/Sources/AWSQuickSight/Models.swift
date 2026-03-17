@@ -26957,6 +26957,8 @@ extension QuickSightClientTypes {
         public var knowledgeBase: QuickSightClientTypes.CapabilityState?
         /// The ability to perform actions using Linear connectors.
         public var linearAction: QuickSightClientTypes.CapabilityState?
+        /// The ability to create, update, delete and view shared folders (both restricted and unrestricted), ability to add any asset to shared folders, and ability to share the folders. Note: This does not prevent inheriting access to assets that others share with them through folder membership.
+        public var manageSharedFolders: QuickSightClientTypes.CapabilityState?
         /// The ability to perform actions using Model Context Protocol connectors.
         public var mcpAction: QuickSightClientTypes.CapabilityState?
         /// The ability to perform actions using Monday connectors.
@@ -27300,6 +27302,7 @@ extension QuickSightClientTypes {
             jiraAction: QuickSightClientTypes.CapabilityState? = nil,
             knowledgeBase: QuickSightClientTypes.CapabilityState? = nil,
             linearAction: QuickSightClientTypes.CapabilityState? = nil,
+            manageSharedFolders: QuickSightClientTypes.CapabilityState? = nil,
             mcpAction: QuickSightClientTypes.CapabilityState? = nil,
             mondayAction: QuickSightClientTypes.CapabilityState? = nil,
             msExchangeAction: QuickSightClientTypes.CapabilityState? = nil,
@@ -27517,6 +27520,7 @@ extension QuickSightClientTypes {
             self.jiraAction = jiraAction
             self.knowledgeBase = knowledgeBase
             self.linearAction = linearAction
+            self.manageSharedFolders = manageSharedFolders
             self.mcpAction = mcpAction
             self.mondayAction = mondayAction
             self.msExchangeAction = msExchangeAction
@@ -65571,6 +65575,7 @@ extension QuickSightClientTypes.Capabilities {
         try writer["MCPAction"].write(value.mcpAction)
         try writer["MSExchangeAction"].write(value.msExchangeAction)
         try writer["MSTeamsAction"].write(value.msTeamsAction)
+        try writer["ManageSharedFolders"].write(value.manageSharedFolders)
         try writer["MondayAction"].write(value.mondayAction)
         try writer["NewRelicAction"].write(value.newRelicAction)
         try writer["NotionAction"].write(value.notionAction)
@@ -65914,6 +65919,7 @@ extension QuickSightClientTypes.Capabilities {
         value.research = try reader["Research"].readIfPresent()
         value.selfUpgradeUserRole = try reader["SelfUpgradeUserRole"].readIfPresent()
         value.`extension` = try reader["Extension"].readIfPresent()
+        value.manageSharedFolders = try reader["ManageSharedFolders"].readIfPresent()
         return value
     }
 }

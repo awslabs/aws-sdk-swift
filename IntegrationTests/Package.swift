@@ -38,12 +38,19 @@ let package = Package(
         .tvOS(.v13),
         .watchOS(.v6)
     ],
-    dependencies: [
-        .package(path: "../../smithy-swift"),
-        .package(path: "../../aws-sdk-swift"),
-        .package(url: "https://github.com/smithy-lang/smithy-swift-opentelemetry.git", from: "1.0.0"),
-        .package(url: "https://github.com/open-telemetry/opentelemetry-swift.git", from: "1.13.0"),
-    ],
+    dependencies: {
+        var deps: [Package.Dependency] = [
+            .package(path: "../../smithy-swift"),
+            .package(path: "../../aws-sdk-swift"),
+        ]
+        #if swift(>=5.10)
+        deps.append(contentsOf: [
+            .package(url: "https://github.com/smithy-lang/smithy-swift-opentelemetry.git", from: "2.0.0"),
+            .package(url: "https://github.com/open-telemetry/opentelemetry-swift-core", from: "2.3.0"),
+        ])
+        #endif
+        return deps
+    }(),
     targets: integrationTestTargets
 )
 
@@ -93,10 +100,12 @@ private func integrationTestTarget(_ name: String) -> Target {
         additionalDependencies = ["AWSCloudFront"]
     case "AWSSTS":
         additionalDependencies = ["AWSIAM", "AWSCognitoIdentity"]
+        #if swift(>=5.10)
         platformSpecificDependencies = [
-            .product(name: "SmithyOpenTelemetry", package: "smithy-swift-opentelemetry", condition: .when(platforms: [.macOS, .iOS, .tvOS, .watchOS])),
-            .product(name: "InMemoryExporter", package: "opentelemetry-swift", condition: .when(platforms: [.macOS, .iOS, .tvOS, .watchOS]))
+            .product(name: "SmithyOpenTelemetry", package: "smithy-swift-opentelemetry", condition: .when(platforms: [.macOS, .iOS, .tvOS, .watchOS, .visionOS])),
+            .product(name: "OpenTelemetrySdk", package: "opentelemetry-swift-core", condition: .when(platforms: [.macOS, .iOS, .tvOS, .watchOS, .visionOS])),
         ]
+        #endif
     case "AWSCognitoIdentity":
         additionalDependencies = ["AWSSTS", "AWSIAM"]
     default:

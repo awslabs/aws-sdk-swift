@@ -1633,6 +1633,7 @@ extension BedrockClientTypes {
 
     public enum AutomatedReasoningPolicyBuildWorkflowType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case generateFidelityReport
+        case generatePolicyScenarios
         case importPolicy
         case ingestContent
         case refinePolicy
@@ -1641,6 +1642,7 @@ extension BedrockClientTypes {
         public static var allCases: [AutomatedReasoningPolicyBuildWorkflowType] {
             return [
                 .generateFidelityReport,
+                .generatePolicyScenarios,
                 .importPolicy,
                 .ingestContent,
                 .refinePolicy
@@ -1655,6 +1657,7 @@ extension BedrockClientTypes {
         public var rawValue: Swift.String {
             switch self {
             case .generateFidelityReport: return "GENERATE_FIDELITY_REPORT"
+            case .generatePolicyScenarios: return "GENERATE_POLICY_SCENARIOS"
             case .importPolicy: return "IMPORT_POLICY"
             case .ingestContent: return "INGEST_CONTENT"
             case .refinePolicy: return "REFINE_POLICY"
